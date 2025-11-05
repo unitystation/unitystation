@@ -824,7 +824,10 @@
             },
             "ConfiguredTaskAwaitable/ConfiguredTaskAwaiter": {
                 "All": true
-            }
+            },
+			"CallerFilePathAttribute" : {
+				"All": true
+			}
         },
         "System.Runtime.ExceptionServices": {
             "ExceptionDispatchInfo": {
@@ -2468,7 +2471,8 @@
                     "void set_runInBackground(bool)",
                     "void Quit()",
                     "void remove_logMessageReceived(UnityEngine.Application/LogCallback)",
-                    "void add_logMessageReceived(UnityEngine.Application/LogCallback)"
+                    "void add_logMessageReceived(UnityEngine.Application/LogCallback)",
+					"UnityEngine.SystemLanguage get_systemLanguage()",
                 ],
                 "NestedTypes": {
                     "LogCallback": {
@@ -2572,6 +2576,9 @@
                 "All": true
             },
             "LogOption": {
+                "All": true
+            },
+            "SystemLanguage": {
                 "All": true
             }
         },
