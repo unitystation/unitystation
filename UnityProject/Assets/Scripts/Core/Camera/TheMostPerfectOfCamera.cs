@@ -4,50 +4,53 @@ using UnityEngine;
 using UnityEngine.U2D;
 using UnityEngine.UI;
 
-public class TheMostPerfectOfCamera : MonoBehaviour
+namespace CameraEffects
 {
-	public float screenWidthCache { get; set; }
-	public float screenHeightCache { get; set; }
-
-	public bool tolgge = true;
-
-	public PixelPerfectCamera PixelPerfectCamera;
-
-	private void Update()
+	public class TheMostPerfectOfCamera : MonoBehaviour
 	{
-		if (tolgge == false) return;
-		int screenWidth = Screen.width;
-		int screenHeight = Screen.height;
+		public float screenWidthCache { get; set; }
+		public float screenHeightCache { get; set; }
 
-		// Check if the screen size changed
-		if (screenWidthCache != screenWidth || screenHeightCache != screenHeight)
+		public bool tolgge = true;
+
+		public PixelPerfectCamera PixelPerfectCamera;
+
+		private void Update()
 		{
-			// Make width and height even
-			if (screenWidth % 2 != 0)
-			{
-				screenWidth--;
-				//Loggy.Info($"Adjusted odd width to {screenWidth}");
-			}
-			if (screenHeight % 2 != 0)
-			{
-				screenHeight--;
-				//Loggy.Info($"Adjusted odd height to {screenHeight}");
-			}
+			if (tolgge == false) return;
+			int screenWidth = Screen.width;
+			int screenHeight = Screen.height;
 
-			// Cache new values
-			screenWidthCache = screenWidth;
-			screenHeightCache = screenHeight;
+			// Check if the screen size changed
+			if (screenWidthCache != screenWidth || screenHeightCache != screenHeight)
+			{
+				// Make width and height even
+				if (screenWidth % 2 != 0)
+				{
+					screenWidth--;
+					//Loggy.Info($"Adjusted odd width to {screenWidth}");
+				}
+				if (screenHeight % 2 != 0)
+				{
+					screenHeight--;
+					//Loggy.Info($"Adjusted odd height to {screenHeight}");
+				}
 
-			// Apply new render texture
-			ApplyRenderTexture(screenWidth, screenHeight);
+				// Cache new values
+				screenWidthCache = screenWidth;
+				screenHeightCache = screenHeight;
+
+				// Apply new render texture
+				ApplyRenderTexture(screenWidth, screenHeight);
+			}
 		}
+
+		private void ApplyRenderTexture(int width, int height)
+		{
+			PixelPerfectCamera.refResolutionX = width;
+			PixelPerfectCamera.refResolutionY = height ;
+		}
+
+
 	}
-
-	private void ApplyRenderTexture(int width, int height)
-	{
-		PixelPerfectCamera.refResolutionX = width;
-		PixelPerfectCamera.refResolutionY = height ;
-	}
-
-
 }
