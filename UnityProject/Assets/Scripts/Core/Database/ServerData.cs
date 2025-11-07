@@ -42,23 +42,23 @@ namespace DatabaseAPI
 		{
 			if (config == null)
 			{
-				Loggy.Warning("Cannot update server status because server config is missing.", Category.DatabaseAPI);
+				Loggy.Error("Cannot update server status because server config is missing.", Category.DatabaseAPI); //TEMP!!
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 				return;
 			}
 
 			if (buildInfo == null)
 			{
-				Loggy.Warning("Cannot update server status because build info is missing.", Category.DatabaseAPI);
+				Loggy.Error("Cannot update server status because build info is missing.", Category.DatabaseAPI); //TEMP!!
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 				return;
 			}
 
 			if (string.IsNullOrEmpty(config.ServerToken))
 			{
-				Loggy.Warning(
+				Loggy.Error(
 					"No server token configured. This server won't post status updates to the server list",
-					Category.DatabaseAPI);
+					Category.DatabaseAPI); //TEMP!!
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 				return;
 			}
