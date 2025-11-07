@@ -64,19 +64,31 @@ namespace DatabaseAPI
 				return;
 			}
 
-			var configData = new ServerConfig();
+			ServerConfig finalConfig = new();
 			try
 			{
-				configData = JsonConvert.DeserializeObject<ServerConfig>(AccessFile.Load("config.json"));
+				var constants = JsonConvert.DeserializeObject<ServerConstants>(AccessFile.Load("config.json"));
+				finalConfig.WithConstants(constants);
 			}
 			catch (Exception e)
 			{
 				Loggy.Error(
-					$"[ServerData.ServerStatus/AttemptConfigLoad()] - Something went wrong while trying to load config.json. \n {e}");
+					$"[ServerData.ServerStatus/AttemptConfigLoad()] - Something went wrong while trying to load config.json. \n {e}", Category.DatabaseAPI);
 			}
 
-			ignoranceTransport = FindObjectOfType<Ignorance>();
-			config = configData;
+			try
+			{
+				var secrets = JsonConvert.DeserializeObject<ServerSecrets>(AccessFile.Load("secrets.json"));
+				finalConfig.WithSecrets(secrets);
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(
+					$"[ServerData.ServerStatus/AttemptConfigLoad()] - Something went wrong while trying to load secrets.json. \n {e}", Category.DatabaseAPI);
+			}
+
+			ignoranceTransport = FindFirstObjectByType<Ignorance>();
+			config = finalConfig;
 		}
 
 		private void LoadMotd()
@@ -275,6 +287,105 @@ namespace DatabaseAPI
 
 		//Sends Admin actions to a webhook
 		public string DiscordWebhookErrorLogURL;
+
+		//The Catalogue that the client should load when connecting and the catalogues the server loads on its end
+		//Catalogues as in addressable catalogues with content
+		public List<string> AddressableCatalogues;
+
+		//Built in catalogue content
+		//Such as Lobby music
+		public List<string> LobbyAddressableCatalogues;
+
+		//The password to join the server if set
+		public string ConnectionPassword;
+
+		public ServerConfig WithConstants(ServerConstants constants)
+		{
+			RconPort = constants.RconPort;
+			ServerPort = constants.ServerPort;
+			BindAddress = constants.BindAddress;
+			PublicAddress = constants.PublicAddress;
+			ServerName = constants.ServerName;
+			WinDownload = constants.WinDownload;
+			OSXDownload = constants.OSXDownload;
+			LinuxDownload = constants.LinuxDownload;
+			DiscordLinkID = constants.DiscordLinkID;
+			AddressableCatalogues =  constants.AddressableCatalogues;
+			LobbyAddressableCatalogues =  constants.LobbyAddressableCatalogues;
+			ConnectionPassword = constants.ConnectionPassword;
+
+			return this;
+		}
+
+		public ServerConfig WithSecrets(ServerSecrets secrets)
+		{
+			RconPass = secrets.RconPass;
+			certKey =  secrets.certKey;
+			ServerToken = secrets.ServerToken;
+			DiscordWebhookOOCURL  = secrets.DiscordWebhookOOCURL;
+			DiscordWebhookOOCMentionsID  = secrets.DiscordWebhookOOCMentionsID;
+			DiscordWebhookAdminURL  = secrets.DiscordWebhookAdminURL;
+			DiscordWebhookAnnouncementURL  = secrets.DiscordWebhookAnnouncementURL;
+			DiscordWebhookEnableBanKickAnnouncement  = secrets.DiscordWebhookEnableBanKickAnnouncement;
+			DiscordWebhookAllChatURL   = secrets.DiscordWebhookAllChatURL;
+			DiscordWebhookSendOOCToAllChat  = secrets.DiscordWebhookSendOOCToAllChat;
+			DiscordWebhookAdminLogURL  = secrets.DiscordWebhookAdminLogURL;
+			DiscordWebhookErrorLogURL  = secrets.DiscordWebhookErrorLogURL;
+			return this;
+		}
+	}
+
+	[Serializable]
+	public class ServerSecrets
+	{
+		public string RconPass;
+		//CertKey needed in the future for SSL Rcon
+		public string certKey;
+
+		// used to publish your server on the server list
+		public string ServerToken;
+
+		//OOC chat
+		public string DiscordWebhookOOCURL;
+
+		//ID that can be pinged in OOC chat
+		public string DiscordWebhookOOCMentionsID;
+
+		//Webhook where Ahelps are sent
+		public string DiscordWebhookAdminURL;
+
+		//Announcements for round start/end, also public Ban/Kick if enabled
+		public string DiscordWebhookAnnouncementURL;
+		public bool DiscordWebhookEnableBanKickAnnouncement;
+
+		//Sends all chat messages from each channel, also OOC if enabled
+		public string DiscordWebhookAllChatURL;
+		public bool DiscordWebhookSendOOCToAllChat;
+
+		//Sends Admin actions to a webhook
+		public string DiscordWebhookAdminLogURL;
+
+		//Sends Admin actions to a webhook
+		public string DiscordWebhookErrorLogURL;
+	}
+
+	public class ServerConstants
+	{
+		public int RconPort;
+		public int ServerPort;
+		public string BindAddress;
+
+		public string PublicAddress;
+
+		public string ServerName;
+
+		//Location on the internet where clients can be downloaded from:
+		public string WinDownload;
+		public string OSXDownload;
+		public string LinuxDownload;
+
+		//End of a discord invite used for serverinfo page
+		public string DiscordLinkID;
 
 		//The Catalogue that the client should load when connecting and the catalogues the server loads on its end
 		//Catalogues as in addressable catalogues with content
