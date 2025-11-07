@@ -138,6 +138,7 @@ namespace HealthV2
 			newSprite.SetName(ClientData.Name);
 			ClientData.Int = CustomNetworkManager.Instance.IndexLookupSpawnablePrefabs[SpritePrefab.gameObject];
 			ClientData.Data = JsonConvert.SerializeObject(newOrder);
+			ClientData.ClothingHide = ClothingHide;
 
 			newSprite.intName = ClientData;
 

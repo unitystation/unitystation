@@ -2,3 +2,58 @@ root = true
 
 [*]
 charset = utf-8
+
+[*.cs]
+# Explicit by default
+csharp_style_var_for_built_in_types = false:warning
+csharp_style_var_elsewhere = false:warning
+
+# Allow 'var' only when type is apparent (new(), casts, etc.)
+csharp_style_var_when_type_is_apparent = true:warning
+
+# Rider/ReSharper equivalents (optional, stronger enforcement)
+resharper_csharp_for_built_in_types = use_explicit_type
+resharper_csharp_for_other_types  = use_explicit_type
+resharper_csharp_for_simple_types = use_var
+
+# Put braces on a new line (types, methods, accessors, control blocks, lambdas, initializers)
+csharp_new_line_before_open_brace = all
+
+# Keep one-liners as written; don't expand them on format
+csharp_preserve_single_line_statements = true
+csharp_preserve_single_line_blocks = true
+
+# Only require braces when the statement spans multiple lines
+csharp_prefer_braces = when_multiline:warning
+
+# ---- naming styles
+dotnet_naming_style.camel_case_style.capitalization = camel_case
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+
+# ---- symbol groups
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+
+dotnet_naming_symbols.public_fields.applicable_kinds = field
+dotnet_naming_symbols.public_fields.applicable_accessibilities = public
+
+dotnet_naming_symbols.properties.applicable_kinds = property
+
+dotnet_naming_symbols.parameters.applicable_kinds = parameter
+
+# ---- rules
+dotnet_naming_rule.private_fields_should_be_camel_case.symbols  = private_fields
+dotnet_naming_rule.private_fields_should_be_camel_case.style    = camel_case_style
+dotnet_naming_rule.private_fields_should_be_camel_case.severity = warning
+
+dotnet_naming_rule.public_fields_should_be_pascal_case.symbols  = public_fields
+dotnet_naming_rule.public_fields_should_be_pascal_case.style    = pascal_case_style
+dotnet_naming_rule.public_fields_should_be_pascal_case.severity = warning
+
+dotnet_naming_rule.properties_should_be_pascal_case.symbols     = properties
+dotnet_naming_rule.properties_should_be_pascal_case.style       = pascal_case_style
+dotnet_naming_rule.properties_should_be_pascal_case.severity    = warning
+
+dotnet_naming_rule.parameters_should_be_camel_case.symbols      = parameters
+dotnet_naming_rule.parameters_should_be_camel_case.style        = camel_case_style
+dotnet_naming_rule.parameters_should_be_camel_case.severity     = warning

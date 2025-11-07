@@ -1,18 +1,18 @@
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using Logs;
 
 namespace SecureStuff
 {
-
 	public static class SafeHttpRequest
 	{
 		//TODO
 		//Build -> Hub Indication for pop-ups unknown request Hosts
-		private static HttpClient Client = new HttpClient();
+		private static HttpClient Client = new();
 
 #if UNITY_EDITOR
 		public static HttpClient EditorOnlySet
@@ -21,36 +21,35 @@ namespace SecureStuff
 		}
 #endif
 
-		public static async Task<HttpResponseMessage> PostAsync(string URLstring, StringContent StringContent, bool addAsTrusted = true, string JustificationReason = "")
+		public static async Task<HttpResponseMessage> PostAsync(string urlString, StringContent stringContent,
+			bool addAsTrusted = true, string justificationReason = "")
 		{
-			var URL = new Uri(URLstring);
-			if (await IsValid(URL, addAsTrusted, JustificationReason) == false)
+			var url = new Uri(urlString);
+			if (await IsValid(url, addAsTrusted, justificationReason) == false)
 			{
 				return null;
 			}
 
-			return await Client.PostAsync(URL, StringContent);
-
+			return await Client.PostAsync(url, stringContent);
 		}
 
 
-
-		public static async Task<HttpResponseMessage> GetAsync(string URLstring, bool addAsTrusted = true, string JustificationReason = "")
+		public static async Task<HttpResponseMessage> GetAsync(string urlString, bool addAsTrusted = true,
+			string justificationReason = "")
 		{
-			var URL = new Uri(URLstring);
-			if (await IsValid(URL, addAsTrusted, JustificationReason) == false)
+			var url = new Uri(urlString);
+			if (await IsValid(url, addAsTrusted, justificationReason) == false)
 			{
 				return null;
 			}
 
-			return await Client.GetAsync(URL);
-
+			return await Client.GetAsync(url);
 		}
 
 		public static async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request,
-			CancellationToken? cancellationToken = null, bool addAsTrusted = true, string JustificationReason = "")
+			CancellationToken? cancellationToken = null, bool addAsTrusted = true, string justificationReason = "")
 		{
-			if (await IsValid(request.RequestUri, addAsTrusted, JustificationReason) == false)
+			if (await IsValid(request.RequestUri, addAsTrusted, justificationReason) == false)
 			{
 				return null;
 			}
@@ -59,82 +58,120 @@ namespace SecureStuff
 			{
 				return await Client.SendAsync(request);
 			}
-			else
-			{
-				return await Client.SendAsync(request, cancellationToken.Value);
-			}
+
+			return await Client.SendAsync(request, cancellationToken.Value);
 		}
 
 
-		public static async Task<string> GetStringAsync(string requestUri, bool addAsTrusted = true, string JustificationReason = "")
+		public static async Task<string> GetStringAsync(string requestUri, bool addAsTrusted = true,
+			string justificationReason = "")
 		{
-			var URL = new System.Uri(requestUri);
-			if (await IsValid(URL, addAsTrusted, JustificationReason) == false)
+			var url = new Uri(requestUri);
+			if (await IsValid(url, addAsTrusted, justificationReason) == false)
 			{
 				return null;
 			}
 
-
-			return await Client.GetStringAsync(URL);
+			return await Client.GetStringAsync(url);
 		}
 
-		private static async Task<bool> IsValid(Uri requestUri, bool addAsTrusted = true, string JustificationReason = "")
+		private static async Task<bool> IsValid(Uri requestUri, bool addAsTrusted = true,
+			string justificationReason = "")
 		{
+			if (requestUri == null)
+			{
+				Loggy.Error("Rejecting HTTP request: request URI is null.");
+				return false;
+			}
+
 			if (requestUri.IsAbsoluteUri == false)
 			{
-				Loggy.Error(
-					$"URL For Request was not absolute e.g Was local such as /blahblahblah/thing {requestUri}");
+				Loggy.Error($"Rejecting HTTP request to '{requestUri}': URL must be absolute.");
 				return false;
 			}
 
 			if (requestUri.IsUnc)
 			{
-				Loggy.Error($"why IsUnc? Not allowed {requestUri}");
+				Loggy.Error($"Rejecting HTTP request to '{requestUri}': UNC paths are not allowed.");
 				return false;
 			}
 
 			if (Uri.TryCreate(requestUri.GetLeftPart(UriPartial.Authority), UriKind.Absolute, out var baseUri) == false)
 			{
-				Loggy.Error($"Somehow completely failed URL format check {requestUri}");
-				// Invalid URI format
+				Loggy.Error($"Rejecting HTTP request to '{requestUri}': unable to parse authority segment.");
 				return false;
 			}
 
-			IPAddress[] ipAddresses = Dns.GetHostAddresses(baseUri.Host);
-
-			foreach (var AddressToUse in ipAddresses)
+			if (HostResolvesToPublicAddress(requestUri, baseUri) == false)
 			{
-				if (AddressToUse.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
-				{
-					if (IsNotSafeIPv4(AddressToUse))
-					{
-						Loggy.Error($"HEY BAD Not allowed, Private network IPv4 Address returned for {requestUri}");
-						return false;
-					}
-				}
-				else if (AddressToUse.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
-				{
-					if (IsNotSafeIPv6(AddressToUse))
-					{
-						Loggy.Error($"HEY BAD Not allowed, Private network IPv6 Address returned for {requestUri}");
-						return false;
-					}
-				}
-				else
-				{
-					Loggy.Error($"Invalid IP Address Return from DNS for {requestUri}");
-					return false;
-				}
+				return false;
 			}
 
-			if (await HubValidation.RequestAPIURL(requestUri, JustificationReason, addAsTrusted))
+			if (await HubValidation.RequestAPIURL(requestUri, justificationReason, addAsTrusted))
 			{
 				return true;
 			}
-			else
+
+			var justificationInfo = string.IsNullOrWhiteSpace(justificationReason) ? "none provided" : justificationReason;
+			Loggy.Info(
+				$"Hub validation rejected request to '{requestUri}'. Justification: {justificationInfo}.");
+			return false;
+		}
+
+		private static bool HostResolvesToPublicAddress(Uri requestUri, Uri baseUri)
+		{
+			IPAddress[] ipAddresses;
+			try
 			{
-				Loggy.Info($"Hub validation failed for {requestUri}");
+				ipAddresses = Dns.GetHostAddresses(baseUri.Host);
+			}
+			catch (SocketException ex)
+			{
+				Loggy.Error(
+					$"Rejecting HTTP request to '{requestUri}': DNS lookup failed for host '{baseUri.Host}'. {ex.Message}");
 				return false;
+			}
+			catch (Exception ex)
+			{
+				Loggy.Error(
+					$"Rejecting HTTP request to '{requestUri}': unexpected error resolving host '{baseUri.Host}'. {ex.Message}");
+				return false;
+			}
+
+			if (ipAddresses.Length == 0)
+			{
+				Loggy.Error(
+					$"Rejecting HTTP request to '{requestUri}': DNS lookup returned no addresses for host '{baseUri.Host}'.");
+				return false;
+			}
+
+			foreach (IPAddress address in ipAddresses)
+			{
+				switch (address.AddressFamily)
+				{
+					case AddressFamily.InterNetwork:
+						if (IsNotSafeIPv4(address))
+						{
+							Loggy.Error(
+								$"Rejecting HTTP request to '{requestUri}': IPv4 address '{address}' resolves inside a private network.");
+							return false;
+						}
+
+						break;
+					case AddressFamily.InterNetworkV6:
+						if (IsNotSafeIPv6(address))
+						{
+							Loggy.Error(
+								$"Rejecting HTTP request to '{requestUri}': IPv6 address '{address}' resolves inside a private network.");
+							return false;
+						}
+
+						break;
+					default:
+						Loggy.Error(
+							$"Rejecting HTTP request to '{requestUri}': unsupported address family '{address.AddressFamily}' for resolved address '{address}'.");
+						return false;
+				}
 			}
 
 			return true;
@@ -143,21 +180,20 @@ namespace SecureStuff
 		// Check if an IP address falls within the private IP ranges
 		private static bool IsNotSafeIPv4(IPAddress ipAddress)
 		{
-			byte[] addressBytes = ipAddress.GetAddressBytes();
+			var addressBytes = ipAddress.GetAddressBytes();
 
 			// Check for private IP ranges:
 			// 10.0.0.0 - 10.255.255.255
 			// 172.16.0.0 - 172.31.255.255
 			// 192.168.0.0 - 192.168.255.255
 			return addressBytes[0] == 10 ||
-			       (addressBytes[0] == 127) ||
+			       addressBytes[0] == 127 ||
 			       (addressBytes[0] == 172 && addressBytes[1] >= 16 && addressBytes[1] <= 31) ||
 			       (addressBytes[0] == 192 && addressBytes[1] == 168);
 		}
 
 		private static bool IsNotSafeIPv6(IPAddress ipAddress)
 		{
-
 			var ipAddressString = ipAddress.ToString();
 			// Remove any leading zeros from the input IPv6 address
 			ipAddressString = RemoveLeadingZeros(ipAddressString);
@@ -215,11 +251,13 @@ namespace SecureStuff
 			for (int i = 0; i < segments.Length; i++)
 			{
 				segments[i] = segments[i].TrimStart('0');
-				if (string.IsNullOrEmpty(segments[i])) segments[i] = "0";
+				if (string.IsNullOrEmpty(segments[i]))
+				{
+					segments[i] = "0";
+				}
 			}
 
 			return string.Join(":", segments);
 		}
 	}
 }
-

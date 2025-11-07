@@ -312,6 +312,30 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
         m_values: 204e0000
       productionTime: 4
+    - name: Buckshot Shell
+      product: {fileID: 4746090753305054212, guid: 275e5e346ea26524b98998796d344f4f,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: d0070000
+      productionTime: 4
+    - name: 4.6x30mm round
+      product: {fileID: 3437603126134050121, guid: f384b48623b6e474dbdfd434f5958455,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 64000000
+      productionTime: 1
+    - name: 9mm Round
+      product: {fileID: 5107909693011956803, guid: 5d37ebc7a0cbd0948a172b21dd46ca54,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 50000000
+      productionTime: 1
   - categoryName: Medical
     products:
     - name: Beaker

@@ -155,6 +155,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4568765046733910}
   - component: {fileID: 114529064292813298}
+  - component: {fileID: 4441493179746393366}
   - component: {fileID: 20680082919460720}
   - component: {fileID: 124367701722432646}
   - component: {fileID: 1620099701739618863}
@@ -163,7 +164,6 @@ GameObject:
   - component: {fileID: 4251233521143295179}
   - component: {fileID: 5935000786866830145}
   - component: {fileID: 3087442223282236594}
-  - component: {fileID: 4441493179746393366}
   - component: {fileID: 7171882492086519817}
   - component: {fileID: 7964655504328845500}
   - component: {fileID: 8481840996761083126}
@@ -174,6 +174,7 @@ GameObject:
   - component: {fileID: 2092587339786045018}
   - component: {fileID: 5146016861577800294}
   - component: {fileID: 6330374925910711719}
+  - component: {fileID: 3572512131606703383}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -231,6 +232,26 @@ MonoBehaviour:
   lightingSystem: {fileID: 0}
   cam: {fileID: 0}
   PixelPerfectCamera: {fileID: 0}
+--- !u!114 &4441493179746393366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365047106309440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AssetsPPU: 32
+  m_RefResolutionX: 320
+  m_RefResolutionY: 180
+  m_UpscaleRT: 0
+  m_PixelSnapping: 1
+  m_CropFrameX: 1
+  m_CropFrameY: 1
+  m_StretchFill: 0
 --- !u!20 &20680082919460720
 Camera:
   m_ObjectHideFlags: 0
@@ -303,7 +324,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shader: {fileID: 4800000, guid: 521fac50d43d6dc41bd4ce7d10d09317, type: 3}
-  luminance: 0.44
   lensRadius: 0.5
   screenTexture: {fileID: 2800000, guid: 9e3a266204395924d9cc89eb0ec2db71, type: 3}
 --- !u!114 &1578675351978633491
@@ -451,26 +471,6 @@ MonoBehaviour:
   _DistortionAmount: 0
   _DistortTimeSpeed: 0
   material: {fileID: 2100000, guid: 9ac5150d5463adc40980437ab47bfd43, type: 2}
---- !u!114 &4441493179746393366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1365047106309440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AssetsPPU: 32
-  m_RefResolutionX: 320
-  m_RefResolutionY: 180
-  m_UpscaleRT: 0
-  m_PixelSnapping: 0
-  m_CropFrameX: 0
-  m_CropFrameY: 0
-  m_StretchFill: 0
 --- !u!114 &7171882492086519817
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -641,6 +641,20 @@ MonoBehaviour:
   _style: {fileID: 11400000, guid: 90718c4e7d6fa04438adef1ad7a432cc, type: 2}
   _cursorShapes: {fileID: 11400000, guid: 71deade41763c6e4eaeb5df973b321f1, type: 2}
   _doGlobalEvents: 1
+--- !u!114 &3572512131606703383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365047106309440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0b87ca612075164aa077f49ec0d90e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tolgge: 1
+  PixelPerfectCamera: {fileID: 4441493179746393366}
 --- !u!1 &1588444935751324
 GameObject:
   m_ObjectHideFlags: 0

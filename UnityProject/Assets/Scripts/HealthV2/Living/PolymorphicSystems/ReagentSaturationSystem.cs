@@ -45,7 +45,7 @@ namespace HealthV2.Living.PolymorphicSystems
 		public override void BodyPartAdded(BodyPart bodyPart)
 		{
 			var newSaturation =  bodyPart.GetComponent<SaturationComponent>();
-			
+
 			if (newSaturation != null)
 			{
 				if (newSaturation.enabled == false) return;
@@ -136,13 +136,13 @@ namespace HealthV2.Living.PolymorphicSystems
 
 					var bloodPressure = 1f;
 
-					var percentageBloodPressure = reagentPoolSystem.BloodPool.Total / reagentPoolSystem.StartingBlood;
+					var percentageBloodPressure = reagentPoolSystem.BloodPool.Total / reagentPoolSystem.NormalBlood;
 					if (percentageBloodPressure < 0.75f)
 					{
 						bloodPressure = percentageBloodPressure / 0.75f;
 					}
 
-					if (percentageBloodPressure > 1.25f)
+					if (percentageBloodPressure > 1.75f) //Above 875u for humans
 					{
 						Base.ChangeBleedStacks(1); //TODO Change to per body part instead
 					}

@@ -344,7 +344,7 @@ public static class Spawn
 
 			if (result.Successful)
 			{
-				if (info.Mapspawn == false)
+				if (info.WasMapspawn == false)
 				{
 					result.GameObject.AddComponent<RuntimeSpawned>();
 				}

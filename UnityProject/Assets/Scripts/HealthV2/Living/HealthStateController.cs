@@ -75,6 +75,14 @@ namespace HealthV2
 				Player.OnActionControlPlayer += UpdateSyncVar;
 			}
 
+			if (CustomNetworkManager.IsServer == false) return;
+			UpdateManager.Add(PeriodicUpdateHud, 2.0f, CallbackType: CallbackType.PERIODIC_UPDATE);
+		}
+
+		private void OnDisable()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdateHud);
 		}
 
 		#endregion
@@ -84,6 +92,21 @@ namespace HealthV2
 			if (DollDataChanged == false) return;
 			healthDollData = JsonConvert.SerializeObject(CurrentHealthDollStorage);
 			DollDataChanged = false;
+
+		}
+
+		private void PeriodicUpdateHud()
+		{
+			if (isDirtyState) InvokeServerOverallHealthChange(overallHealthSync);
+
+			isDirtyState = false;
+		}
+
+		private bool isDirtyState = false; //Used to update HuDs for events that aren't damage.
+
+		public void SetDirtyState()
+		{
+			isDirtyState = true;
 		}
 
 		#region ServerSetValue

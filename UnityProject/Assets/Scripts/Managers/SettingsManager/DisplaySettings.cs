@@ -252,9 +252,9 @@ namespace Managers.SettingsManager
 				}
 			}
 		}
-		private const int DEFAULT_ZOOMLEVEL = 24;
-		private const int MIN_ZOOMLEVEL = 8;
-		private const int MAX_ZOOMLEVEL = 64;
+		private const int DEFAULT_ZOOMLEVEL = 32;
+		private const int MIN_ZOOMLEVEL = 32;
+		private const int MAX_ZOOMLEVEL = 512;
 
 		#region ChatBubbles
 

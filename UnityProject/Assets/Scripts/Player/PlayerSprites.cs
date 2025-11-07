@@ -25,7 +25,7 @@ namespace Player
 	/// </summary>
 	[RequireComponent(typeof(Rotatable))]
 	[RequireComponent(typeof(PlayerScript))]
-	public class PlayerSprites : MonoBehaviour
+	public class PlayerSprites : NetworkBehaviour
 	{
 		#region Inspector fields
 
@@ -89,7 +89,8 @@ namespace Player
 		/// <summary>
 		/// Define which piece of clothing are hidden (not rendering) right now
 		/// </summary>
-		private ClothingHideFlags hideClothingFlags = ClothingHideFlags.HIDE_NONE;
+		[SyncVar(hook = nameof(SyncValidateHideFlags))]
+		public ClothingHideFlags hideClothingFlags = ClothingHideFlags.HIDE_NONE;
 
 		private ulong overflow = 0;
 
@@ -519,18 +520,6 @@ namespace Player
 			else livingHealthMasterBase.EmaggableMob.SetEmaggableState(ThisCharacter.GetRaceSo().Base.CanBeEmagged, livingHealthMasterBase.brain);
 		}
 
-		public void NotifyPlayer(NetworkConnection recipient, bool clothItems = false)
-		{
-			if (clothItems)
-			{
-				for (int i = 0; i < characterSprites.Length; i++)
-				{
-					var clothItem = characterSprites[i];
-					PlayerAppearanceMessage.SendTo(gameObject, i, recipient, clothItem.GameObjectReference, true, true);
-				}
-			}
-		}
-
 		/// <summary>
 		/// Display the muzzle flash animation
 		/// </summary>
@@ -550,6 +539,8 @@ namespace Player
 		{
 			//Loggy.Log($"Clothing {clothing} was equipped {isEquiped}!", Category.Inventory);
 
+			ClothingHideFlags ClothingHideFlags = hideClothingFlags;
+
 			// if new clothes equiped, add new hide flags
 			if (isEquipped)
 			{
@@ -562,9 +553,9 @@ namespace Player
 					}
 					else if (IsBitSet((ulong)clothing.HideClothingFlags, n)) //check if n'th bit is set to 1
 					{
-						ulong bytechange = (ulong)hideClothingFlags;
+						ulong bytechange = (ulong)ClothingHideFlags;
 						bytechange |= 1UL << n; //set n'th bit to 1
-						hideClothingFlags = (ClothingHideFlags)bytechange;
+						ClothingHideFlags = (ClothingHideFlags)bytechange;
 					}
 				}
 			}
@@ -579,20 +570,26 @@ namespace Player
 					}
 					else if (IsBitSet((ulong)clothing.HideClothingFlags, n)) //check if n'th bit is set to 1
 					{
-						ulong bytechange = (ulong)hideClothingFlags;
+						ulong bytechange = (ulong)ClothingHideFlags;
 						bytechange &= ~(1UL << n); //set n'th bit to 0
-						hideClothingFlags = (ClothingHideFlags)bytechange;
+						ClothingHideFlags = (ClothingHideFlags)bytechange;
 					}
 				}
 			}
 
 			// Update hide flags
-			ValidateHideFlags();
+			SyncValidateHideFlags(hideClothingFlags, ClothingHideFlags);
 		}
 
 		private bool IsBitSet(ulong b, int pos)
 		{
 			return ((b >> pos) & 1) != 0;
+		}
+
+		private void SyncValidateHideFlags(ClothingHideFlags oldv, ClothingHideFlags New)
+		{
+			hideClothingFlags = New;
+			ValidateHideFlags();
 		}
 
 		private void ValidateHideFlags()
@@ -605,36 +602,7 @@ namespace Player
 					Norder.gameObject.SetActive(isVisible);
 				}
 			}
-
-			// Need to check all flags with their gameobject names...
-			// TODO: it should be done much easier
-			// ValidateHideFlag(ClothingHideFlags.HIDE_GLOVES, "hands");
-			// ValidateHideFlag(ClothingHideFlags.HIDE_JUMPSUIT, "uniform");
-			// ValidateHideFlag(ClothingHideFlags.HIDE_SHOES, "feet");
-			// ValidateHideFlag(ClothingHideFlags.HIDE_MASK, "mask");
-			// ValidateHideFlag(ClothingHideFlags.HIDE_EARS, "ear");
-			// ValidateHideFlag(ClothingHideFlags.HIDE_EYES, "eyes");
-			// ValidateHideFlag(ClothingHideFlags.HIDE_NECK, "neck");
-
-			// TODO: Not implemented yet?
-			//ValidateHideFlag(ClothingHideFlags.HIDE_SUITSTORAGE, "suit_storage");
 		}
-
-		/*
-			private void ValidateHideFlag(ClothingHideFlags hideFlag, string name)
-			{
-				// Check if dictionary has entry about such clothing item name
-				if (!clothes.ContainsKey(name))
-				{
-					Loggy.LogError($"Can't find {name} clothingItem linked to {hideFlag}", Category.PlayerInventory);
-					return;
-				}
-
-				// Enable or disable based on hide flag
-				var isVisible = !hideClothingFlags.HasFlag(hideFlag);
-				clothes[name].gameObject.SetActive(isVisible);
-			}
-		*/
 
 		public void UpdateChildren(List<IntName> NewInternalNetIDs)
 		{

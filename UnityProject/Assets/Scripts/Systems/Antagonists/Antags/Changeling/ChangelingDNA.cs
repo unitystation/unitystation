@@ -25,9 +25,9 @@ namespace Changeling
 			{
 				foreach (var clothe in playerDataForDna.Mind.Body.playerSprites.clothes)
 				{
-					if (clothe.Value.GameObjectReference != null)
+					if (clothe.Value.ServerGameObjectReference != null)
 					{
-						BodyClothesPrefabID.Add(clothe.Value.GameObjectReference.GetComponent<PrefabTracker>().ForeverID);
+						BodyClothesPrefabID.Add(clothe.Value.ServerGameObjectReference.GetComponent<PrefabTracker>().ForeverID);
 					}
 				}
 			} catch
@@ -71,8 +71,8 @@ namespace Changeling
 
 			foreach (var clothe in playerDataForDna.Mind.Body.playerSprites.clothes)
 			{
-				if (clothe.Value.GameObjectReference != null)
-					BodyClothesPrefabID.Add(clothe.Value.GameObjectReference.GetComponent<PrefabTracker>().ForeverID);
+				if (clothe.Value.ServerGameObjectReference != null)
+					BodyClothesPrefabID.Add(clothe.Value.ServerGameObjectReference.GetComponent<PrefabTracker>().ForeverID);
 			}
 
 			CharacterSheet = (CharacterSheet)playerDataForDna.characterSettings.Clone();

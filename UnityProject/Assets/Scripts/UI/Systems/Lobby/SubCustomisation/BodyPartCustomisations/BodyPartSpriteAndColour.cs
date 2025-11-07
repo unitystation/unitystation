@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using HealthV2;
 using Newtonsoft.Json;
+using Systems.Clothing;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -139,6 +140,14 @@ namespace UI.CharacterCreator
 				if (AppliesToItemsSprite)
 				{
 					Body_Part.BodyPartItemSprite.SetSpriteSO(OptionalSprites[Selected - 1]);
+				}
+
+				var Clothing = Body_Part.GetComponentCustom<ClothingV2>();
+				if (Clothing != null)
+				{
+					Clothing.SpriteDataSO.Clear();
+					Clothing.SpriteDataSO.Add(OptionalSprites[Selected - 1]);
+					Clothing.Colour = inColor;
 				}
 			}
 			else

@@ -64,6 +64,10 @@ public class Camera2DFollow : MonoBehaviour
 	public PixelPerfectCamera PixelPerfectCamera;
 	private Camera _camera;
 
+
+	public bool ODDeven = false;
+	public Vector2 Previous = Vector2.zero;
+
 	private void Awake()
 	{
 		if (followControl == null)
@@ -137,6 +141,16 @@ public class Camera2DFollow : MonoBehaviour
 					}
 				}
 
+			}
+
+			ODDeven = !ODDeven;
+			if (ODDeven)
+			{
+				Previous = recoilOffset;
+			}
+			else
+			{
+				recoilOffset = Previous;
 			}
 
 			Vector3 aheadTargetPos =

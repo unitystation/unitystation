@@ -401,7 +401,7 @@ namespace Objects.Other
 					var handItem = script.Equipment.GetClothingItem(slot);
 					if (handItem == null) return true;
 
-					if (Validations.HasItemTrait(handItem.GameObjectReference, CommonTraits.Instance.Gun))
+					if (Validations.HasItemTrait(handItem.ServerGameObjectReference, CommonTraits.Instance.Gun))
 					{
 						//Only allow authorised people to have guns
 						bool allowed = weaponAuthorisationClearance.HasClearance(script.gameObject);

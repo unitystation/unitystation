@@ -274,10 +274,19 @@ public static class SweetExtensions
 		}
 	}
 
-	/// Creates garbage! Use very sparsely!
 	public static CommonComponents GetCommonComponents(this GameObject go)
 	{
 		if (ComponentManager.TryGetCommonComponent(go, out  var commonComponent))
+		{
+			return commonComponent;
+		}
+
+		return go.TryGetComponent<CommonComponents>(out var slowGet) ? slowGet : null;
+	}
+
+	public static CommonComponents GetCommonComponents(this Component go)
+	{
+		if (ComponentManager.TryGetCommonComponent(go.gameObject, out  var commonComponent))
 		{
 			return commonComponent;
 		}

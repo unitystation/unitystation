@@ -31,14 +31,14 @@ namespace Items.Medical
 			var livingHealthMaster = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 			if (livingHealthMaster == null)
 				return false;
-			if (DoesntRequireBackpack == false)
+			if (side == NetworkSide.Server && DoesntRequireBackpack == false)
 			{
 
 				var equipment = interaction.Performer.GetComponent<Equipment>();
-				var ObjectInSlot = equipment.GetClothingItem(NamedSlot.back).GameObjectReference;
+				var ObjectInSlot = equipment.GetClothingItem(NamedSlot.back).ServerGameObjectReference;
 				if (Validations.HasItemTrait(ObjectInSlot, DefibrillatorTrait) == false)
 				{
-					ObjectInSlot = equipment.GetClothingItem(NamedSlot.belt).GameObjectReference;
+					ObjectInSlot = equipment.GetClothingItem(NamedSlot.belt).ServerGameObjectReference;
 					if (Validations.HasItemTrait(ObjectInSlot, DefibrillatorTrait) == false)
 					{
 						return false;

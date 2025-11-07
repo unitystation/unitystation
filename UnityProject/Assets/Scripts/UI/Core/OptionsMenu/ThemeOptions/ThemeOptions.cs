@@ -79,6 +79,11 @@ namespace Unitystation.Options
 		[SerializeField]
 		private Dropdown TTSSystemVoice = null;
 
+		[SerializeField]
+		private Dropdown Language = null;
+
+		private bool LanguageInitialising = false;
+
 		void OnEnable()
 		{
 			Refresh();
@@ -176,6 +181,33 @@ namespace Unitystation.Options
 			{
 				Loggy.Error($"[ThemeOptions/Refresh()] - Failed to setup RightClick options. " );
 			}
+
+
+			try
+			{
+
+				LanguageInitialising = true;
+				Language.ClearOptions();
+				var Options = TranslationSystem.AvailableLanguages;
+				Language.AddOptions(Options);
+				Language.AddOptions(new List<string>()
+				{
+					"System"
+				});
+				string value = "System";
+				if (PlayerPrefs.HasKey(PlayerPrefKeys.LanguagePreference))
+				{
+					value = PlayerPrefs.GetString(PlayerPrefKeys.LanguagePreference, "English");
+				}
+				Language.SetValueByName(value);
+				LanguageInitialising = false;
+			}
+			catch (Exception e)
+			{
+				Loggy.Error($"[ThemeOptions/Refresh()] - Failed to setup RightClick options. " );
+			}
+
+
 
 
 		}
@@ -293,6 +325,16 @@ namespace Unitystation.Options
 		public void OnTTSSystemVoice()
 		{
 			TTSVoices.SetSystemTTS(TTSSystemVoice.GetValueName());
+		}
+
+
+		public void OnLanguage()
+		{
+			if (LanguageInitialising == false)
+			{
+				PlayerPrefs.SetString(PlayerPrefKeys.LanguagePreference,Language.GetValueName());
+				TranslationManager.Instance.Initialise();
+			}
 		}
 
 
