@@ -22,6 +22,8 @@ public class CommonComponents : MonoBehaviour
 
 	public ItemAttributesV2 ItemAttributes => SafeGetComponent<ItemAttributesV2>();
 
+	public IPlayerPossessable IPlayerPossessable;
+
 	public Dictionary<Type, Component> dictionary = new Dictionary<Type, Component>();
 
 	[SerializeField] private List<Component> commonComponentsToRegister = new List<Component>();
@@ -29,6 +31,7 @@ public class CommonComponents : MonoBehaviour
 
 	private void Awake()
 	{
+		IPlayerPossessable = this.GetComponent<IPlayerPossessable>();
 		ComponentsTracker<CommonComponents>.RegisterInstance(this);
 		foreach (var c in commonComponentsToRegister)
 		{

@@ -578,7 +578,6 @@ namespace Player
 			}
 
 			// Update hide flags
-			ValidateHideFlags();
 			SyncValidateHideFlags(hideClothingFlags, ClothingHideFlags);
 		}
 
@@ -603,36 +602,7 @@ namespace Player
 					Norder.gameObject.SetActive(isVisible);
 				}
 			}
-
-			// Need to check all flags with their gameobject names...
-			// TODO: it should be done much easier
-			// ValidateHideFlag(ClothingHideFlags.HIDE_GLOVES, "hands");
-			// ValidateHideFlag(ClothingHideFlags.HIDE_JUMPSUIT, "uniform");
-			// ValidateHideFlag(ClothingHideFlags.HIDE_SHOES, "feet");
-			// ValidateHideFlag(ClothingHideFlags.HIDE_MASK, "mask");
-			// ValidateHideFlag(ClothingHideFlags.HIDE_EARS, "ear");
-			// ValidateHideFlag(ClothingHideFlags.HIDE_EYES, "eyes");
-			// ValidateHideFlag(ClothingHideFlags.HIDE_NECK, "neck");
-
-			// TODO: Not implemented yet?
-			//ValidateHideFlag(ClothingHideFlags.HIDE_SUITSTORAGE, "suit_storage");
 		}
-
-		/*
-			private void ValidateHideFlag(ClothingHideFlags hideFlag, string name)
-			{
-				// Check if dictionary has entry about such clothing item name
-				if (!clothes.ContainsKey(name))
-				{
-					Loggy.LogError($"Can't find {name} clothingItem linked to {hideFlag}", Category.PlayerInventory);
-					return;
-				}
-
-				// Enable or disable based on hide flag
-				var isVisible = !hideClothingFlags.HasFlag(hideFlag);
-				clothes[name].gameObject.SetActive(isVisible);
-			}
-		*/
 
 		public void UpdateChildren(List<IntName> NewInternalNetIDs)
 		{

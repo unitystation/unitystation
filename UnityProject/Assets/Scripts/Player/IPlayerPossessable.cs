@@ -43,7 +43,7 @@ public interface IPlayerPossessable
 		{
 			if (PossessingID is NetId.Invalid or NetId.Empty) return this.GameObject;
 			if (CustomNetworkManager.Spawned.ContainsKey(PossessingID) == false) return this.GameObject;
-			var Possessable = CustomNetworkManager.Spawned[PossessingID].GetComponent<IPlayerPossessable>();
+			var Possessable = CustomNetworkManager.Spawned[PossessingID].GetCommonComponents().IPlayerPossessable;
 			return Possessable.ControllingObject;
 		}
 	}
@@ -53,7 +53,7 @@ public interface IPlayerPossessable
 		var ob = GetPossessingObject();
 		if (ob != null)
 		{
-			return ob.GetComponent<IPlayerPossessable>();
+			return ob.GetCommonComponents().IPlayerPossessable;
 		}
 
 		return null;
@@ -80,7 +80,7 @@ public interface IPlayerPossessable
 	{
 		if (PossessingMind == null)
 		{
-			var Losing = previouslyPossessing.NetIdToGameObject()?.GetComponent<IPlayerPossessable>();
+			var Losing = previouslyPossessing.NetIdToGameObject()?.GetCommonComponents()?.IPlayerPossessable;
 			if (Losing != null)
 			{
 				Losing.InternalOnPlayerLeave(PossessingMind);
@@ -108,7 +108,7 @@ public interface IPlayerPossessable
 
 	public void SetPossessingObject(GameObject obj)
 	{
-		var inPossessing = obj.OrNull()?.GetComponent<IPlayerPossessable>();
+		var inPossessing = obj.OrNull()?.GetCommonComponents()?.IPlayerPossessable;
 
 		var gaining = new List<NetworkIdentity>();
 		if (inPossessing != null)
@@ -137,7 +137,7 @@ public interface IPlayerPossessable
 
 
 		PossessingMind.OrNull()?.HandleOwnershipChangeMulti(losing, gaining);
-		SyncPossessingID(PossessingID, obj ? obj.GetComponent<NetworkIdentity>().netId : NetId.Empty);
+		SyncPossessingID(PossessingID, obj ? obj.GetComponentCustom<NetworkIdentity>().netId : NetId.Empty);
 
 		if (inPossessing != null)
 		{

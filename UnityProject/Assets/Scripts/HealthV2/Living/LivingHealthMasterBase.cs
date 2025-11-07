@@ -2045,11 +2045,15 @@ namespace HealthV2
 
 						var BPS = OB.GetComponent<BodyPartSprites>();
 						BPS.SetName(ID.Name);
+						BPS.ClothingHide = ID.ClothingHide;
+
 						ClientSprites.Add(BPS);
 						if (playerSprites.Addedbodypart.Contains(BPS) == false)
 						{
 							playerSprites.Addedbodypart.Add(BPS);
 						}
+
+
 
 						foreach (var SH in Handlers)
 						{
