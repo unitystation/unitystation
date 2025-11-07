@@ -73,11 +73,6 @@ namespace Core.Physics
 
 		public float ObjectBouncyness = 0.75f;
 
-		/// <summary>
-		/// The chance a thrown weapon will apply its special effect on hit (stun etc.)
-		/// </summary>
-		public float thrownWeaponEffectChance = 0.35f;
-
 		public const float DEFAULT_PUSH_SPEED = 6;
 
 		/// <summary>
@@ -1385,7 +1380,7 @@ namespace Core.Physics
 					{
 						RegisterPlayer registerPlayerVictim = hit.gameObject.GetComponent<RegisterPlayer>();
 						WeaponNetworkActions wna = ddamagedBy?.GetComponent<WeaponNetworkActions>();
-						if (registerPlayerVictim != null && wna != null && UnityEngine.Random.value <= thrownWeaponEffectChance)
+						if (registerPlayerVictim != null && wna != null && UnityEngine.Random.value <= meleeEffect.thrownWeaponEffectChance)
                         {
 							meleeEffect.TryApplyEffect(Intent.Harm, ddamagedBy, hit.gameObject, Vector2.zero, registerPlayerVictim, wna);
                         }

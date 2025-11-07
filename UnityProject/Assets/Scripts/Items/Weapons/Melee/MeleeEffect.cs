@@ -80,6 +80,9 @@ namespace Weapons
 		[HideInInspector]
 		public ItemSlot batterySlot = null;
 
+		[Tooltip("The chance a thrown weapon will apply its special effect on hit (stun etc.)")]
+		public float thrownWeaponEffectChance = 0.35f;
+
 		public void Awake()
 		{
 			ItemStorage itemStorage = GetComponent<ItemStorage>();
