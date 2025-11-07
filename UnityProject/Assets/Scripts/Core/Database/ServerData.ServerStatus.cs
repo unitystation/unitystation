@@ -77,8 +77,6 @@ namespace DatabaseAPI
 
 			ignoranceTransport = FindObjectOfType<Ignorance>();
 			config = configData;
-			Loggy.Error(" Loaded config > " + JsonConvert.SerializeObject(configData)); //TEMP!!!
-
 		}
 
 		private void LoadMotd()
@@ -150,8 +148,6 @@ namespace DatabaseAPI
 				fps = (int)FPSMonitor.Instance.Current
 			};
 
-			Loggy.Error(" Loaded Populated config  "); //TEMP!!!
-
 			await UniTask.SwitchToThreadPool();
 
 			if (string.IsNullOrEmpty(status.ServerIP))
@@ -162,7 +158,6 @@ namespace DatabaseAPI
 			HttpResponseMessage response = null;
 			Exception requestException = null;
 
-			Loggy.Error($" Sending a message to { GetBackendUrl()}  "); //TEMP!!!
 			try
 			{
 				StringContent request = new(JsonConvert.SerializeObject(status), Encoding.UTF8, "application/json");
@@ -170,7 +165,6 @@ namespace DatabaseAPI
 			}
 			catch (Exception ex)
 			{
-				Loggy.Error($" requestException > {requestException.ToString()}  "); //TEMP!!!
 				requestException = ex;
 			}
 
@@ -195,7 +189,7 @@ namespace DatabaseAPI
 				return;
 			}
 
-			Loggy.Error("Successfully updated server status to server list."); //TEMP
+			Loggy.Trace("Successfully updated server status to server list.");
 		}
 	}
 
