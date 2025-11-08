@@ -3,6 +3,7 @@ using UnityEngine;
 using AddressableReferences;
 using NaughtyAttributes;
 using Systems.Construction.Parts;
+using Core.Physics;
 
 namespace Weapons
 {
@@ -54,6 +55,7 @@ namespace Weapons
 		private bool canEffect = true;
 
 		private int timer = 0;
+		private UniversalObjectPhysics uop;
 
 		//Send only one message per second.
 		private bool coolDownMessage;
@@ -86,11 +88,14 @@ namespace Weapons
 		public void Awake()
 		{
 			ItemStorage itemStorage = GetComponent<ItemStorage>();
+			uop = GetComponent<UniversalObjectPhysics>();
 
 			if (itemStorage != null && hasBattery)
 			{
 				batterySlot = itemStorage.GetIndexedItemSlot(0);
 			}
+
+			uop.OnHit.CachedAction += ProcessOnHit;
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -163,6 +168,14 @@ namespace Weapons
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Timer);
 		}
 
+		private void OnDestroy()
+        {
+			if (uop != null)
+            {
+				uop.OnHit.CachedAction -= ProcessOnHit;
+            }
+        }
+
 		private void Timer()
 		{
 			if (timer == 0) return;
@@ -210,7 +223,7 @@ namespace Weapons
 				}
 			}
 		}
-		
+
 		public void TryApplyEffect(Intent intent, GameObject performer, GameObject target, Vector2 dir, RegisterPlayer registerPlayerVictim, WeaponNetworkActions wna, ToggleableEffect toggleableEffect = null)
 		{
 			if (toggleableEffect == null)
@@ -219,9 +232,9 @@ namespace Weapons
 			}
 
 			if (toggleableEffect.CurrentWeaponState != ToggleableEffect.WeaponState.On)
-            {
-                return;
-            }
+			{
+				return;
+			}
 
 			CheckBattery(toggleableEffect);
 
@@ -268,6 +281,16 @@ namespace Weapons
 				{
 					Chat.AddExamineMsg(performer, $"{gameObject.ExpensiveName()} is on cooldown.");
 				}
+			}
+		}
+
+		private void ProcessOnHit()
+		{
+			RegisterPlayer registerPlayerVictim = uop.LastHitContext.target?.GetComponent<RegisterPlayer>();
+			WeaponNetworkActions wna = uop.LastHitContext.perpetrator?.GetComponent<WeaponNetworkActions>();
+			if (registerPlayerVictim != null && wna != null && UnityEngine.Random.value <= thrownWeaponEffectChance)
+			{
+				TryApplyEffect(Intent.Harm, uop.LastHitContext.perpetrator, uop.LastHitContext.target, Vector2.zero, registerPlayerVictim, wna);
 			}
 		}
 	}

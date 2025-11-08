@@ -202,6 +202,17 @@ namespace Core.Physics
 
 		//Pulling.Component.ResetLocationOnClients();
 
+		/// <summary>
+		/// Context used when this object hits another object (for example, when thrown)
+		/// </summary>
+		public struct HitContext
+		{
+			public GameObject perpetrator;
+			public GameObject target;
+		}
+
+		public HitContext LastHitContext = new HitContext();
+
 
 		#region Events
 
@@ -214,6 +225,11 @@ namespace Core.Physics
 		[PlayModeOnly] public ForceEvent OnThrowEnd = new ForceEvent();
 
 		[PlayModeOnly] public Action OnVisibilityChange;
+
+		/// <summary>
+        /// This event is triggered when this object hits something
+        /// </summary>
+		[PlayModeOnly] public SerializedAction OnHit;
 
 		#endregion
 
@@ -1376,15 +1392,10 @@ namespace Core.Physics
 					livingHealthMasterBase.ApplyDamageToBodyPart(ddamagedBy, damage, AttackType.Melee, DamageType.Brute, currentAim);
 					if (currentAim == BodyPartType.Mouth && TryGetComponent<Edible>(out var edible)) edible.TryConsume(null, hit.gameObject, true);
 
-					if (TryGetComponent<MeleeEffect>(out var meleeEffect))
-					{
-						RegisterPlayer registerPlayerVictim = hit.gameObject.GetComponent<RegisterPlayer>();
-						WeaponNetworkActions wna = ddamagedBy?.GetComponent<WeaponNetworkActions>();
-						if (registerPlayerVictim != null && wna != null && UnityEngine.Random.value <= meleeEffect.thrownWeaponEffectChance)
-                        {
-							meleeEffect.TryApplyEffect(Intent.Harm, ddamagedBy, hit.gameObject, Vector2.zero, registerPlayerVictim, wna);
-                        }
-					}
+					LastHitContext.perpetrator = ddamagedBy;
+					LastHitContext.target = hit.gameObject;
+
+					OnHit?.Invoke();
 
 					global::Chat.AddThrowHitMsgToChat(gameObject, livingHealthMasterBase.gameObject,
 						currentAim);
