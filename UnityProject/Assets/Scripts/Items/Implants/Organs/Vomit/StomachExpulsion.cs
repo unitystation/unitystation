@@ -52,9 +52,16 @@ namespace Items.Implants.Organs.Vomit
 
 		public bool WillDryHeave()
 		{
-			if (dryHeavingEmote == null) return false;
-			if (stomach.StomachContents.IsEmpty == false || stomach.StomachContents.CurrentReagentMix.Total > 0.09f) return false;
-			dryHeavingEmote.Do(RelatedPart.HealthMaster.gameObject);
+			//If the entity can never dry heave, or the stomach isn't near or at empty, we are vomiting instead
+			if (dryHeavingEmote == null || stomach.StomachContents.IsEmpty == false ||
+				stomach.StomachContents.CurrentReagentMix.Total > 0.09f) return false;
+
+			// Simulate the reflex where it sometimes takes a few dry heaves before they stop
+			if (Random.value > 0.5f)
+				dryHeavingEmote.Do(RelatedPart.HealthMaster.gameObject);
+			else
+				stomach.StomachContents.CurrentReagentMix.Clear(); //Get the last of it out
+
 			return true;
 		}
 	}
