@@ -11,58 +11,59 @@ namespace Doors
 {
 	public class DoorAnimatorV2 : NetworkBehaviour
 	{
-		#region Sprite layers
-		[SerializeField, BoxGroup("Sprite Layers") ]
+		#region Inspector
+		[SerializeField, BoxGroup("Sprite Layers")]
 		[Tooltip("Game object which represents the base of this door")]
 		private GameObject doorBase = null;
 		public GameObject DoorBase => doorBase;
 
-		[SerializeField, BoxGroup("Sprite Layers") ]
+		[SerializeField, BoxGroup("Sprite Layers")]
 		[Tooltip("Game object which represents the light layer of this door")]
 		private GameObject overlaySparks = null;
 		public GameObject OverlaySparks => overlaySparks;
 
-		[SerializeField, BoxGroup("Sprite Layers") ]
+		[SerializeField, BoxGroup("Sprite Layers")]
 		[Tooltip("Game object which represents the light layer of this door")]
 		private GameObject overlayLights = null;
 		public GameObject OverlayLights => overlayLights;
 
-		[SerializeField, BoxGroup("Sprite Layers") ]
+		[SerializeField, BoxGroup("Sprite Layers")]
 		[Tooltip("Game object which represents the fill layer of this door")]
 		private GameObject overlayFill = null;
 		public GameObject OverlayFill => overlayFill;
 
-		[SerializeField, BoxGroup("Sprite Layers") ]
+		[SerializeField, BoxGroup("Sprite Layers")]
 		[Tooltip("Game object which represents the welded and effects layer for this door")]
 		private GameObject overlayWeld = null;
 		public GameObject OverlayWeld => overlayWeld;
 
-		[SerializeField, BoxGroup("Sprite Layers") ]
+		[SerializeField, BoxGroup("Sprite Layers")]
 		[Tooltip("Game object which represents the hacking panel layer for this door")]
 		private GameObject overlayHacking = null;
 		public GameObject OverlayHacking => overlayHacking;
 
-		[SerializeField ]
+		[SerializeField]
 		[Tooltip("Time this door's opening animation takes")]
 		private float openingAnimationTime = 0.6f;
 
-		[SerializeField ]
+		[SerializeField]
 		[Tooltip("Time this door's closing animation takes")]
 		private float closingAnimationTime = 0.6f;
 
-		[SerializeField ]
+		[SerializeField]
 		[Tooltip("Time this door's denied animation takes")]
 		private float deniedAnimationTime = 0.6f;
 
-		[SerializeField ]
+		[SerializeField]
 		[Tooltip("Time this door's warning animation takes")]
 		private float warningAnimationTime = 0.6f;
 
-		[SerializeField ]
+		[SerializeField]
 		[Tooltip("How fraction of the door needs to be to be open to allow the player to slip through? (0 is none, 1 is fully open)")]
 		private float slipThroughScaler = 0.5f;
 		#endregion
 
+#region Initialization
 		[SyncVar(hook = nameof(SyncDoorStatus))] public DoorUpdateType SyncDoorUpdateType;
 		[SyncVar] public bool PanelOpen;
 		[SyncVar] public bool LightsWork;
@@ -100,20 +101,20 @@ namespace Doors
 			doorMasterController = this.GetComponent<DoorMasterController>();
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 
-			SetLayerData();
-
 			PanelOpen = false;
 			LightsWork = true;
+
+			SetLayerData();
 		}
 
 		/// <summary>
 		/// Sets the appropriate sorting and masking layer for the door
 		/// </summary>
-		private void SetLayerData()
+		public void SetLayerData()
 		{
 			openMaskingLayer = LayerMask.NameToLayer("Door Open");
 
-			// Windowed doors uses the windowed masking layer
+			// Windowed doors uses the windowed masking layer when closed
 			if (doorMasterController.isWindowedDoor == true)
 				closedMaskingLayer = LayerMask.NameToLayer("Windows");
 			else
@@ -132,6 +133,8 @@ namespace Doors
 			}
 		}
 
+#endregion
+
 		private async UniTaskVoid ChangeLayers(bool isClosing)
 		{
 			if (isClosing)
@@ -145,12 +148,15 @@ namespace Doors
 				doorMasterController.RegisterTile.SetNewSortingLayer(openSortingLayer);
 			}
 		}
-		
+
 		/// <summary>
 		/// Sets the masking layer of the door
 		/// </summary>
 		private void SetMaskingLayer(int layer)
 		{
+			// TODO: There is a nice visual effect if we don't do this for airlocks that are entered from North/South
+			// But East/West doors will occlude all vision, same with shutters from N/S. We could consider changing
+			// how doors interact with vision, but because of handling perspective angles it would be rather complicated
 			gameObject.layer = layer;
 			foreach (Transform child in transform)
 			{
@@ -175,51 +181,37 @@ namespace Doors
 		public void PlayAnimation(DoorUpdateType type, bool skipAnimation = false)
 		{
 			if (doorMasterController == null) return;
-			
+
 			if (type == DoorUpdateType.Open)
-			{
 				PlayOpeningAnimation(skipAnimation, PanelOpen, LightsWork).Forget();
-			}
+
 			else if (type == DoorUpdateType.Close)
-			{
 				PlayClosingAnimation(skipAnimation, PanelOpen, LightsWork).Forget();
-			}
+
 			else if (type == DoorUpdateType.AccessDenied)
-			{
 				PlayDeniedAnimation().Forget();
-			}
 
 			else if (type == DoorUpdateType.PressureWarn)
-			{
 				PlayPressureWarningAnimation().Forget();
-			}
 		}
 
-		public async UniTaskVoid PlayOpeningAnimation(bool skipAnimation = false, bool panelExposed = false, bool lights = true)
+		public async UniTaskVoid PlayOpeningAnimation(bool skipAnimation = false, bool panel = false, bool lights = true)
 		{
+			LightsWork = lights;
+			PanelOpen = panel;
 			AnimationStarted?.Invoke();
 
 			if (skipAnimation == false)
 			{
-				if (panelExposed)
-				{
-					overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.Opening, false);
-				}
-
-				if (lights)
-				{
-					overlayLightsHandler.SetCatalogueIndexSprite((int) Lights.Opening, false);
-				}
-				overlayFillHandler.SetCatalogueIndexSprite((int) DoorFrame.Opening, false);
-				doorBaseHandler.SetCatalogueIndexSprite((int) DoorFrame.Opening, false);
+				ToggleOpeningClosing(DoorFrame.Opening, Panel.Opening, Lights.Opening);
 
 				//Simulates being able slipping through door as its opening
-				if(slipThroughScaler > 0 && slipThroughScaler < 1)
+				if (slipThroughScaler > 0 && slipThroughScaler < 1)
 				{
 					await UniTask.WaitForSeconds(openingAnimationTime * slipThroughScaler);
 					SetMaskingLayer(openMaskingLayer);
 					AnimationOpened?.Invoke();
-					await UniTask.WaitForSeconds(openingAnimationTime * (1-slipThroughScaler));
+					await UniTask.WaitForSeconds(openingAnimationTime * (1 - slipThroughScaler));
 				}
 				else
 				{
@@ -233,52 +225,29 @@ namespace Doors
 				AnimationOpened?.Invoke();
 			}
 
-			// Change to open sprite after done opening
-			if (panelExposed)
-			{
-				overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.Open, false);
-			}
-			else
-			{
-				overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.NoPanel, false);
-			}
-
 			//Toggle layers after animation to hide firelocks behind door
-			ChangeLayers(false).Forget();
+			ChangeLayers(isClosing: false).Forget();
 
-			overlayLightsHandler.SetCatalogueIndexSprite((int) Lights.NoLight, false);
-			previousLightSprite = (int) Lights.NoLight;
-			overlayFillHandler.SetCatalogueIndexSprite((int) DoorFrame.Open, false);
-			doorBaseHandler.SetCatalogueIndexSprite((int) DoorFrame.Open, false);
+			ToggleDoorOpenClosed();
 
 			AnimationFinished?.Invoke();
 		}
 
-		public async UniTaskVoid PlayClosingAnimation(bool skipAnimation = false, bool panelExposed = false, bool lights = true)
+		public async UniTaskVoid PlayClosingAnimation(bool skipAnimation = false, bool panel = false, bool lights = true)
 		{
+			LightsWork = lights;
+			PanelOpen = panel;
 			AnimationStarted?.Invoke();
 
 			//Toggle layers before animation to show firelock close over door
-			ChangeLayers(true).Forget();
+			ChangeLayers(isClosing: true).Forget();
 
 			if (skipAnimation == false)
 			{
-				if (panelExposed)
-				{
-					overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.Closing, false);
-				}
-
-				if (lights)
-				{
-					overlayLightsHandler.SetCatalogueIndexSprite((int)Lights.Closing, false);
-					previousLightSprite = (int)Lights.Closing;
-				}
-
-				overlayFillHandler.SetCatalogueIndexSprite((int)DoorFrame.Closing, false);
-				doorBaseHandler.SetCatalogueIndexSprite((int)DoorFrame.Closing, false);
+				ToggleOpeningClosing(DoorFrame.Closing, Panel.Closing, Lights.Closing);
 
 				//Simulates being able slipping through door as its closing
-				if(slipThroughScaler > 0 && slipThroughScaler < 1)
+				if (slipThroughScaler > 0 && slipThroughScaler < 1)
 				{
 					await UniTask.WaitForSeconds(openingAnimationTime * (1 - slipThroughScaler));
 					SetMaskingLayer(closedMaskingLayer);
@@ -296,22 +265,48 @@ namespace Doors
 				AnimationClosed?.Invoke();
 			}
 
-			//Change to closed sprite after it is done closing
-			if (panelExposed)
+			ToggleDoorOpenClosed();
+
+			AnimationFinished?.Invoke();
+		}
+
+		private void ToggleOpeningClosing(DoorFrame action, Panel panel, Lights lights)
+		{
+			if (PanelOpen)
+				overlayHackingHandler.SetCatalogueIndexSprite((int)panel);
+
+			if (LightsWork)
 			{
-				overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.Closed, false);
+				overlayLightsHandler.SetCatalogueIndexSprite((int)lights);
+				previousLightSprite = (int)lights;
+			}
+
+			overlayFillHandler.SetCatalogueIndexSprite((int)action);
+			doorBaseHandler.SetCatalogueIndexSprite((int)action);
+		}
+
+		private void ToggleDoorOpenClosed()
+		{
+			if (doorMasterController.IsClosed)
+			{
+				//Change to closed sprite after it is done closing
+				if (PanelOpen) overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.Closed);
+				else overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.NoPanel);
+
+				overlayFillHandler.SetCatalogueIndexSprite((int)DoorFrame.Closed);
+				doorBaseHandler.SetCatalogueIndexSprite((int)DoorFrame.Closed);
 			}
 			else
 			{
-				overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.NoPanel, false);
+				if (PanelOpen) overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.Open);
+				else overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.NoPanel);
+
+				overlayFillHandler.SetCatalogueIndexSprite((int)DoorFrame.Open);
+				doorBaseHandler.SetCatalogueIndexSprite((int)DoorFrame.Open);
 			}
 
-			overlayLightsHandler.SetCatalogueIndexSprite((int) Lights.NoLight, false);
-			previousLightSprite = (int) Lights.NoLight;
-			overlayFillHandler.SetCatalogueIndexSprite((int) DoorFrame.Closed, false);
-			doorBaseHandler.SetCatalogueIndexSprite((int) DoorFrame.Closed, false);
-
-			AnimationFinished?.Invoke();
+			overlayLightsHandler.SetCatalogueIndexSprite((int)Lights.NoLight);
+			previousLightSprite = (int)Lights.NoLight;
 		}
 
 		public async UniTaskVoid PlayDeniedAnimation()
@@ -350,34 +345,43 @@ namespace Doors
 
 		public void TurnOffAllLights()
 		{
-			overlayLightsHandler.SetCatalogueIndexSprite((int) Lights.NoLight);
-			previousLightSprite = (int) Lights.NoLight;
+			overlayLightsHandler.SetCatalogueIndexSprite((int)Lights.NoLight);
+			previousLightSprite = (int)Lights.NoLight;
 		}
 
 		public void TurnOnBoltsLight()
 		{
-			overlayLightsHandler.SetCatalogueIndexSprite((int) Lights.BoltsLights);
-			previousLightSprite = (int) Lights.BoltsLights;
+			overlayLightsHandler.SetCatalogueIndexSprite((int)Lights.BoltsLights);
+			previousLightSprite = (int)Lights.BoltsLights;
 		}
 
 		public void AddWeldOverlay()
 		{
-			overlayWeldHandler.SetCatalogueIndexSprite((int) Weld.Weld);
+			overlayWeldHandler.SetCatalogueIndexSprite((int)Weld.Weld);
 		}
 
 		public void RemoveWeldOverlay()
 		{
-			overlayWeldHandler.SetCatalogueIndexSprite((int) Weld.NoWeld);
+			overlayWeldHandler.SetCatalogueIndexSprite((int)Weld.NoWeld);
 		}
 
 		public void AddPanelOverlay()
 		{
-			overlayHackingHandler.SetCatalogueIndexSprite((int) Panel.Closed);
+			PanelOpen = true;
+			overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.Closed);
 		}
 
 		public void RemovePanelOverlay()
 		{
-			overlayHackingHandler.SetCatalogueIndexSprite((int) Panel.NoPanel);
+			PanelOpen = false;
+			overlayHackingHandler.SetCatalogueIndexSprite((int)Panel.NoPanel);
+		}
+
+		public void ForceSpriteSync()
+		{
+			ToggleDoorOpenClosed();
+			SetMaskingLayer(doorMasterController.IsClosed ? closedMaskingLayer : openMaskingLayer);
+			ChangeLayers(doorMasterController.IsClosed).Forget();
 		}
 	}
 

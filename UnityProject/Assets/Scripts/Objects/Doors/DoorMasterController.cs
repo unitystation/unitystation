@@ -166,7 +166,6 @@ namespace Doors
 			access = GetComponentInChildren<AccessModule>();
 			electrifyModule = GetComponentInChildren<ElectrifiedDoorModule>();
 
-			//Initialize the door state
 			if (CustomNetworkManager.IsServer == true)
 			{
 				if (IsClosed) Close();
@@ -180,7 +179,19 @@ namespace Doors
 			HackingProcessBase.RegisterPort(Open, this.GetType());
 			HackingProcessBase.RegisterPort(TryBump, this.GetType());
 			HackingProcessBase.RegisterPort(AIConnection, this.GetType());
+
+			//This is needed so servers properly render doors with the IsOpen boolean toggled in mapping
+			if (CustomNetworkManager.IsServer)
+				doorAnimator.ForceSpriteSync();
 		}
+
+		public override void OnStartClient()
+		{
+			//This is needed for clients to get the proper door sprite state on load
+			registerTile.SubsystemManager.UpdateAt(registerTile.LocalPositionServer);
+			base.OnStartClient();
+        }
+
 		#endregion
 
 		#region Core Functionality

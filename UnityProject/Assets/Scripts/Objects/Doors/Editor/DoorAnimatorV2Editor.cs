@@ -61,12 +61,12 @@ namespace Doors.Editor
 			GUILayout.BeginHorizontal();
 			if (GUILayout.Button("Test opening animation"))
 			{
-				animator.PlayOpeningAnimation(panelExposed: panel, lights: lights).Forget();
+				animator.PlayOpeningAnimation(panel: panel, lights: lights).Forget();
 			}
 
 			if (GUILayout.Button("Test closing animation"))
 			{
-				animator.PlayClosingAnimation(panelExposed: panel, lights: lights).Forget();
+				animator.PlayClosingAnimation(panel: panel, lights: lights).Forget();
 			}
 			GUILayout.EndHorizontal();
 			#endregion
