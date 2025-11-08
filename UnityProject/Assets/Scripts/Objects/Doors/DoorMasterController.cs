@@ -257,7 +257,7 @@ namespace Doors
 		public void OpenInteraction(HandApply interaction)
 		{
 			// If there is nothing preventing the door from closing, try closing it
-			if (TryInteraction(interaction))
+			if (TryInteraction(interaction) && allowInteraction)
 			{
 				//If we are closing a door where clicks disable auto close, we want to re-enable autoclose
 				if (clickDisablesAutoClose)
