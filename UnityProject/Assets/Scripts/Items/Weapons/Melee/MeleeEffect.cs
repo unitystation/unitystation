@@ -3,6 +3,7 @@ using UnityEngine;
 using AddressableReferences;
 using NaughtyAttributes;
 using Systems.Construction.Parts;
+using Core.Physics;
 
 namespace Weapons
 {
@@ -54,6 +55,7 @@ namespace Weapons
 		private bool canEffect = true;
 
 		private int timer = 0;
+		private UniversalObjectPhysics uop;
 
 		//Send only one message per second.
 		private bool coolDownMessage;
@@ -80,14 +82,20 @@ namespace Weapons
 		[HideInInspector]
 		public ItemSlot batterySlot = null;
 
+		[Tooltip("The chance a thrown weapon will apply its special effect on hit (stun etc.)")]
+		public float thrownWeaponEffectChance = 0.35f;
+
 		public void Awake()
 		{
 			ItemStorage itemStorage = GetComponent<ItemStorage>();
+			uop = GetComponent<UniversalObjectPhysics>();
 
 			if (itemStorage != null && hasBattery)
 			{
 				batterySlot = itemStorage.GetIndexedItemSlot(0);
 			}
+
+			uop.OnHit.CachedAction += ProcessOnHit;
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -143,6 +151,60 @@ namespace Weapons
 				return;
 			}
 
+			RegisterPlayer registerPlayerVictim = target.GetComponent<RegisterPlayer>();
+
+			TryApplyEffect(interaction.Intent, performer, target, dir, registerPlayerVictim, wna, toggleableEffect);
+		}
+
+		#endregion
+
+		private void OnEnable()
+		{
+			UpdateManager.Add(Timer, 1f);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Timer);
+		}
+
+		private void OnDestroy()
+        {
+			if (uop != null)
+            {
+				uop.OnHit.CachedAction -= ProcessOnHit;
+            }
+        }
+
+		private void Timer()
+		{
+			if (timer == 0) return;
+
+			timer--;
+
+			coolDownMessage = false;
+
+			if (timer == 0)
+			{
+				canEffect = true;
+			}
+		}
+		public string Examine(Vector3 worldPos = default)
+		{
+			if (hasBattery)
+			{
+				if (Battery != null)
+				{
+					return $"Charge indicator shows a {Mathf.Round(Battery.Watts * 100 / Battery.MaxWatts)} percent charge.";
+
+				}
+				return "It does not contain a battery.";
+			}
+			return "";
+		}
+
+		private void CheckBattery(ToggleableEffect toggleableEffect)
+		{
 			if (canEffect && hasBattery)
 			{
 				if (Battery.Watts >= chargeUsage)
@@ -151,7 +213,7 @@ namespace Weapons
 				}
 				else
 				{
-					if(toggleableEffect != null)
+					if (toggleableEffect != null)
 					{
 						toggleableEffect.TurnOff();
 					}
@@ -160,8 +222,21 @@ namespace Weapons
 					canEffect = false;
 				}
 			}
+		}
 
-			RegisterPlayer registerPlayerVictim = target.GetComponent<RegisterPlayer>();
+		public void TryApplyEffect(Intent intent, GameObject performer, GameObject target, Vector2 dir, RegisterPlayer registerPlayerVictim, WeaponNetworkActions wna, ToggleableEffect toggleableEffect = null)
+		{
+			if (toggleableEffect == null)
+			{
+				toggleableEffect = gameObject.GetComponent<ToggleableEffect>();
+			}
+
+			if (toggleableEffect.CurrentWeaponState != ToggleableEffect.WeaponState.On)
+			{
+				return;
+			}
+
+			CheckBattery(toggleableEffect);
 
 			// Teleport and stun the victim (if needed). We check if there is a cooldown preventing the attacker from effecting the victim.
 			if (registerPlayerVictim && canEffect)
@@ -186,7 +261,7 @@ namespace Weapons
 				SoundManager.PlayNetworkedAtPos(useSound, target.transform.position, sourceObj: target.gameObject);
 
 				// Special case: If we're off harm intent (only teleporting and/or stunning), we should still show the lerp (unless we're hitting ourselves).
-				if (interaction.Intent != Intent.Harm && performer != target)
+				if (intent != Intent.Harm && performer != target)
 				{
 					wna.RpcMeleeAttackLerp(dir, gameObject);
 				}
@@ -195,7 +270,7 @@ namespace Weapons
 			{
 				if (coolDownMessage) return;
 				coolDownMessage = true;
-				if(hasBattery)
+				if (hasBattery)
 				{
 					Chat.AddExamineMsg(performer,
 						Battery.Watts >= chargeUsage
@@ -209,43 +284,14 @@ namespace Weapons
 			}
 		}
 
-		#endregion
-
-		private void OnEnable()
+		private void ProcessOnHit()
 		{
-			UpdateManager.Add(Timer, 1f);
-		}
-
-		private void OnDisable()
-		{
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Timer);
-		}
-
-		private void Timer()
-		{
-			if (timer == 0) return;
-
-			timer--;
-
-			coolDownMessage = false;
-
-			if (timer == 0)
+			RegisterPlayer registerPlayerVictim = uop.LastHitContext.target?.GetComponent<RegisterPlayer>();
+			WeaponNetworkActions wna = uop.LastHitContext.perpetrator?.GetComponent<WeaponNetworkActions>();
+			if (registerPlayerVictim != null && wna != null && UnityEngine.Random.value <= thrownWeaponEffectChance)
 			{
-				canEffect = true;
+				TryApplyEffect(Intent.Harm, uop.LastHitContext.perpetrator, uop.LastHitContext.target, Vector2.zero, registerPlayerVictim, wna);
 			}
-		}
-		public string Examine(Vector3 worldPos = default)
-		{
-			if (hasBattery)
-			{
-				if ( Battery != null)
-				{
-					return $"Charge indicator shows a {Mathf.Round(Battery.Watts*100/Battery.MaxWatts)} percent charge.";
-
-				}
-				return "It does not contain a battery.";
-			}
-			return "";
 		}
 	}
 }
