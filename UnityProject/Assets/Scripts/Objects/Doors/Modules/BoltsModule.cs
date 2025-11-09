@@ -46,8 +46,6 @@ namespace Doors.Modules
 		{
 			boltsDown = state;
 
-			master.ToggleBlockAutoClose(state);
-
 			master.SoundController.ServerPlaySound(boltsDown ? DoorSoundController.DoorSoundType.BoltsDown : DoorSoundController.DoorSoundType.BoltsUp);
 
 			if (boltsDown && CanShowLights)
@@ -83,7 +81,7 @@ namespace Doors.Modules
 				if (interaction.UsedObject.GetComponent<ItemAttributesV2>().HasTrait(IDToggleCard))
 				{
 					PulseToggleBolts();
-					States.Add(DoorProcessingStates.SoftwarePrevented);
+					States.Add(DoorProcessingStates.PreventSilently);
 				}
 
 				if (PulsePreventBoltsFall())
@@ -107,7 +105,7 @@ namespace Doors.Modules
 				if (interaction.UsedObject.GetComponent<ItemAttributesV2>().HasTrait(IDToggleCard))
 				{
 					PulseToggleBolts();
-					States.Add(DoorProcessingStates.SoftwarePrevented);
+					States.Add(DoorProcessingStates.PreventSilently);
 				}
 			}
 

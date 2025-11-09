@@ -12,7 +12,7 @@ using Util;
 	public class RegisterDoor : RegisterTile
 	{
 		private MatrixSystemManager subsystemManager;
-		private MatrixSystemManager SubsystemManager => subsystemManager ? subsystemManager : subsystemManager = GetComponentInParent<MatrixSystemManager>();
+		public MatrixSystemManager SubsystemManager => subsystemManager ? subsystemManager : subsystemManager = GetComponentInParent<MatrixSystemManager>();
 
 		private TileChangeManager tileChangeManager;
 

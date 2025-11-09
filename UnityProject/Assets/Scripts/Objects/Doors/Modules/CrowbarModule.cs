@@ -14,14 +14,11 @@ namespace Doors.Modules
 		[SerializeField] [Tooltip("Can you crowbar pry the door when there no power")]
 		private bool crowbarRequiresNoPower = true;
 
-		private string doorName;
 		private WeldModule weldModule;
 
 		protected override void Awake()
 		{
 			base.Awake();
-
-			doorName = transform.parent.gameObject.ExpensiveName();
 
 			weldModule = GetComponentInChildren<WeldModule>();
 		}
@@ -103,8 +100,8 @@ namespace Doors.Modules
 				}
 
 				ToolUtils.ServerUseToolWithActionMessages(interaction, pryTime,
-					$"You start {verbage[3]} the {doorName} {verbage[4]}...",
-					$"{verbage[0]} starts {verbage[3]} the {doorName} {verbage[4]}...",
+					$"You start {verbage[3]} the {master.DoorName} {verbage[4]}...",
+					$"{verbage[0]} starts {verbage[3]} the {master.DoorName} {verbage[4]}...",
 					$"",
 					$"",
 					() => TryPry(interaction, verbage), onFailComplete: OnFailPry, playSound: false);
@@ -114,8 +111,8 @@ namespace Doors.Modules
 				master.SoundController.ServerPlaySound(DoorSoundController.DoorSoundType.HandPry);
 
 				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You start {verbage[3]} the {doorName} {verbage[4]}...",
-					$"{verbage[0]} starts {verbage[3]} the {doorName} {verbage[4]} with {verbage[1]} {verbage[2]}...");
+					$"You start {verbage[3]} the {master.DoorName} {verbage[4]}...",
+					$"{verbage[0]} starts {verbage[3]} the {master.DoorName} {verbage[4]} with {verbage[1]} {verbage[2]}...");
 
 				var cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction);
 
@@ -135,8 +132,8 @@ namespace Doors.Modules
 			if ((crowbarRequiresNoPower && master.HasPower) &&
 				(Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) == false))
 			{
-				Chat.AddActionMsgToChat(interaction.Performer, $"The {doorName} does not budge at all!",
-				$"{verbage[0]} tries to {verbage[5]} the {doorName} {verbage[4]} and fails!");
+				Chat.AddActionMsgToChat(interaction.Performer, $"The {master.DoorName} does not budge at all!",
+				$"{verbage[0]} tries to {verbage[5]} the {master.DoorName} {verbage[4]} and fails!");
 				return;
 			}
 
@@ -153,13 +150,13 @@ namespace Doors.Modules
 				if (master.TryForceOpen())
 				{
 					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You pry the {doorName} open with your {verbage[2]}!",
-						$"{verbage[0]} pries the {doorName} open with {verbage[1]} {verbage[2]}!");
+						$"You pry the {master.DoorName} open with your {verbage[2]}!",
+						$"{verbage[0]} pries the {master.DoorName} open with {verbage[1]} {verbage[2]}!");
 				}
 				else
 				{
-					Chat.AddActionMsgToChat(interaction.Performer, $"The {doorName} does not budge at all!",
-						$"{verbage[0]} tries to pry the {doorName} open and fails!");
+					Chat.AddActionMsgToChat(interaction.Performer, $"The {master.DoorName} does not budge at all!",
+						$"{verbage[0]} tries to pry the {master.DoorName} open and fails!");
 				}
 			}
 		}
