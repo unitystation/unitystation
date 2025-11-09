@@ -10,6 +10,7 @@ using UnityEngine.EventSystems;
 using Weapons;
 using Objects.Wallmounts;
 using Player.Movement;
+using PlayerSpritesStuff;
 using Tilemaps.Behaviours.Layers;
 using UI;
 using UI.Action;
