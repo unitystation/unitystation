@@ -24,6 +24,12 @@ PrefabInstance:
       propertyPath: initialVariantIndex
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6dda2899405f60f41b278475aa065caa,
+        type: 2}
     - target: {fileID: 1817806423449182988, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: parentID
@@ -156,6 +162,12 @@ PrefabInstance:
       propertyPath: ClothingHide
       value: 256
       objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: SpritePrefab
+      value: 
+      objectReference: {fileID: 6942059413232065587, guid: e8b6e62b5bddd3c41b86fa61d898ac8b,
+        type: 3}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: wasteReagent

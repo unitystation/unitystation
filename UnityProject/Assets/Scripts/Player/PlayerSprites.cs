@@ -379,6 +379,28 @@ namespace Player
 			UpdateBurningOverlays(newStacks, directional.CurrentDirection);
 		}
 
+		public void OnDirectionChangeHead(OrientationEnum direction)
+		{
+			//update the clothing sprites
+			foreach (var clothingItem in clothes.Values)
+			{
+				if (clothingItem.Slot is NamedSlot.ear or NamedSlot.eyes or NamedSlot.head or NamedSlot.mask
+				    or NamedSlot.neck)
+				{
+					clothingItem.Direction = direction;
+				}
+			}
+
+			foreach (var bodypart in Addedbodypart)
+			{
+				if (bodypart.BodyPartType is BodyPartType.Eyes or BodyPartType.Ears or BodyPartType.Head
+				    or BodyPartType.Mouth)
+				{
+					bodypart.OnDirectionChange(direction);
+				}
+			}
+		}
+
 		private void OnDirectionChange(OrientationEnum direction)
 		{
 			//update the clothing sprites
