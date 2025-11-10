@@ -32,6 +32,10 @@ namespace Unitystation.Options
 
 		[SerializeField] private Toggle DropShadow = null;
 
+		[SerializeField] private Toggle ShuttleRadaRotation = null;
+
+		public bool ItIsRefreshing = false;
+
 		void OnEnable()
 		{
 			DisplaySettings.Instance.SettingsChanged += DisplaySettings_SettingsChanged;
@@ -53,6 +57,7 @@ namespace Unitystation.Options
 		/// </summary>
 		void RefreshForm()
 		{
+			ItIsRefreshing = true;
 			fullscreenToggle.isOn = DisplaySettings.Instance.IsFullScreen;
 
 			bool vSync = DisplaySettings.Instance.VSyncEnabled;
@@ -71,15 +76,33 @@ namespace Unitystation.Options
 
 			if (PlayerPrefs.HasKey(PlayerPrefKeys.ItemDropShadow) == false)
 			{
-				PlayerPrefs.SetString(PlayerPrefKeys.ItemDropShadow, "true");
+				PlayerPrefs.SetString(PlayerPrefKeys.ItemDropShadow,  true.ToString());
 			}
 
 			DropShadow.isOn = bool.Parse(PlayerPrefs.GetString(PlayerPrefKeys.ItemDropShadow));
+
+
+			if (PlayerPrefs.HasKey(PlayerPrefKeys.ShuttleRadarRotation) == false)
+			{
+				PlayerPrefs.SetString(PlayerPrefKeys.ShuttleRadarRotation,  true.ToString());
+			}
+
+			ShuttleRadaRotation.isOn = bool.Parse(PlayerPrefs.GetString(PlayerPrefKeys.ShuttleRadarRotation));
+
+			ItIsRefreshing = false;
 		}
 
 
+		public void SetShuttleRadaRotation(bool State)
+		{
+			if (ItIsRefreshing) return;
+			PlayerPrefs.SetString(PlayerPrefKeys.ShuttleRadarRotation, State.ToString());
+			ShuttleCameraRenderer.instance.RotateCamera = State;
+		}
+
 		public void SetItemDropShadow(bool State)
 		{
+			if (ItIsRefreshing) return;
 			LoadManager.Instance.SetMaterialStatus(State);
 		}
 

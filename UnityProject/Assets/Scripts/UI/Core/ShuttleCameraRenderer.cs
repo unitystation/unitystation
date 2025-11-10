@@ -19,6 +19,8 @@ public class ShuttleCameraRenderer : MonoBehaviour
 
 	private Vector3 MatrixCashedPosition;
 
+	public bool RotateCamera = true;
+
 	void Start()
 	{
 
@@ -47,6 +49,12 @@ public class ShuttleCameraRenderer : MonoBehaviour
 		);
 		RenderTexture.active  = null;
 
+
+		if (PlayerPrefs.HasKey(PlayerPrefKeys.ShuttleRadarRotation) == false)
+		{
+			PlayerPrefs.SetString(PlayerPrefKeys.ShuttleRadarRotation, true.ToString());
+		}
+		RotateCamera = bool.Parse(PlayerPrefs.GetString(PlayerPrefKeys.ShuttleRadarRotation));
 	}
 
 	public void Update()
@@ -81,14 +89,20 @@ public class ShuttleCameraRenderer : MonoBehaviour
 
 		if (PlayerManager.LocalPlayerObject != null)
 		{
-			var MatrixMove = PlayerManager.LocalPlayerObject.GetComponentInParent<MatrixMove>();
-			if (MatrixMove != null)
+			if (RotateCamera)
 			{
-				float angleInRadians = Mathf.Atan2(MatrixMove.NetworkedMatrixMove.ForwardsDirection.y, MatrixMove.NetworkedMatrixMove.ForwardsDirection.x);
-				float angleInDegrees = angleInRadians * Mathf.Rad2Deg; ;
-				renderCamera.transform.localRotation = Quaternion.Euler(new Vector3(0,0, angleInDegrees-90));
+				var MatrixMove = PlayerManager.LocalPlayerObject.GetComponentInParent<MatrixMove>();
+				if (MatrixMove != null)
+				{
+					float angleInRadians = Mathf.Atan2(MatrixMove.NetworkedMatrixMove.ForwardsDirection.y, MatrixMove.NetworkedMatrixMove.ForwardsDirection.x);
+					float angleInDegrees = angleInRadians * Mathf.Rad2Deg; ;
+					renderCamera.transform.localRotation = Quaternion.Euler(new Vector3(0,0, angleInDegrees-90));
+				}
 			}
-
+			else
+			{
+				renderCamera.transform.localRotation = Quaternion.Euler(new Vector3(0,0, 0));
+			}
 		}
 
 		// Set the Render Texture to the camera
