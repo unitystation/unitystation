@@ -232,4 +232,6 @@
 
 
 	public const string LanguagePreference = "LanguagePreference";
+
+	public const string ShuttleRadarRotation = "ShuttleRadarRotationCamera";
 }

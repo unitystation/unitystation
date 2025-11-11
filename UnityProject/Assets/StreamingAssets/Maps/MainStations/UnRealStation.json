@@ -117630,12 +117630,6 @@
             }
           },
           {
-            "GitID": "All-In-One Grinder_4.81┼63.19┼-0.2┼",
-            "PrefabID": "All-In-One Grinder",
-            "Name": "All-In-One Grinder (1)",
-            "LocalPRS": "4.81┼63.19┼-0.2┼"
-          },
-          {
             "GitID": "1796036e10808334798ef3fb0f911623_4.99┼59.07┼0┼",
             "PrefabID": "1796036e10808334798ef3fb0f911623",
             "Name": "BlueprintMonkey (1)",
@@ -117809,6 +117803,12 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "All-In-One Grinder_5┼63┼0┼",
+            "PrefabID": "All-In-One Grinder",
+            "Name": "All-In-One Grinder (1)",
+            "LocalPRS": "5┼63┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_5┼63┼0┼",
@@ -121239,6 +121239,18 @@
             "LocalPRS": "14.07┼83.24┼0┼"
           },
           {
+            "GitID": "0af3fb6f8543f0b4b914da932bd18ea0_14.79┼56.26┼0┼",
+            "PrefabID": "0af3fb6f8543f0b4b914da932bd18ea0",
+            "Name": "CyborgRightArm (1)",
+            "LocalPRS": "14.79┼56.26┼0┼"
+          },
+          {
+            "GitID": "0af3fb6f8543f0b4b914da932bd18ea0_14.8┼55.86┼0┼",
+            "PrefabID": "0af3fb6f8543f0b4b914da932bd18ea0",
+            "Name": "CyborgRightArm (4)",
+            "LocalPRS": "14.8┼55.86┼0┼"
+          },
+          {
             "GitID": "a3073526fd40c7d42b394e3def74809b_14.94┼61.97┼0┼",
             "PrefabID": "a3073526fd40c7d42b394e3def74809b",
             "Name": "ComputerBoardCloningConsole (1)",
@@ -121823,6 +121835,18 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "0af3fb6f8543f0b4b914da932bd18ea0_15.22┼55.86┼0┼",
+            "PrefabID": "0af3fb6f8543f0b4b914da932bd18ea0",
+            "Name": "CyborgRightArm (3)",
+            "LocalPRS": "15.22┼55.86┼0┼"
+          },
+          {
+            "GitID": "0af3fb6f8543f0b4b914da932bd18ea0_15.22┼56.26┼0┼",
+            "PrefabID": "0af3fb6f8543f0b4b914da932bd18ea0",
+            "Name": "CyborgRightArm (2)",
+            "LocalPRS": "15.22┼56.26┼0┼"
           },
           {
             "GitID": "0fbbae3a2eb179546a6cbd7c92b4a1cb_15.43┼62.25┼0┼",
@@ -128703,12 +128727,6 @@
             }
           },
           {
-            "GitID": "All-In-One Grinder_26.93┼75.3┼-0.2┼",
-            "PrefabID": "All-In-One Grinder",
-            "Name": "All-In-One Grinder (1)",
-            "LocalPRS": "26.93┼75.3┼-0.2┼"
-          },
-          {
             "GitID": "11c3adf2fac4de349b072587d490a5dc_26.98┼76.1┼0┼",
             "PrefabID": "11c3adf2fac4de349b072587d490a5dc",
             "Name": "MushroomBowl (1)",
@@ -129327,6 +129345,12 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "All-In-One Grinder_27┼75┼0┼",
+            "PrefabID": "All-In-One Grinder",
+            "Name": "All-In-One Grinder (1)",
+            "LocalPRS": "27┼75┼0┼"
           },
           {
             "GitID": "cbae9a210d638ba4b9402e836c970fa2_27┼79┼0┼",
@@ -159184,7 +159208,24 @@
             "GitID": "e9197b807d4768e45bf9af095eb9d575_89.82┼51.85┼0┼",
             "PrefabID": "e9197b807d4768e45bf9af095eb9d575",
             "Name": "PirateOutfit (1)",
-            "LocalPRS": "89.82┼51.85┼0┼"
+            "LocalPRS": "89.82┼51.85┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ItemSlotActionTracker@0",
+                  "Data": [
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "SecureStuff.SerializedAction"
+                    },
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "#removed#"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "53f4aae14f6dbf24f831146d4c4fb2b7_89.93┼52.23┼0┼",

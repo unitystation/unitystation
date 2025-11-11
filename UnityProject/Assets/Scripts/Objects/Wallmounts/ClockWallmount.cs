@@ -90,6 +90,11 @@ namespace Objects.Wallmounts
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
+			if (interaction.Intent != Intent.Help)
+			{
+				return false;
+			}
+
 			return DefaultWillInteract.Default(interaction, side);
 		}
 

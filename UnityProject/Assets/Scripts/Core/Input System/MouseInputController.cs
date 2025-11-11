@@ -10,6 +10,7 @@ using UnityEngine.EventSystems;
 using Weapons;
 using Objects.Wallmounts;
 using Player.Movement;
+using PlayerSpritesStuff;
 using Tilemaps.Behaviours.Layers;
 using UI;
 using UI.Action;
@@ -55,6 +56,7 @@ public class MouseInputController : MonoBehaviour
 	private readonly List<Vector2> touchesToDitch = new List<Vector2>();
 	private MovementSynchronisation playerMove;
 	private Rotatable playerDirectional;
+	private HeadRotatable HeadRotatable;
 
 	/// reference to the global lighting system, used to check occlusion
 	private LightingSystem lightingSystem;
@@ -106,6 +108,7 @@ public class MouseInputController : MonoBehaviour
 	{
 		//for changing direction on click
 		playerDirectional = gameObject.GetComponent<Rotatable>();
+		HeadRotatable = gameObject.GetComponent<HeadRotatable>();
 		playerMove = GetComponent<MovementSynchronisation>();
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 	}
@@ -654,7 +657,7 @@ public class MouseInputController : MonoBehaviour
 						$"Forcefully updated atmos at worldPos {position}/ localPos {localPos} of {matrix.Name}");
 				});
 
-				Chat.AddActionMsgToChat(PlayerManager.LocalPlayerObject, "Ping " + DateTime.Now.ToFileTimeUtc());
+
 			}
 
 			return true;
@@ -697,7 +700,16 @@ public class MouseInputController : MonoBehaviour
 			if (!EventSystem.current.IsPointerOverGameObject() && playerMove.AllowInput &&
 			    playerMove.BuckledToObject == null)
 			{
-				playerDirectional.OrNull()?.SetFaceDirectionLocalVector(dir.RoundTo2Int());
+
+				if (KeyboardInputManager.IsShiftPressed() == false)
+				{
+					playerDirectional.OrNull()?.SetFaceDirectionLocalVector(dir.RoundTo2Int());
+				}
+				else
+				{
+					HeadRotatable.OrNull()?.SetFaceDirectionLocalVector(dir.RoundTo2Int());
+				}
+
 			}
 		}
 		else

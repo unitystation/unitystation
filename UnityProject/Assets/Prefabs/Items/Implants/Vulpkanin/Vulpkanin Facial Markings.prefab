@@ -112,6 +112,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2378934203328871246, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
         type: 3}
+      propertyPath: SpritePrefab
+      value: 
+      objectReference: {fileID: 6942059413232065587, guid: e8b6e62b5bddd3c41b86fa61d898ac8b,
+        type: 3}
+    - target: {fileID: 2378934203328871246, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
+        type: 3}
       propertyPath: LobbyCustomisation
       value: 
       objectReference: {fileID: 7311007552350428261, guid: 22e6a5834bfc7f74282f8bad1cc9cb7f,
@@ -142,6 +148,12 @@ PrefabInstance:
       propertyPath: initialVariantIndex
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4935539326687624021, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6dda2899405f60f41b278475aa065caa,
+        type: 2}
     - target: {fileID: 5296840151121956031, guid: 1ce21cfcc54d23d42825f0d4a9b15d49,
         type: 3}
       propertyPath: parentID

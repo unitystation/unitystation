@@ -52,13 +52,6 @@ MonoBehaviour:
     spawnAmount: 1
     onePerTile: 0
     facePlayerDirectionOnConstruction: 0
-  - name: Wooden Table Frame
-    prefab: {fileID: 722470636391152515, guid: 178838c1c5b3f8c4f9bb61f39ce55541, type: 3}
-    cost: 2
-    buildTime: 1
-    spawnAmount: 1
-    onePerTile: 1
-    facePlayerDirectionOnConstruction: 0
   - name: Loom
     prefab: {fileID: 7895689148789113393, guid: c55c5c61d4350f947afe9a811de8c5c2,
       type: 3}
@@ -107,3 +100,27 @@ MonoBehaviour:
     spawnAmount: 1
     onePerTile: 1
     facePlayerDirectionOnConstruction: 0
+  - name: Pew Middle
+    prefab: {fileID: 3031236389240000355, guid: d94571a8a4d4d0946ad8ac3c092971e8,
+      type: 3}
+    cost: 3
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+    facePlayerDirectionOnConstruction: 1
+  - name: Pew Right
+    prefab: {fileID: 8195523075220875582, guid: fbd124bf6338aaf4c80061def5cac102,
+      type: 3}
+    cost: 3
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+    facePlayerDirectionOnConstruction: 1
+  - name: Pew Left
+    prefab: {fileID: 8195523075220875582, guid: 250d15c9500411c4fb12c3f650b2d2fc,
+      type: 3}
+    cost: 3
+    buildTime: 5
+    spawnAmount: 1
+    onePerTile: 1
+    facePlayerDirectionOnConstruction: 1

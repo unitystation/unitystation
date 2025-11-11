@@ -502,6 +502,7 @@ GameObject:
   - component: {fileID: 5004798331138800037}
   - component: {fileID: 8218340658487575790}
   - component: {fileID: 7498047547275951016}
+  - component: {fileID: 3913575896194237634}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -2111,6 +2112,25 @@ MonoBehaviour:
   syncInterval: 0
   <ActionButtonOnType>k__BackingField: 0
   <ActionButtonRefreshRate>k__BackingField: 0.25
+--- !u!114 &3913575896194237634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75183003a7ccb0d4c9c31fe690bc56c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  Rotatable: {fileID: 114449635359748350}
+  PlayerSprites: {fileID: 114285118255153820}
+  Cdirection: 0
+  SynchroniseCurrentDirection: 0
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0

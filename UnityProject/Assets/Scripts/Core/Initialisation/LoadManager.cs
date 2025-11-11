@@ -75,7 +75,7 @@ namespace Initialisation
 			{
 				if (PlayerPrefs.HasKey(PlayerPrefKeys.ItemDropShadow) == false)
 				{
-					PlayerPrefs.SetString(PlayerPrefKeys.ItemDropShadow, "true");
+					PlayerPrefs.SetString(PlayerPrefKeys.ItemDropShadow, true.ToString());
 				}
 				Shadow = bool.Parse(PlayerPrefs.GetString(PlayerPrefKeys.ItemDropShadow));
 			}
