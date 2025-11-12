@@ -278,6 +278,7 @@ namespace Systems.Character
 
 		public async Task LoadOnlineCharacters()
 		{
+			if (CustomNetworkManager.IsHeadless) return;
 			try
 			{
 				ApiResult<AccountGetCharacterSheets> accountResponse =

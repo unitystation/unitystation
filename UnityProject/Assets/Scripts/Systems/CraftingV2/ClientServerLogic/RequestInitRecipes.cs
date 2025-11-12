@@ -18,7 +18,6 @@ namespace Systems.CraftingV2.ClientServerLogic
 
 			if (SentByPlayer.Script == null)
 			{
-				Loggy.Error($"{SentByPlayer.Username} has null script and asked for recipes");
 				return;
 			}
 
