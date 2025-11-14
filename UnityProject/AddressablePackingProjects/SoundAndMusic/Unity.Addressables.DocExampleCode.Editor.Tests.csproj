@@ -12,11 +12,11 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{cb93f98a-d4fb-d294-620d-ea9cc92cf9f3}</ProjectGuid>
+    <ProjectGuid>{ac172a05-f338-45f8-00a2-5be14bab358f}</ProjectGuid>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Unity.TextMeshPro.Editor</AssemblyName>
+    <AssemblyName>Unity.Addressables.DocExampleCode.Editor.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>.</BaseDirectory>
@@ -25,8 +25,8 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>Temp\Bin\Debug\Unity.TextMeshPro.Editor\</OutputPath>
-    <DefineConstants>UNITY_6000_2_10;UNITY_6000_2;UNITY_6000;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;UNITY_2022_2_OR_NEWER;UNITY_2022_3_OR_NEWER;UNITY_2023_1_OR_NEWER;UNITY_2023_2_OR_NEWER;UNITY_2023_3_OR_NEWER;UNITY_6000_0_OR_NEWER;UNITY_6000_1_OR_NEWER;UNITY_6000_2_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_UNITY_CONSENT;ENABLE_UNITY_CLOUD_IDENTIFIERS;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_EDITOR_GAME_SERVICES;ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_MARSHALLING_TESTS;ENABLE_VIDEO;ENABLE_NAVIGATION_OFFMESHLINK_TO_NAVMESHLINK;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;TEXTCORE_1_0_OR_NEWER;EDITOR_ONLY_NAVMESH_BUILDER_DEPRECATED;PLATFORM_STANDALONE_WIN;PLATFORM_STANDALONE;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_AMD;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_CLOUD_SERVICES_ENGINE_DIAGNOSTICS;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;PLATFORM_USES_EXPLICIT_MEMORY_MANAGER_INITIALIZER;PLATFORM_SUPPORTS_WAIT_FOR_PRESENTATION;PLATFORM_SUPPORTS_SPLIT_GRAPHICS_JOBS;ENABLE_MONO;NET_4_6;NET_UNITY_4_8;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;TEXTCORE_FONT_ENGINE_1_5_OR_NEWER;TEXTCORE_TEXT_ENGINE_1_5_OR_NEWER;ENABLE_JSON_CATALOG;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER;UNITY_EDITOR_ONLY_COMPILATION</DefineConstants>
+    <OutputPath>Temp\Bin\Debug\Unity.Addressables.DocExampleCode.Editor.Tests\</OutputPath>
+    <DefineConstants>UNITY_6000_2_10;UNITY_6000_2;UNITY_6000;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_2019_4_OR_NEWER;UNITY_2020_1_OR_NEWER;UNITY_2020_2_OR_NEWER;UNITY_2020_3_OR_NEWER;UNITY_2021_1_OR_NEWER;UNITY_2021_2_OR_NEWER;UNITY_2021_3_OR_NEWER;UNITY_2022_1_OR_NEWER;UNITY_2022_2_OR_NEWER;UNITY_2022_3_OR_NEWER;UNITY_2023_1_OR_NEWER;UNITY_2023_2_OR_NEWER;UNITY_2023_3_OR_NEWER;UNITY_6000_0_OR_NEWER;UNITY_6000_1_OR_NEWER;UNITY_6000_2_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_VIRTUALTEXTURING;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_UNITY_CONSENT;ENABLE_UNITY_CLOUD_IDENTIFIERS;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_NATIVE_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_EDITOR_GAME_SERVICES;ENABLE_UNITY_GAME_SERVICES_ANALYTICS_SUPPORT;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_GENERATE_NATIVE_PLUGINS_FOR_ASSEMBLIES_API;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;ENABLE_MANAGED_UNITYTLS;INCLUDE_DYNAMIC_GI;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_MARSHALLING_TESTS;ENABLE_VIDEO;ENABLE_NAVIGATION_OFFMESHLINK_TO_NAVMESHLINK;ENABLE_ACCELERATOR_CLIENT_DEBUGGING;TEXTCORE_1_0_OR_NEWER;EDITOR_ONLY_NAVMESH_BUILDER_DEPRECATED;PLATFORM_STANDALONE_WIN;PLATFORM_STANDALONE;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_NVIDIA;ENABLE_AMD;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_CLOUD_SERVICES_ENGINE_DIAGNOSTICS;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;PLATFORM_UPDATES_TIME_OUTSIDE_OF_PLAYER_LOOP;GFXDEVICE_WAITFOREVENT_MESSAGEPUMP;PLATFORM_USES_EXPLICIT_MEMORY_MANAGER_INITIALIZER;PLATFORM_SUPPORTS_WAIT_FOR_PRESENTATION;PLATFORM_SUPPORTS_SPLIT_GRAPHICS_JOBS;ENABLE_MONO;NET_4_6;NET_UNITY_4_8;ENABLE_PROFILER;DEBUG;TRACE;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;TEXTCORE_FONT_ENGINE_1_5_OR_NEWER;TEXTCORE_TEXT_ENGINE_1_5_OR_NEWER;ENABLE_JSON_CATALOG;NONRECURSIVE_DEPENDENCY_DATA;ENABLE_ADDRESSABLE_PROFILER;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER;UNITY_EDITOR_ONLY_COMPILATION</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169,0649</NoWarn>
@@ -46,62 +46,92 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\6000.2.10f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.UIToolkit.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_BitmapShaderGUI.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_EditorUtility.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_EditorResourceManager.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\PropertyDrawers\TMP_MarkToMarkAdjustmentRecordPropertyDrawer.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\PropertyDrawers\GlyphMetricsPropertyDrawer.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_SpriteAssetImporter.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_SettingsEditor.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\PropertyDrawers\TMP_SpriteCharacterPropertyDrawer.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_StyleSheetEditor.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\HDRP\TMP_BaseHDRPLitShaderGUI.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_ColorGradientEditor.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\PropertyDrawers\GlyphPairAdjustmentRecordPropertyDrawer.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\HDRP\TMP_SDF_HDRPLitShaderGUI.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_DropdownEditor.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMPro_TexturePostProcessor.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\PropertyDrawers\DropdownOptionListDrawer.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\PropertyDrawers\LigatureSubstitutionRecordPropertyDrawer.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMPro_ContextMenus.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMPro_EditorShaderUtilities.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_SubMeshUI_Editor.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_ProjectTextSettings.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_InputFieldEditor.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_SpriteAssetEditor.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_FontAssetEditor.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\PropertyDrawers\TMP_TextAlignmentDrawer.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_StyleAssetMenu.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\PropertyDrawers\GlyphRectPropertyDrawer.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_SDFShaderGUI.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_FontAsset_CreationMenu.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\PropertyDrawers\TMP_CharacterPropertyDrawer.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\HDRP\TMP_SDF_HDRPUnlitShaderGUI.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_MarkupTagUpdateUtility.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_SpriteAssetMenu.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\HDRP\TMP_BaseHDRPUnlitShaderGUI.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_PostBuildProcessHandler.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\PropertyDrawers\TMP_MarkToBaseAdjustmentRecordPropertyDrawer.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMPro_SortingLayerHelper.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_BaseShaderGUI.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_EditorCoroutine.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_EditorPanelUI.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_BaseEditorPanel.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_UIStyleManager.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_ColorGradientAssetMenu.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\PropertyDrawers\TMP_SpriteGlyphPropertyDrawer.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_ResourcesLoader.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMPro_CreateObjectMenu.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_PackageUtilities.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_PreBuildProcessor.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\PropertyDrawers\TMP_GlyphPropertyDrawer.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_SubMesh_Editor.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_SerializedPropertyHolder.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMPro_TextContainerEditor.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\PropertyDrawers\TMP_PropertyDrawerUtilities.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMP_EditorPanel.cs" />
-    <Compile Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\TMPro_FontAssetCreatorWindow.cs" />
-    <None Include="Library\PackageCache\com.unity.ugui@7056cb05de4c\Editor\TMP\Unity.TextMeshPro.Editor.asmdef" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingLoadResourceLocationsAsync.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingLoadAssetsAsync.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingInstantiate.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\LoadLocation.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\IDTransformer.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingInstantiateAsync.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\InstantiateAsset.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingDownloadDependencies.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\LoadMultiple.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingClearDependencyCacheAsync.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\AsynchronousLoading.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\BuildLauncher.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingLoadContentCatalogAsync.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingResourceManager.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingResolveInternalId.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingStreamingAssetsSubFolder.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingGetDownloadSizeAsync.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingRuntimePath.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\ContentBuiltCheck.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingInitializationOperation.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingPlayerBuildDataPath.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\LoadWithAddress.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\MiscellaneousTopics.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingLoadAssets.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingLoadSceneAsync.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingBuildPath.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\CustomDataBuilder.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\DownloadError.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingLog.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingLoadAssetAsync.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\AddExceptionHandler.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\WebRequestOverride.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\OperationHandleTypes.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingCleanBundleCache.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\InstantiateReference.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingCreateCatalogLocationWithHashDependencies.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\DeclaringReferences.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\LoadWithTask.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingInstanceProvider.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingLogWarning.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\LoadSynchronously.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingLogFormat.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\BatchBuild.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingWebRequestOverride.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingLogException.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingAddResourceLocator.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\LoadReference.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingDownloadDependenciesAsync.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\LoadScene.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\MyRule.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\LoadSingle.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingAssetRefSpriteValidateAsset.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingLoadResourceLocations.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingRelease.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\PreloadWithProgress.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\CustomBuildScript.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingUnloadSceneAsync.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingLogWarningFormat.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingInternalIdTransformFunc.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingClearResourceLocators.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\PrintBucketInformation.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\LoadWithIEnumerator.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingDefaultSchemaSettingsBuildTargetGroup.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\LoadWithLabels.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingInitialize.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingCheckForCatalogUpdates.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingLoadContentCatalog.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingInitializeAsync.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\LoadWithReference.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingRemoveResourceLocator.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingCreateGroup.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingLogError.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingResourceLocators.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\LoadWithEvent.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingLoadScene.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingProfileSetValue.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\Preload.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\TestStub.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingReleaseInstance.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\DisableBuildWarnings.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingLogErrorFormat.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingGetDownloadSize.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingLoadAsset.cs" />
+    <Compile Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\ScriptReference\UsingGetLocatorInfo.cs" />
+    <None Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\Readme.txt" />
+    <None Include="Library\PackageCache\com.unity.addressables@38fa2290d5f2\Tests\Editor\DocExampleCode\Unity.Addressables.DocExampleCode.Editor.Tests.asmdef" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.2.10f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
     </Reference>
@@ -483,18 +513,6 @@
     <Reference Include="nunit.framework">
       <HintPath>E:\Projects\UnityProjects\OS\unitystation\UnityProject\AddressablePackingProjects\SoundAndMusic\Library\PackageCache\com.unity.ext.nunit@031a54704bff\net40\unity-custom\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.Plastic.Antlr3.Runtime">
-      <HintPath>E:\Projects\UnityProjects\OS\unitystation\UnityProject\AddressablePackingProjects\SoundAndMusic\Library\PackageCache\com.unity.collab-proxy@1e5e48aff19d\Lib\Editor\Unity.Plastic.Antlr3.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.Plastic.Newtonsoft.Json">
-      <HintPath>E:\Projects\UnityProjects\OS\unitystation\UnityProject\AddressablePackingProjects\SoundAndMusic\Library\PackageCache\com.unity.collab-proxy@1e5e48aff19d\Lib\Editor\Unity.Plastic.Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="log4netPlastic">
-      <HintPath>E:\Projects\UnityProjects\OS\unitystation\UnityProject\AddressablePackingProjects\SoundAndMusic\Library\PackageCache\com.unity.collab-proxy@1e5e48aff19d\Lib\Editor\log4netPlastic.dll</HintPath>
-    </Reference>
-    <Reference Include="unityplastic">
-      <HintPath>E:\Projects\UnityProjects\OS\unitystation\UnityProject\AddressablePackingProjects\SoundAndMusic\Library\PackageCache\com.unity.collab-proxy@1e5e48aff19d\Lib\Editor\unityplastic.dll</HintPath>
-    </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:\Program Files\Unity\Hub\Editor\6000.2.10f1\Editor\Data\UnityReferenceAssemblies\unity-4.8-api\mscorlib.dll</HintPath>
     </Reference>
@@ -872,17 +890,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="Unity.TextMeshPro.csproj">
-      <Project>{9e90a4e3-35cb-5d81-26b1-733e0ae43700}</Project>
-      <Name>Unity.TextMeshPro</Name>
+    <ProjectReference Include="Unity.Addressables.Editor.csproj">
+      <Project>{3e7b00ef-9303-7d20-24f3-be59fac7b938}</Project>
+      <Name>Unity.Addressables.Editor</Name>
     </ProjectReference>
-    <ProjectReference Include="UnityEditor.UI.csproj">
-      <Project>{9818dfc5-3c37-f812-6460-1f6985c5c559}</Project>
-      <Name>UnityEditor.UI</Name>
+    <ProjectReference Include="Unity.Addressables.csproj">
+      <Project>{90f5c682-c01b-3f20-adb8-3b42ca520854}</Project>
+      <Name>Unity.Addressables</Name>
     </ProjectReference>
-    <ProjectReference Include="UnityEngine.UI.csproj">
-      <Project>{d65a2e95-bafd-b417-a4eb-85639a2d3d78}</Project>
-      <Name>UnityEngine.UI</Name>
+    <ProjectReference Include="Unity.ResourceManager.csproj">
+      <Project>{86bab9de-c90a-7d15-ec67-18c8cd25863a}</Project>
+      <Name>Unity.ResourceManager</Name>
+    </ProjectReference>
+    <ProjectReference Include="Unity.ScriptableBuildPipeline.Editor.csproj">
+      <Project>{89dc3ba0-c953-ac4e-8451-dd984b91d12b}</Project>
+      <Name>Unity.ScriptableBuildPipeline.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="UnityEditor.TestRunner.csproj">
       <Project>{9fdaf2c2-a991-b3fa-d0fd-1dca1a3f281c}</Project>
@@ -891,6 +913,14 @@
     <ProjectReference Include="UnityEngine.TestRunner.csproj">
       <Project>{f7edaad1-9fef-bc60-1726-04e417890c95}</Project>
       <Name>UnityEngine.TestRunner</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEditor.UI.csproj">
+      <Project>{9818dfc5-3c37-f812-6460-1f6985c5c559}</Project>
+      <Name>UnityEditor.UI</Name>
+    </ProjectReference>
+    <ProjectReference Include="UnityEngine.UI.csproj">
+      <Project>{d65a2e95-bafd-b417-a4eb-85639a2d3d78}</Project>
+      <Name>UnityEngine.UI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
