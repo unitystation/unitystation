@@ -14,18 +14,18 @@ namespace Doors.Modules
 
 
 		//Interactions when the doors open
-		public virtual void OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public virtual void OpenInteraction(HandApply interaction, ref HashSet<DoorProcessingStates> States)
 		{
 			return;
 		}
 
 		//Interactions when the door is closed
-		public virtual void ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public virtual void ClosedInteraction(HandApply interaction, ref HashSet<DoorProcessingStates> States)
 		{
 			return;
 		}
 
-		public virtual void BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
+		public virtual void BumpingInteraction(GameObject byPlayer, ref HashSet<DoorProcessingStates> States)
 		{
 			return;
 		}

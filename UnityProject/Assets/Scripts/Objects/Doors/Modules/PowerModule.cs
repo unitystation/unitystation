@@ -29,7 +29,7 @@ namespace Doors.Modules
 			}
 		}
 		
-		public override void OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public override void OpenInteraction(HandApply interaction, ref HashSet<DoorProcessingStates> States)
 		{
 			if (HasPower == false)
 			{
@@ -37,7 +37,7 @@ namespace Doors.Modules
 			}
 		}
 		
-		public override void ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public override void ClosedInteraction(HandApply interaction, ref HashSet<DoorProcessingStates> States)
 		{
 			if (HasPower == false)
 			{
@@ -45,7 +45,7 @@ namespace Doors.Modules
 			}
 		}
 		
-		public override void BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
+		public override void BumpingInteraction(GameObject byPlayer, ref HashSet<DoorProcessingStates> States)
 		{
 			if (HasPower == false)
 			{
