@@ -60,12 +60,12 @@ namespace Doors.Modules
 			StartCoroutine(ResetWarning());
 		}
 
-		public override void ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public override void ClosedInteraction(HandApply interaction, ref HashSet<DoorProcessingStates> States)
 		{
 			TryPressureWarning (States);
 		}
 
-		public override void BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
+		public override void BumpingInteraction(GameObject byPlayer, ref HashSet<DoorProcessingStates> States)
 		{
 
 			TryPressureWarning( States);

@@ -4,6 +4,8 @@ using AddressableReferences;
 using Core.Admin.Logs;
 using UnityEngine;
 using Mirror;
+using Systems.Explosions;
+using Util.Independent.FluentRichText;
 
 namespace Items
 {
@@ -100,9 +102,24 @@ namespace Items
 
 		public bool UseCharge(GameObject TargetObject, GameObject Performer)
 		{
-			Chat.AddActionMsgToChat(Performer,
-				$"You wave the Emag over the {TargetObject.ExpensiveName()}'s electrical panel.",
-				$"{Performer.ExpensiveName()} waves something over the {TargetObject.ExpensiveName()}'s electrical panel.");
+			var chargeUsed = UseChargeLogic(Performer);
+			if (chargeUsed)
+			{
+				Chat.AddActionMsgToChat(
+					Performer,
+					$"You wave the emag over the {TargetObject.ExpensiveName()}'s electrical panel, and it emits a satisfying electrical pop while the number {charges.ToString().Color(Color.green)} flashes in green.",
+					$"{Performer.ExpensiveName()} waves something over the {TargetObject.ExpensiveName()}'s electrical panel."
+					);
+				SparkUtil.TrySpark(Performer);
+			}
+			else
+			{
+				Chat.AddActionMsgToChat(
+					Performer,
+					$"You wave the emag over the {TargetObject.ExpensiveName()}'s electrical panel, but nothing happens as the emag's components flash the number {charges.ToString().Color(Color.red)} in red.",
+					$"{Performer.ExpensiveName()} waves something over the {TargetObject.ExpensiveName()}'s electrical panel."
+					);
+			}
 			return UseChargeLogic(Performer);
 		}
 
@@ -110,13 +127,7 @@ namespace Items
 		{
 			if (Charges > 0)
 			{
-				//if this is the first charge taken off, add recharge loop
-				if (Charges >= startCharges)
-				{
-					UpdateManager.Add(RegenerateCharge, rechargeTimeInSeconds);
-				}
-
-				SyncCharges(Charges, Charges - 1);
+				charges = Charges - 1;
 				if (Charges > 0)
 				{
 					spriteHandler.SetCatalogueIndexSprite(ScaleChargesToSpriteIndex());
@@ -125,6 +136,12 @@ namespace Items
 				{
 					SoundManager.PlayNetworkedForPlayer(recipient: Performer, OutOfChargesSFXA, sourceObj: gameObject);
 					spriteHandler.Empty();
+				}
+
+				//if this is the first charge taken off, add recharge loop
+				if (Charges < startCharges || Charges == 0)
+				{
+					UpdateManager.Add(RegenerateCharge, rechargeTimeInSeconds);
 				}
 
 				return true;

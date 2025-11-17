@@ -74,7 +74,7 @@ namespace Doors.Modules
 			SetBoltsState(!boltsDown);
 		}
 
-		public override void OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public override void OpenInteraction(HandApply interaction, ref HashSet<DoorProcessingStates> States)
 		{
 			if (interaction != null && interaction.UsedObject != null)
 			{
@@ -98,7 +98,7 @@ namespace Doors.Modules
 			return;
 		}
 
-		public override void ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public override void ClosedInteraction(HandApply interaction, ref HashSet<DoorProcessingStates> States)
 		{
 			if (interaction != null && interaction.UsedObject != null)
 			{
@@ -146,7 +146,7 @@ namespace Doors.Modules
 
 		}
 
-		public override void BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
+		public override void BumpingInteraction(GameObject byPlayer, ref HashSet<DoorProcessingStates> States)
 		{
 			if (PulsePreventBoltsFall())
 			{

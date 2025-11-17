@@ -23,7 +23,7 @@ namespace Doors.Modules
 			weldModule = GetComponentInChildren<WeldModule>();
 		}
 
-		public override void OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public override void OpenInteraction(HandApply interaction, ref HashSet<DoorProcessingStates> States)
 		{
 			//Require help intent to pry doors
 			if (interaction is { Intent: Intent.Help })
@@ -51,7 +51,7 @@ namespace Doors.Modules
 			}
 		}
 
-		public override void ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public override void ClosedInteraction(HandApply interaction, ref HashSet<DoorProcessingStates> States)
 		{
 			//Require the Help Intent and the door to be unwelded, can't even try to pry a welded door
 			if (interaction is { Intent: Intent.Help } && weldModule.IsWelded == false)
@@ -81,7 +81,7 @@ namespace Doors.Modules
 			return;
 		}
 
-		public override void BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
+		public override void BumpingInteraction(GameObject byPlayer, ref HashSet<DoorProcessingStates> States)
 		{
 			return;
 		}

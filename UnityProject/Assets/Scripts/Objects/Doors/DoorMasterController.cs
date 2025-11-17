@@ -304,9 +304,9 @@ namespace Doors
 			foreach (DoorModuleBase module in modulesList)
 			{
 				if (IsClosed)
-					module.ClosedInteraction(interaction, states);
+					module.ClosedInteraction(interaction, ref states);
 				else
-					module.OpenInteraction(interaction, states);
+					module.OpenInteraction(interaction, ref states);
 			}
 
 			// Forcing the door only cares about physical blocking states
@@ -388,7 +388,7 @@ namespace Doors
 			HashSet<DoorProcessingStates> states = new HashSet<DoorProcessingStates>();
 			foreach (var module in modulesList)
 			{
-				module.BumpingInteraction(originator, states);
+				module.BumpingInteraction(originator, ref states);
 			}
 			return states;
 		}
@@ -689,7 +689,7 @@ namespace Doors
 			isPerformingAction = false;
 
 			// Check if the door is closing on something, and reopen it if so.
-			// Only do this check if: we are the server, the door isn't allowed to close on things, 
+			// Only do this check if: we are the server, the door isn't allowed to close on things,
 			// the door is closing, and the door blocks all directions (eg airlocks)
 			if (CustomNetworkManager.IsServer && ignorePassableChecks == false && CanCloseDoor() == false && IsClosed &&
 				registerTile.OneDirectionRestricted == false && MatrixManager.IsPassableAtAllMatrices(worldPosition,
@@ -843,7 +843,7 @@ namespace Doors
 				//TODO: AI does not have access, if that changes also change this to go off of connected player;
 				PulseTryOpen(bypassSoftware: true);
 
-				// Tells the AI if the door is miswired. We pulse the door anyway in case of hacking shennanigans, 
+				// Tells the AI if the door is miswired. We pulse the door anyway in case of hacking shennanigans,
 				// but the AI player should get some feedback as to why the door didn't open when they clicked
 				if (HackingProcessBase.HasConnection(Open) == false)
 					Chat.AddExamineMsgFromServer(performer, $"The {DoorName} is wired incorrectly and wont open");
@@ -860,7 +860,7 @@ namespace Doors
 				//TODO: AI does not have access, if that gets fix change this to PulseTryOpen(performer);
 				PulseTryClose(bypassSoftware: true);
 
-				// Tells the AI if the door is miswired. We pulse the door anyway in case of hacking shennanigans, 
+				// Tells the AI if the door is miswired. We pulse the door anyway in case of hacking shennanigans,
 				// but the AI player should get some feedback as to why the door didn't close when they clicked
 				if (HackingProcessBase.HasConnection(Close) == false)
 					Chat.AddExamineMsgFromServer(performer, $"The {DoorName} is wired incorrectly and wont close");

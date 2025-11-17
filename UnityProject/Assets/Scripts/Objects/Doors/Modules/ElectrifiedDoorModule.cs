@@ -65,7 +65,7 @@ namespace Doors.Modules
 			master.UpdateGui();
 		}
 
-		public override void OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public override void OpenInteraction(HandApply interaction, ref HashSet<DoorProcessingStates> States)
 		{
 			if (interaction == null)
 			{
@@ -75,7 +75,7 @@ namespace Doors.Modules
 			CanElectricute(interaction.Performer);
 		}
 
-		public override void ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public override void ClosedInteraction(HandApply interaction, ref HashSet<DoorProcessingStates> States)
 		{
 			if (interaction == null)
 			{
@@ -85,7 +85,7 @@ namespace Doors.Modules
 			CanElectricute(interaction.Performer);
 		}
 
-		public override void BumpingInteraction(GameObject mob, HashSet<DoorProcessingStates> States)
+		public override void BumpingInteraction(GameObject mob, ref HashSet<DoorProcessingStates> States)
 		{
 			CanElectricute(mob);
 		}

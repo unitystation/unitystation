@@ -30,7 +30,7 @@ namespace Doors.Modules
 		}
 
 
-		public override void OpenInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public override void OpenInteraction(HandApply interaction, ref HashSet<DoorProcessingStates> States)
 		{
 			// We check access only if the door has power and it isn't emagged, in which case we still deny but don't play a sound
 			// Emagging is in its own module and could play another sound we don't want to overlap. Interaction can be null for several 
@@ -41,7 +41,7 @@ namespace Doors.Modules
 				States.Add(DoorProcessingStates.SoftwarePrevented);
 		}
 
-		public override void ClosedInteraction(HandApply interaction, HashSet<DoorProcessingStates> States)
+		public override void ClosedInteraction(HandApply interaction, ref HashSet<DoorProcessingStates> States)
 		{
 			// We check access only if the door has power and it isn't emagged, in which case we still deny but don't play a sound
 			// Emagging is in its own module and could play another sound we don't want to overlap. Interaction can be null for several 
@@ -52,7 +52,7 @@ namespace Doors.Modules
 				States.Add(DoorProcessingStates.SoftwarePrevented);
 		}
 
-		public override void BumpingInteraction(GameObject byPlayer, HashSet<DoorProcessingStates> States)
+		public override void BumpingInteraction(GameObject byPlayer, ref HashSet<DoorProcessingStates> States)
 		{
 			// We check access only if the door has power and it isn't emagged, in which case we still deny but don't play a sound
 			// Emagging is in its own module and could play another sound we don't want to overlap. Interaction can be null for several 
