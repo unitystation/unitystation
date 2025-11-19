@@ -117,6 +117,7 @@ namespace UI.Chat_UI
 			stackObject.SetActive(false);
 			messageText.raycastTarget = false;
 			messageTextDark.raycastTarget = false;
+			entryBackground.color = new Color(entryBackground.color.r, entryBackground.color.g, entryBackground.color.b, 0);
 			AnimateFade(1f, 0f);
 		}
 
@@ -185,7 +186,9 @@ namespace UI.Chat_UI
 				$"<size=+{PlayerPrefs.GetInt(ChatOptions.FONTSCALE_KEY, ChatOptions.FONTSCALE_KEY_DEFAULT)}>{message}</size>";
 
 			messageText.text = message;
-			messageTextDark.text = "<color=#000000>" + ReplaceColour(message);;
+			messageTextDark.text = "<color=#000000>" + ReplaceColour(message);
+			var alphaSetting = PlayerPrefs.GetInt(PlayerPrefKeys.CHAT_BACKGROUND_ALLWAYS_ENABLED, 0) == 1;
+			entryBackground.CrossFadeAlpha(alphaSetting ? maximumAlpha : 0f, 0.15f, false);
 			ToggleUIElements(true);
 
 			StartCoroutine(UpdateEntryHeight());
@@ -357,7 +360,7 @@ namespace UI.Chat_UI
 			stackObject.transform.position = newWorldPos;
 		}
 
-		private void AnimateFade(float toAlpha, float time)
+		private void AnimateFade(float toAlpha, float time, bool showBackground = true)
 		{
 			messageText.CrossFadeAlpha(toAlpha, time, false);
 			messageTextDark.CrossFadeAlpha(toAlpha, time, false);
@@ -365,7 +368,7 @@ namespace UI.Chat_UI
 			stackImage.CrossFadeAlpha(toAlpha, time, false);
 			//(Max): The alpha check is for when players disable this setting while one of the backgrounds is still visible.
 			//TODO: Add a check later if the background is custom set for templates to always display them.
-			if (PlayerPrefs.GetInt(PlayerPrefKeys.CHAT_BACKGROUND_ALLWAYS_ENABLED, 0) == 1 || toAlpha <= 0.01f)
+			if (showBackground && (PlayerPrefs.GetInt(PlayerPrefKeys.CHAT_BACKGROUND_ALLWAYS_ENABLED, 0) == 1 || toAlpha <= 0.01f))
 			{
 				entryBackground.CrossFadeAlpha(Mathf.Clamp(toAlpha, 0, maximumAlpha), time, false);
 			}
