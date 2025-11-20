@@ -85,7 +85,10 @@ namespace ScriptableObjects
 					builder.Append(substring);
 				}
 
-				builder.Append(c);
+				if (i != message.Length - 1)
+				{
+					builder.Append(c);
+				}
 				start = i + 1;
 			}
 
