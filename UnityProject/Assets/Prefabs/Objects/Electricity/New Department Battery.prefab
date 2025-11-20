@@ -52,6 +52,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -73,6 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 12
@@ -139,6 +142,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -160,6 +165,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 11
@@ -227,6 +233,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -248,6 +256,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 13
@@ -445,8 +454,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
         type: 3}
+      propertyPath: InitialChargingDivider
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
+        type: 3}
       propertyPath: InitialCurrentCapacity
       value: 3456000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
+        type: 3}
+      propertyPath: InitialSlowResponseTime
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
         type: 3}
@@ -461,12 +480,17 @@ PrefabInstance:
     - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
         type: 3}
       propertyPath: InitialMaxChargingDivider
-      value: 1200
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
+        type: 3}
+      propertyPath: InitialMaxTargetWattsCharge
+      value: 4320
       objectReference: {fileID: 0}
     - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
         type: 3}
       propertyPath: InitialStandardChargeNumber
-      value: 6
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
         type: 3}
@@ -476,7 +500,7 @@ PrefabInstance:
     - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
         type: 3}
       propertyPath: InitialMinimumSupportVoltage
-      value: 216
+      value: 190
       objectReference: {fileID: 0}
     - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
         type: 3}
@@ -485,8 +509,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
         type: 3}
+      propertyPath: InitialStandardChargeIncrement
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
+        type: 3}
       propertyPath: InitialStandardSupplyingVoltage
       value: 240
+      objectReference: {fileID: 0}
+    - target: {fileID: 5631655566716459771, guid: 170e72b76e0da9645995a9bac3f49cb2,
+        type: 3}
+      propertyPath: InitialStandardChargeIncrementWatts
+      value: 72
       objectReference: {fileID: 0}
     - target: {fileID: 5775084745562061001, guid: 170e72b76e0da9645995a9bac3f49cb2,
         type: 3}

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 
 namespace Systems.Electricity.NodeModules
 {
@@ -118,6 +119,12 @@ namespace Systems.Electricity.NodeModules
 				//double R2 = (ResistanceModified / Math.Pow(TurnRatio, 2.0));
 
 				double V2 = Voltage / TurnRatio;
+				// if (TransformInformation.TurnRatio > 30)
+				// {
+				// 	Loggy.Info(" Original V2 " + V2.ToString());
+				// 	Loggy.Info(" inVoltage  " + inVoltage.ToString());
+				// }
+
 				double R2 = V2 / ((Voltage / V2) * (Voltage / ResistanceModified));
 				//Loggy.Log(R2 + " < R2 " + V2 + " < V2 " + ResistanceModified + " < ResistanceModified" + TurnRatio + " < TurnRatio " + Voltage + " < Voltage ");
 				if (TransformInformation.VoltageLimiting != 0)
@@ -126,6 +133,11 @@ namespace Systems.Electricity.NodeModules
 					if (V2 + inVoltage > TransformInformation.VoltageLimiting)
 					{
 						offcut = ((V2 + inVoltage) - TransformInformation.VoltageLimitedTo);
+
+						// if (TransformInformation.TurnRatio > 30)
+						// {
+						// 	Loggy.Info(" offcut " + offcut.ToString());
+						// }
 						V2 = V2 - offcut;
 						if (V2 < 0)
 						{
@@ -137,11 +149,22 @@ namespace Systems.Electricity.NodeModules
 				//inVoltage
 				TurnRatio = TurnRatio * (V2 / (Voltage / TurnRatio));
 
-				//Loggy.Log("V2 " + V2.ToString());
-				//Loggy.Log("I2 " + I2.ToString());
-				//Loggy.Log("Current.Current() " + Current.Current().ToString());
+
+				// if (TransformInformation.TurnRatio > 30)
+				// {
+				// 	Loggy.Info("V2 " + V2.ToString());
+				// 	//Loggy.Info("I2 " + I2.ToString());
+				// 	Loggy.Info(TransformInformation.TurnRatio + " < TurnRatio ");
+				// 	Loggy.Info("Current.Current() " + Current.Current().ToString());
+				// 	Loggy.Info(TurnRatio + " Used ratio");
+				// }
+
 				var ReturnCurrent = Current.SplitCurrent((float)TurnRatio);
-				//Loggy.Log("ReturnCurrent " + ReturnCurrent.Current().ToString());
+				// if (TransformInformation.TurnRatio > 30)
+				// {
+				// 	Loggy.Info("ReturnCurrent " + ReturnCurrent.Current().ToString());
+				// }
+
 				return (ReturnCurrent);
 			}
 			return (Current);

@@ -4789,6 +4789,8 @@ ParticleSystemRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -4810,6 +4812,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 34
@@ -4962,6 +4965,11 @@ PrefabInstance:
       propertyPath: _assetId
       value: 4205773110
       objectReference: {fileID: 0}
+    - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6915811152775355371}
     - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -5223,7 +5231,16 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   smokeParticles: {fileID: 3272720786144794170}
+  frequency: 0.01666666
+  VoltageFluctuationPercentage: 0.45
+  NormalVoltage: 760000
   itemStorage: {fileID: 1834550296447752039}
+--- !u!212 &6915811152775355371 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2408678487295248438, guid: f9025da3beb40304cb15babfc0a6cafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 9121123814632575965}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8378657802016484482 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 779761725270966111, guid: f9025da3beb40304cb15babfc0a6cafa,

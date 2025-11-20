@@ -54,6 +54,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -75,6 +77,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -24161425
   m_SortingLayer: 8
   m_SortingOrder: 13
@@ -185,6 +188,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -206,6 +211,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -24161425
   m_SortingLayer: 8
   m_SortingOrder: 13
@@ -316,6 +322,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -337,6 +345,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -24161425
   m_SortingLayer: 8
   m_SortingOrder: 12
@@ -707,15 +716,13 @@ MonoBehaviour:
   PreviousProducingWatts: 0
   ProducingWatts: 0
   InitialMaximumCurrentSupport: 8
-  InitialMinimumSupportVoltage: 2700
+  InitialMinimumSupportVoltage: 2375
   InitialStandardSupplyingVoltage: 3000
-  CapacityMax: 0
-  InitialCurrentCapacity: 18000000
+  InitialCurrentCapacity: 15000000
   InitialExtraChargeCutOff: 3000
   InitialIncreasedChargeVoltage: 3010
-  InitialStandardChargeNumber: 1
-  InitialMaxChargingDivider: 7500
-  InitialChargingDivider: 10
+  InitialStandardChargeIncrementWatts: 416
+  InitialMaxTargetWattsCharge: 25000
   InitialInputLevel: 100
   InitialOutputLevel: 100
   InitialCanCharge: 1
@@ -723,8 +730,12 @@ MonoBehaviour:
   InitialToggleCanCharge: 1
   InitialToggleCanSupport: 1
   InitialSlowResponse: 0
+  InitialSlowResponseTime: 6
+  InitialDropOffAtPercentage: 0.1
+  InitialMinimumDropOffCurrentPercentage: 0.1
   PullingWatts: 0
   ChargingWatts: 0
+  TimeAtLowVoltage: 9999
 --- !u!114 &6201760952787026738
 MonoBehaviour:
   m_ObjectHideFlags: 0
