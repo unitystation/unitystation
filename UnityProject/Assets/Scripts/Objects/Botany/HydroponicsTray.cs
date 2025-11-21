@@ -324,7 +324,7 @@ namespace Objects.Botany
 			{
 				if (weedLevel < 10)
 				{
-					weedLevel += 0.01f /   GetMachineMultiplier();
+					weedLevel += 0.005f /   GetMachineMultiplier();
 					if (weedLevel > 10)
 					{
 						weedLevel = 10;
