@@ -273,7 +273,7 @@ namespace Objects.Botany
 							{
 								if (reagentContainer[nutriment] > 0)
 								{
-									reagentContainer.Subtract(new ReagentMix(nutriment, 0.5f /   GetMachineMultiplier()));
+									reagentContainer.Subtract(new ReagentMix(nutriment, 0.375f /   GetMachineMultiplier()));
 								}
 							}
 
