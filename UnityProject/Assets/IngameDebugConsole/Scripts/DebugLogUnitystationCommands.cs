@@ -487,6 +487,25 @@ namespace IngameDebugConsole
 		}
 
 #if UNITY_EDITOR
+		[MenuItem("Networking/Give me a tool belt!")]
+#endif
+		private static void GiveToolBelt()
+		{
+			if (CustomNetworkManager.IsServer)
+			{
+				foreach ( PlayerInfo player in PlayerList.Instance.InGamePlayers )
+				{
+					foreach (var itemSlot in player.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.belt))
+					{
+						var InsulatedGloves = Spawn.ServerPrefab("ToolbeltCaravanFull").GameObject;
+						Inventory.ServerAdd(InsulatedGloves,itemSlot, ReplacementStrategy.DropOther);
+					}
+				}
+
+			}
+		}
+
+#if UNITY_EDITOR
 		[MenuItem("Networking/Incinerate local player")]
 #endif
 		private static void Incinerate()
