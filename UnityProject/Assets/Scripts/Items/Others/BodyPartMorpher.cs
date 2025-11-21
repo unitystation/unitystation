@@ -37,8 +37,8 @@ public class BodyPartMorpher : NetworkBehaviour, IClientInteractable<HandActivat
 			);
 		}
 
-		DynamicChoiceUI.ClientDisplayChoicesNotNetworked("Choose linked AI for Brain ",
-			" Choose whichever you would like to link this brain to ", Choosing);
+		DynamicChoiceUI.ClientDisplayChoicesNotNetworked(" Choose Cyborg morph option ",
+			" Choose which type of cyborg you would like to be,  it can't be reversed once chosen ", Choosing, allowClose: true);
 		return true;
 	}
 
