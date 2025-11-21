@@ -8,7 +8,6 @@ namespace SecureStuff
 	public static class AllowedEnvironmentVariables
 	{
 		
-		
 		public static string GetTEST_SERVER()
 		{
 			return Environment.GetEnvironmentVariable("TEST_SERVER");
