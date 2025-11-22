@@ -45,7 +45,7 @@ namespace UI.Systems.AdminTools.AdminLogs
 
 			var Max = int.Parse(AvaliablePagesText.text);
 
-			if (Max > CurrentPage)
+			if (CurrentPage > Max )
 			{
 				CurrentPage = Max;
 			}

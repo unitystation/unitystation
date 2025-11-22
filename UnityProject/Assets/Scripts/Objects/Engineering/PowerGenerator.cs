@@ -46,7 +46,19 @@ namespace Objects.Engineering
 
 		private string runLoopGUID = "";
 
+		public float frequency = 0.01666666f;
+
+		private float RandomFloatOffset = 0;
+
+		public float VoltageFluctuationPercentage = 0.25f;
+
+		public float NormalVoltage = 760000f;
+
 		public ItemStorage itemStorage;
+
+		private ModuleSupplyingDevice ModuleSupplyingDevice;
+
+		public bool IsOn => isOn;
 
 		private enum SpriteState
 		{
@@ -65,8 +77,10 @@ namespace Objects.Engineering
 			securable = GetComponent<WrenchSecurable>();
 			baseSpriteHandler = GetComponentInChildren<SpriteHandler>();
 			electricalNodeControl = GetComponent<ElectricalNodeControl>();
+			ModuleSupplyingDevice = GetComponent<ModuleSupplyingDevice>();
 			itemSlot = itemStorage.GetIndexedItemSlot(0);
 			securable.OnAnchoredChange.AddListener(OnSecuredChanged);
+			RandomFloatOffset = RNG.GetRandomNumber(0, 10);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -105,6 +119,11 @@ namespace Objects.Engineering
 			}
 
 			ElectricalManager.Instance.electricalSync.StructureChange = true;
+		}
+
+		public float GetNormalizedSin()
+		{
+			return ((Mathf.Sin((Time.time + RandomFloatOffset) * frequency * Mathf.PI * 2f) + 1f) * 0.5f) -0.5f;
 		}
 
 		private void OnSyncState(bool oldState, bool newState)
@@ -204,6 +223,10 @@ namespace Objects.Engineering
 		private void UpdateMe()
 		{
 			fuelAmount -= Time.deltaTime * fuelConsumptionRate;
+			var Voltage = NormalVoltage - (VoltageFluctuationPercentage * NormalVoltage * GetNormalizedSin());
+			ModuleSupplyingDevice.SupplyingVoltage = Voltage;
+
+			ModuleSupplyingDevice.Maxcurrent = 0.04f;
 			if (fuelAmount <= 0)
 			{
 				ConsumeSheet();
@@ -243,7 +266,7 @@ namespace Objects.Engineering
 
 		public void ToggleOn()
 		{
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Add( UpdateMe, 1);
 			electricalNodeControl.TurnOnSupply();
 			baseSpriteHandler.SetCatalogueIndexSprite((int)SpriteState.On);
 			isOn = true;
@@ -251,7 +274,7 @@ namespace Objects.Engineering
 
 		private void ToggleOff()
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 			electricalNodeControl.TurnOffSupply();
 			baseSpriteHandler.SetCatalogueIndexSprite((int)SpriteState.Off);
 			isOn = false;

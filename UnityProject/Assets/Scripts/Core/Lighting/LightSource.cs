@@ -8,6 +8,7 @@ using Mirror;
 using ScriptableObjects;
 using Light2D;
 using Logs;
+using Managers;
 using Messages.Server.SoundMessages;
 using Systems.Electricity;
 using Shared.Systems.ObjectConnection;
@@ -44,6 +45,7 @@ namespace Objects.Lighting
 		public bool IsWithoutSwitch => isWithoutSwitch;
 		private bool switchState = true;
 		private PowerState powerState;
+		private float intensityLightPower = 0;
 		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		private EmergencyLightAnimator EmergencyLightAnimator;
 		[field: SerializeField] public LightAnimator Animator { get; private set; }
@@ -82,6 +84,8 @@ namespace Objects.Lighting
 		private string loopKey;
 
 		private bool SoundInit = false;
+
+		private int RecordedVoltage = -1;
 
 		#region Lifecycle
 
@@ -310,7 +314,7 @@ namespace Objects.Lighting
 		public void SetColor(Color oldState, Color newState)
 		{
 			CurrentOnColor = newState;
-			LightSpriteUsed.Color = newState;
+			LightSpriteUsed.Color = new Color(newState.r, newState.g, newState.b, newState.a + intensityLightPower);
 		}
 
 		private void CheckAudioState()
@@ -504,33 +508,86 @@ namespace Objects.Lighting
 
 		public void PowerNetworkUpdate(float voltage)
 		{
+			if (isServer == false) return;
+			var Roundedvoltage = Mathf.RoundToInt(voltage);
+			if (Roundedvoltage != RecordedVoltage)
+			{
+				RecordedVoltage = Roundedvoltage;
+				if (MountState == LightMountState.Broken
+				    || MountState == LightMountState.MissingBulb) return;
+
+				var newPowerState = PowerState.Off;
+
+				if (Roundedvoltage < 80)
+				{
+					newPowerState = PowerState.Off;
+				}
+				else if (Roundedvoltage < 320)
+				{
+					newPowerState = PowerState.On;
+				}
+				else
+				{
+					newPowerState = PowerState.OverVoltage;
+
+				}
+
+				if (powerState != newPowerState)
+				{
+					powerState = newPowerState;
+					switch (newPowerState)
+					{
+						case PowerState.Off:
+							Animator.ServerStopAnim();
+							ServerChangeLightState(LightMountState.Off);
+							break;
+						case PowerState.LowVoltage:
+							Animator.ServerPlayAnim(0);
+							ServerChangeLightState(LightMountState.Off);
+							break;
+						case PowerState.On:
+							ServerChangeLightState(LightMountState.On);
+							Animator.ServerStopAnim();
+							break;
+						case PowerState.OverVoltage:
+							ServerChangeLightState(LightMountState.BurnedOut);
+							Animator.ServerStopAnim();
+							break;
+					}
+				}
+
+				if (newPowerState == PowerState.On)
+				{
+					LightBrightnessSyncManager.EvaluateLightSource(this, Roundedvoltage);
+					BrightnessCalculation(Roundedvoltage);
+				}
+			}
+		}
+
+		public void BrightnessCalculation(int voltage)
+		{
+			if (voltage <= 100)
+				intensityLightPower = -0.66666f;
+
+			if (voltage >= 300)
+				intensityLightPower = 0.33333f;
+
+			if (voltage <= 240)
+			{
+				// map 80-240 to -1 → 0
+				intensityLightPower = Mathf.Lerp(-0.66666f, 0f, (voltage - 100f) / (240f - 100f));
+			}
+			else
+			{
+				// map 240-300 to 0 → 0.33333
+				intensityLightPower = Mathf.Lerp(0f, 0.33333f, (voltage - 240f) / (300f - 240f));
+			}
+
+			SetColor(CurrentOnColor ,CurrentOnColor);
 		}
 
 		public void StateUpdate(PowerState newPowerState)
 		{
-			if (isServer == false) return;
-			powerState = newPowerState;
-			if (MountState == LightMountState.Broken
-			    || MountState == LightMountState.MissingBulb) return;
-			switch (newPowerState)
-			{
-				case PowerState.Off:
-					Animator.ServerStopAnim();
-					ServerChangeLightState(LightMountState.Off);
-					return;
-				case PowerState.LowVoltage:
-					Animator.ServerPlayAnim(0);
-					ServerChangeLightState(LightMountState.Off);
-					return;
-				case PowerState.On:
-					ServerChangeLightState(LightMountState.On);
-					Animator.ServerStopAnim();
-					return;
-				case PowerState.OverVoltage:
-					ServerChangeLightState(LightMountState.BurnedOut);
-					Animator.ServerStopAnim();
-					return;
-			}
 		}
 
 		#endregion

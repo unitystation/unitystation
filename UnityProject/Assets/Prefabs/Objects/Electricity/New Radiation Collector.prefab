@@ -113,6 +113,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 8509160789794695430}
+    - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d7874798bfaf4ac4491ec0b7c3c88171,
@@ -351,7 +356,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainSpriteHandler: {fileID: 3973952303404066763}
   startSetUp: 0
-  radiationWatts: 10
+  radiationWatts: 11
 --- !u!114 &5227503272454633194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,3 +380,9 @@ MonoBehaviour:
   InternalResistance: 0
   PreviousProducingWatts: 0
   ProducingWatts: 0
+--- !u!212 &8509160789794695430 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2408678487295248438, guid: f9025da3beb40304cb15babfc0a6cafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 6303848660673159472}
+  m_PrefabAsset: {fileID: 0}

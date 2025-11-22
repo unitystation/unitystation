@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Systems.Electricity.Inheritance;
 
@@ -36,14 +37,29 @@ namespace Systems.Electricity.NodeModules
 			IntrinsicElectronicData ComingFromm)
 		{
 			float Resistance = ElectricityFunctions.WorkOutResistance(ControllingNode.Node.InData.Data.SupplyDependent[SourceInstance].ResistanceGoingTo);
-			var Voltage = ElectricityFunctions.WorkOutVoltage(ControllingNode.Node);
+			bool HiSide = HighsideConnections.Contains(ComingFromm.Categorytype);
+			var Voltage = 0f;
+			if (VoltageLimiting != 0 && HiSide)
+			{
+				var LowSides = ControllingNode.Node.InData.Data
+					.SupplyDependent[SourceInstance].ResistanceComingFrom;
+
+				if (LowSides.Count > 0)
+				{
+					var LowSide = LowSides.First().Key;
+					ElectricityFunctions.WorkOutActualNumbers(LowSide);
+					Voltage =  LowSide.Data.ActualVoltage;
+				}
+			}
+
+
 
 			VIRCurrent Currentout =
 				TransformerCalculations.ElectricalStageTransformerCalculate(this,
 					Current,
 					Resistance,
 					Voltage,
-					HighsideConnections.Contains(ComingFromm.Categorytype));
+					HiSide);
 			return Currentout;
 		}
 

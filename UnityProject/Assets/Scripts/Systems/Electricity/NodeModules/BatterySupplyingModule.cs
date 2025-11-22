@@ -26,7 +26,7 @@ namespace Systems.Electricity.NodeModules
 		public float InitialStandardSupplyingVoltage;
 		[NonSerialized] public float StandardSupplyingVoltage;
 
-		public float CapacityMax;
+		[NonSerialized] public float CapacityMax;
 
 
 		[FormerlySerializedAs("CurrentCapacity")]
@@ -48,20 +48,17 @@ namespace Systems.Electricity.NodeModules
 
 
 
-		[FormerlySerializedAs("StandardChargeNumber")]
-		public float InitialStandardChargeNumber; // Basically part of the multiplier of how much it should charge
-		[NonSerialized] public float StandardChargeNumber; // Basically part of the multiplier of how much it should charge
+
+		public int InitialStandardChargeIncrementWatts; // Basically part of the multiplier of how much it should charge
+		[NonSerialized] public int StandardChargeIncrementWatts; // Basically part of the multiplier of how much it should charge
 
 
 
-		[FormerlySerializedAs("MaxChargingDivider")]
-		public int InitialMaxChargingDivider;
-		[NonSerialized] public int MaxChargingDivider;
+		[FormerlySerializedAs("MaxTargetWattsCharge")]
+		public int InitialMaxTargetWattsCharge;
+		[NonSerialized] public int MaxTargetWattsCharge;
 
-
-		[FormerlySerializedAs("ChargingDivider")]
-		public int InitialChargingDivider;
-		[NonSerialized] public int ChargingDivider;
+		[NonSerialized] public int TargetWattsCharge;
 
 		[FormerlySerializedAs("InputLevel")]
 		public int InitialInputLevel = 100;
@@ -93,6 +90,17 @@ namespace Systems.Electricity.NodeModules
 		public bool InitialSlowResponse; // If set to true then the battery won't respond instantly to loss of power, waiting one tick to update
 		[NonSerialized] public bool SlowResponse; // If set to true then the battery won't respond instantly to loss of power, waiting one tick to update
 
+
+		public float InitialSlowResponseTime; //How long it will take the battery to kick in
+		[NonSerialized] public float SlowResponseTime;
+
+
+		public float InitialDropOffAtPercentage = 0.25f;
+		[NonSerialized] public float DropOffAtPercentage;
+
+		public float InitialMinimumDropOffCurrentPercentage = 0.10f;
+		[NonSerialized] public float MinimumDropOffCurrentPercentage;
+
 		[NonSerialized] public float PullLastDeductedTime;
 		[NonSerialized] public float ChargLastDeductedTime;
 		[NonSerialized] private bool chargeCapacityTime = true;
@@ -112,8 +120,16 @@ namespace Systems.Electricity.NodeModules
 
 		private Machine Machine;
 
+		public float TimeAtLowVoltage;
+
+		private float LastCachedTime;
 
 
+		[NaughtyAttributes.Button]
+		public void Discharge()
+		{
+			GetSetCurrentCapacity = GetSetCurrentCapacity * 0.5f;
+		}
 
 		public void RefreshParts(List<PartReference> partsInFrame, Machine Frame)
 		{
@@ -134,6 +150,8 @@ namespace Systems.Electricity.NodeModules
 			if (Init) return;
 			Init= true;
 
+			DropOffAtPercentage = InitialDropOffAtPercentage;
+			MinimumDropOffCurrentPercentage = InitialMinimumDropOffCurrentPercentage;
 			MaximumCurrentSupport = InitialMaximumCurrentSupport;
 			MinimumSupportVoltage = InitialMinimumSupportVoltage;
 			StandardSupplyingVoltage = InitialStandardSupplyingVoltage;
@@ -144,9 +162,8 @@ namespace Systems.Electricity.NodeModules
 
 			ExtraChargeCutOff = InitialExtraChargeCutOff;
 			IncreasedChargeVoltage = InitialIncreasedChargeVoltage;
-			StandardChargeNumber = InitialStandardChargeNumber;
-			MaxChargingDivider = InitialMaxChargingDivider;
-			ChargingDivider = InitialChargingDivider;
+			StandardChargeIncrementWatts = InitialStandardChargeIncrementWatts;
+			MaxTargetWattsCharge = InitialMaxTargetWattsCharge;
 			InputLevel = InitialInputLevel;
 			OutputLevel = InitialOutputLevel;
 			CanCharge = InitialCanCharge;
@@ -154,6 +171,7 @@ namespace Systems.Electricity.NodeModules
 			ToggleCanCharge = InitialToggleCanCharge;
 			ToggleCanSupport = InitialToggleCanSupport;
 			SlowResponse = InitialSlowResponse;
+			SlowResponseTime = InitialSlowResponseTime;
 		}
 
 
@@ -203,6 +221,10 @@ namespace Systems.Electricity.NodeModules
 		{
 			isOnForInterface = false;
 			PowerSupplyFunction.TurnOffSupply(this);
+			ChargingWatts = 0;
+			TargetWattsCharge = 10;
+			ResistanceSourceModule.Resistance = MonitoringResistance;
+			chargeCapacityTime = false;
 		}
 
 		public override void PowerUpdateCurrentChange()
@@ -221,10 +243,11 @@ namespace Systems.Electricity.NodeModules
 						if (Cansupport) //Denotes capacity to Provide current
 						{
 							//NOTE This assumes that the voltage will be same on either side
-							if (ToggleCanSupport &&
-							    IsAtVoltageThreshold()) // ToggleCansupport denotes Whether at the current time it is allowed to provide current
+							if (ToggleCanSupport && IsAtVoltageThreshold() && TimeAtLowVoltage > SlowResponseTime ) // ToggleCansupport denotes Whether at the current time it is allowed to provide current
 							{
-								if (GetSetCurrentCapacity > 0)
+
+								var capp = GetSetCurrentCapacity;
+								if (capp > 0)
 								{
 									var needToPushVoltage = StandardSupplyingVoltage - VoltageAtSupplyPort;
 									current = needToPushVoltage / CircuitResistance;
@@ -233,10 +256,28 @@ namespace Systems.Electricity.NodeModules
 										current = MaximumCurrentSupport;
 									}
 
+									//current
+
+									var capPercent = capp / CapacityMax;
+									if (DropOffAtPercentage > capPercent)
+									{
+										// Normalised factor
+										float t = (capPercent / DropOffAtPercentage);
+
+										// Apply fraction of initial value
+										current =  Mathf.Min( current * t,current );
+
+										if (MinimumDropOffCurrentPercentage * MaximumCurrentSupport > current)
+										{
+											current = MinimumDropOffCurrentPercentage * MaximumCurrentSupport;
+										}
+									}
+
+
 									PullingWatts =
 										((current * StandardSupplyingVoltage) *
 										 (OutputLevel /
-										  100)); // Should be the same as NeedToPushVoltage + powerSupply.ActualVoltage
+										  100f)); // Should be the same as NeedToPushVoltage + powerSupply.ActualVoltage
 								}
 							}
 							else if (PullingWatts > 0)
@@ -271,6 +312,13 @@ namespace Systems.Electricity.NodeModules
 
 		public override void PowerNetworkUpdate()
 		{
+			var Different = Time.time - LastCachedTime;
+			LastCachedTime = Time.time;
+			if (Different > 10)
+			{
+				Different = 1;
+			}
+
 			try
 			{
 				VoltageAtChargePort = ElectricityFunctions.WorkOutVoltageFromConnector(ControllingNode.Node,
@@ -295,6 +343,7 @@ namespace Systems.Electricity.NodeModules
 						{
 							ChargingWatts = VoltageAtChargePort / ResistanceSourceModule.Resistance *
 							                VoltageAtChargePort;
+
 							if (chargeCapacityTime)
 							{
 								Machine.BatteryChangeChargedByDelta(Mathf.RoundToInt((ChargingWatts * (Time.time - ChargLastDeductedTime) * (InputLevel / 100f))));
@@ -302,27 +351,32 @@ namespace Systems.Electricity.NodeModules
 
 							ChargLastDeductedTime = Time.time;
 
-							if (VoltageAtChargePort > IncreasedChargeVoltage && ChargingDivider < MaxChargingDivider)
+							if (VoltageAtChargePort > IncreasedChargeVoltage && TargetWattsCharge < MaxTargetWattsCharge)
 							{
+
+
 								//Increasing the current charge by
-								ChargingDivider += 10;
-								ResistanceSourceModule.Resistance = 1000 / (StandardChargeNumber / ChargingDivider);
+								TargetWattsCharge += StandardChargeIncrementWatts;
+								ResistanceSourceModule.Resistance = ExtraChargeCutOff / (TargetWattsCharge / ExtraChargeCutOff);
+
+
 							}
 							else if (VoltageAtChargePort < ExtraChargeCutOff)
 							{
-								if (10 < ChargingDivider)
+								if (StandardChargeIncrementWatts < TargetWattsCharge)
 								{
-									ChargingDivider -= 10;
-									ResistanceSourceModule.Resistance = 1000 / (StandardChargeNumber / ChargingDivider);
+									TargetWattsCharge -= StandardChargeIncrementWatts;
+									ResistanceSourceModule.Resistance = ExtraChargeCutOff / (TargetWattsCharge / ExtraChargeCutOff);
 								}
 								else
 								{
 									//Turning off charge if it pulls too much
 									ChargingWatts = 0;
-									ChargingDivider = 10;
+									TargetWattsCharge = StandardChargeIncrementWatts;
 									ResistanceSourceModule.Resistance = MonitoringResistance;
 									chargeCapacityTime = false;
 								}
+
 							}
 
 							if (GetSetCurrentCapacity >= CapacityMax)
@@ -330,19 +384,19 @@ namespace Systems.Electricity.NodeModules
 								GetSetCurrentCapacity = CapacityMax;
 								ChargingWatts = 0;
 								ToggleCanSupport = true;
-								ChargingDivider = 10;
+								TargetWattsCharge = 10;
 								ResistanceSourceModule.Resistance = MonitoringResistance;
 								chargeCapacityTime = false;
 							}
 						}
 						else if (VoltageAtChargePort > IncreasedChargeVoltage && GetSetCurrentCapacity < CapacityMax)
 						{
-							if (ChargingDivider == 0)
+							if (TargetWattsCharge == 0)
 							{
-								ChargingDivider = 10;
+								TargetWattsCharge = 10;
 							}
 
-							ResistanceSourceModule.Resistance = 1000 / (StandardChargeNumber / ChargingDivider);
+							ResistanceSourceModule.Resistance =  ExtraChargeCutOff / (TargetWattsCharge / ExtraChargeCutOff);
 							chargeCapacityTime = true;
 							ChargLastDeductedTime = Time.time;
 						}
@@ -350,7 +404,7 @@ namespace Systems.Electricity.NodeModules
 					else if (ResistanceSourceModule.Resistance != MonitoringResistance)
 					{
 						ChargingWatts = 0;
-						ChargingDivider = 10;
+						TargetWattsCharge = 10;
 						ResistanceSourceModule.Resistance = MonitoringResistance;
 						chargeCapacityTime = false;
 					}
@@ -382,16 +436,43 @@ namespace Systems.Electricity.NodeModules
 						}
 
 
-						if (VoltageAtSupplyPort < MinimumSupportVoltage && GetSetCurrentCapacity > 0)
+						var capp = GetSetCurrentCapacity;
+						if (VoltageAtSupplyPort < MinimumSupportVoltage && capp > 0 )
 						{
-							var needToPushVoltage = StandardSupplyingVoltage - VoltageAtSupplyPort;
-							current = needToPushVoltage / CircuitResistance;
-							if (current > MaximumCurrentSupport)
+							if ((TimeAtLowVoltage > SlowResponseTime) == false)
 							{
-								current = MaximumCurrentSupport;
+								TimeAtLowVoltage += Different;
 							}
+							else
+							{
+								var needToPushVoltage = StandardSupplyingVoltage - VoltageAtSupplyPort;
+								current = needToPushVoltage / CircuitResistance;
+								if (current > MaximumCurrentSupport)
+								{
+									current = MaximumCurrentSupport;
+								}
 
-							PullingWatts = ((current * StandardSupplyingVoltage) * (OutputLevel / 100f));
+								var capPercent = capp / CapacityMax;
+								if (DropOffAtPercentage > capPercent)
+								{
+									// Normalised factor
+									float t = (capPercent / DropOffAtPercentage);
+
+									// Apply fraction of initial value
+									current =  Mathf.Min( current * t,current );
+
+									if (MinimumDropOffCurrentPercentage * MaximumCurrentSupport > current)
+									{
+										current = MinimumDropOffCurrentPercentage * MaximumCurrentSupport;
+									}
+								}
+
+								PullingWatts = ((current * StandardSupplyingVoltage) * (OutputLevel / 100f));
+							}
+						}
+						else
+						{
+							TimeAtLowVoltage = 0;
 						}
 					}
 					else if (PullingWatts > 0)

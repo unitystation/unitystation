@@ -77,7 +77,7 @@ namespace InGameEvents
 			{
 				var isFake = Random.Range(0,100) < chanceItIsFake;
 
-				StartRandomEvent(GetRandomEventList(), isFake: isFake, serverTriggered: true);
+				StartRandomEvent(GetRandomEventList(), isFake: isFake, serverTriggered: true, UsedTime: triggerEventInterval);
 
 				timer -= triggerEventInterval;
 			}
@@ -179,7 +179,15 @@ namespace InGameEvents
 
 		}
 
-		public void StartRandomEvent(List<EventScriptBase> eventList, bool anEventMustHappen = false, bool isFake = false, bool serverTriggered = false, string adminName = null, bool announceEvent = true, int stackOverFlowProtection = 0)
+		public void StartRandomEvent(
+			List<EventScriptBase> eventList,
+			bool anEventMustHappen = false,
+			bool isFake = false,
+			bool serverTriggered = false,
+			string adminName = null,
+			bool announceEvent = true,
+			int stackOverFlowProtection = 0,
+			float UsedTime = 0)
 		{
 			if (eventList.Count == 0) return;
 
@@ -196,6 +204,8 @@ namespace InGameEvents
 					eventInList.FakeEvent = isFake;
 					eventInList.AnnounceEvent = announceEvent;
 					eventInList.TriggerEvent();
+					timer += eventInList.TimeRefundMultiplier * UsedTime;
+
 					ScoreMachine.AddToScoreInt(scoreForSpawningEvents, RoundEndScoreBuilder.COMMON_SCORE_RANDOMEVENTSTRIGGERED);
 
 					if (serverTriggered)

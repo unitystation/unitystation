@@ -71,6 +71,8 @@ namespace InGameEvents
 
 		public bool CanRandomlyTrigger = true;
 
+		public float TimeRefundMultiplier = 0;
+
 		private void Start()
 		{
 			InGameEventsManager.Instance.AddEventToList(this, EventType);
