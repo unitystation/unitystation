@@ -27,6 +27,7 @@ namespace SecureStuff
 
 		public static string ForkName
 		{
+			
 			get
 			{
 				if (string.IsNullOrEmpty(cashedForkName) == false) return cashedForkName;
