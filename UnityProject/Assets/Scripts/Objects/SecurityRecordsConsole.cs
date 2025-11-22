@@ -41,11 +41,11 @@ namespace Objects.Security
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side))
+			if (DefaultWillInteract.Default(interaction, side) == false)
 				return false;
 
 			//interaction only works if using an ID card on console
-			if (!Validations.HasComponent<IDCard>(interaction.HandObject) && interaction.IsAltClick == false)
+			if (Validations.HasComponent<IDCard>(interaction.HandObject) == false && interaction.IsAltClick == false)
 				return false;
 
 			return true;

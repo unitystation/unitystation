@@ -189,6 +189,7 @@ namespace Doors
 		{
 			//This is needed for clients to get the proper door sprite state on load
 			registerTile.SubsystemManager.UpdateAt(registerTile.LocalPositionServer);
+			doorAnimator.ForceSpriteSync();
 			base.OnStartClient();
         }
 

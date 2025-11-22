@@ -238,6 +238,7 @@ namespace Objects.Medical
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
+			if (interaction.IsAltClick) return false;
 			return DefaultWillInteract.Default(interaction, side);
 		}
 
