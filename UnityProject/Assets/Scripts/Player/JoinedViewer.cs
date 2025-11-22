@@ -9,12 +9,14 @@ using Core.Networking;
 using Core.Networking.AsyncMessageQueue;
 using Cysharp.Threading.Tasks;
 using Logs;
+using Managers.Supporters;
 using Systems;
 using Systems.Character;
 using Messages.Server;
 using Messages.Client;
 using Messages.Client.NewPlayer;
 using Messages.Client.SpriteMessages;
+using Systems.Permissions;
 using UI;
 using UI.Systems.PreRound;
 using UnityEngine;
@@ -237,6 +239,12 @@ namespace Player
 			if (string.IsNullOrEmpty(currentScene) == false)
 			{
 				ServerRequestLoadedScenes(currentScene);
+			}
+
+			var supporterCheck = Supporters.IsSupporter(player);
+			if (supporterCheck.Item1)
+			{
+				PermissionsManager.Instance.AddTempRoleTo(player.AccountId, "supporter");
 			}
 		}
 

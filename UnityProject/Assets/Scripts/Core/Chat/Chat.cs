@@ -275,15 +275,6 @@ public partial class Chat : MonoBehaviour
 			var rank = PlayerList.GetRankForAccount(sentByPlayer.AccountId, out _);
 			var nameBuilder = new StringBuilder();
 
-			if (Supporters.Instance.SupporterList.Count != 0)
-			{
-				var supporter = Supporters.IsSupporter(sentByPlayer);
-				if (supporter.Item1 && supporter.Item2 != null)
-				{
-					nameBuilder.Append($"{supporter.Item2.Value.Flare}");
-				}
-			}
-
 			if (rank?.ShowInChat == true)
 			{
 				nameBuilder.Append($"<color={rank.Color}>[{rank.Abbreviation}]</color> ");

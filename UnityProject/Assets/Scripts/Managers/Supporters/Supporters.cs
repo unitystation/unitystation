@@ -42,9 +42,12 @@ namespace Managers.Supporters
 		{
 			foreach (var supporter in Instance.SupporterList)
 			{
+#if UNITY_EDITOR
+				if (player.Username == supporter.Identifier) return new Tuple<bool, Supporter?>(true, supporter);
+				Debug.Log($"{player.Username} == {supporter.Identifier}: {player.Username == supporter.Identifier}");
+#endif
 				if (player.AccountId == supporter.Identifier) return new Tuple<bool, Supporter?>(true, supporter);
 			}
-
 			return new Tuple<bool, Supporter?>(false, null);
 		}
 	}
