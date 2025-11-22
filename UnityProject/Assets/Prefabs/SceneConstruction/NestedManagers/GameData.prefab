@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8115948098267028479}
   - component: {fileID: 7111023755091482494}
   - component: {fileID: 557460515347656071}
+  - component: {fileID: 2836466690270750793}
   m_Layer: 0
   m_Name: GameData
   m_TagString: Untagged
@@ -123,3 +124,24 @@ MonoBehaviour:
   - {fileID: 2100000, guid: ea44b32e436ee994f9570b7e84c5a97b, type: 2}
   - {fileID: 2100000, guid: 93ea008da3cf67c4693b77fb2e69332a, type: 2}
   - {fileID: 2100000, guid: 399a737ddb6689a43af2c4bf0b8822f6, type: 2}
+--- !u!114 &2836466690270750793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8929341582706713524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1edd06272cfbe6e458d9e26b136faf18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::Managers.Supporters.Supporters
+  FetchMethods:
+  - rid: 8289020765768777785
+  references:
+    version: 2
+    RefIds:
+    - rid: 8289020765768777785
+      type: {class: FetchSupportersFromJsonInStreamingAssets, ns: Managers.Supporters.FetchSupporterMethods,
+        asm: Assets}
+      data: 

@@ -17,6 +17,7 @@ using Items;
 using Items.Implants.Organs;
 using Logs;
 using Managers;
+using Managers.Supporters;
 using Objects.Machines;
 using Objects.Machines.ServerMachines.Communications;
 using Player.Language;
@@ -272,14 +273,25 @@ public partial class Chat : MonoBehaviour
 
 			//Show admin tag for ghosts
 			var rank = PlayerList.GetRankForAccount(sentByPlayer.AccountId, out _);
+			var nameBuilder = new StringBuilder();
+
+			if (Supporters.Instance.SupporterList.Count != 0)
+			{
+				var supporter = Supporters.IsSupporter(sentByPlayer);
+				if (supporter.Item1 && supporter.Item2 != null)
+				{
+					nameBuilder.Append($"{supporter.Item2.Value.Flare}");
+				}
+			}
 
 			if (rank?.ShowInChat == true)
 			{
-				chatEvent.speaker =  $"<color={rank.Color}>[{rank.Abbreviation}]</color> " + chatEvent.speaker;
+				nameBuilder.Append($"<color={rank.Color}>[{rank.Abbreviation}]</color> ");
 				chatEvent.VoiceLevel = Loudness.LOUD;
-
 			}
 
+			nameBuilder.Append(chatEvent.speaker);
+			chatEvent.speaker = nameBuilder.ToString();
 			//Handle OOC messages
 			if (isOOC)
 			{
