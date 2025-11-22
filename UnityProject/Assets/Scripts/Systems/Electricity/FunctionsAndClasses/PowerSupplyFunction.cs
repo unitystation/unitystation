@@ -61,6 +61,12 @@ namespace Systems.Electricity.NodeModules
 						                                             .ControllingNode.Node.InData.Data
 						                                             .SupplyDependent[supply.ControllingNode.Node]
 						                                             .ResistanceComingFrom));
+					if (supply.Maxcurrent != null)
+					{
+						Current = MathF.Min(Current, supply.Maxcurrent.Value);
+					}
+
+
 					PushCurrentDownline(supply, Current);
 				}
 				else if (supply.ProducingWatts != 0 && supply.ControllingNode.Node.InData.Data.ChangeToOff == false)
@@ -73,6 +79,11 @@ namespace Systems.Electricity.NodeModules
 					                         / ElectricityFunctions.WorkOutResistance(supply.ControllingNode.Node.InData
 						                         .Data.SupplyDependent[supply.ControllingNode.Node]
 						                         .ResistanceComingFrom));
+					if (supply.Maxcurrent != null)
+					{
+						Current = MathF.Min(Current, supply.Maxcurrent.Value);
+					}
+
 					PushCurrentDownline(supply, Current);
 				}
 				else

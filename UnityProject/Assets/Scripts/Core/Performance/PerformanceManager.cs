@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Managers;
 using Mirror;
 using Shared.Managers;
 using Systems.Atmospherics;
@@ -31,6 +32,9 @@ public class PerformanceManager : SingletonManager<PerformanceManager>
 		public int UpdateManagerThinkShotActionsCount;
 
 		public int[] MatrixQueuedChangeCounts;
+
+		public int NumberOfLightSynchronisationCategories;
+		public int NumberOfTrackedMatrixIntersections;
 	}
 
 	public void AdminRequest(PlayerInfo recipient)
@@ -76,6 +80,10 @@ public class PerformanceManager : SingletonManager<PerformanceManager>
 		info.UpdateManagerPeriodicUpdateActionsCount = UpdateManager.Instance.periodicUpdateActionsCount;
 		info.UpdateManagerSoundUpdatesCount = UpdateManager.Instance.soundUpdatesCount;
 		info.UpdateManagerThinkShotActionsCount = UpdateManager.Instance.thinkShotActionsCount;
+
+		info.NumberOfLightSynchronisationCategories = LightBrightnessSyncManager.Updates.Count;
+		info.NumberOfTrackedMatrixIntersections = MatrixManager.Instance.TrackedIntersections.Count;
+
 
 		var Matrix = new List<int>();
 

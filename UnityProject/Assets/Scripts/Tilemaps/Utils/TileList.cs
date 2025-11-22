@@ -70,6 +70,7 @@ namespace Tilemaps.Utils
 
 			var Objects = objects[position];
 
+			if (Objects == null) return;
 			var i = 0;
 			foreach (var register in Objects)
 			{

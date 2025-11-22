@@ -6,6 +6,7 @@ using Systems.Explosions;
 using AddressableReferences;
 using Core;
 using HealthV2;
+using Messages.Server.SoundMessages;
 using Mirror;
 using Objects.Engineering;
 using UnityEngine;
@@ -288,7 +289,7 @@ namespace Objects
 		{
 			Zap(gameObject, targetObject, Random.Range(1,3), targetObject == null ? targetObject.AssumedWorldPosServer() : default);
 
-			SoundManager.PlayNetworkedAtPos(lightningSound, targetObject == null ? targetObject.AssumedWorldPosServer() : default, sourceObj: targetObject);
+			SoundManager.PlayNetworkedAtPos(lightningSound, targetObject == null ? targetObject.AssumedWorldPosServer() : default, sourceObj: targetObject, audioSourceParameters: new AudioSourceParameters( spatialBlend: 2));
 
 			return targetObject;
 		}

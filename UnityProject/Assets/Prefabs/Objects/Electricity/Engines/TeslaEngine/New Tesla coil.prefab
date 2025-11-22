@@ -88,6 +88,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4394844407058422981}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 823bd884c474d50428f66da1cb36e0dc,
@@ -144,6 +149,11 @@ PrefabInstance:
       propertyPath: _assetId
       value: 2784008643
       objectReference: {fileID: 0}
+    - target: {fileID: 7887620515462466081, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: Resistances.LightningDamageProof
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: exportCost
@@ -190,6 +200,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6136910291810986678}
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
+--- !u!212 &4394844407058422981 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 2956361793837104494}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4583999614495783122 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
@@ -300,7 +316,7 @@ MonoBehaviour:
   currentState: 0
   spriteHandler: {fileID: 9064993447325192712}
   startSetUp: 0
-  lightningHitWatts: 80
+  lightningHitWatts: 12500
 --- !u!114 &6136910291810986678
 MonoBehaviour:
   m_ObjectHideFlags: 0

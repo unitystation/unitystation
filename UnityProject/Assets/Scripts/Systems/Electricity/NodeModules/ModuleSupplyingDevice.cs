@@ -23,7 +23,12 @@ namespace Systems.Electricity.NodeModules
 		[HideInInspector] public float PreviousProducingWatts = 0;
 		[PlayModeOnly] public float ProducingWatts = 0;
 
+
+		[PlayModeOnly] public float? Maxcurrent = null;
+
 		public Current CurrentSource = new Current();
+		//TODO Somehow subscribe Reactive supplies to do this so we can just change one number and everything magically updates,
+		//Since if we change this number then all the  reactive supplies that do stuff in response Won't have an update that it's changed At the moment
 
 		public virtual void BroadcastSetUpMessage(ElectricalNodeControl Node)
 		{
@@ -140,6 +145,8 @@ namespace Systems.Electricity.NodeModules
 
 				ControllingNode.Node.InData.Data.ProducingWatts = ProducingWatts;
 				PreviousProducingWatts = ProducingWatts;
+
+
 				ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(ControllingNode.Node.InData
 					.ControllingDevice);
 			}
