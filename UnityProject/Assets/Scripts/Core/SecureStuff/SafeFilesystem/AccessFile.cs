@@ -38,7 +38,7 @@ namespace SecureStuff
 				var data = JsonConvert.DeserializeObject<BuiltFork>(text);
 				cashedForkName = data == null ? "Unitystation" : data.Name;
 
-				
+
 				return cashedForkName;
 			}
 		}
@@ -52,6 +52,7 @@ namespace SecureStuff
 		[Serializable]
 		private class BuiltFork
 		{
+			
 			[JsonProperty("ForkName")]
 			public string Name { get; set; } // = Unitystation"
 		}
