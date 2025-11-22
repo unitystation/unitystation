@@ -3,29 +3,31 @@ using InGameEvents;
 using Objects.Engineering;
 using UnityEngine;
 
-public class EventPlasmaGeneratorTooLoaded : EventScriptBase
+namespace InGameEvents
 {
-	private MatrixInfo asteroid = null;
-	private float velocity = 250;
 
-	public override void OnEventStart()
+	public class EventPlasmaGeneratorTooLoaded : EventScriptBase
 	{
-		if (FakeEvent) return;
-
-		var Powers = MatrixManager.MainStationMatrix.MatrixMove.GetComponentsInChildren<PowerGenerator>().Where(x => x.IsOn);
-
-		if (Powers.Any() == false) return;
-
-		var Power = Powers.PickRandom();
-
-		var metaDataNode = Power.GetComponentCustom<RegisterTile>().Matrix.GetMetaDataNode(Power.transform.localPosition.RoundToInt());
-		foreach (var ElectricalData in metaDataNode.ElectricalData)
+		public override void OnEventStart()
 		{
-			if (ElectricalData.InData.WireEndA == Connection.Overlap || ElectricalData.InData.WireEndB == Connection.Overlap) continue;
-			ElectricalData.InData.DestroyThisPlease();
-			return;
-		}
+			if (FakeEvent) return;
 
-		base.OnEventStart();
+			var Powers = MatrixManager.MainStationMatrix.MatrixMove.GetComponentsInChildren<PowerGenerator>().Where(x => x.IsOn);
+
+			if (Powers.Any() == false) return;
+
+			var Power = Powers.PickRandom();
+
+			var metaDataNode = Power.GetComponentCustom<RegisterTile>().Matrix.GetMetaDataNode(Power.transform.localPosition.RoundToInt());
+			foreach (var ElectricalData in metaDataNode.ElectricalData)
+			{
+				if (ElectricalData.InData.WireEndA == Connection.Overlap || ElectricalData.InData.WireEndB == Connection.Overlap) continue;
+				ElectricalData.InData.DestroyThisPlease();
+				return;
+			}
+
+			base.OnEventStart();
+		}
 	}
 }
+

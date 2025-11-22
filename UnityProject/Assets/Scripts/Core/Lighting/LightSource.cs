@@ -8,6 +8,7 @@ using Mirror;
 using ScriptableObjects;
 using Light2D;
 using Logs;
+using Managers;
 using Messages.Server.SoundMessages;
 using Systems.Electricity;
 using Shared.Systems.ObjectConnection;
@@ -587,29 +588,6 @@ namespace Objects.Lighting
 
 		public void StateUpdate(PowerState newPowerState)
 		{
-			// if (isServer == false) return;
-			// powerState = newPowerState;
-			// if (MountState == LightMountState.Broken
-			//     || MountState == LightMountState.MissingBulb) return;
-			// switch (newPowerState)
-			// {
-			// 	case PowerState.Off:
-			// 		Animator.ServerStopAnim();
-			// 		ServerChangeLightState(LightMountState.Off);
-			// 		return;
-			// 	case PowerState.LowVoltage:
-			// 		Animator.ServerPlayAnim(0);
-			// 		ServerChangeLightState(LightMountState.Off);
-			// 		return;
-			// 	case PowerState.On:
-			// 		ServerChangeLightState(LightMountState.On);
-			// 		Animator.ServerStopAnim();
-			// 		return;
-			// 	case PowerState.OverVoltage:
-			// 		ServerChangeLightState(LightMountState.BurnedOut);
-			// 		Animator.ServerStopAnim();
-			// 		return;
-			// }
 		}
 
 		#endregion
