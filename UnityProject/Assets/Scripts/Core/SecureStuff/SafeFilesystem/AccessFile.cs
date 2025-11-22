@@ -27,7 +27,7 @@ namespace SecureStuff
 
 		public static string ForkName
 		{
-			
+
 			get
 			{
 				if (string.IsNullOrEmpty(cashedForkName) == false) return cashedForkName;
@@ -38,6 +38,7 @@ namespace SecureStuff
 				var data = JsonConvert.DeserializeObject<BuiltFork>(text);
 				cashedForkName = data == null ? "Unitystation" : data.Name;
 
+				
 				return cashedForkName;
 			}
 		}
