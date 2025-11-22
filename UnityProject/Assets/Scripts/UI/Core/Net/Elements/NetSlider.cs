@@ -42,12 +42,13 @@ namespace UI.Core.NetUI
 			//Don't send if triggered by external change
 			if (externalChange == false)
 			{
-				element.interactable = false;
+				Element.interactable = false;
 				LoadManager.RegisterActionDelayed(AllowInput, 10);
 				//There is bug to do where it instantly Swaps back and forth (On and off (0 and 100)) for the freezer (Thermo machine for atmospherics) if this is not here
 				//Also reduces number updates for the Yoke on the shuttles
 				TabInteractMessage.Send(containedInTab.Provider, containedInTab.Type, name, BinaryValue);
 			}
+			
 		}
 
 		public void AllowInput()

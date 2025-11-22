@@ -53,6 +53,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -74,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 11
@@ -105,11 +108,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 3ba66c1c2edeefc4c9923c4797c950f6,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 6048841689289694692}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &5354020385913806003
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -118,6 +124,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1950433815664009833, guid: e0e64c895438def4e8c84991de4e2a0a,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1183554049431842839}
     - target: {fileID: 1950433815664009833, guid: e0e64c895438def4e8c84991de4e2a0a,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -248,6 +259,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1382998348647234042}
   m_SourcePrefab: {fileID: 100100000, guid: e0e64c895438def4e8c84991de4e2a0a, type: 3}
+--- !u!212 &1183554049431842839 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6494640430406937764, guid: e0e64c895438def4e8c84991de4e2a0a,
+    type: 3}
+  m_PrefabInstance: {fileID: 5354020385913806003}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1289552081570410362 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6604570522167096265, guid: e0e64c895438def4e8c84991de4e2a0a,
@@ -281,9 +298,9 @@ MonoBehaviour:
   storage: {fileID: 1382998348647234042}
   physics: {fileID: 1289552081570410362}
   machineIntegrity: {fileID: 7557081844416732061}
-  numberOfTimesToDamage: 8
+  numberOfTimesToDamage: 30
   produceMultiplier: 3
-  damagePerFrame: 50
+  damagePerFrame: 10
   defaultProduce: {fileID: 8223452375745627725, guid: a326b8be6d37c4a4ba068dbf1c296357,
     type: 3}
   lights: {fileID: 4689896813754396663}

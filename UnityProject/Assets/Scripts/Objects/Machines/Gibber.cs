@@ -42,11 +42,16 @@ namespace Objects.Machines
 			//Checks if the player is in reach + if they are able to interact with this type of object.
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			//For people attacking the object so they don't accidentally trip it.
-			return interaction.Intent != Intent.Harm;
+			return interaction.Intent == Intent.Disarm;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if (interaction.IsAltClick)
+			{
+				storage.RetrieveObjects();
+			}
+
 			if (interaction.HandObject != null)
 			{
 				storage.StoreObject(interaction.HandObject);

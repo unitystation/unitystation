@@ -273,7 +273,7 @@ namespace Objects.Botany
 							{
 								if (reagentContainer[nutriment] > 0)
 								{
-									reagentContainer.Subtract(new ReagentMix(nutriment, 0.5f /   GetMachineMultiplier()));
+									reagentContainer.Subtract(new ReagentMix(nutriment, 0.375f /   GetMachineMultiplier()));
 								}
 							}
 
@@ -324,7 +324,7 @@ namespace Objects.Botany
 			{
 				if (weedLevel < 10)
 				{
-					weedLevel += 0.01f /   GetMachineMultiplier();
+					weedLevel += 0.005f /   GetMachineMultiplier();
 					if (weedLevel > 10)
 					{
 						weedLevel = 10;

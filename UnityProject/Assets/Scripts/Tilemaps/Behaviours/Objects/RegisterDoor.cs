@@ -2,6 +2,7 @@
 using UnityEngine;
 using Core.Editor.Attributes;
 using Doors;
+using Mirror;
 using Systems.Interaction;
 using Util;
 
@@ -21,8 +22,8 @@ using Util;
 
 		public bool OneDirectionRestricted;
 
-		[SerializeField]
-		private bool isClosed = true;
+		[SyncVar]
+		public bool isClosed = true;
 
 		public bool IsClosed
 		{
