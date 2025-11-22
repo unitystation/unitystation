@@ -891,18 +891,20 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			var KeepMomentum = this.TargetTransform.worldToLocalMatrix.MultiplyVector(WorldCurrentVelocity);
 
 
+			bool UpdateConversion = WorldCurrentVelocity.sqrMagnitude == 0;
+
 			// If the difference is small, snap to the target rotation
 			if (Mathf.Abs(angleDifference) < step)
 			{
 				TransformUpdateRotate(ObjectLayer.transform.TransformPoint(currentLocalPivot).RoundToInt(),
-					angleDifference, false, Matrixes);
+					angleDifference, UpdateConversion, Matrixes);
 				TargetOrientation = OrientationEnum.Default;
 			}
 			else
 			{
 				// Rotate the object around the pivot using transform.RotateAround
 				TransformUpdateRotate(ObjectLayer.transform.TransformPoint(currentLocalPivot).RoundToInt(),
-					direction * rotationSpeed * DeltaTimeSeconds, false, Matrixes);
+					direction * rotationSpeed * DeltaTimeSeconds, UpdateConversion, Matrixes);
 			}
 
 			if (HasMoveToTarget == false)
