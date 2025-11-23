@@ -26,6 +26,8 @@ public class PortableScrubber : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	public GasSO TargetGas = null;
 
+	public RegisterTile Tile;
+
 	private List<Vector3Int> RelativePositionsToScrub = new List<Vector3Int>()
 	{
 		new Vector3Int(0, 0),
@@ -147,7 +149,7 @@ public class PortableScrubber : MonoBehaviour, ICheckedInteractable<HandApply>
 
 		var energyTotal = 0f;
 		var totalMoles = 0f;
-		var localPosition = transform.localPosition.RoundToInt();
+		var localPosition = UniversalObjectPhysics.registerTile.LocalPosition;
 
 		foreach (var offsetPosition in RelativePositionsToScrub)
 		{
