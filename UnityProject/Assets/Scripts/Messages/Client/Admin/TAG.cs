@@ -157,4 +157,6 @@ public static class TAG
 
 	public const string MANAGE_MIND_POSSESSING = "MANAGE_MIND_POSSESSING";
 	public const string MANAGE_MIND_OWNERSHIP = "MANAGE_MIND_OWNERSHIP";
+
+	public const string SUPPORTER = "SUPPORTER";
 }

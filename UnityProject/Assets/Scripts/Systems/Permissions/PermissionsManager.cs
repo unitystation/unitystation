@@ -137,13 +137,17 @@ namespace Systems.Permissions
 
 			if (data != null) return;
 
-
 			Config.Players.Add(new Player(){Identifier = userID, Rank = rankType});
 
 			if (saveFile)
 			{
 				AccessFile.Save(configPath, Toml.FromModel(Config));
 			}
+		}
+
+		public void AddTempRoleTo(string userID, string rankType)
+		{
+			Config.Players.Add(new Player() { Identifier = userID, Rank = rankType });
 		}
 
 		public void RemoveRoleFrom(string userID, string rankType, bool saveFile = false)

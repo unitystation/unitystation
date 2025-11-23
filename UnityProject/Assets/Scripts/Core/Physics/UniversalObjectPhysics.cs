@@ -549,8 +549,8 @@ namespace Core.Physics
 		{
 			if (worldPos.z != 0)
 			{
-				Loggy.Error(
-					$"Attempting to AppearAtWorldPositionServer for {this.gameObject.name} A odd z Level Of {worldPos.z}, change this to -100 for when we implement z levels  ");
+				Loggy.Warning(
+					$"Attempting to AppearAtWorldPositionServer for {this.gameObject.name} A odd z Level Of {worldPos.z}, change this to -100 for when we implement z levels");
 				worldPos.z = 0;
 			}
 
