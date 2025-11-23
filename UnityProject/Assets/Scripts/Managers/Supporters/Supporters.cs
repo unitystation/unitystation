@@ -55,7 +55,6 @@ namespace Managers.Supporters
 	public struct Supporter
 	{
 		public string Identifier;
-		public string Flare;
 	}
 }
 

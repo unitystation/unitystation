@@ -23,8 +23,7 @@ namespace Managers.Supporters.FetchSupporterMethods
                 var defaultSupporters = new List<Supporter>();
                 defaultSupporters.Add( new Supporter
 				{
-					Identifier = "12345678901234567",
-					Flare = "[S] - "
+					Identifier = "InsertAccountIdHere",
 				});
                 string defaultJson = JsonConvert.SerializeObject(defaultSupporters, Formatting.Indented);
                 AccessFile.Save(FileName, defaultJson, FolderType.Data);
