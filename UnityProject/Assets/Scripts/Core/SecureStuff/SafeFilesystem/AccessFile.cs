@@ -52,7 +52,6 @@ namespace SecureStuff
 		[Serializable]
 		private class BuiltFork
 		{
-			
 			[JsonProperty("ForkName")]
 			public string Name { get; set; } // = Unitystation"
 		}
@@ -394,5 +393,3 @@ namespace SecureStuff
 
 	}
 }
-
-
