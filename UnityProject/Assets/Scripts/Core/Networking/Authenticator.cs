@@ -12,6 +12,7 @@ using GameConfig;
 using Lobby;
 using Logs;
 using Systems.Character;
+using UnityEngine;
 
 namespace Core.Networking
 {
@@ -135,7 +136,7 @@ namespace Core.Networking
 
 
 			// Allow local offline testing
-			if (GameData.Instance.OfflineMode)
+			if (GameData.Instance.OfflineMode || Application.isEditor)
 			{
 				PlayerManager.CharacterManager.Init();
 				account = new Account

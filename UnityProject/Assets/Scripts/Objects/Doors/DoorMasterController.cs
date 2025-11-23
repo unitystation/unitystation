@@ -294,9 +294,9 @@ namespace Doors
 		/// </summary>
 		/// <param name="interaction">The Handapply interaction being used</param>
 		/// <returns>True if none of the door modules would prevent the door from opening/closing</returns>
-		private bool TryInteraction(HandApply interaction)
+		private bool TryInteraction(HandApply interaction, bool DoneByCode = false)
 		{
-			if (CheckInteractionAllowed() == false) return false;
+			if (CheckInteractionAllowed() == false && DoneByCode == false) return false;
 
 			DoorInputCoolDown().Forget();
 
@@ -545,7 +545,7 @@ namespace Doors
 
 			byForce = true;
 
-			if (TryInteraction(null))
+			if (TryInteraction(null, true))
 			{
 				Open();
 				return true;
@@ -609,7 +609,8 @@ namespace Doors
 
 			byForce = true;
 
-			if (TryInteraction(null))
+
+			if (TryInteraction(null, true))
 			{
 				Close();
 

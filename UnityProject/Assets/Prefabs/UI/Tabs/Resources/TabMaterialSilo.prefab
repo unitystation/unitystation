@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5397483258852497806}
   - component: {fileID: 4464554699345591112}
   - component: {fileID: -5197023660981493133}
+  - component: {fileID: 7236243731072751567}
   m_Layer: 5
   m_Name: MoneyInTheBagPleaseI'mCrackers
   m_TagString: Untagged
@@ -137,6 +138,34 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7332890878254483807}
   m_OnClick:
     m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &-5197023660981493133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87836216337533314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7236243731072751567
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 87836216337533314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::UI.Core.NetUI.NetButton
+  AddInRunTime: 1
+  ServerMethod:
+    m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1798494732142585399}
         m_TargetAssemblyTypeName: UI.Objects.Cargo.GUI_MaterialSilo, Assets
@@ -150,18 +179,12 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &-5197023660981493133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 87836216337533314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  OnMouseEnter:
+    m_PersistentCalls:
+      m_Calls: []
+  OnMouseExit:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &2335617067626615835
 GameObject:
   m_ObjectHideFlags: 0
