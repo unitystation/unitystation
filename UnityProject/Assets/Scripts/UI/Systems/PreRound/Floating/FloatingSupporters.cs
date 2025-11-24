@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using Core.Networking.AsyncMessageQueue;
 
 namespace UI.Systems.PreRound.Floating
 {
@@ -39,16 +40,11 @@ namespace UI.Systems.PreRound.Floating
 		private int _lastSupporterCount;
 		private int _lastSpriteCount;
 
+		private List<Supporter> _supportersCache = new List<Supporter>();
+
 		private void Awake()
 		{
 			_mainCamera = Camera.main;
-			if (Supporters.Instance == null)
-			{
-				Debug.LogWarning("Supporters manager not present in scene. FloatingSupporters will be disabled.");
-				enabled = false;
-				return;
-			}
-
 			if (spawnParent != null) return;
 			var canvas = GetComponentInParent<Canvas>();
 			if (canvas == null) canvas = FindFirstObjectByType<Canvas>();
@@ -73,9 +69,30 @@ namespace UI.Systems.PreRound.Floating
 			_lastSpriteCount = 0;
 		}
 
+		private async UniTask AskServerForSupporters()
+		{
+			await UniTask.WaitForSeconds(2f); // slight delay to allow connection setup
+			var status = await RpcMessageQueue.Instance.Queue(RequestHandlerConstants.REQUEST_SUPPORTERS);
+			Loggy.Info($"Status: {status.Status}\n data: {status.ValueFromJson}");
+			if (status.Status == MessageStatus.Success)
+			{
+				try
+				{
+					var supporters = status.DeserializeFromText<List<Supporter>>();
+					_supportersCache = supporters;
+				}
+				catch (Exception e)
+				{
+					Loggy.Error($"Error deserializing supporters: {e.Message}");
+				}
+			}
+		}
+
 		private async UniTaskVoid SpawnLoopAsync(CancellationToken token)
 		{
-			if (Supporters.Instance.SupporterList == null || Supporters.Instance.SupporterList.Count == 0)
+			if (CustomNetworkManager.IsHeadless) return;
+			await AskServerForSupporters();
+			if (_supportersCache == null || _supportersCache.Count == 0)
 			{
 				return;
 			}
@@ -101,7 +118,7 @@ namespace UI.Systems.PreRound.Floating
 
 		private void SpawnOne()
 		{
-			if (Supporters.Instance.SupporterList == null || Supporters.Instance.SupporterList.Count == 0) return;
+			if (_supportersCache == null || _supportersCache.Count == 0) return;
 			if (floatingSupporerPrefab == null)
 			{
 				Loggy.Error("template not assigned. Cannot spawn.");
@@ -111,7 +128,7 @@ namespace UI.Systems.PreRound.Floating
 			// pick next supporter index from queue (refill+shuffle when exhausted)
 			int supIndex = GetNextSupporterIndex();
 			if (supIndex < 0) return;
-			var sup = Supporters.Instance.SupporterList[supIndex];
+			var sup = _supportersCache[supIndex];
 			bool fromLeft = UnityEngine.Random.value > 0.5f;
 
 			Vector3 spawnViewport = new Vector3(fromLeft ? 0f : 1f, UnityEngine.Random.Range(minViewportY, maxViewportY), 0f);
@@ -203,7 +220,7 @@ namespace UI.Systems.PreRound.Floating
 
 		private int GetNextSupporterIndex()
 		{
-			var list = Supporters.Instance?.SupporterList;
+			var list = _supportersCache;
 			if (list == null || list.Count == 0) return -1;
 
 			// refill and shuffle if queue exhausted or if the underlying supporter list size changed
