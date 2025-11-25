@@ -7,6 +7,7 @@ using Items;
 using Logs;
 using Objects;
 using Systems.Cargo;
+using UI.Systems.Character;
 using UnityEngine;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
@@ -188,7 +189,17 @@ public class AutopilotShipCargo : AutopilotShipMachine
 					continue;
 				}
 
-				if (!stackableItems.ContainsKey(entryPrefab))
+
+				var blueprint = entryPrefab.GetComponent<PlayerBlueprint>();
+
+				if (blueprint != null)
+				{
+					var body = blueprint.SpawnObject();
+					AddItemToCrate(container, body);
+					continue;
+				}
+
+				if (stackableItems.ContainsKey(entryPrefab) == false)
 				{
 					var orderedItem = Spawn.ServerPrefab(order.Items[i], pos.ToWorld(mm.NetworkedMatrixMove.MetaTileMap.matrix)).GameObject;
 					if (orderedItem == null)
@@ -204,6 +215,8 @@ public class AutopilotShipCargo : AutopilotShipMachine
 					{
 						stackableItems.Add(entryPrefab, stackableItem);
 					}
+
+
 
 					AddItemToCrate(container, orderedItem);
 				}

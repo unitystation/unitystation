@@ -20,6 +20,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2008855533471951948, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 7741893828546030897}
+    - target: {fileID: 2008855533471951948, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 9e802c2c99d231e4eb3819166e1f6f0f,
@@ -900,6 +905,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: -8452655453788033201}
+    - targetCorrespondingSourceObject: {fileID: 5667494539314517963, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1078220907893255921}
   m_SourcePrefab: {fileID: 100100000, guid: a435d5d64bc4b48baa27fecfcab9e111, type: 3}
 --- !u!1 &7602444472548548205 stripped
 GameObject:
@@ -1132,3 +1141,25 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+--- !u!114 &1078220907893255921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7602444472548548205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104d9a22603dba440a2d901daf048fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::MaterialMakeUp
+  MakeUp:
+    m_keys:
+    - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+    m_values: f4010000
+--- !u!212 &7741893828546030897 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5500876317600244887, guid: a435d5d64bc4b48baa27fecfcab9e111,
+    type: 3}
+  m_PrefabInstance: {fileID: 2821420188953315750}
+  m_PrefabAsset: {fileID: 0}

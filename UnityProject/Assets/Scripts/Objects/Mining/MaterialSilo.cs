@@ -66,6 +66,11 @@ namespace Objects.Machines
 			if (!DefaultWillInteract.Default(interaction, side))
 				return false;
 
+			if (Validations.HasComponent<MaterialMakeUp>(interaction.HandObject))
+			{
+				return true;
+			}
+
 			InsertedMaterialType = materialStorage.FindMaterial(interaction.HandObject);
 			if (InsertedMaterialType != null)
 			{
@@ -76,9 +81,28 @@ namespace Objects.Machines
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			var MaterialMakeUp = interaction.HandObject.GetComponent<MaterialMakeUp>();
 			var stackable = interaction.HandObject.GetComponent<Stackable>();
-			materialStorage.TryAddSheet(InsertedMaterialType, stackable.Amount);
-			_ = Inventory.ServerDespawn(interaction.HandObject);
+			if (MaterialMakeUp != null)
+			{
+				if (materialStorage.CanFit(MaterialMakeUp, stackable.Amount))
+				{
+					foreach (var Material in MaterialMakeUp.MakeUp)
+					{
+						materialStorage.AddMaterial(Material.Key.materialTrait, Material.Value * stackable.Amount);
+					}
+					_ = Inventory.ServerDespawn(interaction.HandObject);
+				}
+			}
+			else
+			{
+				var canadd = materialStorage.TryAddSheet(InsertedMaterialType, stackable.Amount);
+				if (canadd)
+				{
+					_ = Inventory.ServerDespawn(interaction.HandObject);
+				}
+			}
+
 		}
 
 		public void OnDespawnServer(DespawnInfo info)

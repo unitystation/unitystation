@@ -207,6 +207,11 @@ namespace Systems.Research.Objects
 			if (interaction.HandSlot.IsEmpty) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
+			if (Validations.HasComponent<MaterialMakeUp>(interaction.HandObject))
+			{
+				return true;
+			}
+
 			InsertedMaterialType = materialStorageLink.usedStorage.FindMaterial(interaction.HandObject);
 			if (InsertedMaterialType != null)
 			{
@@ -220,10 +225,36 @@ namespace Systems.Research.Objects
 			// Can't insert materials while RDPro is in production.
 			if (stateSync != RDProState.Production)
 			{
-				int materialSheetAmount = interaction.HandSlot.Item.GetComponent<Stackable>().Amount;
-				if (materialStorageLink.TryAddSheet(InsertedMaterialType, materialSheetAmount))
+				var MaterialMakeUp = interaction.HandObject.GetComponent<MaterialMakeUp>();
+				var stackable = interaction.HandObject.GetComponent<Stackable>();
+				bool adding = false;
+
+				if (MaterialMakeUp != null)
 				{
-					interaction.HandSlot.Item.GetComponent<Stackable>().ServerConsume(materialSheetAmount);
+					if (materialStorageLink.CanFit(MaterialMakeUp, stackable.Amount))
+					{
+						foreach (var Material in MaterialMakeUp.MakeUp)
+						{
+							materialStorageLink.AddMaterial(Material.Key.materialTrait,
+								Material.Value * stackable.Amount);
+						}
+
+						_ = Inventory.ServerDespawn(interaction.HandObject);
+						adding = true;
+					}
+				}
+				else
+				{
+					var canadd = materialStorageLink.TryAddSheet(InsertedMaterialType, stackable.Amount);
+					if (canadd)
+					{
+						_ = Inventory.ServerDespawn(interaction.HandObject);
+						adding = true;
+					}
+				}
+
+				if (adding)
+				{
 					if (stateSync == RDProState.Idle)
 					{
 						StartCoroutine(AnimateAcceptingMaterials());

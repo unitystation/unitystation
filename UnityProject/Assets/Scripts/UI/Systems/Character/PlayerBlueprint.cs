@@ -20,8 +20,14 @@ namespace UI.Systems.Character
 		[NaughtyAttributes.Button()]
 		public void Spawn()
 		{
+			SpawnObject();
+		}
+
+		public GameObject SpawnObject()
+		{
 			var Mind =  PlayerSpawn.NewSpawnCharacterV2(null, CharacterSheet, nonImportantMind);
 			Mind.Body.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(this.transform.position);
+			return Mind.Body.gameObject;
 		}
 
 		public void OnSpawnServer(SpawnInfo info)

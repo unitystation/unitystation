@@ -7,33 +7,31 @@ using Systems.Electricity;
 namespace Objects.Machines
 {
 	[RequireComponent(typeof(MaterialStorageLink))]
-	public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn, IServerDespawn, IAPCPowerable
+	public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn, IServerDespawn,
+		IAPCPowerable
 	{
 		public PowerState PoweredState;
 
-		[SyncVar(hook = nameof(SyncSprite))]
-		private AutolatheState stateSync;
+		[SyncVar(hook = nameof(SyncSprite))] private AutolatheState stateSync;
 
-		[SerializeField]
-		private SpriteHandler spriteHandler;
+		[SerializeField] private SpriteHandler spriteHandler;
 
-		[SerializeField]
-		private SpriteDataSO idleSprite;
+		[SerializeField] private SpriteDataSO idleSprite;
 
-		[SerializeField]
-		private SpriteDataSO productionSprite;
+		[SerializeField] private SpriteDataSO productionSprite;
 
-		[SerializeField]
-		private SpriteDataSO acceptingMaterialsSprite;
+		[SerializeField] private SpriteDataSO acceptingMaterialsSprite;
 
 		private RegisterObject registerObject;
 
 		public MaterialStorageLink materialStorageLink;
 
-		[SerializeField]
-		private MachineProductsCollection autolatheProducts;
+		[SerializeField] private MachineProductsCollection autolatheProducts;
 
-		public MachineProductsCollection AutolatheProducts { get => autolatheProducts; }
+		public MachineProductsCollection AutolatheProducts
+		{
+			get => autolatheProducts;
+		}
 
 		public delegate void MaterialsManipulating();
 
@@ -72,6 +70,7 @@ namespace Objects.Machines
 				StopCoroutine(currentProduction);
 				currentProduction = null;
 			}
+
 			if (materialStorageLink != null)
 			{
 				materialStorageLink.Despawn();
@@ -91,11 +90,18 @@ namespace Objects.Machines
 			if (interaction.HandSlot.IsEmpty) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
+
+			if (Validations.HasComponent<MaterialMakeUp>(interaction.HandObject))
+			{
+				return true;
+			}
+
 			InsertedMaterialType = materialStorageLink.usedStorage.FindMaterial(interaction.HandObject);
 			if (InsertedMaterialType != null)
 			{
 				return true;
 			}
+
 			return false;
 		}
 
@@ -104,20 +110,48 @@ namespace Objects.Machines
 			// Can't insert materials while exofab is in production.
 			if (stateSync != AutolatheState.Production)
 			{
-				int materialSheetAmount = interaction.HandSlot.Item.GetComponent<Stackable>().Amount;
-				if (materialStorageLink.TryAddSheet(InsertedMaterialType, materialSheetAmount))
+				var MaterialMakeUp = interaction.HandObject.GetComponent<MaterialMakeUp>();
+				var stackable = interaction.HandObject.GetComponent<Stackable>();
+				bool adding = false;
+
+				if (MaterialMakeUp != null)
 				{
-					interaction.HandSlot.Item.GetComponent<Stackable>().ServerConsume(materialSheetAmount);
+					if (materialStorageLink.CanFit(MaterialMakeUp, stackable.Amount))
+					{
+						foreach (var Material in MaterialMakeUp.MakeUp)
+						{
+							materialStorageLink.AddMaterial(Material.Key.materialTrait,
+								Material.Value * stackable.Amount);
+						}
+
+						_ = Inventory.ServerDespawn(interaction.HandObject);
+						adding = true;
+					}
+				}
+				else
+				{
+					var canadd = materialStorageLink.TryAddSheet(InsertedMaterialType, stackable.Amount);
+					if (canadd)
+					{
+						_ = Inventory.ServerDespawn(interaction.HandObject);
+						adding = true;
+					}
+				}
+
+				if (adding)
+				{
 					if (stateSync == AutolatheState.Idle)
 					{
 						StartCoroutine(AnimateAcceptingMaterials());
 					}
 				}
-				else Chat.AddActionMsgToChat(interaction.Performer, "Autolathe is full",
-					"Autolathe is full");
+				else
+					Chat.AddActionMsgToChat(interaction.Performer, "Autolathe is full",
+						"Autolathe is full");
 			}
-			else Chat.AddActionMsgToChat(interaction.Performer, "Cannot accept materials while fabricating",
-				"Cannot accept materials while fabricating");
+			else
+				Chat.AddActionMsgToChat(interaction.Performer, "Cannot accept materials while fabricating",
+					"Cannot accept materials while fabricating");
 		}
 
 		private IEnumerator AnimateAcceptingMaterials()
@@ -133,19 +167,22 @@ namespace Objects.Machines
 			{
 				stateSync = AutolatheState.Idle;
 			}
+
 			UpdateGUI();
 		}
 
 		public void DispenseMaterialSheet(int amountOfSheets, ItemTrait materialType)
 		{
-			materialStorageLink.usedStorage.DispenseSheet(amountOfSheets, materialType, gameObject.AssumedWorldPosServer());
+			materialStorageLink.usedStorage.DispenseSheet(amountOfSheets, materialType,
+				gameObject.AssumedWorldPosServer());
 			UpdateGUI();
 		}
 
 		[Server]
 		public bool CanProcessProduct(MachineProduct product)
 		{
-			if (materialStorageLink.usedStorage.TryConsumeList(product.materialToAmounts, 0.5f / (machine.GetPartMultiplier()/2f) ))
+			if (materialStorageLink.usedStorage.TryConsumeList(product.materialToAmounts,
+				    0.5f / (machine.GetPartMultiplier() / 2f)))
 			{
 				if (APCPoweredDevice.IsOn(PoweredState))
 				{
@@ -187,7 +224,9 @@ namespace Objects.Machines
 
 		#region IAPCPowerable
 
-		public void PowerNetworkUpdate(float voltage) { }
+		public void PowerNetworkUpdate(float voltage)
+		{
+		}
 
 		public void StateUpdate(PowerState state)
 		{
