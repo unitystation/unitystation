@@ -85,11 +85,17 @@ namespace Objects.Machines
 			var stackable = interaction.HandObject.GetComponent<Stackable>();
 			if (MaterialMakeUp != null)
 			{
-				if (materialStorage.CanFit(MaterialMakeUp, stackable.Amount))
+				var StackableAmount = 1;
+				if (stackable != null)
+				{
+					StackableAmount = stackable.Amount;
+				}
+
+				if (materialStorage.CanFit(MaterialMakeUp, StackableAmount))
 				{
 					foreach (var Material in MaterialMakeUp.MakeUp)
 					{
-						materialStorage.AddMaterial(Material.Key.materialTrait, Material.Value * stackable.Amount);
+						materialStorage.AddMaterial(Material.Key.materialTrait, Material.Value * StackableAmount);
 					}
 					_ = Inventory.ServerDespawn(interaction.HandObject);
 				}

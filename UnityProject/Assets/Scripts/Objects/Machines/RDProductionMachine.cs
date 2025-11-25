@@ -231,12 +231,18 @@ namespace Systems.Research.Objects
 
 				if (MaterialMakeUp != null)
 				{
-					if (materialStorageLink.CanFit(MaterialMakeUp, stackable.Amount))
+					var StackableAmount = 1;
+					if (stackable != null)
+					{
+						StackableAmount = stackable.Amount;
+					}
+
+					if (materialStorageLink.CanFit(MaterialMakeUp, StackableAmount))
 					{
 						foreach (var Material in MaterialMakeUp.MakeUp)
 						{
 							materialStorageLink.AddMaterial(Material.Key.materialTrait,
-								Material.Value * stackable.Amount);
+								Material.Value * StackableAmount);
 						}
 
 						_ = Inventory.ServerDespawn(interaction.HandObject);
