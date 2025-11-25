@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Core.Editor.Attributes;
+using Core.Networking.AsyncMessageQueue;
 using Logs;
 using Managers.Supporters.FetchSupporterMethods;
+using Newtonsoft.Json;
 using Shared.Managers;
 using UnityEngine;
 
@@ -20,6 +22,7 @@ namespace Managers.Supporters
 		{
 			base.Awake();
 			RefreshSupporters();
+			RpcMessageQueue.Instance.RegisterHandler(RequestHandlerConstants.REQUEST_SUPPORTERS, CurrentSupportersToJson);
 		}
 
 		public void RefreshSupporters()
@@ -38,13 +41,17 @@ namespace Managers.Supporters
 			}
 		}
 
+		private string CurrentSupportersToJson()
+		{
+			return JsonConvert.SerializeObject(SupporterList);
+		}
+
 		public static Tuple<bool, Supporter?> IsSupporter(PlayerInfo player)
 		{
 			foreach (var supporter in Instance.SupporterList)
 			{
 #if UNITY_EDITOR
 				if (player.Username == supporter.Identifier) return new Tuple<bool, Supporter?>(true, supporter);
-				Debug.Log($"{player.Username} == {supporter.Identifier}: {player.Username == supporter.Identifier}");
 #endif
 				if (player.AccountId == supporter.Identifier) return new Tuple<bool, Supporter?>(true, supporter);
 			}
