@@ -131,6 +131,13 @@ namespace Objects
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, MotionSensingUpdate);
 		}
 
+		private void OnDestroy()
+		{
+			//(Max): Turn this into a serialized action!!
+			// Unity events suck major balls, and cause a lot of GC.
+			OnStateChange.RemoveAllListeners();
+		}
+
 		#region Ai Camera Switching Interaction
 
 		public bool WillInteract(AiActivate interaction, NetworkSide side)
@@ -148,7 +155,7 @@ namespace Objects
 		{
 			if (interaction.Performer.TryGetComponent<AiPlayer>(out var aiPlayer) == false) return;
 
-			if(aiPlayer.OpenNetworks.Contains(securityCameraChannel) == false) return;
+			if (aiPlayer.OpenNetworks.Contains(securityCameraChannel) == false) return;
 
 			if (cameraActive == false)
 			{
@@ -370,7 +377,7 @@ namespace Objects
 		{
 			cameraActive = newState;
 			spriteHandler.OrNull()?.SetCatalogueIndexSprite(cameraActive ? 1 : 0);
-			OnStateChange.Invoke(newState);
+			OnStateChange?.Invoke(newState);
 
 			//On state change, resync number of active cameras
 			SyncNumberOfCameras();

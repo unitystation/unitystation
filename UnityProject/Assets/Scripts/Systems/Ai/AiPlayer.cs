@@ -15,6 +15,7 @@ using Objects.Research;
 using UI.Systems.MainHUD.UI_Bottom;
 using UnityEngine;
 using HealthV2;
+using Logs;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Ai
@@ -362,8 +363,19 @@ namespace Systems.Ai
 		#region Camera Stuff
 
 		[Server]
+		public void SendPlayerCameraToCore()
+		{
+			ServerSetCameraLocation(vesselObject);
+		}
+
+		[Server]
 		public void ServerSetCameraLocation(GameObject newObject, bool ignoreCardCheck = false, bool moveMessage = true)
 		{
+			if (newObject == null)
+			{
+				Loggy.Warning($"AiPlayer {gameObject} has passed a null newObject");
+				return;
+			}
 			//Cant switch cameras when carded
 			if (isCarded && ignoreCardCheck == false)
 			{
@@ -381,25 +393,23 @@ namespace Systems.Ai
 				}
 			}
 
-			if (newObject != null)
-			{
-				//Set location for validation checks
-				cameraLocation = newObject.transform;
+			//Set location for validation checks
+			cameraLocation = newObject.transform;
 
-				//This is to move the player object so we can see the Ai Eye sprite underneath us
-				//TODO for some reason this isnt always working the sprite sometimes stays on the core, or last position
-				playerScript.PlayerSync.AppearAtWorldPositionServer(cameraLocation.gameObject.AssumedWorldPosServer(), false);
-			}
-			else
-			{
-				cameraLocation = null;
-			}
+			//This is to move the player object so we can see the Ai Eye sprite underneath us
+			//TODO for some reason this isnt always working the sprite sometimes stays on the core, or last position
+			playerScript.PlayerSync.AppearAtWorldPositionServer(cameraLocation.gameObject.AssumedWorldPosServer(), false);
 
 			//Tell client to move their camera to this new camera
 			FollowCameraAiMessage.Send(gameObject, newObject);
 
+			if (cameraLocation == null)
+			{
+				Loggy.Warning($"AiPlayer {gameObject} trying to use a null camera location");
+				return;
+			}
 			//Add new listeners
-			if (newObject != null && cameraLocation.gameObject != newObject)
+			if (cameraLocation.gameObject != newObject)
 			{
 				//Add power listener
 				if (newObject.TryGetComponent<SecurityCamera>(out var securityCamera))
@@ -408,7 +418,7 @@ namespace Systems.Ai
 				}
 			}
 
-			if (newObject != null && isCarded == false && moveMessage)
+			if (isCarded == false && moveMessage)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, $"You move to the {newObject.ExpensiveName()}");
 			}
@@ -435,11 +445,11 @@ namespace Systems.Ai
 			{
 				if (OpenNetworks.Contains(pairs.Key) == false && newState) continue;
 
-				foreach (var camera in pairs.Value)
+				foreach (var aiCam in pairs.Value)
 				{
-					if (camera.CameraActive || newState == false)
+					if (aiCam.CameraActive || newState == false)
 					{
-						camera.OrNull()?.ToggleAiSprite(newState);
+						aiCam.OrNull()?.ToggleAiSprite(newState);
 					}
 				}
 			}
@@ -529,6 +539,7 @@ namespace Systems.Ai
 		//Used by the Ai teleport tab to move camera
 		public void CmdTeleportToCamera(GameObject newCamera, bool moveMessage)
 		{
+			if (newCamera == null) return;
 			if(OnCoolDown(NetworkSide.Server)) return;
 			StartCoolDown(NetworkSide.Server);
 
@@ -538,9 +549,9 @@ namespace Systems.Ai
 				return;
 			}
 
-			if(newCamera == null || newCamera.TryGetComponent<SecurityCamera>(out var securityCamera) == false) return;
+			if (newCamera.TryGetComponent<SecurityCamera>(out var securityCamera) == false) return;
 
-			if(OpenNetworks.Contains(securityCamera.SecurityCameraChannel) == false) return;
+			if (OpenNetworks.Contains(securityCamera.SecurityCameraChannel) == false) return;
 
 			if (hasPower == false)
 			{
@@ -712,6 +723,7 @@ namespace Systems.Ai
 
 			foreach (var securityCamera in GetValidCameras())
 			{
+				if (securityCamera == null) continue;
 				var securityCameraLocation = securityCamera.gameObject.AssumedWorldPosServer();
 
 				var direction = securityCameraLocation - aiPlayerCameraLocation;

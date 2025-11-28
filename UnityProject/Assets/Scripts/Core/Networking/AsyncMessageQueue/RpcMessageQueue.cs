@@ -33,6 +33,7 @@ namespace Core.Networking.AsyncMessageQueue
 			}
 
 			Loggy.Error($"Request timed out for {requestedTicket} - {requestToken}");
+			_client_ReceivedMessages.Remove(requestToken);
 			return new QueuedMessage
 			{
 				Requester = null,
