@@ -16,7 +16,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2335991647453887416, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 3100293009257945079}
+    - target: {fileID: 2335991647453887416, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c30d2c6fb84cb9543b61b0d6021ab012,
+        type: 2}
+    - target: {fileID: 2335991647453887416, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: c30d2c6fb84cb9543b61b0d6021ab012,
         type: 2}
@@ -43,6 +54,17 @@ PrefabInstance:
     - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: 'stacksWith.Array.data[0]'
+      value: 
+      objectReference: {fileID: 4050806546299500202, guid: 3cbf06449405e404fa6aa02e9d63f887,
+        type: 3}
+    - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: InitialstacksWith.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5200803135255930768, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: 'InitialstacksWith.Array.data[0]'
       value: 
       objectReference: {fileID: 4050806546299500202, guid: 3cbf06449405e404fa6aa02e9d63f887,
         type: 3}
@@ -119,6 +141,18 @@ PrefabInstance:
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: de3c46d05af11b74699683391ebd8c43,
+        type: 2}
+    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: afbc854b9144098498ad7bb880a65ad1,
+        type: 2}
+    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: de3c46d05af11b74699683391ebd8c43,
         type: 2}
@@ -230,6 +264,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6090332869900405034}
+    - targetCorrespondingSourceObject: {fileID: 8443408387443916863, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7662097774753106076}
   m_SourcePrefab: {fileID: 100100000, guid: b56fec0300832ce48ade0ddf2e577ee7, type: 3}
 --- !u!1 &3024028113330201771 stripped
 GameObject:
@@ -249,11 +287,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseReagentContainer: 0
   groundReagents:
-    m_keys:
-    - {fileID: 11400000, guid: 0dbe4ccb54c65da5e88a73f36441a195, type: 2}
-    - {fileID: 11400000, guid: bb1b374d9154ed45ca903a8ace087e8d, type: 2}
-    m_values: 140000000a000000
+    m_keys: []
+    m_values: []
 --- !u!114 &6090332869900405034
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,10 +311,33 @@ MonoBehaviour:
     itemCost: 2
     timeToPlace: 1
   placeSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GlassHit.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+--- !u!114 &7662097774753106076
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3024028113330201771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104d9a22603dba440a2d901daf048fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::MaterialMakeUp
+  MakeUp:
+    m_keys:
+    - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+    - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+    m_values: e8030000d0070000
+--- !u!212 &3100293009257945079 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8637049411140268899, guid: b56fec0300832ce48ade0ddf2e577ee7,
+    type: 3}
+  m_PrefabInstance: {fileID: 6690803946668254356}
+  m_PrefabAsset: {fileID: 0}

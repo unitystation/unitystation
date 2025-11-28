@@ -29,10 +29,34 @@ namespace Objects.Machines
 			}
 		}
 
-		private void AddMaterial(ItemTrait material, int quantity)
+		public bool CanFit(MaterialMakeUp MaterialMakeUp, int Stackquantity)
 		{
-			MaterialList[material] += quantity;
-			currentResources += quantity;
+
+			var total = currentResources;
+
+			foreach (var Material in MaterialMakeUp.MakeUp)
+			{
+				total += Material.Value * Stackquantity;
+			}
+			if (infiniteStorage || total <= maximumResources)
+			{
+				return true;
+			}
+			return false;
+
+		}
+
+		public bool AddMaterial(ItemTrait material, int quantity)
+		{
+			var totalSum = currentResources + quantity;
+			if (infiniteStorage || totalSum <= maximumResources)
+			{
+				MaterialList[material] += quantity;
+				currentResources += quantity;
+				UpdateGUIs?.Invoke();
+				return true;
+			}
+			return false;
 		}
 
 		private void ConsumeMaterial(ItemTrait material, int quantity)

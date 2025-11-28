@@ -57,6 +57,17 @@ namespace Objects.Machines
 			usedStorage.UpdateGUIs.AddListener(UpdateGUI);
 		}
 
+
+		public bool CanFit(MaterialMakeUp MaterialMakeUp, int Stackquantity)
+		{
+			return usedStorage.CanFit(MaterialMakeUp, Stackquantity);
+		}
+
+		public void AddMaterial(ItemTrait material, int quantity)
+		{
+			usedStorage.AddMaterial(material, quantity);
+		}
+
 		public bool TryAddSheet(ItemTrait InsertedMaterialType, int materialSheetAmount)
 		{
 			return usedStorage.TryAddSheet(InsertedMaterialType, materialSheetAmount);

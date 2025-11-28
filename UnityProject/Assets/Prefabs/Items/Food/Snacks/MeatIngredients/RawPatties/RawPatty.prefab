@@ -10,14 +10,35 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
       propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 84c6e08358573194c8c518895b225efd,
         type: 2}
     - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
+        type: 2}
+    - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
       propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[1]'
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1155915217242832539, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
@@ -129,6 +150,12 @@ PrefabInstance:
     - target: {fileID: 5169367590891271744, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d8f4bc013cb608943a5e73f6cd45b51d,
+        type: 2}
+    - target: {fileID: 5169367590891271744, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d8f4bc013cb608943a5e73f6cd45b51d,
         type: 2}

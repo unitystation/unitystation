@@ -94,7 +94,12 @@ namespace Objects.Machines
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.TargetObject != gameObject) return false;
 
-			if(interaction.HandObject == false) return true; //Open UI
+			if(interaction.HandObject == false || interaction.IsAltClick) return true; //Open UI
+
+			if (Validations.HasComponent<MaterialMakeUp>(interaction.HandObject))
+			{
+				return true;
+			}
 
 			if(_loadedMachineBoardSlot.IsEmpty && Validations.HasItemTrait(interaction.UsedObject, machineBoardTrait)) return true; //Load Board
 
@@ -122,12 +127,45 @@ namespace Objects.Machines
 			}
 
 			_insertedMaterialType = materialStorageLink.usedStorage.FindMaterial(interaction.HandObject);
-			if (_insertedMaterialType == true)
+			var MaterialMakeUp = interaction.HandObject.GetComponent<MaterialMakeUp>();
+			if (_insertedMaterialType == true || MaterialMakeUp != null)
 			{
-				int materialSheetAmount = interaction.HandSlot.Item.GetComponent<Stackable>().Amount;
-				if (materialStorageLink.TryAddSheet(_insertedMaterialType, materialSheetAmount))
+
+				var stackable = interaction.HandObject.GetComponent<Stackable>();
+				bool adding = false;
+
+				if (MaterialMakeUp != null)
 				{
-					interaction.HandSlot.Item.GetComponent<Stackable>().ServerConsume(materialSheetAmount);
+					var StackableAmount = 1;
+					if (stackable != null)
+					{
+						StackableAmount = stackable.Amount;
+					}
+
+					if (materialStorageLink.CanFit(MaterialMakeUp, StackableAmount))
+					{
+						foreach (var Material in MaterialMakeUp.MakeUp)
+						{
+							materialStorageLink.AddMaterial(Material.Key.materialTrait,
+								Material.Value * StackableAmount);
+						}
+
+						_ = Inventory.ServerDespawn(interaction.HandObject);
+						adding = true;
+					}
+				}
+				else
+				{
+					var canadd = materialStorageLink.TryAddSheet(_insertedMaterialType, stackable.Amount);
+					if (canadd)
+					{
+						_ = Inventory.ServerDespawn(interaction.HandObject);
+						adding = true;
+					}
+				}
+
+				if (adding)
+				{
 					UpdateGUI();
 				}
 				else Chat.AddActionMsgToChat(interaction.Performer, "Flatpacker is full",

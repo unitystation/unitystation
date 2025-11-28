@@ -275,6 +275,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2126062213985717703}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: b0fd576be5ff7f348aaa8389d156e9a7,
@@ -347,7 +352,17 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8670566117553005211}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7939887096776883599}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+--- !u!212 &2126062213985717703 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 2266199196745466401}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2265521501557685915 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
@@ -457,3 +472,19 @@ MonoBehaviour:
   damageType: 0
   protectionItemTraits:
   - {fileID: 11400000, guid: 30a421d219292474595f4c1e34917e51, type: 2}
+--- !u!114 &7939887096776883599
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2265521501557685915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104d9a22603dba440a2d901daf048fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::MaterialMakeUp
+  MakeUp:
+    m_keys:
+    - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+    m_values: d0070000

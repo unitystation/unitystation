@@ -16,7 +16,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2335991647453887416, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 5408116184463886784}
+    - target: {fileID: 2335991647453887416, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 35b8c96c8ec55794297782384d4baf16,
+        type: 2}
+    - target: {fileID: 2335991647453887416, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 35b8c96c8ec55794297782384d4baf16,
         type: 2}
@@ -110,6 +121,18 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: cdc8524fa068024498228665ccccce00, type: 3}
+    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 24cef5752fa18e34d912f1030ce2ccce,
+        type: 2}
+    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7f9a836d730474a4d850c633a41bb42e,
+        type: 2}
     - target: {fileID: 8410104111733346763, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: Armor.Acid
@@ -214,6 +237,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: -604030526576479682}
+    - targetCorrespondingSourceObject: {fileID: 8443408387443916863, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7282403177557244613}
   m_SourcePrefab: {fileID: 100100000, guid: b56fec0300832ce48ade0ddf2e577ee7, type: 3}
 --- !u!1 &5331286249588652700 stripped
 GameObject:
@@ -233,8 +260,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseReagentContainer: 0
   groundReagents:
+    m_keys: []
+    m_values: []
+--- !u!114 &7282403177557244613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5331286249588652700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104d9a22603dba440a2d901daf048fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::MaterialMakeUp
+  MakeUp:
     m_keys:
-    - {fileID: 11400000, guid: bb1b374d9154ed45ca903a8ace087e8d, type: 2}
-    - {fileID: 11400000, guid: 3f8ba0db83a8157ae8fbb3c4115580e7, type: 2}
-    m_values: 1400000014000000
+    - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+    - {fileID: 11400000, guid: 01512fe0b1af9ff48ba20fec373b37e3, type: 2}
+    m_values: d0070000d0070000
+--- !u!212 &5408116184463886784 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8637049411140268899, guid: b56fec0300832ce48ade0ddf2e577ee7,
+    type: 3}
+  m_PrefabInstance: {fileID: 4382437472613825187}
+  m_PrefabAsset: {fileID: 0}

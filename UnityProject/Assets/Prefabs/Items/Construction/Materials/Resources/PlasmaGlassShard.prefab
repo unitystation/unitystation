@@ -145,6 +145,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5347638606518830364, guid: 82677ff961fa72944936cc923625a1bc,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ce4358f721d0d0245813360139eae270,
+        type: 2}
+    - target: {fileID: 5347638606518830364, guid: 82677ff961fa72944936cc923625a1bc,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 33c15e3f013f174439fde47235ec278f,
@@ -161,6 +167,27 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 318180ee59365e64683ba015c2f2ecf6,
         type: 2}
+    - target: {fileID: 7939887096776883599, guid: 82677ff961fa72944936cc923625a1bc,
+        type: 3}
+      propertyPath: MakeUp.m_keys.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7939887096776883599, guid: 82677ff961fa72944936cc923625a1bc,
+        type: 3}
+      propertyPath: MakeUp.m_values.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7939887096776883599, guid: 82677ff961fa72944936cc923625a1bc,
+        type: 3}
+      propertyPath: 'MakeUp.m_keys.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 01512fe0b1af9ff48ba20fec373b37e3,
+        type: 2}
+    - target: {fileID: 7939887096776883599, guid: 82677ff961fa72944936cc923625a1bc,
+        type: 3}
+      propertyPath: 'MakeUp.m_values.Array.data[1]'
+      value: 1000
+      objectReference: {fileID: 0}
     - target: {fileID: 7942108884443502463, guid: 82677ff961fa72944936cc923625a1bc,
         type: 3}
       propertyPath: TransformTo

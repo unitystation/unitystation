@@ -53,6 +53,7 @@ namespace ScriptableObjects.Atmospherics
 
 		public static implicit operator int(GasSO gas)
 		{
+			if (gas == null) return -1;
 			return gas.Index;
 		}
 
