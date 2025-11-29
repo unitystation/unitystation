@@ -500,7 +500,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 			{
 				targetZ = (float)TargetTransform.eulerAngles.z;
 			}
-			
+
 
 			var zdiff = Mathf.DeltaAngle(currentZ, targetZ);
 
@@ -844,11 +844,11 @@ public class NetworkedMatrixMove : NetworkBehaviour
 				currentLocalPivot = CentreOfAIMovementWorld.ToLocal(MetaTileMap.matrix);
 			}
 		}
-
+		Vector3 OverallthrustDirection = Vector3.zero;
 
 		if (MoveCoolDown == 0)
 		{
-			Vector3 OverallthrustDirection = Vector3.zero;
+
 
 			foreach (var thruster in Thrusters)
 			{
@@ -888,7 +888,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 		//HasMoveToTarget
 
-		DoUpdateLocalPosition = DragCalculations(DeltaTimeSeconds, AllRCSModeActive);
+		DoUpdateLocalPosition = DragCalculations(DeltaTimeSeconds, AllRCSModeActive, OverallthrustDirection.magnitude == 0);
 		AligneToTiles(DeltaTimeSeconds, Matrixes);
 
 		SetTransformPosition(TargetTransform.position + (Vector3)
@@ -1080,7 +1080,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		}
 	}
 
-	public bool DragCalculations(float DeltaTimeSeconds, bool AllRCSModeActive)
+	public bool DragCalculations(float DeltaTimeSeconds, bool AllRCSModeActive, bool SlowDrag)
 	{
 		bool DoUpdateLocalPosition = false;
 		bool AINoDrag = HasMoveToTarget && WorldCurrentVelocity.magnitude > 2;
@@ -1092,7 +1092,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		}
 
 		if (WorldCurrentVelocity.magnitude > 0 && WorldCurrentVelocity.magnitude < LowSpeedDragThreshold &&
-		    AINoDrag == false)
+		    AINoDrag == false && SlowDrag)
 		{
 			DoUpdateLocalPosition = true;
 			WorldCurrentVelocity = ApplyDragTo(WorldCurrentVelocity, LowSpeedDrag, DeltaTimeSeconds);
