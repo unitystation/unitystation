@@ -126,6 +126,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4304180311779300699}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 28fa26e382f576f4aa2b4803a3438d79,
@@ -135,6 +140,12 @@ PrefabInstance:
       propertyPath: pushTextureOnStartUp
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 28fa26e382f576f4aa2b4803a3438d79,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -249,6 +260,12 @@ MonoBehaviour:
   PreviousSupplyingVoltage: 0
   SupplyingVoltage: 0
   PreviousInternalResistance: 0
-  InternalResistance: 10000
+  InternalResistance: 1e+10
   PreviousProducingWatts: 0
   ProducingWatts: 0
+--- !u!212 &4304180311779300699 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+    type: 3}
+  m_PrefabInstance: {fileID: 187371441322391301}
+  m_PrefabAsset: {fileID: 0}

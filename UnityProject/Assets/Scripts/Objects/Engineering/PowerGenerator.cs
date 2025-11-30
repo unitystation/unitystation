@@ -226,7 +226,7 @@ namespace Objects.Engineering
 			var Voltage = NormalVoltage - (VoltageFluctuationPercentage * NormalVoltage * GetNormalizedSin());
 			ModuleSupplyingDevice.SupplyingVoltage = Voltage;
 
-			ModuleSupplyingDevice.Maxcurrent = 0.04f;
+			ModuleSupplyingDevice.Maxcurrent = 0.06f;
 			if (fuelAmount <= 0)
 			{
 				ConsumeSheet();
