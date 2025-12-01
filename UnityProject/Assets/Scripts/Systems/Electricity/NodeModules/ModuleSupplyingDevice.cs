@@ -18,7 +18,7 @@ namespace Systems.Electricity.NodeModules
 		[PlayModeOnly] public float SupplyingVoltage = 0;
 
 		[HideInInspector] public float PreviousInternalResistance = 0;
-		[PlayModeOnly] public float InternalResistance = 0;
+		public float InternalResistance = 0;
 
 		[HideInInspector] public float PreviousProducingWatts = 0;
 		[PlayModeOnly] public float ProducingWatts = 0;

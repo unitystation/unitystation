@@ -185,6 +185,7 @@ public class GUI_DevSpawner : MonoBehaviour
 		Loggy.Info("Opening dev spawner menu", Category.NetUI);
 		Menu.gameObject.SetActive(true);
 		transform.SetAsLastSibling();
+		StackAmountBox.text = "-1";
 	}
 
 	public void Close()

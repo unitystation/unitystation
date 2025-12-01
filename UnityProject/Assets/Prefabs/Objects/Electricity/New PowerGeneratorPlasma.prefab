@@ -5164,7 +5164,7 @@ MonoBehaviour:
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
   ManuallySpawnContent: 0
-  dropItemsOnDespawn: 0
+  dropItemsOnDespawn: 1
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
@@ -5235,6 +5235,7 @@ MonoBehaviour:
   VoltageFluctuationPercentage: 0.6
   NormalVoltage: 760000
   itemStorage: {fileID: 1834550296447752039}
+  FuelPreffab: {fileID: 0}
 --- !u!212 &6915811152775355371 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 2408678487295248438, guid: f9025da3beb40304cb15babfc0a6cafa,
