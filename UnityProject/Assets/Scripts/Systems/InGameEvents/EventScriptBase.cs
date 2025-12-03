@@ -109,6 +109,11 @@ namespace InGameEvents
 
 		}
 
+		public virtual bool CustomTriggerCriteria()
+		{
+			return true;
+		}
+
 		public void TriggerEvent(string serializedEventParameters = null)
 		{
 			OnEventStart(serializedEventParameters);
