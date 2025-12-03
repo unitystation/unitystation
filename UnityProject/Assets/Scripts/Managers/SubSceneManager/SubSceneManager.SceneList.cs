@@ -35,7 +35,7 @@ public partial class SubSceneManager
 		ConnectionLoadedRecord.Clear(); //New round
 		var loadTimer = new SubsceneLoadTimer();
 		//calculate load time:
-		loadTimer.MaxLoadTime = 20f + (asteroidList.Asteroids.Count * 10f);
+		loadTimer.MaxLoadTime = 20f + (GameManager.Instance.GameMode.AsteroidList.Asteroids.Count * 10f);
 		loadTimer.IncrementLoadBar("Preparing..");
 
 		Loggy.Info(" waiting for addressables To load ");
@@ -122,7 +122,7 @@ public partial class SubSceneManager
 		}
 		else
 		{
-			serverChosenMainStation = GameManager.Instance.GameMode.mainStations.GetRandomMainStation();
+			serverChosenMainStation = GameManager.Instance.GameMode.MainStations.GetRandomMainStation();
 			Loggy.Info($"[SubSceneManager.SceneList] - Server has choosen {serverChosenMainStation} as main station. " +
 			          $"Previous admin forced: {AdminForcedMainStation}", Category.Round);
 		}
@@ -141,7 +141,7 @@ public partial class SubSceneManager
 	{
 		loadTimer.IncrementLoadBar("Loading Asteroids");
 
-		foreach (var asteroid in asteroidList.Asteroids)
+		foreach (var asteroid in GameManager.Instance.GameMode.AsteroidList.Asteroids)
 		{
 			Loggy.Info($" Loading Asteroid {asteroid} ");
 			yield return StartCoroutine(LoadSubScene(asteroid, loadTimer, default, SceneType.Asteroid));
@@ -153,7 +153,7 @@ public partial class SubSceneManager
 		loadTimer.IncrementLoadBar("Loading CentCom");
 
 		//CENTCOM
-		foreach (var centComData in additionalSceneList.CentComScenes)
+		foreach (var centComData in GameManager.Instance.GameMode.AdditionalSceneList.CentComScenes)
 		{
 			if (centComData.DependentScene == null || centComData.CentComSceneName == null) continue;
 
@@ -164,7 +164,7 @@ public partial class SubSceneManager
 			yield break;
 		}
 
-		var pickedMap = additionalSceneList.defaultCentComScenes.PickRandom();
+		var pickedMap = GameManager.Instance.GameMode.AdditionalSceneList.defaultCentComScenes.PickRandom();
 		if (string.IsNullOrEmpty(pickedMap)) yield break;
 		//If no special CentCom load default.
 		yield return StartCoroutine(LoadSubScene(pickedMap, loadTimer, default, SceneType.AdditionalScenes));
@@ -179,7 +179,7 @@ public partial class SubSceneManager
 		}
 
 		loadTimer.IncrementLoadBar("Loading Additional Scenes");
-		foreach (var additionalScene in additionalSceneList.AdditionalScenes)
+		foreach (var additionalScene in GameManager.Instance.GameMode.AdditionalSceneList.AdditionalScenes)
 		{
 			//LAVALAND
 			//only spawn if game config allows
@@ -235,9 +235,9 @@ public partial class SubSceneManager
 	public IEnumerator LoadSyndicate()
 	{
 		if (SyndicateLoaded) yield break;
-		var pickedMap = additionalSceneList.defaultSyndicateScenes.PickRandom();
+		var pickedMap = GameManager.Instance.GameMode.AdditionalSceneList.defaultSyndicateScenes.PickRandom();
 
-		foreach (var syndicateData in additionalSceneList.SyndicateScenes)
+		foreach (var syndicateData in GameManager.Instance.GameMode.AdditionalSceneList.SyndicateScenes)
 		{
 			if (syndicateData.DependentScene == null || syndicateData.SyndicateSceneName == null)
 				continue;
@@ -260,7 +260,7 @@ public partial class SubSceneManager
 	{
 		if (WizardLoaded) yield break;
 
-		string pickedScene = additionalSceneList.WizardScenes.PickRandom();
+		string pickedScene = GameManager.Instance.GameMode.AdditionalSceneList.WizardScenes.PickRandom();
 
 		yield return StartCoroutine(LoadSubScene(pickedScene));
 

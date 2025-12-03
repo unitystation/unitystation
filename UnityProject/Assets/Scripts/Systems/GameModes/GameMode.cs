@@ -178,7 +178,10 @@ namespace GameModes
 		[ShowIf(nameof(randomSicknesses)), SerializeField] private List<Reagent> possibleSicknesses = new List<Reagent>();
 		[ShowIf(nameof(randomSicknesses)), SerializeField] private float randomSicknessRatio = 0.5f;
 
-		public MainStationListSO mainStations;
+		[FormerlySerializedAs("mainStations")] public MainStationListSO MainStations;
+		public AsteroidListSO AsteroidList = null;
+		public AdditionalSceneListSO AdditionalSceneList = null;
+		public AwayWorldListSO AwayWorldList;
 
 		#endregion
 

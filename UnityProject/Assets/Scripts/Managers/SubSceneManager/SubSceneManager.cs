@@ -22,13 +22,9 @@ public partial class SubSceneManager : MonoBehaviour
 	public static SubSceneManager Instance;
 
 	public AwayWorldListSO awayWorldList;
-	[SerializeField] private MainStationListSO mainStationList = null;
-	[SerializeField] private AsteroidListSO asteroidList = null;
-	[SerializeField] private AdditionalSceneListSO additionalSceneList = null;
 
 	public ScenesSyncList loadedScenesList => SubSceneManagerNetworked.loadedScenesList;
-
-	public MainStationListSO MainStationList => mainStationList;
+	public MainStationListSO MainStationList => GameManager.Instance.GameMode.MainStations;
 
 	public bool AwaySiteLoaded { get; private set; }
 
