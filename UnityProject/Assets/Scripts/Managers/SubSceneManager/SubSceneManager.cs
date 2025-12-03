@@ -21,10 +21,9 @@ public partial class SubSceneManager : MonoBehaviour
 
 	public static SubSceneManager Instance;
 
-	public AwayWorldListSO awayWorldList;
-
 	public ScenesSyncList loadedScenesList => SubSceneManagerNetworked.loadedScenesList;
 	public MainStationListSO MainStationList => GameManager.Instance.GameMode.MainStations;
+	public AwayWorldListSO AwayWorlds => GameManager.Instance.GameMode.AwayWorldList;
 
 	public bool AwaySiteLoaded { get; private set; }
 

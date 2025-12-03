@@ -1,7 +1,5 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Logs;
 using Managers;
 using Mirror;
@@ -9,7 +7,6 @@ using UI.Systems.PreRound;
 using UnityEditor;
 using UnityEngine.SceneManagement;
 using WebSocketSharp;
-using UnityEngine;
 
 //The scene list on the server
 public partial class SubSceneManager
@@ -26,6 +23,8 @@ public partial class SubSceneManager
 
 	public static Dictionary<string, HashSet<int>> ConnectionLoadedRecord = new Dictionary<string, HashSet<int>>();
 
+	private GameManager gameManager => GameManager.Instance;
+
 	public IEnumerator RoundStartServerLoadSequence()
 	{
 		SubSceneManagerNetworked.ScenesInitialLoadingComplete = false;
@@ -35,7 +34,7 @@ public partial class SubSceneManager
 		ConnectionLoadedRecord.Clear(); //New round
 		var loadTimer = new SubsceneLoadTimer();
 		//calculate load time:
-		loadTimer.MaxLoadTime = 20f + (GameManager.Instance.GameMode.AsteroidList.Asteroids.Count * 10f);
+		loadTimer.MaxLoadTime = 20f + (gameManager.GameMode.AsteroidList.Asteroids.Count * 10f);
 		loadTimer.IncrementLoadBar("Preparing..");
 
 		Loggy.Info(" waiting for addressables To load ");
@@ -55,7 +54,7 @@ public partial class SubSceneManager
 		//Load CentCom Scene:
 		yield return StartCoroutine(ServerLoadCentCom(loadTimer));
 
-		if (GameManager.Instance.QuickLoad == false)
+		if (gameManager.QuickLoad == false)
 		{
 			Loggy.Info(" Loading Asteroids ");
 			//Load Asteroids:
@@ -122,7 +121,7 @@ public partial class SubSceneManager
 		}
 		else
 		{
-			serverChosenMainStation = GameManager.Instance.GameMode.MainStations.GetRandomMainStation();
+			serverChosenMainStation = gameManager.GameMode.MainStations.GetRandomMainStation();
 			Loggy.Info($"[SubSceneManager.SceneList] - Server has choosen {serverChosenMainStation} as main station. " +
 			          $"Previous admin forced: {AdminForcedMainStation}", Category.Round);
 		}
@@ -139,21 +138,43 @@ public partial class SubSceneManager
 	//Load all the asteroids on the server
 	IEnumerator ServerLoadAsteroids(SubsceneLoadTimer loadTimer)
 	{
-		loadTimer.IncrementLoadBar("Loading Asteroids");
-
-		foreach (var asteroid in GameManager.Instance.GameMode.AsteroidList.Asteroids)
+		if (gameManager.GameMode.MainStations.AsteroidListOverride != null &&
+		    gameManager.GameMode.MainStations.AsteroidListOverride.Asteroids.Count > 0)
 		{
-			Loggy.Info($" Loading Asteroid {asteroid} ");
-			yield return StartCoroutine(LoadSubScene(asteroid, loadTimer, default, SceneType.Asteroid));
+			//Use the override asteroid list for this main station
+			loadTimer.IncrementLoadBar("Loading Asteroids");
+			yield return StartCoroutine(LoadAstroids(gameManager.GameMode.MainStations.AsteroidListOverride.Asteroids));
+			yield break;
+		}
+		if (gameManager.GameMode.AsteroidList == null || gameManager.GameMode.AsteroidList.Asteroids.Count <= 0)
+		{
+			yield break;
+		}
+		loadTimer.IncrementLoadBar("Loading Asteroids");
+		yield return StartCoroutine(LoadAstroids(gameManager.GameMode.AsteroidList.Asteroids));
+		yield break;
+
+		IEnumerator LoadAstroids(List<string> asteroids)
+		{
+			foreach (var asteroid in asteroids)
+			{
+				Loggy.Info($" Loading Asteroid {asteroid} ");
+				yield return StartCoroutine(LoadSubScene(asteroid, loadTimer, default, SceneType.Asteroid));
+			}
 		}
 	}
 
 	IEnumerator ServerLoadCentCom(SubsceneLoadTimer loadTimer)
 	{
+		if (gameManager.GameMode.AdditionalSceneList == null)
+		{
+			Loggy.Warning("This game mode has no additional scene list assigned! This may be intentional for non-standard SS13 game modes.", Category.Round);
+			yield break;
+		}
 		loadTimer.IncrementLoadBar("Loading CentCom");
 
 		//CENTCOM
-		foreach (var centComData in GameManager.Instance.GameMode.AdditionalSceneList.CentComScenes)
+		foreach (var centComData in gameManager.GameMode.AdditionalSceneList.CentComScenes)
 		{
 			if (centComData.DependentScene == null || centComData.CentComSceneName == null) continue;
 
@@ -164,7 +185,7 @@ public partial class SubSceneManager
 			yield break;
 		}
 
-		var pickedMap = GameManager.Instance.GameMode.AdditionalSceneList.defaultCentComScenes.PickRandom();
+		var pickedMap = gameManager.GameMode.AdditionalSceneList.defaultCentComScenes.PickRandom();
 		if (string.IsNullOrEmpty(pickedMap)) yield break;
 		//If no special CentCom load default.
 		yield return StartCoroutine(LoadSubScene(pickedMap, loadTimer, default, SceneType.AdditionalScenes));
@@ -173,13 +194,19 @@ public partial class SubSceneManager
 	//Load all the asteroids on the server
 	IEnumerator ServerLoadAdditionalScenes(SubsceneLoadTimer loadTimer)
 	{
-		if (GameManager.Instance.QuickLoad)
+		if (gameManager.GameMode.AdditionalSceneList == null)
 		{
+			Loggy.Warning("This game mode has no additional scene list assigned! This may be intentional for non-standard SS13 game modes.", Category.Round);
+			yield break;
+		}
+		if (gameManager.QuickLoad)
+		{
+			Loggy.Info("Quickload detected. Skipping additional scenes..", Category.Round);
 			yield break;
 		}
 
 		loadTimer.IncrementLoadBar("Loading Additional Scenes");
-		foreach (var additionalScene in GameManager.Instance.GameMode.AdditionalSceneList.AdditionalScenes)
+		foreach (var additionalScene in gameManager.GameMode.AdditionalSceneList.AdditionalScenes)
 		{
 			//LAVALAND
 			//only spawn if game config allows
@@ -206,20 +233,18 @@ public partial class SubSceneManager
 	//Load the away site on the server
 	IEnumerator ServerLoadAwaySite(SubsceneLoadTimer loadTimer)
 	{
-		if (GameManager.Instance.QuickLoad)
+		if (gameManager.GameMode.AwayWorldList == null)
 		{
+			Loggy.Warning("This game mode has no away world list assigned! This may be intentional for non-standard SS13 game modes.", Category.Round);
+			yield break;
+		}
+		if (gameManager.QuickLoad)
+		{
+			Loggy.Info("Quickload detected. Skipping away sites scenes..", Category.Round);
 			yield break;
 		}
 
-		if (AdminForcedAwaySite == "Random")
-		{
-			serverChosenAwaySite = awayWorldList.GetRandomAwaySite();
-		}
-		else
-		{
-			serverChosenAwaySite = AdminForcedAwaySite;
-		}
-
+		serverChosenAwaySite = AdminForcedAwaySite == "Random" ? gameManager.GameMode.AwayWorldList.GetRandomAwaySite() : AdminForcedAwaySite;
 		AdminForcedAwaySite = "Random";
 
 		loadTimer.IncrementLoadBar("Loading Away Site");
@@ -235,9 +260,9 @@ public partial class SubSceneManager
 	public IEnumerator LoadSyndicate()
 	{
 		if (SyndicateLoaded) yield break;
-		var pickedMap = GameManager.Instance.GameMode.AdditionalSceneList.defaultSyndicateScenes.PickRandom();
+		var pickedMap = gameManager.GameMode.AdditionalSceneList.defaultSyndicateScenes.PickRandom();
 
-		foreach (var syndicateData in GameManager.Instance.GameMode.AdditionalSceneList.SyndicateScenes)
+		foreach (var syndicateData in gameManager.GameMode.AdditionalSceneList.SyndicateScenes)
 		{
 			if (syndicateData.DependentScene == null || syndicateData.SyndicateSceneName == null)
 				continue;
@@ -260,7 +285,7 @@ public partial class SubSceneManager
 	{
 		if (WizardLoaded) yield break;
 
-		string pickedScene = GameManager.Instance.GameMode.AdditionalSceneList.WizardScenes.PickRandom();
+		string pickedScene = gameManager.GameMode.AdditionalSceneList.WizardScenes.PickRandom();
 
 		yield return StartCoroutine(LoadSubScene(pickedScene));
 

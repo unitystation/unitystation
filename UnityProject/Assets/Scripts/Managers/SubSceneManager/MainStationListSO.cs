@@ -11,11 +11,12 @@ using UnityEngine.SceneManagement;
 public class MainStationListSO : ScriptableObject
 {
 	[Header("Provide the exact name of the scene in the fields below:")]
-	[InfoBox("Remember to also add your scene to " +
-	         "the build settings list",EInfoBoxType.Normal)]
 	public List<string> MainStations = new();
 
 	public string mapsConfig = "maps.json";
+
+	[Header("If these mainstations have their own set of unique asteroids, assign their list here:")]
+	public AsteroidListSO AsteroidListOverride = null;
 
 	public string GetRandomMainStation()
 	{
