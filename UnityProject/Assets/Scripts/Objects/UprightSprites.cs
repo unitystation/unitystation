@@ -46,36 +46,15 @@ public class UprightSprites : MonoBehaviour, IMatrixRotation
 
 	public void Start()
 	{
-		SetSpritesUpright();
+		OnMatrixRotate();
 	}
 
 	private void OnAppearOrChangeMatrix()
 	{
 		//if our parent changed, our local rotation might've changed so make sure our sprites are still upright
-		SetSpritesUpright();
+		OnMatrixRotate();
 	}
-
-	private void OnEnable()
-	{
-		SetSpritesUpright();
-	}
-
-	private void OnDestroy()
-	{
-		UpdateManager.Remove(CallbackType.UPDATE, SetSpritesUpright);
-	}
-
-	//makes sure it's removed from update manager at end of round since currently updatemanager is not
-	//reset on round end.
-	private void OnDisable()
-	{
-		// Make sure we're in play mode if running in editor.
-#if UNITY_EDITOR
-		if (Application.isPlaying)
-#endif
-			UpdateManager.Remove(CallbackType.UPDATE, SetSpritesUpright);
-	}
-
+	
 	[NaughtyAttributes.Button]
 	private void SetSpritesUpright()
 	{
