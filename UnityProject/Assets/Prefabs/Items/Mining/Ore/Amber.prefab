@@ -94,6 +94,11 @@ PrefabInstance:
       propertyPath: exportName
       value: Amber
       objectReference: {fileID: 0}
+    - target: {fileID: 4535546548030824560, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: initialName
+      value: amber
+      objectReference: {fileID: 0}
     - target: {fileID: 6964355983317795711, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
       propertyPath: parentID
@@ -107,6 +112,12 @@ PrefabInstance:
     - target: {fileID: 7879885434909570197, guid: fdb2f97a13e5b31468c170e6847a8d15,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 141f3eaa8e97821459206c56b05ad58a,
+        type: 2}
+    - target: {fileID: 7879885434909570197, guid: fdb2f97a13e5b31468c170e6847a8d15,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 141f3eaa8e97821459206c56b05ad58a,
         type: 2}

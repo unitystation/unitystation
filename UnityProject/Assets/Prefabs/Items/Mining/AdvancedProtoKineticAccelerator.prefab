@@ -133,7 +133,7 @@ PrefabInstance:
     - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: initialName
-      value: Advanced Proto-kinetic accelerator
+      value: advanced proto-kinetic accelerator
       objectReference: {fileID: 0}
     - target: {fileID: 7053223090983703362, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
@@ -148,6 +148,12 @@ PrefabInstance:
     - target: {fileID: 7790862161162773672, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d7f01fed8a3bc58468007f93cc2344d9,
+        type: 2}
+    - target: {fileID: 7790862161162773672, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d7f01fed8a3bc58468007f93cc2344d9,
         type: 2}

@@ -52,6 +52,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -73,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 40
@@ -105,11 +109,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 74b462a3e95bcee4b903923724aa417e,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
   InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &6719979605098457628
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -191,7 +198,7 @@ PrefabInstance:
 
         Fill the casing with two
         beakers and then use a screwdriver to secure the casing. Use a multitool
-        to adjust the mix amount;'
+        to adjust the mix amount.'
       objectReference: {fileID: 0}
     - target: {fileID: 7532553273444535340, guid: dba4afe66472bda4999773fdac6810f1,
         type: 3}
@@ -255,11 +262,12 @@ MonoBehaviour:
   unstableFuse: 0
   fuseLength: 5
   armbomb:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Weapons/armbomb.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   TemperatureChange: 0
+  gradualMixingTime: 0.5
