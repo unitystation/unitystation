@@ -12,8 +12,6 @@ using UnityEngine.SceneManagement;
 //Server
 public partial class SubSceneManager
 {
-
-
 	/// <summary>
 	/// Starts a collection of scenes that this connection is allowed to see
 	/// </summary>

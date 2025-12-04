@@ -139,7 +139,9 @@ public class RoundManagerPage : AdminPage
 			text = "Random"
 		});
 
-		foreach (var awaySiteName in SubSceneManager.Instance.awayWorldList.AwayWorlds)
+		//TODO: Admins can only pull from the available away worlds that are defined in the current game mode.
+		//Make this look for ALL away worlds in the AssetsStreaming folder
+		foreach (var awaySiteName in SubSceneManager.Instance.AwayWorlds.AwayWorlds)
 		{
 			optionData.Add(new Dropdown.OptionData
 			{

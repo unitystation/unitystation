@@ -83,7 +83,7 @@ public class VotingManager : NetworkBehaviour
 	private void Start()
 	{
 		MapList = SubSceneManager.Instance.MainStationList.GetMaps();
-		awaySiteList = SubSceneManager.Instance.awayWorldList.AwayWorlds;
+		awaySiteList = SubSceneManager.Instance.AwayWorlds.AwayWorlds;
 		GameModeList = GameManager.Instance.GetAvailableGameModeNames();
 		yesNoList.Add("Yes");
 		yesNoList.Add("No");
