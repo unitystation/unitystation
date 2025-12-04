@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Chemistry;
 using HealthV2;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
+using NUnit.Framework;
 using ScriptableObjects.Atmospherics;
 using UnityEngine;
 
@@ -68,6 +69,8 @@ namespace Chemistry.Effects
 			victimPos -= actorPosition;
 			int hitCount = Physics2D.Raycast(actorPosition, victimPos, filter, hits, victimDistance);
 			if (hitCount > 0) return;
+
+			if (HasBlockingSuit(player) == true) return;
 
 			float amountToAfflict = spreadCount * (1 - (victimDistance / spreadRange));
 			victim.Script.playerHealth.reagentPoolSystem.BloodPool.Add(reagentToSpread, amountToAfflict);

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   overrideDisplayName: 
   hallucinationTime: 0
-  percentageChance: 5
+  percentageChance: 20
   harmIntentChance: 0
   nameForgetChance: 0
   ParanoidThoughts:
@@ -24,7 +24,13 @@ MonoBehaviour:
   - Your stomach rumbles violently.
   - You feel an immense sense of dread.
   - Your head hurts so much you are unable to think.
-  emoteChance: 25
+  - You feel bloated.
+  - You feel bloated.
+  - You feel bloated.
+  - You feel bloated.
+  - You feel swollen.
+  - You feel swollen.
+  emoteChance: 20
   possibleEmotes:
   - {fileID: 11400000, guid: c330a7cbe2059774fafd4a32d2eabecc, type: 2}
   - {fileID: 11400000, guid: 46f3f1cab09fa684d85d1fe9f0db0b7f, type: 2}
