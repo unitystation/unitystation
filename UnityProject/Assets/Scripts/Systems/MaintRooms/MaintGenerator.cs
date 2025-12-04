@@ -54,6 +54,9 @@ namespace Systems.Scenes
 		[SerializeField, Range(1, MAX_DIMENSIONS)]
 		private int height = 20;
 
+		[SerializeField, Tooltip("Enabling this will cause the generator to still place rooms but not the underlying maze.")]
+		private bool skipMazeGeneration = false;
+
 		[SerializeField] private LayerTile wallTile;
 
 		[SerializeField, Range(0, MAX_PERCENT)]
@@ -103,6 +106,13 @@ namespace Systems.Scenes
 
 			foreach (var room in roomGenerators)
 			{
+				room.SelectRoom();
+			}
+
+			if (skipMazeGeneration) return;
+
+			foreach (var room in roomGenerators)
+			{
 				await room.ClearSpaceInMaze(this.gameObject.transform.localPosition, width, in mazeArray);
 			}
 
@@ -115,7 +125,7 @@ namespace Systems.Scenes
 
 			foreach (var room in roomGenerators)
 			{
-				room.CarveRoomDoors(this.gameObject.transform.localPosition, width, in mazeArray);
+				room.CarveRoomDoors(this.gameObject.transform.localPosition, width, ref mazeArray);
 			}
 		}
 
@@ -205,6 +215,8 @@ namespace Systems.Scenes
 
 		public void CreateTiles()
 		{
+			if (skipMazeGeneration) return;
+
 			for (int x = 0; x < width; x++)
 			{
 				for (int y = 0; y < height; y++)
@@ -261,6 +273,8 @@ namespace Systems.Scenes
 
 		public void PlaceObjects()
 		{
+			if (skipMazeGeneration) return;
+
 			for (int i = 0; i < width; i++)
 			{
 				for (int j = 0; j < height; j++)

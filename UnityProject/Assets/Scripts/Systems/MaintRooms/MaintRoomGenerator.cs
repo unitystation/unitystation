@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Clothing;
 using InGameGizmos;
 using Logs;
 using MapSaver;
@@ -87,8 +88,12 @@ namespace MaintRooms
 				Array.Fill(maze, (short)MazeState.ExcludedCell, startIndex, roomWidth);
 			}
 
-			PickWeightedRoom(out selectedRoom);
 			return Task.CompletedTask;
+		}
+
+		public void SelectRoom()
+		{
+			PickWeightedRoom(out selectedRoom);
 		}
 
 		private bool PickWeightedRoom(out MaintRoomSO room)
@@ -117,12 +122,12 @@ namespace MaintRooms
 			return false;
 		}
 
-		public void CarveRoomDoors(Vector3 generatorOffset, int mazeWidth, in short[] maze)
+		public void CarveRoomDoors(Vector3 generatorOffset, int mazeWidth, ref short[] maze)
 		{
 			var pos = (transform.localPosition - generatorOffset).RoundTo2Int();
 
 			int halfX = (roomWidth - 1) / 2;
-			int halfY = (roomWidth - 1) / 2;
+			int halfY = (roomHeight - 1) / 2;
 
 			if (selectedRoom.DoorDirections.HasFlag(DirectionFlag.Up))
 			{
