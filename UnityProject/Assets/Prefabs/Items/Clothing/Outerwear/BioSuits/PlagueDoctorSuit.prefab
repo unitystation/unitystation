@@ -21,7 +21,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3495234765619245072, guid: ab1e465a59765f84b8691daa8693f857,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495234765619245072, guid: ab1e465a59765f84b8691daa8693f857,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 5a088ab3ae96cb145af5f61b61514ac8,
+        type: 2}
+    - target: {fileID: 3495234765619245072, guid: ab1e465a59765f84b8691daa8693f857,
+        type: 3}
       propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 2264dcc16d2a5df45a51306528f5a915,
+        type: 2}
+    - target: {fileID: 3495234765619245072, guid: ab1e465a59765f84b8691daa8693f857,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
       value: 
       objectReference: {fileID: 11400000, guid: 2264dcc16d2a5df45a51306528f5a915,
         type: 2}
