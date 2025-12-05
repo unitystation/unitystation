@@ -109,7 +109,7 @@ namespace Objects
 				{
 					if (!string.IsNullOrEmpty(EditorPrefs.GetString("prevEditorScene")))
 					{
-						if (SubSceneManager.Instance.awayWorldList.AwayWorlds.Contains(
+						if (SubSceneManager.Instance.AwayWorlds.AwayWorlds.Contains(
 							    EditorPrefs.GetString("prevEditorScene")))
 						{
 							loadNormally = false;

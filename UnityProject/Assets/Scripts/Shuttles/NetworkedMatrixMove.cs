@@ -448,6 +448,22 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		}
 	}
 
+	private float SignedAngleZ(Vector3 a, Vector3 b)
+	{
+		// Drop Z component — use only XY
+		Vector2 a2 = new Vector2(a.x, a.y).normalized;
+		Vector2 b2 = new Vector2(b.x, b.y).normalized;
+
+		float angle = Mathf.Atan2(b2.y, b2.x) - Mathf.Atan2(a2.y, a2.x);
+		angle = Mathf.Rad2Deg * angle;
+
+		// Normalize to -180..180
+		if (angle > 180) angle -= 360;
+		if (angle < -180) angle += 360;
+
+		return angle;
+	}
+
 	private void InternalSetThrusterStrength(Thruster.ThrusterDirectionClassification Direction, float Multiplier)
 	{
 		if (SpinneyMode || Direction == Thruster.ThrusterDirectionClassification.Up ||
@@ -474,43 +490,67 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 
 			if (Multiplier < 0.9f) return;
-			var CurrentOrientation = TargetTransform.eulerAngles.z.Angle360ToOrientationEnum();
+			//var CurrentOrientation = TargetOrientation;
 
-			if (Direction == Thruster.ThrusterDirectionClassification.Right)
+			// 1 — Calculate signed angle (ALWAYS CORRECT, handles 0–360 wrap)
+			float currentZ = TargetTransform.eulerAngles.z;
+
+			float targetZ = (float)TargetOrientation.To360Z();
+			if (TargetOrientation == OrientationEnum.Default)
 			{
-				switch (CurrentOrientation)
+				targetZ = (float)TargetTransform.eulerAngles.z;
+			}
+
+
+			var zdiff = Mathf.DeltaAngle(currentZ, targetZ);
+
+			if (zdiff > 10)
+			{
+				if (Direction == Thruster.ThrusterDirectionClassification.Left)
 				{
-					case OrientationEnum.Up_By0:
-						TargetOrientation = OrientationEnum.Right_By270;
-						break;
-					case OrientationEnum.Right_By270:
-						TargetOrientation = OrientationEnum.Down_By180;
-						break;
-					case OrientationEnum.Down_By180:
-						TargetOrientation = OrientationEnum.Left_By90;
-						break;
-					case OrientationEnum.Left_By90:
-						TargetOrientation = OrientationEnum.Up_By0;
-						break;
+					return;
 				}
 			}
-			else
+			else if (zdiff < -10)
 			{
-				switch (CurrentOrientation)
+				if (Direction == Thruster.ThrusterDirectionClassification.Right)
 				{
-					case OrientationEnum.Up_By0:
-						TargetOrientation = OrientationEnum.Left_By90;
-						break;
-					case OrientationEnum.Left_By90:
-						TargetOrientation = OrientationEnum.Down_By180;
-						break;
-					case OrientationEnum.Down_By180:
-						TargetOrientation = OrientationEnum.Right_By270;
-						break;
-					case OrientationEnum.Right_By270:
-						TargetOrientation = OrientationEnum.Up_By0;
-						break;
+					return;
 				}
+			}
+
+			var CurrentOrientation = currentZ.Angle360ToOrientationEnum();
+
+			if (TargetOrientation != OrientationEnum.Default)
+			{
+				// 2 — Determine current orientation enum
+				CurrentOrientation = TargetOrientation;
+			}
+
+			TargetOrientation = GetNextOrientation(CurrentOrientation, Direction);
+		}
+	}
+
+	private OrientationEnum GetNextOrientation(OrientationEnum current, Thruster.ThrusterDirectionClassification dir)
+	{
+		if (dir == Thruster.ThrusterDirectionClassification.Right)
+		{
+			switch (current)
+			{
+				case OrientationEnum.Up_By0: return OrientationEnum.Right_By270;
+				case OrientationEnum.Right_By270: return OrientationEnum.Down_By180;
+				case OrientationEnum.Down_By180: return OrientationEnum.Left_By90;
+				default: return OrientationEnum.Up_By0;
+			}
+		}
+		else // LEFT
+		{
+			switch (current)
+			{
+				case OrientationEnum.Up_By0: return OrientationEnum.Left_By90;
+				case OrientationEnum.Left_By90: return OrientationEnum.Down_By180;
+				case OrientationEnum.Down_By180: return OrientationEnum.Right_By270;
+				default: return OrientationEnum.Up_By0;
 			}
 		}
 	}
@@ -804,11 +844,11 @@ public class NetworkedMatrixMove : NetworkBehaviour
 				currentLocalPivot = CentreOfAIMovementWorld.ToLocal(MetaTileMap.matrix);
 			}
 		}
-
+		Vector3 OverallthrustDirection = Vector3.zero;
 
 		if (MoveCoolDown == 0)
 		{
-			Vector3 OverallthrustDirection = Vector3.zero;
+
 
 			foreach (var thruster in Thrusters)
 			{
@@ -848,7 +888,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 		//HasMoveToTarget
 
-		DoUpdateLocalPosition = DragCalculations(DeltaTimeSeconds, AllRCSModeActive);
+		DoUpdateLocalPosition = DragCalculations(DeltaTimeSeconds, AllRCSModeActive, OverallthrustDirection.magnitude == 0);
 		AligneToTiles(DeltaTimeSeconds, Matrixes);
 
 		SetTransformPosition(TargetTransform.position + (Vector3)
@@ -1040,7 +1080,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		}
 	}
 
-	public bool DragCalculations(float DeltaTimeSeconds, bool AllRCSModeActive)
+	public bool DragCalculations(float DeltaTimeSeconds, bool AllRCSModeActive, bool SlowDrag)
 	{
 		bool DoUpdateLocalPosition = false;
 		bool AINoDrag = HasMoveToTarget && WorldCurrentVelocity.magnitude > 2;
@@ -1052,7 +1092,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		}
 
 		if (WorldCurrentVelocity.magnitude > 0 && WorldCurrentVelocity.magnitude < LowSpeedDragThreshold &&
-		    AINoDrag == false)
+		    AINoDrag == false && SlowDrag)
 		{
 			DoUpdateLocalPosition = true;
 			WorldCurrentVelocity = ApplyDragTo(WorldCurrentVelocity, LowSpeedDrag, DeltaTimeSeconds);
