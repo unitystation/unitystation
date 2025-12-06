@@ -27,8 +27,8 @@ namespace Objects.Research
 		private SpriteHandler spriteHandler;
 		private LightSprite lightSprite;
 
-		private bool isOnCooldown => Time.time - lastActivationTime <= cooldownTime;
-		private float lastActivationTime = 0.0f;
+		protected bool isOnCooldown => Time.time - lastActivationTime <= cooldownTime;
+		public float lastActivationTime = 0.0f;
 
 		[SerializeField] private float cooldownTime = 0.65f;
 
@@ -118,7 +118,7 @@ namespace Objects.Research
 			_ = Teleport(eventData);
 		}
 
-		private async Task Teleport(GameObject eventData)
+		public virtual async Task Teleport(GameObject eventData)
 		{
 			if (connectedPortal == null || isOnCooldown) return;
 

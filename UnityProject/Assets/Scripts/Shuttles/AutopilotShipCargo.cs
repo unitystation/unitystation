@@ -32,16 +32,13 @@ public class AutopilotShipCargo : AutopilotShipMachine
 		{
 			Destroy(this);
 		}
-
-
 	}
 
 
-	public override void  Start()
+	public override void Start()
 	{
 		base.Start();
 		MoveDirectionIn = true;
-
 	}
 
 	/// <summary>
@@ -88,7 +85,6 @@ public class AutopilotShipCargo : AutopilotShipMachine
 		UnloadCargo();
 		CargoManager.Instance.OnShuttleArrival();
 	}
-
 
 
 	/// <summary>
@@ -161,6 +157,104 @@ public class AutopilotShipCargo : AutopilotShipMachine
 		GetAvailablePositions();
 	}
 
+	public void FillShuttleWithRubbish()
+	{
+		int Runs = 0;
+
+		bool runLoop = true;
+
+		int Sets = RNG.GetRandomNumber(4, 10);
+
+		List<GameObject> SetsFound = new List<GameObject>();
+
+		while (runLoop && Sets > SetsFound.Count)
+		{
+			Runs++;
+			if (Runs > 100)
+			{
+				Loggy.Error("Unable to find prefab matching parameters from allSpawnablePrefabs Breaking loop");
+				break;
+			}
+
+			var Prefab = CustomNetworkManager.Instance.allSpawnablePrefabs.PickRandom();
+
+			if (Prefab.GetComponent<UniversalObjectPhysics>() == null)
+			{
+				continue;
+			}
+
+			SetsFound.Add(Prefab);
+		}
+
+		int NumberOfItems = RNG.GetRandomNumber(10, 50);
+		Dictionary<GameObject, Stackable> stackableItems = new Dictionary<GameObject, Stackable>();
+		for (int i = 0; i < NumberOfItems; i++)
+		{
+			Vector3 pos = GetRandomFreePos();
+			_ = SpawnObject(SetsFound.PickRandom(), stackableItems, pos);
+			stackableItems.Clear();
+		}
+	}
+
+	public GameObject SpawnObject(GameObject entryPrefab, Dictionary<GameObject, Stackable> stackableItems, Vector3 pos)
+	{
+		var blueprint = entryPrefab.GetComponent<PlayerBlueprint>();
+
+		if (blueprint != null)
+		{
+			var body = blueprint.SpawnObject();
+			return body;
+		}
+
+		if (stackableItems.ContainsKey(entryPrefab) == false)
+		{
+			var orderedItem = Spawn.ServerPrefab(entryPrefab, pos.ToWorld(mm.NetworkedMatrixMove.MetaTileMap.matrix))
+				.GameObject;
+			if (orderedItem == null)
+			{
+				//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
+				Loggy.Info($"Can't add ordered item to create because it doesn't have a GameObject",
+					Category.Cargo);
+				return null;
+			}
+
+			var stackableItem = orderedItem.GetComponent<Stackable>();
+			if (stackableItem != null)
+			{
+				stackableItems.Add(entryPrefab, stackableItem);
+			}
+
+
+			return orderedItem;
+		}
+		else
+		{
+			if (stackableItems[entryPrefab].Amount < stackableItems[entryPrefab].MaxAmount)
+			{
+				stackableItems[entryPrefab].ServerIncrease(1);
+			}
+			else
+			{
+				//Start a new one to start stacking
+				var orderedItem = Spawn.ServerPrefab(entryPrefab, pos).GameObject;
+				if (orderedItem == null)
+				{
+					//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
+					Loggy.Info($"Can't add ordered item to create because it doesn't have a GameObject",
+						Category.Cargo);
+					return null;
+				}
+
+				var stackableItem = orderedItem.GetComponent<Stackable>();
+				stackableItems[entryPrefab] = stackableItem;
+
+				return orderedItem;
+			}
+		}
+
+		return null;
+	}
+
 	/// <summary>
 	/// Spawns the order inside cargo shuttle.
 	/// Server only.
@@ -189,61 +283,9 @@ public class AutopilotShipCargo : AutopilotShipMachine
 					continue;
 				}
 
-
-				var blueprint = entryPrefab.GetComponent<PlayerBlueprint>();
-
-				if (blueprint != null)
-				{
-					var body = blueprint.SpawnObject();
-					AddItemToCrate(container, body);
-					continue;
-				}
-
-				if (stackableItems.ContainsKey(entryPrefab) == false)
-				{
-					var orderedItem = Spawn.ServerPrefab(order.Items[i], pos.ToWorld(mm.NetworkedMatrixMove.MetaTileMap.matrix)).GameObject;
-					if (orderedItem == null)
-					{
-						//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
-						Loggy.Info($"Can't add ordered item to create because it doesn't have a GameObject",
-							Category.Cargo);
-						continue;
-					}
-
-					var stackableItem = orderedItem.GetComponent<Stackable>();
-					if (stackableItem != null)
-					{
-						stackableItems.Add(entryPrefab, stackableItem);
-					}
-
-
-
-					AddItemToCrate(container, orderedItem);
-				}
-				else
-				{
-					if (stackableItems[entryPrefab].Amount < stackableItems[entryPrefab].MaxAmount)
-					{
-						stackableItems[entryPrefab].ServerIncrease(1);
-					}
-					else
-					{
-						//Start a new one to start stacking
-						var orderedItem = Spawn.ServerPrefab(entryPrefab, pos).GameObject;
-						if (orderedItem == null)
-						{
-							//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
-							Loggy.Info($"Can't add ordered item to create because it doesn't have a GameObject",
-								Category.Cargo);
-							continue;
-						}
-
-						var stackableItem = orderedItem.GetComponent<Stackable>();
-						stackableItems[entryPrefab] = stackableItem;
-
-						AddItemToCrate(container, orderedItem);
-					}
-				}
+				var Object = SpawnObject(entryPrefab, stackableItems, pos);
+				if (Object == null) continue;
+				AddItemToCrate(container, Object);
 			}
 		}
 		else
@@ -285,29 +327,28 @@ public class AutopilotShipCargo : AutopilotShipMachine
 	{
 		Vector3Int pos;
 
-		 availableSpawnSlots = new List<Vector3Int>();
+		availableSpawnSlots = new List<Vector3Int>();
 
-		 var PresentTiles = mm.NetworkedMatrixMove.MetaTileMap.PresentTilesNeedsLock;
+		var PresentTiles = mm.NetworkedMatrixMove.MetaTileMap.PresentTilesNeedsLock;
 
-		 var Matrix = mm.NetworkedMatrixMove.MetaTileMap.matrix;
+		var Matrix = mm.NetworkedMatrixMove.MetaTileMap.matrix;
 
-		 lock (PresentTiles)
-		 {
-			 var ToLoop = PresentTiles[(int)LayerType.Base];
+		lock (PresentTiles)
+		{
+			var ToLoop = PresentTiles[(int) LayerType.Base];
 
-			 foreach (var Location in ToLoop)
-			 {
-
-				 if ((Matrix.GetFirst<ClosetControl>(Location.LocalPosition, true) == null)
-				     && Matrix.IsFloorAt(Location.LocalPosition, true)
-				     && Matrix.IsWallAt(Location.LocalPosition, true) == false
-					 && Matrix.IsWindowAt(Location.LocalPosition, true) == false
-				     && Matrix.IsPassableAtOneMatrixOneTile(Location.LocalPosition, true) )
-				 {
-					 availableSpawnSlots.Add(Location.LocalPosition);
-				 }
-			 }
-		 }
+			foreach (var Location in ToLoop)
+			{
+				if ((Matrix.GetFirst<ClosetControl>(Location.LocalPosition, true) == null)
+				    && Matrix.IsFloorAt(Location.LocalPosition, true)
+				    && Matrix.IsWallAt(Location.LocalPosition, true) == false
+				    && Matrix.IsWindowAt(Location.LocalPosition, true) == false
+				    && Matrix.IsPassableAtOneMatrixOneTile(Location.LocalPosition, true))
+				{
+					availableSpawnSlots.Add(Location.LocalPosition);
+				}
+			}
+		}
 	}
 
 	/// <summary>

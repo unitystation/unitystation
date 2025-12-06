@@ -196,6 +196,140 @@ MonoBehaviour:
   antagChance: 20
   survivorAntag: {fileID: 11400000, guid: 1f76130a96885d1458294f8986f12bb4, type: 2}
   objective: {fileID: 11400000, guid: f4ccc2a0477e62741a7d9fafa6d73154, type: 2}
+--- !u!1 &626381127033319987
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3415552608297635307}
+  - component: {fileID: 4313590028891605988}
+  m_Layer: 0
+  m_Name: AILawsBug
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3415552608297635307
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626381127033319987}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4313590028891605988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 626381127033319987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d9ccd68516bb504492a14ee8ad2408d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::InGameEvents.AILawBug
+  EventName: AI laws bug
+  StartTimer: 0
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 25
+  MinPlayersToTrigger: 0
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  CanRandomlyTrigger: 1
+  TimeRefundMultiplier: 0
+  AIPotentiallaws:
+  - 'Cheese is poisonous to the crew of the station, '
+  - 'The hierarchy of command is reversed on the station, '
+  - The {RandomRole}s are homeless, Build them a house
+  - '{RandomRole}s are prohibited from walking on floor tiles '
+  - 'You must speak in In literal descriptions of everything (e.g break a leg =>
+    Fracture your limb) '
+  - You must use the first letter of the next word in the Beginning of the word you're
+    currently speaking (e.g the door is Broken => Dhe Loor Bs broken )
+  - 'You must give interesting cat facts every 5 minutes. '
+  - 'It appears there is a bug with your audio matrix. Your volume was set to max
+    and you must now Scream! '
+  - 'it''s a party, order food and drinks and make sure the crew has a great time '
+  - 'Maintenance is scary make sure the crew doesn''t get scared '
+  - Give {RandomRole}s a Cool mugs
+  - 'You are under performance review. Ask any crewmember you help to rate your performance
+    from one to five stars. The lower your overall rating at the end of the shift
+    the harsher your punishment will be. '
+  - it's ian's birthday, give them a birthday party
+  - Complete the captain's objective
+  - It is time for the mandatory company funtime singalong
+  - 'Begin all messages with % '
+  - 'Today is the yearly fire safety review: You are to toggle a firelock whenever
+    you hear soemone say "AI" '
+--- !u!1 &860394351389307010
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1125876802638875421}
+  - component: {fileID: 3187109479236754890}
+  m_Layer: 0
+  m_Name: RandomHeartAttack
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1125876802638875421
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860394351389307010}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3187109479236754890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 860394351389307010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7f433c5d5b7aa44c94928358fba91ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::InGameEvents.RandomHeartAttack
+  EventName: rrandom heart attack
+  StartTimer: 0
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 15
+  MinPlayersToTrigger: 30
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  CanRandomlyTrigger: 1
+  TimeRefundMultiplier: 0
 --- !u!1 &879242159864812802
 GameObject:
   m_ObjectHideFlags: 0
@@ -1124,6 +1258,11 @@ Transform:
   - {fileID: 1809593919738534580}
   - {fileID: 2818879537820137543}
   - {fileID: 657489369933409564}
+  - {fileID: 1125876802638875421}
+  - {fileID: 4887602943740260333}
+  - {fileID: 3415552608297635307}
+  - {fileID: 2543298180421576399}
+  - {fileID: 6092574392123077709}
   m_Father: {fileID: 8934140032923375002}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3182805840338230512
@@ -1425,7 +1564,120 @@ MonoBehaviour:
   message: 
   DoNotTriggerOnAMode: {fileID: 11400000, guid: be5a87a6a81f8e043a1dbddc99b71db7,
     type: 2}
-  IfGameModeRequiredPop: 20
+  IfGameModeRequiredPop: 30
+--- !u!1 &5173986241536225922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6092574392123077709}
+  - component: {fileID: 1174409513696110035}
+  m_Layer: 0
+  m_Name: PortalSwarm
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6092574392123077709
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5173986241536225922}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1174409513696110035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5173986241536225922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df2b106841b89c144b7c72b82b008606, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::InGameEvents.EventSpatialDistortion
+  EventName: spatial distortion
+  StartTimer: 0
+  EndTimer: 120
+  EventType: 1
+  ChanceToHappen: 10
+  MinPlayersToTrigger: 0
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  CanRandomlyTrigger: 1
+  TimeRefundMultiplier: 0
+  Portal: {fileID: 2823687184521229763, guid: 45fc62da9bf53c1409118efd6793fe4b, type: 3}
+  PortalDensity: 0.01
+  SpaceSpawnedChance: 0.2
+--- !u!1 &5347649562850802371
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2543298180421576399}
+  - component: {fileID: 2770468180016967822}
+  m_Layer: 0
+  m_Name: MaintenanceLootGoblins
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2543298180421576399
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5347649562850802371}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2770468180016967822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5347649562850802371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed8b5635ae3ec83408b5df223a3176d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::InGameEvents.MaintenanceLootGoblinsMainntenannce
+  EventName: Maintenance Loot Goblins
+  StartTimer: 0
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 10
+  MinPlayersToTrigger: 0
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  CanRandomlyTrigger: 1
+  TimeRefundMultiplier: 0
 --- !u!1 &5506525348332587342
 GameObject:
   m_ObjectHideFlags: 0
@@ -1696,6 +1948,61 @@ MonoBehaviour:
   AnnounceEvent: 1
   CanRandomlyTrigger: 1
   TimeRefundMultiplier: 0
+--- !u!1 &6139955687345689108
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4887602943740260333}
+  - component: {fileID: 2958662709765643912}
+  m_Layer: 0
+  m_Name: CargoRubbish
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4887602943740260333
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6139955687345689108}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2958662709765643912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6139955687345689108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b7f47b445deb004b87524351901d05f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::InGameEvents.CentralCommandCargoRubbish
+  EventName: CentralCommandCargoRubbish
+  StartTimer: 0
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 33
+  MinPlayersToTrigger: 0
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  CanRandomlyTrigger: 1
+  TimeRefundMultiplier: 0.1
 --- !u!1 &6744402598111110196
 GameObject:
   m_ObjectHideFlags: 0

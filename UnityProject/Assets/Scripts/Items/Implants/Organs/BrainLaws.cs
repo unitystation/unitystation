@@ -156,7 +156,16 @@ public class BrainLaws : NetworkBehaviour, IActionGUI, IClientInteractable<HandA
 		if (CustomNetworkManager.IsServer == false) return;
 
 		//TODO beam new AI message, play sound too?
-
+		for (var index = 0; index < RegisterTile.Matrix.PresentPlayers.Count; index++)
+		{
+			var Player = RegisterTile.Matrix.PresentPlayers[index];
+			if (Player.TryGetComponent<AiPlayer>(
+				    out var AiPlayer))
+			{
+				LinkToAI(AiPlayer);
+				return;
+			}
+		}
 		//Set up laws
 		SetRandomDefaultLawSet();
 		UIActionManager.ToggleServer(this.gameObject,this, true);
