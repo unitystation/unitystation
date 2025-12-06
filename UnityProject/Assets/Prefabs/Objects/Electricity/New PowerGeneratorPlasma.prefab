@@ -5068,12 +5068,12 @@ PrefabInstance:
     - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: Reactions.Array.data[0].ResistanceReactionA.Resistance.Ohms
-      value: 1e+10
+      value: 1e+11
       objectReference: {fileID: 0}
     - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: Reactions.Array.data[1].ResistanceReactionA.Resistance.Ohms
-      value: 1e+10
+      value: 1e+11
       objectReference: {fileID: 0}
     - target: {fileID: 8828844020504926570, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
@@ -5164,7 +5164,7 @@ MonoBehaviour:
   itemStoragePopulator: {fileID: 0}
   forceSpawnContents: 0
   ManuallySpawnContent: 0
-  dropItemsOnDespawn: 0
+  dropItemsOnDespawn: 1
   UesAddlistPopulater: 0
   Populater:
     SlotContents: []
@@ -5192,7 +5192,7 @@ MonoBehaviour:
   PreviousSupplyingVoltage: 760000
   SupplyingVoltage: 760000
   PreviousInternalResistance: 76000
-  InternalResistance: 76000
+  InternalResistance: 1e+10
   PreviousProducingWatts: 0
   ProducingWatts: 0
 --- !u!114 &2952610514931748297
@@ -5235,6 +5235,7 @@ MonoBehaviour:
   VoltageFluctuationPercentage: 0.6
   NormalVoltage: 760000
   itemStorage: {fileID: 1834550296447752039}
+  FuelPreffab: {fileID: 0}
 --- !u!212 &6915811152775355371 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 2408678487295248438, guid: f9025da3beb40304cb15babfc0a6cafa,

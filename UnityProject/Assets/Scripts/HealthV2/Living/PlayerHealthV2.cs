@@ -147,16 +147,20 @@ namespace HealthV2
 		/// <returns>Returns an ElectrocutionSeverity for when the following logic depends on the elctrocution severity.</returns>
 		public override LivingShockResponse Electrocute(Electrocution electrocution)
 		{
-			electrocutedPart = playerNetworkActions.activeHand.GetComponent<BodyPart>();
+			electrocutedPart = playerNetworkActions?.activeHand?.GetComponent<BodyPart>();
 
-			if (playerNetworkActions.CurrentActiveHand == NamedSlot.leftHand)
+			if (electrocutedPart != null)
 			{
-				electrocutedHand = BodyPartType.LeftArm;
+				if (playerNetworkActions.CurrentActiveHand == NamedSlot.leftHand)
+				{
+					electrocutedHand = BodyPartType.LeftArm;
+				}
+				else
+				{
+					electrocutedHand = BodyPartType.RightArm;
+				}
 			}
-			else
-			{
-				electrocutedHand = BodyPartType.RightArm;
-			}
+			
 
 			return base.Electrocute(electrocution);
 		}

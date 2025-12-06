@@ -16,6 +16,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2218350114798802214, guid: 93d1f95a33757fe4fa3e2771e3f5bd67,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9004424b7dd33614ebd4ad66abd029d8,
+        type: 2}
+    - target: {fileID: 2218350114798802214, guid: 93d1f95a33757fe4fa3e2771e3f5bd67,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 9004424b7dd33614ebd4ad66abd029d8,
@@ -199,7 +205,7 @@ PrefabInstance:
     - target: {fileID: 8704923215026597471, guid: 93d1f95a33757fe4fa3e2771e3f5bd67,
         type: 3}
       propertyPath: InternalResistance
-      value: 126000
+      value: 1e+10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

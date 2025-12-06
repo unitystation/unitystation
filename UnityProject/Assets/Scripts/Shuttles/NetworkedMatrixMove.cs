@@ -888,7 +888,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 		//HasMoveToTarget
 
-		DoUpdateLocalPosition = DragCalculations(DeltaTimeSeconds, AllRCSModeActive, OverallthrustDirection.magnitude == 0);
+		DoUpdateLocalPosition = DragCalculations(DeltaTimeSeconds, AllRCSModeActive, OverallthrustDirection.magnitude < 0.3);
 		AligneToTiles(DeltaTimeSeconds, Matrixes);
 
 		SetTransformPosition(TargetTransform.position + (Vector3)
@@ -1085,7 +1085,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 		bool DoUpdateLocalPosition = false;
 		bool AINoDrag = HasMoveToTarget && WorldCurrentVelocity.magnitude > 2;
 
-		if (WorldCurrentVelocity.magnitude > 0 && ApplyDrag && AINoDrag == false)
+		if (WorldCurrentVelocity.magnitude > 0 && ApplyDrag && AINoDrag == false && SlowDrag)
 		{
 			DoUpdateLocalPosition = true;
 			WorldCurrentVelocity = ApplyDragTo(WorldCurrentVelocity, Drag, DeltaTimeSeconds);
