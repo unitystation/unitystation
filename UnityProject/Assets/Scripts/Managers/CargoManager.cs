@@ -57,6 +57,8 @@ namespace Systems.Cargo
 		private int lastTimeRecorded = 0;
 		private int randomBountyTimeCheck = 0;
 
+		public bool NTNeedsSomethingDumping;
+
 		[SerializeField, BoxGroup("Random Bounties")] private float checkForTimeCooldown = 50f;
 		[SerializeField, BoxGroup("Random Bounties")] private Vector2 randomTimeRangeForRandomBounty = new Vector2(320, 690);
 		[SerializeField, BoxGroup("Random Bounties")] private List<CargoBounty> randomBountiesList = new List<CargoBounty>();
@@ -488,6 +490,17 @@ namespace Systems.Cargo
 					i--;
 				}
 			}
+
+			if (NTNeedsSomethingDumping)
+			{
+				NTNeedsSomethingDumping = false;
+				AutopilotShipCargo.Instance.FillShuttleWithRubbish();
+				var text = "Incoming Central Command Supplies Update:\n We have some excess inventory of items and assorted objects arriving on your cargo shuttle. " +
+				           "Have them for free.";
+
+				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
+			}
+
 		}
 
 		public void AddToCart(CargoOrderSO orderToAdd)
