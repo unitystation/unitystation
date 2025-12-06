@@ -194,6 +194,7 @@ namespace InGameEvents
 			var ToLoop = eventList.Where(x => x.CanRandomlyTrigger).Shuffle();
 			foreach (var eventInList in ToLoop)
 			{
+				if (eventInList.CustomTriggerCriteria() == false) continue;
 				//If there's not enough players try to trigger a different one
 				if(eventInList.MinPlayersToTrigger > PlayerList.Instance.InGamePlayers.Count) continue;
 

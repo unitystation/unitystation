@@ -56,8 +56,7 @@ namespace Systems.Electricity.NodeModules
 				}
 				else if (supply.SupplyingVoltage != 0 && supply.ControllingNode.Node.InData.Data.ChangeToOff == false)
 				{
-					float Current = (supply.SupplyingVoltage) / (supply.InternalResistance
-					                                             + ElectricityFunctions.WorkOutResistance(supply
+					float Current = (supply.SupplyingVoltage) / (ElectricityFunctions.WorkOutResistance(supply
 						                                             .ControllingNode.Node.InData.Data
 						                                             .SupplyDependent[supply.ControllingNode.Node]
 						                                             .ResistanceComingFrom));

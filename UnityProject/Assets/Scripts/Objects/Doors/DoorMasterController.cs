@@ -173,6 +173,12 @@ namespace Doors
 			}
 		}
 
+		public void Start()
+		{
+			if (IsClosed) Close();
+			else Open();
+		}
+
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			HackingProcessBase.RegisterPort(Close, this.GetType());

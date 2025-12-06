@@ -488,6 +488,8 @@ MonoBehaviour:
   TimeRefundMultiplier: 0
   ghostRole: {fileID: 11400000, guid: af2384fe291fd1e469745e1438edc9e4, type: 2}
   message: 
+  DoNotTriggerOnAMode: {fileID: 0}
+  IfGameModeRequiredPop: -1
 --- !u!1 &2185954026833562878
 GameObject:
   m_ObjectHideFlags: 0
@@ -1421,6 +1423,9 @@ MonoBehaviour:
   TimeRefundMultiplier: 0
   ghostRole: {fileID: 11400000, guid: e0bcf33d6a9ef0443960a18ba45b742e, type: 2}
   message: 
+  DoNotTriggerOnAMode: {fileID: 11400000, guid: be5a87a6a81f8e043a1dbddc99b71db7,
+    type: 2}
+  IfGameModeRequiredPop: 20
 --- !u!1 &5506525348332587342
 GameObject:
   m_ObjectHideFlags: 0
@@ -1479,6 +1484,8 @@ MonoBehaviour:
   ghostRole: {fileID: 11400000, guid: df31f525e37890241b61376d16ec3af3, type: 2}
   message: GREETINGS. WE ARE WIZARDS OF THE WIZARD FEDERATION. WE HAVE DECIDED TO
     CAUSE PROBLEMS ON PURPOSE TODAY.
+  DoNotTriggerOnAMode: {fileID: 0}
+  IfGameModeRequiredPop: -1
 --- !u!1 &5514556414432881390
 GameObject:
   m_ObjectHideFlags: 0
