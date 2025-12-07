@@ -36,7 +36,8 @@ public class GameData : MonoBehaviour, IInitialise
 	/// Is offline mode enabled, allowing login skip / working without connection to server.?
 	/// Disabled always for release builds.
 	/// </summary>
-	public bool OfflineMode => (BuildPreferences.isForRelease == false) || offlineMode || forceOfflineMode;
+	public bool OfflineMode =>  offlineMode || forceOfflineMode || Application.isEditor;
+	//(BuildPreferences.isForRelease == false) (IIs not used)
 
 	public bool testServer;
 	private RconManager rconManager;
