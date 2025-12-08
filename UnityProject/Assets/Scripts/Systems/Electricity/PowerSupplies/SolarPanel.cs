@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using AddressableReferences;
 using Core;
+using Logs;
 using Messages.Server.SoundMessages;
 using Mirror;
+using NaughtyAttributes;
 using Shared.Systems.ObjectConnection;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
@@ -13,15 +16,26 @@ using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 namespace Systems.Electricity.PowerSupplies
 {
 	[RequireComponent(typeof(UniversalObjectPhysics))]
-	public class SolarPanel : NetworkBehaviour, ICheckedInteractable<HandApply>, IMultitoolSlaveable, IExaminable, IHoverTooltip
+	public sealed class SolarPanel : NetworkBehaviour, ICheckedInteractable<HandApply>, IMultitoolSlaveable, IExaminable, IHoverTooltip
 	{
-		[field: SerializeField] public UniversalObjectPhysics Physics { get; private set; }
-		[field: SerializeField] public int LastProducedWatts { get; private set; } = 0;
-		[SerializeField] private float updateRate = 16f;
-		[SerializeField] private int productionPowerPointsPerFreeAvaliableSide = 150;
-		[SerializeField] private bool isOn = true;
+		[BoxGroup("References")]
 		[SerializeField] private AddressableAudioSource warningBeeper;
 		[SerializeField] private AddressableAudioSource wrenchSound;
+		[field: SerializeField] public UniversalObjectPhysics Physics { get; private set; }
+
+		[BoxGroup("Power Production Settings")]
+		[SerializeField] private float updateRate = 16f;
+		[SerializeField] private int productionPowerPointsPerFreeAvaliableSide = 150;
+		[SerializeField] private int wattsMultiplierPerPowerPoint = 2;
+		[SerializeField] private bool isOn = true;
+
+		[BoxGroup("Misc")]
+		[SerializeField, Tooltip("This is in case the map saver is unable to serialize the controller link in the future.")]
+		private bool automaticallyLinkToNearestControllerOnStart = false;
+		[SerializeField, Tooltip("1 unit = 1 tile.\nThis is the radius the panel will search for a controller on start if autoLink is enabled.")]
+		private float searchRadiusForControllers = 250;
+
+		[field: SerializeField] public int LastProducedWatts { get; private set; } = 0;
 
 		private AudioSourceParameters beeperSettings = new AudioSourceParameters()
 		{
@@ -34,20 +48,6 @@ namespace Systems.Electricity.PowerSupplies
 		public IMultitoolMasterable Master { get; set; }
 		public SolarPanelController Controller;
 
-		public bool TrySetMaster(GameObject performer, IMultitoolMasterable master)
-		{
-			if (master.gameObject.TryGetComponent<SolarPanelController>(out var controller) == false) return false;
-			return controller.AddDevice(this);
-		}
-
-		public void SetMasterEditor(IMultitoolMasterable master)
-		{
-			if (master.gameObject.TryGetComponent<SolarPanelController>(out var controller) == false) return;
-			Master = controller;
-			Controller = controller;
-			controller.AddDevice(this);
-		}
-
 		private void Awake()
 		{
 			Physics ??= GetComponent<UniversalObjectPhysics>();
@@ -55,12 +55,17 @@ namespace Systems.Electricity.PowerSupplies
 			if (Controller != null)
 			{
 				Controller.AddDevice(this);
-				Master ??= Controller;
+				Master = Controller;
 			}
 			else
 			{
 				isOn = false;
 			}
+		}
+
+		private void Start()
+		{
+			GetNearestControllerAndSetIt();
 		}
 
 		private void OnDestroy()
@@ -72,7 +77,7 @@ namespace Systems.Electricity.PowerSupplies
 		{
 			if (isOn == false) return;
 			var points = CalculatePoints();
-			LastProducedWatts = points * 2;
+			LastProducedWatts = points * wattsMultiplierPerPowerPoint;
 			if (points == 0)
 			{
 				if (warningBeeper != null) SoundManager.PlayNetworkedAtPos(warningBeeper, gameObject.AssumedWorldPosServer(), beeperSettings);
@@ -124,6 +129,37 @@ namespace Systems.Electricity.PowerSupplies
 			}
 		}
 
+		public bool TrySetMaster(GameObject performer, IMultitoolMasterable master)
+		{
+			if (master.gameObject.TryGetComponent<SolarPanelController>(out var controller) == false) return false;
+			return controller.AddDevice(this);
+		}
+
+		public void SetMasterEditor(IMultitoolMasterable master)
+		{
+			if (master.gameObject.TryGetComponent<SolarPanelController>(out var controller) == false) return;
+			Master = controller;
+			Controller = controller;
+			controller.AddDevice(this);
+		}
+
+		private void GetNearestControllerAndSetIt()
+		{
+			if (automaticallyLinkToNearestControllerOnStart == false) return;
+			var nearbyControllers =
+				ComponentsTracker<SolarPanelController>.GetAllNearbyTypesToTarget(gameObject, searchRadiusForControllers);
+			var controller = nearbyControllers?.FirstOrDefault();
+			if (controller == null)
+			{
+				Loggy.Warning(
+					$"Attempted to auto-link Solar Panel '{gameObject.ExpensiveName()}' to nearest controller," +
+					$" but none were found in radius {searchRadiusForControllers}.");
+				return;
+			}
+			Master = controller;
+			controller.AddDevice(this);
+		}
+
 		private string OnOff()
 		{
 			return isOn ? "on" : "off";
@@ -139,12 +175,25 @@ namespace Systems.Electricity.PowerSupplies
 
 		public string HoverTip()
 		{
-			return "";
+			var hoverTips = new StringBuilder();
+			if (isOn)
+			{
+				hoverTips.AppendLine($"The panel produces energy every {updateRate} seconds.");
+			}
+			else
+			{
+				hoverTips.AppendLine("It is turned off due to it being unbolted, and does not produce energy.");
+			}
+			if (Controller == null)
+			{
+				hoverTips.AppendLine("This panel is not connected to any controllers to siphon the produced energy.".Italic());
+			}
+			return hoverTips.ToString();
 		}
 
 		public string CustomTitle()
 		{
-			return null;
+			return $"{gameObject.ExpensiveName()} [{OnOff()}]";
 		}
 
 		public Sprite CustomIcon()
@@ -160,14 +209,6 @@ namespace Systems.Electricity.PowerSupplies
 		public List<TextColor> InteractionsStrings()
 		{
 			List<TextColor> tips = new List<TextColor>();
-			if (isOn)
-			{
-				tips.Add(new TextColor() { Text = $"The panel produces energy every {updateRate} seconds.".Italic(), Color = Color.grey });
-			}
-			else
-			{
-				tips.Add(new TextColor() { Text = "An unbolted panel is turned off, and does not produce energy.".Italic(), Color = Color.grey });
-			}
 			tips.Add(new TextColor() { Text = "Use a wrench to bolt this panel down/up.", Color = Color.green });
 			if (Controller == null) tips.Add(new TextColor(){ Text = "Use a multi-tool to connect this panel to a Solar Panel Controller.", Color = Color.green});
 			return tips;

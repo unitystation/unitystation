@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Core;
 using Mirror;
 using Shared.Systems.ObjectConnection;
 using Systems.Electricity.NodeModules;
@@ -10,12 +12,18 @@ namespace Systems.Electricity.PowerSupplies
 	{
 		public ModuleSupplyingDevice ModuleSupply;
 		public float UpdateRate = 10f;
+		public float MaxCurrent = 0.06f;
 		[SerializeField] private List<SolarPanel> connectedPanels;
 
 		public MultitoolConnectionType ConType { get; } = MultitoolConnectionType.SolarPanel;
 		public bool CanRelink { get; } = true;
 		public int MaxDistance { get; } = 64;
 		public bool IgnoreMaxDistanceMapper { get; } = false;
+
+		private void Awake()
+		{
+			ComponentsTracker<SolarPanelController>.RegisterInstance(this);
+		}
 
 		private void Start()
 		{
@@ -25,6 +33,7 @@ namespace Systems.Electricity.PowerSupplies
 
 		private void OnDestroy()
 		{
+			ComponentsTracker<SolarPanelController>.UnregisterInstance(this);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 		}
 
@@ -36,6 +45,7 @@ namespace Systems.Electricity.PowerSupplies
 				watts += panel.LastProducedWatts;
 			}
 			ModuleSupply.ProducingWatts = watts;
+			ModuleSupply.Maxcurrent = MaxCurrent;
 		}
 
 		public bool AddDevice(SolarPanel panel)
