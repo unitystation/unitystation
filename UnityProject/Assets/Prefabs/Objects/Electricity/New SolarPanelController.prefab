@@ -125,6 +125,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6841455438560793530}
+    - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: c04c20dfad951fd4191fd35ca7d40732,
@@ -304,6 +309,7 @@ MonoBehaviour:
   syncInterval: 0.1
   ModuleSupply: {fileID: 5682924656864035169}
   UpdateRate: 10
+  MaxCurrent: 0.06
   connectedPanels: []
 --- !u!114 &5682924656864035169
 MonoBehaviour:
@@ -325,9 +331,15 @@ MonoBehaviour:
   PreviousSupplyingVoltage: 0
   SupplyingVoltage: 2400
   PreviousInternalResistance: 0
-  InternalResistance: 19000
+  InternalResistance: 10000000
   PreviousProducingWatts: 0
   ProducingWatts: 0
+--- !u!212 &6841455438560793530 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2408678487295248438, guid: f9025da3beb40304cb15babfc0a6cafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 9195474316350675852}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8452876085178655955 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 779761725270966111, guid: f9025da3beb40304cb15babfc0a6cafa,
