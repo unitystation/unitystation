@@ -49,7 +49,7 @@ public class BodyHealthEffect : MetabolismReaction
 	public override void PossibleReaction(List<MetabolismComponent> senders, ReagentMix reagentMix,
 		float reactionMultiple, float BodyReactionAmount, float TotalChemicalsProcessed, float UntouchedMultiple, ref bool overdose) //limitedReactionAmountPercentage = 0 to 1
 	{
-		overdose = (CanOverdose && TotalChemicalsProcessed > ConcentrationBloodOverdose);
+		overdose = (CanOverdose && UntouchedMultiple > ConcentrationBloodOverdose);
 		DamagedList.Clear(); //Why? So healing medicine is never wasted Is a pain in butt though to work out
 		if (overdose == false)
 		{

@@ -52,6 +52,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -73,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 2
@@ -105,12 +109,17 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ae8c29a6e432ad84481b3d5572b2624c, type: 2}
   - {fileID: 11400000, guid: 1fe4ae33e3b2ec241a8656b342a20bb7, type: 2}
   - {fileID: 11400000, guid: 8accdf0b4519a794aaa0eb89adc58543, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 68bb3e29d9b789a46a66370031d05eeb, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 68bb3e29d9b789a46a66370031d05eeb,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 8387971600051400116}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &1359053181782918209
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -289,9 +298,31 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A pneumatic waste disposal unit. What can fit in this?
       objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cd98e1bc8bcab7e40a694886dbae5973,
+        type: 2}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2078399114767077827}
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 481fa73f0a45b494ab84768d90753166,
+        type: 2}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 481fa73f0a45b494ab84768d90753166,
         type: 2}
@@ -351,6 +382,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 4820606941558123810}
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
+--- !u!212 &2078399114767077827 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+    type: 3}
+  m_PrefabInstance: {fileID: 2735334922090361757}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2279522733003666190 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
@@ -395,58 +432,59 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  installState: 0
   rechargeSFX:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/DisposalMachines/DisposalBinRecharge.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   AirFlapSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/Click.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   FlushSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/DisposalMachines/DisposalMachineFlush.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   trashDunkSounds:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/TrashDunk/TrashDunk1.prefab
+  - AssetAddress: Assets/Prefabs/Effects/TrashDunk/TrashDunk1.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/TrashDunk/TrashDunk2.prefab
+  - AssetAddress: Assets/Prefabs/Effects/TrashDunk/TrashDunk2.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/TrashDunk/TrashDunk3.prefab
+  - AssetAddress: Assets/Prefabs/Effects/TrashDunk/TrashDunk3.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   trashDunkMissSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/TrashDunk/DunkMiss.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   <PoweredDevice>k__BackingField: {fileID: 0}
@@ -466,6 +504,7 @@ MonoBehaviour:
   initialContents: {fileID: 0}
   spawnContentsAtRoundstart: 1
   registerTile: {fileID: 0}
+  ObjectPhysics: {fileID: 0}
   OnObjectStored:
     m_PersistentCalls:
       m_Calls: []
@@ -488,7 +527,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   GasSO: {fileID: 0}
-  StoredGasMix:
+  StoredInitialGasMix:
     GasData:
       GasesArray:
       - GasSO: {fileID: 11400000, guid: ac2834f2705dcbc4da8731a53d3076fc, type: 2}
@@ -503,6 +542,7 @@ MonoBehaviour:
   CargoSealApproved: 0
   explodeOnTooMuchDamage: 1
   ignoreInternals: 0
+  canToggleIgnoreInternals: 1
 --- !u!114 &4820606941558123810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -523,7 +563,8 @@ MonoBehaviour:
   maximumWorkingVoltage: 300
   deviceType: 3
   isSelfPowered: 0
-  wattusage: 0.01
+  mappingNotNeedToLink: 0
+  initialwattusage: 0.01
   InitialResistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0

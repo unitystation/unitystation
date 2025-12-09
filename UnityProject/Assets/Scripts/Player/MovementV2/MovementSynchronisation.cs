@@ -559,6 +559,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			var pushVector = (move.transform.position - this.transform.position).RoundToInt().To2Int();
 			if (Mathf.Abs(pushVector.x) > 1 || Mathf.Abs(pushVector.y) > 1) return;
 			Pushing.Clear();
+			SetMatrixCache.ResetNewPosition(registerTile.WorldPosition, registerTile); //Resets the cash
 			ForceTilePush(pushVector, Pushing, client, move.CurrentTileMoveSpeed, SendWorld: false);
 		}
 		OnBumpedIntoSomething?.Invoke();

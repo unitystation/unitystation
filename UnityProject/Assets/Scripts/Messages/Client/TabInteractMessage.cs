@@ -54,7 +54,7 @@ namespace Messages.Client
 			}
 			else
 			{
-				validate = Validations.CanApply(playerScript, tabProvider, NetworkSide.Server);
+				validate = Validations.CanApply(playerScript, tabProvider, NetworkSide.Server, reachRange: ReachRange.ExtendedServer);
 
 				try
 				{
