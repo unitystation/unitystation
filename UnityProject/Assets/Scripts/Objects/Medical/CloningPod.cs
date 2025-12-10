@@ -32,6 +32,25 @@ namespace Objects.Medical
 
 		public float CloningStartTime;
 
+		#region Examine
+
+		public string Examine(Vector3 worldPos = default)
+		{
+			switch (statusSync)
+			{
+				case CloningPodStatus.Cloning:
+					return "Remaining time cloning " + Mathf.RoundToInt((CloningTime - (Time.time - CloningStartTime))) + " seconds";
+				default:
+					return statusString;
+			}
+		}
+
+		/// <summary>
+		/// Higher priority will ensure this text is displayed first when constructing the examine message.
+		/// </summary>
+		int ExaminablePriority => 10;
+		#endregion
+
 		public enum CloningPodStatus
 		{
 			Empty,
@@ -110,23 +129,6 @@ namespace Objects.Medical
 
 			CloningTime = DamageMultiplier * internalCloningTime;
 		}
-		#region Examine
 
-		public string Examine(Vector3 worldPos = default)
-		{
-			switch (statusSync)
-			{
-				case CloningPodStatus.Cloning:
-					return "Remaining time cloning " + Mathf.RoundToInt((CloningTime - (Time.time - CloningStartTime))) + " seconds";
-				default:
-					return statusString;
-			}
-		}
-
-		/// <summary>
-		/// Higher priority will ensure this text is displayed first when constructing the examine message.
-		/// </summary>
-		int ExaminablePriority => 10;
-		#endregion
 	}
 }
