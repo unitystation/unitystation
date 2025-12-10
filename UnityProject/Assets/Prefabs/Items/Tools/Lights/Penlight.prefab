@@ -56,6 +56,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 55e30c57e4e00624f95ce48f53ffadd4,
+        type: 2}
+    - target: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 55e30c57e4e00624f95ce48f53ffadd4,
@@ -111,6 +117,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
+      propertyPath: initialNames.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
       propertyPath: initialTraits.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -142,6 +153,18 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.Texture
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 1242547b095a25d4b870d7c2e4868aff,
+        type: 2}
+    - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 1549ce680737125459163cf36dcbc345,
+        type: 2}
     - target: {fileID: 5334267868750357690, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
       propertyPath: Size

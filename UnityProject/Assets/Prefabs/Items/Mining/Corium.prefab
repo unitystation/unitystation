@@ -70,8 +70,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: exportName
+      value: corium
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: initialName
-      value: Corium
+      value: corium
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -81,11 +86,17 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialDescription
-      value: a bit radioactive but a good pumice stone
+      value: A bit radioactive but a good pumice stone.
       objectReference: {fileID: 0}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 58485e480dd5ee242a861e5792381101,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 58485e480dd5ee242a861e5792381101,
         type: 2}
@@ -139,10 +150,9 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  OutPuttingRadiation: 1000
-  color: {r: 0.3647059, g: 0.7921569, b: 0.19215687, a: 1}
+  InitialOutPuttingRadiation: 1000
+  InitialColour: {r: 0.3647059, g: 0.7921569, b: 0.19215687, a: 1}
   lightSprite: {fileID: 5612512396492710717}
-  SynchroniseStrength: 0
 --- !u!1001 &6718488657276763471
 PrefabInstance:
   m_ObjectHideFlags: 0

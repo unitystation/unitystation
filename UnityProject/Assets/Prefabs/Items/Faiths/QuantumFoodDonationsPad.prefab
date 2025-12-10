@@ -4776,6 +4776,9 @@ ParticleSystemRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -4797,6 +4800,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: -1
@@ -4913,7 +4917,7 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialName
-      value: Quantam Food Donations Pad
+      value: quantum food donations pad
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -4929,7 +4933,7 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A teleportation pad that randomly teleports food donations from across
-        the universe. It bears the Sol goverment and waffle co. logos
+        the universe. It bears the Sol goverment and Waffle Co. logos.
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -4949,6 +4953,12 @@ PrefabInstance:
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e22882de83a5aa9449bf560a411777b0,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: e22882de83a5aa9449bf560a411777b0,
         type: 2}

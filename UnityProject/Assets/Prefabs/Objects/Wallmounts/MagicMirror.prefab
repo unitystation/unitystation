@@ -51,16 +51,27 @@ PrefabInstance:
     - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: initialName
-      value: extinguisher cabinet
+      value: magic mirror
       objectReference: {fileID: 0}
     - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: initialDescription
-      value: A small wall mounted cabinet designed to hold a fire extinguisher.
+      value: Turn and face the strange... face.
       objectReference: {fileID: 0}
     - target: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 289515211895536920}
+    - target: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3ce47bba9f0da4b43a0bbd89210486f3,
+        type: 2}
+    - target: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 3ce47bba9f0da4b43a0bbd89210486f3,
         type: 2}
@@ -106,21 +117,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
@@ -158,7 +154,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: b7efae2541864dc43a74b5d5e576f9a3,
+      objectReference: {fileID: 21300004, guid: b7efae2541864dc43a74b5d5e576f9a3,
         type: 3}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -196,6 +192,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8847796060487267526}
   m_SourcePrefab: {fileID: 100100000, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}
+--- !u!212 &289515211895536920 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 8312543595778916565}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &532740209742371087 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8374648283101600218, guid: a7af28adb717b4c44b8b2002b27670bd,
@@ -215,11 +217,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PrintSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/PosterCreate.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   paperPrefab: {fileID: 8734328976324889014, guid: d3c71176f32c1274b929f3a88695a795,
@@ -276,6 +278,14 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!210 &3001811145825185215 stripped
