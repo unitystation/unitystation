@@ -215,9 +215,12 @@ MonoBehaviour:
   GrowingStages:
   - SpriteSizeScale: 0.5
     FoodRefreshTime: 120
-  - SpriteSizeScale: 0.7
+  - SpriteSizeScale: 0.666666
+    FoodRefreshTime: 120
+  - SpriteSizeScale: 0.833333
     FoodRefreshTime: 120
   - SpriteSizeScale: 1
     FoodRefreshTime: 120
   StageSynchronise: 0
   HungryAndWantsToGrow: 0
+  ScaleSync: {fileID: 0}

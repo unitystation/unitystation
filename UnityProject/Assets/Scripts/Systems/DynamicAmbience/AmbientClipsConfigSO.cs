@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using AddressableReferences;
+using Messages.Server.SoundMessages;
 using Tiles;
 using UnityEngine;
 
@@ -35,7 +36,11 @@ namespace Systems.DynamicAmbience
 		public string PlayRandomClipLocally()
 		{
 			var token = Guid.NewGuid().ToString();
-			_ = SoundManager.Play(ambientClips.PickRandom(), token);
+			_ = SoundManager.Play(ambientClips.PickRandom(), token,  new AudioSourceParameters( )
+			{
+				Volume= 1,
+				SpatialBlend = 1
+			});
 			return token;
 		}
 	}

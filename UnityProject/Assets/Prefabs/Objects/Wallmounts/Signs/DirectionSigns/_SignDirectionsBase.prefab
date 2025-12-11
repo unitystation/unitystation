@@ -18,6 +18,17 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: d95c8124beb3ec54ab012b6142cf1977
       objectReference: {fileID: 0}
+    - target: {fileID: 2113894379060813690, guid: 2d5ef1e4279414f4798d5cf1542d9388,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2113894379060813690, guid: 2d5ef1e4279414f4798d5cf1542d9388,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cd98e1bc8bcab7e40a694886dbae5973,
+        type: 2}
     - target: {fileID: 4297281311582415504, guid: 2d5ef1e4279414f4798d5cf1542d9388,
         type: 3}
       propertyPath: spriteRenderer

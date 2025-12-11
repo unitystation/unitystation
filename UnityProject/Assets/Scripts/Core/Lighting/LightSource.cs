@@ -574,13 +574,15 @@ namespace Objects.Lighting
 
 			if (voltage <= 240)
 			{
-				// map 80-240 to -1 → 0
 				intensityLightPower = Mathf.Lerp(-0.66666f, 0f, (voltage - 100f) / (240f - 100f));
+			}
+			else if (voltage <= 256f)
+			{
+				intensityLightPower = 0;
 			}
 			else
 			{
-				// map 240-300 to 0 → 0.33333
-				intensityLightPower = Mathf.Lerp(0f, 0.33333f, (voltage - 240f) / (300f - 240f));
+				intensityLightPower = Mathf.Lerp(0f, 0.33333f, (voltage - 256f) / (300f - 256f));
 			}
 
 			SetColor(CurrentOnColor ,CurrentOnColor);

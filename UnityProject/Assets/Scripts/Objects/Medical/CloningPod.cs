@@ -10,7 +10,7 @@ using UnityEngine.Serialization;
 
 namespace Objects.Medical
 {
-	public class CloningPod : NetworkBehaviour, IRefreshParts
+	public class CloningPod : NetworkBehaviour, IRefreshParts, IExaminable
 	{
 		public CloningPodStatus statusSync;
 		public SpriteHandler SpriteHandler;
@@ -29,6 +29,27 @@ namespace Objects.Medical
 		[SerializeField] private ItemTrait UpgradePart;
 
 		private Machine Machine;
+
+		public float CloningStartTime;
+
+		#region Examine
+
+		public string Examine(Vector3 worldPos = default)
+		{
+			switch (statusSync)
+			{
+				case CloningPodStatus.Cloning:
+					return "Remaining time cloning " + Mathf.RoundToInt((CloningTime - (Time.time - CloningStartTime))) + " seconds";
+				default:
+					return statusString;
+			}
+		}
+
+		/// <summary>
+		/// Higher priority will ensure this text is displayed first when constructing the examine message.
+		/// </summary>
+		int ExaminablePriority => 10;
+		#endregion
 
 		public enum CloningPodStatus
 		{
@@ -52,6 +73,7 @@ namespace Objects.Medical
 
 		private IEnumerator ServerProcessCloning(CloningRecord record)
 		{
+			CloningStartTime = Time.time;
 			yield return WaitFor.Seconds(CloningTime);
 			statusSync = CloningPodStatus.Empty;
 			SpriteHandler.SetCatalogueIndexSprite(0);
@@ -107,5 +129,6 @@ namespace Objects.Medical
 
 			CloningTime = DamageMultiplier * internalCloningTime;
 		}
+
 	}
 }

@@ -522,7 +522,7 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 		GameObject context = null)
 	{
 		return Validations.IsReachableByPositions(
-			isServer ? RegisterPlayer.WorldPositionServer : RegisterPlayer.WorldPosition, otherPosition, isServer,
+			RegisterPlayer.transform.position, otherPosition, isServer,
 			interactDist, context: context);
 	}
 

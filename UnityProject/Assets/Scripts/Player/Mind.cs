@@ -338,6 +338,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 
 	public bool IsRelatedToObject(GameObject Object)
 	{
+		if (Object == null) return false;
 		if (this.gameObject == Object)
 		{
 			return true;

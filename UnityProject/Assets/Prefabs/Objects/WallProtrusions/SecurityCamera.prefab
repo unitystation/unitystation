@@ -52,6 +52,9 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -73,6 +76,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -89,7 +93,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 1, g: 1, b: 1, a: 0.14901961}
+  InitialColour: {r: 1, g: 1, b: 1, a: 0.14901961}
   Sprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -148,6 +152,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -169,6 +176,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1964781063
   m_SortingLayer: 25
   m_SortingOrder: 0
@@ -197,12 +205,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: f2278abe38a535e42b3b34bdbda20d6b, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: f2278abe38a535e42b3b34bdbda20d6b,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &8517980150118973350
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -216,11 +229,16 @@ PrefabInstance:
       propertyPath: wattusage
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: -6356777978426299504, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: initialwattusage
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 9a0b93c92ce12554e976d346f6bd4d48,
+      objectReference: {fileID: 21300048, guid: 9a0b93c92ce12554e976d346f6bd4d48,
         type: 3}
     - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -344,6 +362,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 7192095805598948877}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 4284a67f2830d4d4ea81fc8f8c8f9fa1,
@@ -353,6 +376,12 @@ PrefabInstance:
       propertyPath: doReverseAnimation
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4284a67f2830d4d4ea81fc8f8c8f9fa1,
+        type: 2}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: SubCatalogue.Array.size
@@ -471,6 +500,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: It's used to monitor rooms.
       objectReference: {fileID: 0}
+    - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cd98e1bc8bcab7e40a694886dbae5973,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
     m_RemovedGameObjects: []
@@ -577,11 +617,25 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 3
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!4 &6970160609899625664 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 8517980150118973350}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &7192095805598948877 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
     type: 3}
   m_PrefabInstance: {fileID: 8517980150118973350}
   m_PrefabAsset: {fileID: 0}

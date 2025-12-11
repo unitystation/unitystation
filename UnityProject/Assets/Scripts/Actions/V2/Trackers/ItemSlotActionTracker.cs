@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 
 namespace Actions.V2.Trackers
 {
-	public class ItemSlotActionTracker : MonoBehaviour, IActionButtonTracker
+	public class ItemSlotActionTracker : MonoBehaviour, IActionButtonTracker, IServerInventoryMove
 	{
 		[field:SerializeField] public SerializableDictionary<ActionButtonData, SerializedAction> ActionData { get; set; }
 
@@ -28,35 +28,29 @@ namespace Actions.V2.Trackers
 				Debug.LogError("ItemSlotActionTracker requires a Pickupable component.");
 				return;
 			}
-
-			pickupable.OnItemSlotChanged.CachedAction += OnInventoryMovementCheck;
 		}
 
-		private void OnDestroy()
-		{
-			if (pickupable != null)
-			{
-				pickupable.OnItemSlotChanged.CachedAction -= OnInventoryMovementCheck;
-			}
-		}
 
-		private void OnInventoryMovementCheck()
+
+
+		public void OnInventoryMoveServer(InventoryMove info)
 		{
-			if (pickupable.ItemSlot == null)
+			if (info.ToRootPlayer == null)
 			{
 				WhenHolderIsOutOfRange();
-				return;
-			}
-			var rootStorage = pickupable.ItemSlot.GetRootStorageAndIfPlayer();
-			if (rootStorage.Item1 && rootStorage.Item2)
-			{
-				WhenHolderIsOutOfRange();
-				TargetActionManager = rootStorage.Item2.PlayerButtonedActions;
-				WhenHolderIsInRange();
 			}
 			else
 			{
-				WhenHolderIsOutOfRange();
+				if (pickupable.ItemSlot.NamedSlot != null) //TODO someone think of a better system but this works for now ( basically are we on the root level of the inventory )
+				{
+					WhenHolderIsOutOfRange();
+					TargetActionManager = info.ToRootPlayer.PlayerScript.PlayerButtonedActions;
+					WhenHolderIsInRange();
+				}
+				else
+				{
+					WhenHolderIsOutOfRange();
+				}
 			}
 		}
 

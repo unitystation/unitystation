@@ -293,7 +293,7 @@ public class NetTab : Tab
 
 		foreach (var peeper in Peepers.ToArray())
 		{
-			bool canApply = Validations.CanApply(peeper.Script, Provider, NetworkSide.Server);
+			bool canApply = Validations.CanApply(peeper.Script, Provider, NetworkSide.Server, reachRange: ReachRange.ExtendedServer);
 
 			if (peeper.Script == false || canApply == false)
 			{

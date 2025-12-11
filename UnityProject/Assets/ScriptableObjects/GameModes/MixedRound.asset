@@ -17,7 +17,7 @@ MonoBehaviour:
     at 10 and 20 pop respectively
   canRespawn: 0
   minPlayers: 1
-  antagRatio: 0.2
+  antagRatio: 0.3
   minAntags: 1
   maxAntags: 100
   hardNumberOfAntagsToSpawn: 0
@@ -51,7 +51,7 @@ MonoBehaviour:
   - ratio: 1
     Antagonist: {fileID: 11400000, guid: 613f4c1efe110a34e858e8ccbdea6b04, type: 2}
     UniqueOne: 1
-    OneTimechance: 0.5
+    OneTimechance: 0.25
     MinPop: 3
   - ratio: 1
     Antagonist: {fileID: 11400000, guid: 7977e2d7465279a419fe55b27ecca5df, type: 2}
