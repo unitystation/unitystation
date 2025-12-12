@@ -40,6 +40,9 @@ namespace Managers
 		{
 			EndActiveEvents(true);
 			activeEvents.Clear();
+			EventManager.RemoveHandler(Event.RoundStarted, StartActiveEvents);
+			EventManager.RemoveHandler(Event.ScenesLoadedServer, CleanAndUpdateActiveEvents);
+			EventManager.RemoveHandler(Event.RoundEnded, EndActiveEventsPrebool);
 			base.OnDestroy();
 		}
 

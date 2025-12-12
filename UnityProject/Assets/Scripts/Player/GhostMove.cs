@@ -103,6 +103,8 @@ public class GhostMove : NetworkBehaviour, IPlayerControllable
 	[Server]
 	public void ForcePositionClient(Vector3 worldPosition, bool triggerStepInterface = true, bool Smooth = true)
 	{
+		if (MatrixManager.Instance.spaceMatrix == null) return;
+
 		var matrix = MatrixManager.AtPoint(worldPosition, isServer);
 		ForcePositionClient(worldPosition.ToLocal(matrix), matrix.Id, OrientationEnum.Down_By180,
 			triggerStepInterface: triggerStepInterface, Smooth: Smooth);
