@@ -170,5 +170,19 @@ public class RegisterObject : RegisterTile, IPointerEnterHandler, IPointerExitHa
 		UIManager.SetHoverToolTip = null;
 	}
 
+	public void OnDisable()
+	{
+#if UNITY_EDITOR
+		return;
+#endif
+		if (Application.isBatchMode) return;
+		if (CustomNetworkManager.IsServer) return;
+		if (UIManager.Instance.HoverTooltipUI.CurrentlyOverObjectPub == gameObject)
+		{
+			UIManager.SetToolTip = "";
+			UIManager.SetHoverToolTip = null;
+		}
+	}
+
 	#endregion
 }
