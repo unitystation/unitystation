@@ -62,11 +62,6 @@ namespace Items
 				spawnAmount++;
 				if (unrestrictedAndSpawn == false) break; // what the fuck does UnrestrictedAndspawn mean? What's the point? terrible name
 			}
-			if (spawnAmount == 0)
-			{
-				Loggy.Error($"[RandomItemSpot/SpawnRandomItems] - " +
-				               $"No items spawned, expected {lootCount} on {gameObject.name} items but received 0", Category.ItemSpawn);
-			}
 		}
 
 		private PoolData GrabRandomPool()

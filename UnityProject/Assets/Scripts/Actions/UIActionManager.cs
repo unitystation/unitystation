@@ -46,14 +46,14 @@ namespace UI.Core.Action
 
 		public void Clear()
 		{
-			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(IActionGUIToID, (u,k)=> u as MonoBehaviour != null) + " from UIActionManager.IActionGUIToID");
-			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(ClientIActionGUIToID, (u, k) => u as MonoBehaviour != null) + " from UIActionManager.ClientIActionGUIToID");
-			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(MultiIActionGUIToMind, (u, k) => u as MonoBehaviour != null) + " from UIActionManager.MultiIActionGUIToMind");
-			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(MultiIActionGUIToID, (u, k) => u as MonoBehaviour != null) + " from UIActionManager.MultiIActionGUIToID");
-			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(ClientMultiIActionGUIToID, (u, k) => u as MonoBehaviour != null) + " from UIActionManager.ClientMultiIActionGUIToID");
-			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(ActivePlayerActions, (u, k) => u != null) + " from UIActionManager.ActivePlayerActions");
-			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(Instance.DicIActionGUI, (u, k) => u as MonoBehaviour != null) + " from Instance.DicIActionGUI");
-			Debug.Log("removed " + CleanupUtil.RidDictionaryOfDeadElements(Instance.IActionGUIToMind, (u, k) => u as MonoBehaviour != null) + " from Instance.IActionGUIToMind");
+			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(IActionGUIToID, (u,k)=> u as MonoBehaviour != null) + " from UIActionManager.IActionGUIToID", LogOption: LogOption.NoStacktrace);
+			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(ClientIActionGUIToID, (u, k) => u as MonoBehaviour != null) + " from UIActionManager.ClientIActionGUIToID", LogOption: LogOption.NoStacktrace);
+			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(MultiIActionGUIToMind, (u, k) => u as MonoBehaviour != null) + " from UIActionManager.MultiIActionGUIToMind", LogOption: LogOption.NoStacktrace);
+			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(MultiIActionGUIToID, (u, k) => u as MonoBehaviour != null) + " from UIActionManager.MultiIActionGUIToID", LogOption: LogOption.NoStacktrace);
+			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(ClientMultiIActionGUIToID, (u, k) => u as MonoBehaviour != null) + " from UIActionManager.ClientMultiIActionGUIToID", LogOption: LogOption.NoStacktrace);
+			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(ActivePlayerActions, (u, k) => u != null) + " from UIActionManager.ActivePlayerActions", LogOption: LogOption.NoStacktrace);
+			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(Instance.DicIActionGUI, (u, k) => u as MonoBehaviour != null) + " from Instance.DicIActionGUI", LogOption: LogOption.NoStacktrace);
+			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(Instance.IActionGUIToMind, (u, k) => u as MonoBehaviour != null) + " from Instance.IActionGUIToMind", LogOption: LogOption.NoStacktrace);
 
 			{
 				int internals = 0;
@@ -63,7 +63,7 @@ namespace UI.Core.Action
 					internals += CleanupUtil.RidListOfDeadElements(a.Value, u => u as MonoBehaviour);
 				}
 
-				Debug.Log("removed " + internals + " from internals of UIActionManager.ActivePlayerActions");
+				Loggy.Info("removed " + internals + " from internals of UIActionManager.ActivePlayerActions", LogOption: LogOption.NoStacktrace);
 			}
 
 			{
@@ -74,7 +74,7 @@ namespace UI.Core.Action
 					internals += CleanupUtil.RidListOfDeadElements(a.Value);
 				}
 
-				Debug.Log("removed " + internals + " from internals of Instance.DicIActionGUI");
+				Loggy.Info("removed " + internals + " from internals of Instance.DicIActionGUI", LogOption: LogOption.NoStacktrace);
 			}
 
 		}

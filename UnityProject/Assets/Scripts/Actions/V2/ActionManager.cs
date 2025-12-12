@@ -238,7 +238,6 @@ namespace Actions.V2
 		[Server]
 		public void ServerAddAction(ActionButtonData actionData, Action<Vector2> newAction)
 		{
-			Debug.Log("adding action to serverActionRegistry: " + actionData);
 			if (ServerActionRegistry.ContainsKey(actionData.ID) == false)
 			{
 				ServerActionRegistry.Add(actionData.ID, (actionData, newAction));

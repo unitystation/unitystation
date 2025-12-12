@@ -25,6 +25,9 @@ namespace UI.Systems.Tooltips.HoverTooltips
 
 		private GameObject targetObject;
 		private GameObject CurrentlyOverObject;
+
+		public GameObject CurrentlyOverObjectPub => CurrentlyOverObject;
+
 		private bool detailsModeEnabled = false;
 
 		private const float MOUSE_OFFSET_Y = -105f;

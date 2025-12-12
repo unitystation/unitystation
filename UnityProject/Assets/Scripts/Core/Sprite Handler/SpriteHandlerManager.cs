@@ -83,8 +83,6 @@ public class SpriteHandlerManager : NetworkBehaviour
 			}
 		}
 
-		Debug.Log("removed " + ret + " dead elements from PresentSprites");
-
 		return ret;
 	}
 
