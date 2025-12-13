@@ -260,7 +260,7 @@ public static class Validations
 			{
 				UniversalObjectPhysics uop = (target == null) ? null : target.GetComponent<UniversalObjectPhysics>();
 
-				if (uop == null)
+				 if (uop == null)
 				{
 					result = IsInReachInternal(playerScript, target, side, targetPosition, targetRegisterTile, targetVector: targetVector);
 				}
@@ -417,15 +417,12 @@ public static class Validations
 
 	private static bool IsNotBlocked(Vector3 worldPosA, Vector3 worldPosB, bool isServer, GameObject context = null)
 	{
-		Vector3Int worldPosAInt = Vector3Int.RoundToInt(worldPosA);
-		Vector3Int worldPosBInt = Vector3Int.RoundToInt(worldPosB);
-
-		if (worldPosAInt == worldPosBInt)
+		if (worldPosA == worldPosB)
 		{
 			return true;
 		}
 
-		bool result = MatrixManager.IsPassableAtAllMatrices(worldPosAInt, worldPosBInt, isServer: isServer, collisionType: CollisionType.Click,
+		bool result = MatrixManager.IsPassableAtAllMatrices(worldPosA, worldPosB, isServer: isServer, collisionType: CollisionType.Click,
 			context: context, includingPlayers: false, isReach: true,
 			excludeLayers: BlockedLayers,
 			onlyExcludeLayerOnDestination: true);

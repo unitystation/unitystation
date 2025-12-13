@@ -143,10 +143,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0c58ef112b222f44e825e23eedea563e,
         type: 2}
+    - target: {fileID: 7997178393223053399, guid: 789d74731ecbf8e4a813fc024afaf831,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0c58ef112b222f44e825e23eedea563e,
+        type: 2}
     - target: {fileID: 8358244675405048560, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
       propertyPath: AdditionalReactions.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8358244675405048560, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
@@ -158,7 +164,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'AdditionalReactions.Array.data[1]'
       value: 
-      objectReference: {fileID: 11400000, guid: b41247d17bc32d647973a50607e402d0,
+      objectReference: {fileID: 11400000, guid: 9e4fead56e3aa40419bd63009d807eae,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
