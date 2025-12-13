@@ -21,6 +21,7 @@ namespace SecureStuff
 	{
 	}
 
+	
 	public struct MethodsAndAttributee<T> where T : BaseAttribute
 	{
 		public MethodInfo MethodInfo;
