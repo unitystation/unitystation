@@ -82,7 +82,7 @@ PrefabInstance:
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: initialName
-      value: Jump Boots
+      value: jump boots
       objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
@@ -188,18 +188,18 @@ MonoBehaviour:
   jumpSpeed: 12
   jumpAirTime: 0.25
   activateSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/podwoosh.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   rechargeSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Weapons/KineticReload.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0

@@ -20,7 +20,15 @@ MonoBehaviour:
     probability: 100
   - prefab: {fileID: 1637236327471730624, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
       type: 3}
+    maxAmount: 2
+    probability: 100
+  - prefab: {fileID: 1637236327471730624, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+      type: 3}
     maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4996160304479888755, guid: 9363154ec4a288f41b8c9681e3531539,
+      type: 3}
+    maxAmount: 2
     probability: 100
   - prefab: {fileID: 4996160304479888755, guid: 9363154ec4a288f41b8c9681e3531539,
       type: 3}
@@ -155,6 +163,12 @@ MonoBehaviour:
     probability: 100
   - prefab: {fileID: 8699356461625616089, guid: fd466498ead2721489a1f6f5e35691c2,
       type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 198146816443172997, guid: 9f68bba630ca7a8459c3b56476c9e10a, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 198146816443172997, guid: 9f68bba630ca7a8459c3b56476c9e10a, type: 3}
     maxAmount: 1
     probability: 100
   RequiredTrait: {fileID: 0}
