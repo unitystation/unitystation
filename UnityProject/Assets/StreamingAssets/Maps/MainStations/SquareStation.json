@@ -199269,6 +199269,14 @@
                   "ClassID": "DoorSwitch@0",
                   "Data": [
                     {
+                      "Name": "NewdoorControllers#3",
+                      "Data": "f2441585d37f1914395df59a57c5e925_127┼151┼0┼@0@DoorMasterController@0"
+                    },
+                    {
+                      "Name": "NewdoorControllers#2",
+                      "Data": "f2441585d37f1914395df59a57c5e925_126┼151┼0┼@0@DoorMasterController@0"
+                    },
+                    {
                       "Name": "NewdoorControllers#1",
                       "Data": "f2441585d37f1914395df59a57c5e925_123┼148┼0┼@0@DoorMasterController@0"
                     },
@@ -227270,7 +227278,7 @@
     },
     {
       "Ver": "1.1.1",
-      "Location": "72.24┼147.08┼0┼",
+      "Location": "72┼147┼0┼",
       "MatrixName": "Mining Shuttle",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -228143,7 +228151,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "Heads"
+                          "Data": "Cargo"
                         }
                       ]
                     }

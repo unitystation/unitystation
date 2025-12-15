@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &1953104105649602397
+--- !u!1001 &749873840601997342
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -8,11 +8,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
-        type: 3}
-      propertyPath: fanOut
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: poolList.Array.size
@@ -25,67 +20,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
-      propertyPath: poolList.Array.data[1].probability
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
-        type: 3}
-      propertyPath: poolList.Array.data[2].probability
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
-        type: 3}
-      propertyPath: poolList.Array.data[3].probability
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
-        type: 3}
       propertyPath: poolList.Array.data[0].randomItemPool
       value: 
-      objectReference: {fileID: 11400000, guid: 6c73bc613ce31b2f09595679f297e1cf,
-        type: 2}
-    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
-        type: 3}
-      propertyPath: poolList.Array.data[1].randomItemPool
-      value: 
-      objectReference: {fileID: 11400000, guid: 98d3649a5d01bf8b087eb55f4b2b07bb,
-        type: 2}
-    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
-        type: 3}
-      propertyPath: poolList.Array.data[2].randomItemPool
-      value: 
-      objectReference: {fileID: 11400000, guid: 98d3649a5d01bf8b087eb55f4b2b07bb,
-        type: 2}
-    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
-        type: 3}
-      propertyPath: poolList.Array.data[3].randomItemPool
-      value: 
-      objectReference: {fileID: 11400000, guid: 98d3649a5d01bf8b087eb55f4b2b07bb,
+      objectReference: {fileID: 11400000, guid: 27c50b6c1c1ed76ab80bd57cc0cd5f39,
         type: 2}
     - target: {fileID: 2708525666452541148, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
-      propertyPath: m_Color.b
-      value: 0.34854877
-      objectReference: {fileID: 0}
-    - target: {fileID: 2708525666452541148, guid: abff3ae0227731244b0814b2055fa6f0,
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a9ebde493cdc3804c8e02a4066a473ec,
         type: 3}
-      propertyPath: m_Color.g
-      value: 0.95073813
-      objectReference: {fileID: 0}
-    - target: {fileID: 2708525666452541148, guid: abff3ae0227731244b0814b2055fa6f0,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2806690048445349940, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: _assetId
-      value: 1443626690
+      value: 2150730113
       objectReference: {fileID: 0}
     - target: {fileID: 2839352587806555520, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: m_Name
-      value: DebrisFieldLootGood
+      value: RuinStructureOrDebris
       objectReference: {fileID: 0}
     - target: {fileID: 2843154561411039476, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
@@ -141,30 +94,26 @@ PrefabInstance:
         type: 3}
       propertyPath: spriteRenderer
       value: 
-      objectReference: {fileID: 4507061337984561537}
+      objectReference: {fileID: 3458355455542046402}
     - target: {fileID: 8223985327567078919, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
-      propertyPath: InitialColour.b
-      value: 0.34901962
-      objectReference: {fileID: 0}
-    - target: {fileID: 8223985327567078919, guid: abff3ae0227731244b0814b2055fa6f0,
-        type: 3}
-      propertyPath: InitialColour.g
-      value: 0.9490196
-      objectReference: {fileID: 0}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ceead9308b306774c99e916ba8ccce84,
+        type: 2}
     - target: {fileID: 9213751064059195885, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: foreverID
-      value: ea93abd90d27864189aedcdfb5f605e5
+      value: d3beee0464622f3628d6237ccfd59a00
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abff3ae0227731244b0814b2055fa6f0, type: 3}
---- !u!212 &4507061337984561537 stripped
+--- !u!212 &3458355455542046402 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 2708525666452541148, guid: abff3ae0227731244b0814b2055fa6f0,
     type: 3}
-  m_PrefabInstance: {fileID: 1953104105649602397}
+  m_PrefabInstance: {fileID: 749873840601997342}
   m_PrefabAsset: {fileID: 0}

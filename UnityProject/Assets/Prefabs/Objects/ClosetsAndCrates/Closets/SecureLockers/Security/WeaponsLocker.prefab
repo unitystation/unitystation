@@ -16,6 +16,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 472406101345535324, guid: dc0638b6b1226b44689e06631521524c,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e74c4d7e77bcfd4438ebe6319bda23d8,
+        type: 2}
+    - target: {fileID: 472406101345535324, guid: dc0638b6b1226b44689e06631521524c,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: e74c4d7e77bcfd4438ebe6319bda23d8,
@@ -38,10 +44,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a5aafe60b0fb1de479d92310f631a9b1,
         type: 2}
+    - target: {fileID: 1962065908131537112, guid: dc0638b6b1226b44689e06631521524c,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a5aafe60b0fb1de479d92310f631a9b1,
+        type: 2}
     - target: {fileID: 2340569924272631990, guid: dc0638b6b1226b44689e06631521524c,
         type: 3}
       propertyPath: initialName
-      value: shotgun lethal rounds
+      value: weapons locker
       objectReference: {fileID: 0}
     - target: {fileID: 3531793857798380260, guid: dc0638b6b1226b44689e06631521524c,
         type: 3}

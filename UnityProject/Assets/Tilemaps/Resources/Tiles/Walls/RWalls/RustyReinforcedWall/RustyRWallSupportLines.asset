@@ -35,7 +35,7 @@ MonoBehaviour:
   HeatCapacity: 312500
   doesReflectBullet: 0
   indestructible: 0
-  ExplosionImpassable: 0
+  ExplosionImpassable: 1
   BlocksTileInteractionsUnder: 1
   passableException:
     m_keys: 
@@ -72,11 +72,11 @@ MonoBehaviour:
   spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 0}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []

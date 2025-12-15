@@ -72,7 +72,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 4e7be71c5d99b7c42bff7ffe2a2cb744,
+      objectReference: {fileID: 21300000, guid: fc1034cec0ff53747a2da42f6430bae0,
         type: 3}
     - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
         type: 3}
@@ -82,6 +82,16 @@ PrefabInstance:
     - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
         type: 3}
       propertyPath: Color.r
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: InitialColour.a
+      value: 0.21568628
+      objectReference: {fileID: 0}
+    - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: InitialColour.r
       value: 0.4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -119,12 +129,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 005654d195a93350d8365dc2ab6a7772, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 005654d195a93350d8365dc2ab6a7772,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 0.4, g: 1, b: 1, a: 0.21568628}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &7193715622847501631
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -162,7 +177,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: ac4fa36d2d5d70540ac865d0938d5f6a,
+      objectReference: {fileID: 21300012, guid: ac4fa36d2d5d70540ac865d0938d5f6a,
         type: 3}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -372,7 +387,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6554741161381590881}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 448477affe4f1bd4dbdaed5fee3ead7b,
+        type: 2}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 448477affe4f1bd4dbdaed5fee3ead7b,
         type: 2}
@@ -389,6 +415,12 @@ PrefabInstance:
 --- !u!4 &6449884162730366380 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+    type: 3}
+  m_PrefabInstance: {fileID: 7193715622847501631}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &6554741161381590881 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
     type: 3}
   m_PrefabInstance: {fileID: 7193715622847501631}
   m_PrefabAsset: {fileID: 0}

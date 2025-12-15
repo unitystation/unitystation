@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "-484┼279┼0┼",
+      "Location": "2237┼307┼0┼",
       "MatrixName": "WhiteshipRapture",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -2527,6 +2527,10 @@
                 "Tel": "Plating"
               },
               {
+                "Tel": "EO-Low_Voltage_Cable",
+                "Z": 1
+              },
+              {
                 "Tel": "FluidBentPipe",
                 "Z": 1
               }
@@ -3215,6 +3219,10 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "WO-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -5844,25 +5852,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_12┼25┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_9┼26┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "PlayerSpawnPoint (1)",
-            "LocalPRS": "9┼26┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "GhostTeleportSites"
                     }
                   ]
                 }
