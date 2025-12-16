@@ -1,0 +1,217 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6079409810155841377
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 717017699282204641, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 31363e120c6af0f438da104e27bf0c39,
+        type: 3}
+    - target: {fileID: 717017699282204641, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2750215698149839610, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: parentID
+      value: 6d04235bcbbde8349a6a46d46d8f8ae8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2750215698149839610, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: foreverID
+      value: 14be3cd729de8b2bc8ebbd39225a420e
+      objectReference: {fileID: 0}
+    - target: {fileID: 3465797894728902041, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6ce52fc5771c4f649a36204d19d081a2,
+        type: 2}
+    - target: {fileID: 3465797894728902041, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: initialVariantIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3465797894728902041, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6ce52fc5771c4f649a36204d19d081a2,
+        type: 2}
+    - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556520481471461753, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116272316079367139, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116272316079367139, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116272316079367139, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116272316079367139, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116272316079367139, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116272316079367139, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116272316079367139, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116272316079367139, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116272316079367139, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9116272316079367139, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9119793089647943319, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: m_Name
+      value: Space_AsteroidPieces30x30
+      objectReference: {fileID: 0}
+    - target: {fileID: 9152500708991902499, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      propertyPath: _assetId
+      value: 2825561315
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 9119793089647943319, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6420373241124541042}
+  m_SourcePrefab: {fileID: 100100000, guid: 6d04235bcbbde8349a6a46d46d8f8ae8, type: 3}
+--- !u!1 &3084513279336921590 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9119793089647943319, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+    type: 3}
+  m_PrefabInstance: {fileID: 6079409810155841377}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6420373241124541042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3084513279336921590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b7ccb85f150acd4d90cea2d44944094, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  maintGenerator: {fileID: 0}
+  roomWidth: 1
+  roomHeight: 1
+  possibleRoomsWeighted:
+  - roomToSpawn: {fileID: 11400000, guid: 2f52bea5e226487358c028deac1814bc, type: 2}
+    weight: 1
+  - roomToSpawn: {fileID: 11400000, guid: a9a74aa2cc45da13a8c41877afc3599f, type: 2}
+    weight: 1
+  - roomToSpawn: {fileID: 11400000, guid: 20a4f0a19bf7ea72c9ea722f27285a68, type: 2}
+    weight: 1
+  - roomToSpawn: {fileID: 11400000, guid: cb987e47fd7e868048227bd35144d370, type: 2}
+    weight: 1
+  - roomToSpawn: {fileID: 11400000, guid: ae42e788562affa8bb33647923a1e0ff, type: 2}
+    weight: 1
+  - roomToSpawn: {fileID: 11400000, guid: d6c822be7bf168f5ab8a7a76df283c95, type: 2}
+    weight: 1
+  - roomToSpawn: {fileID: 11400000, guid: 8555111750057a211b38690c8ab4ec35, type: 2}
+    weight: 1
+  - roomToSpawn: {fileID: 11400000, guid: 4f2581916987550ffa76f73d2e0be18e, type: 2}
+    weight: 1
+  - roomToSpawn: {fileID: 11400000, guid: 45293da7dc1af89fe8fb8c96256ee1e9, type: 2}
+    weight: 1
+  - roomToSpawn: {fileID: 11400000, guid: 50a518f7b0db3678eb04965ca504ccbc, type: 2}
+    weight: 1
+  - roomToSpawn: {fileID: 11400000, guid: d6d3d0ebe28d73f2da84e7b0b6a27c81, type: 2}
+    weight: 1
+  - roomToSpawn: {fileID: 11400000, guid: 219313b03a6527aadb99dfbc1bbdee10, type: 2}
+    weight: 1
+  - roomToSpawn: {fileID: 11400000, guid: fd1068bcf3621aeb0875aee977e1b299, type: 2}
+    weight: 1
+  - roomToSpawn: {fileID: 11400000, guid: 5fcf81463d2ff33fc83ef2bd8a2160ff, type: 2}
+    weight: 1
+  - roomToSpawn: {fileID: 11400000, guid: 2876a610f3190a1a895608a1364b4108, type: 2}
+    weight: 1
