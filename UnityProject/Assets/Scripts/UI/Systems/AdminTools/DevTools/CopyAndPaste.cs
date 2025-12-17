@@ -14,6 +14,7 @@ using TileManagement;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
@@ -37,7 +38,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 	public TMP_Dropdown TMP_Dropdown;
 
 
-	public TMP_Dropdown MAPS;
+	[FormerlySerializedAs("MAPS")] public TMP_Dropdown maps;
 
 	public TMP_Dropdown Templates;
 
@@ -153,10 +154,10 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 	public void UpdateSelectedMAP(int val)
 	{
-		var IDS = (MAPS.GetSelected().Select(x => x as CustomOption));
+		var IDS = (maps.GetSelected().Select(x => x as CustomOption));
 		if (IDS.Count() > 1)
 		{
-			MAPS.interactable = true;
+			maps.interactable = true;
 		}
 		else
 		{
@@ -232,7 +233,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 	public void UpdateMAPS()
 	{
-		var Options = MAPS.options;
+		var Options = maps.options;
 		Options.Clear();
 		Options.Add(new CustomOption()
 		{
@@ -246,7 +247,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		}
 		catch (Exception e)
 		{
-			MAPS.options = Options;
+			maps.options = Options;
 		}
 
 		List<string> Maps = new List<string>();
@@ -276,7 +277,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			j++;
 		}
 
-		MAPS.options = Options;
+		maps.options = Options;
 	}
 
 	public void UnselectMatrix()
@@ -389,7 +390,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 	public void UpdateSelected(int val)
 	{
 		var IDS = (TMP_Dropdown.GetSelected().Select(x => x as CustomOption));
-		var CanSet = (MAPS.GetSelected().Select(x => x as CustomOption)).Any(x=> x.ID == null)
+		var CanSet = (maps.GetSelected().Select(x => x as CustomOption)).Any(x=> x.ID == null)
 			&& (Templates.GetSelected().Select(x => x as CustomOption)).Any(x=> x.ID == null);
 
 		if (IDS.Count() > 1 && CanSet)
@@ -451,7 +452,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		base.Start();
 		this.gameObject.SetActive(false);
 		TMP_Dropdown.onValueChanged.AddListener(UpdateSelected);
-		MAPS.onValueChanged.AddListener(UpdateSelectedMAP);
+		maps.onValueChanged.AddListener(UpdateSelectedMAP);
 		Templates.onValueChanged.AddListener(UpdateSelectedTemplate);
 		NonmappedItems.onValueChanged.AddListener(OnNonmappedItemsChange);
 	}
@@ -589,7 +590,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 	public void OnLoadMAP()
 	{
-		if ((MAPS.GetSelected().Select(x => x as CustomOption)).Any(x => x.ID == null) == false)
+		if ((maps.GetSelected().Select(x => x as CustomOption)).Any(x => x.ID == null) == false)
 		{
 			var dataMap = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(AccessFile.Load(TMP_InputField.text, FolderType.Maps, UsePersistent.isOn));
 			JsonSerializerSettings settings = new JsonSerializerSettings
@@ -619,7 +620,7 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 	public void OnSaveMAP()
 	{
-		if ((MAPS.GetSelected().Select(x => x as CustomOption)).Any(x => x.ID == null)) return;
+		if ((maps.GetSelected().Select(x => x as CustomOption)).Any(x => x.ID == null)) return;
 
 		JsonSerializerSettings settings = new JsonSerializerSettings
 		{
