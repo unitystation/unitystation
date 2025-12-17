@@ -67,7 +67,7 @@ namespace Objects.Wallmounts
 			OpenEmpty
 		}
 
-		[SerializeField] private StatusDisplayChannel channel = StatusDisplayChannel.Command;
+		[SerializeField, PlayModeOnly] private StatusDisplayChannel channel = StatusDisplayChannel.Command;
 
 		private StatusDisplayChannel cachedChannel;
 

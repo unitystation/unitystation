@@ -10,6 +10,7 @@ using Managers;
 using Messages.Server;
 using Messages.Server.AdminTools;
 using Mirror;
+using SecureStuff;
 using UI.Objects.Shuttles;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,7 +24,7 @@ namespace Objects.Shuttles
 	{
 		//TODO Swapping matrix
 
-		public MatrixMove ShuttleMatrixMove;
+		[PlayModeOnly] public MatrixMove ShuttleMatrixMove;
 
 
 		[NonSerialized] public RegisterTile registerTile;

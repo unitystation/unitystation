@@ -118,7 +118,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 	private string articleDescription;
 
 
-	[SyncVar(hook = nameof(SyncIsMapped))] public bool IsMapped = false;
+	[HideInInspector] [SyncVar(hook = nameof(SyncIsMapped))] public bool IsMapped = false;
 
 	/// <summary>
 	/// Sizes:

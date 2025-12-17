@@ -71,6 +71,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1215826350432345714}
+    - targetCorrespondingSourceObject: {fileID: 8905571727489261822, guid: 89dee49cba78b134fb3f3dcef2113dcb,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7205990912157763393}
   m_SourcePrefab: {fileID: 100100000, guid: 89dee49cba78b134fb3f3dcef2113dcb, type: 3}
 --- !u!1 &1026805179645545838 stripped
 GameObject:
@@ -85,19 +89,33 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1026805179645545838}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6510c9b95b6fa3498b97083dcdd5e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 4fb9fdcd14ab0c748b969d9023602795, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 4fb9fdcd14ab0c748b969d9023602795,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
+--- !u!114 &7205990912157763393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1026805179645545838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 181a5b4dde4eb324aa4b7559536ff75d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RootSillys::UI.Core.MapSaverIgnoreObject

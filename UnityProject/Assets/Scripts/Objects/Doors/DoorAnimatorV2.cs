@@ -5,6 +5,7 @@ using NaughtyAttributes;
 using Core.Editor.Attributes;
 using Mirror;
 using Cysharp.Threading.Tasks;
+using SecureStuff;
 
 
 namespace Doors
@@ -64,9 +65,9 @@ namespace Doors
 		#endregion
 
 #region Initialization
-		[SyncVar(hook = nameof(SyncDoorStatus))] public DoorUpdateType SyncDoorUpdateType;
+		[PlayModeOnly] [SyncVar(hook = nameof(SyncDoorStatus))] public DoorUpdateType SyncDoorUpdateType;
 		[SyncVar] public bool PanelOpen;
-		[SyncVar] public bool LightsWork;
+		[PlayModeOnly] [SyncVar] public bool LightsWork;
 
 		public event Action AnimationStarted;
 		public event Action AnimationFinished;

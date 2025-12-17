@@ -7,6 +7,7 @@ using UnityEngine.Serialization;
 using PathFinding;
 using Doors;
 using Logs;
+using SecureStuff;
 using Systems.Clearance;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
@@ -24,7 +25,7 @@ namespace Systems.MobAIs
 
 		protected bool isServer;
 
-		public bool activated;
+		[PlayModeOnly] public bool activated;
 
 		[Range(0.01f, 1), FormerlySerializedAs("tickRate")]
 		[Tooltip("Delay (in seconds) between mob actions/decisions.")]

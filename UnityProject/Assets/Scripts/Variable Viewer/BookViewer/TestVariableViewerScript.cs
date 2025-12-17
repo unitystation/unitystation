@@ -39,7 +39,11 @@ public class TestVariableViewerScript : NetworkBehaviour
 
 	void Start()
 	{
-		BasicListRemoved.RemoveAt(0);
+		if (BasicListRemoved.Count > 0)
+		{
+			BasicListRemoved.RemoveAt(0);
+		}
+
 
 		for (int i = 0; i < 2; i++)
 		{
@@ -53,7 +57,10 @@ public class TestVariableViewerScript : NetworkBehaviour
 			});
 		}
 
-		netIdentity.isDirty = true;
+		if (netIdentity != null)
+		{
+			netIdentity.isDirty = true;
+		}
 	}
 }
 

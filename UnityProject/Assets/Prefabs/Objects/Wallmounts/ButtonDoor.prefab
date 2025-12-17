@@ -28,6 +28,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A door remote control switch.
       objectReference: {fileID: 0}
+    - target: {fileID: 4582266827605979207, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2753161963838422102}
     - target: {fileID: 5383599927911376084, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
         type: 3}
       propertyPath: parentID
@@ -96,6 +101,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 505554980376659120}
+    - targetCorrespondingSourceObject: {fileID: 958661576671160487, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8947279706958492617}
   m_SourcePrefab: {fileID: 100100000, guid: 7ff56f8e13078c1419de4821c2b5ecfd, type: 3}
 --- !u!1 &2690072642478446657 stripped
 GameObject:
@@ -124,6 +133,7 @@ MonoBehaviour:
   greenSprite: {fileID: 21300000, guid: acf88d35ee6536c4fb4bfe32fd85ab99, type: 3}
   offSprite: {fileID: 21300000, guid: 30fdc2d451617c44e80f6ebd3a2dea54, type: 3}
   redSprite: {fileID: 21300002, guid: a139d46eda53f454ba131993ab7ea47e, type: 3}
+  NewdoorControllers: []
   <CanRelink>k__BackingField: 1
   <IgnoreMaxDistanceMapper>k__BackingField: 0
   conType: 7
@@ -142,3 +152,27 @@ MonoBehaviour:
   conType: 17
   <CanRelink>k__BackingField: 1
   <IgnoreMaxDistanceMapper>k__BackingField: 1
+--- !u!212 &2753161963838422102 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 9126464732157001354, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
+    type: 3}
+  m_PrefabInstance: {fileID: 6382310311192265436}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6187766625494723195 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 958661576671160487, guid: 7ff56f8e13078c1419de4821c2b5ecfd,
+    type: 3}
+  m_PrefabInstance: {fileID: 6382310311192265436}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8947279706958492617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6187766625494723195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ed94c89426884e758facbd072bbf0ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::Objects.Wallmounts.WallmountSpriteBehavior

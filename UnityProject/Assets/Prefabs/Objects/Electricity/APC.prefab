@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7181786134445355985}
   - component: {fileID: 4562542710625501896}
   - component: {fileID: 3917532995848785121}
+  - component: {fileID: 1685549477955216103}
   m_Layer: 19
   m_Name: ScreenSprite
   m_TagString: Untagged
@@ -136,6 +137,18 @@ MonoBehaviour:
   mIntensity: 0.5
   mAdditionalEmission: 0
   mScale: 1.1
+--- !u!114 &1685549477955216103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9053875397184046594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ed94c89426884e758facbd072bbf0ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::Objects.Wallmounts.WallmountSpriteBehavior
 --- !u!1001 &3691865198508416630
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -444,6 +457,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8342472905829387893}
+    - targetCorrespondingSourceObject: {fileID: 5946781879348633115, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5225905200819999225}
   m_SourcePrefab: {fileID: 100100000, guid: f9025da3beb40304cb15babfc0a6cafa, type: 3}
 --- !u!4 &1235378994494485645 stripped
 Transform:
@@ -631,3 +648,21 @@ SortingGroup:
     type: 3}
   m_PrefabInstance: {fileID: 3691865198508416630}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7042245853401481325 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5946781879348633115, guid: f9025da3beb40304cb15babfc0a6cafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 3691865198508416630}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5225905200819999225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7042245853401481325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ed94c89426884e758facbd072bbf0ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::Objects.Wallmounts.WallmountSpriteBehavior

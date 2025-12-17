@@ -4,6 +4,7 @@ using Light2D;
 using Logs;
 using NaughtyAttributes;
 using Objects.Machines;
+using SecureStuff;
 using Systems.Construction.Parts;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -120,7 +121,7 @@ namespace Systems.Electricity.NodeModules
 
 		private Machine Machine;
 
-		public float TimeAtLowVoltage;
+		[PlayModeOnly] public float TimeAtLowVoltage;
 
 		private float LastCachedTime;
 
