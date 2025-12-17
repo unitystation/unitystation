@@ -8,6 +8,7 @@ using NaughtyAttributes;
 using Objects.Construction;
 using AddressableReferences;
 using Chemistry;
+using SecureStuff;
 using Random = System.Random;
 
 namespace Systems.MobAIs
@@ -38,6 +39,7 @@ namespace Systems.MobAIs
 
 		public event Action FoodEatenEvent;
 
+		[PlayModeOnly]
 		public Target target;
 
 		[Tooltip("Indicates the time it takes for the mob to perform its main action. If the the time is 0, it means that the action is instantaneous.")]

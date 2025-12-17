@@ -8,11 +8,13 @@ using InGameGizmos;
 using Logs;
 using MapSaver;
 using Newtonsoft.Json;
+using SecureStuff;
 using Shared.Managers;
 using TileManagement;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI;
 
@@ -34,6 +36,11 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 	public Button Save;
 
 	public TMP_Dropdown TMP_Dropdown;
+
+
+	[FormerlySerializedAs("MAPS")] public TMP_Dropdown maps;
+
+	public TMP_Dropdown Templates;
 
 	public TMP_InputField TMP_InputField;
 
@@ -73,6 +80,205 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 	private bool DelayCut = false;
 
 	private List<MatrixInfo> PreviouslySelectedMatrixs = new List<MatrixInfo>();
+
+
+	public GameObject SelectMapPanel;
+
+	public Toggle UsePersistent;
+
+	public TMP_Text MAPsavePath;
+	public TMP_Text TemplateSavePath;
+	public GameObject SelectTemplatePanel;
+
+
+	public void MAPSelectClose()
+	{
+		SelectMapPanel.SetActive(false);
+	}
+
+	public void MAPSelectOpen()
+	{
+		SelectMapPanel.SetActive(true);
+	}
+
+	public void TemplateSelectClose()
+	{
+		SelectTemplatePanel.SetActive(false);
+	}
+
+	public void TemplateSelectOpen()
+	{
+		SelectTemplatePanel.SetActive(true);
+	}
+
+	public void NewTemplate()
+	{
+		var MapPath = TMP_InputField.text;
+		AccessFile.Save(MapPath + ".json", "{}", FolderType.Templates, true);
+		UpdateTemplates();
+	}
+
+
+	public void NewMAP()
+	{
+		var MapPath = TMP_InputField.text;
+		AccessFile.Save(MapPath + ".json", "{}", FolderType.Maps, UsePersistent.isOn );
+		UpdateMAPS();
+	}
+
+	public void UpdateSelectedTemplate(int val)
+	{
+		var IDS = (Templates.GetSelected().Select(x => x as CustomOption));
+		if (IDS.Count() > 1)
+		{
+			Templates.interactable = true;
+		}
+		else
+		{
+			foreach (var ID in IDS)
+			{
+				if (ID.ID != null)
+				{
+					TMP_InputField.interactable = false;
+					TMP_InputField.text = ID.text;
+				}
+				else
+				{
+					TMP_InputField.interactable = true;
+					TMP_InputField.text = "";
+				}
+			}
+		}
+	}
+
+
+	public void UpdateSelectedMAP(int val)
+	{
+		var IDS = (maps.GetSelected().Select(x => x as CustomOption));
+		if (IDS.Count() > 1)
+		{
+			maps.interactable = true;
+		}
+		else
+		{
+			foreach (var ID in IDS)
+			{
+				if (ID.ID != null)
+				{
+					TMP_InputField.interactable = false;
+					TMP_InputField.text = ID.text;
+				}
+				else
+				{
+					TMP_InputField.interactable = true;
+					TMP_InputField.text = "";
+				}
+			}
+		}
+	}
+
+
+
+
+	public void UpdateTemplates()
+	{
+		var Options = Templates.options;
+		Options.Clear();
+		Options.Add(new CustomOption()
+		{
+			ID = null,
+			text = "None",
+		});
+		var Folders = new List<string>();
+		try
+		{
+			Folders = AccessFile.DirectoriesOrFilesIn("", FolderType.Templates, files: false, userPersistent:true).ToList();
+		}
+		catch (Exception e)
+		{
+
+			Templates.options = Options;
+		}
+
+
+		List<string> InTemplates = new List<string>();
+
+		int safe = 50;
+
+		while (Folders.Count > 0 && (0 > safe == false) )
+		{
+			safe--;
+			for (int i = Folders.Count - 1; i >= 0; i--)
+			{
+				InTemplates.AddRange(AccessFile.DirectoriesOrFilesIn(Folders[i], FolderType.Templates,  userPersistent:true ).Select(x =>  Folders[i]+ "/" + x ));
+				Folders.AddRange(AccessFile.DirectoriesOrFilesIn(Folders[i], FolderType.Templates, files: false,  userPersistent:true ).Select(x =>  Folders[i] + "/" + x ));
+				Folders.RemoveAt(i);
+			}
+		}
+
+		int j = 0;
+
+		foreach (var Entry in InTemplates)
+		{
+			Options.Add(new CustomOption()
+			{
+				ID = j,
+				text = Entry
+			});
+			j++;
+		}
+
+		Templates.options = Options;
+	}
+
+	public void UpdateMAPS()
+	{
+		var Options = maps.options;
+		Options.Clear();
+		Options.Add(new CustomOption()
+		{
+			ID = null,
+			text = "None",
+		});
+		var Folders = new List<string>();
+		try
+		{
+			Folders =  Folders = AccessFile.DirectoriesOrFilesIn("", FolderType.Maps, files: false, userPersistent:UsePersistent.isOn ).ToList();
+		}
+		catch (Exception e)
+		{
+			maps.options = Options;
+		}
+
+		List<string> Maps = new List<string>();
+
+		int safe = 50;
+
+		while (Folders.Count > 0 && (0 > safe == false) )
+		{
+			safe--;
+			for (int i = Folders.Count - 1; i >= 0; i--)
+			{
+				Maps.AddRange(AccessFile.DirectoriesOrFilesIn(Folders[i],  FolderType.Maps,  userPersistent:UsePersistent.isOn ).Select(x =>  Folders[i]+ "/" + x ));
+				Folders.AddRange(AccessFile.DirectoriesOrFilesIn(Folders[i],   FolderType.Maps,files: false,  userPersistent:UsePersistent.isOn ).Select(x =>  Folders[i] + "/" + x ));
+				Folders.RemoveAt(i);
+			}
+		}
+
+		int j = 0;
+
+		foreach (var Entry in Maps)
+		{
+			Options.Add(new CustomOption()
+			{
+				ID = j,
+				text = Entry
+			});
+			j++;
+		}
+
+		maps.options = Options;
+	}
 
 	public void UnselectMatrix()
 	{
@@ -141,9 +347,26 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 	private void OnEnable()
 	{
-
 		UpdateDropDown();
 		UpdateSelected(0);
+		UpdateSelectedMAP(0);
+		UpdateSelectedTemplate(0);
+	}
+
+	public void PersistentChanged(bool Value)
+	{
+		UpdateMAPS();
+		if (UsePersistent.isOn)
+		{
+			MAPsavePath.text =
+				Path.Combine(Application.persistentDataPath, AccessFile.ForkName, FolderType.Maps.ToString());
+		}
+		else
+		{
+			MAPsavePath.text =
+				Path.Combine(Application.streamingAssetsPath, AccessFile.ForkName, FolderType.Maps.ToString());
+		}
+
 	}
 
 	public override void Awake()
@@ -151,6 +374,11 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		TMP_Dropdown.onValueChanged.AddListener(UpdateSelectedMatrix);
 		escapeKeyTarget = GetComponent<EscapeKeyTarget>();
 		MatrixManager.Instance.OnActiveMatricesChange += UpdateDropDown;
+		UsePersistent.onValueChanged.AddListener(PersistentChanged);
+		TemplateSavePath.text = Path.Combine(Application.persistentDataPath, AccessFile.ForkName, FolderType.Templates.ToString());
+		PersistentChanged(true);
+		UpdateMAPS();
+		UpdateTemplates();
 		base.Awake();
 	}
 
@@ -162,7 +390,10 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 	public void UpdateSelected(int val)
 	{
 		var IDS = (TMP_Dropdown.GetSelected().Select(x => x as CustomOption));
-		if (IDS.Count() > 1)
+		var CanSet = (maps.GetSelected().Select(x => x as CustomOption)).Any(x=> x.ID == null)
+			&& (Templates.GetSelected().Select(x => x as CustomOption)).Any(x=> x.ID == null);
+
+		if (IDS.Count() > 1 && CanSet)
 		{
 			TMP_InputField.interactable = true;
 		}
@@ -170,15 +401,18 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		{
 			foreach (var ID in IDS)
 			{
-				if (ID != null)
+				if (CanSet)
 				{
-					TMP_InputField.interactable = false;
-					TMP_InputField.text = ID.text;
-				}
-				else
-				{
-					TMP_InputField.interactable = true;
-					TMP_InputField.text = "";
+					if (ID != null)
+					{
+						TMP_InputField.interactable = false;
+						TMP_InputField.text = ID.text;
+					}
+					else
+					{
+						TMP_InputField.interactable = true;
+						TMP_InputField.text = "";
+					}
 				}
 			}
 		}
@@ -218,6 +452,8 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		base.Start();
 		this.gameObject.SetActive(false);
 		TMP_Dropdown.onValueChanged.AddListener(UpdateSelected);
+		maps.onValueChanged.AddListener(UpdateSelectedMAP);
+		Templates.onValueChanged.AddListener(UpdateSelectedTemplate);
 		NonmappedItems.onValueChanged.AddListener(OnNonmappedItemsChange);
 	}
 
@@ -347,6 +583,84 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		}
 	}
 
+	public void ReceiveMAPDataSave(string data, string path)
+	{
+		AccessFile.Save(path, data, FolderType.Maps, UsePersistent.isOn);
+	}
+
+	public void OnLoadMAP()
+	{
+		if ((maps.GetSelected().Select(x => x as CustomOption)).Any(x => x.ID == null) == false)
+		{
+			var dataMap = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(AccessFile.Load(TMP_InputField.text, FolderType.Maps, UsePersistent.isOn));
+			JsonSerializerSettings settings = new JsonSerializerSettings
+			{
+				NullValueHandling = NullValueHandling.Ignore, // Ignore null values
+				DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate, // Ignore default values
+				Formatting = Formatting.None
+			};
+
+			settings.Formatting = Formatting.None;
+
+			var ObjectsVisible = DevCameraControls.Instance.GetObjectsMappingVisible();
+			var Layers = DevCameraControls.Instance.ReturnVisibleLayers();
+
+			ClientRequestLoadMap.Send(
+				JsonConvert.SerializeObject(dataMap,settings),
+				null,
+				Vector3.zero,
+				Vector3.zero,
+				Layers,
+				ObjectsVisible,
+				dataMap.MapName,
+				ClientRequestLoadMap.LoadType.LoadMap
+			);
+		}
+	}
+
+	public void OnSaveMAP()
+	{
+		if ((maps.GetSelected().Select(x => x as CustomOption)).Any(x => x.ID == null)) return;
+
+		JsonSerializerSettings settings = new JsonSerializerSettings
+		{
+			NullValueHandling = NullValueHandling.Ignore, // Ignore null values
+			DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate, // Ignore default values
+			Formatting = Formatting.Indented
+		};
+		var IDs = (TMP_Dropdown.GetSelected().Select(x => x  as CustomOption));
+		List<MatrixInfo> MatrixsToSave = new List<MatrixInfo>();
+
+		foreach(var ID in IDs)
+		{
+			MatrixsToSave.Add(MatrixManager.Get(ID.ID.Value));
+		}
+
+		if (UseLocal.isOn == false)
+		{
+			ClientRequestsSaveMessage.Send(
+				new List<GameGizmoModel>(),
+				new List<BetterBounds>(),
+				MatrixsToSave,
+				UesCompact.isOn,
+				NonmappedItems.isOn,
+				null,
+				true,
+				CutSection.isOn,
+				"",
+				TMP_InputField.text);
+		}
+		else
+		{
+			var Data =  MapSaver.MapSaver.SaveMap(MatrixsToSave.Select(x => x.MetaTileMap).ToList(),
+				UesCompact.isOn,TMP_InputField.text ,
+				false,new List<BetterBounds>(), NonmappedItems.isOn);
+			var StringData = JsonConvert.SerializeObject(Data, settings);
+			ReceiveMAPDataSave(StringData,TMP_InputField.text );
+		}
+
+	}
+
 	public void OnSave()
 	{
 		JsonSerializerSettings settings = new JsonSerializerSettings
@@ -372,7 +686,16 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 
 			if (UseLocal.isOn == false)
 			{
-				ClientRequestsSaveMessage.Send(new List<GameGizmoModel>(), new List<BetterBounds>(), MatrixsToSave, UesCompact.isOn, NonmappedItems.isOn, Layers, ObjectsVisible, CutSection.isOn, TMP_InputField.text);
+				ClientRequestsSaveMessage.Send(
+					new List<GameGizmoModel>(),
+					new List<BetterBounds>(),
+					MatrixsToSave,
+					UesCompact.isOn,
+					NonmappedItems.isOn,
+					Layers,
+					ObjectsVisible,
+					CutSection.isOn,
+					MapSAVEName : TMP_InputField.text);
 			}
 			else
 			{
@@ -437,6 +760,11 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 	public void ReceiveData(string StringData)
 	{
 		Clipboard = StringData;
+		if ((Templates.GetSelected().Select(x => x as CustomOption)).Any(x => x.ID == null) == false)
+		{
+			AccessFile.Save(TMP_InputField.text, StringData, FolderType.Templates, true);
+		}
+
 		GUIUtility.systemCopyBuffer = StringData;
 
 		foreach (var Gizmo in PositionsToCopy)
@@ -450,6 +778,8 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			Gizmo.Remove();
 		}
 		NotGoingToBeSavedGizmos.Clear();
+
+
 	}
 
 	public void OnLoad()
@@ -458,47 +788,57 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 		MapSaver.MapSaver.MatrixData data = null;
 		MapSaver.MapSaver.MapData dataMap = null;
 		//For now, we assume the clipboard?
-		try
-		{
-			data = JsonConvert.DeserializeObject<MapSaver.MapSaver.MatrixData>(GUIUtility.systemCopyBuffer);
-			Clipboard = GUIUtility.systemCopyBuffer;
-		}
-		catch (Exception e)
-		{
-			Loggy.Warning( GUIUtility.systemCopyBuffer + " " + e.ToString() );
-		}
 
-		try
+		if ((Templates.GetSelected().Select(x => x as CustomOption)).Any(x => x.ID == null) == false)
 		{
-			if (data?.MatrixName == null)
-			{
-				dataMap = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(GUIUtility.systemCopyBuffer);
-				Clipboard = GUIUtility.systemCopyBuffer;
-			}
+			data = JsonConvert.DeserializeObject<MapSaver.MapSaver.MatrixData>(AccessFile.Load(TMP_InputField.text, FolderType.Templates, true));
 		}
-		catch (Exception e)
-		{
-			Loggy.Warning( GUIUtility.systemCopyBuffer + " " + e.ToString() );
-		}
-
-
-		if (data?.MatrixName == null && dataMap?.MapName == null)
+		else
 		{
 			try
 			{
-				data = JsonConvert.DeserializeObject<MapSaver.MapSaver.MatrixData>(Clipboard);
+				data = JsonConvert.DeserializeObject<MapSaver.MapSaver.MatrixData>(GUIUtility.systemCopyBuffer);
+				Clipboard = GUIUtility.systemCopyBuffer;
 			}
 			catch (Exception e)
 			{
-				Loggy.Warning(e.ToString());
+				Loggy.Warning( GUIUtility.systemCopyBuffer + " " + e.ToString() );
+			}
+
+			try
+			{
+				if (data?.MatrixName == null)
+				{
+					dataMap = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(GUIUtility.systemCopyBuffer);
+					Clipboard = GUIUtility.systemCopyBuffer;
+				}
+			}
+			catch (Exception e)
+			{
+				Loggy.Warning( GUIUtility.systemCopyBuffer + " " + e.ToString() );
+			}
+
+
+			if (data?.MatrixName == null && dataMap?.MapName == null)
+			{
+				try
+				{
+					data = JsonConvert.DeserializeObject<MapSaver.MapSaver.MatrixData>(Clipboard);
+				}
+				catch (Exception e)
+				{
+					Loggy.Warning(e.ToString());
+				}
+
+			}
+
+			if (data?.MatrixName == null && dataMap?.MapName == null)
+			{
+				dataMap = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(Clipboard);
 			}
 
 		}
 
-		if (data?.MatrixName == null && dataMap?.MapName == null)
-		{
-			dataMap = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(Clipboard);
-		}
 
 
 		if (data?.MatrixName != null)

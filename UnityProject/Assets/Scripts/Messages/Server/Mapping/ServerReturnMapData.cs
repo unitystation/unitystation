@@ -23,12 +23,14 @@ public class ServerReturnMapData : ServerMessage<ServerReturnMapData.NetMessage>
 		public MessageType MessageType;
 		public bool DoStraightaway;
 		public int MatrixID;
+		public string path;
 	}
 
 	public enum MessageType
 	{
 		MapDataFromSave,
-		MapDataForClient
+		MapDataForClient,
+		MapSaveName
 	}
 
 	public override void Process(NetMessage msg)
@@ -55,6 +57,9 @@ public class ServerReturnMapData : ServerMessage<ServerReturnMapData.NetMessage>
 					CustomNetworkManager.Instance.ReceiveMattOverrides(
 						JsonConvert.DeserializeObject<MapSaver.MapSaver.CompactObjectMapData>(data), msg.DoStraightaway, msg.MatrixID);
 					break;
+				case (MessageType.MapSaveName):
+					CopyAndPaste.Instance.ReceiveMAPDataSave(data, msg.path);
+					break;
 			}
 		}
 	}
@@ -76,7 +81,7 @@ public class ServerReturnMapData : ServerMessage<ServerReturnMapData.NetMessage>
 		return chunks;
 	}
 
-	public static void Send(GameObject recipient, string data, MessageType Type, int MatrixID)
+	public static void Send(GameObject recipient, string data, MessageType Type, int MatrixID, string mapPath = null)
 	{
 		 var stringChunks = ChunkString(data,5000);
 		 int id = GetNextAvailableID();
@@ -92,7 +97,8 @@ public class ServerReturnMapData : ServerMessage<ServerReturnMapData.NetMessage>
 				 end = (i + 1) == chunkCount,
 				 MessageType = Type,
 				 DoStraightaway = true,
-				 MatrixID = MatrixID
+				 MatrixID = MatrixID,
+				 path = mapPath
 			 };
 
 			 SendTo(recipient, msg);

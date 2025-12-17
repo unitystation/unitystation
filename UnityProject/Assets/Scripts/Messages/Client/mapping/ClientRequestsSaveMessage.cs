@@ -21,6 +21,7 @@ public class ClientRequestsSaveMessage : ClientMessage<ClientRequestsSaveMessage
 		public bool SaveObjects;
 		public bool CutSection;
 		public string MapName;
+		public string MapSAVEName;
 	}
 
 	public override void Process(NetMessage msg)
@@ -41,18 +42,36 @@ public class ClientRequestsSaveMessage : ClientMessage<ClientRequestsSaveMessage
 
 		if (msg.MatrixIDs.Length > 1)
 		{
-			var Matrix = msg.MatrixIDs.Select(x => MatrixManager.Get(x).MetaTileMap).ToList();
+
+
+			var Matrix = msg.MatrixIDs.Select(x => MatrixManager.Get(x).MetaTileMap).Where(x =>x.matrix != MatrixManager.Instance.spaceMatrix).ToList();
+
+			if (string.IsNullOrEmpty(msg.MapName))
+			{
+				msg.MapName = Matrix.First().matrix.MatrixInfo.Name;
+			}
+
 			var Data = MapSaver.MapSaver.SaveMap(Matrix, msg.Compact, msg.MapName);
 
 			var StringData = JsonConvert.SerializeObject(Data, settings);
 
-			ServerReturnMapData.Send(SentByPlayer.GameObject, StringData, ServerReturnMapData.MessageType.MapDataFromSave, -1);
 
+			if (string.IsNullOrEmpty(msg.MapSAVEName))
+			{
+				ServerReturnMapData.Send(SentByPlayer.GameObject, StringData, ServerReturnMapData.MessageType.MapDataFromSave, -1);
+			}
+			else
+			{
+				ServerReturnMapData.Send(SentByPlayer.GameObject, StringData, ServerReturnMapData.MessageType.MapSaveName, -1, msg.MapSAVEName);
+			}
 		}
-		else
+		else if (msg.MatrixIDs.Length == 1)
 		{
 			var Matrix = MatrixManager.Get(msg.MatrixIDs.First());
-
+			if (Matrix.Matrix == MatrixManager.Instance.spaceMatrix)
+			{
+				return;
+			}
 			HashSet<LayerType> Layers = null;
 			if (msg.Layers != null)
 			{
@@ -62,16 +81,43 @@ public class ClientRequestsSaveMessage : ClientMessage<ClientRequestsSaveMessage
 			var Data = MapSaver.MapSaver.SaveMatrix(msg.Compact, Matrix.MetaTileMap, true, msg.Bounds.ToList(),
 				msg.NonmappedItems, Layers, msg.SaveObjects, msg.CutSection, msg.PreviewGizmos.ToList());
 
+			var StringData = JsonConvert.SerializeObject(Data, settings);
+			if (string.IsNullOrEmpty(msg.MapSAVEName))
+			{
+				ServerReturnMapData.Send(SentByPlayer.GameObject, StringData,
+					ServerReturnMapData.MessageType.MapDataFromSave, -1);
+			}
+			else
+			{
+				ServerReturnMapData.Send(SentByPlayer.GameObject, StringData,
+					ServerReturnMapData.MessageType.MapSaveName, -1, msg.MapSAVEName);
+			}
+		}
+		else
+		{
 
+			var Matrix = MatrixManager.Instance.ActiveMatricesList.Where(x => MatrixManager.Instance.spaceMatrix != x.Matrix).Select(x => x.Matrix.MetaTileMap).ToList();
+
+			if (string.IsNullOrEmpty(msg.MapName))
+			{
+				msg.MapName = Matrix.First().matrix.MatrixInfo.Name;
+			}
+			var Data = MapSaver.MapSaver.SaveMap(Matrix, msg.Compact, msg.MapName);
 
 			var StringData = JsonConvert.SerializeObject(Data, settings);
-
-			ServerReturnMapData.Send(SentByPlayer.GameObject, StringData, ServerReturnMapData.MessageType.MapDataFromSave, -1);
+			if (string.IsNullOrEmpty(msg.MapSAVEName))
+			{
+				ServerReturnMapData.Send(SentByPlayer.GameObject, StringData, ServerReturnMapData.MessageType.MapDataFromSave, -1);
+			}
+			else
+			{
+				ServerReturnMapData.Send(SentByPlayer.GameObject, StringData, ServerReturnMapData.MessageType.MapSaveName, -1, msg.MapSAVEName);
+			}
 		}
 	}
 
 	public static NetMessage Send(List<GameGizmoModel> PreviewGizmos, List<BetterBounds> Bounds,  List<MatrixInfo> Matrixs,
-		bool Compact, bool NonmappedItems, HashSet<LayerType> Layers = null, bool SaveObjects = true, bool CutSection = false, string MapName = "")
+		bool Compact, bool NonmappedItems, HashSet<LayerType> Layers = null, bool SaveObjects = true, bool CutSection = false, string MapName = "", string MapSAVEName = "")
 	{
 		NetMessage msg = new NetMessage
 		{
@@ -83,7 +129,8 @@ public class ClientRequestsSaveMessage : ClientMessage<ClientRequestsSaveMessage
 			Layers = Layers?.ToArray(),
 			SaveObjects = SaveObjects,
 			CutSection = CutSection,
-			MapName = MapName
+			MapName = MapName,
+			MapSAVEName = MapSAVEName
 		};
 
 		Send(msg);

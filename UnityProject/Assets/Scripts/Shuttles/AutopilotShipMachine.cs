@@ -16,6 +16,7 @@ public class AutopilotShipMachine : MonoBehaviour
 
 	public ShuttleConnector ShuttlesMainConnector;
 
+	[PlayModeOnly]
 	public bool MoveDirectionIn = false;
 
 	[PlayModeOnly]
@@ -26,7 +27,7 @@ public class AutopilotShipMachine : MonoBehaviour
 
 	private GuidanceBuoy PreviouslyReached = null;
 
-	public OrientationEnum DirectionOverride = OrientationEnum.Default;
+	[PlayModeOnly] public OrientationEnum DirectionOverride = OrientationEnum.Default;
 	private void OnEnable()
 	{
 		if (CustomNetworkManager.IsServer == false) return;

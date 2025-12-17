@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6496484244224289544}
   - component: {fileID: 5246617355646949394}
   - component: {fileID: 4794762706266518714}
-  m_Layer: 18
+  m_Layer: 16
   m_Name: modules
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 6523282798499318858}
   - component: {fileID: 614107450622968186}
   - component: {fileID: 6950079160659059188}
-  m_Layer: 17
+  m_Layer: 16
   m_Name: overlayPinned
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,6 +146,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -167,6 +169,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1825689229
   m_SortingLayer: 24
   m_SortingOrder: 1
@@ -202,7 +205,7 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
     type: 2}
   randomInitialSprite: 0
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 6523282798499318858}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -233,7 +236,7 @@ GameObject:
   - component: {fileID: 6220661731906027613}
   - component: {fileID: 7952495126417401234}
   - component: {fileID: 528841311617947649}
-  m_Layer: 17
+  m_Layer: 16
   m_Name: overlayFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -275,6 +278,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -296,6 +301,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1825689229
   m_SortingLayer: 24
   m_SortingOrder: 1
@@ -331,7 +337,7 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
     type: 2}
   randomInitialSprite: 0
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 7952495126417401234}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -350,7 +356,7 @@ GameObject:
   - component: {fileID: 8145406458561890577}
   - component: {fileID: 5381445185506878154}
   - component: {fileID: 8617266429991237707}
-  m_Layer: 17
+  m_Layer: 16
   m_Name: overlayWeld
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -392,6 +398,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -413,6 +421,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1825689229
   m_SortingLayer: 24
   m_SortingOrder: 1
@@ -446,7 +455,7 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
     type: 2}
   randomInitialSprite: 0
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 5381445185506878154}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -466,7 +475,7 @@ GameObject:
   - component: {fileID: 8301865828175224847}
   - component: {fileID: 1805711131154602269}
   - component: {fileID: 2968860930292390072}
-  m_Layer: 17
+  m_Layer: 16
   m_Name: overlayPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -512,6 +521,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -533,6 +544,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1825689229
   m_SortingLayer: 24
   m_SortingOrder: 1
@@ -569,7 +581,7 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
     type: 2}
   randomInitialSprite: 0
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 8301865828175224847}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -600,7 +612,7 @@ GameObject:
   - component: {fileID: 641204170890391275}
   - component: {fileID: 4125139333696884289}
   - component: {fileID: 125585041541419204}
-  m_Layer: 17
+  m_Layer: 16
   m_Name: overlaySparks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -642,6 +654,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -663,6 +677,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1825689229
   m_SortingLayer: 24
   m_SortingOrder: 3
@@ -699,7 +714,7 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
     type: 2}
   randomInitialSprite: 0
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 4125139333696884289}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -718,7 +733,7 @@ GameObject:
   - component: {fileID: 2505791363575256497}
   - component: {fileID: 697271660556801545}
   - component: {fileID: 1722279992492938071}
-  m_Layer: 17
+  m_Layer: 16
   m_Name: overlayLights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -760,6 +775,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -781,6 +798,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1825689229
   m_SortingLayer: 24
   m_SortingOrder: 2
@@ -819,7 +837,7 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
     type: 2}
   randomInitialSprite: 0
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 697271660556801545}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -850,6 +868,11 @@ PrefabInstance:
       propertyPath: CurrentsortingGroup
       value: 
       objectReference: {fileID: 5521683306015224352}
+    - target: {fileID: 44702923082529482, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6993235274353402503}
     - target: {fileID: 44702923082529482, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -1174,6 +1197,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!212 &6993235274353402503 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4732752304642126855, guid: 1291a5cb15d008c41bf0a373403f56b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 2351700664918873728}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7092266194031920784 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4813822218561835024, guid: 1291a5cb15d008c41bf0a373403f56b2,
@@ -1224,9 +1253,10 @@ MonoBehaviour:
   BlockAutoClose: 0
   clickDisablesAutoClose: 0
   isWindowedDoor: 1
-  UseMachinesForOpenLayer: 1
   HackingProcessBase: {fileID: 3740312760444830440}
   ConstructibleDoor: {fileID: 3852277652561589864}
+  UseMachinesForOpenLayer: 1
+  IsFireLockEngaged: 0
   <CanRelink>k__BackingField: 1
   conType: 7
   requireLink: 0
@@ -1269,7 +1299,10 @@ MonoBehaviour:
   closingAnimationTime: 1.2
   deniedAnimationTime: 0.6
   warningAnimationTime: 0.6
-  CurrentDoorUpdateType: 0
+  slipThroughScaler: 0.5
+  SyncDoorUpdateType: 0
+  PanelOpen: 0
+  LightsWork: 0
 --- !u!114 &-8293985541757501056
 MonoBehaviour:
   m_ObjectHideFlags: 0

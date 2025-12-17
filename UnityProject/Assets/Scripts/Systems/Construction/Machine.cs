@@ -10,6 +10,7 @@ using Objects.Construction;
 using Machines;
 using Messages.Server;
 using Messages.Server.SoundMessages;
+using SecureStuff;
 using Systems.Construction.Parts;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
@@ -67,9 +68,9 @@ namespace Objects.Machines
 
 		public ItemStorage PartsStorage;
 
-		public bool MapSpawned = false;
+		[PlayModeOnly] public bool MapSpawned = false;
 
-		public IRefreshParts[] IRefreshParts;
+		private IRefreshParts[] IRefreshParts;
 
 		public Battery[] Batterys;
 

@@ -10,6 +10,7 @@ using Tilemaps.Behaviours.Layers;
 using UnityEngine;
 using UnityEngine.Events;
 using Objects.Wallmounts;
+using SecureStuff;
 
 public class EscapeShuttle : AutopilotShipMachine
 {
@@ -149,7 +150,7 @@ public class EscapeShuttle : AutopilotShipMachine
 	/// </summary>
 	private List<ShipThruster> thrusters = new List<ShipThruster>();
 
-	[SerializeField] private EscapeShuttleStatus internalStatus = EscapeShuttleStatus.DockedCentcom;
+	[SerializeField, PlayModeOnly] private EscapeShuttleStatus internalStatus = EscapeShuttleStatus.DockedCentcom;
 
 
 	[HideInInspector]
@@ -164,8 +165,10 @@ public class EscapeShuttle : AutopilotShipMachine
 
 	private NetworkedMatrix networkedMatrix;
 
+	[PlayModeOnly]
 	public int loadedOnRoundID = 0;
 
+	[PlayModeOnly]
 	public float timeSpentTravellingToCC;
 
 	private void Start()

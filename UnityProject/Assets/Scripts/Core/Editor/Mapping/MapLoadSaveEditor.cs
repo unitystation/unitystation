@@ -39,7 +39,7 @@ public class FileSelectorWindow : EditorWindow
             SubSceneManager.AdminForcedMainStation = EditorPrefs.GetString(SelectedMap);
         }
         folderPath = Path.Combine(Application.dataPath, "StreamingAssets/Maps");
-        if (!Directory.Exists(folderPath))
+        if (Directory.Exists(folderPath) == false)
         {
             Directory.CreateDirectory(folderPath);
         }
@@ -90,7 +90,7 @@ public class FileSelectorWindow : EditorWindow
 
         GUILayout.Space(10);
 
-        if (!string.IsNullOrEmpty(folderPath))
+        if (string.IsNullOrEmpty(folderPath) == false)
         {
             GUILayout.Space(5);
             if (fileNames != null && fileNames.Length > 0)

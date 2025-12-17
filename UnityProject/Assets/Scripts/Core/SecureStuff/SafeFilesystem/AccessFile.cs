@@ -16,7 +16,8 @@ namespace SecureStuff
 		AddressableCatalogues,
 		Maps,
 		Rooms,
-		Translation
+		Translation,
+		Templates
 	}
 
 	public static class AccessFile
@@ -83,6 +84,7 @@ namespace SecureStuff
 						FolderType.Maps => ".json",
 						FolderType.Rooms => ".json",
 						FolderType.Translation => ".json",
+						FolderType.Templates => ".json",
 						_ => extension
 					};
 				}

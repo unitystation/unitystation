@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1682087833536344853}
   - component: {fileID: 854563512284299149}
   - component: {fileID: -6019239046493335571}
+  - component: {fileID: 5845310691991128588}
   m_Layer: 10
   m_Name: BurningHumanoid
   m_TagString: Untagged
@@ -51,6 +52,11 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -72,6 +78,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -932335445
   m_SortingLayer: 23
   m_SortingOrder: 550
@@ -93,7 +100,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1558421102126524431}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
@@ -102,15 +109,16 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: f91237155171f6d4aba5cd5efea41a32, type: 2}
   - {fileID: 11400000, guid: 82e2653cf678d1143b05962dab936c74, type: 2}
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!114 &-6019239046493335571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,3 +131,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da6b2b680c7a816499f794469bf8980c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5845310691991128588
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1558421102126524431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 181a5b4dde4eb324aa4b7559536ff75d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RootSillys::UI.Core.MapSaverIgnoreObject

@@ -9,6 +9,7 @@ using Logs;
 using Messages.Client.Interaction;
 using Mirror;
 using Newtonsoft.Json;
+using SecureStuff;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -133,7 +134,7 @@ namespace Chemistry.Components
 		private IReagentMixProvider _customMixProviderProvider;
 
 
-		[SerializeField]
+		[SerializeField, PlayModeOnly]
 		private ReagentMix currentReagentMix;
 
 		/// <summary>

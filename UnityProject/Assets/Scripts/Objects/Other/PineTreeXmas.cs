@@ -9,6 +9,7 @@ using Mirror;
 using ScriptableObjects.TimedGameEvents;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
+using UnityEngine.Serialization;
 
 namespace Objects.Other
 {
@@ -23,8 +24,11 @@ namespace Objects.Other
 
 		private List<string> giftedPlayers = new List<string>();
 
+		[FormerlySerializedAs("canPickUpGifts")]
+		public bool InitialCanPickUpGifts;
+
 		[SyncVar]
-		public bool canPickUpGifts;
+		private bool canPickUpGifts;
 
 		private SpriteHandler spriteHandler;
 
@@ -35,6 +39,8 @@ namespace Objects.Other
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
+			canPickUpGifts = InitialCanPickUpGifts;
+
 			if (TimedEventsManager.Instance.ActiveEvents.Contains(eventData))
 			{
 				canPickUpGifts = true;

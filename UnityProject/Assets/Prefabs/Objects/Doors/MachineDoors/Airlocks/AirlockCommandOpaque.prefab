@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 793812022809502852, guid: 2bb2787c427eb384ba89c9fd13ec823b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 17
+      objectReference: {fileID: 0}
     - target: {fileID: 1154371016469764559, guid: 2bb2787c427eb384ba89c9fd13ec823b,
         type: 3}
       propertyPath: m_Layer
@@ -136,6 +141,12 @@ PrefabInstance:
     - target: {fileID: 6813877516334243632, guid: 2bb2787c427eb384ba89c9fd13ec823b,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 677feece20abbc94b918ccd779c94574,
+        type: 2}
+    - target: {fileID: 6813877516334243632, guid: 2bb2787c427eb384ba89c9fd13ec823b,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 677feece20abbc94b918ccd779c94574,
         type: 2}

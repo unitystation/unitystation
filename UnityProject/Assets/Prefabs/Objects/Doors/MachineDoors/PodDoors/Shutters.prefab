@@ -8,6 +8,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1248352207522032011, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 8654549405321964983}
+    - target: {fileID: 1587285914693216056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4155363834580345593}
     - target: {fileID: 1587285914693216056, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -19,6 +29,12 @@ PrefabInstance:
       propertyPath: pushTextureOnStartUp
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1587285914693216056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 61fa4e8c1184da84695b9d989e363c0f,
+        type: 2}
     - target: {fileID: 1587285914693216056, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
@@ -53,6 +69,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: f2441585d37f1914395df59a57c5e925
       objectReference: {fileID: 0}
+    - target: {fileID: 3000278193385742481, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 8822280954511809399}
     - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: closeFrame
@@ -108,6 +129,11 @@ PrefabInstance:
       propertyPath: 'animFrames.Array.data[7]'
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3428335695311746209, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 692182028576530890}
     - target: {fileID: 3439362329626657407, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: damageDeflection
@@ -123,6 +149,16 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Heavy duty metal shutters that open mechanically.
       objectReference: {fileID: 0}
+    - target: {fileID: 5035996318453927091, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4671676340068807079}
+    - target: {fileID: 5770958872810706802, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6768581846699087897}
     - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: m_RootOrder
@@ -199,6 +235,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 616360e85761696418b70f5396e1f286,
         type: 3}
+    - target: {fileID: 7106671641055918703, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Layer
+      value: 17
+      objectReference: {fileID: 0}
     - target: {fileID: 7144455976492364715, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: parentID
@@ -209,6 +250,11 @@ PrefabInstance:
       propertyPath: foreverID
       value: f2441585d37f1914395df59a57c5e925
       objectReference: {fileID: 0}
+    - target: {fileID: 7735645636919656443, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4562563293650252951}
     - target: {fileID: 7880321078131954941, guid: 79cea07a5f8e66f49a554df1a003ecba,
         type: 3}
       propertyPath: doorAnimationSize
@@ -229,3 +275,45 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79cea07a5f8e66f49a554df1a003ecba, type: 3}
+--- !u!212 &692182028576530890 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7423672236760017606, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 7970581281550633740}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &4155363834580345593 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 7970581281550633740}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &4562563293650252951 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5894167746814836635, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 7970581281550633740}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &4671676340068807079 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3334934847785401003, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 7970581281550633740}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &6768581846699087897 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3707557752560423701, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 7970581281550633740}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &8654549405321964983 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1623006321672234683, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 7970581281550633740}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &8822280954511809399 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1509331201845547131, guid: 79cea07a5f8e66f49a554df1a003ecba,
+    type: 3}
+  m_PrefabInstance: {fileID: 7970581281550633740}
+  m_PrefabAsset: {fileID: 0}

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using SecureStuff;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -15,7 +16,7 @@ namespace Systems.MobAIs
 		private int PlayerMask;
 		public bool Active = false;
 
-		public List<MobObjective> MobObjectives = new List<MobObjective>();
+		[PlayModeOnly] public List<MobObjective> MobObjectives = new List<MobObjective>();
 
 		public static readonly float UpdateTimeInterval = 0.85f;
 
