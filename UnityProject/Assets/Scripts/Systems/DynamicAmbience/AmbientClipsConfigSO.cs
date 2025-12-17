@@ -38,8 +38,9 @@ namespace Systems.DynamicAmbience
 			var token = Guid.NewGuid().ToString();
 			_ = SoundManager.Play(ambientClips.PickRandom(), token,  new AudioSourceParameters( )
 			{
-				Volume= 1,
-				SpatialBlend = 1
+				Volume= 0.5f,
+				SpatialBlend = 1,
+				MixerType = MixerType.Ambient
 			});
 			return token;
 		}

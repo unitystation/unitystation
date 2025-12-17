@@ -284,7 +284,7 @@ namespace GameModes
 			int newPlayerCount = NetworkServer.connections.Count + 1;
 			var expectedAntagCount = Math.Min((int)Math.Round(newPlayerCount * AntagRatio), maxAntags);
 
-			if (AntagManager.Instance.AntagCount < expectedAntagCount)
+			if (expectedAntagCount > NumberChosenAlready)
 			{
 				//We times the percentage based on the amount of open antag spaces
 				//E.g if traitor with two open slots it will be 25 * 2 = 50% chance on spawn to get the antag
