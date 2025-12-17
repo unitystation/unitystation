@@ -1,0 +1,336 @@
+{
+  "Ver": "1.0.0",
+  "MapName": "SupplyPodTinyWht_Snacks",
+  "ContainedMatrices": [
+    {
+      "Ver": "1.1.1",
+      "Location": "2271┼-167┼0┼",
+      "MatrixName": "SupplyPodTinyWht_Snacks",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X-1Y0",
+            "Value": [
+              {
+                "Tel": "shuttle_corner_NE"
+              }
+            ]
+          },
+          {
+            "Key": "X-1Y1",
+            "Value": [
+              {
+                "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X-1Y2",
+            "Value": [
+              {
+                "Tel": "shuttle_wall_corner"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y0",
+            "Value": [
+              {
+                "Tel": "warningline_0"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y1",
+            "Value": [
+              {
+                "Tel": "rockvault"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y2",
+            "Value": [
+              {
+                "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y0",
+            "Value": [
+              {
+                "Tel": "warningline_0"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y1",
+            "Value": [
+              {
+                "Tel": "rockvault"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y2",
+            "Value": [
+              {
+                "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y0",
+            "Value": [
+              {
+                "Tel": "shuttle_corner_NW"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y1",
+            "Value": [
+              {
+                "Tel": "shuttle_wall_corner"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y2",
+            "Value": [
+              {
+                "Tel": "shuttle_wall_corner"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.5.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "86f1fa4a01e7f0142a6e2ce35cce0930_-1┼-1┼0┼",
+            "PrefabID": "86f1fa4a01e7f0142a6e2ce35cce0930",
+            "Name": "MatrixGasSettings (1)",
+            "LocalPRS": "-1┼-1┼0┼"
+          },
+          {
+            "GitID": "7433fede76bc68c40851a73d529d8b3a_-0.25┼0.88┼0┼",
+            "PrefabID": "7433fede76bc68c40851a73d529d8b3a",
+            "Name": "ScaredysPrivateReserveBeefJerky (1)",
+            "LocalPRS": "-0.25┼0.88┼0┼"
+          },
+          {
+            "GitID": "7433fede76bc68c40851a73d529d8b3a_-0.25┼1┼0┼",
+            "PrefabID": "7433fede76bc68c40851a73d529d8b3a",
+            "Name": "ScaredysPrivateReserveBeefJerky (3)",
+            "LocalPRS": "-0.25┼1┼0┼"
+          },
+          {
+            "GitID": "7433fede76bc68c40851a73d529d8b3a_-0.25┼1.12┼0┼",
+            "PrefabID": "7433fede76bc68c40851a73d529d8b3a",
+            "Name": "ScaredysPrivateReserveBeefJerky (4)",
+            "LocalPRS": "-0.25┼1.12┼0┼"
+          },
+          {
+            "GitID": "7433fede76bc68c40851a73d529d8b3a_-0.25┼1.25┼0┼",
+            "PrefabID": "7433fede76bc68c40851a73d529d8b3a",
+            "Name": "ScaredysPrivateReserveBeefJerky (2)",
+            "LocalPRS": "-0.25┼1.25┼0┼"
+          },
+          {
+            "GitID": "e02a5954be8d94b4bbaaa0d63d813c71_0┼-1┼0┼",
+            "PrefabID": "e02a5954be8d94b4bbaaa0d63d813c71",
+            "Name": "AI_ShouldNavigateAround (1)",
+            "LocalPRS": "0┼-1┼0┼"
+          },
+          {
+            "GitID": "f2441585d37f1914395df59a57c5e925_0┼0┼0┼",
+            "PrefabID": "f2441585d37f1914395df59a57c5e925",
+            "Name": "Shutters (1)",
+            "LocalPRS": "0┼0┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "dde361d656542f048bdeebf4e87dd7d3_0┼1┼0┼",
+            "PrefabID": "dde361d656542f048bdeebf4e87dd7d3",
+            "Name": "LargeCrate (19)",
+            "LocalPRS": "0┼1┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "fd49dd2cee50dce468c4545c460e75a9_0.12┼1.25┼0┼",
+            "PrefabID": "fd49dd2cee50dce468c4545c460e75a9",
+            "Name": "4noRaisins (2)",
+            "LocalPRS": "0.12┼1.25┼0┼"
+          },
+          {
+            "GitID": "fd49dd2cee50dce468c4545c460e75a9_0.12┼1.38┼0┼",
+            "PrefabID": "fd49dd2cee50dce468c4545c460e75a9",
+            "Name": "4noRaisins (4)",
+            "LocalPRS": "0.12┼1.38┼0┼"
+          },
+          {
+            "GitID": "fd49dd2cee50dce468c4545c460e75a9_0.25┼1.12┼0┼",
+            "PrefabID": "fd49dd2cee50dce468c4545c460e75a9",
+            "Name": "4noRaisins (1)",
+            "LocalPRS": "0.25┼1.12┼0┼"
+          },
+          {
+            "GitID": "fd49dd2cee50dce468c4545c460e75a9_0.25┼1.25┼0┼",
+            "PrefabID": "fd49dd2cee50dce468c4545c460e75a9",
+            "Name": "4noRaisins (3)",
+            "LocalPRS": "0.25┼1.25┼0┼"
+          },
+          {
+            "GitID": "cfd7856285eac82438d38d2aea4002b7_0.88┼0.88┼0┼",
+            "PrefabID": "cfd7856285eac82438d38d2aea4002b7",
+            "Name": "CheesieHonkers (1)",
+            "LocalPRS": "0.88┼0.88┼0┼"
+          },
+          {
+            "GitID": "cfd7856285eac82438d38d2aea4002b7_0.88┼1.12┼0┼",
+            "PrefabID": "cfd7856285eac82438d38d2aea4002b7",
+            "Name": "CheesieHonkers (2)",
+            "LocalPRS": "0.88┼1.12┼0┼"
+          },
+          {
+            "GitID": "f2441585d37f1914395df59a57c5e925_1┼0┼0┼",
+            "PrefabID": "f2441585d37f1914395df59a57c5e925",
+            "Name": "Shutters (2)",
+            "LocalPRS": "1┼0┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "6ecb8b1a0d8d9184fa74bdd3c7ded42d_1┼1┼0┼",
+            "PrefabID": "6ecb8b1a0d8d9184fa74bdd3c7ded42d",
+            "Name": "WoodenCrate (7)",
+            "LocalPRS": "1┼1┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "a4b2b713f6469dc4388f6d77f8f8b7ff_1.25┼0.88┼0┼",
+            "PrefabID": "a4b2b713f6469dc4388f6d77f8f8b7ff",
+            "Name": "Chips (1)",
+            "LocalPRS": "1.25┼0.88┼0┼"
+          },
+          {
+            "GitID": "a4b2b713f6469dc4388f6d77f8f8b7ff_1.25┼1.12┼0┼",
+            "PrefabID": "a4b2b713f6469dc4388f6d77f8f8b7ff",
+            "Name": "Chips (2)",
+            "LocalPRS": "1.25┼1.12┼0┼"
+          },
+          {
+            "GitID": "ea7280b49083dfa469fb176f6a7e4772_2┼0┼0┼",
+            "PrefabID": "ea7280b49083dfa469fb176f6a7e4772",
+            "Name": "ButtonDoor (1)",
+            "LocalPRS": "2┼0┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "DoorSwitch@0",
+                  "Data": [
+                    {
+                      "Name": "NewdoorControllers#1",
+                      "Data": "f2441585d37f1914395df59a57c5e925_0┼0┼0┼@0@DoorMasterController@0"
+                    },
+                    {
+                      "Name": "NewdoorControllers#0",
+                      "Data": "f2441585d37f1914395df59a57c5e925_1┼0┼0┼@0@DoorMasterController@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "0.5,0.5,0",
+          "Size": "3,3,0"
+        }
+      ]
+    }
+  ]
+}
