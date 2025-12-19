@@ -94,6 +94,23 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Feed it shrimp.
       objectReference: {fileID: 0}
+    - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 1496a006616a3674db8a141e28d71e33,
+        type: 2}
+    - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 1496a006616a3674db8a141e28d71e33,
+        type: 2}
+    - target: {fileID: 6236086576208570426, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 3163872342066861635}
     - target: {fileID: 6236086576208570426, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -188,3 +205,9 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   supriseStrength: 15
+--- !u!212 &3163872342066861635 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 89206780398788833, guid: 75421751b31ee7f49b1adb8b70cd2375,
+    type: 3}
+  m_PrefabInstance: {fileID: 3086294203075786402}
+  m_PrefabAsset: {fileID: 0}

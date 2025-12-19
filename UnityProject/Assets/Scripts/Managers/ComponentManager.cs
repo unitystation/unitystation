@@ -34,7 +34,7 @@ public class ComponentManager : SingletonManager<ComponentManager>
 		return true;
 	}
 
-	public static bool TryGetUniversalObjectPhysics(GameObject gameObject, out UniversalObjectPhysics UOP, bool IsInGameItem = true)
+	public static bool TryGetUniversalObjectPhysics(GameObject gameObject, out UniversalObjectPhysics UOP, bool IsInGameItemSuppressedLog = true)
 	{
 		UOP = null;
 		if (gameObject == null) return false;
@@ -67,7 +67,7 @@ public class ComponentManager : SingletonManager<ComponentManager>
 
 			if (UOP == null)
 			{
-				if (IsInGameItem)
+				if (IsInGameItemSuppressedLog)
 				{
 					Loggy.Error($"Unable to find UniversalObjectPhysics on {gameObject.name}");
 					return false;

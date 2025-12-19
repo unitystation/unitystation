@@ -61,27 +61,33 @@ namespace ScriptableObjects
 		{
 			try
 			{
-				foreach (var reaction in allChemistryReactions)
-				{
-					if (reaction == null) continue;
-					foreach (var required in reaction.ingredients)
-					{
-						required.Key.RelatedReactions = new Reaction[0];
-					}
-				}
+				var reactionMap = new Dictionary<Reagent, List<Reaction>>();
 
 				foreach (var reaction in allChemistryReactions)
 				{
 					if (reaction == null) continue;
+
 					foreach (var required in reaction.ingredients)
 					{
 						if (required.Key == null) continue;
-						if (required.Key.RelatedReactions == null)
+
+						if (reactionMap.ContainsKey(required.Key) == false)
 						{
-							required.Key.RelatedReactions = new Reaction[0];
+							reactionMap[required.Key] = new List<Reaction>();
 						}
-						required.Key.RelatedReactions = required.Key.RelatedReactions.Append(reaction).ToArray();
+
+						var list = reactionMap[required.Key];
+
+						if (list.Contains(reaction) == false)
+						{
+							list.Add(reaction);
+						}
 					}
+				}
+
+				foreach (var pair in reactionMap)
+				{
+					pair.Key.RelatedReactions = pair.Value.ToArray();
 				}
 			}
 			catch (Exception e)

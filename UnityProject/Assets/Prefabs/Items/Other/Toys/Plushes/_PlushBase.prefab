@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 38bd397032642df4082b5f262db5a2ce,
         type: 2}
+    - target: {fileID: 1655691407480885068, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 38bd397032642df4082b5f262db5a2ce,
+        type: 2}
     - target: {fileID: 1947406906936637606, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
       propertyPath: parentID
@@ -160,6 +166,18 @@ PrefabInstance:
       propertyPath: 'initialTraits.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 4427a2d750c73aa40a670bdc8baf8f67,
+        type: 2}
+    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 38bd397032642df4082b5f262db5a2ce,
+        type: 2}
+    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 38bd397032642df4082b5f262db5a2ce,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

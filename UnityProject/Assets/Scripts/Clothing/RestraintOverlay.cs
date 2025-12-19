@@ -47,9 +47,9 @@ namespace UI.Items
 			}
 		}
 
-		public override void UpdateSprite()
+		public override void UpdateSprite(bool Network = false)
 		{
-			spriteHandler.SetSpriteVariant(referenceOffset);
+			spriteHandler.SetSpriteVariant(referenceOffset, Network);
 
 		}
 

@@ -194,6 +194,7 @@ namespace Doors
 		public override void OnStartClient()
 		{
 			//This is needed for clients to get the proper door sprite state on load
+			if (registerTile?.SubsystemManager == null) return;
 			registerTile.SubsystemManager.UpdateAt(registerTile.LocalPositionServer);
 			doorAnimator.ForceSpriteSync();
 			base.OnStartClient();
@@ -410,7 +411,7 @@ namespace Doors
 			if (IsFireLockEngaged)
 			{
 				//We need to make sure the firelock wasn't destroyed
-				if (MatrixManager.GetAt<FireLock>(worldPosition, true).Any()) return false;
+				if (MatrixManager.GetAt<FireLock>(worldPosition, true).Any(x=> x.DoorMasterController.doorAnimator.SyncDoorUpdateType == DoorAnimatorV2.DoorUpdateType.Close)) return false;
 
 				IsFireLockEngaged = false;
 			}

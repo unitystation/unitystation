@@ -71,6 +71,7 @@ namespace Core.Lighting
 
 		public void AddLight(LightData data)
 		{
+			if (isServer == false) return;
 			if (Lights.Any(lightSprite => lightSprite.Id == data.Id))
 			{
 				return;
@@ -91,7 +92,16 @@ namespace Core.Lighting
 			//this gets called on the server
 			RemoveLightObject(data.Id);
 
-			Lights.Remove(data);
+			if (Lights.Count == 1)
+			{
+				Lights.Clear();
+			}
+			else
+			{
+				Lights.Remove(data);
+			}
+
+
 			netIdentity.isDirty = true;
 		}
 
@@ -123,6 +133,7 @@ namespace Core.Lighting
 
 		public void UpdateLights()
 		{
+
 			for (int i = 0; i < Lights.Count; i++)
 			{
 				if (lightsParent.childCount <= i || lightsParent.GetChild(i) == null)

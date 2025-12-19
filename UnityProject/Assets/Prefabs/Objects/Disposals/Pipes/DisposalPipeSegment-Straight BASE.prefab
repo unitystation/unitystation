@@ -100,6 +100,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 458df2aec7042c64891b942d8402d21e,
         type: 2}
+    - target: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 458df2aec7042c64891b942d8402d21e,
+        type: 2}
     - target: {fileID: 4848496751115757459, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: parentID
@@ -231,7 +237,8 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3010138062430864576, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -292,6 +299,14 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &5066112798346183791
