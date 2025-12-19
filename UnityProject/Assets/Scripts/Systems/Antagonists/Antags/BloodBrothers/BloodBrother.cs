@@ -35,9 +35,9 @@ namespace Systems.Antagonists.Antags
 			_ = CheckForOtherBloodBrothers(SpawnMind.Body.gameObject);
 
 			SpawnMind.Body.playerHealth.SetMaxHealth(SpawnMind.Body.playerHealth.MaxHealth + extraHealthForBrothers);
+			SpawnMind.Body.playerHealth.OnDeath += GameModes.BloodBrothers.OnBrotherDeath;
 			AntagManager.TryInstallPDAUplink(SpawnMind, initialTC, false);
 			SetupPowers(SpawnMind);
-			SpawnMind.Body.playerHealth.OnDeath += GameModes.BloodBrothers.OnBrotherDeath;
 		}
 
 		private async UniTask CheckForOtherBloodBrothers(GameObject spawnMind)
