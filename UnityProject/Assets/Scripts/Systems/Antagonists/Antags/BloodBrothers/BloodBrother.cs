@@ -1,13 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Antagonists;
-using GameModes;
+using Core.Editor.Attributes;
+using Cysharp.Threading.Tasks;
+using Systems.Antagonists.Antags.BloodBrothers;
 using UnityEngine;
-using Task = System.Threading.Tasks.Task;
-using Wizard = Antagonists.Wizard;
 
 namespace Systems.Antagonists.Antags
 {
+	/// <summary>
+	/// Blood brothers is a **TEAM** based antagonist role where multiple players
+	/// are spawned to try and complete objectives together. The death of one player is the death of all players.
+	/// Blood Brothers *can* spawn outside their usual game-mode, but it's not the main intention, and should be considered as a game breaking bug
+	/// if Bod ever shoves blood brothers where they shouldn't be again.
+	/// </summary>
 	[CreateAssetMenu(menuName="ScriptableObjects/Antagonist/BloodBrother")]
 	public class BloodBrother : Antagonist
 	{
@@ -17,6 +23,9 @@ namespace Systems.Antagonists.Antags
 		[SerializeField]
 		private int initialTC = 12;
 
+		[SerializeReference, SelectImplementation(typeof(IBloodBrotherAbility))]
+		public List<IBloodBrotherAbility> BloodBrotherAbilities = new();
+
 
 		public override void AfterSpawn(Mind SpawnMind)
 		{
@@ -24,34 +33,21 @@ namespace Systems.Antagonists.Antags
 				"<color=red>You're a convicted prisoner and test subject who was given " +
 				"a new chance for freedom by the syndicate.\n You and your blood brothers <b>must all succeed</b> to earn your freedom, or die trying.</color>");
 			_ = CheckForOtherBloodBrothers(SpawnMind.Body.gameObject);
-			var Objective = SpawnMind.AntagPublic.Objectives.FirstOrDefault(x => x is BloodBrotherMainObjective) as BloodBrotherMainObjective;
-			if (Objective != null)
+			var objective = SpawnMind.AntagPublic.Objectives.FirstOrDefault(x => x is BloodBrotherMainObjective) as BloodBrotherMainObjective;
+			if (objective != null)
 			{
-				SpawnMind.Body.playerHealth.OnDeath +=  Objective.OnBrotherDeathNotEnd;
+				SpawnMind.Body.playerHealth.OnDeath +=  objective.OnBrotherDeathNotEnd;
 			}
 
 			SpawnMind.Body.playerHealth.SetMaxHealth(SpawnMind.Body.playerHealth.MaxHealth + extraHealthForBrothers);
 			AntagManager.TryInstallPDAUplink(SpawnMind, initialTC, false);
-			if (DMMath.Prob(25))
-			{
-				Wizard.AddSpellToPlayer(Wizard.GetRandomWizardSpell(), SpawnMind);
-				Chat.AddExamineMsg(SpawnMind.Body.gameObject,
-					"Due to your past in prison.. You've gained magical ability.");
-			}
-			if (DMMath.Prob(15))
-			{
-				SpawnMind.Body.playerHealth.reagentPoolSystem.BloodPool.Add(CommonSicknesses.Instance.ParanoiaReagent, 10f);
-				Chat.AddExamineMsg(SpawnMind.Body.gameObject,
-					"Due to your past in prison.. You've gained paranoia from the experiments they've done on you.");
-				return;
-			}
-			Chat.AddExamineMsg(SpawnMind.Body.gameObject,
-				"You feel much more resilient.");
+			SetupPowers(SpawnMind);
+			SpawnMind.Body.playerHealth.OnDeath += GameModes.BloodBrothers.OnBrotherDeath;
 		}
 
-		private async Task CheckForOtherBloodBrothers(GameObject spawnMind)
+		private async UniTask CheckForOtherBloodBrothers(GameObject spawnMind)
 		{
-			await Task.Delay(1250);
+			await UniTask.WaitForSeconds(5f);
 			if (AntagManager.Instance.AntagCount < 2)
 			{
 				NoBrothersFound(spawnMind);
@@ -81,6 +77,19 @@ namespace Systems.Antagonists.Antags
 		private void NoBrothersFound(GameObject spawnMind)
 		{
 			Chat.AddExamineMsg(spawnMind,"<color=red>Your blood brother has not arrived with you..</color>");
+		}
+
+		private void SetupPowers(Mind spawnMind)
+		{
+			foreach (var ability in BloodBrotherAbilities)
+			{
+				if (DMMath.Prob(ability.ChanceToGiveOnSpawn))
+				{
+					ability.GiveAbility(spawnMind);
+				}
+			}
+			Chat.AddExamineMsg(spawnMind.Body.gameObject,
+				"You feel much more resilient.");
 		}
 	}
 }
