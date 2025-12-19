@@ -33,11 +33,6 @@ namespace Systems.Antagonists.Antags
 				"<color=red>You're a convicted prisoner and test subject who was given " +
 				"a new chance for freedom by the syndicate.\n You and your blood brothers <b>must all succeed</b> to earn your freedom, or die trying.</color>");
 			_ = CheckForOtherBloodBrothers(SpawnMind.Body.gameObject);
-			var objective = SpawnMind.AntagPublic.Objectives.FirstOrDefault(x => x is BloodBrotherMainObjective) as BloodBrotherMainObjective;
-			if (objective != null)
-			{
-				SpawnMind.Body.playerHealth.OnDeath +=  objective.OnBrotherDeathNotEnd;
-			}
 
 			SpawnMind.Body.playerHealth.SetMaxHealth(SpawnMind.Body.playerHealth.MaxHealth + extraHealthForBrothers);
 			AntagManager.TryInstallPDAUplink(SpawnMind, initialTC, false);
