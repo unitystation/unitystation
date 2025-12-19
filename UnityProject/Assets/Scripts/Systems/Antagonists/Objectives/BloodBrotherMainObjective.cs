@@ -43,11 +43,6 @@ namespace Antagonists
 			if (BrothersEarnedTheirFreedom() == false) OnBrotherDeath(true);
 		}
 
-		public void OnBrotherDeathNotEnd()
-		{
-			OnBrotherDeath(false);
-		}
-
 		public void OnBrotherDeath(bool Isending)
 		{
 			foreach (var possibleBrother in AntagManager.Instance.ActiveAntags)
@@ -106,8 +101,5 @@ namespace Antagonists
 
 			return (totalNumberOfObjectivesCompleted / (float) totalNumberOfObjectives) > 0.7f;
 		}
-
-
-
 	}
 }

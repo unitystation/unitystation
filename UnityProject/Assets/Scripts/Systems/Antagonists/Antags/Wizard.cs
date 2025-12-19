@@ -130,5 +130,10 @@ namespace Antagonists
 		{
 			return SpellList.Instance.Spells.Where(s => s is WizardSpellData).PickRandom();
 		}
+
+		public static SpellData GetRandomNonRobeSpecificWizardSpell()
+		{
+			return SpellList.Instance.Spells.Where(s => s is WizardSpellData { RequiresWizardGarb: false }).PickRandom();
+		}
 	}
 }
