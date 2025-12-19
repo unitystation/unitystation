@@ -27,12 +27,18 @@ namespace Actions.V2.UI
             foreach (var buttonData in actionButtons)
             {
 	            if (buttonData == null || !PlayerManager.LocalMindScript) continue;
-                if (buttonData.TrackingObject &&
-                    (PlayerManager.LocalMindScript.netIdentity.netId != buttonData.TrackingObject.netId
-                     && PlayerManager.LocalMindScript.GetDeepestBody().netId != buttonData.TrackingObject.netId))
-                {
-					continue;
-                }
+	            if (buttonData.TrackingObject == null) continue;
+	            if (isMindAction)
+	            {
+		            if (buttonData.TrackingObject.netId != PlayerManager.LocalMindScript.netIdentity.netId)
+		            {
+			            continue;
+		            }
+	            }
+	            else
+	            {
+		            if (PlayerManager.LocalMindScript.GetDeepestBody().netId != buttonData.TrackingObject.netId) continue;
+	            }
 
                 trackedItems.Add(buttonData.ID);
                 if (spawnedButtons.Exists(b => b.name == buttonData.ID))
@@ -59,6 +65,7 @@ namespace Actions.V2.UI
 
         public void DeleteSpawnedBodyUIActions(NetworkIdentity ownerRequest)
         {
+	        if (spawnedButtonsBody.Count == 0) return;
 	        foreach (var button in spawnedButtonsBody.ToList())
 	        {
 		        if (button.Owner != ownerRequest) continue;
@@ -72,6 +79,7 @@ namespace Actions.V2.UI
 
         public void DeleteSpawnedMindUIActions(NetworkIdentity ownerRequest)
 		{
+			if (spawnedButtonsMind.Count == 0) return;
 	        foreach (var button in spawnedButtonsMind.ToList())
 	        {
 		        if (button.Owner != ownerRequest) continue;

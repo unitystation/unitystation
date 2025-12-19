@@ -89,27 +89,21 @@ namespace Actions.V2
 
 		private void UICheckMind()
 		{
-			if (PlayerManager.LocalMindScript && PlayerManager.LocalMindScript.gameObject.NetWorkIdentity() ==
-			    cachedNetIdentity)
+			if (PlayerManager.LocalMindScript == null ||
+			    PlayerManager.LocalMindScript.gameObject.NetWorkIdentity() != cachedNetIdentity)
 			{
-				ActionButtonManager.Instance.RefreshButtonsMind(ActionButtons, cachedNetIdentity);
+				return;
 			}
-			else
-			{
-				ActionButtonManager.Instance.DeleteSpawnedMindUIActions(cachedNetIdentity);
-			}
+			ActionButtonManager.Instance.RefreshButtonsMind(ActionButtons, cachedNetIdentity);
 		}
 
 		private void UICheckBody()
 		{
-			if (PlayerManager.LocalMindScript?.GetRelatedBodies().Contains(cachedNetIdentity) == true)
+			if (PlayerManager.LocalMindScript?.GetRelatedBodies().Contains(cachedNetIdentity) == false)
 			{
-				ActionButtonManager.Instance.RefreshButtonsBody(ActionButtons, cachedNetIdentity);
+				return;
 			}
-			else
-			{
-				ActionButtonManager.Instance.DeleteSpawnedBodyUIActions(cachedNetIdentity);
-			}
+			ActionButtonManager.Instance.RefreshButtonsBody(ActionButtons, cachedNetIdentity);
 		}
 
 		private void OnActionButtonsChanged(SyncList<ActionButtonData>.Operation op, int index, ActionButtonData oldItem, ActionButtonData newItem)
