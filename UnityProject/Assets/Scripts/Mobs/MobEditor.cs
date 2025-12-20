@@ -410,7 +410,7 @@ namespace Mobs
 			}
 
 			var instance = Instantiate(basePrefab);
-			PrefabUtility.SaveAsPrefabAsset(instance, variantPath);
+			PrefabUtility.SaveAsPrefabAssetAndConnect(instance, variantPath, InteractionMode.AutomatedAction);
 			DestroyImmediate(instance);
 
 			return AssetDatabase.LoadAssetAtPath<GameObject>(variantPath);
