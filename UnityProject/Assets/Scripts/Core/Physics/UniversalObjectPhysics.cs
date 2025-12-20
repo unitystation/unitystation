@@ -1575,6 +1575,17 @@ namespace Core.Physics
 					//Too fast to grab onto anything
 					//Stuck
 					NewtonianMovement *= 0;
+					if (registerTile.Matrix.IsSpaceMatrix)
+					{
+						foreach (var Matrix in SetMatrixCache.Positions)
+						{
+							if (Matrix == null) continue;
+							if (Matrix.Matrix.IsSpaceMatrix) continue;
+							SetMatrix(Matrix.Matrix);
+							break;
+						}
+					}
+
 				}
 			}
 
@@ -1729,16 +1740,22 @@ namespace Core.Physics
 			}
 		}
 
-		public bool IsFloating()
+		public bool IsFloating(Vector3? atWorld = null)
 		{
+			if (atWorld == null)
+			{
+				atWorld = transform.position;
+			}
+
 			if (IsStickyMovement)
 			{
-				SetMatrixCache.ResetNewPosition(registerTile.WorldPosition, registerTile);
+
+				SetMatrixCache.ResetNewPosition(atWorld.Value, registerTile);
 				//TODO good way to Implement
-				if (MatrixManager.IsFloatingAtV2Tile(transform.position, CustomNetworkManager.IsServer,
+				if (MatrixManager.IsFloatingAtV2Tile(atWorld.Value, CustomNetworkManager.IsServer,
 					    SetMatrixCache))
 				{
-					if (MatrixManager.IsFloatingAtV2Objects(ContextGameObjects, registerTile.WorldPosition,
+					if (MatrixManager.IsFloatingAtV2Objects(ContextGameObjects, atWorld.Value,
 						    CustomNetworkManager.IsServer, SetMatrixCache))
 					{
 						IsCurrentlyFloating = true;
@@ -1753,7 +1770,7 @@ namespace Core.Physics
 			{
 				if (registerTile.Matrix.HasGravity || HasOwnGravity) //Presuming Register tile has the correct matrix
 				{
-					if (registerTile.Matrix.MetaTileMap.IsEmptyTileMap(registerTile.LocalPosition) == false)
+					if (registerTile.Matrix.MetaTileMap.IsEmptyTileMap(atWorld.Value.ToLocalInt(registerTile.Matrix)) == false)
 					{
 						IsCurrentlyFloating = false;
 						return false;
