@@ -5,7 +5,8 @@ using UnityEngine.UI;
 
 public enum Intent
 {
-	Help,
+	None,
+	Help = 0,
 	Disarm,
 	Grab,
 	Harm

@@ -26,7 +26,7 @@ public class MatrixCash
 
 	public Vector3 WorldPOS;
 
-	private MatrixInfo[] Positions = new MatrixInfo[9];
+	public MatrixInfo[] Positions = new MatrixInfo[9];
 
 	public MatrixInfo GetFromArray(int Location,Vector3Int DIR)
 	{

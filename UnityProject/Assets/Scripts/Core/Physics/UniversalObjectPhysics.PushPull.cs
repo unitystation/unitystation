@@ -259,14 +259,32 @@ namespace Core.Physics
 
 			var movetoMatrix = SetMatrixCache.GetforDirection(worldDirection.To3Int()).Matrix;
 
+
+
 			if (registerTile.Matrix != movetoMatrix)
 			{
-				SetMatrix(movetoMatrix);
+				if (movetoMatrix.IsSpaceMatrix)
+				{
+					if (IsFloating(transform.position + worldDirection.To3Int()))
+					{
+						newtonianMovement = registerTile.Matrix.MatrixMove.NetworkedMatrixMove.SynchronisedVelocity;
+						StartFlyingUpdateMe();
+						SetMatrix(movetoMatrix);
+					}
+					else
+					{
+						movetoMatrix = registerTile.Matrix;
+					}
+				}
+				else
+				{
+					SetMatrix(movetoMatrix);
+				}
 			}
 
 			if (ChangesDirectionPush)
 			{
-				GameObjectExtensions.OrNull(rotatable)?.SetFaceDirectionLocalVector(worldDirection);
+				rotatable.OrNull()?.SetFaceDirectionLocalVector(worldDirection);
 			}
 
 			var localPosition = ConverterExtensions.ToLocal(newWorldPosition, movetoMatrix);

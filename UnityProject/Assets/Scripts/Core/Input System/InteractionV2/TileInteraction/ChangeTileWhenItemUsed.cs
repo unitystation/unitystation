@@ -23,6 +23,12 @@ public class ChangeTileWhenItemUsed : TileInteraction
 	[SerializeField]
 	private bool harmIntentRequired = false;
 
+	//First implemented for allowing players to both repair and unsecure reinforced windows using welders depending on intent.
+	[Tooltip("Do you need to be on harm intent to perform this interaction?")]
+	[SerializeField]
+	private Intent RequiredIntent = Intent.None;
+
+
 	[Tooltip("Action message to performer when they begin this interaction.")]
 	[SerializeField]
 	private string performerStartActionMessage = null;
@@ -58,6 +64,11 @@ public class ChangeTileWhenItemUsed : TileInteraction
 		if (harmIntentRequired == true)
 		{
 			if (interaction.Intent != Intent.Harm) return false;
+		}
+
+		if (RequiredIntent != Intent.None)
+		{
+			if (interaction.Intent != RequiredIntent) return false;
 		}
 
 		if (requiredTrait == CommonTraits.Instance.Welder)

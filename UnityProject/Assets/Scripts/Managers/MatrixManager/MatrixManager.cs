@@ -1238,7 +1238,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	}
 
 
-	public static bool IsFloatingAtV2Objects(GameObject[] context, Vector3Int worldPos, bool isServer,
+	public static bool IsFloatingAtV2Objects(GameObject[] context, Vector3 worldPos, bool isServer,
 		MatrixCash MatrixCash) //Assuming MatrixCash is Initialised
 	{
 		for (int i = 0; i < MatrixCash.DIRs.Length; i++)
