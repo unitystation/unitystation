@@ -130,16 +130,16 @@ namespace HealthV2.Sickness
 
 			foreach (CureableSickness sickness in CureableSicknesses)
 			{
-				int reactionAmount = InitialisedSicknesses[sickness.Sickness].CureReagentA.RelatedReactions.Length;
-
-				InitialisedSicknesses[sickness.Sickness].CureReagentA.RelatedReactions =
-					InitialisedSicknesses[sickness.Sickness].CureReagentA.RelatedReactions.Take(reactionAmount - 1)
+				var reagentA = InitialisedSicknesses[sickness.Sickness].CureReagentA;
+				reagentA.RelatedReactions =
+					reagentA.RelatedReactions
+						.Where(r => r is SicknessCureReaction == false)
 						.ToArray();
 
-				reactionAmount = InitialisedSicknesses[sickness.Sickness].CureReagentB.RelatedReactions.Length;
-
-				InitialisedSicknesses[sickness.Sickness].CureReagentB.RelatedReactions =
-					InitialisedSicknesses[sickness.Sickness].CureReagentB.RelatedReactions.Take(reactionAmount - 1)
+				var reagentB = InitialisedSicknesses[sickness.Sickness].CureReagentB;
+				reagentB.RelatedReactions =
+					reagentB.RelatedReactions
+						.Where(r => r is SicknessCureReaction == false)
 						.ToArray();
 			}
 		}

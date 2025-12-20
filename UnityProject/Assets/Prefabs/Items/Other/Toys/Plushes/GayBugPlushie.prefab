@@ -19,6 +19,18 @@ PrefabInstance:
       value: A cute, soft plush of a long-horned bug. Her cloak is in the colors
         of the lesbian pride flag.
       objectReference: {fileID: 0}
+    - target: {fileID: 1917100683978112368, guid: 8e61d8436be5a404bb7bcdfa3e0e2743,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7959adaece6857549854451e8ff6d86c,
+        type: 2}
+    - target: {fileID: 1917100683978112368, guid: 8e61d8436be5a404bb7bcdfa3e0e2743,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7959adaece6857549854451e8ff6d86c,
+        type: 2}
     - target: {fileID: 2046024555457539942, guid: 8e61d8436be5a404bb7bcdfa3e0e2743,
         type: 3}
       propertyPath: m_RootOrder
@@ -107,7 +119,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5274116938782681493, guid: 8e61d8436be5a404bb7bcdfa3e0e2743,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1031585071458208680}
+    - target: {fileID: 5274116938782681493, guid: 8e61d8436be5a404bb7bcdfa3e0e2743,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 7959adaece6857549854451e8ff6d86c,
+        type: 2}
+    - target: {fileID: 5274116938782681493, guid: 8e61d8436be5a404bb7bcdfa3e0e2743,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 7959adaece6857549854451e8ff6d86c,
         type: 2}
@@ -116,3 +139,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e61d8436be5a404bb7bcdfa3e0e2743, type: 3}
+--- !u!212 &1031585071458208680 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2199594739106619726, guid: 8e61d8436be5a404bb7bcdfa3e0e2743,
+    type: 3}
+  m_PrefabInstance: {fileID: 1213274706260028134}
+  m_PrefabAsset: {fileID: 0}

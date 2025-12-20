@@ -119,7 +119,7 @@ public class ClothingItem : MonoBehaviour
 			}
 		}
 
-		UpdateReferenceOffset();
+		UpdateReferenceOffset(true);
 	}
 
 	public void RefreshFromClothing(ClothingV2 clothing)
@@ -150,7 +150,7 @@ public class ClothingItem : MonoBehaviour
 
 	}
 
-	private void UpdateReferenceOffset()
+	private void UpdateReferenceOffset(bool Network = false)
 	{
 		if (currentDirection == OrientationEnum.Down_By180)
 		{
@@ -172,14 +172,14 @@ public class ClothingItem : MonoBehaviour
 			referenceOffset = 3;
 		}
 
-		UpdateSprite();
+		UpdateSprite(Network);
 	}
 
-	public virtual void UpdateSprite()
+	public virtual void UpdateSprite(bool Network = false)
 	{
 		if (spriteHandler != null)
 		{
-			spriteHandler.SetSpriteVariant(referenceOffset, false);
+			spriteHandler.SetSpriteVariant(referenceOffset, Network);
 		}
 	}
 

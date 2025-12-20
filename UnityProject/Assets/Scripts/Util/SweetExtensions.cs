@@ -223,7 +223,7 @@ public static class SweetExtensions
 
 
 	/// Creates garbage! Use very sparsely!
-	public static Vector3 AssumedWorldPosServer(this GameObject go, bool IsInGameItem = true)
+	public static Vector3 AssumedWorldPosServer(this GameObject go, bool IsInGameItemSuppressedLog = true)
 	{
 		if (go == null)
 		{
@@ -231,7 +231,7 @@ public static class SweetExtensions
 			return TransformState.HiddenPos;
 		}
 
-		return GetRootGameObject(go, IsInGameItem).transform.position;
+		return GetRootGameObject(go, IsInGameItemSuppressedLog).transform.position;
 	}
 
 	public static void AppearAtWorldPositionServer(this GameObject go, Vector3 WorldPositioon)
@@ -262,9 +262,9 @@ public static class SweetExtensions
 
 
 	/// Creates garbage! Use very sparsely!
-	public static GameObject GetRootGameObject(this GameObject go, bool IsInGameItem = true)
+	public static GameObject GetRootGameObject(this GameObject go, bool IsInGameItemSuppressedLog = true)
 	{
-		if (ComponentManager.TryGetUniversalObjectPhysics(go, out  var UOP, IsInGameItem))
+		if (ComponentManager.TryGetUniversalObjectPhysics(go, out  var UOP, IsInGameItemSuppressedLog))
 		{
 			return UOP.GetRootObject;
 		}

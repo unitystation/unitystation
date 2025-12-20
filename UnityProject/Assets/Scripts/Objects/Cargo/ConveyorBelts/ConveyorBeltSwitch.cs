@@ -69,7 +69,7 @@ namespace Construction.Conveyors
 
 			if (!Validations.IsTarget(gameObject, interaction)) return false;
 
-			return interaction.HandObject == null ||
+			return (interaction.HandObject == null || interaction.IsAltClick) ||
 			       Validations.HasItemTrait(interaction, CommonTraits.Instance.Wrench);
 		}
 

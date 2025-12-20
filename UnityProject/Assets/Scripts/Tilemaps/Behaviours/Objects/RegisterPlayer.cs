@@ -321,6 +321,8 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 	{
 		bool CheckArmorStunImmunity()
 		{
+			bool StunImmune = true;
+
 			foreach (var bodyPart in PlayerScript.playerHealth.SurfaceBodyParts)
 			{
 				if(bodyPart.SelfArmor.StunImmunity) continue;
@@ -329,8 +331,10 @@ public class RegisterPlayer : RegisterTile, IServerSpawn, RegisterPlayer.IContro
 				{
 					if (armor.StunImmunity) return true;
 				}
+
+				StunImmune = false;
 			}
-			return false;
+			return StunImmune;
 		}
 
 		if (checkForArmor && CheckArmorStunImmunity())

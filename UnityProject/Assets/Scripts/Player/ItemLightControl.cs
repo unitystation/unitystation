@@ -155,6 +155,7 @@ public class ItemLightControl : BodyPartFunctionality, IItemInOutMovedPlayer
 		{
 			int index = LightEmission.Lights.FindIndex(x => x.Id == lightID);
 			LightEmission.Lights[index] = (playerLightData);
+			LightEmission.SetDirty();
 			LightEmission.UpdateLights();
 		}
 	}

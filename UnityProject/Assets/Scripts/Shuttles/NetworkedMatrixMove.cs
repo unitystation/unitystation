@@ -888,7 +888,7 @@ public class NetworkedMatrixMove : NetworkBehaviour
 
 		//HasMoveToTarget
 
-		DoUpdateLocalPosition = DragCalculations(DeltaTimeSeconds, AllRCSModeActive, OverallthrustDirection.magnitude < 0.3);
+		DoUpdateLocalPosition = DragCalculations(DeltaTimeSeconds, AllRCSModeActive, RCSModeActive || OverallthrustDirection.magnitude < 0.3);
 		AligneToTiles(DeltaTimeSeconds, Matrixes);
 
 		SetTransformPosition(TargetTransform.position + (Vector3)
