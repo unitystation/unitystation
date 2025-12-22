@@ -27,10 +27,9 @@ namespace ScriptableObjects.RP.EmoteBehaviors
 
 			if (health.reagentPoolSystem == null)
 			{
-				Loggy.Error("health.reagentPoolSystem is null");
 				return;
 			}
-			
+
  			ReagentMix availableBlood = health.reagentPoolSystem.BloodPool.Take((health.reagentPoolSystem.BloodPool.Total * efficiency) / 2f);
 
 			lungs.PickRandom()?.BreatheOut(gas, availableBlood);

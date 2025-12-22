@@ -5038,6 +5038,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 774114496202381458, guid: 8e4c205a853b5d44bb1b793530feaefe,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 5997160378838374448}
+    - target: {fileID: 774114496202381458, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 26583260609e5724f84ec5212e5c0d63,
@@ -5282,7 +5287,7 @@ MonoBehaviour:
   MaxMolesUseda: 1
   PrefabThrusterMultiplier: 1
   ThrusterMultiplier: 100
-  AThrusterUseMultiplier: 0.072975
+  AThrusterUseMultiplier: 0.364875
   ThrustPower: 0
   SelfPowered: 0
   MaxEngineParticles: 70
@@ -5385,3 +5390,9 @@ MonoBehaviour:
   syncInterval: 0.1
   NetTabType: 65
   aiInteractable: 1
+--- !u!212 &5997160378838374448 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5444563050315388511, guid: 8e4c205a853b5d44bb1b793530feaefe,
+    type: 3}
+  m_PrefabInstance: {fileID: 1780268378526666351}
+  m_PrefabAsset: {fileID: 0}

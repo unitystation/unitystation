@@ -112,7 +112,10 @@ namespace Objects.Machines
 			if (_currentPowerState == PowerState.Off) Chat.AddExamineMsgFromServer(interaction.Performer, $"{gameObject.ExpensiveName()} is unpowered!");
 			if (_isProducing || _currentPowerState != PowerState.On) return;
 
-			if (interaction.HandObject == false) TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.Flatpacker, TabAction.Open );
+			if (interaction.HandObject == false)
+			{
+				TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.Flatpacker, TabAction.Open );
+			}
 			else if (_loadedMachineBoardSlot.IsEmpty && Validations.HasItemTrait(interaction.UsedObject, machineBoardTrait))
 			{
 				if (interaction.HandObject.TryGetComponent<MachineCircuitBoard>(out var board) == false) return;
@@ -125,6 +128,8 @@ namespace Objects.Machines
 
 				return;
 			}
+
+			if (interaction.HandObject == null) return;
 
 			_insertedMaterialType = materialStorageLink.usedStorage.FindMaterial(interaction.HandObject);
 			var MaterialMakeUp = interaction.HandObject.GetComponent<MaterialMakeUp>();

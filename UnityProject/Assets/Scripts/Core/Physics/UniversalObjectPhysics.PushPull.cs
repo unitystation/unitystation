@@ -420,7 +420,7 @@ namespace Core.Physics
 		{
 			if (ContainedInObjectContainer != null) return; //Can't pull stuff inside of objects
 			if (pullableObject == null || pullableObject == this.gameObject) return;
-			var pullable = pullableObject.GetComponent<Physics.UniversalObjectPhysics>();
+			var pullable = pullableObject.GetUniversalObjectPhysics();
 			if (pullable == null || pullable.isNotPushable)
 			{
 				pullable?.ResetLocationOnClients();

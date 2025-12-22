@@ -84,6 +84,8 @@ namespace Tilemaps.Utils
 			return objects.TryGetValue(localPosition, out var chunk) && chunk != null && chunk.Count != 0;
 		}
 
+
+
 		public List<RegisterTile> Get(Vector3Int position)
 		{
 			return objects.TryGetValue(position, out var objectsOut) ? objectsOut : EmptyList;

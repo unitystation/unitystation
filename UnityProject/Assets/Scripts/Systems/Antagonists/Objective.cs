@@ -236,20 +236,20 @@ namespace Antagonists
 		protected bool CheckStorageFor(string name, int count, string ItemID)
 		{
 
-			if (Owner?.Body?.DynamicItemStorage == null)
+			if (Owner?.GetDeepestPhysicalBody()?.GetComponent<DynamicItemStorage>() == null)
 			{
 				Loggy.Error($"Unable to find dynamic storage for {Owner?.Body} / {Owner?.Body?.PlayerInfo?.Username}");
 				//If they have no storage then fail, as they can't have the item
 				return false;
 			}
 
-			return CheckStorage(Owner?.Body?.DynamicItemStorage, default, name, ItemID) >= count;
+			return CheckStorage(Owner?.GetDeepestPhysicalBody()?.GetComponent<DynamicItemStorage>(), default, name, ItemID) >= count;
 		}
 
 		/// <inheritdoc cref="CheckStorageFor(string, int)"/>
 		protected bool CheckStorageFor(Type component, int count, string ItemID)
 		{
-			return CheckStorage(Owner?.Body?.DynamicItemStorage, component, default, ItemID) >= count;
+			return CheckStorage(Owner?.GetDeepestPhysicalBody()?.GetComponent<DynamicItemStorage>(), component, default, ItemID) >= count;
 		}
 
 		private int CheckStorage(DynamicItemStorage itemStorage, Type component, string name, string ItemID)

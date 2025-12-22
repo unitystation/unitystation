@@ -799,15 +799,8 @@ public class Mind : NetworkBehaviour, IActionGUI
 		return returnList;
 	}
 
-
-	public NetworkIdentity GetDeepestBody()
+	public NetworkIdentity GetDeepestPhysicalBody()
 	{
-		if (IsGhosting)
-		{
-			return this.netIdentity;
-		}
-
-
 		if (PlayerPossessable != null)
 		{
 			return PlayerPossessable.GetDeepestBody();
@@ -821,6 +814,17 @@ public class Mind : NetworkBehaviour, IActionGUI
 		}
 
 		return this.netIdentity;
+	}
+
+
+	public NetworkIdentity GetDeepestBody()
+	{
+		if (IsGhosting)
+		{
+			return this.netIdentity;
+		}
+
+		return GetDeepestPhysicalBody();
 	}
 
 

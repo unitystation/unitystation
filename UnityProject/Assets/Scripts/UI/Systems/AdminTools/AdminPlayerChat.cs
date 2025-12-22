@@ -141,9 +141,12 @@ namespace AdminTools
 
 		public void ServerGetMessageRound(string playerId, NetworkConnection requestee)
 		{
-			var Rounds = AccessFile.DirectoriesOrFilesIn(Path.Combine(ChatLogsFolder, playerId), FolderType.Logs);
+			if (AccessFile.Exists(Path.Combine(ChatLogsFolder, playerId)))
+			{
+				var Rounds = AccessFile.DirectoriesOrFilesIn(Path.Combine(ChatLogsFolder, playerId), FolderType.Logs);
 
-			AdminPlayerChatRoundsMessage.SendAvailableRoundsToAdmin(requestee, playerId, Rounds);
+				AdminPlayerChatRoundsMessage.SendAvailableRoundsToAdmin(requestee, playerId, Rounds);
+			}
 		}
 
 		public void ServerGetUnreadMessages(string playerId, int currentCount, int RoundID, NetworkConnection requestee)
@@ -152,6 +155,8 @@ namespace AdminTools
 			if (RoundID == -1)
 			{
 				ForceShow = true;
+				if ( AccessFile.Exists(Path.Combine(ChatLogsFolder, playerId)) == false) return;
+
 				var Rounds = AccessFile.DirectoriesOrFilesIn(Path.Combine(ChatLogsFolder, playerId), FolderType.Logs).OrderByDescending(x => x);
 				var data = Rounds.First().Replace(".txt", "");
 				RoundID = int.Parse( data, NumberStyles.Integer);

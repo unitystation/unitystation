@@ -194,39 +194,41 @@ namespace Systems.Atmospherics
 		{
 			windyNode.WindData[(int) PushType.Wind] = (Vector2) windyNode.WindDirection * (windyNode.WindForce);
 
-			var registerTiles = matrix.GetRegisterTile(windyNode.LocalPosition, true);
-			for (int i = 0; i < registerTiles.Count; i++)
+			if (windyNode.WindForce > (int) WindStrength.WEAK)
 			{
-				var registerTile = registerTiles[i];
-
-				//Quicker to get all RegisterTiles and grab the cached PushPull component from it than to get it manually using Get<>
-				if (registerTile.ObjectPhysics.HasComponent == false) continue;
-				if (registerTile.ObjectPhysics.Component.Intangible) continue;
-
-				var pushable = registerTile.ObjectPhysics.Component;
-				if (pushable.isNotPushable) return;
-				float correctedForce = (windyNode.WindForce ) / (int) pushable.GetSize();
-
-				correctedForce = Mathf.Clamp(correctedForce, 0, 30);
-
-				if (pushable.NewtonianMovement.magnitude > 0) return;
-
-
-
-				if (pushable.CanBeWindPushed)
+				var registerTiles = matrix.GetRegisterTile(windyNode.LocalPosition, true);
+				for (int i = 0; i < registerTiles.Count; i++)
 				{
-					pushable.NewtonianPush( (Vector2)windyNode.WindDirection, Random.Range((float)(correctedForce * 0.8), correctedForce),  spinFactor: Random.Range(1, 150));
-				}
+					var registerTile = registerTiles[i];
 
+					//Quicker to get all RegisterTiles and grab the cached PushPull component from it than to get it manually using Get<>
+					if (registerTile.ObjectPhysics.HasComponent == false) continue;
+					if (registerTile.ObjectPhysics.Component.Intangible) continue;
 
-				if (pushable.stickyMovement && windyNode.WindForce > (int)WindStrength.STRONG && pushable.CanBeWindPushed )
-				{
-					if (windyNode.WindForce * 0.15f > 0.25f)
+					var pushable = registerTile.ObjectPhysics.Component;
+					if (pushable.isNotPushable) return;
+					float correctedForce = (windyNode.WindForce ) / (int) pushable.GetSize();
+
+					correctedForce = Mathf.Clamp(correctedForce, 0, 30);
+
+					if (pushable.NewtonianMovement.magnitude > 0) return;
+
+					if (pushable.CanBeWindPushed)
 					{
-						pushable.NewtonianPush(windyNode.WindDirection, windyNode.WindForce * 0.15f,
-							windyNode.WindForce * 0.05f, spinFactor: Random.Range(20, 150));
+						pushable.NewtonianPush( (Vector2)windyNode.WindDirection, Random.Range((float)(correctedForce * 0.8), correctedForce),  spinFactor: Random.Range(1, 150));
+					}
+
+
+					if (pushable.stickyMovement && windyNode.WindForce > (int)WindStrength.WEAK && pushable.CanBeWindPushed )
+					{
+						if (windyNode.WindForce * 0.15f > 0.25f)
+						{
+							pushable.NewtonianPush(windyNode.WindDirection, windyNode.WindForce * 0.15f,
+								windyNode.WindForce * 0.05f, spinFactor: Random.Range(20, 150));
+						}
 					}
 				}
+
 			}
 
 			windyNode.WindForce = (windyNode.WindForce * ((RollingAverageN - 1) / RollingAverageN));

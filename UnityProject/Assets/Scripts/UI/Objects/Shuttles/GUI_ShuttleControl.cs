@@ -84,14 +84,17 @@ namespace UI.Objects.Shuttles
 
 		private void ClientNonMasterUpdate()
 		{
-
 			var Value = GoodZoomSlider.Element.value;
 
-			if (Value > 0.33f == false)
+			if (Value > 0.25f == false)
+			{
+				ShuttleCameraRenderer.instance.renderCamera.orthographicSize = 250f;
+			}
+			else if (Value > 0.50f == false)
 			{
 				ShuttleCameraRenderer.instance.renderCamera.orthographicSize = 100f;
 			}
-			else if (Value > 0.66f == false)
+			else if (Value > 0.75f == false)
 			{
 				ShuttleCameraRenderer.instance.renderCamera.orthographicSize = 50f;
 			}

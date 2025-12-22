@@ -18,6 +18,7 @@ using UnityEngine;
 using Objects.Construction;
 using TileManagement;
 using Tilemaps.Behaviours.Pathfinding;
+using UI.Core.NetUI;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -109,8 +110,12 @@ public class MetaDataLayer : MonoBehaviour
 			if (trackedTilesWithReagentsOnThem.Contains(toRemove) == false) continue;
 			if (TemperatureUtils.FromKelvin(toRemove.GasMixLocal.Temperature, TemeratureUnits.C) >= 32f)
 			{
-				toRemove.GasMixLocal.AddGas(CommonGasses.Instance.WaterVapor, toRemove.ReagentsOnTile.Total * 2,
-					toRemove.ReagentsOnTile.InternalEnergy / 2);
+				if (toRemove.ReagentsOnTile != null && toRemove.GasMixLocal != null)
+				{
+					toRemove.GasMixLocal.AddGas(CommonGasses.Instance.WaterVapor, toRemove.ReagentsOnTile.Total * 2,
+						toRemove.ReagentsOnTile.InternalEnergy / 2);
+				}
+
 				RemoveLiquidOnTile(toRemove.LocalPosition, toRemove);
 				continue;
 			}
