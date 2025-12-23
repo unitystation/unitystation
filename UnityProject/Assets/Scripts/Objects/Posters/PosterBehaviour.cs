@@ -66,7 +66,7 @@ namespace Objects
 				}
 				else
 				{
-					return ContrabandPosters[Random.Range(0, OfficialPosters.Count - 1)];
+					return ContrabandPosters[Random.Range(0, ContrabandPosters.Count - 1)];
 				}
 			}
 
@@ -77,7 +77,7 @@ namespace Objects
 
 			if (p == Posters.RandomContraband)
 			{
-				return ContrabandPosters[Random.Range(0, OfficialPosters.Count - 1)];
+				return ContrabandPosters[Random.Range(0, ContrabandPosters.Count - 1)];
 			}
 
 			var index = OfficialPosters.FindIndex(x => x.PosterName == p);

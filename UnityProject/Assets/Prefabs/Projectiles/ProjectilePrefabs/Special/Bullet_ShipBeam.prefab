@@ -249,6 +249,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5391593875210699565, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
+      propertyPath: InitialColour.a
+      value: 0.8627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 5391593875210699565, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
       propertyPath: InitialColour.b
       value: 0.14117648
       objectReference: {fileID: 0}
@@ -271,7 +276,7 @@ PrefabInstance:
     - target: {fileID: 5572642767229722754, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: animationTime
-      value: 0.48
+      value: 0.924
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 52189756191693650, guid: f8f5682e74c42bb45851c71a4b53b20b, type: 3}

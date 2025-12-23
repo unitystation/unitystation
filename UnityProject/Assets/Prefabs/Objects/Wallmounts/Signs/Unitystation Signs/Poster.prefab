@@ -25,6 +25,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4297281311582415504, guid: 2d5ef1e4279414f4798d5cf1542d9388,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1561806253598406103}
+    - target: {fileID: 4297281311582415504, guid: 2d5ef1e4279414f4798d5cf1542d9388,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d2543c5c42b32c54c8d128c45f219c22,
@@ -113,7 +118,7 @@ PrefabInstance:
     - target: {fileID: 8787633699505619018, guid: 2d5ef1e4279414f4798d5cf1542d9388,
         type: 3}
       propertyPath: m_Name
-      value: New Poster
+      value: Poster
       objectReference: {fileID: 0}
     - target: {fileID: 8832630492572476509, guid: 2d5ef1e4279414f4798d5cf1542d9388,
         type: 3}
@@ -130,6 +135,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 4094347796094793092}
   m_SourcePrefab: {fileID: 100100000, guid: 2d5ef1e4279414f4798d5cf1542d9388, type: 3}
+--- !u!212 &1561806253598406103 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8832630492572476509, guid: 2d5ef1e4279414f4798d5cf1542d9388,
+    type: 3}
+  m_PrefabInstance: {fileID: 8016240356840935818}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1642857750665843136 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8787633699505619018, guid: 2d5ef1e4279414f4798d5cf1542d9388,
@@ -431,6 +442,47 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 370b536cc781c4205873df2f055e3e6d, type: 3}
     spriteSo: {fileID: 11400000, guid: 797256e2802433f43bbf5de2f8c19832, type: 2}
     PosterName: 86
+    Type: 0
+  - Name: Diplomacy
+    Description: A poster championing the merits of diplomacy between peoples.
+    Icon: posters_24
+    sprite: {fileID: -128289141179800344, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: b5ee7b6d0dab0fc0cacfeea668702b09, type: 2}
+    PosterName: 87
+    Type: 0
+  - Name: NT Vacation
+    Description: A poster promoting Nanotrasen's vacation raffle for high-performing
+      employees.
+    Icon: posters_31
+    sprite: {fileID: 676522036200359334, guid: 02828e96ab9f85b568158da71b1a3eb6, type: 3}
+    spriteSo: {fileID: 11400000, guid: 445052c7894d4f03caf326322e22817b, type: 2}
+    PosterName: 88
+    Type: 0
+  - Name: Donut & Coffee
+    Description: A poster of a tasty-looking donut and coffee in a fancy mug.
+    Icon: posters_8
+    sprite: {fileID: 4326600932581034973, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: 420541457a08a4e6e81551d09925464e, type: 2}
+    PosterName: 96
+    Type: 0
+  - Name: Grow Food Not Weed
+    Description: A poster promoting responsible farming.
+    Icon: posters_4
+    sprite: {fileID: -6103292128421282919, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: d572abb334e0fb618b5280a43c12df14, type: 2}
+    PosterName: 93
+    Type: 0
+  - Name: No Touching
+    Description: A poster advising against touching. Good advice in some context,
+      presumably.
+    Icon: posters_12
+    sprite: {fileID: 5926068560015845211, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: 9e5440424ad143b53ae150d5612e5875, type: 2}
+    PosterName: 100
     Type: 0
   ContrabandPosters:
   - Name: Free Tonto
@@ -757,8 +809,9 @@ MonoBehaviour:
   - Name: Free Syndicate Encryption Key
     Description: A poster about traitors begging for more.
     Icon: poster46
-    sprite: {fileID: 0}
-    spriteSo: {fileID: 0}
+    sprite: {fileID: -3455003215785889009, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: 2e96abb985bd862c2b8f4092606ce56d, type: 2}
     PosterName: 83
     Type: 1
   - Name: Bounty Hunters
@@ -768,6 +821,258 @@ MonoBehaviour:
     sprite: {fileID: 0}
     spriteSo: {fileID: 0}
     PosterName: 84
+    Type: 1
+  - Name: UFO #1
+    Description: A poster proclaiming the depicted UFO as #1.
+    Icon: posters_0
+    sprite: {fileID: -7746146543836170966, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: 287667e40047299429342ca36a20a0e7, type: 2}
+    PosterName: 89
+    Type: 1
+  - Name: Pie Hard
+    Description: A poster for the movie Pie Hard.
+    Icon: posters_1
+    sprite: {fileID: 274774596237903723, guid: 02828e96ab9f85b568158da71b1a3eb6, type: 3}
+    spriteSo: {fileID: 11400000, guid: 245dea65ba86fe67b8e2625251eb6d06, type: 2}
+    PosterName: 90
+    Type: 1
+  - Name: Strike the Earth
+    Description: A poster celebrating miners and what they do best.
+    Icon: posters_2
+    sprite: {fileID: 2921353044024331109, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: 83ef576e03ef16da6acf0aad59c68696, type: 2}
+    PosterName: 91
+    Type: 1
+  - Name: Clown
+    Description: A poster expressing the danger presented by clowns.
+    Icon: posters_3
+    sprite: {fileID: 7957761716476786161, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: 550ed4e982681b34cb701e949059a814, type: 2}
+    PosterName: 92
+    Type: 1
+  - Name: Rise Greytide
+    Description: The Tide will rise again.
+    Icon: posters_5
+    sprite: {fileID: 7976771748116406870, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: d3eb822126299fb9185734b61d5d92e7, type: 2}
+    PosterName: 94
+    Type: 1
+  - Name: Beach Babe
+    Description: A poster of a scantily-clad beach babe, often found displayed prominently
+      in the workplace to generate solidarity amongst males.
+    Icon: posters_7
+    sprite: {fileID: -83024059761952035, guid: 02828e96ab9f85b568158da71b1a3eb6, type: 3}
+    spriteSo: {fileID: 11400000, guid: fc1d9141272688a9c97765acc3b9cf25, type: 2}
+    PosterName: 95
+    Type: 1
+  - Name: Bitters
+    Description: An advertisement for Andromeda Bitters--An aromatic addition to
+      any drink.
+    Icon: posters_9
+    sprite: {fileID: 8700244552678691236, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: 1e95310a4dc00c412afe9eee5f5154f0, type: 2}
+    PosterName: 97
+    Type: 1
+  - Name: Pizza
+    Description: A poster that looks like the top of a pizza box from a really good
+      Space Brooklyn pizzeria.
+    Icon: posters_10
+    sprite: {fileID: -6600038350926177063, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: aa8b6446af5410952b0e90b7bf71512c, type: 2}
+    PosterName: 98
+    Type: 1
+  - Name: Nuke Ops Enlist
+    Description: The HoS would like a word with you.
+    Icon: posters_11
+    sprite: {fileID: 471397689889004163, guid: 02828e96ab9f85b568158da71b1a3eb6, type: 3}
+    spriteSo: {fileID: 11400000, guid: cea804ebda29778d19bdf7837cb5a3f2, type: 2}
+    PosterName: 99
+    Type: 1
+  - Name: Terra
+    Description: A poster depicting an earthlike planet.
+    Icon: posters_13
+    sprite: {fileID: 6348033629439993928, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: c137d1db0d191f857865a6aa904e8d01, type: 2}
+    PosterName: 101
+    Type: 1
+  - Name: Mars
+    Description: A poster depicting Mars, the fourth planet in the Sol system and
+      the place where Martians are from.
+    Icon: posters_14
+    sprite: {fileID: 5546594311735057823, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: 42964dc04da177cb8bc5ff803127af86, type: 2}
+    PosterName: 102
+    Type: 1
+  - Name: Science Babe
+    Description: A poster of a hot babe in violation of NT policy on laboratory attire.
+    Icon: posters_15
+    sprite: {fileID: -1315020390154745375, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: 2383bacbe3b4980199cc8d5d8095fc0b, type: 2}
+    PosterName: 103
+    Type: 1
+  - Name: Space
+    Description: A poster celebrating outer space.
+    Icon: posters_16
+    sprite: {fileID: 8273537803309476522, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: 76d377b3ece825dfb95425d56dba6a95, type: 2}
+    PosterName: 104
+    Type: 1
+  - Name: Fire
+    Description: A poster depicting a fire extinguisher and helpfully associating
+      the usage of this device with the presence of fire.
+    Icon: posters_17
+    sprite: {fileID: 5513716413169533064, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: 77cc953a62f6e842793639452d7563d9, type: 2}
+    PosterName: 105
+    Type: 1
+  - Name: Stop Drop and Roll
+    Description: A poster explaining the procedure for extinguishing fire on one's
+      clothing or person or the newest dance craze, depending on which sector you're
+      in.
+    Icon: posters_18
+    sprite: {fileID: -629290318920840602, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: f59dec6063b2ddea48b355b0b7d2d9e5, type: 2}
+    PosterName: 106
+    Type: 1
+  - Name: Vote Captain
+    Description: A poster laboring under the misconception that this is a democracy.
+    Icon: posters_19
+    sprite: {fileID: -3735430768245228341, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: edd6096722fbfb005aae522ea7fece6c, type: 2}
+    PosterName: 107
+    Type: 1
+  - Name: Visit E14-B
+    Description: Who DOESN'T want to visit E14-B? Some day...
+    Icon: posters_20
+    sprite: {fileID: -71928050982090662, guid: 02828e96ab9f85b568158da71b1a3eb6, type: 3}
+    spriteSo: {fileID: 11400000, guid: ee4b94334d112daa58ed922bae4aa865, type: 2}
+    PosterName: 108
+    Type: 1
+  - Name: Tranquil Scene
+    Description: A poster depicting a tranquil scene on a planet's surface.
+    Icon: posters_21
+    sprite: {fileID: -1685768808732949246, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: 9877f219a5c40cceab5413ce8124e1a8, type: 2}
+    PosterName: 109
+    Type: 1
+  - Name: Pizza For...
+    Description: A poster about pizza. For someone.
+    Icon: posters_22
+    sprite: {fileID: -6172031649587352689, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: 9ea18f60ea55db2f3b9e01feaffeab3d, type: 2}
+    PosterName: 110
+    Type: 1
+  - Name: Space Bear
+    Description: A poster of a space bear, which you hope isn't a real thing.
+    Icon: posters_23
+    sprite: {fileID: 2965609039574335223, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: 6ac784ee7df1f3a5d869b0db74ce9680, type: 2}
+    PosterName: 111
+    Type: 1
+  - Name: Real
+    Description: This is REAL.
+    Icon: posters_25
+    sprite: {fileID: -4539117553867864670, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: 1865c3dca013a1826b802b7215db59a6, type: 2}
+    PosterName: 112
+    Type: 1
+  - Name: False
+    Description: This is FALSE.
+    Icon: posters_26
+    sprite: {fileID: -8158617595308518617, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: d55137a1712b2ba60bfe24fadd9375f6, type: 2}
+    PosterName: 113
+    Type: 1
+  - Name: Got Wood?
+    Description: A promotional poster for the timber industry. Probably.
+    Icon: posters_27
+    sprite: {fileID: 951733183803994977, guid: 02828e96ab9f85b568158da71b1a3eb6, type: 3}
+    spriteSo: {fileID: 11400000, guid: 468849a851019f5e89106963647e74bd, type: 2}
+    PosterName: 114
+    Type: 1
+  - Name: Space Dog
+    Description: A familiar-looking dog.
+    Icon: posters_28
+    sprite: {fileID: -6665151793300101519, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: 7d31e2aec2d5ff6a083e0210c7dcc605, type: 2}
+    PosterName: 115
+    Type: 1
+  - Name: Neon Moth
+    Description: A stylized depiction of a cybernetic moth in neon colors.
+    Icon: posters_29
+    sprite: {fileID: -2703110544297387338, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: 8dd1d5a598622dba6998ada8f715e941, type: 2}
+    PosterName: 116
+    Type: 1
+  - Name: 24-7
+    Description: A poster for the galaxy's favorite refueling and convenience station.
+      They have slushies.
+    Icon: posters_30
+    sprite: {fileID: -289446278102770531, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: e68b75b7093bb9af4b5056064dbe7318, type: 2}
+    PosterName: 117
+    Type: 1
+  - Name: Vaporwave Skyline
+    Description: A poster that brings back memories of the energy of the city and
+      of your misspent youth.
+    Icon: posters_32
+    sprite: {fileID: -3118498327006793452, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: 6a51a1ac70bd4f59e87199692c69b9a2, type: 2}
+    PosterName: 118
+    Type: 1
+  - Name: Tapestry
+    Description: A tapestry with arborial imagery.
+    Icon: posters_33
+    sprite: {fileID: 254554179149937491, guid: 02828e96ab9f85b568158da71b1a3eb6, type: 3}
+    spriteSo: {fileID: 11400000, guid: 022953b2ef1b61668a4cedfb9f6a1ed4, type: 2}
+    PosterName: 119
+    Type: 1
+  - Name: Plasma is Money
+    Description: A poster reminding that plasma in all its forms is the currency
+      of the realm.
+    Icon: posters_34
+    sprite: {fileID: -6831329832030491317, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: cdcdfdc4d855065668db2ceb276f8989, type: 2}
+    PosterName: 120
+    Type: 1
+  - Name: Resort
+    Description: A poster depicting a beach resort.
+    Icon: posters_35
+    sprite: {fileID: -6566738932607154853, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: ac93ea52eee3e767b907cf4fe91f6905, type: 2}
+    PosterName: 121
+    Type: 1
+  - Name: Live, Laugh, Love
+    Description: The galaxy's bestselling poster.
+    Icon: posters_36
+    sprite: {fileID: -6631395938237953714, guid: 02828e96ab9f85b568158da71b1a3eb6,
+      type: 3}
+    spriteSo: {fileID: 11400000, guid: cc98e29ae197b561282283dc34325ff0, type: 2}
+    PosterName: 122
     Type: 1
   OtherPosters:
   - Name: Ripped Poster
