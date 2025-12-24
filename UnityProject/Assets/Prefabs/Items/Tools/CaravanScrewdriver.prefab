@@ -13,6 +13,11 @@ PrefabInstance:
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 855719226093565431, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1814041240436128874, guid: 366fb594c17e76346bbb29ad4ce021ad,
         type: 3}
       propertyPath: SpeedMultiplier
@@ -31,6 +36,12 @@ PrefabInstance:
     - target: {fileID: 3337911567363717399, guid: 366fb594c17e76346bbb29ad4ce021ad,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: dec6da3c535087f49818fbd5109a4622,
+        type: 2}
+    - target: {fileID: 3337911567363717399, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: dec6da3c535087f49818fbd5109a4622,
         type: 2}
@@ -123,12 +134,12 @@ PrefabInstance:
     - target: {fileID: 9077323224761429490, guid: 366fb594c17e76346bbb29ad4ce021ad,
         type: 3}
       propertyPath: initialName
-      value: Caravan Screwdriver
+      value: Caravan screwdriver
       objectReference: {fileID: 0}
     - target: {fileID: 9077323224761429490, guid: 366fb594c17e76346bbb29ad4ce021ad,
         type: 3}
       propertyPath: initialDescription
-      value: A prototype of a new screwdriver design, allegedly the red color scheme
+      value: A prototype of a new screwdriver design. Allegedly the red color scheme
         makes it go faster.
       objectReference: {fileID: 0}
     - target: {fileID: 9077323224761429490, guid: 366fb594c17e76346bbb29ad4ce021ad,
@@ -140,6 +151,18 @@ PrefabInstance:
     - target: {fileID: 9077323224761429490, guid: 366fb594c17e76346bbb29ad4ce021ad,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 6d02603abeed4d34ca7a2aca88042ac4,
+        type: 2}
+    - target: {fileID: 9077323224761429490, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f90940d5bdfc87d4f838bc812c7a19bd,
+        type: 2}
+    - target: {fileID: 9077323224761429490, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 6d02603abeed4d34ca7a2aca88042ac4,
         type: 2}
