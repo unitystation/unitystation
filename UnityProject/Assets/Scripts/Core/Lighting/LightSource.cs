@@ -490,7 +490,7 @@ namespace Objects.Lighting
 
 		public GameObject tryRemoveLightBulbOtherFunction(HandApply interaction)
 		{
-			if (MountState == LightMountState.MissingBulb) return null;
+			if (MountState is LightMountState.MissingBulb or LightMountState.None) return null;
 			var spawnedItem= Spawn.ServerPrefab(itemInMount, interaction.Performer.AssumedWorldPosServer()).GameObject;
 			var lightTubeData = spawnedItem.GetComponent<LightTubeData>();
 			if (lightTubeData != null)

@@ -220,7 +220,7 @@ namespace Objects
 		{
 			var objectsToShoot = new List<GameObject>();
 
-			var machines = GetNearbyEntities(registerTile.WorldPositionServer, LayerMask.GetMask("Machines", "WallMounts", "Objects", "Players", "NPC"), primaryRange).ToList();
+			var machines = GetNearbyEntities(transform.position, LayerMask.GetMask("Machines", "WallMounts", "Objects", "Players", "NPC"), primaryRange).ToList();
 
 			foreach (Collider2D entity in machines)
 			{

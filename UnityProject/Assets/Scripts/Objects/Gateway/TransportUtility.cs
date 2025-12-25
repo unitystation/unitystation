@@ -88,7 +88,7 @@ namespace Gateway
 				if (previous != null && currentObj.gameObject != null)
 				{
 					//There was another object before this one, pulling it. Re-establish pulling. (But only if the current object's gameObject is not null)
-					previous.CmdPullObject(currentObj.gameObject);
+					previous.PullSet(currentObj.gameObject.GetUniversalObjectPhysics(), true);
 				}
 
 				//TODO: Make pulling acutally continue working across teleporters for clients, not just server
