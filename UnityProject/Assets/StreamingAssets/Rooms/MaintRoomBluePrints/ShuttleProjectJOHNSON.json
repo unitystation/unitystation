@@ -5258,6 +5258,15 @@
                   ]
                 },
                 {
+                  "ClassID": "ItemStorage@0",
+                  "Data": [
+                    {
+                      "Name": "UesAddlistPopulater",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "ItemStorage@1",
                   "Data": [
                     {
@@ -5265,8 +5274,14 @@
                       "Data": "True"
                     },
                     {
+                      "Name": "Populater@DeprecatedContents#1",
+                      "Data": "75a5a250adc32cd77a55dab7fb49cdc7",
+                      "IsPrefabID": true
+                    },
+                    {
                       "Name": "Populater@DeprecatedContents#0",
-                      "Data": "NULL"
+                      "Data": "a9ca50da22935d041a7dbe6dc6a7d5af",
+                      "IsPrefabID": true
                     }
                   ]
                 }
