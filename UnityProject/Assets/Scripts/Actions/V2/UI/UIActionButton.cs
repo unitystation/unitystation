@@ -137,8 +137,29 @@ namespace Actions.V2.UI
 
 		private void TrySetIcon()
 		{
+			if (TryGetIconFromTrackingObject()) return;
 			if (ActionData.AnimatedIconCatalogue == null || ActionData.AnimatedIconCatalogue.Count == 0) return;
 			iconHandler.SetSpriteSO(ActionData.AnimatedIconCatalogue[0]);
+		}
+
+		private bool TryGetIconFromTrackingObject()
+		{
+			if (ActionData.TryToGrabSpritesFromRelatedObject == false) return false;
+			if (ActionData.ObjectRelatedToThisAction == null) return false;
+			var handlers = ActionData.ObjectRelatedToThisAction.GetComponentsInChildren<SpriteHandler>();
+			if (handlers == null || handlers.Length == 0) return false;
+			SpriteDataSO sprite = null;
+			foreach (var handler in handlers)
+			{
+				var currentSpriteSo = handler.GetCurrentSpriteSO();
+				if (currentSpriteSo == null) continue;
+				if (currentSpriteSo.Variance.Count == 0) continue;
+				sprite = currentSpriteSo;
+				break;
+			}
+			if (sprite == null) return false;
+			iconHandler.SetSpriteSO(sprite);
+			return true;
 		}
 
 		private void TrySetCustomCursor()
