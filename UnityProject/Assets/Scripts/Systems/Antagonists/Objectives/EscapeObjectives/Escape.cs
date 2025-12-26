@@ -20,7 +20,7 @@ namespace Systems.Antagonists.Objectives.EscapeObjectives
 		[BoxGroup("Escape Settings")]
 		[Tooltip("If true, the player must be alive (and their body/mind present) to complete this objective")]
 		public bool MustBeAlive = true;
-		
+
 		[BoxGroup("Escape Settings")]
 		[Tooltip("If true, all escape shuttles during the setup phase will be added to the valid shuttles list " +
 		         "instead of just the primary shuttle that is assigned in the GameManager")]
