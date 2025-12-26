@@ -1,10 +1,7 @@
-﻿using System;
-using Logs;
+﻿using Logs;
 using NaughtyAttributes;
 using SecureStuff;
 using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.Serialization;
 
 namespace Actions.V2.Trackers
 {
@@ -28,10 +25,13 @@ namespace Actions.V2.Trackers
 				Debug.LogError("ItemSlotActionTracker requires a Pickupable component.");
 				return;
 			}
+
+			// lets the manager know what object this action is on.
+			foreach (var action in ActionData.Keys)
+			{
+				action.ObjectRelatedToThisAction = gameObject;
+			}
 		}
-
-
-
 
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
