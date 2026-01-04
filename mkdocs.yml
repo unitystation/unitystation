@@ -10,20 +10,25 @@ repo_url: "https://github.com/unitystation/unitystation/"
 edit_uri: "edit/develop/docs/"
 
 theme:
-  name: "material"
-  feature:
-    tabs: true
-  language: "en"
-  favicon: "assets/images/favicon.ico"
-  logo: "assets/images/logo.png"
+  palette:
+    # Palette toggle for light mode
+    - scheme: default
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
 
-markdown_extensions:
-  - attr_list
-  - admonition
-  - codehilite:
-      guess_lang: false
-  - toc:
-      permalink: true
-  - pymdownx.emoji:
-      emoji_index: !!python/name:materialx.emoji.twemoji
-      emoji_generator: !!python/name:materialx.emoji.to_svg
+    # Palette toggle for dark mode
+    - scheme: slate
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  language: en
+  favicon: assets/images/favicon.ico
+  logo: assets/images/logo.png
+  features:
+    - navigation.instant
+    - navigation.instant.progress
+    - search.suggest
+
+plugins:
+  - search
