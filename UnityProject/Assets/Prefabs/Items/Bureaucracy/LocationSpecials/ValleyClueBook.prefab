@@ -1,0 +1,409 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5320179244757249523
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1382846236730718897, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: initialName
+      value: 'Mystic Valley: Official Clue Book (TM)'
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382846236730718897, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: initialDescription
+      value: It appears to be a clue book for some sort of fantasy adventure game.
+        How childish.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1461827644208326759, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: _assetId
+      value: 2501182145
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571408580567394471, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571408580567394471, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571408580567394471, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571408580567394471, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571408580567394471, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571408580567394471, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571408580567394471, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571408580567394471, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571408580567394471, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1571408580567394471, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1575487906646857171, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_Name
+      value: ValleyClueBook
+      objectReference: {fileID: 0}
+    - target: {fileID: 4655418891499908692, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6843684376749820796}
+    - target: {fileID: 4713355638795244445, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 5577699357403617726, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: foreverID
+      value: d0db8fde5778a8cf4ad3c8622d09c98f
+      objectReference: {fileID: 0}
+    - target: {fileID: 6541784096974092951, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: catalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: pagesToRead
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: timeToReadPage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: remarks.Array.size
+      value: 48
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[0]'
+      value: '[Tip] Explore thoroughly! Much is hidden in places where magic dwells.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[1]'
+      value: '[Tip] A miner is a valuable ally to have in the Mystic Valley, as is
+        an engineer.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[2]'
+      value: '[Tip] Try bringing an artifact detector.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[3]'
+      value: '[Tip] A shield provides supplemental protection to its wielder''s body
+        and arms in combat.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[4]'
+      value: '[Tip] A restaurant in Mystic Valley was awarded two stars by Space
+        Michelin.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[5]'
+      value: '[Tip] The Valley''s settlements are replete with food. It''s worth
+        stocking up for any potential long journeys through less hospitable places.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[6]'
+      value: '[Tip] Conserve your ammunition. It''s a long way to the top.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[7]'
+      value: '[Tip] The Abyss is a place to be avoided... by most. It''s not necessary
+        for the heroes to enter it to fulfill the Prophecy.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[8]'
+      value: '[Tip] There are several libraries in the land. Some are hidden.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[9]'
+      value: '[Tip] Many paths and routes weave throughout the Valley, connecting
+        its locations in sometimes surprising ways.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[10]'
+      value: '[Tip] Don''t fight Terminators unless you''re cornered. Try to avoid
+        them.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[11]'
+      value: '[Tip] Hell must be traversed for Evil to be defeated and the Prophecy
+        fulfilled.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[12]'
+      value: '[Tip] The Tower must be scaled for Trickery to be overcome and the
+        Prophecy fulfilled.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[13]'
+      value: '[Tip] Many melee weapons found in the Valley can be inspected to see
+        their damage and whether they are effective 2H or thrown weapons.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[14]'
+      value: '[Tip] Radio communication is important. It can be necessary to split
+        up and cooperate to defeat a challenge.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[15]'
+      value: '[Tip] You will need protection against the vacuum of space to succeed
+        in your quest.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[16]'
+      value: '[Tip] Search the crashed ship.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[17]'
+      value: '[Tip] Curious findings may await those who explore the planetoid via
+        shuttle. It is located at -4200, -69.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[18]'
+      value: '[Tip] The Tower''s power station only energizes its lower floors. The
+        upper floors and certain key systems throughout have their own power sources.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[19]'
+      value: '[Tip] Four tasks stand in the way of fulfilling the Prophecy: Brave
+        the fire. Awaken the edifice. Breach the defenses. Reach the top.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[20]'
+      value: '[Tip] Sneaking into forbidden places might be of particular interest
+        to evildoers...'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[21]'
+      value: '[Tip] Try shipping distinctive items from Mystic Valley to Central
+        Command via the Cargo Shuttle.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[22]'
+      value: '[Tip] The black robes in Evil Castle protect the wearer completely
+        from fire.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[23]'
+      value: '[Tip] Ernesto''s favorite place in the Valley is the bench next to
+        the hot dog cart.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[24]'
+      value: '[Tip] It is possible for adventurers from the station to fulfill The
+        Prophecy before first setting foot upon the grass of the Valley.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[25]'
+      value: '[Tip] Some automated defenses may hold their fire against one holding
+        the proper clearance.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[26]'
+      value: '[Achievement] Naked Challenge: Win by starting from the Gateway naked,
+        bringing no items from the Station except your starting bag & emergency O2
+        box'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[27]'
+      value: '[Achievement] Planecide: Depressurize the overworld without using an
+        explosive'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[28]'
+      value: '[Achievement] Prophecy: Find the Good Wizard''s Sanctuary'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[29]'
+      value: '[Achievement] Long Live the King: Become the King of Mystic Valley'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[30]'
+      value: '[Achievement] Prophetic Talisman: Alter Fate using a special Treasure'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[31]'
+      value: '[Achievement] Loremaster: Find a trove of knowledge that holds the
+        Valley''s ultimate secret'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[32]'
+      value: '[Achievement] Ice Landing: Win by arriving at the snowfield by shuttle
+        (preferably not like that other guy) and proceeding directly into the Tower'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[33]'
+      value: '[Achievement] Defender Downfall: As a non-antagonist, find a covert
+        route into the Tower''s command center and neutralize an antagonist who threatens
+        the party'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[34]'
+      value: '[Achievement (Antagonist)] Tower Commander: Enter the Tower in a covert
+        manner and use its command center to destroy the explorers who seek to conquer
+        it'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[35]'
+      value: '[Achievement (Antagonist)] Aloha Snackbar: Bomb the Good Wizard''s
+        Sanctuary during the Ceremony of Crowning'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[36]'
+      value: '[Glossary] Abyss - An anomalous place of warped darkness where souls
+        become lost'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[37]'
+      value: '[Glossary] Adventurer - Lives in the house in the northwest. Possesses
+        lore and other secrets'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[38]'
+      value: '[Glossary] Giant - Lives in a cave in the snowfield. Likes rocks'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[39]'
+      value: '[Glossary] Good Wizard''s Sanctuary - Your quest''s ultimate destination--Fulfilling
+        the Prophecy will reveal it.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[40]'
+      value: '[Glossary] Greatest Treasure in the Land - The key to winning the crown'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[41]'
+      value: '[Glossary] Hell - Where bad people go when they die and which our heroes
+        must pass through to fulfill their destiny'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[42]'
+      value: '[Glossary] M.O.R.O.N. - The Modular Offworld Reconaissance & Observation
+        Nexus, Nanotrasen''s state-of-the-art manned long-term deployment probe for
+        analysis of unusual cosmic bodies'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[43]'
+      value: '[Glossary] Prophecy - The omen of the appearance of the Good Wizard''s
+        Sanctuary and the crowing of a King'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[44]'
+      value: '[Glossary] Temple of Light - A sacred place of healing and safety,
+        and home to the realm''s collected knowledge and hidden wisdom'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[45]'
+      value: '[Glossary] The Good Wizard - A mysterious protector and guide who revealed
+        the Prophecy'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[46]'
+      value: '[Glossary] The Great Evil - Evil Castle, its denizens, and the power
+        of Hell below'
+      objectReference: {fileID: 0}
+    - target: {fileID: 7046694432102436986, guid: 8332fa075a02a824eaf1162a1650b259,
+        type: 3}
+      propertyPath: 'remarks.Array.data[47]'
+      value: '[Glossary] The Great Trickery - The Tower of Trickery and its mysterious
+        controllers'
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8332fa075a02a824eaf1162a1650b259, type: 3}
+--- !u!212 &6843684376749820796 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1669908004607698575, guid: 8332fa075a02a824eaf1162a1650b259,
+    type: 3}
+  m_PrefabInstance: {fileID: 5320179244757249523}
+  m_PrefabAsset: {fileID: 0}

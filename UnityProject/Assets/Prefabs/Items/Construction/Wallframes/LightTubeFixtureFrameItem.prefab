@@ -92,7 +92,7 @@ PrefabInstance:
     - target: {fileID: 2237287659307319382, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
       propertyPath: initialName
-      value: light bulb fixture frame
+      value: light tube fixture frame
       objectReference: {fileID: 0}
     - target: {fileID: 2237287659307319382, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
@@ -133,6 +133,12 @@ PrefabInstance:
     - target: {fileID: 5523652600883287219, guid: 6224e1266c75b0643bd1cef8fbb6e615,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e1792c1cd3295ef45af344ad0c7bc2c2,
+        type: 2}
+    - target: {fileID: 5523652600883287219, guid: 6224e1266c75b0643bd1cef8fbb6e615,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: e1792c1cd3295ef45af344ad0c7bc2c2,
         type: 2}

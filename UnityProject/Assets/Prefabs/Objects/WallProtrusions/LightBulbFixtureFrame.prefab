@@ -87,7 +87,7 @@ PrefabInstance:
     - target: {fileID: 5635298977466413514, guid: 703ee43e84da301438311278f13a496f,
         type: 3}
       propertyPath: initialName
-      value: small light fixture frame
+      value: light bulb fixture frame
       objectReference: {fileID: 0}
     - target: {fileID: 6867064385152539544, guid: 703ee43e84da301438311278f13a496f,
         type: 3}
@@ -102,6 +102,12 @@ PrefabInstance:
     - target: {fileID: 7548481272404231200, guid: 703ee43e84da301438311278f13a496f,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 91fa363b9c6d18b4eae2a4db9bd1991a,
+        type: 2}
+    - target: {fileID: 7548481272404231200, guid: 703ee43e84da301438311278f13a496f,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 91fa363b9c6d18b4eae2a4db9bd1991a,
         type: 2}

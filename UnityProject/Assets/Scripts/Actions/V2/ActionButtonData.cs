@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Mirror;
+using NaughtyAttributes;
 using UnityEngine;
 
 namespace Actions.V2
@@ -23,18 +24,21 @@ namespace Actions.V2
 		public string ID;
 		public string DisplayName;
 		[TextArea(2, 4)] public string Description;
-		public ActionTriggerType TriggerType;
-		public ActionType Type;
-		public List<SpriteDataSO> AnimatedIconCatalogue;
-		public float CooldownTime;
-		public bool CanUseWhileGhosting = false;
 
-		public bool HasCustomCursorOffset { get; set; }
-		public bool HasCustomCursor;
-		public CursorOffsetType OffsetType;
-		public Vector2 CursorOffset;
-		public SpriteDataSO CursorTexture;
+		[BoxGroup("Interaction Settings")] public ActionTriggerType TriggerType;
+		[BoxGroup("Interaction Settings")] public ActionType Type;
+		[BoxGroup("Interaction Settings")] public float CooldownTime;
+		[BoxGroup("Interaction Settings")] public bool CanUseWhileGhosting = false;
+		[BoxGroup("Sprites")] public List<SpriteDataSO> AnimatedIconCatalogue;
+		[BoxGroup("Sprites")] public bool TryToGrabSpritesFromRelatedObject = false;
+
+		[BoxGroup("Cursor Settings")] public bool HasCustomCursorOffset;
+		[BoxGroup("Cursor Settings")] public bool HasCustomCursor;
+		[BoxGroup("Cursor Settings")] public CursorOffsetType OffsetType;
+		[BoxGroup("Cursor Settings")] public Vector2 CursorOffset;
+		[BoxGroup("Cursor Settings")] public SpriteDataSO CursorTexture;
 
 		[HideInInspector] public NetworkIdentity TrackingObject;
+		[HideInInspector] public GameObject ObjectRelatedToThisAction;
 	}
 }

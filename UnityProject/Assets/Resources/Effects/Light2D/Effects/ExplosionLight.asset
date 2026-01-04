@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: ExplosionLight
+  m_EditorClassIdentifier: RootSillys::SpriteDataSO
+  foreverID: 6b83e3e738d779a769f7abb710b3bdb8
+  Variance:
+  - Frames:
+    - sprite: {fileID: 21300000, guid: eb45bab1d301ad9488206897dc9ddd1d, type: 3}
+      secondDelay: 0.05
+    - sprite: {fileID: 21300000, guid: b8cd93930715f9640b8a8e38a0ee39e7, type: 3}
+      secondDelay: 0.05
+    - sprite: {fileID: 21300000, guid: 2be444078395d6e49a5e96cb401fd695, type: 3}
+      secondDelay: 0.05
+    - sprite: {fileID: 21300000, guid: bb4c5a10ebf40144bb44e432b1c4082d, type: 3}
+      secondDelay: 0.052
+    - sprite: {fileID: 21300000, guid: 466381dc9b1546648a8832bbb9420c20, type: 3}
+      secondDelay: 0.054
+    - sprite: {fileID: 21300000, guid: 2be444078395d6e49a5e96cb401fd695, type: 3}
+      secondDelay: 0.056
+    - sprite: {fileID: 21300000, guid: bb4c5a10ebf40144bb44e432b1c4082d, type: 3}
+      secondDelay: 0.058
+    - sprite: {fileID: 21300000, guid: 03ced3fa0e8cb854a8f70bb3064f8097, type: 3}
+      secondDelay: 0.06
+    - sprite: {fileID: 21300000, guid: 466381dc9b1546648a8832bbb9420c20, type: 3}
+      secondDelay: 0.062
+    - sprite: {fileID: 21300000, guid: bb4c5a10ebf40144bb44e432b1c4082d, type: 3}
+      secondDelay: 0.064
+    - sprite: {fileID: 21300000, guid: 77dec0be2e676214aac82240280e21e2, type: 3}
+      secondDelay: 0.066
+    - sprite: {fileID: 21300000, guid: 466381dc9b1546648a8832bbb9420c20, type: 3}
+      secondDelay: 0.068
+    - sprite: {fileID: 21300000, guid: 77dec0be2e676214aac82240280e21e2, type: 3}
+      secondDelay: 0.07
+    - sprite: {fileID: 21300000, guid: 03ced3fa0e8cb854a8f70bb3064f8097, type: 3}
+      secondDelay: 0.072
+    - sprite: {fileID: 21300000, guid: 77dec0be2e676214aac82240280e21e2, type: 3}
+      secondDelay: 0.074
+    - sprite: {fileID: 21300000, guid: 03ced3fa0e8cb854a8f70bb3064f8097, type: 3}
+      secondDelay: 0.076
+  IsPalette: 0
+  DisplayName: 
