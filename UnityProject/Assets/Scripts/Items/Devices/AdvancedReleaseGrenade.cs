@@ -49,7 +49,7 @@ namespace Items.Weapons
 				blastData.ReagentMix = mixedReagentContainer.CurrentReagentMix.CloneWithCache();
 				ExplosiveBase.ExplosionEvent.Invoke(worldPos, blastData);
 
-				mixedReagentContainer.CurrentReagentMix.ApplyEffectCache(mixedReagentContainer);//We now apply the cache
+				mixedReagentContainer.CurrentReagentMix.ApplyEffectCache(mixedReagentContainer , mixedReagentContainer.gameObject.AssumedWorldPosServer());//We now apply the cache
 				mixedReagentContainer.OnReagentMixChanged?.Invoke();
 				spriteHandler.SetCatalogueIndexSprite(LOCKED_SPRITE);
 				spriteHandler.SetSpriteVariant(EMPTY_VARIANT);

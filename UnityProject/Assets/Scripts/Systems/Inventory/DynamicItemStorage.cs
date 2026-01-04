@@ -479,6 +479,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 
 				InternalSynchronisingContainedInventorys.Remove(bodyPartUISlots);
 			}
+
 			foreach (var item in bodyPartUISlots.RelatedStorage.GetItemSlots())
 			{
 				item.OnSlotContentsChangeServer.RemoveListener(PassthroughContentsChangeServer);
@@ -533,6 +534,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 			{
 				continue; //Being destroyed?
 			}
+
 			if (ServerObjectToSlots.ContainsKey(bbodyPartUISlots.GameObject))
 			{
 				ServerObjectToSlots[bbodyPartUISlots.GameObject].Remove(slot);
@@ -602,6 +604,8 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 			storageCharacteristicse.RelatedIDynamicItemSlotS = bodyPartUISlots;
 			var Slot = bodyPartUISlots.RelatedStorage.GetNamedItemSlot(storageCharacteristicse.namedSlot);
 
+			if (Slot == null) continue;
+
 			if (CheckConditionalAdd(bodyPartUISlots, storageCharacteristicse, Slot))
 			{
 				i++;
@@ -670,6 +674,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		storageCharacteristicse.RelatedIDynamicItemSlotS = bodyPartUISlots;
 		var Slot = bodyPartUISlots.RelatedStorage.GetNamedItemSlot(storageCharacteristicse.namedSlot);
 
+		if (Slot == null) return;
 
 		if (ClientContents.ContainsKey(storageCharacteristicse.namedSlot) == false)
 			ClientContents[storageCharacteristicse.namedSlot] = new List<ItemSlot>();
@@ -716,7 +721,8 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 			ClientContents[sstorageCharacteristicse.namedSlot] = new List<ItemSlot>();
 		ClientContents[sstorageCharacteristicse.namedSlot]
 			.Remove(slot);
-		if (BbodyPartUISlots.GameObject != null && ClientObjectToSlots.ContainsKey(BbodyPartUISlots.GameObject) == false)
+		if (BbodyPartUISlots.GameObject != null &&
+		    ClientObjectToSlots.ContainsKey(BbodyPartUISlots.GameObject) == false)
 			ClientObjectToSlots[BbodyPartUISlots.GameObject] = new List<ItemSlot>();
 
 		if (BbodyPartUISlots.GameObject != null)
@@ -783,9 +789,11 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 				{
 					if (tries > 25)
 					{
-						Loggy.Error($"Failed to find object in spawned objects, might have not spawned yet? netId: {IntIn}");
+						Loggy.Error(
+							$"Failed to find object in spawned objects, might have not spawned yet? netId: {IntIn}");
 						continue;
 					}
+
 					WeakReference<DynamicItemStorage> wptr = new WeakReference<DynamicItemStorage>(this);
 
 					try
@@ -896,7 +904,6 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		{
 			ClientUIBodyPartsToSerialise = incomingList;
 		}
-
 	}
 
 	public void OnDestroy()
@@ -910,7 +917,6 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		}
 		else
 		{
-
 			foreach (var dynamicItemSlot in ClientContainedInventorys.ToArray())
 			{
 				int i = 0;
@@ -919,7 +925,6 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 					RemoveClient(dynamicItemSlot, i);
 					i++;
 				}
-
 			}
 		}
 	}
@@ -1301,7 +1306,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		//Trigger IOnPlayerRejoin for all items in player inventory
 		foreach (var itemSlot in GetItemSlotTree())
 		{
-			if(itemSlot.IsEmpty) continue;
+			if (itemSlot.IsEmpty) continue;
 
 			var playerRejoins = itemSlot.ItemObject.GetComponents<IOnPlayerRejoin>();
 			foreach (var playerRejoin in playerRejoins)
@@ -1313,7 +1318,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		//Gets all the Storage game objects that make up the dynamic item storage
 		var InventoryObjects = GetContainedInventorys();
 
-		foreach (var InventoryObject in InventoryObjects )
+		foreach (var InventoryObject in InventoryObjects)
 		{
 			var playerRejoins = InventoryObject.GameObject.GetComponents<IOnPlayerRejoin>();
 			foreach (var playerRejoin in playerRejoins)
@@ -1328,7 +1333,8 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		//Trigger IOnPlayerTransfer for all items in player inventory
 		foreach (var itemSlot in GetItemSlotTree())
 		{
-			if(itemSlot.IsEmpty) continue;
+			if (itemSlot == null) continue;
+			if (itemSlot.IsEmpty) continue;
 
 			var playerTransfers = itemSlot.ItemObject.GetComponents<IOnControlPlayer>();
 			foreach (var playerTransfer in playerTransfers)
@@ -1340,7 +1346,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		//Gets all the Storage game objects that make up the dynamic item storage
 		var InventoryObjects = GetContainedInventorys();
 
-		foreach (var InventoryObject in InventoryObjects )
+		foreach (var InventoryObject in InventoryObjects)
 		{
 			var playerRejoins = InventoryObject.GameObject.GetComponents<IOnControlPlayer>();
 			foreach (var playerRejoin in playerRejoins)
@@ -1355,7 +1361,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		//Trigger IOnPlayerLeaveBody for all items in top level player inventory
 		foreach (var itemSlot in GetItemSlotTree())
 		{
-			if(itemSlot.IsEmpty) continue;
+			if (itemSlot.IsEmpty) continue;
 
 			var playerLeaveBodies = itemSlot.ItemObject.GetComponents<IOnPlayerLeaveBody>();
 			foreach (var playerLeaveBody in playerLeaveBodies)
@@ -1367,7 +1373,7 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 		//Gets all the Storage game objects that make up the dynamic item storage
 		var InventoryObjects = GetContainedInventorys();
 
-		foreach (var InventoryObject in InventoryObjects )
+		foreach (var InventoryObject in InventoryObjects)
 		{
 			if (InventoryObject.GameObject == null) continue;
 			var playerRejoins = InventoryObject.GameObject.GetComponents<IOnPlayerLeaveBody>();

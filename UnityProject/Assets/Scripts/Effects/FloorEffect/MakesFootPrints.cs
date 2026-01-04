@@ -83,10 +83,17 @@ namespace Effects.FloorEffect
 
 		public void LocalTileReached(Vector3Int old,Vector3Int newPosition )
 		{
+
+
+			Vector3Int currentPosition = gameObject.AssumedWorldPosServer().RoundToInt(); //AssumedWorldPosServer Really doing the heavy lifting here amazing
+			var CurrentLocal = currentPosition.ToLocal(me.RegisterPlayer.Matrix);
+			var Reagents = me.RegisterPlayer.Matrix.MetaDataLayer.Get(CurrentLocal.RoundToInt())?.ReagentsOnTile;
+			spillContents.Add(Reagents.Take(Mathf.Min(Reagents.Total * 0.10f, spillContents.MaxCapacity - spillContents.CurrentReagentMix.Total)));
+
 			if (spillContents.ReagentMixTotal <= 0f) return;
 			bool useAll = spillContents.ReagentMixTotal < 0.1f;
 
-			Vector3Int currentPosition = gameObject.AssumedWorldPosServer().RoundToInt(); //AssumedWorldPosServer Really doing the heavy lifting here amazing
+
 			if (MatrixManager.IsSpaceAt(oldPosition, true) == false)
 			{
 				var decals = MatrixManager.GetAt<FloorPrintEffect>(oldPosition, isServer: true);
@@ -105,49 +112,20 @@ namespace Effects.FloorEffect
 				var reagents = spillContents.TakeReagents(
 					useAll ? spillContents.ReagentMixTotal : spillContents.ReagentMixTotal * 0.25f);
 
-				var allComponents = MatrixManager.GetAt<CommonComponents>(currentPosition, true);
-				var decals = new List<FloorPrintEffect>();
-				var filteredComponents = new List<CommonComponents>();
-
-				FilterComponents(ref allComponents, ref decals, ref filteredComponents);
-
 				var localChange = currentPosition.ToLocal(me.RegisterPlayer.Matrix) - oldPosition.ToLocal(me.RegisterPlayer.Matrix);
 				var orientation = Orientation.FromAsEnum(localChange);
 
-				if (decals.Any())
+				if (Reagents?.Total > 0)
 				{
 					MatrixManager.ReagentReact(reagents, currentPosition, null, false, me.CurrentDirection);
-					decals.First().RegisterEnter(orientation);
 				}
-				else if (filteredComponents.Count == 0)
+				else
 				{
 					var footPrint = FootPrint(currentPosition, reagents);
-					MatrixManager.ReagentReact(reagents, currentPosition, null, false, me.CurrentDirection);
 					footPrint.RegisterEnter(orientation);
 				}
 
 				oldPosition = currentPosition;
-			}
-		}
-
-		private void FilterComponents(ref IEnumerable<CommonComponents> allComponents, ref List<FloorPrintEffect> decals, ref List<CommonComponents> filteredComponents)
-		{
-			if (FilthBlocking == null) return;
-			foreach (var comp in allComponents)
-			{
-				bool isBlocked = comp.TrySafeGetComponent<Attributes>(out var attr) &&
-				                 attr.InitialTraits.Contains(FilthBlocking) == false;
-
-				if (isBlocked) continue;
-
-				if (comp.TryGetComponentCustom<FloorPrintEffect>(out var effect))
-				{
-					decals.Add(effect);
-				}
-				else
-				{
-					filteredComponents.Add(comp);
-				}
 			}
 		}
 
@@ -166,7 +144,9 @@ namespace Effects.FloorEffect
 				});
 			}
 
-			return footTileInst.GetComponent<FloorPrintEffect>();
+			var Print = footTileInst.GetComponent<FloorPrintEffect>();
+			Print.ReagentMix.Add(reagents);
+			return Print;
 		}
 	}
 }

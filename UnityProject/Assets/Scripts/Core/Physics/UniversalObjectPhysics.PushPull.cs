@@ -10,6 +10,8 @@ namespace Core.Physics
 {
 	public partial class UniversalObjectPhysics
 	{
+		public ICustomTilePassable ICustomTilePassable;
+
 		//## NETWORKING ## //
 		[SyncVar(hook = nameof(SyncIsNotPushable))]
 		public bool isNotPushable;
@@ -125,6 +127,7 @@ namespace Core.Physics
 
 		public bool CanPush(Vector2Int worldDirection)
 		{
+
 			if (worldDirection == Vector2Int.zero) return true;
 			if (CanMove == false) return false;
 			if (PushedFrame == Time.frameCount)
@@ -155,7 +158,7 @@ namespace Core.Physics
 			SetMatrixCache.ResetNewPosition(from, registerTile);
 
 			if (MatrixManager.IsPassableAtAllMatricesV2(from, from + worldDirection.To3Int(), SetMatrixCache, this, Pushing,
-				    Bumps)) //Validate
+				    Bumps,  ICustomTilePassable : ICustomTilePassable)) //Validate
 			{
 				if (PushedFrame != Time.frameCount)
 				{
@@ -337,8 +340,17 @@ namespace Core.Physics
 				{
 					Pulling.Component.SetMatrixCache.ResetNewPosition(Pulling.Component.transform.position);
 					Pulling.Component.Pushing.Clear();
-					Pulling.Component.ForceTilePush(inDirection.RoundToInt().To2Int(), Pulling.Component.Pushing, byClient,
-						speed, pulledBy: this);
+					if (this.Intangible)
+					{
+						Pulling.Component.TryTilePush(inDirection.RoundToInt().To2Int(), byClient, speed, pulledBy: this);
+					}
+					else
+					{
+						Pulling.Component.ForceTilePush(inDirection.RoundToInt().To2Int(), Pulling.Component.Pushing, byClient,
+							speed, pulledBy: this);
+					}
+
+
 				}
 			}
 
@@ -383,6 +395,11 @@ namespace Core.Physics
 				    , apt: Validations.CheckState(x => x.CanPull), reachRange: reachRange) == false)
 			{
 				return;
+			}
+
+			if (initiator.Intangible)
+			{
+				if (this.GetComponent<PlayerScript>()) return;
 			}
 
 			//client pre-validation
@@ -436,6 +453,11 @@ namespace Core.Physics
 				}
 
 				PullSet(null, true);
+			}
+
+			if (this.Intangible)
+			{
+				if (pullableObject.GetComponent<PlayerScript>()) return;
 			}
 
 			PlayerInfo clientWhoAsked = PlayerList.Instance.Get(gameObject);

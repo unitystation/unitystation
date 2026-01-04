@@ -37,6 +37,15 @@ public class RoundManagerPage : AdminPage
 
 	[SerializeField] private GameObject bountyManagerPanel;
 
+	public static RoundManagerPage Instance;
+
+	private static AdminPageRefreshData AdminPageRefreshData;
+
+	public void Awake()
+	{
+		Instance = this;
+	}
+
 	private void Start()
 	{
 		alertLevelEnumCache = Enum.GetNames(typeof(CentComm.AlertLevel)).ToList();
@@ -92,12 +101,13 @@ public class RoundManagerPage : AdminPage
 	{
 		base.OnPageRefresh(adminPageData);
 		lavaLandToggle.isOn = adminPageData.allowLavaLand;
-		GenerateDropDownOptionsMap(adminPageData);
-		GenerateDropDownOptionsAwaySite(adminPageData);
+		AdminPageRefreshData = adminPageData;
+		RequestMaps.Send();
+
 		GenerateDropDownOptionsAlertLevels(adminPageData);
 	}
 
-	private void GenerateDropDownOptionsMap(AdminPageRefreshData adminPageData)
+	public void GenerateDropDownOptionsMap(string[] MainStations)
 	{
 		//generate the drop down options:
 		var optionData = new List<Dropdown.OptionData>();
@@ -108,7 +118,7 @@ public class RoundManagerPage : AdminPage
 			text = "Random"
 		});
 
-		foreach (var mapName in SubSceneManager.Instance.MainStationList.MainStations)
+		foreach (var mapName in MainStations)
 		{
 			optionData.Add(new Dropdown.OptionData
 			{
@@ -120,7 +130,7 @@ public class RoundManagerPage : AdminPage
 
 		for (var i = 0; i < optionData.Count; i++)
 		{
-			if (optionData[i].text == adminPageData.nextMap)
+			if (optionData[i].text == AdminPageRefreshData.nextMap)
 			{
 				nextMapDropDown.value = i;
 				return;
@@ -128,7 +138,7 @@ public class RoundManagerPage : AdminPage
 		}
 	}
 
-	private void GenerateDropDownOptionsAwaySite(AdminPageRefreshData adminPageData)
+	public void GenerateDropDownOptionsAwaySite(string[] AwayWorlds)
 	{
 		//generate the drop down options:
 		var optionData = new List<Dropdown.OptionData>();
@@ -141,7 +151,7 @@ public class RoundManagerPage : AdminPage
 
 		//TODO: Admins can only pull from the available away worlds that are defined in the current game mode.
 		//Make this look for ALL away worlds in the AssetsStreaming folder
-		foreach (var awaySiteName in SubSceneManager.Instance.AwayWorlds.AwayWorlds)
+		foreach (var awaySiteName in AwayWorlds)
 		{
 			optionData.Add(new Dropdown.OptionData
 			{
@@ -153,7 +163,7 @@ public class RoundManagerPage : AdminPage
 
 		for (var i = 0; i < optionData.Count; i++)
 		{
-			if (optionData[i].text == adminPageData.nextAwaySite)
+			if (optionData[i].text == AdminPageRefreshData.nextAwaySite)
 			{
 				nextAwaySiteDropDown.value = i;
 				return;

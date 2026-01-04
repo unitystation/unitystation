@@ -225,6 +225,7 @@ namespace Antagonists
 		/// <param name="tcCount">The amount of telecrystals the uplink should be given.</param>
 		public static void TryInstallPDAUplink(Mind player, int tcCount, bool isNukeOps)
 		{
+			if (player?.Body?.DynamicItemStorage == null) return;
 			foreach (ItemSlot slot in player.Body.DynamicItemStorage.GetItemSlotTree())
 			{
 				if (slot.IsEmpty) continue;

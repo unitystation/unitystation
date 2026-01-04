@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using JetBrains.Annotations;
+using UnityEngine;
 
 namespace Chemistry
 {
@@ -19,6 +20,6 @@ namespace Chemistry
 			}
 		}
 
-		public abstract void Apply(MonoBehaviour sender, float amount);
+		public abstract void Apply([CanBeNull] MonoBehaviour sender, ReagentMix ReagentMix, Vector3 WorldPosition , float amount);
 	}
 }

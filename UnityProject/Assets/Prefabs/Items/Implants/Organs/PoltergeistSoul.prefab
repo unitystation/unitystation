@@ -1,0 +1,248 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8978146881120350746
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2966326797250985115, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: initialName
+      value: Poltergeist Soul
+      objectReference: {fileID: 0}
+    - target: {fileID: 2966326797250985115, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: initialDescription
+      value: Poltergeist Soul
+      objectReference: {fileID: 0}
+    - target: {fileID: 2966326797250985115, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2966326797250985115, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 675cc29978132c749a2b3d7a71ffc49b,
+        type: 2}
+    - target: {fileID: 2966326797250985115, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 57eb2d1faf36d2040ade08046da48bfa,
+        type: 2}
+    - target: {fileID: 3258052693451940005, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: acc98537c141cc0459cef0cfc87d6bc1,
+        type: 3}
+    - target: {fileID: 3338061971700198989, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: _assetId
+      value: 2082538482
+      objectReference: {fileID: 0}
+    - target: {fileID: 3442747058158572537, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_Name
+      value: PoltergeistSoul
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3446549031494643341, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4959976547195528774, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: hasInbuiltSight
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4959976547195528774, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: hasInbuiltHearing
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8610215983224430484, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: foreverID
+      value: f3f6536b403b6d94394290469b52d3a4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8827344453534656638, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f160894385e712b47ab609c408cb6f62,
+        type: 2}
+    m_RemovedComponents:
+    - {fileID: 8557864071590038898, guid: 1e19c4562afbbd2479d14830399db738, type: 3}
+    - {fileID: 3225282689309181853, guid: 1e19c4562afbbd2479d14830399db738, type: 3}
+    - {fileID: 3627688992291996152, guid: 1e19c4562afbbd2479d14830399db738, type: 3}
+    - {fileID: 1627570985089510486, guid: 1e19c4562afbbd2479d14830399db738, type: 3}
+    - {fileID: 1512013037722720825, guid: 1e19c4562afbbd2479d14830399db738, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3442747058158572537, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4342087428318925181}
+    - targetCorrespondingSourceObject: {fileID: 3442747058158572537, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3409982718537252938}
+    - targetCorrespondingSourceObject: {fileID: 3442747058158572537, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4249607251457549261}
+    - targetCorrespondingSourceObject: {fileID: 3442747058158572537, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4085506614129491349}
+    - targetCorrespondingSourceObject: {fileID: 3442747058158572537, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2213527311361557402}
+  m_SourcePrefab: {fileID: 100100000, guid: 1e19c4562afbbd2479d14830399db738, type: 3}
+--- !u!1 &6007750433557553635 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3442747058158572537, guid: 1e19c4562afbbd2479d14830399db738,
+    type: 3}
+  m_PrefabInstance: {fileID: 8978146881120350746}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4342087428318925181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6007750433557553635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73c8a0e70c3343fd9c7d764c28769377, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::HealthV2.Limbs.HumanoidLeg
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  RelatedPart: {fileID: 0}
+  walkingSpeed: 4.5
+  runningSpeed: 9
+  crawlingSpeed: 0.5
+  initialLimbEfficiency: 1
+--- !u!114 &3409982718537252938
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6007750433557553635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55a117c070fec0345aa6486831ce0faf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::BodyPartCustomMovement
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  RelatedPart: {fileID: 0}
+  RelatedHealth: 0
+--- !u!114 &4249607251457549261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6007750433557553635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18db5e99c0d7cd740955ba6bff29a229, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::MovementCantPassSalt
+--- !u!114 &4085506614129491349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6007750433557553635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b193fe13daa61e046b0faedd96b5be30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::BodyPartMakeIntangibleBody
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  RelatedPart: {fileID: 0}
+--- !u!114 &2213527311361557402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6007750433557553635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0af11106d5149f7a522aab42f362b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::Items.Implants.Organs.Tongue
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  RelatedPart: {fileID: 0}
+  languages:
+  - {fileID: 11400000, guid: a276e010a3026a24ab50294cf5f4f7e1, type: 2}
+  speechModifiers: 0
+  <CannotSpeak>k__BackingField: 1
+  maximumCharactersCanBeSpokenInOneMessage: 1600
+  VoicesName: 
+  Voice: 

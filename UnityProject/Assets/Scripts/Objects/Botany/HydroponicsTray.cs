@@ -221,7 +221,7 @@ namespace Objects.Botany
 				//Weeds checks
 				if (weedLevel < 10)
 				{
-					weedLevel = weedLevel + ((0.30f) * (plantData.WeedGrowthRate / 10f));
+					weedLevel = weedLevel + ((0.225f) * (plantData.WeedGrowthRate / 10f));
 					if (weedLevel > 10)
 					{
 						weedLevel = 10;

@@ -21,7 +21,7 @@ public class MetabolismReaction : Reaction
 	//public List<ItemTrait> SingleRequired = new List<ItemTrait>(); TODO add ability to Apply to multiple tags
 	public List<ItemTrait> ExternalBlacklist  = new List<ItemTrait>();
 
-	public override bool Apply(object sender, ReagentMix reagentMix)
+	public override bool Apply(object sender, Vector3 WorldPosition , ReagentMix reagentMix)
 	{
 		if (IsReactionValid(reagentMix) == false)
 		{
@@ -93,7 +93,7 @@ public class MetabolismReaction : Reaction
 
 			foreach (var sender in senders)
 			{
-				effect.Key.Apply(sender, effectResult);
+				effect.Key.Apply(sender, reagentMix, sender.gameObject.AssumedWorldPosServer() ,effectResult);
 			}
 		}
 	}

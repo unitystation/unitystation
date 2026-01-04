@@ -4,6 +4,7 @@ using Core;
 using UnityEngine;
 using Systems.Explosions;
 using HealthV2;
+using Initialisation;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace Chemistry.Effects
@@ -27,10 +28,10 @@ namespace Chemistry.Effects
 
 		public float Delay = 0;
 
-		public override void Apply(MonoBehaviour sender, float amount)
+		public override void Apply(MonoBehaviour sender, ReagentMix ReagentMix, Vector3 WorldPosition, float amount)
 		{
 
-			sender.StartCoroutine(NowExplosion(sender,amount ));
+			LoadManager.Instance.StartCoroutine(NowExplosion(sender, ReagentMix ,WorldPosition,amount ));
 		}
 
 		public virtual float FindYield(float amount)
@@ -38,64 +39,28 @@ namespace Chemistry.Effects
 			return ChemistryUtils.CalculateYieldFromReaction(amount, potency);
 		}
 
-		public virtual IEnumerator NowExplosion(MonoBehaviour sender, float amount)
+		public virtual IEnumerator NowExplosion(MonoBehaviour sender,ReagentMix ReagentMix,  Vector3 WorldPosition, float amount)
 		{
 			yield return WaitFor.Seconds(Delay);
-
-			// Following function uses the code from the Explosions file.
-
-			// Get data from container before despawning
-			UniversalObjectPhysics objectBehaviour = sender.GetComponent<UniversalObjectPhysics>();
-			RegisterObject registerObject = sender.GetComponent<RegisterObject>();
-			BodyPart bodyPart = sender.GetComponent<BodyPart>();
-			ExplosionNode node = ExplosionTypes.NodeTypes[explosionType];
-
-			bool insideBody = bodyPart && bodyPart.HealthMaster;
-
 			float strength = ChemistryUtils.CalculateYieldFromReaction(amount, potency);
-
-			if (insideBody && strength > 0) node.DoInternalDamage(strength, bodyPart);
-
-			// Explosion here
-			var picked = sender.GetComponent<Pickupable>();
-			if (picked != null)
+			ExplosionNode node = ExplosionTypes.NodeTypes[explosionType];
+			if (sender)
 			{
-				//If sender is in an inventory use the position of the inventory.
-				if (picked.ItemSlot != null)
-				{
-					objectBehaviour = picked.ItemSlot.ItemStorage.GetRootStorageOrPlayer().GetComponent<UniversalObjectPhysics>();
-					registerObject = picked.ItemSlot.ItemStorage.GetRootStorageOrPlayer().GetComponent<RegisterObject>();
-				}
+				BodyPart bodyPart = sender.GetComponent<BodyPart>();
+				bool insideBody = bodyPart && bodyPart.HealthMaster;
+				if (insideBody && strength > 0) node.DoInternalDamage(strength, bodyPart);
+				// If sender is a pickupable item not inside the body, destroy it.
+				// var picked = sender.GetComponent<Pickupable>();
+				// if (explosionType != ExplosionTypes.ExplosionType.Harmless && picked != null && !insideBody)
+				// {
+				// 	_ = Despawn.ServerSingle(sender.gameObject);
+				// }
 			}
-
-
 
 			if (strength > 0)
 			{
-				//Check if this is happening inside of an Object first (machines, closets?)
-				if (registerObject == null)
-				{
-					//If not, we need to check if the item is a bodypart inside of a player
-					if (insideBody)
-					{
-						Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength, node, radiusMultiplier: CHEM_EXPLOSIONS_RADIUS_MULTIPLIER);
-					}
-					else
-					{
-						//Otherwise, if it's not inside of a player, we consider it just an item
-						Explosion.StartExplosion(objectBehaviour.registerTile.WorldPosition, strength, node, stunNearbyPlayers: strength > 400, radiusMultiplier: CHEM_EXPLOSIONS_RADIUS_MULTIPLIER);
-					}
-				}
-				else
-				{
-					Explosion.StartExplosion(registerObject.WorldPosition, strength, node, stunNearbyPlayers: strength > 400, radiusMultiplier: CHEM_EXPLOSIONS_RADIUS_MULTIPLIER);
-				}
-			}
+				Explosion.StartExplosion(WorldPosition.RoundToInt(), strength, node, stunNearbyPlayers: strength > 400, radiusMultiplier: CHEM_EXPLOSIONS_RADIUS_MULTIPLIER);
 
-			// If sender is a pickupable item not inside the body, destroy it.
-			if (explosionType != ExplosionTypes.ExplosionType.Harmless && picked != null && !insideBody)
-			{
-				_ = Despawn.ServerSingle(sender.gameObject);
 			}
 		}
 	}

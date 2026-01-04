@@ -10,6 +10,7 @@ using Messages.Client.Interaction;
 using Mirror;
 using Newtonsoft.Json;
 using SecureStuff;
+using Systems.Atmospherics;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -240,39 +241,17 @@ namespace Chemistry.Components
 		{
 			if (StopReactions) return;
 			possibleReactions.Clear();
-			foreach (var reagents in CurrentReagentMix.reagents.m_dict)
-			{
-				var reactions = reagents.Key.RelatedReactions;
-				int reactionsCount = reactions.Length;
-				for (int i = 0; i < reactionsCount; i++)
-				{
-					var reaction = reactions[i];
-					if (ReactionSet != null && ReactionSet.ContainedReactionss.Contains(reaction))
-					{
-						possibleReactions.Add(reaction);
-					}
-					else if (AdditionalReactions.Count > 0 && ContainedAdditionalReactions.Contains(reaction))
-					{
-						possibleReactions.Add(reaction);
-					}
-				}
-			}
-
-			if(cacheEffects)
-			{
-				currentReagentMix.CacheReactionEffects(ReactionSet.ApplyWithoutEffects(this, CurrentReagentMix, possibleReactions));
-				return;
-			}
-
-			if (applyChange == true)
-			{
-				var Changed =  ReactionSet.Apply(this, CurrentReagentMix, possibleReactions);
-
-				if (Changed && ReactionSounds)
-				{
-					SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bubbles, gameObject.AssumedWorldPosServer());
-				}
-			}
+			ChemistryManager.ReagentsChanged(
+				this,
+				CurrentReagentMix,
+				ContainedAdditionalReactions,
+				possibleReactions,
+				ReactionSet,
+				this.gameObject.AssumedWorldPosServer(),
+				ReactionSounds,
+				applyChange,
+				cacheEffects
+				);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)

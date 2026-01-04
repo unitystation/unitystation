@@ -13,7 +13,6 @@ public class ElectricalCableTile : FuncPlaceRemoveTile
 	public PowerTypeCategory PowerType;
 	public Connection WireEndB;
 	public Connection WireEndA;
-	public Sprite sprite;
 	public override Sprite PreviewSprite => sprite;
 
 	public override void OnPlaced(Vector3Int TileLocation, Matrix AssociatedMatrix, TileLocation tileLocation)
