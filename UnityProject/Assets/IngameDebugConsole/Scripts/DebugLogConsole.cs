@@ -3,7 +3,10 @@ using System.Reflection;
 using System.Collections.Generic;
 using System.Text;
 using System;
+using System.Linq;
+using Cysharp.Threading.Tasks;
 using Logs;
+using Mirror;
 using SecureStuff;
 
 namespace IngameDebugConsole
@@ -55,12 +58,54 @@ namespace IngameDebugConsole
 		/// <summary>
 		/// All the parse functions
 		/// </summary>
-		private static Dictionary<Type, ParseFunction> parseFunctions;
+		private static Dictionary<Type, ParseFunction> parseFunctions = new Dictionary<Type, ParseFunction>()
+		{
+			{typeof(string), ParseString},
+			{typeof(bool), ParseBool},
+			{typeof(int), ParseInt},
+			{typeof(uint), ParseUInt},
+			{typeof(long), ParseLong},
+			{typeof(ulong), ParseULong},
+			{typeof(byte), ParseByte},
+			{typeof(sbyte), ParseSByte},
+			{typeof(short), ParseShort},
+			{typeof(ushort), ParseUShort},
+			{typeof(char), ParseChar},
+			{typeof(float), ParseFloat},
+			{typeof(double), ParseDouble},
+			{typeof(decimal), ParseDecimal},
+			{typeof(Vector2), ParseVector2},
+			{typeof(Vector3), ParseVector3},
+			{typeof(Vector4), ParseVector4},
+			{typeof(GameObject), ParseGameObject},
+			{typeof(NetworkConnectionToClient), ParseNetworkConnectionToClient}
+		};
 
 		/// <summary>
 		/// All the readable names of accepted types
 		/// </summary>
-		private static Dictionary<Type, string> typeReadableNames;
+		private static Dictionary<Type, string> typeReadableNames = new Dictionary<Type, string>()
+		{
+			{typeof(string), "String"},
+			{typeof(bool), "Boolean"},
+			{typeof(int), "Integer"},
+			{typeof(uint), "Unsigned Integer"},
+			{typeof(long), "Long"},
+			{typeof(ulong), "Unsigned Long"},
+			{typeof(byte), "Byte"},
+			{typeof(sbyte), "Short Byte"},
+			{typeof(short), "Short"},
+			{typeof(ushort), "Unsigned Short"},
+			{typeof(char), "Char"},
+			{typeof(float), "Float"},
+			{typeof(double), "Double"},
+			{typeof(decimal), "Decimal"},
+			{typeof(Vector2), "Vector2"},
+			{typeof(Vector3), "Vector3"},
+			{typeof(Vector4), "Vector4"},
+			{typeof(GameObject), "GameObject"},
+			{typeof(NetworkConnectionToClient), "NetworkConnectionToClient"}
+		};
 
 		/// <summary>
 		/// Split arguments of an entered command
@@ -72,55 +117,18 @@ namespace IngameDebugConsole
 		/// </summary>
 		private static readonly string[] inputDelimiters = new string[] {"\"\"", "{}", "()", "[]"};
 
+		public static bool isInitialized = false;
+
 		static DebugLogConsole()
 		{
-			parseFunctions = new Dictionary<Type, ParseFunction>()
-			{
-				{typeof(string), ParseString},
-				{typeof(bool), ParseBool},
-				{typeof(int), ParseInt},
-				{typeof(uint), ParseUInt},
-				{typeof(long), ParseLong},
-				{typeof(ulong), ParseULong},
-				{typeof(byte), ParseByte},
-				{typeof(sbyte), ParseSByte},
-				{typeof(short), ParseShort},
-				{typeof(ushort), ParseUShort},
-				{typeof(char), ParseChar},
-				{typeof(float), ParseFloat},
-				{typeof(double), ParseDouble},
-				{typeof(decimal), ParseDecimal},
-				{typeof(Vector2), ParseVector2},
-				{typeof(Vector3), ParseVector3},
-				{typeof(Vector4), ParseVector4},
-				{typeof(GameObject), ParseGameObject}
-			};
+			InitializeAsync();
+		}
 
-			typeReadableNames = new Dictionary<Type, string>()
-			{
-				{typeof(string), "String"},
-				{typeof(bool), "Boolean"},
-				{typeof(int), "Integer"},
-				{typeof(uint), "Unsigned Integer"},
-				{typeof(long), "Long"},
-				{typeof(ulong), "Unsigned Long"},
-				{typeof(byte), "Byte"},
-				{typeof(sbyte), "Short Byte"},
-				{typeof(short), "Short"},
-				{typeof(ushort), "Unsigned Short"},
-				{typeof(char), "Char"},
-				{typeof(float), "Float"},
-				{typeof(double), "Double"},
-				{typeof(decimal), "Decimal"},
-				{typeof(Vector2), "Vector2"},
-				{typeof(Vector3), "Vector3"},
-				{typeof(Vector4), "Vector4"},
-				{typeof(GameObject), "GameObject"}
-			};
-
-#if UNITY_EDITOR || !NETFX_CORE
-
+		public static void InitializeAsync()
+		{
+			if (isInitialized) return;
 			var data = AllowedReflection.GetFunctionsWithAttribute<ConsoleMethodAttribute>();
+			Debug.Log($"Attempting to register {data.Count} console commands");
 
 			foreach (var MonoBehaviourAndMethodInfo in data)
 			{
@@ -129,10 +137,7 @@ namespace IngameDebugConsole
 					AddCommand(type.Attribute.Command, type.Attribute.Description, type.MethodInfo);
 				}
 			}
-#else
-			AddCommandStatic( "help", "Prints all commands", "LogAllCommands", typeof( DebugLogConsole ) );
-			AddCommandStatic( "sysinfo", "Prints system information", "LogSystemInfo", typeof( DebugLogConsole ) );
-#endif
+			isInitialized = true;
 		}
 
 		/// <summary>
@@ -265,10 +270,9 @@ namespace IngameDebugConsole
 		/// <param name="instance">Object instance for instance functions</param>
 		private static void AddCommand(string command, string description, MethodInfo method, object instance = null)
 		{
+			Loggy.Info($"Adding command: {command}\n instance: {instance}\n methodInfo: {method.Name}", Category.DebugConsole);
 			// Fetch the parameters of the class
 			ParameterInfo[] parameters = method.GetParameters();
-			if (parameters == null)
-				parameters = new ParameterInfo[0];
 
 			bool isMethodValid = true;
 
@@ -278,9 +282,14 @@ namespace IngameDebugConsole
 			{
 				Type parameterType = parameters[k].ParameterType;
 				if (parseFunctions.ContainsKey(parameterType))
+				{
 					parameterTypes[k] = parameterType;
+				}
 				else
 				{
+					Loggy.Error(
+						$"command: {command} has unsupported parameter type: {parameterType.Name}",
+						Category.DebugConsole);
 					isMethodValid = false;
 					break;
 				}
@@ -322,6 +331,10 @@ namespace IngameDebugConsole
 				}
 
 				methods[command] = new ConsoleMethodInfo(method, parameterTypes, instance, methodSignature.ToString());
+			}
+			else
+			{
+				Loggy.Error($"command: {command} is not valid.", Category.DebugConsole);
 			}
 		}
 
@@ -618,6 +631,20 @@ namespace IngameDebugConsole
 		{
 			output = GameObject.Find(input);
 			return true;
+		}
+
+		private static bool ParseNetworkConnectionToClient(string input, out object output)
+		{
+			output = null;
+			foreach (var player in PlayerList.Instance.AllPlayers)
+			{
+				if (player.ClientId == input || player.Username == input)
+				{
+					output = player.Connection;
+					return true;
+				}
+			}
+			return false;
 		}
 
 		/// <summary>

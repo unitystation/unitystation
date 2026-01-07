@@ -357,6 +357,7 @@ namespace IngameDebugConsole
 				if (text.Length > 0)
 				{
 					// Execute the command
+					DebugLogConsole.InitializeAsync();
 					DebugLogConsole.ExecuteCommand(text);
 
 					// Snap to bottom and select the latest entry

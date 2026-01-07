@@ -56,6 +56,11 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		}
 
+		/// <summary>
+		/// The method that is used to grab the configuration of the system from the HealthSO or similar data source points.
+		/// Make sure to properly set this up in inherited classes, or all your stuff will always use the default/null values.
+		/// </summary>
+		/// <returns>HealthSystemBase</returns>
 		public abstract HealthSystemBase CloneThisSystem();
 	}
 }

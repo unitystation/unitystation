@@ -26,6 +26,7 @@ using Logs;
 using Messages.Server.LocalGuiMessages;
 using Mobs.Traversal;
 using Systems.Faith;
+using UI.Core.Alerts;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IHoverTooltip

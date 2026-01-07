@@ -21,7 +21,7 @@ namespace SecureStuff
 	{
 	}
 
-	
+
 	public struct MethodsAndAttributee<T> where T : BaseAttribute
 	{
 		public MethodInfo MethodInfo;
@@ -363,7 +363,7 @@ namespace SecureStuff
 			{
 				var attributedMethodsForType = componentType.GetMethods(BindingFlags.Instance | BindingFlags.NonPublic |
 				                                                        BindingFlags.Public |
-				                                                        BindingFlags.FlattenHierarchy)
+				                                                        BindingFlags.FlattenHierarchy | BindingFlags.Static)
 					.Where(m => m.GetCustomAttribute<T>(true) != null)
 					.ToList();
 				foreach (var Method in attributedMethodsForType)
