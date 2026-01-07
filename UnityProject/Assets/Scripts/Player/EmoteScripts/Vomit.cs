@@ -33,6 +33,7 @@ namespace Player.EmoteScripts
 			var bodyParts = health.BodyPartList;
 			foreach (var part in bodyParts)
 			{
+				if (part == null) continue;
 				if (part.TryGetComponent<StomachExpulsion>(out var stomach) == false) continue;
 				if (stomach.WillDryHeave()) continue;
 				stomach.Vomit();

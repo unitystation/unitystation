@@ -10,6 +10,7 @@ namespace Systems.StatusesAndEffects
 
 		public void AddStatus(StatusEffect status)
 		{
+			if (status == null) return;
 			HandleExpirableStatusAddition(status);
 			HandleStackableStatusAddition(status);
 			HandleImmediateStatusAddition(status);
@@ -51,6 +52,7 @@ namespace Systems.StatusesAndEffects
 
 		public void RemoveStatus(StatusEffect status)
 		{
+			if (status == null) return;
 			status.OnRemoved();
 			Statuses.Remove(status);
 		}
@@ -68,6 +70,15 @@ namespace Systems.StatusesAndEffects
 		public bool HasStatus(StatusEffect status)
 		{
 			return Statuses.Contains(status);
+		}
+
+		public bool HasStatusByName(string statusName)
+		{
+			foreach (var status in Statuses)
+			{
+				if (status.name == statusName) return true;
+			}
+			return false;
 		}
 	}
 }

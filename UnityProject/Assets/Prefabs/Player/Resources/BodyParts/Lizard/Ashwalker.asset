@@ -109,6 +109,15 @@ MonoBehaviour:
         BodyNutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
           type: 2}
         CashedHungerState: 1
+        HungerStatusEffects:
+          NotHungryStatusEffect: {fileID: 11400000, guid: 8a92c094201a758498a79523323565eb,
+            type: 2}
+          StravingStatusEffect: {fileID: 11400000, guid: 8526c1e024fdd1e4d8bc35595159d8a4,
+            type: 2}
+          HungryStatusEffect: {fileID: 11400000, guid: a7b8118c2b73a574cbb4425327020959,
+            type: 2}
+          FatStatusEffect: {fileID: 11400000, guid: 8a92c094201a758498a79523323565eb,
+            type: 2}
     - rid: 5920833068371804166
       type: {class: NaturalChemicalReleaseSystem, ns: HealthV2.Living.PolymorphicSystems,
         asm: Assets}

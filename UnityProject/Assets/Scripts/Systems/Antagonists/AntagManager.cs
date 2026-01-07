@@ -269,13 +269,13 @@ namespace Antagonists
 		{
 			foreach (var x in PlayerList.Instance.AllPlayers)
 			{
-				if (x?.Mind?.AntagPublic?.Antagonist != null && x?.Mind?.AntagPublic?.Objectives?.Any() == true)
+				if (x?.Mind?.AntagPublic?.Objectives?.Any() == true)
 				{
-					foreach (var Objective in x.Mind.AntagPublic.Objectives)
+					foreach (var objective in x.Mind.AntagPublic.Objectives)
 					{
 						try
 						{
-							Objective.OnRoundEnd();
+							objective.OnRoundEnd();
 						}
 						catch (Exception e)
 						{
@@ -287,7 +287,6 @@ namespace Antagonists
 
 
 			List<SpawnedAntag> AlreadyPrinted = new List<SpawnedAntag>();
-
 			StringBuilder statusSB = new StringBuilder();
 
 			var message = new StringBuilder();
@@ -330,8 +329,7 @@ namespace Antagonists
 			{
 				try
 				{
-					if (x.Mind?.AntagPublic?.Antagonist != null
-					    && x.Mind?.AntagPublic?.CurTeam == null
+					if (x.Mind?.AntagPublic?.CurTeam == null
 					    && x.Mind?.AntagPublic?.Objectives.Any() == true
 					    && AlreadyPrinted.Contains(x?.Mind?.AntagPublic) == false)
 					{

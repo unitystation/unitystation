@@ -20,7 +20,6 @@ using HealthV2.Living.PolymorphicSystems;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Items.Implants.Organs;
 using JetBrains.Annotations;
-using Logs;
 using NaughtyAttributes;
 using Player;
 using ScriptableObjects.RP;
@@ -30,6 +29,7 @@ using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Systems.Character;
+using UI.Core.Alerts;
 using Util.Independent.FluentRichText;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
