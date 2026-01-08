@@ -2339,7 +2339,7 @@ namespace HealthV2
 					var added  = BodyPartStorage.ServerTryAdd(bodyPartObject);
 					if (added == false)
 					{
-						Loggy.Error(
+						Logs.Loggy.Error(
 							$"Unable to add body part {bodyPartObject.name} May have run out of slots or not have the right item attribute");
 					}
 				}
