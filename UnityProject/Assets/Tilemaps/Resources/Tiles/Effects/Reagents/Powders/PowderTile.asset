@@ -70,7 +70,8 @@ MonoBehaviour:
   connectCategory: 3
   connectType: 0
   texturePath: 
-  Blacklist: []
+  Blacklist:
+  - {fileID: 11400000, guid: 5d941cb1e15db2644a027f2da315fc69, type: 2}
   WhiteList: []
   AnimationSpeed: 1
   AnimationStartTime: 0

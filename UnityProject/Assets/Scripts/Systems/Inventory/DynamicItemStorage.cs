@@ -1303,29 +1303,37 @@ public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlP
 
 	public void OnPlayerRejoin(Mind mind)
 	{
-		//Trigger IOnPlayerRejoin for all items in player inventory
-		foreach (var itemSlot in GetItemSlotTree())
+		try
 		{
-			if (itemSlot.IsEmpty) continue;
-
-			var playerRejoins = itemSlot.ItemObject.GetComponents<IOnPlayerRejoin>();
-			foreach (var playerRejoin in playerRejoins)
+			//Trigger IOnPlayerRejoin for all items in player inventory
+			foreach (var itemSlot in GetItemSlotTree())
 			{
-				playerRejoin.OnPlayerRejoin(mind);
+				if (itemSlot.IsEmpty) continue;
+
+				var playerRejoins = itemSlot.ItemObject.GetComponents<IOnPlayerRejoin>();
+				foreach (var playerRejoin in playerRejoins)
+				{
+					playerRejoin.OnPlayerRejoin(mind);
+				}
+			}
+
+			//Gets all the Storage game objects that make up the dynamic item storage
+			var InventoryObjects = GetContainedInventorys();
+
+			foreach (var InventoryObject in InventoryObjects)
+			{
+				var playerRejoins = InventoryObject.GameObject.GetComponents<IOnPlayerRejoin>();
+				foreach (var playerRejoin in playerRejoins)
+				{
+					playerRejoin.OnPlayerRejoin(mind);
+				}
 			}
 		}
-
-		//Gets all the Storage game objects that make up the dynamic item storage
-		var InventoryObjects = GetContainedInventorys();
-
-		foreach (var InventoryObject in InventoryObjects)
+		catch (Exception e)
 		{
-			var playerRejoins = InventoryObject.GameObject.GetComponents<IOnPlayerRejoin>();
-			foreach (var playerRejoin in playerRejoins)
-			{
-				playerRejoin.OnPlayerRejoin(mind);
-			}
+			Loggy.Error(e.ToString());
 		}
+
 	}
 
 	public void OnServerPlayerTransfer(PlayerInfo Account)

@@ -81,7 +81,7 @@ namespace AddressableReferences
 					}
 					else
 					{
-						Loggy.Error("Address is invalid for " + AssetReference, Category.Addressables);
+						Loggy.Error("Address is invalid for " + AssetReference, Category.Addressables, LogOption.NoStacktrace);
 					}
 				}
 			}

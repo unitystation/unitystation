@@ -212,18 +212,23 @@ public class IVDrip : MonoBehaviour, ICheckedInteractable<HandApply>, ICheckedIn
 		if (Health == null)
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+			UpdateBagSprite();
 			return;
 		}
 
 		if (Health.reagentPoolSystem == null)
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+			UpdateBagSprite();
+			Health = null;
 			return;
 		}
 
 		if (bagSlot.Item == null)
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+			UpdateBagSprite();
+			Health = null;
 			return;
 		}
 

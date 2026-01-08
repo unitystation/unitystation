@@ -11,4 +11,5 @@ public class CommonTiles : SingletonScriptableObject<CommonTiles>
 	public OverlayTile PowderSalt;
 	public OverlayTile Powder;
 	public OverlayTile Liquid;
+	public OverlayTile LiquidBig;
 }

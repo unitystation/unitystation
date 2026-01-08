@@ -115,7 +115,7 @@ namespace Effects.FloorEffect
 				var localChange = currentPosition.ToLocal(me.RegisterPlayer.Matrix) - oldPosition.ToLocal(me.RegisterPlayer.Matrix);
 				var orientation = Orientation.FromAsEnum(localChange);
 
-				if (Reagents?.Total > 0)
+				if (Reagents?.Total > 0 && Reagents.MixState != ReagentState.Solid)
 				{
 					MatrixManager.ReagentReact(reagents, currentPosition, null, false, me.CurrentDirection);
 				}
