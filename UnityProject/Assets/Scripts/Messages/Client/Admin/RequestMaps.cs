@@ -1,7 +1,12 @@
 using Messages.Client;
 using Messages.Client.Admin;
 using Mirror;
+using ServerMessage;
 using UnityEngine;
+
+namespace ClientMessage
+{
+
 
 public class RequestMaps : ClientMessage<RequestMaps.NetMessage>
 {
@@ -26,4 +31,5 @@ public class RequestMaps : ClientMessage<RequestMaps.NetMessage>
 		return msg;
 	}
 
+}
 }

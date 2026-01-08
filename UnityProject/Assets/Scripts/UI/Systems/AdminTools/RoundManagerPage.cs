@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using AdminTools;
 using AdminCommands;
+using ClientMessage;
 using Managers;
 using Messages.Client.Admin;
 using Strings;

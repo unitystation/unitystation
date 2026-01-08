@@ -3,6 +3,10 @@ using Messages.Server;
 using Mirror;
 using UnityEngine;
 
+namespace ServerMessage
+{
+
+
 public class AvailableMapsMessage  : ServerMessage<AvailableMapsMessage.NetMessage>
 {
 	public struct NetMessage : NetworkMessage
@@ -25,4 +29,5 @@ public class AvailableMapsMessage  : ServerMessage<AvailableMapsMessage.NetMessa
 		};
 		SendTo(admin, message);
 	}
+}
 }

@@ -247,7 +247,7 @@ namespace Chemistry.Components
 				ContainedAdditionalReactions,
 				possibleReactions,
 				ReactionSet,
-				this.gameObject.AssumedWorldPosServer(),
+				this.gameObject.AssumedWorldPosServer(false),
 				ReactionSounds,
 				applyChange,
 				cacheEffects

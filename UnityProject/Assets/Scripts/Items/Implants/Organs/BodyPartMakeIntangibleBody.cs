@@ -1,6 +1,10 @@
 using HealthV2;
 using UnityEngine;
 
+namespace  ABodyPart
+{
+
+
 public class BodyPartMakeIntangibleBody : BodyPartFunctionality
 {
 	public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
@@ -16,4 +20,5 @@ public class BodyPartMakeIntangibleBody : BodyPartFunctionality
 		Object.Intangible = false;
 		base.OnRemovedFromBody(livingHealth, source);
 	}
+}
 }

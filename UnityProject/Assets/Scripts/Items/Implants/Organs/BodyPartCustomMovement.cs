@@ -3,6 +3,9 @@ using HealthV2;
 using Mirror;
 using UnityEngine;
 
+namespace Movement
+{
+
 public class BodyPartCustomMovement : BodyPartFunctionality
 {
 
@@ -49,4 +52,5 @@ public class BodyPartCustomMovement : BodyPartFunctionality
 	}
 
 
+}
 }
