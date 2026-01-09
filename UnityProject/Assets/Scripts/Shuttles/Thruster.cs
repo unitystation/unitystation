@@ -32,6 +32,9 @@ public class Thruster : MonoPipe
 
 	public float AThrusterUseMultiplier = 0.072975f;
 
+	[Tooltip("just affect how much fuel it eats doesn't affect thrust")]
+	public float ThrusterMolesConsumptionRate = 1;
+
 	[SyncVar] public float ThrustPower;
 
 	public bool SelfPowered = false;
@@ -108,7 +111,7 @@ public class Thruster : MonoPipe
 		}
 
 
-		float MoreConsumptionMultiplier = 1;
+		float MoreConsumptionMultiplier = ThrusterMolesConsumptionRate;
 		float ThrustMultiplier = 0;
 
 		var Mix = pipeData.mixAndVolume;
@@ -246,7 +249,7 @@ public class Thruster : MonoPipe
 	    }
 
 
-	    float MoreConsumptionMultiplier = 1;
+	    float MoreConsumptionMultiplier = ThrusterMolesConsumptionRate;
 	    float ThrustMultiplier = 0;
 
 	    var Mix = pipeData.mixAndVolume;
@@ -289,7 +292,7 @@ public class Thruster : MonoPipe
 	    // var Ratio = ((Plasma / Oxygen) / (7f / 3f));
 	    ThrustPower = TargetMolesUsed * ThrustMultiplier * ThrusterMultiplier * PrefabThrusterMultiplier;
 	    var UsedMoles = TargetMolesUsed* MoreConsumptionMultiplier * AThrusterUseMultiplier;
-	    AtmosphericsSetUsage((TargetMolesUsed* MoreConsumptionMultiplier) / MaxMolesUseda );
+	    AtmosphericsSetUsage((TargetMolesUsed* MoreConsumptionMultiplier) / (MaxMolesUseda * ThrusterMolesConsumptionRate));
 	    InletPressure = Mix.GetGasMix().Pressure;
 	    Mix.Remove(new Vector2(UsedMoles, UsedMoles));
 

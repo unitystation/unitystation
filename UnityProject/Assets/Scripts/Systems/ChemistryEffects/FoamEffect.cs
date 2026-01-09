@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Chemistry;
 using Chemistry.Components;
 using Logs;
 using UnityEngine;
@@ -12,17 +13,13 @@ public class FoamEffect : Chemistry.Effect
 	public bool WallFoam = false;
 	public bool SmartWallFoam = false;
 
-	public override void Apply(MonoBehaviour sender, float amount)
+	public override void Apply(MonoBehaviour sender, ReagentMix ReagentMix ,Vector3 WorldPosition , float amount)
 	{
-		amount = (int) Math.Floor(amount);
-		var senderPosition = sender.gameObject.AssumedWorldPosServer();
-		var Container = sender.gameObject.GetComponent<ReagentContainer>(); //Not the best thing but see how it Does
-		if (Container == null)
-		{
-			Loggy.Error($"no ReagentContainer on {sender.gameObject} for smoke reaction");
-			return;
-		}
 
-		SmokeAndFoamManager.StartFoamAt(senderPosition,Container.CurrentReagentMix, (int)amount, WallFoam, SmartWallFoam);
+		if (sender == null) return;
+		amount = (int) Math.Floor(amount);
+		var senderPosition = WorldPosition;
+
+		SmokeAndFoamManager.StartFoamAt(senderPosition,ReagentMix, (int)amount, WallFoam, SmartWallFoam);
 	}
 }

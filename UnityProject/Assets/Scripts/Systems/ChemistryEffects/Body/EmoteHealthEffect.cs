@@ -16,8 +16,9 @@ namespace Chemistry
 		[SerializeField] private BodyHealthEmoteEffect.EmoteTypeAndChance EmoteEffect = new();
 
 
-		public override void Apply(MonoBehaviour sender, float amount)
+		public override void Apply(MonoBehaviour sender, ReagentMix  ReagentMix,Vector3 WorldPosition , float amount)
 		{
+			if (sender == null) return;
 			if (DMMath.Prob(EmoteEffect.ChancePerTick) == false) return;
 			if (sender.TryGetComponent<ItemAttributesV2>(out var attributes) == false) return;
 			if (requiredTrait == true && attributes.HasTrait(requiredTrait) == false) return;

@@ -26,8 +26,9 @@ namespace Chemistry.Effects
 		RaycastHit2D[] hits = new RaycastHit2D[1];
 
 
-		public override void Apply(MonoBehaviour sender, float amount)
+		public override void Apply(MonoBehaviour sender, ReagentMix ReagentMix, Vector3 WorldPosition, float amount)
 		{
+			if (sender == null) return;
 			if (sender is MetabolismComponent metabolismComponent == false) return;
 			if (metabolismComponent.RelatedPart.HealthMaster == false) return;
 

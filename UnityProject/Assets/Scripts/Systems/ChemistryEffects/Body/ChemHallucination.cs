@@ -30,8 +30,9 @@ namespace Chemistry.Effects
 		[SerializeField] protected List<EmoteSO> possibleEmotes;
 
 
-		public override void Apply(MonoBehaviour sender, float amount)
+		public override void Apply(MonoBehaviour sender, ReagentMix ReagentMix , Vector3 WorldPosition , float amount)
 		{
+			if (sender == null) return;
 			if (Random.Range(0, 100)>percentageChance)
 			{
 				PlayerScript player = sender.GetComponent<PlayerScript>();

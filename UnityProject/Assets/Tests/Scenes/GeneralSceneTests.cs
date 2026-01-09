@@ -1,10 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Doors;
 using NUnit.Framework;
 using Objects.Atmospherics;
 using Objects.Disposals;
+using Objects.Engineering;
+using Objects.Lighting;
+using Objects.Wallmounts;
 using Shuttles;
+using Systems.Electricity;
+using Systems.Pipes;
+using Systems.Scenes.Electricity;
 using TileManagement;
 using Tilemaps.Behaviours.Layers;
 using Tiles;
@@ -13,6 +20,7 @@ using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.Tilemaps;
 using Object = UnityEngine.Object;
+using PipeLayer = Tilemaps.Behaviours.Layers.PipeLayer;
 
 namespace Tests.Scenes
 {
@@ -324,6 +332,289 @@ namespace Tests.Scenes
 			}
 
 			Report.AssertPassed();
+		}
+
+			/// <summary>
+		/// Finds all APCs
+		/// Checks if Device list is empty
+		/// if there are null values in the list
+		/// if device is not assigned to this APC
+		/// </summary>
+		[Test]
+		public void APCPoweredDevicesHaveRelatedAPC()
+		{
+			foreach (var device in RootObjects.ComponentsInChildren<APCPoweredDevice>().NotNull())
+			{
+				if (device.IsSelfPowered) continue;
+				if (device.MappingNotNeedToLink) continue;
+				if (device.GetComponentInChildren<AutoAPCLinker>() != null) continue;
+
+				var deviceLocation = device.transform.NameAndPosition();
+				var relatedAPC = device.RelatedAPC;
+
+				if (relatedAPC == null)
+				{
+					Report.Fail().AppendLine($"{Scene.name}: {deviceLocation} has a missing APC reference");
+					continue;
+				}
+
+				var apcLocation = relatedAPC.transform.NameAndPosition("APC");
+				Report.FailIf(relatedAPC.ConnectedDevices.Contains(device) == false)
+					.AppendLine($"{Scene.name}: {deviceLocation} is connected to ")
+					.AppendLine($"{apcLocation} but the APC doesn't have this device.");
+			}
+
+			Report.AssertPassed();
+		}
+
+		/// <summary>
+		/// Finds all APCs
+		/// Checks if Device list is empty
+		/// if there are null values in the list
+		/// if device is not assigned to this APC
+		/// </summary>
+		[Test]
+		public void APCsConnectedDevicesContainsValidReferences()
+		{
+			var sceneName = Scene.name;
+			foreach (var apc in RootObjects.ComponentsInChildren<APC>().NotNull())
+			{
+				var apcTransform = apc.transform;
+
+				foreach (var (connectedDevice, index) in apc.ConnectedDevices.WithIndex())
+				{
+					var apcLocation = apcTransform.NameAndPosition("APC");
+
+					if (connectedDevice == null)
+					{
+						Report.Fail()
+							.AppendLine($"{sceneName}: {apcLocation} has a null value in the list at index {index}.");
+						continue;
+					}
+
+					var relatedAPC = connectedDevice.RelatedAPC;
+
+					Report.FailIfNot(relatedAPC, Is.EqualTo(apc))
+						.Append($"{sceneName}: {connectedDevice.transform.NameAndPosition("Device")} ")
+						.Append($"is not connected to {apcLocation}.")
+						.AppendLine();
+
+					var currentAPC = "nothing";
+
+					if (relatedAPC != null)
+					{
+						currentAPC = $"{relatedAPC.transform.NameAndPosition()}";
+						Report.Append("The APC's devices list may unintentionally contain this device. ");
+					}
+
+					Report.Append($"The device is currently connected to {currentAPC}.")
+						.AppendLine();
+				}
+			}
+
+			Report.AssertPassed();
+		}
+
+		[Test]
+		public void StatusDisplaysDoNotHaveNullDoors()
+		{
+			foreach (var display in RootObjects.ComponentsInChildren<StatusDisplay>().NotNull())
+			{
+				var position = display.transform.position;
+				foreach (var doorController in display.NewdoorControllers)
+				{
+					Report.FailIf(doorController, Is.Null)
+						.AppendLine($"{Scene.name}: \"{display.name}\" at {position} has a null {nameof(DoorMasterController)}.");
+				}
+			}
+
+			Report.AssertPassed();
+		}
+
+		[Test]
+		public void LightSourcesDoNotHaveMissingSwitch()
+		{
+			foreach (var lightSource in RootObjects.ComponentsInChildren<LightSource>().NotNull())
+			{
+				if (lightSource.IsWithoutSwitch) continue;
+
+				var position = lightSource.transform.position;
+				Report.FailIf(lightSource.relatedLightSwitch, Is.Null)
+					.AppendLine($"{Scene.name}: \"{lightSource.name}\" at {position} has a missing switch reference.");
+			}
+
+			Report.AssertPassed();
+		}
+
+		[Test]
+		public void LightSwitchesHaveLightSources()
+		{
+			foreach (var lightSwitch in RootObjects.ComponentsInChildren<LightSwitchV2>().NotNull())
+			{
+				var position = lightSwitch.transform.position;
+				Report.FailIf(lightSwitch.listOfLights.Count, Is.EqualTo(0))
+					.AppendLine($"{Scene.name}: \"{lightSwitch.name}\" at {position} has no light sources.");
+			}
+
+			Report.AssertPassed();
+		}
+
+				/// <summary>
+		/// Checks to make sure all monopipes (vents, scrubbers, etc...) are connected to pipes
+		/// </summary>
+		[Test]
+		public void MonoPipeConnectedToNet()
+		{
+			var monoPipes = RootObjects.ComponentsInChildren<MonoPipe>().NotNull().ToList();
+
+			foreach (var mono in monoPipes)
+			{
+				mono.pipeData.MonoPipe = mono;
+
+				int offset = PipeFunctions.GetOffsetAngle(mono.transform.localRotation.eulerAngles.z);
+				mono.pipeData.Connections.Rotate(offset);
+			}
+
+			foreach (var device in monoPipes)
+			{
+				var vent = device as AirVent;
+				if (vent != null && vent.SelfSufficient) continue;
+
+				var scrubber = device as Scrubber;
+				if (scrubber != null && scrubber.SelfSufficient) continue;
+
+				if (device.pipeData.SelfSufficient) continue;
+
+				if (device.pipeData.MappingNotRequiresLink) continue;
+
+				var pipeLayer = device.transform.parent.OrNull()?.parent.OrNull()?.GetComponentInChildren<PipeLayer>();
+
+				if (pipeLayer == null)
+				{
+					Report.Fail().AppendLine($"{Scene.name}: {device.gameObject.ExpensiveName()} worldPos: {device.transform.position} localPos: {device.transform.localPosition}, cannot find pipe layer!");
+					continue;
+				}
+
+				var connectionsNeeded = 0;
+
+				foreach (var connection in device.pipeData.Connections.Directions)
+				{
+					if(connection.Bool == false) continue;
+					if(connection.MappedNeeded == false) continue;
+
+					connectionsNeeded++;
+				}
+
+				if(connectionsNeeded == 0) continue;
+
+				var pipes = GetConnectedPipes(device.pipeData,
+					device.transform.localPosition.RoundToInt(), pipeLayer, monoPipes);
+
+				if (connectionsNeeded == pipes.Count)
+				{
+					continue;
+				}
+
+				Report.Fail()
+					.AppendLine($"\n{Scene.name}: {device.name} worldPos: {device.transform.position} localPos: {device.transform.localPosition}")
+					.AppendLine($"has {pipes.Count} pipe connections but needs {connectionsNeeded}!");
+
+				foreach (var pipe in pipes)
+				{
+					Report.AppendLine($"{pipe.Item2}");
+				}
+			}
+
+			Report.AssertPassed();
+		}
+
+		private List<(PipeData, string)> GetConnectedPipes(PipeData pipeData, Vector3Int location, PipeLayer pipeLayer, List<MonoPipe> monoPipes)
+		{
+			var pipes = new List<(PipeData, string)>();
+
+			for (var i = 0; i < pipeData.Connections.Directions.Length; i++)
+			{
+				if (pipeData.Connections.Directions[i].Bool)
+				{
+					Vector3Int searchVector = Vector3Int.zero;
+					switch (i)
+					{
+						case (int) PipeDirection.North:
+							searchVector = Vector3Int.up;
+							break;
+
+						case (int) PipeDirection.East:
+							searchVector = Vector3Int.right;
+							break;
+
+						case (int) PipeDirection.South:
+							searchVector = Vector3Int.down;
+							break;
+
+						case (int) PipeDirection.West:
+							searchVector = Vector3Int.left;
+							break;
+					}
+
+					searchVector = location + searchVector;
+					searchVector.z = 0;
+					var pipesOnTile = GetPipes(pipeLayer, searchVector, monoPipes);
+					foreach (var pipe in pipesOnTile)
+					{
+						if (PipeFunctions.ArePipeCompatible(pipeData, i, pipe.Item1, out var pipe1ConnectAndType))
+						{
+							pipe1ConnectAndType.Connected = pipe.Item1;
+							pipes.Add((pipe.Item1, pipe.Item2));
+						}
+					}
+				}
+			}
+
+			return pipes;
+		}
+
+		private List<(PipeData, string)> GetPipes(PipeLayer pipeLayer, Vector3Int localPos, List<MonoPipe> monoPipes)
+		{
+			var pipeData = new List<(PipeData, string)>();
+
+			//-5 to 5 z, hopefully enough?
+			var count = -5;
+			var position = localPos;
+
+			//Apparently theres no good way to get all tiles in the same x,y but different z
+			while (count <= 5)
+			{
+				position.z = count;
+				var pipe = pipeLayer.Tilemap.GetTile(position);
+
+				var pipeTile = pipe as PipeTile;
+				if (pipeTile == null)
+				{
+					count++;
+					continue;
+				}
+
+				var pipeTilesRotation = pipeLayer.Tilemap.GetTransformMatrix(position);
+				var offset = PipeFunctions.GetOffsetAngle(pipeTilesRotation.rotation.eulerAngles.z);
+				var data = new PipeData();
+				data.SetUp(pipeTile, offset);
+
+				pipeData.Add((data, pipeTile.name));
+
+				count++;
+			}
+
+			var pipeLayerParentTransform = pipeLayer.transform.parent;
+
+			var monoStuff = monoPipes.Where(x => x.transform.localPosition.RoundToInt() == localPos &&
+			                                     x.transform.parent.OrNull()?.parent == pipeLayerParentTransform);
+
+			foreach (var mono in monoStuff)
+			{
+				pipeData.Add((mono.pipeData, mono.name));
+			}
+
+			return pipeData;
 		}
 	}
 }

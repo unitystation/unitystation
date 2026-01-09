@@ -810,7 +810,8 @@ public partial class Chat
 		{Speech.Swedish, ChatModifier.Swedish},
 		{Speech.Chav, ChatModifier.Chav},
 		{Speech.Stutter, ChatModifier.Stutter},
-		{Speech.Scotsman, ChatModifier.Scotsman}
+		{Speech.Scotsman, ChatModifier.Scotsman},
+		{Speech.Unintelligible, ChatModifier.Unintelligible}
 	};
 
 	private static bool CheckForEmoteAction(string emote)

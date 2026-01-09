@@ -20,45 +20,17 @@ namespace Chemistry.Effects
 		[SerializeField] private GameObject cataclysmPrefab = null;
 		[SerializeField] private float cataclysmThreshold = 2000;
 
-		public override IEnumerator NowExplosion(MonoBehaviour sender, float amount)
+		public override IEnumerator NowExplosion(MonoBehaviour sender,ReagentMix ReagentMix,  Vector3 WorldPosition, float amount)
 		{
 			yield return WaitFor.Seconds(Delay);
 
-			UniversalObjectPhysics objectBehaviour = sender.GetComponentCustom<UniversalObjectPhysics>();
-			RegisterObject registerObject = sender.GetComponentCustom<RegisterObject>();
-			BodyPart bodyPart = sender.GetComponentCustom<BodyPart>();
+			float strength = ChemistryUtils.CalculateYieldFromReaction(amount, potency);
+			if (strength <= 0) yield break;
 			ExplosionNode node = ExplosionTypes.NodeTypes[explosionType];
 
-			float strength = ChemistryUtils.CalculateYieldFromReaction(amount, potency);
-
-			bool insideBody = bodyPart == true && bodyPart.HealthMaster == true;
-
-			var picked = sender.GetComponentCustom<Pickupable>();
-			if (picked != null)
-			{
-				//If sender is in an inventory use the position of the inventory.
-				if (picked.ItemSlot != null)
-				{
-					objectBehaviour = picked.ItemSlot.ItemStorage.gameObject.GetRootGameObject().GetComponentCustom<UniversalObjectPhysics>();
-					registerObject = picked.ItemSlot.ItemStorage.gameObject.GetRootGameObject().GetComponentCustom<RegisterObject>();
-				}
-			}
-
-			if (strength <= 0) yield break;
-
-			Vector3 positionOfExplosion;
-
-			if (registerObject == null)
-			{
-				if (insideBody) positionOfExplosion = bodyPart.HealthMaster.RegisterTile.WorldPosition;
-				else positionOfExplosion = objectBehaviour.registerTile.WorldPosition;
-			}
-			else positionOfExplosion = registerObject.WorldPosition;
-
-			node.ExplosionStartWorldPosition = positionOfExplosion;
-			Explosion.StartExplosion(positionOfExplosion.RoundToInt(), strength, node, stunNearbyPlayers: false, radiusMultiplier: 10);
-
-			DarkMatterMainOverlay(positionOfExplosion, Mathf.Abs(strength), node.EffectOverlayType);
+			node.ExplosionStartWorldPosition = WorldPosition;
+			Explosion.StartExplosion(WorldPosition.RoundToInt(), strength, node, stunNearbyPlayers: false, radiusMultiplier: 10);
+			_ = DarkMatterMainOverlay(WorldPosition, Mathf.Abs(strength), node.EffectOverlayType);
 		}
 
 		private async UniTask DarkMatterMainOverlay(Vector3 positionOfExplosion, float strength, OverlayType overlayType)

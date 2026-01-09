@@ -66,20 +66,20 @@ namespace Chemistry
 #endif
 		}
 
-		public virtual bool Apply(object sender, ReagentMix reagentMix)
+		public virtual bool Apply(object sender, Vector3 woldPosition , ReagentMix reagentMix)
 		{
 			if (IsReactionValid(reagentMix) == false) return false;
 
-			ApplyReaction(sender as MonoBehaviour, reagentMix);
+			ApplyReaction(sender as MonoBehaviour, woldPosition,  reagentMix);
 
 			return true;
 		}
 
-		public virtual List<CachedEffect> ApplyWithoutEffects(object sender, ReagentMix reagentMix)
+		public virtual List<CachedEffect> ApplyWithoutEffects(ReagentMix reagentMix)
 		{
 			if (IsReactionValid(reagentMix) == false) return null;
 
-			return ApplyReactionWithoutEffects(sender as MonoBehaviour, reagentMix);
+			return ApplyReactionWithoutEffects(reagentMix);
 		}
 
 		public bool IsReactionValid(ReagentMix reagentMix)
@@ -108,7 +108,7 @@ namespace Chemistry
 			return true;
 		}
 
-		public void ApplyReaction(MonoBehaviour sender, ReagentMix reagentMix)
+		public void ApplyReaction(MonoBehaviour sender, Vector3 WorldPosition, ReagentMix reagentMix)
 		{
 			var reactionMultiplier = GetReactionMultiple(reagentMix);
 
@@ -126,11 +126,11 @@ namespace Chemistry
 			foreach (var effect in effectDict.m_dict)
 			{
 				var reactionResult = reactionMultiplier * effect.Value;
-				effect.Key.Apply(sender, reactionResult);
+				effect.Key.Apply(sender, reagentMix, WorldPosition, reactionResult);
 			}
 		}
 
-		public List<CachedEffect> ApplyReactionWithoutEffects(MonoBehaviour sender, ReagentMix reagentMix)
+		public List<CachedEffect> ApplyReactionWithoutEffects( ReagentMix reagentMix)
 		{
 			List<CachedEffect> effectsToCache = new List<CachedEffect>();
 			var reactionMultiplier = GetReactionMultiple(reagentMix);

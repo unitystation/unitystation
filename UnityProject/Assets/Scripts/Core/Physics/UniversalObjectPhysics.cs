@@ -62,7 +62,7 @@ namespace Core.Physics
 		[PlayModeOnly] public int TryPushedFrame = 0;
 		[PlayModeOnly] public int PushedFrame = 0;
 		public bool ChangesDirectionPush = false;
-		public bool Intangible = false;
+		[SyncVar(hook = nameof(SyncIntangible)) ] public bool Intangible = false;
 
 		public bool MappingIntangible = false;
 
@@ -102,8 +102,8 @@ namespace Core.Physics
 		[SyncVar] private bool doNotApplyMomentumOnTarget = false;
 		[SyncVar] private BodyPartType currentAim = BodyPartType.Chest;
 
-		[SyncVar(hook = nameof(SynchroniseVisibility))]
-		private bool isVisible = true;
+		[PlayModeOnly, SyncVar(hook = nameof(SynchroniseVisibility))]
+		public bool isVisible = true;
 
 		[SyncVar(hook = nameof(SyncLocalTarget))]
 		private Vector3WithData synchLocalTargetPosition;
@@ -319,6 +319,37 @@ namespace Core.Physics
 			}
 
 			CheckNSnapToGrid(isServer);
+		}
+
+		public void SyncIntangible(bool oldv, bool newv)
+		{
+			Intangible = newv;
+
+			if (this.GetComponent<PlayerScript>() != null)
+			{
+				if (Intangible)
+				{
+					var box = this.gameObject.GetComponent<BoxCollider2D>();
+					Destroy(box);
+
+				}
+				else
+				{
+					this.gameObject.AddComponent<BoxCollider2D>();
+				}
+			}
+			else if (this.GetComponent<PlayerScript>() != null)
+			{
+				if (Intangible)
+				{
+					this.gameObject.AddComponent<BoxCollider2D>();
+				}
+				else
+				{
+					var box = this.gameObject.GetComponent<BoxCollider2D>();
+					Destroy(box);
+				}
+			}
 		}
 
 		public virtual void OnDestroy()
@@ -785,6 +816,8 @@ namespace Core.Physics
 			ForceSetLocalPosition(resetToLocal, momentum, smooth, matrixID, false, rotation, resetID: resetID,
 				localTarget: NullLocalTarget);
 		}
+
+
 
 
 		//Warning only update clients!!
@@ -1496,7 +1529,7 @@ namespace Core.Physics
 						Hits.Clear();
 						if (MatrixManager.IsPassableAtAllMatricesV2(intPosition,
 							    intNewPosition, SetMatrixCache, this,
-							    Pushing, Bumps, Hits) == false)
+							    Pushing, Bumps, Hits, ICustomTilePassable : ICustomTilePassable) == false)
 						{
 							foreach (var bump in Bumps) //Bump Whatever we Bumped into
 							{

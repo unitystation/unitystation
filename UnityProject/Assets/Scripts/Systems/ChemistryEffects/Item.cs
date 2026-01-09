@@ -7,13 +7,12 @@ namespace Chemistry.Effects
 	[Serializable]
 	public class Item : Chemistry.Effect
 	{
-		private MixingBowl senderInfo;
-		private Vector3Int senderPosition;
+		private Vector3 senderPosition;
 		public GameObject spawnItem;
 
 		public int numberToSpawn = -1;
 
-		public override void Apply(MonoBehaviour sender, float amount)
+		public override void Apply(MonoBehaviour sender,ReagentMix ReagentMix, Vector3 WorldPosition, float amount)
 		{
 			amount = (int)Math.Floor(amount);
 			if (numberToSpawn != -1)
@@ -21,19 +20,8 @@ namespace Chemistry.Effects
 				amount = numberToSpawn;
 			}
 
-			senderPosition = sender.gameObject.RegisterTile().WorldPositionServer;
-			senderInfo = sender.gameObject.GetComponent<MixingBowl>();
-			if (senderInfo != null)
-			{
-				if (senderInfo.playerHolding != null)
-					Spawn.ServerPrefab(spawnItem, senderInfo.playerHolding.WorldPositionServer, null, null, (int)amount);
-				else
-					Spawn.ServerPrefab(spawnItem, senderPosition, null, null, (int)amount);
-			}
-			else
-			{
-				Spawn.ServerPrefab(spawnItem, senderPosition, null, null, (int)amount);
-			}
+			senderPosition = WorldPosition;
+			Spawn.ServerPrefab(spawnItem, senderPosition, null, null, (int)amount);
 		}
 
 		public void SpawnStuff()

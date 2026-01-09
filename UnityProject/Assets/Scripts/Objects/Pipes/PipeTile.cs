@@ -19,7 +19,6 @@ namespace Objects.Atmospherics
 		public CustomLogic CustomLogic;
 		public Connections Connections = new Connections();
 		public bool NetCompatible = true;
-		public Sprite sprite;
 		public override Sprite PreviewSprite => sprite;
 
 		public static Connections GetRotatedConnection(PipeTile pipeTile, Matrix4x4 matrixStruct)

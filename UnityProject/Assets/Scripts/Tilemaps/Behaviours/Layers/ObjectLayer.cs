@@ -252,7 +252,7 @@ public class ObjectLayer : Layer
 				{
 					if (o.gameObject == context.PulledBy.Component.gameObject)
 					{
-						return false;
+						return true;
 					}
 				}
 			}

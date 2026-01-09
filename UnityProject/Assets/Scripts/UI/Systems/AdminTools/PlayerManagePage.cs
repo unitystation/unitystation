@@ -113,7 +113,7 @@ namespace AdminTools
 				foreach (var connectedPlayer in PlayerList.Instance.AllPlayers)
 				{
 					if(connectedPlayer.AccountId != PlayerEntry.PlayerData.uid) continue;
-					spawnOcc = connectedPlayer.Script.Mind.occupation;
+					spawnOcc = connectedPlayer?.Script?.Mind?.occupation;
 				}
 				if (spawnOcc == null)
 				{

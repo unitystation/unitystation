@@ -203,13 +203,6 @@ namespace Tiles
 		[SerializeField]
 		public List<AddressableAudioSource> SoundOnDestroy = new List<AddressableAudioSource>();
 
-		public override void RefreshTile(Vector3Int position, ITilemap tilemap)
-		{
-			foreach (Vector3Int p in new BoundsInt(-1, -1, 0, 3, 3, 1).allPositionsWithin)
-			{
-				tilemap.RefreshTile(position + p);
-			}
-		}
 
 		/// <summary>
 		/// Checks if the tile is Passable by the ColliderType
