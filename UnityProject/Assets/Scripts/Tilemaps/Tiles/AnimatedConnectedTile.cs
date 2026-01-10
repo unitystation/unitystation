@@ -10,6 +10,6 @@ namespace Tiles
 {
 	public class AnimatedConnectedTile : ConnectedTile
 	{
-		public override Sprite PreviewSprite => sprites != null && sprites.Length > 0 ? sprites[0] : null;
+
 	}
 }

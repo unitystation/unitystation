@@ -19,7 +19,7 @@ public class OverlayTile : LayerTile
 	private string overlayName = null;
 	public string OverlayName => overlayName;
 
-	public override Sprite PreviewSprite => sprite;
+
 
 	[FormerlySerializedAs("isMoppable")]
 	[Tooltip("Is this removed when the tile it's on is cleaned?")]
