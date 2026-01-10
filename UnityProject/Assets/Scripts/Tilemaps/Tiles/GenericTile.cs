@@ -21,7 +21,7 @@ namespace Tiles
 				{
 					return Sprites[0];
 				}
-				else if (Sprites != null && spriteSheet?.Sprites?.Length != 0)
+				else if (spriteSheet != null && spriteSheet?.Sprites?.Length > 0)
 				{
 					return spriteSheet.Sprites[0];
 				}
@@ -30,7 +30,7 @@ namespace Tiles
 					return spriteSheets[0].Sprites[0];
 				}
 
-				return null;
+				return _PreviewSprite;
 			}
 			set
 			{
@@ -38,7 +38,8 @@ namespace Tiles
 			}
 		}
 
-		private Sprite _PreviewSprite;
+		[HideInInspector]
+		public Sprite _PreviewSprite;
 
 		public Sprite sprite;
 		public Sprite[] Sprites;
