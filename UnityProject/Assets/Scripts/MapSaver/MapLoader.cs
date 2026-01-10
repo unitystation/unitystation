@@ -545,12 +545,12 @@ namespace MapSaver
 
 		public static IEnumerator ServerLoadMap(Vector3 Offset00, Vector3 Offset, MapSaver.MapData MapData,
 			SceneType sceneType = SceneType.HiddenScene, HashSet<LayerType> LoadLayers = null,
-			bool LoadObjects = true)
+			bool LoadObjects = true, bool TestLoad = false)
 		{
 			foreach (var ToMapMatrix in MapData.ContainedMatrices)
 			{
 				yield return ServerLoadSection(null, Offset00, Offset, ToMapMatrix, null,
-					MatrixName: ToMapMatrix.MatrixName, LoadingMultiple: true, sceneType: sceneType, LoadLayers : LoadLayers,LoadObjects :LoadObjects );
+					MatrixName: ToMapMatrix.MatrixName, LoadingMultiple: true, sceneType: sceneType, LoadLayers : LoadLayers,LoadObjects :LoadObjects, TestLoad : TestLoad );
 			}
 
 			MapSaver.CodeClass.ThisCodeClass.ReportStatus();
@@ -576,11 +576,16 @@ namespace MapSaver
 		public static IEnumerator ServerLoadSection(MatrixInfo Matrix, Vector3 Offset00, Vector3 Offset,
 			MapSaver.MatrixData MatrixData, Action completeAction, HashSet<LayerType> LoadLayers = null,
 			bool LoadObjects = true, string MatrixName = null, bool LoadingMultiple = false,
-			SceneType sceneType = SceneType.HiddenScene)
+			SceneType sceneType = SceneType.HiddenScene, bool TestLoad = false)
 		{
 #if UNITY_EDITOR
 			if (Application.isPlaying == false)
 			{
+				if (TestLoad)
+				{
+					VariableViewerManager.TestLoad = TestLoad;
+				}
+
 				(CommonManagerEditorOnly.Instance.VariableViewerManager as IInitialise).Initialise();
 				TileManager.Instance = CommonManagerEditorOnly.Instance.TileManager;
 				if (CommonManagerEditorOnly.Instance.TileManager.AllTiles.Count == 0)
@@ -723,6 +728,16 @@ namespace MapSaver
 			{
 				Loggy.Error(e.ToString());
 			}
+
+#if UNITY_EDITOR
+			if (Application.isPlaying == false)
+			{
+				if (TestLoad)
+				{
+					VariableViewerManager.TestLoad = false;
+				}
+			}
+#endif
 		}
 	}
 }
