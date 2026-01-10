@@ -17,15 +17,15 @@ namespace Tiles
 				{
 					return sprite;
 				}
-				else if (Sprites != null && Sprites.Length != 0)
+				else if (Sprites != null && Sprites.Length > 0)
 				{
 					return Sprites[0];
 				}
-				else if (spriteSheet.Sprites.Length != 0)
+				else if (Sprites != null && spriteSheet?.Sprites?.Length != 0)
 				{
 					return spriteSheet.Sprites[0];
 				}
-				else if (spriteSheets.Count > 0)
+				else if (spriteSheets?.Count > 0)
 				{
 					return spriteSheets[0].Sprites[0];
 				}
@@ -98,7 +98,7 @@ namespace Tiles
 				tileAnimationData.animatedSprites = new []{PreviewSprite};
 				tileAnimationData.animationSpeed = AnimationSpeed;
 				tileAnimationData.flags = TileAnimationFlags;
-				return true;
+				return false;
 			}
 
 			if (spriteSheets.Count > 0)
