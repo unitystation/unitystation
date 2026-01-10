@@ -9,7 +9,37 @@ namespace Tiles
 {
 	public abstract class GenericTile : TileBase
 	{
-		public virtual Sprite PreviewSprite { get; set; }
+		public virtual Sprite PreviewSprite
+		{
+			get
+			{
+				if (sprite != null)
+				{
+					return sprite;
+				}
+				else if (Sprites != null && Sprites.Length != 0)
+				{
+					return Sprites[0];
+				}
+				else if (spriteSheet.Sprites.Length != 0)
+				{
+					return spriteSheet.Sprites[0];
+				}
+				else if (spriteSheets.Count > 0)
+				{
+					return spriteSheets[0].Sprites[0];
+				}
+
+				return null;
+			}
+			set
+			{
+				_PreviewSprite = value;
+			}
+		}
+
+		private Sprite _PreviewSprite;
+
 		public Sprite sprite;
 		public Sprite[] Sprites;
 		public SpriteSheetAndData spriteSheet;
@@ -68,7 +98,7 @@ namespace Tiles
 				tileAnimationData.animatedSprites = new []{PreviewSprite};
 				tileAnimationData.animationSpeed = AnimationSpeed;
 				tileAnimationData.flags = TileAnimationFlags;
-				return false;
+				return true;
 			}
 
 			if (spriteSheets.Count > 0)
@@ -149,7 +179,7 @@ namespace Tiles
 		public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
 		{
 
-			if (spriteSheet.Texture == null && spriteSheets.Count == 0)
+			if (spriteSheet?.Texture == null && spriteSheets?.Count == 0)
 			{
 				tileData.sprite = PreviewSprite;
 				tileData.flags = TileFlags.None;

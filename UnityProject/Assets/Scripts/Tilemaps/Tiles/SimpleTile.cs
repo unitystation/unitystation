@@ -7,7 +7,7 @@ namespace Tiles
 {
 	public class SimpleTile : BasicTile
 	{
-		public override Sprite PreviewSprite => sprite;
+
 
 		public bool CanBeHighlightedThroughScanners = false;
 

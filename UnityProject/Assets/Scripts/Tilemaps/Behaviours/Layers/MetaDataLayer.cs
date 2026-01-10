@@ -122,14 +122,6 @@ public class MetaDataLayer : MonoBehaviour
 				trackedTilesWithReagentsOnThem.Remove(toRemove);
 				continue;
 			}
-
-			TimeSpan timeDifference = DateTime.UtcNow - toRemove.ReagentsOnTile.LastModificationTime;
-			if (timeDifference.TotalSeconds + toRemove.ReagentsOnTile.reagents.Count <= 200) continue;
-			if (toRemove.ReagentsOnTile == null) continue;
-			if (toRemove.ReagentsOnTile.MixState == ReagentState.Solid) continue;
-			RemoveLiquidOnTile(toRemove.LocalPosition, toRemove);
-			trackedTilesWithReagentsOnThem.Remove(toRemove);
-			yield return WaitFor.EndOfFrame;
 		}
 	}
 

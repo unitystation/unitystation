@@ -5,5 +5,5 @@ using UnityEngine.Tilemaps;
 public class AnimatedOverlayTile : OverlayTile
 {
 
-	public override Sprite PreviewSprite => Sprites.Length > 0 ? Sprites[0] : null;
+
 }

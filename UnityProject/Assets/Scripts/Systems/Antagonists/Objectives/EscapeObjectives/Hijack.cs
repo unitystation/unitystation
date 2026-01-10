@@ -27,7 +27,7 @@ namespace Antagonists
 		protected override bool IsPossibleInternal(Mind candidate)
 		{
 			if ((GameManager.Instance.CurrentRoundState == RoundState.PreRound ?
-				    PlayerList.Instance.ReadyPlayers.Count : PlayerList.Instance.InGamePlayers.Count)
+				    PlayerList.PlayersOnServer : PlayerList.Instance.InGamePlayers.Count)
 			    >= numberOfPlayersRequired)
 			{
 				return true;
