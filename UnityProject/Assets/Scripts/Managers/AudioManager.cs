@@ -259,7 +259,7 @@ namespace Audio.Containers
             {
                 Loggy.Error(
                     $"AddressableAudioSource in AudioManager failed to load from address: {addressableAudioSourceFromCache.AssetAddress}",
-                    Category.Audio);
+                    Category.Audio, LogOption.NoStacktrace);
                 return null;
             }
 
@@ -267,7 +267,7 @@ namespace Audio.Containers
             {
                 Loggy.Error(
                     $"AddressableAudioSource in AudioManager doesn't contain an AudioSource: {addressableAudioSourceFromCache.AssetAddress}",
-                    Category.Audio);
+                    Category.Audio, LogOption.NoStacktrace);
                 return null;
             }
 

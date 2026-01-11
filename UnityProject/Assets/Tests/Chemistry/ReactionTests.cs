@@ -16,7 +16,7 @@ namespace Tests.Chemistry
 		[TestCaseSource(nameof(ReactionTestData))]
 		public void SimpleReaction(ReagentMix mix, Reaction reaction, ReagentMix result)
 		{
-			reaction.Apply(null, mix);
+			reaction.Apply(null,  Vector3.zero, mix);
 
 			Assert.True(mix.ContentEquals(result));
 		}

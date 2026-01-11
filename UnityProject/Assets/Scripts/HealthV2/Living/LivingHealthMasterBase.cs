@@ -20,7 +20,6 @@ using HealthV2.Living.PolymorphicSystems;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Items.Implants.Organs;
 using JetBrains.Annotations;
-using Logs;
 using NaughtyAttributes;
 using Player;
 using ScriptableObjects.RP;
@@ -30,6 +29,7 @@ using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 using Systems.Character;
+using UI.Core.Alerts;
 using Util.Independent.FluentRichText;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
@@ -526,7 +526,6 @@ namespace HealthV2
 
 		public void AddOrgan(Type OrganType, BodyPartFunctionality BodyPartFunctionality)
 		{
-
 			if (BodyOrganLookup.ContainsKey(OrganType) == false)
 			{
 				BodyOrganLookup[OrganType] = new List<BodyPartFunctionality>();
@@ -615,7 +614,7 @@ namespace HealthV2
 						}
 					}
 				}
-				if (hasBodyPart) reaction.Key.Apply(this, storage.Value);
+				if (hasBodyPart) reaction.Key.Apply(this, this.gameObject.AssumedWorldPosServer(),  storage.Value);
 			}
 		}
 
@@ -2337,7 +2336,12 @@ namespace HealthV2
 				foreach (var ToSpawn in ListToSpawn.Elements)
 				{
 					var bodyPartObject = Spawn.ServerPrefab(ToSpawn, spawnManualContents: true).GameObject;
-					BodyPartStorage.ServerTryAdd(bodyPartObject);
+					var added  = BodyPartStorage.ServerTryAdd(bodyPartObject);
+					if (added == false)
+					{
+						Logs.Loggy.Error(
+							$"Unable to add body part {bodyPartObject.name} May have run out of slots or not have the right item attribute");
+					}
 				}
 			}
 		}

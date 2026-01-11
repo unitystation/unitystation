@@ -66,6 +66,17 @@ public static class VectorExtensions
 		return v;
 	}
 
+	public static List<Vector3> GetNeighbors(this Vector3 v)
+	{
+		return new List<Vector3>
+		{
+			v + new Vector3(1, 0, 0),
+			v + new Vector3(-1, 0, 0),
+			v + new Vector3(0, 1, 0),
+			v + new Vector3(0, -1, 0)
+		};
+	}
+
 	public static List<Vector3Int> GetNeighbors(this Vector3Int v)
 	{
 		return new List<Vector3Int>

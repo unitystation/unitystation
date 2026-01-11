@@ -26,15 +26,16 @@ namespace Chemistry.Effects
 		[FormerlySerializedAs("DamageChancePercent")] [SerializeField] private float damageChancePercent = 1;
 		[SerializeField] private ItemTrait requiredItemTrait = null;
 
-		public override void Apply(MonoBehaviour sender, float amount)
+		public override void Apply(MonoBehaviour sender, ReagentMix ReagentMix, Vector3 WorldPosition , float amount)
 		{
+			if (sender == null) return;
 			if (DMMath.Prob(damageChancePercent) == false) return;
 
 			var metabolismComponent = sender as MetabolismComponent;
 			if (metabolismComponent is null) return;
 
 			if (requiredItemTrait != null && metabolismComponent.RelatedPart.ItemAttributes.HasTrait(requiredItemTrait) == false) return;
-			
+
 			foreach (var damage in damageToDeal)
 			{
 				metabolismComponent.RelatedPart.TakeDamage(metabolismComponent.gameObject, damage.damageAmount, AttackType.Bio, damage.damageType);

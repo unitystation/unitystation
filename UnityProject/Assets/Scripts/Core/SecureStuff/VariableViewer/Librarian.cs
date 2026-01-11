@@ -273,27 +273,30 @@ namespace SecureStuff
 									Sentence _sentence = new Sentence();
 									_sentence.ValueVariable = c;
 									_sentence.OnPageID = Page.ID;
-									_sentence.ValueVariableType = c.GetType();
+									_sentence.ValueVariableType = c?.GetType();
 									_sentence.SentenceID = Page.ASentenceID;
 									Page.IDtoSentence[_sentence.SentenceID] = _sentence;
 									Page.ASentenceID++;
-									Type valueType = c.GetType();
-									if (valueType.IsGenericType)
+									if (c != null)
 									{
-										Type baseType = valueType.GetGenericTypeDefinition();
-										if (baseType == typeof(KeyValuePair<,>))
+										Type valueType = c.GetType();
+										if (valueType.IsGenericType)
 										{
-											_sentence.KeyVariable = valueType.GetProperty("Key").GetValue(c, null);
-											_sentence.ValueVariable = valueType.GetProperty("Value").GetValue(c, null);
+											Type baseType = valueType.GetGenericTypeDefinition();
+											if (baseType == typeof(KeyValuePair<,>))
+											{
+												_sentence.KeyVariable = valueType.GetProperty("Key").GetValue(c, null);
+												_sentence.ValueVariable = valueType.GetProperty("Value").GetValue(c, null);
 
-											_sentence.ValueVariableType = valueType.GetGenericArguments()[1];
-											_sentence.KeyVariableType = valueType.GetGenericArguments()[0];
+												_sentence.ValueVariableType = valueType.GetGenericArguments()[1];
+												_sentence.KeyVariableType = valueType.GetGenericArguments()[0];
+											}
 										}
-									}
 
-									if (!valueType.IsClass)
-									{
-										GenerateSentenceValuesforSentence(_sentence, c.GetType(), Page, c);
+										if (!valueType.IsClass)
+										{
+											GenerateSentenceValuesforSentence(_sentence, c.GetType(), Page, c);
+										}
 									}
 
 									count++;

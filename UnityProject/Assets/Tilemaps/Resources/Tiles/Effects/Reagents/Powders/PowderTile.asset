@@ -1,0 +1,90 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b6827d717b949f79771ad7b0c57ad2b, type: 3}
+  m_Name: PowderTile
+  m_EditorClassIdentifier: Assets::OverlayTile
+  sprite: {fileID: 0}
+  Sprites: []
+  spriteSheet:
+    Texture: {fileID: 2800000, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    Sprites:
+    - {fileID: -1793747963578204662, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 4909489136263669029, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: -6705296253100015105, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 4911560355804304230, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: -4027886979323750264, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 7164673414532521990, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 1130368285118932320, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 5479825573191924131, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: -5949819505558532650, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 3200828648346318773, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: -7756226027858089878, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: -1689719377, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: -766392383, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 655377114, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: -1202203334, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: -1825708959, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 1015272293, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: -1151318445, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: -161510116, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 1978870600, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 344192299, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 1082427680, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 1711859894, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 540589898, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: -852881581, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 421581559, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 1547493650, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 1663068749, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: -1488518261, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 319864228, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: -794514650, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 2070524583, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: -479590401, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: -1475306599, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: -574472839, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 77111218, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: -833633515, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 406647286, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: -1877430707, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 1002569428, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 711311441, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 1557063129, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: -2012828397, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 1475418374, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: -42321174, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 1254804785, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 544504309, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    - {fileID: 815740969, guid: 1fe7ce4ed82a181429d4e15bafbe72e4, type: 3}
+    EquippedData: {fileID: 0}
+  spriteSheets: []
+  connectCategory: 3
+  connectType: 0
+  texturePath: 
+  Blacklist:
+  - {fileID: 11400000, guid: 5d941cb1e15db2644a027f2da315fc69, type: 2}
+  WhiteList: []
+  AnimationSpeed: 1
+  AnimationStartTime: 0
+  randomizeStartTime: 0
+  TileAnimationFlags: 0
+  <ForeverID>k__BackingField: powdersplattile
+  displayName: powdersplattile
+  description: powdersplattile
+  LayerType: 13
+  TileType: 14
+  RequiredTiles: []
+  Mass: 0
+  overlayName: powdersplattile
+  isCleanable: 0
+  isGraffiti: 0
+  overlayType: 25

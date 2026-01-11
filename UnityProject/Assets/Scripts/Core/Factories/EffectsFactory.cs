@@ -99,7 +99,7 @@ namespace Core.Factories
 			}
 		}
 
-		public static void WaterSplat(Vector3Int worldPos, bool wasLube = false)
+		public static void WaterSplat(Vector3 worldPos, bool wasLube = false)
 		{
 			if (MatrixManager.IsSpaceAt(worldPos, true))
 			{
@@ -122,7 +122,7 @@ namespace Core.Factories
 
 		}
 
-		public static void ChemSplat(Vector3Int worldPos, Color color, ReagentMix reagents)
+		public static void ChemSplat(Vector3 worldPos, Color color, ReagentMix reagents)
 		{
 			EnsureInit();
 			var chemTileInst = Spawn.ServerPrefab(chemTile, worldPos, MatrixManager.AtPoint(worldPos, true).Objects, Quaternion.identity);
@@ -150,7 +150,7 @@ namespace Core.Factories
 			}
 		}
 
-		public static void PowderSplat(Vector3Int worldPos, Color color, ReagentMix reagents)
+		public static void PowderSplat(Vector3 worldPos, Color color, ReagentMix reagents)
 		{
 			EnsureInit();
 			var powderTileInst = Spawn.ServerPrefab(powderTile, worldPos, MatrixManager.AtPoint(worldPos, true).Objects, Quaternion.identity);

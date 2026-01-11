@@ -9,8 +9,9 @@ namespace Chemistry.Effects
 		private MixingBowl senderInfo;
 		private Vector3Int senderPosition;
 		public GameObject spawnItem;
-		public override void Apply(MonoBehaviour sender, float amount)
+		public override void Apply(MonoBehaviour sender, ReagentMix ReagentMix, Vector3 WorldPosition, float amount)
 		{
+			if (sender == null) return;
 			amount = (int)Math.Floor(amount);
 			senderPosition = sender.gameObject.RegisterTile().WorldPositionServer;
 			senderInfo = sender.gameObject.GetComponent<MixingBowl>();

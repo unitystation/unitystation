@@ -222651,7 +222651,17 @@
             "GitID": "6f371050bff8b32438f91c7c680900bb_24.77┼238.31┼0┼",
             "PrefabID": "6f371050bff8b32438f91c7c680900bb",
             "Name": "Handheld Torch (1)",
-            "LocalPRS": "24.77┼238.31┼0┼"
+            "LocalPRS": "24.77┼238.31┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "ca8e2c485ce0c0a41b7bd847194e1e9a_25┼163┼0┼",
@@ -223579,7 +223589,17 @@
             "GitID": "6f371050bff8b32438f91c7c680900bb_25.36┼238.1┼0┼",
             "PrefabID": "6f371050bff8b32438f91c7c680900bb",
             "Name": "Handheld Torch (2)",
-            "LocalPRS": "25.36┼238.1┼0┼"
+            "LocalPRS": "25.36┼238.1┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "bf74e8243028ec14ebeb6578ebd2fcf4_25.86┼235.01┼0┼",
@@ -230971,6 +230991,7 @@
           {
             "GitID": "3e091c8c2a970a74e915174840cd98bb_31┼211┼0┼",
             "PrefabID": "3e091c8c2a970a74e915174840cd98bb",
+            "NameMatches": true,
             "Name": "Poster",
             "LocalPRS": "31┼211┼0┼"
           },
@@ -237738,15 +237759,6 @@
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_32┼184┼0┼@0@APC@0"
                     }
                   ]
-                },
-                {
-                  "ClassID": "StatusDisplay@0",
-                  "Data": [
-                    {
-                      "Name": "channel",
-                      "Data": "DoorTimer"
-                    }
-                  ]
                 }
               ]
             }
@@ -241728,15 +241740,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_32┼184┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "StatusDisplay@0",
-                  "Data": [
-                    {
-                      "Name": "channel",
-                      "Data": "DoorTimer"
                     }
                   ]
                 }
@@ -245737,15 +245740,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_43┼174┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "StatusDisplay@0",
-                  "Data": [
-                    {
-                      "Name": "channel",
-                      "Data": "DoorTimer"
                     }
                   ]
                 }
@@ -250066,15 +250060,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_53┼184┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "StatusDisplay@0",
-                  "Data": [
-                    {
-                      "Name": "channel",
-                      "Data": "DoorTimer"
                     }
                   ]
                 }
@@ -254720,15 +254705,6 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_53┼184┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "StatusDisplay@0",
-                  "Data": [
-                    {
-                      "Name": "channel",
-                      "Data": "DoorTimer"
                     }
                   ]
                 }
@@ -295834,7 +295810,17 @@
             "GitID": "6f371050bff8b32438f91c7c680900bb_78┼184┼0┼",
             "PrefabID": "6f371050bff8b32438f91c7c680900bb",
             "Name": "Handheld Torch (1)",
-            "LocalPRS": "78┼184┼0┼"
+            "LocalPRS": "78┼184┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "d554409601a0f744090f24e47955cb9a_78┼185┼0┼",
@@ -313923,6 +313909,14 @@
                   "ClassID": "APC@0",
                   "Data": [
                     {
+                      "Name": "connectedDevices#43",
+                      "Data": "6?ZZVFykWa9Kw$v9FhX-_112┼214┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#42",
+                      "Data": "4c3b9b1d349b58541830995579dd8d18_112┼213┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
                       "Name": "connectedDevices#41",
                       "Data": "c21551dd992a57349973e4b5af103ca6_112┼211┼0┼@0@APCPoweredDevice@0"
                     },
@@ -316382,6 +316376,53 @@
                     {
                       "Name": "Controller",
                       "Data": "a50474d976314462a79602e20a762520_113┼210┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "4c3b9b1d349b58541830995579dd8d18_112┼213┼0┼",
+            "PrefabID": "4c3b9b1d349b58541830995579dd8d18",
+            "Name": "SequenceAnalyzer (1)",
+            "LocalPRS": "112┼213┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_103┼210┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "6?ZZVFykWa9Kw$v9FhX-_112┼214┼0┼",
+            "PrefabID": "6?ZZVFykWa9Kw$v9FhX-",
+            "Name": "CureTester (1)",
+            "LocalPRS": "112┼214┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_103┼210┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "CureTester@0",
+                  "Data": [
+                    {
+                      "Name": "connectedSequenceAnalyzer",
+                      "Data": "4c3b9b1d349b58541830995579dd8d18_112┼213┼0┼@0@SequenceAnalyzer@0"
                     }
                   ]
                 }

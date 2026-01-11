@@ -69824,6 +69824,9 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Table"
               }
             ]
           },
@@ -69835,6 +69838,9 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Table"
               }
             ]
           },
@@ -146398,7 +146404,6 @@
           {
             "GitID": "3e091c8c2a970a74e915174840cd98bb_36┼57┼0┼",
             "PrefabID": "3e091c8c2a970a74e915174840cd98bb",
-            "NameMatches": true,
             "Name": "New Poster",
             "LocalPRS": "36┼57┼0┼"
           },
@@ -154277,7 +154282,6 @@
           {
             "GitID": "3e091c8c2a970a74e915174840cd98bb_51┼67┼0┼",
             "PrefabID": "3e091c8c2a970a74e915174840cd98bb",
-            "NameMatches": true,
             "Name": "New Poster",
             "LocalPRS": "51┼67┼0┼"
           },
@@ -157539,7 +157543,6 @@
           {
             "GitID": "3e091c8c2a970a74e915174840cd98bb_54┼73┼0┼",
             "PrefabID": "3e091c8c2a970a74e915174840cd98bb",
-            "NameMatches": true,
             "Name": "New Poster",
             "LocalPRS": "54┼73┼0┼"
           },
@@ -170309,7 +170312,6 @@
           {
             "GitID": "9eaebd66cb3e3d145a9bb373c42925e7_70┼51┼0┼",
             "PrefabID": "9eaebd66cb3e3d145a9bb373c42925e7",
-            "NameMatches": true,
             "Name": "New Rolled poster",
             "LocalPRS": "70┼51┼0┼"
           },
@@ -171304,7 +171306,17 @@
             "GitID": "ec4c9091042d4b544b3b194affe62c91_72.26┼51.09┼0┼",
             "PrefabID": "ec4c9091042d4b544b3b194affe62c91",
             "Name": "Penlight (1)",
-            "LocalPRS": "72.26┼51.09┼0┼"
+            "LocalPRS": "72.26┼51.09┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "d3c71176f32c1274b929f3a88695a795_72.75┼51.2┼0┼",
@@ -172310,7 +172322,17 @@
             "GitID": "6f371050bff8b32438f91c7c680900bb_74┼122┼0┼",
             "PrefabID": "6f371050bff8b32438f91c7c680900bb",
             "Name": "Flashlight (2)",
-            "LocalPRS": "74┼122┼0┼"
+            "LocalPRS": "74┼122┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "86570587e3d5cba1e9ffdeead16603e4_74┼124┼0┼",
@@ -172341,7 +172363,17 @@
             "GitID": "6f371050bff8b32438f91c7c680900bb_74┼128┼0┼",
             "PrefabID": "6f371050bff8b32438f91c7c680900bb",
             "Name": "Flashlight (3)",
-            "LocalPRS": "74┼128┼0┼"
+            "LocalPRS": "74┼128┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "229f1c93e0e4ada439cfe4b781f65997_74.2┼110.24┼0┼",
@@ -177849,7 +177881,6 @@
           {
             "GitID": "3e091c8c2a970a74e915174840cd98bb_88┼56┼0┼",
             "PrefabID": "3e091c8c2a970a74e915174840cd98bb",
-            "NameMatches": true,
             "Name": "New Poster",
             "LocalPRS": "88┼56┼0┼"
           },
@@ -178527,6 +178558,25 @@
             "LocalPRS": "88.98┼130.69┼0┼"
           },
           {
+            "GitID": "4c3b9b1d349b58541830995579dd8d18_89┼50┼0┼",
+            "PrefabID": "4c3b9b1d349b58541830995579dd8d18",
+            "Name": "SequenceAnalyzer (1)",
+            "LocalPRS": "89┼50┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_95┼52┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_89┼50┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "Name": "LightTubeFixture (56)",
@@ -178566,6 +178616,34 @@
                   "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "6?ZZVFykWa9Kw$v9FhX-_89┼51┼0┼",
+            "PrefabID": "6?ZZVFykWa9Kw$v9FhX-",
+            "Name": "CureTester (1)",
+            "LocalPRS": "89┼51┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_95┼52┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "CureTester@0",
+                  "Data": [
+                    {
+                      "Name": "connectedSequenceAnalyzer",
+                      "Data": "4c3b9b1d349b58541830995579dd8d18_89┼50┼0┼@0@SequenceAnalyzer@0"
+                    }
+                  ]
                 }
               ]
             }
@@ -183776,6 +183854,14 @@
                   "ClassID": "APC@0",
                   "Data": [
                     {
+                      "Name": "connectedDevices#8",
+                      "Data": "4c3b9b1d349b58541830995579dd8d18_89┼50┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#7",
+                      "Data": "6?ZZVFykWa9Kw$v9FhX-_89┼51┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
                       "Name": "connectedDevices#6",
                       "Data": "9b59e4553ab9f7e4a8f46497d7cfd7bc_97┼48┼0┼@0@APCPoweredDevice@0"
                     },
@@ -184919,7 +185005,6 @@
           {
             "GitID": "9eaebd66cb3e3d145a9bb373c42925e7_95┼155┼0┼",
             "PrefabID": "9eaebd66cb3e3d145a9bb373c42925e7",
-            "NameMatches": true,
             "Name": "New Rolled poster",
             "LocalPRS": "95┼155┼0┼"
           },
@@ -186868,7 +186953,6 @@
           {
             "GitID": "3e091c8c2a970a74e915174840cd98bb_97┼112┼0┼",
             "PrefabID": "3e091c8c2a970a74e915174840cd98bb",
-            "NameMatches": true,
             "Name": "New Poster",
             "LocalPRS": "97┼112┼0┼"
           },
@@ -188007,7 +188091,6 @@
           {
             "GitID": "9eaebd66cb3e3d145a9bb373c42925e7_98.4┼91.1┼0┼",
             "PrefabID": "9eaebd66cb3e3d145a9bb373c42925e7",
-            "NameMatches": true,
             "Name": "New Rolled poster",
             "LocalPRS": "98.4┼91.1┼0┼"
           },
@@ -203541,7 +203624,6 @@
           {
             "GitID": "3e091c8c2a970a74e915174840cd98bb_129┼139┼0┼",
             "PrefabID": "3e091c8c2a970a74e915174840cd98bb",
-            "NameMatches": true,
             "Name": "New Poster",
             "LocalPRS": "129┼139┼0┼"
           },
@@ -208837,7 +208919,6 @@
           {
             "GitID": "3e091c8c2a970a74e915174840cd98bb_134┼74┼0┼",
             "PrefabID": "3e091c8c2a970a74e915174840cd98bb",
-            "NameMatches": true,
             "Name": "New Poster",
             "LocalPRS": "134┼74┼0┼"
           },
@@ -213614,7 +213695,17 @@
             "PrefabID": "6f371050bff8b32438f91c7c680900bb",
             "NameMatches": true,
             "Name": "Flashlight",
-            "LocalPRS": "138.18┼107.37┼0┼"
+            "LocalPRS": "138.18┼107.37┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "29ecbf5a1d918574cbcf5853927e0944_138.2┼92.94┼0┼",
@@ -224059,7 +224150,6 @@
           {
             "GitID": "3e091c8c2a970a74e915174840cd98bb_40┼-4┼0┼",
             "PrefabID": "3e091c8c2a970a74e915174840cd98bb",
-            "NameMatches": true,
             "Name": "New Poster",
             "LocalPRS": "40┼-4┼0┼"
           },
@@ -224277,15 +224367,6 @@
                       "Data": "Up_By0"
                     }
                   ]
-                },
-                {
-                  "ClassID": "StatusDisplay@0",
-                  "Data": [
-                    {
-                      "Name": "channel",
-                      "Data": "EscapeShuttle"
-                    }
-                  ]
                 }
               ]
             }
@@ -224387,7 +224468,6 @@
           {
             "GitID": "3e091c8c2a970a74e915174840cd98bb_44┼-14┼0┼",
             "PrefabID": "3e091c8c2a970a74e915174840cd98bb",
-            "NameMatches": true,
             "Name": "New Poster",
             "LocalPRS": "44┼-14┼0┼"
           },
@@ -225548,15 +225628,6 @@
                       "Data": "Left_By90"
                     }
                   ]
-                },
-                {
-                  "ClassID": "StatusDisplay@0",
-                  "Data": [
-                    {
-                      "Name": "channel",
-                      "Data": "EscapeShuttle"
-                    }
-                  ]
                 }
               ]
             }
@@ -225570,7 +225641,6 @@
           {
             "GitID": "3e091c8c2a970a74e915174840cd98bb_51┼-14┼0┼",
             "PrefabID": "3e091c8c2a970a74e915174840cd98bb",
-            "NameMatches": true,
             "Name": "New Poster",
             "LocalPRS": "51┼-14┼0┼"
           },
@@ -225754,15 +225824,6 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Up_By0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "StatusDisplay@0",
-                  "Data": [
-                    {
-                      "Name": "channel",
-                      "Data": "EscapeShuttle"
                     }
                   ]
                 }
@@ -225984,15 +226045,6 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Left_By90"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "StatusDisplay@0",
-                  "Data": [
-                    {
-                      "Name": "channel",
-                      "Data": "EscapeShuttle"
                     }
                   ]
                 }
@@ -226264,15 +226316,6 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "StatusDisplay@0",
-                  "Data": [
-                    {
-                      "Name": "channel",
-                      "Data": "EscapeShuttle"
                     }
                   ]
                 }
@@ -229059,10 +229102,6 @@
                     {
                       "Name": "ShuttlesMainConnector",
                       "Data": "kEKGObGBLag_L6F8X$s3_2┼0┼0┼@0@ShuttleConnector@0"
-                    },
-                    {
-                      "Name": "MoveDirectionIn",
-                      "Data": "True"
                     }
                   ]
                 }

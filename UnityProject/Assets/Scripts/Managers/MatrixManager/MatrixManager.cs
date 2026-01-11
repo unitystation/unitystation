@@ -657,7 +657,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	///Cross-matrix edition of <see cref="Matrix.IsSpaceAt"/>
 	///<inheritdoc cref="Matrix.IsSpaceAt"/>
-	public static bool IsSpaceAt(Vector3Int worldPos, bool isServer, MatrixInfo possibleMatrix = null)
+	public static bool IsSpaceAt(Vector3 worldPos, bool isServer, MatrixInfo possibleMatrix = null)
 	{
 		var matrixInfo = AtPoint(worldPos, isServer, possibleMatrix);
 		var localPos = WorldToLocalInt(worldPos, matrixInfo);
@@ -756,7 +756,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	/// <inheritdoc cref="MetaDataLayer.ReagentReact"/>
 	/// </summary>
 	public static void ReagentReact(ReagentMix reagents,
-		Vector3Int worldPos, MatrixInfo matrixInfo = null,bool spawnPrefabEffect = true, OrientationEnum direction = OrientationEnum.Up_By0,
+		Vector3 worldPos, MatrixInfo matrixInfo = null,bool spawnPrefabEffect = true, OrientationEnum direction = OrientationEnum.Up_By0,
 		bool Scatter = false, LivingHealthMasterBase from = null, BodyPartType bodyPartAim = BodyPartType.None  )
 	{
 		if (CustomNetworkManager.IsServer == false)
@@ -772,11 +772,12 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			return;
 		}
 
+
 		Vector3Int localPos = WorldToLocalInt(worldPos, matrixInfo);
 		matrixInfo.MetaDataLayer.ReagentReact(reagents, worldPos, localPos, spawnPrefabEffect, direction, Scatter, from, bodyPartAim);
 	}
 
-	public static bool IsSpaceWithNoTilesNearbyAt(Vector3Int worldPos, MatrixInfo matrixInfo = null)
+	public static bool IsSpaceWithNoTilesNearbyAt(Vector3 worldPos, MatrixInfo matrixInfo = null)
 	{
 		if (IsSpaceAt(worldPos, true, matrixInfo) == false) return false;
 		var dontReactInSpace = worldPos;
@@ -808,14 +809,14 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	}
 
 
-	public static bool IsTotallyImpassable(Vector3Int worldTarget, bool isServer)
+	public static bool IsTotallyImpassable(Vector3 worldTarget, bool isServer)
 	{
 		return IsPassableAtAllMatricesOneTile(worldTarget, isServer) == false &&
 		       IsAtmosPassableAt(worldTarget, isServer) == false;
 	}
 
 	/// <see cref="Matrix.Get{T}(UnityEngine.Vector3Int,bool)"/>
-	public static IEnumerable<T> GetAt<T>(Vector3Int worldPos, bool isServer, MatrixInfo MatrixAt = null)
+	public static IEnumerable<T> GetAt<T>(Vector3 worldPos, bool isServer, MatrixInfo MatrixAt = null)
 	{
 		if (MatrixAt == null)
 		{
@@ -939,7 +940,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	///Cross-matrix edition of <see cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,bool)"/>
 	///<inheritdoc cref="Vector3Int"/>
-	public static bool IsPassableAtAllMatricesOneTile(Vector3Int worldPos, bool isServer,
+	public static bool IsPassableAtAllMatricesOneTile(Vector3 worldPos, bool isServer,
 		bool includingPlayers = true,
 		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, GameObject context = null,
 		bool ignoreObjects = false,
@@ -1017,15 +1018,23 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 	///<inheritdoc cref="Matrix.IsPassableAt(UnityEngine.Vector3Int,UnityEngine.Vector3Int,bool,GameObject)"/>
 	public static bool IsPassableAtAllMatricesV2(Vector3 worldOrigin, Vector3 worldTarget,
 		MatrixCash MatrixCash, UniversalObjectPhysics Context, List<UniversalObjectPhysics> PushIng,
-		List<IBumpableObject> Bumps, List<UniversalObjectPhysics> Hits = null)
+		List<IBumpableObject> Bumps, List<UniversalObjectPhysics> Hits = null, ICustomTilePassable ICustomTilePassable = null)
 	{
 		var MatrixOrigin = MatrixCash.GetforDirection(Vector3Int.zero);
 
 		var localPosOrigin = WorldToLocal(worldOrigin, MatrixOrigin);
 		var localPosTarget = WorldToLocal(worldTarget, MatrixOrigin);
+		bool IsPassable = true;
+		bool Intangible = Context?.Intangible is true;
 
-		bool IsPassable = MatrixOrigin.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(localPosOrigin.RoundToInt(),
-			localPosTarget.RoundToInt(), Context, PushIng, Bumps, Hits);
+
+		if (Intangible == false)
+		{
+			IsPassable = MatrixOrigin.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(localPosOrigin.RoundToInt(),
+				localPosTarget.RoundToInt(), Context, PushIng, Bumps, Hits);
+		}
+
+
 
 		if (IsPassable == false)
 		{
@@ -1058,8 +1067,13 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		if (intlocalPosOrigin.x == intlocalPosTarget.x || intlocalPosOrigin.y == intlocalPosTarget.y)
 		{
 			if (isSpace || matrixTarget.Matrix.MetaTileMap.IsPassableAtOneTileMapV2(intlocalPosOrigin, intlocalPosTarget,
-				    CollisionType, Bumps))
+				    CollisionType, Bumps, ICustomTilePassable))
 			{
+				if (Intangible)
+				{
+					return true;
+				}
+
 				if (matrixTarget.Matrix.MetaTileMap.IsPassableAtOneObjectsV2(intlocalPosOrigin, intlocalPosTarget,
 					    Context,
 					    PushIng, Bumps, Hits))
@@ -1071,8 +1085,13 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		else
 		{
 			if (isSpace || matrixTarget.Matrix.MetaTileMap.IsPassableTileMapHorizontal(intlocalPosOrigin, intlocalPosTarget,
-				    CollisionType, Bumps))
+				    CollisionType, Bumps, ICustomTilePassable))
 			{
+				if (Intangible)
+				{
+					return true;
+				}
+
 				if (matrixTarget.Matrix.MetaTileMap.IsPassableObjectsHorizontal(intlocalPosOrigin,
 					    intlocalPosTarget, Context,
 					    PushIng, Bumps, Hits))
@@ -1086,8 +1105,13 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			PushIng.Clear();
 
 			if (isSpace || matrixTarget.Matrix.MetaTileMap.IsPassableTileMapVertical(intlocalPosOrigin, intlocalPosTarget,
-				    CollisionType, Bumps))
+				    CollisionType, Bumps, ICustomTilePassable))
 			{
+				if (Intangible)
+				{
+					return true;
+				}
+
 				if (matrixTarget.Matrix.MetaTileMap.IsPassableObjectsVertical(intlocalPosOrigin, intlocalPosTarget,
 					    Context,
 					    PushIng, Bumps, Hits))
@@ -1259,7 +1283,7 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 
 	///Cross-matrix edition of <see cref="Matrix.IsAtmosPassableAt(UnityEngine.Vector3Int,bool)"/>
 	///<inheritdoc cref="Matrix.IsAtmosPassableAt(UnityEngine.Vector3Int,bool)"/>
-	public static bool IsAtmosPassableAt(Vector3Int worldPos, bool isServer)
+	public static bool IsAtmosPassableAt(Vector3 worldPos, bool isServer)
 	{
 		var matrixInfo = AtPoint(worldPos, isServer);
 		var localPos = WorldToLocalInt(worldPos, matrixInfo);

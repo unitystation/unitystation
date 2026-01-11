@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using AdminCommands;
 using Core;
 using UnityEngine;
@@ -9,6 +10,7 @@ using Systems.Atmospherics;
 using Random = UnityEngine.Random;
 using Core.Accounts;
 using HealthV2;
+using Items.Implants.Organs;
 using Learning;
 using Logs;
 using Messages.Server;
@@ -16,6 +18,7 @@ using Messages.Server.HealthMessages;
 using ScriptableObjects;
 using Systems.Character;
 using Systems.Score;
+using Systems.StatusesAndEffects;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
 
 namespace IngameDebugConsole
@@ -723,6 +726,50 @@ namespace IngameDebugConsole
 			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdResetMovementForSelf();
 			Loggy.Info("[Console Command] - Movement Reset Successfully. " +
 			           "If you're still stuck, please report this and any errors you might find in the console on github/discord.", Category.DebugConsole);
+		}
+
+		[ConsoleMethod("bodyfat.becomeskinny", "Sets the body fat absorbed amount to 0 for everything.")]
+		public static void MakeEveryoneSkinny()
+		{
+			if (CustomNetworkManager.IsServer == false)
+			{
+				Loggy.Error("Cannot execute this command from client.", Category.DebugConsole);
+				return;
+			}
+			var fats = GameObject.FindObjectsByType<BodyFat>(sortMode: FindObjectsSortMode.InstanceID);
+			foreach (var fat in fats)
+			{
+				if (fat == null) continue;
+				fat.BecomeSkinny();
+			}
+			Loggy.Info($"{fats.Length} BodyFat components have executed BecomeSkinny()", Category.DebugConsole);
+		}
+
+		[ConsoleMethod("check-all-status-effects", "Prints all status effects on the StatusEffectsManager on MobV2s.")]
+		public static void CheckAllStatusEffects()
+		{
+			if (CustomNetworkManager.IsServer == false)
+			{
+				Loggy.Error("Cannot execute this command from client.", Category.DebugConsole);
+				return;
+			}
+			var managers = GameObject.FindObjectsByType<StatusEffectManager>(sortMode: FindObjectsSortMode.InstanceID);
+			StringBuilder sb = new StringBuilder();
+			foreach (var effectManager in managers)
+			{
+				if (effectManager == null) continue;
+				sb.AppendLine($"Status effects on {effectManager.gameObject.name} (ID: {effectManager.gameObject.GetInstanceID()}):");
+				if (effectManager.Statuses.Count == 0)
+				{
+					sb.AppendLine("- None");
+					continue;
+				}
+				foreach (var statusEffect in effectManager.Statuses)
+				{
+					sb.AppendLine($"- {statusEffect.name}");
+				}
+			}
+			Loggy.Info($"{sb}", Category.DebugConsole);
 		}
 	}
 }

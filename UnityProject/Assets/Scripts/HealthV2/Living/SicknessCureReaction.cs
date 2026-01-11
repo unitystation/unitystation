@@ -36,7 +36,7 @@ namespace HealthV2.Sickness
 
 				foreach (var sender in senders)
 				{
-					effect.Key.Apply(sender, effectResult);
+					effect.Key.Apply(sender,reagentMix ,sender.gameObject.AssumedWorldPosServer() ,   effectResult);
 				}
 			}
 		}

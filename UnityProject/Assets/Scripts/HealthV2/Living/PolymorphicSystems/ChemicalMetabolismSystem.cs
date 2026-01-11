@@ -172,7 +172,7 @@ namespace HealthV2.Living.PolymorphicSystems
 
 			foreach (var Reaction in PrecalculatedMetabolismReactions)
 			{
-				Reaction.Key.Apply(this, reagentPoolSystem.BloodPool);
+				Reaction.Key.Apply(this, this.Base.gameObject.AssumedWorldPosServer() , reagentPoolSystem.BloodPool);
 			}
 
 			foreach (var Reaction in MetabolismReactions)

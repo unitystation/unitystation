@@ -64,6 +64,10 @@ public class MedicalHUD : NetworkBehaviour, IHUD
 
 	public void SetVisible(bool Visible)
 	{
+		if (PlayerScript.ObjectPhysics.Intangible)
+		{
+			Visible = false;
+		}
 		MedicalHUDHandler.SetVisible(Visible);
 	}
 

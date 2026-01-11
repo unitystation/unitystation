@@ -160,7 +160,7 @@ namespace HealthV2
 					electrocutedHand = BodyPartType.RightArm;
 				}
 			}
-			
+
 
 			return base.Electrocute(electrocution);
 		}
@@ -202,7 +202,7 @@ namespace HealthV2
 					resistance += Electrocution.GetItemElectricalResistance(itemSlot.ItemObject);
 				}
 				// A solid grip on a conductive item will reduce resistance - assuming it is conductive.
-				if (dynamicItemStorage.GetActiveHandSlot().Item != null) resistance -= 300;
+				if (dynamicItemStorage?.GetActiveHandSlot()?.Item != null) resistance -= 300;
 			}
 
 			// Broken skin reduces electrical resistance - arbitrarily chosen at 4 to 1.

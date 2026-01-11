@@ -169,7 +169,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	[NonSerialized] public readonly Vector3IntEvent OnLocalPositionChangedServer = new Vector3IntEvent();
 
 	private IMatrixRotation[] matrixRotationHooks;
+
 	private IMatrixRotation90[] matrixRotation90Hooks;
+
 	//cached for fast fire exposure without gc
 	private IFireExposable[] fireExposables;
 
@@ -183,6 +185,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public PipeData PipeData => pipeData;
 
 	private CheckedComponent<UniversalObjectPhysics> objectPhysics = new CheckedComponent<UniversalObjectPhysics>();
+
 	public CheckedComponent<UniversalObjectPhysics> ObjectPhysics
 	{
 		get
@@ -191,6 +194,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			{
 				objectPhysics.ResetComponent(gameObject);
 			}
+
 			return objectPhysics;
 		}
 	}
@@ -321,9 +325,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		{
 			Matrix.MatrixMove.NetworkedMatrixMove.OnRotate90 -= (OnRotate90);
 		}
-
-
-
 	}
 
 	public virtual void OnDespawnServer(DespawnInfo info)
@@ -465,7 +466,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		var WorldCashed = transform.position;
 
 
-
 		transform.SetParent(objectLayer.transform, true);
 
 		//preserve absolute rotation if there was spin rotation
@@ -499,13 +499,13 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private void SetMatrix(Matrix value)
 	{
 		MatrixChange(Matrix, value);
+
 		if (value)
 		{
-
 			if (Matrix != value)
 			{
 				// LogMatrixDebug($"Matrix set from {matrix} to {value}");
-				if (Matrix != null && Matrix.IsMovable)
+				if (Matrix != null)
 				{
 					if (matrixRotationHooks.Length > 0)
 					{
@@ -519,7 +519,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 				}
 
 				Matrix = value;
-				if (Matrix != null && Matrix.IsMovable)
+				if (Matrix != null)
 				{
 					if (matrixRotationHooks.Length > 0)
 					{
@@ -536,33 +536,39 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 				}
 			}
 
-
-			//setting objects in storage to the same matrix
-			if (isServer)
+			try
 			{
-				if (ItemStorage != null)
+				//setting objects in storage to the same matrix
+				if (isServer)
 				{
-					foreach (var itemSlot in ItemStorage.GetItemSlots())
+					if (ItemStorage != null)
 					{
-						if (itemSlot.Item)
+						foreach (var itemSlot in ItemStorage.GetItemSlots())
 						{
-							var itemSlotRegisterItem = itemSlot.Item.UniversalObjectPhysics.registerTile;
-							itemSlotRegisterItem.Matrix = Matrix;
+							if (itemSlot.Item)
+							{
+								var itemSlotRegisterItem = itemSlot.Item.UniversalObjectPhysics.registerTile;
+								itemSlotRegisterItem.Matrix = Matrix;
+							}
 						}
 					}
-				}
 
-				if (DynamicItemStorage != null)
-				{
-					foreach (var itemSlot in DynamicItemStorage.GetItemSlots())
+					if (DynamicItemStorage != null)
 					{
-						if (itemSlot.Item)
+						foreach (var itemSlot in DynamicItemStorage.GetItemSlots())
 						{
-							var itemSlotRegisterItem = itemSlot.Item.UniversalObjectPhysics.registerTile;
-							itemSlotRegisterItem.Matrix = Matrix;
+							if (itemSlot.Item)
+							{
+								var itemSlotRegisterItem = itemSlot.Item.UniversalObjectPhysics.registerTile;
+								itemSlotRegisterItem.Matrix = Matrix;
+							}
 						}
 					}
 				}
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
 			}
 		}
 	}
@@ -583,28 +589,42 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	private void OnRotate()
 	{
-		if (matrixRotationHooks != null)
+		try
 		{
-			//pass rotation event on to our children
-			foreach (var matrixRotationHook in matrixRotationHooks)
+			if (matrixRotationHooks != null)
 			{
-				matrixRotationHook.OnMatrixRotate();
+				//pass rotation event on to our children
+				foreach (var matrixRotationHook in matrixRotationHooks)
+				{
+					matrixRotationHook.OnMatrixRotate();
+				}
 			}
+		}
+		catch (Exception e)
+		{
+			Loggy.Error(e.ToString());
 		}
 	}
 
 	private void OnRotate90(OrientationEnum orientation)
 	{
-		if (matrixRotation90Hooks != null)
+		try
 		{
-			//pass rotation event on to our children
-			foreach (var matrixRotationHook in matrixRotation90Hooks)
+			if (matrixRotation90Hooks != null)
 			{
-				matrixRotationHook.OnMatrixRotate90(orientation);
+				//pass rotation event on to our children
+				foreach (var matrixRotationHook in matrixRotation90Hooks)
+				{
+					matrixRotationHook.OnMatrixRotate90(orientation);
+				}
 			}
-
+		}
+		catch (Exception e)
+		{
+			Loggy.Error(e.ToString());
 		}
 	}
+
 	public void UpdatePositionServer()
 	{
 		var prevPosition = LocalPositionServer;
