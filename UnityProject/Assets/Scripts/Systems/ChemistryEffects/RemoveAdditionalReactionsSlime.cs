@@ -15,8 +15,10 @@ namespace Chemistry.Effects
 
 
 
-		public override void Apply(MonoBehaviour sender, float amount)
+		public override void Apply(MonoBehaviour sender,ReagentMix ReagentMix,Vector3 WorldPosition, float amount)
 		{
+			if (sender == null) return;
+
 			var core = sender.GetComponent<SlimeCore>();
 
 			if (core.Enhanced )

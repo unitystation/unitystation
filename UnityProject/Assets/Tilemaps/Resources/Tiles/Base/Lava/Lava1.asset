@@ -12,6 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1796e5cfb0bb4f9b81661d07e7794f1d, type: 3}
   m_Name: Lava1
   m_EditorClassIdentifier: 
+  Sprites:
+  - {fileID: 21300000, guid: 54da34d787400e541a5283f09927d1e1, type: 3}
+  - {fileID: 21300002, guid: 54da34d787400e541a5283f09927d1e1, type: 3}
+  - {fileID: 21300004, guid: 54da34d787400e541a5283f09927d1e1, type: 3}
+  - {fileID: 21300006, guid: 54da34d787400e541a5283f09927d1e1, type: 3}
+  spriteSheet:
+    Texture: {fileID: 0}
+    Sprites: []
+    EquippedData: {fileID: 0}
+  spriteSheets: []
+  connectCategory: 4
+  connectType: 0
+  texturePath: 
+  Blacklist: []
+  WhiteList: []
+  AnimationSpeed: 1
+  AnimationStartTime: 0
+  randomizeStartTime: 1
+  TileAnimationFlags: 0
   <ForeverID>k__BackingField: 80986a662b899ef4199140d318511f08
   displayName: Lava
   description: 
@@ -69,19 +88,11 @@ MonoBehaviour:
   spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 0}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []
-  Sprites:
-  - {fileID: 21300000, guid: 54da34d787400e541a5283f09927d1e1, type: 3}
-  - {fileID: 21300002, guid: 54da34d787400e541a5283f09927d1e1, type: 3}
-  - {fileID: 21300004, guid: 54da34d787400e541a5283f09927d1e1, type: 3}
-  - {fileID: 21300006, guid: 54da34d787400e541a5283f09927d1e1, type: 3}
-  AnimationSpeed: 1
-  AnimationStartTime: 0
-  randomizeStartTime: 0

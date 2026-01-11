@@ -110,20 +110,18 @@ public class MetaDataLayer : MonoBehaviour
 			if (trackedTilesWithReagentsOnThem.Contains(toRemove) == false) continue;
 			if (TemperatureUtils.FromKelvin(toRemove.GasMixLocal.Temperature, TemeratureUnits.C) >= 32f)
 			{
-				if (toRemove.ReagentsOnTile != null && toRemove.GasMixLocal != null)
+				if (toRemove.ReagentsOnTile == null) 	continue;
+				if (toRemove.ReagentsOnTile.MixState == ReagentState.Solid) continue;
+				if (toRemove.GasMixLocal != null)
 				{
 					toRemove.GasMixLocal.AddGas(CommonGasses.Instance.WaterVapor, toRemove.ReagentsOnTile.Total * 2,
 						toRemove.ReagentsOnTile.InternalEnergy / 2);
 				}
 
 				RemoveLiquidOnTile(toRemove.LocalPosition, toRemove);
+				trackedTilesWithReagentsOnThem.Remove(toRemove);
 				continue;
 			}
-
-			TimeSpan timeDifference = DateTime.UtcNow - toRemove.ReagentsOnTile.LastModificationTime;
-			if (timeDifference.TotalSeconds + toRemove.ReagentsOnTile.reagents.Count <= 200) continue;
-			RemoveLiquidOnTile(toRemove.LocalPosition, toRemove);
-			yield return WaitFor.EndOfFrame;
 		}
 	}
 
@@ -260,11 +258,11 @@ public class MetaDataLayer : MonoBehaviour
 	/// <summary>
 	/// Release reagents at provided coordinates, making them react with world + decide what it should look like
 	/// </summary>
-	public void ReagentReact(ReagentMix reagents, Vector3Int worldPosInt, Vector3Int localPosInt,
+	public void ReagentReact(ReagentMix reagents, Vector3 worldPos, Vector3Int localPosInt,
 		bool spawnPrefabEffect = true, OrientationEnum direction = OrientationEnum.Up_By0, bool Scatter = false,
 		LivingHealthMasterBase from = null, BodyPartType bodyPartAim = BodyPartType.None)
 	{
-		var mobs = MatrixManager.GetAt<LivingHealthMasterBase>(worldPosInt, true);
+		var mobs = MatrixManager.GetAt<LivingHealthMasterBase>(worldPos, true);
 
 		if (mobs.Count() > 0)
 		{
@@ -278,7 +276,7 @@ public class MetaDataLayer : MonoBehaviour
 			mob.ApplyReagentsToSurface(reagents, bodyPartAim);
 		}
 
-		Vector3 Position = worldPosInt;
+		Vector3 Position = worldPos;
 		Vector3 Offset = Vector3.zero;
 		Vector3 PositionLocal = localPosInt;
 
@@ -290,52 +288,26 @@ public class MetaDataLayer : MonoBehaviour
 			//lurking deep in every place.
 			Offset = Offset.GetRandomScatteredDirection() +
 			         new Vector3(Random.Range(-0.1875f, 0.1875f), Random.Range(-0.1875f, 0.1875f));
-			Position = worldPosInt + Offset;
+			Position = worldPos + Offset;
 			PositionLocal = PositionLocal + Offset;
 		}
 
-		worldPosInt = Position.RoundToInt();
+		//var worldPosInt = Position.RoundToInt();
 		localPosInt = PositionLocal.RoundToInt();
 
-		if (MatrixManager.IsTotallyImpassable(worldPosInt, true)) return;
+		if (MatrixManager.IsTotallyImpassable(Position, true)) return;
 
 		bool didSplat = false;
 		bool paintBlood = false;
 
-		//Find all reagents on this tile (including current reagent)
-		var reagentContainer = MatrixManager.GetAt<ReagentContainer>(worldPosInt, true)
-			.Where(x => x.ExamineAmount == ReagentContainer.ExamineAmountMode.UNKNOWN_AMOUNT);
-
-		var existingSplats = MatrixManager.GetAt<FloorDecal>(worldPosInt, true);
-		bool existingSplat = false;
-
-		foreach (var _existingSplat in existingSplats)
-		{
-			if (_existingSplat.GetComponent<ReagentContainer>() == false) continue;
-			existingSplat = true;
-		}
-
-		var reagentClone = reagents.Clone();
-		reagentClone.Divide(reagentContainer.Count());
-
-		//Loop though all reagent containers and add the passed in reagents
-		foreach (ReagentContainer chem in reagentContainer)
-		{
-			//If the reagent tile already has a pool/puddle/splat
-			if (chem.ExamineAmount == ReagentContainer.ExamineAmountMode.UNKNOWN_AMOUNT)
-			{
-				chem.Add(reagentClone); //TODO Duplication glitch
-				existingSplat = true;
-			}
-			//TODO: could allow you to add this to other container types like beakers but would need some balance and perhaps knocking over the beaker
-		}
+		var existingSplats = MatrixManager.GetAt<FloorDecal>(Position, true);
 
 		if (reagents.Total > 0)
 		{
 			try
 			{
-				HandleSplats(ref reagents, ref paintBlood, ref didSplat, ref existingSplat, Position, worldPosInt,
-					localPosInt, spawnPrefabEffect);
+				HandleSplats(ref reagents, ref didSplat, Position, worldPos,
+					localPosInt, existingSplats, spawnPrefabEffect);
 			}
 			catch (Exception e)
 			{
@@ -344,70 +316,84 @@ public class MetaDataLayer : MonoBehaviour
 		}
 	}
 
-	private void HandleSplats(ref ReagentMix reagents, ref bool paintBlood, ref bool didSplat, ref bool existingSplat,
-		Vector3 position, Vector3Int worldPosInt, Vector3Int localPosInt, bool spawnPrefabEffect = true)
+	private void HandleSplats(ref ReagentMix reagents, ref bool didSplat,
+		Vector3 position, Vector3 worldPos, Vector3Int localPosInt, IEnumerable<FloorDecal> ExistingDecals, bool spawnPrefabEffect = true)
 	{
 		lock (reagents.reagents)
 		{
-			//reagents.MajorMixReagent
-
-			if (reagents.MajorMixReagent.state == ReagentState.Liquid && reagents.Total > 20)
+			if (reagents.MajorMixReagent == CommonReagents.Instance.SpaceCleaner)
 			{
-				if (reagents.reagents.ContainsKey(CommonReagents.Instance.SmokePowder) == false &&
-				    reagents.reagents.ContainsKey(CommonReagents.Instance.Fluorosurfactant) == false)
-				{
-					StoreReagentsAtTile(reagents, localPosInt);
-				}
-			}
-
-			//(Max): Whoever hardcoded this, I hope you step on lego.
-			//TODO: Move this beavior on regeants using interface selectors.
-
-			if (reagents.MajorMixReagent == CommonReagents.Instance.Blood)
-			{
-				paintBlood = true;
-			}
-			else if (reagents.MajorMixReagent == CommonReagents.Instance.Water)
-			{
-				MakeSlipperyAt(localPosInt, false);
-				matrix.ReactionManager.ExtinguishHotspot(localPosInt);
-				foreach (var livingHealthBehaviour in matrix.Get<LivingHealthMasterBase>(localPosInt, true))
-				{
-					livingHealthBehaviour.Extinguish();
-				}
-
-				didSplat = true;
-				EffectsFactory.WaterSplat(worldPosInt);
-			}
-			else if (reagents.MajorMixReagent == CommonReagents.Instance.SpaceCleaner)
-			{
-				Clean(worldPosInt, localPosInt, false);
-				didSplat = true;
+				this.Clean(worldPos, localPosInt, false);
 			}
 			else if (reagents.MajorMixReagent == CommonReagents.Instance.SpaceLube)
 			{
 				// ( ͡° ͜ʖ ͡°)
 				if (Get(localPosInt).IsSuperSlippery == false)
 				{
-					didSplat = true;
-					EffectsFactory.WaterSplat(worldPosInt, wasLube : true);
+					EffectsFactory.WaterSplat(worldPos, wasLube: true);
 					MakeSlipperyAt(localPosInt, false, true);
 				}
 			}
-		}
-
-		if (spawnPrefabEffect && existingSplat == false)
-		{
-			if (didSplat == false)
+			else
 			{
-				if (paintBlood)
+				if (reagents.MajorMixReagent == CommonReagents.Instance.Water)
 				{
-					PaintBlood(position, reagents);
+					MakeSlipperyAt(localPosInt, false);
+					matrix.ReactionManager.ExtinguishHotspot(localPosInt);
+					foreach (var livingHealthBehaviour in matrix.Get<LivingHealthMasterBase>(localPosInt, true))
+					{
+						livingHealthBehaviour.Extinguish();
+					}
+
+					didSplat = true;
+					EffectsFactory.WaterSplat(worldPos);
 				}
-				else
+
+
+
+				if (reagents.MajorMixReagent == CommonReagents.Instance.Blood)
 				{
-					Paintsplat(worldPosInt, localPosInt, reagents);
+					var PreExisting = 0f;
+					var loop = ExistingDecals.ToList();
+					var cell = matrix.GetMetaDataNode(localPosInt);
+
+					PreExisting += cell.ReagentsOnTile.Total;
+					foreach (var Container in loop)
+					{
+						PreExisting += Container.ReagentContainer.ReagentMixTotal;
+					}
+
+
+					if (PreExisting + reagents.Total <= 30)
+					{
+						if (PreExisting == 0)
+						{
+							if (spawnPrefabEffect)
+							{
+								PaintBlood(position, reagents);
+								return;
+							}
+						}
+						else
+						{
+							if (loop.Count > 0)
+							{
+								loop[0].ReagentContainer.Add(reagents);
+							}
+						}
+					}
+					else
+					{
+						foreach (var Container in loop)
+						{
+							reagents.Add(Container.ReagentContainer.CurrentReagentMix);
+							Container.ReagentContainer.CurrentReagentMix.Clear();
+							//_ = Despawn.ServerSingle(Container.gameObject);
+						}
+					}
 				}
+
+				StoreReagentsAtTile(reagents, localPosInt);
 			}
 		}
 	}
@@ -418,38 +404,79 @@ public class MetaDataLayer : MonoBehaviour
 		BloodDry(worldPos.RoundToInt());
 	}
 
-	public void CreateLiquidOverlay(Vector3Int localPosInt, ReagentMix reagents)
+	public Color GetTileColourMix(ReagentMix reagents)
 	{
-		var liquidColor = reagents.MixColor;
-		liquidColor.a = Mathf.Clamp(liquidColor.a, 0, 0.65f); //makes sure liquids don't completely hide everything behind it.
-		matrix.MetaTileMap.AddOverlay(localPosInt, TileType.UnderObjectsEffects, "BaseLiquid", color: liquidColor);
-		SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bubbles, localPosInt);
+		switch (reagents.MixState)
+		{
+			case ReagentState.Liquid:
+				var liquidColor = reagents.MixColor;
+				liquidColor.a = Mathf.Clamp(liquidColor.a, 0.1f, 0.65f); //makes sure liquids don't completely hide everything behind it.
+				return liquidColor;
+			case ReagentState.Gas:
+			case ReagentState.Solid:
+				var SolidColor = reagents.MixColor;
+				SolidColor.a = Mathf.Clamp(SolidColor.a, 0.1f, 1f); //makes sure liquids don't completely hide everything behind it.
+				return SolidColor;
+		}
+
+
+		return Color.white;
 	}
 
-	public void RemoveLiquidOverlayOnTile(Vector3Int localPosInt)
+	public (Vector3Int position,  ReagentState TileState) CreateReagentOverlay(Vector3Int localPosInt, ReagentMix reagents)
 	{
-		matrix.MetaTileMap.RemoveOverlaysOfType(localPosInt, LayerType.UnderObjectsEffects, OverlayType.Liquid);
+		switch (reagents.MixState)
+		{
+			case ReagentState.Liquid:
+				var tile = CommonTiles.Instance.Liquid;
+
+				if (reagents.Total > REAGENT_LIMIT_PER_CELL * 0.75f)
+				{
+					tile = CommonTiles.Instance.LiquidBig;
+				}
+
+
+				var Position = matrix.MetaTileMap.AddOverlay(localPosInt, tile, color: GetTileColourMix(reagents));
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bubbles, localPosInt);
+				return (Position, reagents.MixState);
+			case ReagentState.Gas:
+			case ReagentState.Solid:
+				var Position1 = Vector3Int.back;
+				if (reagents.MajorMixReagent.name == "TableSalt")
+				{
+					Position1 = matrix.MetaTileMap.AddOverlay(localPosInt, CommonTiles.Instance.PowderSalt, color: GetTileColourMix(reagents));
+				}
+				else
+				{
+					Position1 = matrix.MetaTileMap.AddOverlay(localPosInt, CommonTiles.Instance.Powder, color: GetTileColourMix(reagents));
+				}
+
+				return (Position1, ReagentState.Solid);
+		}
+		return (Vector3Int.zero, ReagentState.Solid);;
 	}
+
 
 	public void RemoveLiquidOnTile(Vector3Int localPosInt, MetaDataNode node)
 	{
-		RemoveLiquidOverlayOnTile(localPosInt);
+		if (node.ReagentOverlayTileLocation == null) return;
+		matrix.MetaTileMap.RemoveTileWithlayer(node.ReagentOverlayTileLocation.Value, LayerType.UnderObjectsEffects, true);
 		node.ReagentsOnTile.Clear();
 	}
 
-	public void Paintsplat(Vector3Int worldPosInt, Vector3Int localPosInt, ReagentMix reagents)
+	public void Paintsplat(Vector3 worldPos, Vector3Int localPosInt, ReagentMix reagents)
 	{
 		switch (ChemistryUtils.GetMixStateDescription(reagents))
 		{
 			case "powder":
 			{
-				EffectsFactory.PowderSplat(worldPosInt, reagents.MixColor, reagents);
+				EffectsFactory.PowderSplat(worldPos, reagents.MixColor, reagents);
 				break;
 			}
 			case "liquid":
 			{
 				//TODO: Work out if reagent is "slippery" according to its viscocity (not modeled yet)
-				EffectsFactory.ChemSplat(worldPosInt, reagents.MixColor, reagents);
+				EffectsFactory.ChemSplat(worldPos, reagents.MixColor, reagents);
 				break;
 			}
 			case "gas":
@@ -457,19 +484,19 @@ public class MetaDataLayer : MonoBehaviour
 				break;
 			default:
 			{
-				EffectsFactory.ChemSplat(worldPosInt, reagents.MixColor, reagents);
+				EffectsFactory.ChemSplat(worldPos, reagents.MixColor, reagents);
 				break;
 			}
 		}
 	}
 
-	public void Clean(Vector3Int worldPosInt, Vector3Int localPosInt, bool makeSlippery)
+	public void Clean(Vector3 worldPos, Vector3Int localPosInt, bool makeSlippery)
 	{
 		var node = Get(localPosInt, updateTileOnClient: true);
 		node.IsSlippery = makeSlippery;
 		node.IsSuperSlippery = false;
 
-		var floorDecals = GetFloorDecals(worldPosInt);
+		var floorDecals = GetFloorDecals(worldPos);
 
 		foreach (var floorDecal in floorDecals)
 		{
@@ -478,50 +505,53 @@ public class MetaDataLayer : MonoBehaviour
 
 		//check for any moppable overlays
 		matrix.TileChangeManager.MetaTileMap.RemoveFloorWallOverlaysOfType(localPosInt, OverlayType.Cleanable);
+		matrix.MetaDataLayer.RemoveLiquidOnTile(localPosInt, matrix.MetaDataLayer.Matrix.GetMetaDataNode(localPosInt));
 
-		if (MatrixManager.IsSpaceAt(worldPosInt, true, matrix.MatrixInfo) == false && makeSlippery)
+
+		if (MatrixManager.IsSpaceAt(worldPos, true, matrix.MatrixInfo) == false && makeSlippery)
 		{
 			// Create a WaterSplat Decal (visible slippery tile)
-			EffectsFactory.WaterSplat(worldPosInt);
+			EffectsFactory.WaterSplat(worldPos);
 
 			// Sets a tile to slippery
 			MakeSlipperyAt(localPosInt);
 		}
 	}
 
-	public void CleanAndMoveToExcess(Vector3Int worldPosInt, Vector3Int localPosInt, bool makeSlippery)
+	public void CleanAndMoveToExcess(Vector3Int worldPosInt, Vector3Int localPosInt, ReagentMix reagents)
 	{
-		List<FloorDecal> floorDecals = GetFloorDecals(worldPosInt).ToList();
-		if (floorDecals.Count == 0) return;
-		Get(localPosInt, updateTileOnClient: true).IsSlippery = false;
-		MetaDataNode node = matrix.GetMetaDataNode(localPosInt);
-		foreach (var floorDecal in floorDecals)
+		//TODO Clean everything except blood hummmmmmmmm
+
+		if (reagents.MixState is ReagentState.Liquid or ReagentState.Gas)
 		{
-			if (floorDecal.ReagentContainer?.IsEmpty == false)
+			List<FloorDecal> floorDecals = GetFloorDecals(worldPosInt).ToList();
+			if (floorDecals.Count == 0) return;
+			foreach (var floorDecal in floorDecals)
 			{
-				node.ReagentsOnTile.Add(floorDecal.ReagentContainer.CurrentReagentMix.Clone());
-				//update overlay to show color change.
-				matrix.MetaTileMap.RemoveOverlaysOfType(localPosInt, LayerType.UnderObjectsEffects, OverlayType.Liquid);
-				CreateLiquidOverlay(localPosInt, node.ReagentsOnTile);
+				if (floorDecal.ReagentContainer?.IsEmpty == false)
+				{
+					reagents.Add(floorDecal.ReagentContainer.CurrentReagentMix.Clone());
+					floorDecal.ReagentContainer.CurrentReagentMix.Clear();
+				}
+
+				if ((floorDecal.isBlood == false || reagents.MixState is not ReagentState.Liquid )  )
+				{
+					floorDecal.TryClean();
+				}
+
 			}
 
-			floorDecal.TryClean();
+			//check for any moppable overlays
+			matrix.TileChangeManager.MetaTileMap.RemoveFloorWallOverlaysOfType(localPosInt, OverlayType.Cleanable);
 		}
 
-		//check for any moppable overlays
-		matrix.TileChangeManager.MetaTileMap.RemoveFloorWallOverlaysOfType(localPosInt, OverlayType.Cleanable);
-		if (MatrixManager.IsSpaceAt(worldPosInt, true, matrix.MatrixInfo) == false && makeSlippery)
-		{
-			// Create a WaterSplat Decal (visible slippery tile)
-			EffectsFactory.WaterSplat(worldPosInt);
-			// Sets a tile to slippery
-			MakeSlipperyAt(localPosInt);
-		}
+
+
 	}
 
-	private IEnumerable<FloorDecal> GetFloorDecals(Vector3Int worldPosInt)
+	private IEnumerable<FloorDecal> GetFloorDecals(Vector3 worldPos)
 	{
-		return MatrixManager.GetAt<FloorDecal>(worldPosInt, isServer: true);
+		return MatrixManager.GetAt<FloorDecal>(worldPos, isServer: true);
 	}
 
 	public void BloodDry(Vector3Int position)
@@ -581,19 +611,43 @@ public class MetaDataLayer : MonoBehaviour
 	public void StoreReagentsAtTile(ReagentMix reagents, Vector3Int localPosInt)
 	{
 		var cell = matrix.GetMetaDataNode(localPosInt);
-		ReagentMix excess = null;
+		bool excess = false;
 		ReagentMix reagentsToUse = reagents.Clone();
-		if (cell.ReagentsOnTile.Total <= 0.1f)
-		{
-			reagentsToUse.TransferTo(cell.ReagentsOnTile, reagentsToUse.Total);
-			cell.ReagentsOnTile.Add(reagentsToUse);
-			trackedTilesWithReagentsOnThem.Add(cell);
-			if (cell.ReagentsOnTile.Total >= REAGENT_LIMIT_PER_CELL)
-			{
-				excess = cell.ReagentsOnTile.Split(reagents.Total / 2);
-			}
 
-			CreateLiquidOverlay(localPosInt, cell.ReagentsOnTile);
+
+		cell.ReagentsOnTile.Add(reagentsToUse);
+
+		CleanAndMoveToExcess(localPosInt.ToWorldInt(matrix), localPosInt,cell.ReagentsOnTile);
+		if (cell.ReagentsOnTile.Total >= REAGENT_LIMIT_PER_CELL)
+		{
+			//cell.ReagentsOnTile.Take(cell.ReagentsOnTile.Total - REAGENT_LIMIT_PER_CELL);
+			excess = true;
+		}
+
+		ChemistryManager.ReagentsChanged(
+			null,
+			cell.ReagentsOnTile,
+			null,
+			cell.possibleReactions,
+			null,
+			cell.WorldPosition);
+
+		SetOrUpdateTile(cell, localPosInt);
+		if (excess) DistributeExcessToNearbyCells(localPosInt);
+	}
+
+	public void SetOrUpdateTile(MetaDataNode cell, Vector3Int localPosInt)
+	{
+
+
+
+		if (cell.ReagentOverlayTileLocation == null)
+		{
+			trackedTilesWithReagentsOnThem.Add(cell);
+
+			var data =  CreateReagentOverlay(localPosInt, cell.ReagentsOnTile);
+			cell.ReagentOverlayTileLocation = data.position;
+			cell.ReagentStateTile = data.TileState;
 			if (DebugGizmos)
 			{
 				GameGizmomanager.AddNewSquareStaticClient(null, localPosInt.ToWorldInt(matrix), Color.green);
@@ -601,19 +655,25 @@ public class MetaDataLayer : MonoBehaviour
 		}
 		else
 		{
-			if (cell.ReagentsOnTile.Total >= REAGENT_LIMIT_PER_CELL)
+			if (cell.ReagentsOnTile.MixState != cell.ReagentStateTile)
 			{
-				excess = reagentsToUse.Split(reagentsToUse.Total / 2);
+				matrix.MetaTileMap.RemoveTileWithlayer(cell.ReagentOverlayTileLocation.Value, LayerType.UnderObjectsEffects, true);
+				var data =  CreateReagentOverlay(localPosInt, cell.ReagentsOnTile);
+				cell.ReagentOverlayTileLocation = data.position;
+				cell.ReagentStateTile = data.TileState;
 			}
-
-			cell.ReagentsOnTile.Add(reagentsToUse);
+			else
+			{
+				var col = GetTileColourMix(cell.ReagentsOnTile);
+				matrix.MetaTileMap.SetColour(cell.ReagentOverlayTileLocation.Value, LayerType.UnderObjectsEffects, col, true);
+			}
 		}
-
-		if (excess != null) DistributeExcessToNearbyCells(excess, localPosInt);
 	}
 
-	private void DistributeExcessToNearbyCells(ReagentMix excess, Vector3Int origin)
+	private void DistributeExcessToNearbyCells(Vector3Int origin)
 	{
+		HashSet<Vector3Int> PositionsVisited = new HashSet<Vector3Int>();
+
 		const int MAX_ITERATIONS = 450;
 		var iterations = 0;
 		var cellsToProcess = new Queue<MetaDataNode>();
@@ -623,45 +683,57 @@ public class MetaDataLayer : MonoBehaviour
 		//You can emulate this issue by enabling gizmos in the editor and watching the FPS drop, then testing this.
 		while (cellsToProcess.Count > 0 && iterations < MAX_ITERATIONS)
 		{
+
+
 			var currentCell = cellsToProcess.Dequeue();
-			foreach (var neighbor in currentCell.Neighbors)
+			PositionsVisited.Add(currentCell.LocalPosition);
+			if (currentCell.ReagentsOnTile.Total <= REAGENT_LIMIT_PER_CELL) continue;
+			var loop = RNG.GetRandomDirectionLoop();
+			int AvailableNeighbours = 0;
+
+			foreach (var NeighbourPosition in loop)
 			{
-				if (excess.Total <= 0) return;
+
+				var neighbor = currentCell.Neighbors[NeighbourPosition];
+				if (neighbor == null) continue;
+				if (PositionsVisited.Contains(neighbor.LocalPosition)) continue;
+				// Skip if the neighbor is not passable
+				if (neighbor.IsOccupied) continue;
+				AvailableNeighbours++;
+			}
+
+			var SplitMix = currentCell.ReagentsOnTile.Take(currentCell.ReagentsOnTile.Total - REAGENT_LIMIT_PER_CELL);
+
+			if (AvailableNeighbours == 0) continue;
+
+			SplitMix.Divide(AvailableNeighbours);
+
+			foreach (var NeighbourPosition in loop)
+			{
+
+				var neighbor = currentCell.Neighbors[NeighbourPosition];
 
 				// Skip neighbour spread if they are null => Implies matrix might not yet be initialised
-				if (neighbor == null) break;
+				if (neighbor == null) continue;
+				if (PositionsVisited.Contains(neighbor.LocalPosition)) continue;
+
 				// Skip if the neighbor is not passable
 				if (neighbor.IsOccupied) continue;
 				// If the neighboring cell is empty, add the excess and break up the amount
-				if (neighbor.ReagentsOnTile.Total <= 0)
-				{
-					neighbor.ReagentsOnTile.Add(excess.Split(excess.Total / 2));
-					CreateLiquidOverlay(neighbor.LocalPosition, neighbor.ReagentsOnTile);
-					trackedTilesWithReagentsOnThem.Add(neighbor);
-					if (DebugGizmos)
-					{
-						GameGizmomanager.AddNewLineStaticClient(null,
-							currentCell.LocalPosition.ToWorldInt(matrix), null,
-							neighbor.LocalPosition.ToWorldInt(matrix), Color.red);
-					}
 
-					// Add this neighbor to the queue for further distribution if needed
-					cellsToProcess.Enqueue(neighbor);
-					CleanAndMoveToExcess(neighbor.LocalPosition.ToWorldInt(matrix), neighbor.LocalPosition, false);
-					if (excess.Total > 5)
-					{
-						matrix.ReactionManager.ExtinguishHotspot(neighbor.LocalPosition);
-					}
-
-					continue;
-				}
-				else
+				if (currentCell.ReagentsOnTile.Total > 5)
 				{
-					var availableSpace = REAGENT_LIMIT_PER_CELL - neighbor.ReagentsOnTile.Total;
-					var transferMix = excess.Split(Math.Min(excess.Total, availableSpace));
-					neighbor.ReagentsOnTile.Add(transferMix);
-					CleanAndMoveToExcess(neighbor.LocalPosition.ToWorldInt(matrix), neighbor.LocalPosition, false);
+					matrix.ReactionManager.ExtinguishHotspot(neighbor.LocalPosition);
 				}
+
+				neighbor.ReagentsOnTile.Add(SplitMix);
+
+				CleanAndMoveToExcess(neighbor.LocalPosition.ToWorldInt(matrix), neighbor.LocalPosition,neighbor.ReagentsOnTile);
+
+				ChemistryManager.ReagentsChanged(null, neighbor.ReagentsOnTile, null, neighbor.possibleReactions, null,
+					neighbor.WorldPosition);
+
+				SetOrUpdateTile(neighbor, neighbor.LocalPosition);
 
 				cellsToProcess.Enqueue(neighbor);
 			}

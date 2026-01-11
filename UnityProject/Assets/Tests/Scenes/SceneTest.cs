@@ -63,7 +63,7 @@ namespace Tests.Scenes
 				//TODO: Consider Loading all rooms at once and doing one large check
 
 				List<IEnumerator> PreviousLevels = new List<IEnumerator>();
-				var Imnum = MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData);
+				var Imnum = MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData, TestLoad: true);
 				bool Loop = true;
 				while (Loop && PreviousLevels.Count == 0)
 				{

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Chemistry;
 using HealthV2;
 using UnityEngine;
 
@@ -10,8 +11,10 @@ using UnityEngine;
 [Serializable]
 public class BodyEffect : Chemistry.Effect
 {
-	public override void Apply(MonoBehaviour sender, float amount)
+	public override void Apply(MonoBehaviour sender, ReagentMix ReagentMix, Vector3 WorldPosition , float amount)
 	{
+		if (sender == null) return;
+
 		var BodyPart = sender.GetComponent<BodyPart>();
 
 		if (BodyPart != null)

@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b6827d717b949f79771ad7b0c57ad2b, type: 3}
+  m_Name: DenseLiquid
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 0}
+  Sprites: []
+  spriteSheet:
+    Texture: {fileID: 2800000, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    Sprites:
+    - {fileID: 5556223843743798335, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 4559822182974372854, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -6719059433959099827, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -6758652473894119720, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 5729356475827530566, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -5976668361325284956, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -713168180086375136, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 7405046188551174367, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 3053486691809882214, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 2847428298682523324, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -6749566901171515159, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -3767054363715110953, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 5802657109900529361, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -5259643130315583879, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 142659160090957990, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 806943333864757027, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 424312075916983025, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 299286772332455742, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -5492970717397952671, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -9005883383692567947, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -7875198848152369308, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 2997471517154558492, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -528573490576066142, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -2286207891811588568, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -9107476174849149080, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -3849059267806572875, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 3400588744242119546, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 8020439838339393828, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -7346559762343184633, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -3635050882934933944, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 4448954241797992641, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 1607612912283846691, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 5791677079840953801, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 7275802213276559264, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -8478589034364583976, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 8385361364298210885, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -2187712115942256555, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 1205251830352187225, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -7504184721550797635, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -543889697538630655, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 5707946883606426857, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -7144641687363416198, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 1938524892437989007, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 3220379477603836193, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 5431005885878129746, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: -6014216995701329196, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 2429000151983975931, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    - {fileID: 2856986929325486128, guid: 7382c483ec4f1a0469ee42fc22543707, type: 3}
+    EquippedData: {fileID: 0}
+  spriteSheets: []
+  connectCategory: 4
+  connectType: 0
+  texturePath: 
+  Blacklist:
+  - {fileID: 11400000, guid: f490d984c52972241acc05092e82d3ae, type: 2}
+  - {fileID: 11400000, guid: 36a723a2a09a09b4c8acc28bc76fff4d, type: 2}
+  WhiteList: []
+  AnimationSpeed: 1
+  AnimationStartTime: 0
+  randomizeStartTime: 0
+  TileAnimationFlags: 0
+  <ForeverID>k__BackingField: 5898ea5ad0429984b8f7e02b9c4a990f
+  displayName: Liquid
+  description: 
+  LayerType: 13
+  TileType: 14
+  RequiredTiles: []
+  Mass: 0.25
+  overlayName: Liquid
+  isCleanable: 0
+  isGraffiti: 0
+  overlayType: 25

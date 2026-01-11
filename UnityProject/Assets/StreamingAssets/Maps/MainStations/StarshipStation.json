@@ -11746,6 +11746,9 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Table"
               }
             ]
           },
@@ -12672,6 +12675,9 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Table"
               },
               {
                 "Tel": "FluidStraightPipe",
@@ -100211,6 +100217,25 @@
             "SortPath": "Items"
           },
           {
+            "GitID": "4c3b9b1d349b58541830995579dd8d18_-4┼53┼0┼",
+            "PrefabID": "4c3b9b1d349b58541830995579dd8d18",
+            "Name": "SequenceAnalyzer (1)",
+            "LocalPRS": "-4┼53┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_6┼39┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_-4┼56┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "Name": "LightTubeFixture (104)",
@@ -101600,6 +101625,34 @@
                     {
                       "Name": "listOfLights#0",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_-4┼56┼0┼@0@LightSource@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "6?ZZVFykWa9Kw$v9FhX-_-3┼53┼0┼",
+            "PrefabID": "6?ZZVFykWa9Kw$v9FhX-",
+            "Name": "CureTester (1)",
+            "LocalPRS": "-3┼53┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_6┼39┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "CureTester@0",
+                  "Data": [
+                    {
+                      "Name": "connectedSequenceAnalyzer",
+                      "Data": "4c3b9b1d349b58541830995579dd8d18_-4┼53┼0┼@0@SequenceAnalyzer@0"
                     }
                   ]
                 }
@@ -107357,32 +107410,6 @@
                     {
                       "Name": "NewdoorControllers#0",
                       "Data": "5516fc74bd367c64baa5a82dff0e929c_1┼23┼0┼@0@DoorMasterController@0"
-                    },
-                    {
-                      "Name": "channel",
-                      "Data": "DoorTimer"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,2",
-                  "ClassDatas": [],
-                  "Children": [
-                    {
-                      "ID": "0,2,0",
-                      "ClassDatas": [
-                        {
-                          "ClassID": "Text@0",
-                          "Data": [
-                            {
-                              "Name": "m_Color",
-                              "Data": "\u0000\u0000\u0000\u0000"
-                            }
-                          ]
-                        }
-                      ]
                     }
                   ]
                 }
@@ -110868,32 +110895,6 @@
                     {
                       "Name": "NewdoorControllers#0",
                       "Data": "5516fc74bd367c64baa5a82dff0e929c_5┼23┼0┼@0@DoorMasterController@0"
-                    },
-                    {
-                      "Name": "channel",
-                      "Data": "DoorTimer"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,2",
-                  "ClassDatas": [],
-                  "Children": [
-                    {
-                      "ID": "0,2,0",
-                      "ClassDatas": [
-                        {
-                          "ClassID": "Text@0",
-                          "Data": [
-                            {
-                              "Name": "m_Color",
-                              "Data": "\u0000\u0000\u0000\u0000"
-                            }
-                          ]
-                        }
-                      ]
                     }
                   ]
                 }
@@ -111085,6 +111086,14 @@
                 {
                   "ClassID": "APC@0",
                   "Data": [
+                    {
+                      "Name": "connectedDevices#141",
+                      "Data": "4c3b9b1d349b58541830995579dd8d18_-4┼53┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#140",
+                      "Data": "6?ZZVFykWa9Kw$v9FhX-_-3┼53┼0┼@0@APCPoweredDevice@0"
+                    },
                     {
                       "Name": "connectedDevices#139",
                       "Data": "bdee015617db52248b97de650920e2c0_6┼38┼0┼@0@APCPoweredDevice@0"
@@ -120955,7 +120964,17 @@
             "PrefabID": "abe9c13902b62ce449fdfec99db8f554",
             "Name": "Lantern (1)",
             "LocalPRS": "18┼27┼0┼",
-            "SortPath": "Items"
+            "SortPath": "Items",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "ed4e62dc12dca724ba1e5f374965096b_18┼27┼0┼",
@@ -159903,32 +159922,6 @@
                     {
                       "Name": "NewdoorControllers#0",
                       "Data": "79cea07a5f8e66f49a554df1a003ecba_61┼15┼0┼@0@DoorMasterController@0"
-                    },
-                    {
-                      "Name": "channel",
-                      "Data": "DoorTimer"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,2",
-                  "ClassDatas": [],
-                  "Children": [
-                    {
-                      "ID": "0,2,0",
-                      "ClassDatas": [
-                        {
-                          "ClassID": "Text@0",
-                          "Data": [
-                            {
-                              "Name": "m_Color",
-                              "Data": "\u0000\u0000\u0000\u0000"
-                            }
-                          ]
-                        }
-                      ]
                     }
                   ]
                 }
@@ -514222,10 +514215,6 @@
                     {
                       "Name": "ShuttlesMainConnector",
                       "Data": "f7fc46cd9fc472a4b96ad181a215ccfa_-1┼11┼0┼@0@ShuttleConnector@0"
-                    },
-                    {
-                      "Name": "DirectionOverride",
-                      "Data": "Right_By270"
                     }
                   ]
                 }
@@ -516594,10 +516583,6 @@
                     {
                       "Name": "ShuttlesMainConnector",
                       "Data": "f7fc46cd9fc472a4b96ad181a215ccfa_-7┼9┼0┼@0@ShuttleConnector@0"
-                    },
-                    {
-                      "Name": "MoveDirectionIn",
-                      "Data": "True"
                     }
                   ]
                 }

@@ -1290,6 +1290,7 @@ namespace MapSaver
 				{
 					foreach (var TileAndLocations in Layer)
 					{
+						if (TileAndLocations == null) continue;
 						foreach (var TileAndLocation in TileAndLocations)
 						{
 							if (TileAndLocation == null) continue;

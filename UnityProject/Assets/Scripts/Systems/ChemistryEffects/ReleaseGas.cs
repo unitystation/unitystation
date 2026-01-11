@@ -15,11 +15,11 @@ namespace Chemistry.Effects
 		public float AmountToRelease = 10;
 		public float TemperatureK = 293.15f;
 
-		public override void Apply(MonoBehaviour onObject, float amount)
+		public override void Apply(MonoBehaviour onObject,ReagentMix ReagentMix, Vector3 WorldPosition , float amount)
 		{
-			var Matrix =  onObject.gameObject.GetMatrixRoot();
+			var Matrix =  WorldPosition.GetMatrixAtWorld();
 
-			var	metaNode = Matrix.MetaDataLayer.Get(onObject.gameObject.AssumedWorldPosServer().ToLocalInt(Matrix));
+			var	metaNode = Matrix.MetaDataLayer.Get(WorldPosition.ToLocalInt(Matrix));
 
 			lock (metaNode.GasMixLocal.GasesArray) //no Double lock
 			{

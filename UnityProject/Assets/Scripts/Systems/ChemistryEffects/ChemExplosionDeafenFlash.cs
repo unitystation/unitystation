@@ -16,75 +16,70 @@ namespace Chemistry.Effects
 
 		private const float STUN_DURATION_PER_YIELD = 0.010f; //If the explosive has a yield of 1, how long should the stun last?
 
-		public override IEnumerator NowExplosion(MonoBehaviour sender, float amount)
+		public override IEnumerator NowExplosion(MonoBehaviour sender,ReagentMix ReagentMix,  Vector3 WorldPosition, float amount)
 		{
 			yield return WaitFor.Seconds(Delay);
 
 			// Following function uses the code from the Explosions file.
 
 			// Get data from container before despawning
-			UniversalObjectPhysics objectBehaviour = sender.GetComponent<UniversalObjectPhysics>();
-			RegisterObject registerObject = sender.GetComponent<RegisterObject>();
-			BodyPart bodyPart = sender.GetComponent<BodyPart>();
-			ExplosionNode node = ExplosionTypes.NodeTypes[explosionType];
 
-			bool insideBody = false;
-			if (bodyPart != null && bodyPart.HealthMaster != null)
-			{
-				insideBody = true;
-			}
 
 			float strength = ChemistryUtils.CalculateYieldFromReaction(amount, potency);
 
 
-			if (insideBody && strength > 0)
+			ExplosionNode node = ExplosionTypes.NodeTypes[explosionType];
+			if (sender != null)
 			{
-				node.DoInternalDamage(strength, bodyPart);
-			}
-
-			// Explosion here
-			var picked = sender.GetComponent<Pickupable>();
-			if (picked != null)
-			{
-				//If sender is in an inventory use the position of the inventory.
-				if (picked.ItemSlot != null)
+				UniversalObjectPhysics objectBehaviour = sender.GetComponent<UniversalObjectPhysics>();
+				RegisterObject registerObject = sender.GetComponent<RegisterObject>();
+				BodyPart bodyPart = sender.GetComponent<BodyPart>();
+				bool insideBody = false;
+				if (bodyPart != null && bodyPart.HealthMaster != null)
 				{
-					objectBehaviour = picked.ItemSlot.ItemStorage.GetRootStorageOrPlayer().GetComponent<UniversalObjectPhysics>();
-					registerObject = picked.ItemSlot.ItemStorage.GetRootStorageOrPlayer().GetComponent<RegisterObject>();
+					insideBody = true;
+				}
+				if (insideBody && strength > 0)
+				{
+					node.DoInternalDamage(strength, bodyPart);
+				}
+				var picked = sender.GetComponent<Pickupable>();
+				// If sender is a pickupable item not inside the body, destroy it.
+				if (explosionType != ExplosionTypes.ExplosionType.Harmless && picked != null && !insideBody)
+				{
+					_ = Despawn.ServerSingle(sender.gameObject);
 				}
 			}
+
+
+
 
 
 
 			if (strength > 0)
 			{
-				//Check if this is happening inside of an Object first (machines, closets?)
-				if (registerObject == null)
-				{
-					//If not, we need to check if the item is a bodypart inside of a player
-					if (insideBody)
-					{
-						AfflictRadius(bodyPart.HealthMaster.RegisterTile.WorldPosition, sender.gameObject, strength / 3); //Reduced flash when inside an object
-						Explosion.StartExplosion(bodyPart.HealthMaster.RegisterTile.WorldPosition, strength, node, radiusMultiplier: 3);
-					}
-					else
-					{
-						AfflictRadius(objectBehaviour.registerTile.WorldPosition, sender.gameObject, strength / 3); //Reduced flash when inside an object
-						//Otherwise, if it's not inside of a player, we consider it just an item
-						Explosion.StartExplosion(objectBehaviour.registerTile.WorldPosition, strength, node, stunNearbyPlayers: false, radiusMultiplier: 3);
-					}
-				}
-				else
-				{
-					AfflictRadius(registerObject.WorldPosition, sender.gameObject, strength);
-					Explosion.StartExplosion(registerObject.WorldPosition, strength, node, stunNearbyPlayers: false, radiusMultiplier: 3);
-				}
-			}
+				bool Explode = true;
 
-			// If sender is a pickupable item not inside the body, destroy it.
-			if (explosionType != ExplosionTypes.ExplosionType.Harmless && picked != null && !insideBody)
-			{
-				_ = Despawn.ServerSingle(sender.gameObject);
+				if (sender != null)
+				{
+					// Explosion here
+					var picked = sender.GetComponent<Pickupable>();
+					if (picked != null && picked.ItemSlot != null)
+					{
+						AfflictRadius(WorldPosition, sender.gameObject, strength / 3); //Reduced flash when inside an object
+						//Otherwise, if it's not inside of a player, we consider it just an item
+						Explosion.StartExplosion(WorldPosition.RoundToInt(), strength, node, stunNearbyPlayers: false, radiusMultiplier: 3);
+						Explode = false;
+					}
+				}
+
+
+				if (Explode)
+				{
+					AfflictRadius(WorldPosition, sender.gameObject, strength);
+					Explosion.StartExplosion(WorldPosition.RoundToInt(), strength, node, stunNearbyPlayers: false, radiusMultiplier: 3);
+
+				}
 			}
 		}
 

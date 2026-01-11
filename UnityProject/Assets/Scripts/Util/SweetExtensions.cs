@@ -223,7 +223,7 @@ public static class SweetExtensions
 
 
 	/// Creates garbage! Use very sparsely!
-	public static Vector3 AssumedWorldPosServer(this GameObject go, bool IsInGameItemSuppressedLog = true)
+	public static Vector3 AssumedWorldPosServer(this GameObject go, bool IsInGameItemDoNotSuppressedLog = true)
 	{
 		if (go == null)
 		{
@@ -231,7 +231,7 @@ public static class SweetExtensions
 			return TransformState.HiddenPos;
 		}
 
-		return GetRootGameObject(go, IsInGameItemSuppressedLog).transform.position;
+		return GetRootGameObject(go, IsInGameItemDoNotSuppressedLog).transform.position;
 	}
 
 	public static void AppearAtWorldPositionServer(this GameObject go, Vector3 WorldPositioon)

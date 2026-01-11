@@ -282,6 +282,10 @@ public class SecurityHUD : NetworkBehaviour, IHUD
 
 	public void SetVisible(bool visible)
 	{
+		if (PlayerScript.ObjectPhysics.Intangible)
+		{
+			visible = false;
+		}
 		SecurityHUDHandler.SetVisible(visible);
 	}
 

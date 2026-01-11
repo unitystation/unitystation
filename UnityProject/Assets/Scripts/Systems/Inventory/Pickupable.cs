@@ -238,6 +238,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	public void ServerRollbackClient(HandApply interaction)
 	{
 		//Rollback prediction (inform player about item's true state)
+		GetComponent<UniversalObjectPhysics>().ResetEverything();
 		GetComponent<UniversalObjectPhysics>().ResetLocationOnClients();
 	}
 

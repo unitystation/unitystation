@@ -555,7 +555,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		if (CanSwap(bumpedBy, out var move))
 		{
 			if (this.IsMoving) return;
-			if (MatrixManager.IsPassableAtAllMatricesV2(this.gameObject.AssumedWorldPosServer(), bumpedBy.AssumedWorldPosServer(), SetMatrixCache, this, Pushing, Bumps) == false) return;
+			if (MatrixManager.IsPassableAtAllMatricesV2(this.gameObject.AssumedWorldPosServer(), bumpedBy.AssumedWorldPosServer(), SetMatrixCache, this, Pushing, Bumps,  ICustomTilePassable : ICustomTilePassable) == false) return;
 			var pushVector = (move.transform.position - this.transform.position).RoundToInt().To2Int();
 			if (Mathf.Abs(pushVector.x) > 1 || Mathf.Abs(pushVector.y) > 1) return;
 			Pushing.Clear();
@@ -1396,7 +1396,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 				}
 
 				//Need to check for Obstructions
-				if (IsNotObstructed(moveAction, willPushObjects, bumps, Hits))
+				if (IsNotObstructed(moveAction, willPushObjects, bumps, Hits, ICustomTilePassable))
 				{
 					causesSlipClient = IsSlipperyAt(moveAction.GlobalMoveDirection.ToVector().To3Int(), out slippedOn);
 					return true;
@@ -1493,12 +1493,12 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 		return false;
 	}
 
-	public bool IsNotObstructed(MoveData moveAction, List<UniversalObjectPhysics> pushing, List<IBumpableObject> bumps, List<UniversalObjectPhysics> hits)
+	public bool IsNotObstructed(MoveData moveAction, List<UniversalObjectPhysics> pushing, List<IBumpableObject> bumps, List<UniversalObjectPhysics> hits, ICustomTilePassable ICustomTilePassable)
 	{
 		var transform1 = transform.position;
 		return MatrixManager.IsPassableAtAllMatricesV2(transform1,
 			transform1 + moveAction.GlobalMoveDirection.ToVector().To3Int(), SetMatrixCache, this,
-			pushing, bumps, hits);
+			pushing, bumps, hits, ICustomTilePassable);
 	}
 
 

@@ -17,20 +17,21 @@ namespace Chemistry.Effects
 
 		[SerializeField] private float emissionChance = 15;
 
-		public override void Apply(MonoBehaviour sender, float amount)
+		public override void Apply(MonoBehaviour sender, ReagentMix ReagentMix,Vector3 WorldPosition, float amount)
 		{
 			if (DMMath.Prob(emissionChance) == false) return;
 
-			if (sender is MetabolismComponent metabolismComponent == false) return;
-			if (metabolismComponent.RelatedPart.HealthMaster == false) return;
-
-			LivingHealthMasterBase healthMaster = metabolismComponent.RelatedPart.HealthMaster;
-			Vector3 actorPos = healthMaster.gameObject.AssumedWorldPosServer();
+			//IDK I've commented out since I don't know what it does should be fine like this?
+			// if (sender is MetabolismComponent metabolismComponent == false) return;
+			// if (metabolismComponent.RelatedPart.HealthMaster == false) return;
+			//
+			// LivingHealthMasterBase healthMaster = metabolismComponent.RelatedPart.HealthMaster;
+			// Vector3 actorPos = healthMaster.gameObject.AssumedWorldPosServer();
 
 			//Add gas to area (Typically Miasma)
 			if (gasToEmit != null && amountOfGas > 0)
 			{
-				MetaDataNode node = MatrixManager.GetMetaDataAt(actorPos.CutToInt());
+				MetaDataNode node = MatrixManager.GetMetaDataAt(WorldPosition.CutToInt());
 				node.GasMixLocal.AddGasWithTemperature(gasToEmit, amountOfGas, node.GasMixLocal.Temperature);
 			}
 		}

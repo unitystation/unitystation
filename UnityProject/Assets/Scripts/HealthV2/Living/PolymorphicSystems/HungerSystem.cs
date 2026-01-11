@@ -1,18 +1,21 @@
+using System;
 using System.Collections.Generic;
 using Chemistry;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
+using Logs;
+using Systems.StatusesAndEffects;
+using UI.Core.Alerts;
 using UnityEngine;
 
 namespace HealthV2.Living.PolymorphicSystems
 {
 	public class HungerSystem : HealthSystemBase
 	{
-		public Dictionary<Reagent, ReagentWithBodyParts> NutrimentToConsume =
-			new Dictionary<Reagent, ReagentWithBodyParts>();
-
+		public Dictionary<Reagent, ReagentWithBodyParts> NutrimentToConsume = new();
 		public List<HungerComponent> BodyParts = new List<HungerComponent>();
 
-		private BodyAlertManager BodyAlertManager;
+		private BodyAlertManager bodyAlertManager;
+		private StatusEffectManager statusEffectManager;
 
 		public float NumberOfMinutesBeforeStarving = 30;
 
@@ -39,6 +42,8 @@ namespace HealthV2.Living.PolymorphicSystems
 		private HungerState HungerState => CalculateHungerState();
 
 		public HungerState CashedHungerState = HungerState.Normal;
+
+		public HungerStatuesEffects HungerStatusEffects = new();
 
 		public HungerState CalculateHungerState()
 		{
@@ -81,16 +86,32 @@ namespace HealthV2.Living.PolymorphicSystems
 			}
 		}
 
+		public StatusEffect GetStatusEffectFromHunger(HungerState hungerState)
+		{
+			switch (hungerState)
+			{
+				case HungerState.Full:
+					return HungerStatusEffects.FatStatusEffect;
+				case HungerState.Hungry:
+					return HungerStatusEffects.HungryStatusEffect;
+				case HungerState.Starving:
+					return HungerStatusEffects.StravingStatusEffect;
+				case HungerState.Malnourished:
+				default:
+					return HungerStatusEffects.NotHungryStatusEffect;
+			}
+		}
+
 		public override void InIt()
 		{
 			base.InIt();
-			BodyAlertManager = Base.GetComponent<BodyAlertManager>();
+			bodyAlertManager = Base.GetComponent<BodyAlertManager>();
+			statusEffectManager = Base.GetComponent<StatusEffectManager>();
 		}
 
 		public override void BodyPartAdded(BodyPart bodyPart)
 		{
 			var component = bodyPart.GetComponent<HungerComponent>();
-
 
 			if (component != null)
 			{
@@ -193,31 +214,59 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		public override void SystemUpdate()
 		{
-			var State = HungerState;
-			float HeartEfficiency = 0;
-			foreach (var Heart in reagentPoolSystem.PumpingDevices)
+			var state = HungerState;
+			float heartEfficiency = 0;
+			foreach (var heart in reagentPoolSystem.PumpingDevices)
 			{
-				HeartEfficiency += Heart.CalculateHeartbeat();
+				heartEfficiency += heart.CalculateHeartbeat();
 			}
 
-			NutrimentCalculation(HeartEfficiency);
+			NutrimentCalculation(heartEfficiency);
 
 			//TODO HungerState should properly have a cash optimisation here!!
-			if (State != CashedHungerState)
+			//(Max): Have you considered maybe just using an event driven approach instead of checking every update?
+			if (state != CashedHungerState)
 			{
-				var old = GetAlertSOFromHunger(CashedHungerState);
-				if (old != null)
+				try
 				{
-					BodyAlertManager?.UnRegisterAlert(old);
+					UpdateAlerts(CashedHungerState, state);
+					UpdateStatusEffects(CashedHungerState, state);
 				}
-
-				CashedHungerState = State;
-
-				var newOne = GetAlertSOFromHunger(State);
-				if (newOne != null)
+				catch (Exception e)
 				{
-					BodyAlertManager?.RegisterAlert(newOne);
+					Loggy.Error($"An issue happened while updating hunger state changes: {e}");
 				}
+				CashedHungerState = state;
+			}
+		}
+
+		private void UpdateAlerts(HungerState oldState, HungerState newState)
+		{
+			var oldAlert = GetAlertSOFromHunger(oldState);
+			if (oldAlert != null)
+			{
+				bodyAlertManager?.UnRegisterAlert(oldAlert);
+			}
+
+			var newOne = GetAlertSOFromHunger(newState);
+			if (newOne != null)
+			{
+				bodyAlertManager?.RegisterAlert(newOne);
+			}
+		}
+
+		private void UpdateStatusEffects(HungerState oldState, HungerState newState)
+		{
+			var oldStatusEffect = GetStatusEffectFromHunger(oldState);
+			if (oldStatusEffect != null)
+			{
+				statusEffectManager?.RemoveStatus(oldStatusEffect);
+			}
+
+			var newStatusEffect = GetStatusEffectFromHunger(newState);
+			if (newStatusEffect != null)
+			{
+				statusEffectManager?.AddStatus(newStatusEffect);
 			}
 		}
 
@@ -323,7 +372,14 @@ namespace HealthV2.Living.PolymorphicSystems
 
 		public override HealthSystemBase CloneThisSystem()
 		{
-			return new HungerSystem();
+			return new HungerSystem
+			{
+				HungerStatusEffects = HungerStatusEffects,
+				NumberOfMinutesBeforeStarving = NumberOfMinutesBeforeStarving,
+				BodyParts = BodyParts,
+				BodyNutriment = BodyNutriment,
+				NutrimentToConsume = NutrimentToConsume
+			};
 		}
 
 
@@ -333,6 +389,15 @@ namespace HealthV2.Living.PolymorphicSystems
 			public float TotalNeeded;
 			public List<HungerComponent> RelatedBodyParts = new List<HungerComponent>();
 			public Dictionary<Reagent, ReagentWithBodyParts> ReplacesWith = new Dictionary<Reagent, ReagentWithBodyParts>();
+		}
+
+		[Serializable]
+		public class HungerStatuesEffects
+		{
+			public StatusEffect NotHungryStatusEffect;
+			public StatusEffect StravingStatusEffect;
+			public StatusEffect HungryStatusEffect;
+			public StatusEffect FatStatusEffect;
 		}
 	}
 }

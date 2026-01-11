@@ -30,6 +30,7 @@ namespace Objects.Construction
 		public bool IsSlippery = false;
 		public bool IsSuperSlippery = false;
 
+
 		[SyncVar(hook = "OnColorChanged")] [HideInInspector]
 		public Color color;
 
@@ -103,7 +104,7 @@ namespace Objects.Construction
 			{
 				Node.IsSlippery = false;
 			}
-			
+
 			_ = Despawn.ServerSingle(this.gameObject);
 		}
 

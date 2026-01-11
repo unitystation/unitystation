@@ -3,6 +3,7 @@ using System.Linq;
 using HealthV2.Living.Cyborg;
 using HealthV2.Living.PolymorphicSystems.Bodypart;
 using Systems.Construction.Parts;
+using UI.Core.Alerts;
 using UnityEngine;
 
 namespace HealthV2.Living.PolymorphicSystems

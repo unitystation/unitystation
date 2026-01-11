@@ -100,7 +100,7 @@ namespace HealthV2.Sickness
 			{
 				foreach (var sender in senders)
 				{
-					stageEffect.Apply(sender, diseaseAmountPerOrgan);
+					stageEffect.Apply(sender, reagentMix, sender.gameObject.AssumedWorldPosServer(), diseaseAmountPerOrgan);
 				}
 			}
 

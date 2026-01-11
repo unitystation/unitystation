@@ -27,9 +27,11 @@ public partial class PlayerList : NetworkBehaviour
 	public List<ClientConnectedPlayer> ClientConnectedPlayers = new List<ClientConnectedPlayer>();
 
 	public static PlayerList Instance;
-	public int ConnectionCount => loggedIn.Count;
+	public int ConnectionCount => PlayersOnServer;
 	public int OfflineConnCount => loggedOff.Count;
 	public int OnlineAndOfflineConnCount => loggedIn.Count + loggedOff.Count;
+
+	public static int PlayersOnServer => NetworkServer.connections.Count;
 
 	/// <summary>
 	/// All players inside this list are online players.

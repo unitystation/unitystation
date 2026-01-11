@@ -14,6 +14,7 @@ using Systems.Explosions;
 using Systems.Pipes;
 using Systems.Radiation;
 using Systems.DisposalPipes;
+using Reaction = Chemistry.Reaction;
 
 
 /// <summary>
@@ -78,7 +79,7 @@ public class MetaDataNode : IGasMixContainer
 	/// <summary>
 	/// World position of this tile in its parent matrix.
 	/// </summary>
-	public Vector3Int WorldPosition => LocalPosition.ToWorldInt(PositionMatrix);
+	public Vector3 WorldPosition => LocalPosition.ToWorldInt(PositionMatrix);
 
 	/// <summary>
 	/// If this node is in a closed room, it's assigned to it by the room's number
@@ -186,6 +187,11 @@ public class MetaDataNode : IGasMixContainer
 	public float windEffectTime = 0;
 
 	public ReagentMix ReagentsOnTile = new ReagentMix();
+
+	public HashSet<Chemistry.Reaction> possibleReactions = new HashSet<Reaction>();
+
+	public Vector3Int? ReagentOverlayTileLocation = null;
+	public Chemistry.ReagentState? ReagentStateTile = null;
 
 	public void AddGasOverlay(GasSO gas)
 	{

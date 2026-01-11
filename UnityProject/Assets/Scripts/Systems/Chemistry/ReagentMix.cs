@@ -349,11 +349,11 @@ namespace Chemistry
 			cachedEffects.AddRange(_cachedEffects);
 		}
 
-		public void ApplyEffectCache(MonoBehaviour sender)
+		public void ApplyEffectCache(MonoBehaviour sender,  Vector3 positionWorld)
 		{
 			foreach (var cachedEffect in cachedEffects)
 			{
-				cachedEffect.effectType.Apply(sender, cachedEffect.effectAmount);
+				cachedEffect.effectType.Apply(sender, this , positionWorld, cachedEffect.effectAmount);
 			}
 			cachedEffects.Clear();
 		}

@@ -18,10 +18,7 @@ namespace Objects.Disposals
 		[Tooltip("Set the orientation for the DisposalPipeObject to use as it is spawned when this pipe is deconstructed.")]
 		public OrientationEnum DisposalPipeObjectOrientation;
 
-		[Tooltip("Set the sprite this particular disposal pipe should use.")]
-		public Sprite sprite;
 
-		public override Sprite PreviewSprite => sprite;
 
 		[SerializeField]
 		[Tooltip("Set the sides available for connecting to other disposal pipes.")]

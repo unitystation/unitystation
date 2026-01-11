@@ -225,6 +225,7 @@ namespace Antagonists
 		/// <param name="tcCount">The amount of telecrystals the uplink should be given.</param>
 		public static void TryInstallPDAUplink(Mind player, int tcCount, bool isNukeOps)
 		{
+			if (player?.Body?.DynamicItemStorage == null) return;
 			foreach (ItemSlot slot in player.Body.DynamicItemStorage.GetItemSlotTree())
 			{
 				if (slot.IsEmpty) continue;
@@ -269,13 +270,13 @@ namespace Antagonists
 		{
 			foreach (var x in PlayerList.Instance.AllPlayers)
 			{
-				if (x?.Mind?.AntagPublic?.Antagonist != null && x?.Mind?.AntagPublic?.Objectives?.Any() == true)
+				if (x?.Mind?.AntagPublic?.Objectives?.Any() == true)
 				{
-					foreach (var Objective in x.Mind.AntagPublic.Objectives)
+					foreach (var objective in x.Mind.AntagPublic.Objectives)
 					{
 						try
 						{
-							Objective.OnRoundEnd();
+							objective.OnRoundEnd();
 						}
 						catch (Exception e)
 						{
@@ -287,7 +288,6 @@ namespace Antagonists
 
 
 			List<SpawnedAntag> AlreadyPrinted = new List<SpawnedAntag>();
-
 			StringBuilder statusSB = new StringBuilder();
 
 			var message = new StringBuilder();
@@ -330,8 +330,7 @@ namespace Antagonists
 			{
 				try
 				{
-					if (x.Mind?.AntagPublic?.Antagonist != null
-					    && x.Mind?.AntagPublic?.CurTeam == null
+					if (x.Mind?.AntagPublic?.CurTeam == null
 					    && x.Mind?.AntagPublic?.Objectives.Any() == true
 					    && AlreadyPrinted.Contains(x?.Mind?.AntagPublic) == false)
 					{
