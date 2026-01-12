@@ -57,7 +57,8 @@ MonoBehaviour:
     StunImmunity: 0
     TemperatureProtectionInK: {x: 268.15, y: 313.15}
     PressureProtectionInKpa: {x: 30, y: 300}
-  tileInteractions: []
+  tileInteractions:
+  - {fileID: 11400000, guid: 8b75e51e5617da069a5d3ddb415ff998, type: 2}
   <OnTileStartMining>k__BackingField: []
   <OnTileFinishMining>k__BackingField: []
   tileStepInteractions: []
@@ -65,14 +66,14 @@ MonoBehaviour:
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
   toTileWhenDestroyed: {fileID: 0}
-  spawnOnDestroy: {fileID: 0}
+  spawnOnDestroy: {fileID: 11400000, guid: c4249505ac5f23579953b02b190e75e4, type: 2}
   damageOverlayList: {fileID: 0}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []
