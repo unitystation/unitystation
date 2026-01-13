@@ -31,7 +31,21 @@ public partial class PlayerList : NetworkBehaviour
 	public int OfflineConnCount => loggedOff.Count;
 	public int OnlineAndOfflineConnCount => loggedIn.Count + loggedOff.Count;
 
-	public static int PlayersOnServer => NetworkServer.connections.Count;
+	public static int PlayersOnServer
+	{
+		get
+		{
+			if (CustomNetworkManager.IsHeadless)
+			{
+				return NetworkServer.connections.Count - 1;
+			}
+			else
+			{
+				return NetworkServer.connections.Count;
+			}
+
+		}
+	}
 
 	/// <summary>
 	/// All players inside this list are online players.

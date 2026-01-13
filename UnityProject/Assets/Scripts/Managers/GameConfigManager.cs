@@ -38,24 +38,24 @@ namespace GameConfig
 	[Serializable]
 	public class GameConfig
 	{
-		public bool RandomEventsAllowed;
-		public bool SpawnLavaLand;
-		public int MinPlayersForCountdown;
-		public int MinReadyPlayersForCountdown;
+		public bool RandomEventsAllowed = true;
+		public bool SpawnLavaLand = true;
+		public int MinPlayersForCountdown = 1;
+		public int MinReadyPlayersForCountdown = 1;
 		public float PreRoundTime;
 		public float RoundEndTime;
 		public int RoundsPerMap;
 		public string InitialGameMode;
-		public bool RespawnAllowed;
+		public bool RespawnAllowed = false;
 		public int ShuttleDepartTime;
-		public bool GibbingAllowed;
-		public bool ShuttleGibbingAllowed;
-		public bool AdminOnlyHtml;
+		public bool GibbingAllowed = true;
+		public bool ShuttleGibbingAllowed = true;
+		public bool AdminOnlyHtml  = true ;
 		public int MalfAIRecieveTheirIntendedObjectiveChance;
-		public int CharacterNameLimit;
+		public int CharacterNameLimit = 35;
 		public bool ServerShutsDownOnRoundEnd;
-		public int PlayerLimit;
-		public int LowPopLimit;
+		public int PlayerLimit = 100;
+		public int LowPopLimit = 25;
 		public int LowPopCheckTimeAfterRoundStart = 300;
 		public int RebootOnAverageFPSOrLower = 35;
 		public string AccountAPIHost;

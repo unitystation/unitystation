@@ -8,7 +8,7 @@ namespace Player
 	public class DimPlayerLightController : NetworkBehaviour
 	{
 		[SerializeField] private LightSprite light;
-		[SyncVar] public Color lightColor = new Color(255, 255, 255, 10);
+		[SyncVar(hook = nameof(SynclightColor))] public Color lightColor = new Color(255, 255, 255, 10);
 		private Color _defaultColor = new Color(255, 255, 255, 10);
 
 		public const float DEFAULT_SIZE = 4;
@@ -30,6 +30,14 @@ namespace Player
 		{
 			UpdateLightData(_size);
 		}
+
+
+		public void SynclightColor(Color oldc, Color newc)
+		{
+			lightColor = newc;
+			UpdateLightLocally();
+		}
+
 
 		public void UpdateLightData(float newSize, bool updateColour = true)
 		{

@@ -86,10 +86,17 @@ namespace UI.CharacterCreator
 		{
 			get
 			{
-				if (AvailableBodyTypes.Count <= SelectedBodyType)
+				if (AvailableBodyTypes.Count == 0) return null;
+
+				int i = 0;
+
+				while (AvailableBodyTypes.Count <= SelectedBodyType && 30 > i)
 				{
+					i++;
 					SelectedBodyType = (AvailableBodyTypes.Count - 1);
 				}
+
+
 
 				return AvailableBodyTypes[SelectedBodyType];
 			}

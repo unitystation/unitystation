@@ -1290,7 +1290,7 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 			if (causesSlipClient)
 			{
 				NewtonianPush(newMoveData.GlobalMoveDirection.ToVector(), CurrentTileMoveSpeed, Single.NaN, 4,
-					spinFactor: 35);
+					spinFactor: 35, ByClient: this.gameObject);
 
 				if (isServer)
 				{
@@ -1453,7 +1453,6 @@ public class MovementSynchronisation : UniversalObjectPhysics, IPlayerControllab
 
 			if (isSlip)
 			{
-				if (isServer == false && isOwned && UIManager.Instance.intentControl.Running == false) return false;
 				return true;
 			}
 		}

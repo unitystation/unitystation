@@ -474,6 +474,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4748508647246467756}
   - component: {fileID: 8538565605628696324}
+  - component: {fileID: 3456808120123621952}
   m_Layer: 0
   m_Name: ScrubberSurge
   m_TagString: Untagged
@@ -563,7 +564,76 @@ MonoBehaviour:
       - 5
     reagentKeys: []
   spawnDelayRange: {x: 3, y: 10}
-  dispenseChance: 35
+  dispenseChance: 75
+  spillAmount: 55
+--- !u!114 &3456808120123621952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092207170390034217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71eaa0e8f701f82478bc2e15b2690d8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Scrubber Surge Maximum
+  StartTimer: 5
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 20
+  MinPlayersToTrigger: 0
+  parametersPageType: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  CanRandomlyTrigger: 1
+  TimeRefundMultiplier: 0
+  reagentContainer: {fileID: 5188649654063371458, guid: 63a58edd1e5377040a9ea82e307c1f04,
+    type: 3}
+  dispersionMix:
+  - temperature: 648.15
+    reagents:
+      m_keys:
+      - {fileID: 11400000, guid: 2fe711bafe5c109f8b44185374a5071d, type: 2}
+      m_values:
+      - 25
+    reagentKeys: []
+  - temperature: 648.15
+    reagents:
+      m_keys:
+      - {fileID: 11400000, guid: 61965072f426692ab9f3f996eedfd500, type: 2}
+      - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
+      m_values:
+      - 12.5
+      - 12.5
+    reagentKeys: []
+  rareDispenseProbability: 0.005
+  rareDispersionMix:
+  - temperature: 648.15
+    reagents:
+      m_keys:
+      - {fileID: 11400000, guid: 0b8ae0a034025c1afb82d9b40b73b7dc, type: 2}
+      - {fileID: 11400000, guid: 89e87c0935d40e6249cef390e612f90a, type: 2}
+      - {fileID: 11400000, guid: 61965072f426692ab9f3f996eedfd500, type: 2}
+      m_values:
+      - 15
+      - 5
+      - 5
+    reagentKeys: []
+  - temperature: 648.15
+    reagents:
+      m_keys:
+      - {fileID: 11400000, guid: 0b8ae0a034025c1afb82d9b40b73b7dc, type: 2}
+      - {fileID: 11400000, guid: 94790f2b8609fe11188aa84ac9edee86, type: 2}
+      - {fileID: 11400000, guid: 61965072f426692ab9f3f996eedfd500, type: 2}
+      m_values:
+      - 15
+      - 5
+      - 5
+    reagentKeys: []
+  spawnDelayRange: {x: 3, y: 10}
+  dispenseChance: 100
   spillAmount: 55
 --- !u!1 &2176390301219290958
 GameObject:
