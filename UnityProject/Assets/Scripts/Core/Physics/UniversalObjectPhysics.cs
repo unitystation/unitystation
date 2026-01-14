@@ -1041,7 +1041,7 @@ namespace Core.Physics
 		public void NewtonianPush(Vector2 worldDirection, float speed, float nairTime = Single.NaN,
 			float inSlideTime = Single.NaN, BodyPartType inAim = BodyPartType.Chest, GameObject inThrownBy = null,
 			float spinFactor = 0,
-			bool ignoreSticky = false) //Collision is just naturally part of Newtonian push
+			bool ignoreSticky = false, GameObject ByClient = null) //Collision is just naturally part of Newtonian push
 		{
 			if (isVisible == false) return;
 			if (CanMove == false) return;
@@ -1105,7 +1105,7 @@ namespace Core.Physics
 			{
 				LastUpdateClientFlying = NetworkTime.time;
 				UpdateClientMomentum(transform.localPosition, NewtonianMovement, airTime, this.slideTime, inAim,
-					registerTile.Matrix.Id, spinFactor, true, NetId.Empty, TimeSpentFlying);
+					registerTile.Matrix.Id, spinFactor, true, ByClient.NetId(), TimeSpentFlying);
 			}
 		}
 

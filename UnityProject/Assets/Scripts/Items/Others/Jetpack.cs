@@ -143,7 +143,7 @@ namespace Items.Others
 		private void OffState()
 		{
 			moveQueueBuildUp = 0.1f;
-			Chat.AddLocalMsgToChat($"The safety mechanism on the valve makes a pop as it securely shuts off the {gameObject.ExpensiveName()}.", gameObject);
+			Chat.AddLocalMsgToChat($"The safety mechanism on the valve makes a pop as it securely shuts off the {gameObject.ExpensiveName()}.", gameObject, doSpeechBubble : false);
 			if (player == null) return;
 			player.PlayerDirectional.OnRotationChange.RemoveListener(OnPlayerRotationChange);
 			if (CustomNetworkManager.IsServer)

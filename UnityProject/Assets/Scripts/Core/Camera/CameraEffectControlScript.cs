@@ -1,16 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using Core.Camera;
+using Core.Physics;
 using Core.Utils;
 using Logs;
 using NaughtyAttributes;
+using Objects;
+using Shared.Managers;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace CameraEffects
 {
-	public class CameraEffectControlScript : MonoBehaviour
+	public class CameraEffectControlScript :  SingletonManager<CameraEffectControlScript>
 	{
-
 		[Header("Effect scripts")]
 		public DrunkCamera drunkCamera;
 		public GreyscaleCamera greyscaleCamera;
@@ -42,8 +46,12 @@ namespace CameraEffects
 			MultiInterestBool.RegisterBehaviour.RegisterFalse,
 			MultiInterestBool.BoolBehaviour.ReturnOnFalse);
 
-
 		public MultiInterestBool Blindness => _blindness;
+		private readonly MultiInterestBool _Xray = new MultiInterestBool(false,
+			MultiInterestBool.RegisterBehaviour.RemoveFalse,
+			MultiInterestBool.BoolBehaviour.ReturnOnTrue);
+
+		public MultiInterestBool Xray => _Xray;
 
 
 		[FormerlySerializedAs("BlindFOVDistance")] public float blindFOVDistance = 0.65f;
@@ -55,12 +63,19 @@ namespace CameraEffects
 		private SubCameraEffectControl _backgroundEffects;
 		private SubCameraEffectControl _lightMaskEffects;
 
+
 		public void Awake()
 		{
 			lightingSystem = this.GetComponent<LightingSystem>();
 			lightingSystem.OnLightingSystemEnabled += InitialiseSubCameraEffects;
 
 			_blindness.OnBoolChange.AddListener(BlindnessValue);
+			_Xray.OnBoolChange.AddListener(XrayValue);
+			if (CustomNetworkManager.IsHeadless == false)
+			{
+				UpdateManager.Add(CallbackType.UPDATE,UpdateMe);
+			}
+
 
 			if (minimalVisibilitySprite != null)
 			{
@@ -68,6 +83,40 @@ namespace CameraEffects
 				return;
 			}
 			Loggy.Warning("[CameraEffectControlScript] - visibilitySprite is null! please set it from the inspector.");
+		}
+
+		public List<IBumpableObject> Bumps = new List<IBumpableObject>();
+
+
+		public void UpdateMe()
+		{
+			if (PlayerManager.LocalPlayerObject == null) return;
+			var position = PlayerManager.LocalPlayerObject.AssumedWorldPosServer(false);
+			var matrix = position.GetMatrixAtWorld();
+			var Localpos = position.ToLocal(matrix);
+			Bumps.Clear();
+
+			if (matrix.MetaTileMap.GetTile(Localpos.RoundToInt(), LayerType.Walls) != null)
+			{
+				if (Xray.HasPosition(this.gameObject) == false)
+				{
+					if (Xray == false)
+					{
+						Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().lightingSystem.renderSettings.fovHorizonSmooth = 90;
+						Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().lightingSystem.fovDistance =
+							1.1f;
+						Xray.RecordPosition(this.gameObject, true);
+					}
+				}
+			}
+			else
+			{
+				if (Xray.HasPosition(this.gameObject))
+				{
+					Xray.RemovePosition(this.gameObject);
+					BlindnessValue(Blindness);
+				}
+			}
 		}
 
 		public void InitialiseSubCameraEffects(bool enabled)
@@ -113,17 +162,32 @@ namespace CameraEffects
 			_lightMaskEffects?.OnGhostSpawn();
 		}
 
+		public void XrayValue(bool Hasxray)
+		{
+			if (Hasxray)
+			{
+				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().lightingSystem.renderSettings.fovOcclusionSpread = 1;
+			}
+			else
+			{
+				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().lightingSystem.renderSettings.fovOcclusionSpread = 0;
+			}
+		}
+
 
 		//setts the FOV to emulate blindness on the player
 		public void BlindnessValue(bool isBlind)
 		{
+			var System = Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().lightingSystem;
 			if (isBlind)
 			{
-				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().lightingSystem.fovDistance = blindFOVDistance;
+				System.renderSettings.fovHorizonSmooth = 90;
+				System.fovDistance = blindFOVDistance;
 			}
 			else
 			{
-				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().lightingSystem.fovDistance = fullVisionFOVDistance;
+				System.fovDistance = fullVisionFOVDistance;
+				System.renderSettings.fovHorizonSmooth = 23;
 			}
 		}
 

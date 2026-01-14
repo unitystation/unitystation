@@ -95,7 +95,7 @@ namespace Managers
 			ChangeAlertLevel(initialAlertLevel, false);
 			StartCoroutine(WaitToPrepareReport());
 			IsLowPop = false;
-			if(CustomNetworkManager.IsServer) StartCoroutine(LowpopCheck());
+			if(CustomNetworkManager.IsServer) LoadManager.Instance.StartCoroutine(LowpopCheck());
 		}
 
 		private IEnumerator WaitToPrepareReport()
@@ -173,7 +173,7 @@ namespace Managers
 		private IEnumerator LowpopCheck()
 		{
 			yield return WaitFor.Seconds(Application.isEditor ? 30 : gameManager.LowPopCheckTimeAfterRoundStart);
-			if(PlayerList.Instance.GetAlivePlayers().Count > gameManager.LowPopLimit) yield break;
+			if(PlayerList.PlayersOnServer > gameManager.LowPopLimit) yield break;
 			IsLowPop = true;
 			MakeAnnouncement(ChatTemplates.CentcomAnnounce,
 				"Due to the shortage of staff on the station; We have granted additional access to all crew members until further notice."

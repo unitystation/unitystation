@@ -1,3 +1,4 @@
+using CameraEffects;
 using Chemistry;
 using Clothing;
 using HealthV2;
@@ -233,13 +234,11 @@ namespace Items.Implants.Organs
 		{
 			if (newState)
 			{
-				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().lightingSystem.renderSettings
-					.fovOcclusionSpread = 3;
+				CameraEffectControlScript.Instance.Xray.RecordPosition(this.gameObject, true);
 			}
 			else
 			{
-				Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().lightingSystem.renderSettings
-					.fovOcclusionSpread = 0;
+				CameraEffectControlScript.Instance.Xray.RemovePosition(this.gameObject);
 			}
 		}
 

@@ -223,7 +223,6 @@ public interface IPlayerPossessable
 	public void InternalOnControlPlayer(Mind mind, bool isServer)
 	{
 		PossessingMind = mind;
-		if (mind == null) return;
 
 		if (isServer)
 		{
@@ -249,7 +248,8 @@ public interface IPlayerPossessable
 
 	public void ServeInternalOnControlPlayer(Mind mind, bool isServer)
 	{
-		if (mind.ControlledBy != null)
+		if (mind == null) return;
+		if (mind?.ControlledBy != null)
 		{
 			mind.ControlledBy.GameObject = GameObject; //TODO Remove
 		}
@@ -282,6 +282,7 @@ public interface IPlayerPossessable
 
 	public void ClientInternalOnControlPlayer(Mind mind, bool isServer)
 	{
+		if (mind == null) return;
 		var input = GameObject.GetComponent<IPlayerControllable>();
 
 		if (GameObject.TryGetComponent<AiMouseInputController>(out var aiMouseInputController))
