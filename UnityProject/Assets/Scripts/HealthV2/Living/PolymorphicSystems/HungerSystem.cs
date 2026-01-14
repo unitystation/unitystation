@@ -376,9 +376,7 @@ namespace HealthV2.Living.PolymorphicSystems
 			{
 				HungerStatusEffects = HungerStatusEffects,
 				NumberOfMinutesBeforeStarving = NumberOfMinutesBeforeStarving,
-				BodyParts = BodyParts,
 				BodyNutriment = BodyNutriment,
-				NutrimentToConsume = NutrimentToConsume
 			};
 		}
 

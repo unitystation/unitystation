@@ -41,6 +41,11 @@ namespace Core.Utils
 
 		public BoolEvent OnBoolChange = new BoolEvent();
 
+		public bool HasPosition(object Instance)
+		{
+			return InterestedParties.ContainsKey(Instance);
+		}
+
 		public void RemovePosition(object Instance)
 		{
 			if (InterestedParties.ContainsKey(Instance))

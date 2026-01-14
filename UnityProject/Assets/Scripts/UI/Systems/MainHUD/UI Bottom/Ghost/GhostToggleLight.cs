@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using CameraEffects;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -60,6 +61,7 @@ public class GhostToggleLight : MonoBehaviour
 
 		// unsubscribe from lighting system
 		LightingSys.OnLightingSystemEnabled -= OnLightingSystemEnabled;
+		CameraEffectControlScript.Instance.Xray.RemovePosition(this.gameObject);
 	}
 
 	/// <summary>
@@ -67,13 +69,32 @@ public class GhostToggleLight : MonoBehaviour
 	/// </summary>
 	public void OnLightTogglePressed()
 	{
-		if (!LightingSys)
+		if (LightingSys == null)
 			return;
 
 		// Change lighting system state to opposite
 		// Image sprite will change by event
 		var isLighitingEnabled = LightingSys.enabled;
-		LightingSys.enabled = !isLighitingEnabled;
+		if (LightingSys.enabled && CameraEffectControlScript.Instance.Xray.HasPosition(this.gameObject) == false)
+		{
+			CameraEffectControlScript.Instance.Xray.RecordPosition(this.gameObject, true);
+		}
+		else
+		{
+			if (LightingSys.enabled)
+			{
+				CameraEffectControlScript.Instance.Xray.RemovePosition(this.gameObject);
+				LightingSys.enabled = false;
+			}
+			else
+			{
+				CameraEffectControlScript.Instance.Xray.RemovePosition(this.gameObject);
+				LightingSys.enabled = true;
+			}
+
+		}
+
+
 	}
 
 	private void OnLightingSystemEnabled(bool isEnabled)

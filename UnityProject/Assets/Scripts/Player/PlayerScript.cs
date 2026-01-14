@@ -161,6 +161,11 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 	public Action OnActionPossess { get; set; }
 	[field: SerializeField] public UnityEvent OnBodyPossesedByPlayer { get; set; }
 	[field: SerializeField] public UnityEvent OnBodyUnPossesedByPlayer { get; set; }
+
+	[field: SerializeField] public UnityEvent OnBodyControlledByPlayer { get; set; }
+	[field: SerializeField] public UnityEvent OnBodyUnControlledByPlayer { get; set; }
+
+
 	public Action<Intent> OnIntentChange;
 	public Action OnLayDown;
 
@@ -258,6 +263,8 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 
 	public void Init(Mind mind)
 	{
+		OnBodyControlledByPlayer?.Invoke();
+
 		if (isServer)
 		{
 			if (string.IsNullOrWhiteSpace(playerName))
@@ -772,7 +779,11 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 
 	public void OnControlPlayer(Mind mind)
 	{
-		if (mind == null) return;
+		if (mind == null)
+		{
+			OnBodyUnControlledByPlayer?.Invoke();
+			return;
+		}
 		Init(mind);
 	}
 
