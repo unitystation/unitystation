@@ -320,7 +320,7 @@ namespace SecureStuff
 
 			if (IsInvokeFunction == false)
 			{
-				var infoField = Worktype.GetField(ValueName);
+				var infoField = Worktype.GetField(ValueName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
 				if (infoField != null)
 				{
@@ -331,7 +331,7 @@ namespace SecureStuff
 				}
 
 
-				var infoProperty = Worktype.GetProperty(ValueName);
+				var infoProperty = Worktype.GetProperty(ValueName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 				if (infoProperty != null)
 				{
 					var Method = infoProperty.GetSetMethod();
@@ -344,7 +344,8 @@ namespace SecureStuff
 			}
 			else
 			{
-				var Method = Worktype.GetMethod(ValueName);
+				var Method = Worktype.GetMethod(ValueName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+				if (Method.IsStatic) return;
 				_ = InvokeFunction(Method, workObject, null);
 			}
 		}

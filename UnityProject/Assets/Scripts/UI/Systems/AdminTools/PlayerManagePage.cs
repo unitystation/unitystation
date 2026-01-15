@@ -260,5 +260,12 @@ namespace AdminTools
 			AdminCommandsManager.Instance.CmdOOCMutePlayer(PlayerEntry.PlayerData.uid);
 			RefreshPage();
 		}
+
+		public void OnOpenAChat()
+		{
+
+			UIManager.Instance.adminChatButtons.adminChatWindows.adminPlayerChat.gameObject.SetActive(true);
+			UIManager.Instance.adminChatButtons.adminChatWindows.adminPlayerChat.OnPlayerSelect(PlayerEntry.PlayerData);
+		}
 	}
 }

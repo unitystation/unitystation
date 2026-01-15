@@ -111,6 +111,7 @@ namespace Systems.Botany
 
 		public void Start()
 		{
+			if (isServer == false)return;
 			if (reagentContainer.ReagentMixTotal == 0)
 			{
 				if (SeedPacket.GetComponent<SeedPacket>() == null)

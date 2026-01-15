@@ -30,17 +30,33 @@ namespace Player.EmoteScripts
 
 		private void CheckAndDo(GameObject player, LivingHealthMasterBase health)
 		{
+			bool FailedDryHeave = false;
 			var bodyParts = health.BodyPartList;
 			foreach (var part in bodyParts)
 			{
 				if (part == null) continue;
 				if (part.TryGetComponent<StomachExpulsion>(out var stomach) == false) continue;
-				if (stomach.WillDryHeave()) continue;
+				if (stomach.WillDryHeave())
+				{
+					FailedDryHeave = true;
+					continue;
+				}
 				stomach.Vomit();
 				base.Do(player);
 				return;
 			}
-			if (instant == false) Chat.AddExamineMsg(player, "You do not have a stomach to do this...");
+
+			if (FailedDryHeave)
+			{
+				Chat.AddExamineMsg(player, "Your stomach is empty");
+				return;
+			}
+
+			if (instant == false)
+			{
+				Chat.AddExamineMsg(player, "You do not have a stomach to do this...");
+				return;
+			}
 		}
 	}
 }
