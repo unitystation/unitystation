@@ -159,8 +159,8 @@ public class PlayerScript : NetworkBehaviour, IAdminInfo, IPlayerPossessable, IH
 
 	public Action OnActionControlPlayer { get; set; }
 	public Action OnActionPossess { get; set; }
-	[field: SerializeField] public UnityEvent OnBodyPossesedByPlayer { get; set; }
-	[field: SerializeField] public UnityEvent OnBodyUnPossesedByPlayer { get; set; }
+	[field: SerializeField] public UnityEvent OnBodyPossesedByPlayer { get; set; } = new UnityEvent();
+	[field: SerializeField] public UnityEvent OnBodyUnPossesedByPlayer { get; set; } = new UnityEvent();
 
 	[field: SerializeField] public UnityEvent OnBodyControlledByPlayer { get; set; }
 	[field: SerializeField] public UnityEvent OnBodyUnControlledByPlayer { get; set; }

@@ -45,6 +45,48 @@ namespace Objects.Research
 		private bool allowRadio;
 		public bool AllowRadio => allowRadio;
 
+		public int CurrentSpriteSet = 0;
+
+		[System.Serializable]
+		public class SpriteAndDead
+		{
+			public SpriteDataSO Normal;
+			public SpriteDataSO Dead;
+		}
+
+		public List<SpriteAndDead> AICoreSprites;
+
+		[Server]
+		public void NextCoreSprite()
+		{
+			if (vesselSpriteHandler.CataloguePage != 1 &&
+			    vesselSpriteHandler.PresentSpritesSet != AICoreSprites[CurrentSpriteSet].Normal)
+			{
+				return;
+			}
+
+			CurrentSpriteSet++;
+			if (CurrentSpriteSet >= AICoreSprites.Count)
+			{
+				CurrentSpriteSet = 0;
+			}
+
+			vesselSpriteHandler.SetSpriteSO(AICoreSprites[CurrentSpriteSet].Normal);
+		}
+
+		public void ShowDead()
+		{
+			if (AICoreSprites[CurrentSpriteSet].Dead != null)
+			{
+				vesselSpriteHandler.SetSpriteSO(AICoreSprites[CurrentSpriteSet].Dead);
+			}
+			else
+			{
+				vesselSpriteHandler.SetCatalogueIndexSprite(2);
+			}
+		}
+
+
 		[Server]
 		public void SetLinkedPlayer(AiPlayer aiPlayer)
 		{

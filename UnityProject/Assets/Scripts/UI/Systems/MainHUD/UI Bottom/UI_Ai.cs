@@ -129,6 +129,17 @@ namespace UI.Systems.MainHUD.UI_Bottom
 			aiPlayer.CmdTeleportToCore();
 		}
 
+
+		public void ChangesCoreSprite()
+		{
+			if (aiPlayer == null) return;
+
+			if(aiPlayer.OnCoolDown(NetworkSide.Client)) return;
+			aiPlayer.StartCoolDown(NetworkSide.Client);
+
+			aiPlayer.CmdChangesSprite();
+		}
+
 		public void ToggleLights()
 		{
 			if(aiPlayer.OnCoolDown(NetworkSide.Client)) return;

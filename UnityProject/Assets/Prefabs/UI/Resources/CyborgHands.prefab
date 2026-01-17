@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1495523663429665097}
   - component: {fileID: 3893690355953749214}
+  - component: {fileID: 3653710448189120413}
+  - component: {fileID: 640929711614059384}
   m_Layer: 5
   m_Name: CyborgHands
   m_TagString: Untagged
@@ -55,6 +57,46 @@ MonoBehaviour:
   SlotPrefab: {fileID: 1028670287850416768, guid: f6cb054bf6f536548aa2cd659d71fecf,
     type: 3}
   wearables_bg: {fileID: 5850139805283078277}
+--- !u!114 &3653710448189120413
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5210500027548755153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.ContentSizeFitter
+  m_HorizontalFit: 1
+  m_VerticalFit: 1
+--- !u!114 &640929711614059384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5210500027548755153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.VerticalLayoutGroup
+  m_Padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 1
+  m_Spacing: 0
+  m_ChildForceExpandWidth: 1
+  m_ChildForceExpandHeight: 1
+  m_ChildControlWidth: 1
+  m_ChildControlHeight: 1
+  m_ChildScaleWidth: 0
+  m_ChildScaleHeight: 0
+  m_ReverseArrangement: 0
 --- !u!1 &5850139805283078277
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,10 +131,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 1495523663429665097}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 221.5, y: -39}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 443, y: -5}
+  m_SizeDelta: {x: 443, y: 0}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &7778233003021332791
 CanvasRenderer:

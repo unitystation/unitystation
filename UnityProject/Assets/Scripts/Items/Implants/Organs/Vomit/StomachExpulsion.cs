@@ -58,9 +58,7 @@ namespace Items.Implants.Organs.Vomit
 
 			// Simulate the reflex where it sometimes takes a few dry heaves before they stop
 			if (Random.value > 0.5f)
-				dryHeavingEmote.Do(RelatedPart.HealthMaster.gameObject);
-			else
-				stomach.StomachContents.CurrentReagentMix.Clear(); //Get the last of it out
+				dryHeavingEmote.Do(RelatedPart.HealthMaster.gameObject); //Get the last of it out
 
 			return true;
 		}

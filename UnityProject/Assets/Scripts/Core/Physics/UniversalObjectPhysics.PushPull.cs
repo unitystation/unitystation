@@ -268,9 +268,9 @@ namespace Core.Physics
 			{
 				if (movetoMatrix.IsSpaceMatrix)
 				{
-					if (IsFloating(transform.position + worldDirection.To3Int()))
+					if (IsFloating(transform.position + worldDirection.To3Int()) && PulledBy.HasComponent == false && doNotApplyMomentumOnTarget == false)
 					{
-						newtonianMovement = registerTile.Matrix.MatrixMove.NetworkedMatrixMove.SynchronisedVelocity;
+						newtonianMovement = registerTile.Matrix.MatrixMove.NetworkedMatrixMove.SynchronisedVelocity + (worldDirection.To3() * CurrentTileMoveSpeed);
 						StartFlyingUpdateMe();
 						SetMatrix(movetoMatrix);
 					}

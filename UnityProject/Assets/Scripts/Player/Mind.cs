@@ -538,7 +538,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 		var Body = GetDeepestBody();
 		if (CurrentPlayScript != null)
 		{
-			CurrentPlayScript.OnBodyUnPossesedByPlayer?.Invoke();
+			CurrentPlayScript.OnBodyUnControlledByPlayer?.Invoke();
 		}
 		Move.ForcePositionClient(Body.gameObject.AssumedWorldPosServer(), Smooth: false);
 		IsGhosting = true;
@@ -768,7 +768,7 @@ public class Mind : NetworkBehaviour, IActionGUI
 				playerPositionable.InternalOnLosePossess(this);
 			}
 		}
-
+		
 		foreach (var gained in Gaining)
 		{
 			PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, null, gained);

@@ -1145,6 +1145,16 @@ namespace Systems.Ai
 
 		#region Misc actions
 
+
+		[Command]
+		public void CmdChangesSprite()
+		{
+			if(OnCoolDown(NetworkSide.Server)) return;
+			StartCoolDown(NetworkSide.Server);
+
+			vesselObject.GetComponent<AiVessel>().NextCoreSprite();
+		}
+
 		[Command]
 		public void CmdCallShuttle(string reason)
 		{
@@ -1270,7 +1280,7 @@ namespace Systems.Ai
 			{
 				//0 is empty, 1 is full, 2 is dead sprite
 				vessel.SetLinkedPlayer(null);
-				vessel.VesselSpriteHandler.SetCatalogueIndexSprite(2);
+				vessel.ShowDead();
 			}
 
 			//Transfer player to ghost
