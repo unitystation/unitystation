@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Core.Highlight;
 using UnityEngine;
 using TileManagement;
 using Mirror;
@@ -373,6 +374,9 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 
 		// get object at target position
 		GameObject hit = MouseUtils.GetOrderedObjectsAtPoint(message.targetWorldPosition).FirstOrDefault();
+
+		if (hit == null) return;
+
 		// get matrix
 		Matrix matrix = hit.GetComponentInChildren<Matrix>();
 
@@ -621,8 +625,8 @@ public class InteractableTiles : MonoBehaviour, IClientInteractable<PositionalHa
 				}
 				else if(orientation == OrientationEnum.Left_By90)
 				{
-						spritePos.x -= 0.5f;
-						Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,90);
+					spritePos.x -= 0.5f;
+					Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,90);
 				}
 				else if(orientation == OrientationEnum.Up_By0)
 				{
