@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Core.RootSillys;
 using HealthV2;
 using Items;
 using Items.Food;
@@ -1055,6 +1056,8 @@ namespace Core.Physics
 				Loggy.Error("Unreasonable number detected in NewtonianPush for" + this.gameObject);
 				return;
 			}
+
+			speed = Mathf.Clamp(speed, 0, MAX_SPEED);
 
 			currentAim = inAim;
 			thrownBy = inThrownBy.NetWorkIdentity();
