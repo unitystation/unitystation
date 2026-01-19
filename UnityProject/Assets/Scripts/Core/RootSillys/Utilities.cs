@@ -1,23 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public static class Utilities
+namespace Core.RootSillys
 {
-	public static bool IsUnreasonableNumber(this float Number)
+	public static class Utilities
 	{
-		return float.IsNaN(Number) || float.IsInfinity(Number);
-	}
-
-	public static float MakeInToReasonableNumber(this float Number, float Reasonable)
-	{
-		if (Number.IsUnreasonableNumber())
+		public static bool IsUnreasonableNumber(this float Number)
 		{
-			return Reasonable;
+			return float.IsNaN(Number) || float.IsInfinity(Number);
 		}
-		else
+
+		public static float MakeInToReasonableNumber(this float Number, float Reasonable)
 		{
-			return Number;
+			if (Number.IsUnreasonableNumber())
+			{
+				return Reasonable;
+			}
+			else
+			{
+				return Number;
+			}
 		}
 	}
 }
