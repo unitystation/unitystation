@@ -20,6 +20,9 @@ namespace Core.Highlight
 
 		private static List<SpriteHandler> subscribeSpriteHandlers = new();
 		private static readonly int OutlineColor = Shader.PropertyToID("_OutlineColor");
+		private static GameObject cachedTarget;
+		private static Vector2Int cachedMaxSpriteSize;
+		private static bool cachedSizeValid;
 
 
 		public InitialisationSystems Subsystem => InitialisationSystems.Highlight;
@@ -119,6 +122,8 @@ namespace Core.Highlight
 				mainTex.SetPixels(data);
 				mainTex.Apply();
 				instance.TargetObject = null;
+				cachedTarget = null;
+				cachedSizeValid = false;
 			}
 		}
 
@@ -165,6 +170,7 @@ namespace Core.Highlight
 			{
 				if (handler == null) continue;
 				handler.OnSpriteUpdated -= (UpdateCurrentHighlight);
+				handler.OnSpriteUpdated -= (InvalidateCachedSize);
 			}
 
 			subscribeSpriteHandlers = highlightobject.GetComponentsInChildren<SpriteHandler>().ToList();
@@ -172,10 +178,23 @@ namespace Core.Highlight
 			{
 				if (handler == null) continue;
 				handler.OnSpriteUpdated += (UpdateCurrentHighlight);
+				handler.OnSpriteUpdated += (InvalidateCachedSize);
 			}
 
 			spriteRenderers = spriteRenderers.Where(x => x.sprite != null && x != instance.spriteRenderer && x.CompareTag("DontHighlightSpecial") == false).ToArray();
-			var maxSpriteSize = GetMaxSpriteRectSize(spriteRenderers);
+			if (cachedTarget != highlightobject)
+			{
+				cachedTarget = highlightobject;
+				cachedSizeValid = false;
+			}
+
+			if (!cachedSizeValid)
+			{
+				cachedMaxSpriteSize = GetMaxSpriteRectSize(spriteRenderers);
+				cachedSizeValid = true;
+			}
+
+			var maxSpriteSize = cachedMaxSpriteSize;
 			var mainTex = EnsureHighlightTexture(instance.spriteRenderer, maxSpriteSize.x, maxSpriteSize.y, HighlightPadding);
 			ClearTexture(mainTex);
 
@@ -371,6 +390,11 @@ namespace Core.Highlight
 			}
 
 			return foundBL && foundTL && foundBR && foundTR;
+		}
+
+		private static void InvalidateCachedSize()
+		{
+			cachedSizeValid = false;
 		}
 
 		public void OnDestroy()
