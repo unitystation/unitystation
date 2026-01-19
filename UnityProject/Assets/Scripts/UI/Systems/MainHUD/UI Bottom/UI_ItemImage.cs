@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Core.Highlight;
 using Items;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,9 @@ using UnityEngine.UI;
 /// </summary>
 public class UI_ItemImage
 {
+	private static readonly int IsPaletted = Shader.PropertyToID("_IsPaletted");
+	private static readonly int PaletteSize = Shader.PropertyToID("_PaletteSize");
+	private static readonly int ColorPalette = Shader.PropertyToID("_ColorPalette");
 	private readonly GameObject root;
 	private bool hidden;
 
@@ -102,13 +106,13 @@ public class UI_ItemImage
 			var itemAttrs = item.GetComponent<ItemAttributesV2>();
 			if (itemAttrs.ItemSprites.IsPaletted)
 			{
-				image.material.SetInt("_IsPaletted", 1);
-				image.material.SetInt("_PaletteSize", itemAttrs.ItemSprites.Palette.Count);
-				image.material.SetColorArray("_ColorPalette", itemAttrs.ItemSprites.Palette.ToArray());
+				image.material.SetInt(IsPaletted, 1);
+				image.material.SetInt(PaletteSize, itemAttrs.ItemSprites.Palette.Count);
+				image.material.SetColorArray(ColorPalette, itemAttrs.ItemSprites.Palette.ToArray());
 			}
 			else
 			{
-				image.material.SetInt("_IsPaletted", 0);
+				image.material.SetInt(IsPaletted, 0);
 			}
 
 			var colorSync = item.GetComponent<SpriteColorSync>();
@@ -222,7 +226,7 @@ public class UI_ItemImage
 	/// </summary>
 	public class ImageAndHandler
 	{
-		public static List<System.WeakReference<ImageAndHandler>> item_list = new List<System.WeakReference<ImageAndHandler>>();
+		public static readonly List<System.WeakReference<ImageAndHandler>> ItemList = new();
 
 		System.WeakReference<Image> _img;
 
@@ -249,7 +253,7 @@ public class UI_ItemImage
 
 		public static void ClearAll()
 		{
-			foreach (var a in item_list)
+			foreach (var a in ItemList)
 			{
 				ImageAndHandler iah;
 
@@ -266,12 +270,12 @@ public class UI_ItemImage
 				}
 			}
 
-			item_list.Clear();
+			ItemList.Clear();
 		}
 
 		public ImageAndHandler(Image image)
 		{
-			item_list.Add(new System.WeakReference<ImageAndHandler>(this));
+			ItemList.Add(new System.WeakReference<ImageAndHandler>(this));
 			UIImage = image;
 		}
 

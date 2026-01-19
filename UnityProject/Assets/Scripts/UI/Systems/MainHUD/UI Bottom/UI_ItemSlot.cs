@@ -518,13 +518,13 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IPointerEnterHandler, IPointerE
 				//both are occupied)
 				if (TryIF2InventoryApply()) return;
 
-				if (swapIfEmpty)
+				if (swapIfEmpty && HandSlot.ItemNotRemovable == false)
 					SwapItem(this);
 				return;
 			}
 			else
 			{
-				if (swapIfEmpty)
+				if (swapIfEmpty && HandSlot.ItemNotRemovable == false)
 					SwapItem(this);
 				return;
 			}
@@ -548,7 +548,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour, IPointerEnterHandler, IPointerE
 					if (TryIF2InventoryApply()) return;
 				}
 
-				if (swapIfEmpty)
+				if (swapIfEmpty && HandSlot?.ItemNotRemovable is not true)
 					SwapItem(this);
 			}
 		}

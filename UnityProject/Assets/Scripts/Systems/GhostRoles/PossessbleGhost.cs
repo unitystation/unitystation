@@ -21,26 +21,19 @@ public class PossessbleGhost : MonoBehaviour
 
 	public SpriteDataSO SpriteUnclaimed;
 
+	public IPlayerPossessable IPlayerPossessable;
+
 	public void Start()
 	{
-		var Possessedble = this.GetComponent<IPlayerPossessable>();
-		if (Possessedble.PossessingMind == null)
+		IPlayerPossessable = this.GetComponent<IPlayerPossessable>();
+
+		IPlayerPossessable.OnBodyPossesedByPlayer.AddListener(OnPlayerPossessing);
+		IPlayerPossessable.OnBodyUnPossesedByPlayer.AddListener(OnPlayerPossessing);
+		SetupSprites();
+		if (IPlayerPossessable.PossessingMind == null)
 		{
-			if (SpriteHandler != null)
-			{
-				SpriteHandler.SetSpriteSO(SpriteUnclaimed);
-			}
 			SetUpGhostRole();
 		}
-		else
-		{
-			if (SpriteHandler != null)
-			{
-				SpriteHandler.SetSpriteSO(SpriteOccupied);
-			}
-		}
-
-		Possessedble.OnActionPossess += OnPlayerPossessing;
 	}
 
 	public void OnDestroy()
@@ -48,6 +41,7 @@ public class PossessbleGhost : MonoBehaviour
 		if (createdRoleKey != 0)
 		{
 			GhostRoleManager.Instance.ServerRemoveRole(createdRoleKey);
+
 		}
 	}
 
@@ -57,13 +51,29 @@ public class PossessbleGhost : MonoBehaviour
 		if (createdRoleKey != 0)
 		{
 			GhostRoleManager.Instance.ServerRemoveRole(createdRoleKey);
+		}
+		SetupSprites();
+	}
+
+
+	public void SetupSprites()
+	{
+		if (IPlayerPossessable.PossessingMind == null)
+		{
+			if (SpriteHandler != null)
+			{
+				SpriteHandler.SetSpriteSO(SpriteUnclaimed);
+			}
+
+		}
+		else
+		{
 			if (SpriteHandler != null)
 			{
 				SpriteHandler.SetSpriteSO(SpriteOccupied);
 			}
 		}
 	}
-
 
 	private void SetUpGhostRole()
 	{

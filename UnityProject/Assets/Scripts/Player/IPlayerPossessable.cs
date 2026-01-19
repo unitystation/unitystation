@@ -164,6 +164,7 @@ public interface IPlayerPossessable
 		}
 
 		OnPossessedBy?.Invoke(mind, parent);
+		OnBodyPossesedByPlayer?.Invoke();
 	}
 
 	public void ServerInternalOnPossess(Mind mind, IPlayerPossessable parent)
@@ -211,6 +212,7 @@ public interface IPlayerPossessable
 				leaveInterface.OnPlayerLosePossession(MindBackup);
 			}
 		}
+		OnBodyUnPossesedByPlayer?.Invoke();
 	}
 
 	public void OnPossessPlayer(Mind mind, IPlayerPossessable parent);

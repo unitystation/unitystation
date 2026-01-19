@@ -40,6 +40,9 @@ namespace AdminTools
 		/// </summary>
 		private readonly Dictionary<string, Dictionary<int,  List<AdminChatMessage>>> clientAdminPlayerChatLogs = new();
 
+		public Dictionary<string, Dictionary<int, List<AdminChatMessage>>> ClientAdminPlayerChatLogs =>
+			clientAdminPlayerChatLogs;
+
 		public void Awake()
 		{
 			RoundIDsDropDown.options.Clear();

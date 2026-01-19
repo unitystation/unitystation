@@ -12,7 +12,7 @@ namespace AdminTools
 		public GUI_Notification playerNotification = null;
 		public GUI_Notification prayerNotification = null;
 		public GUI_Notification adminLogNotification = null;
-		[SerializeField] private AdminChatWindows adminChatWindows = null;
+		[SerializeField] public AdminChatWindows adminChatWindows = null;
 		[SerializeField] private Button adminChatButton = null;
 		[SerializeField] private Button mentorChatButton = null;
 		[SerializeField] private Button playerChatButton = null;
