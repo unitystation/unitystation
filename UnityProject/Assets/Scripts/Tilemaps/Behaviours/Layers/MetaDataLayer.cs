@@ -336,6 +336,8 @@ public class MetaDataLayer : MonoBehaviour
 			}
 			else
 			{
+				//(Max): This sucks ass. Stop hardcoding this shit in places that it doesn't belong to, and make it part of the reagent logic itself.
+				//TODO: Refactor this part so that Reagents handle their own logic for splats instead of MetaDataLayer.
 				if (reagents.MajorMixReagent == CommonReagents.Instance.Water)
 				{
 					MakeSlipperyAt(localPosInt, false);
@@ -348,8 +350,6 @@ public class MetaDataLayer : MonoBehaviour
 					didSplat = true;
 					EffectsFactory.WaterSplat(worldPos);
 				}
-
-
 
 				if (reagents.MajorMixReagent == CommonReagents.Instance.Blood)
 				{
@@ -614,7 +614,6 @@ public class MetaDataLayer : MonoBehaviour
 		bool excess = false;
 		ReagentMix reagentsToUse = reagents.Clone();
 
-
 		cell.ReagentsOnTile.Add(reagentsToUse);
 
 		CleanAndMoveToExcess(localPosInt.ToWorldInt(matrix), localPosInt,cell.ReagentsOnTile);
@@ -638,9 +637,6 @@ public class MetaDataLayer : MonoBehaviour
 
 	public void SetOrUpdateTile(MetaDataNode cell, Vector3Int localPosInt)
 	{
-
-
-
 		if (cell.ReagentOverlayTileLocation == null)
 		{
 			trackedTilesWithReagentsOnThem.Add(cell);
@@ -683,8 +679,6 @@ public class MetaDataLayer : MonoBehaviour
 		//You can emulate this issue by enabling gizmos in the editor and watching the FPS drop, then testing this.
 		while (cellsToProcess.Count > 0 && iterations < MAX_ITERATIONS)
 		{
-
-
 			var currentCell = cellsToProcess.Dequeue();
 			PositionsVisited.Add(currentCell.LocalPosition);
 			if (currentCell.ReagentsOnTile.Total <= REAGENT_LIMIT_PER_CELL) continue;
@@ -702,11 +696,11 @@ public class MetaDataLayer : MonoBehaviour
 				AvailableNeighbours++;
 			}
 
-			var SplitMix = currentCell.ReagentsOnTile.Take(currentCell.ReagentsOnTile.Total - REAGENT_LIMIT_PER_CELL);
+			var splitMix = currentCell.ReagentsOnTile.Take(currentCell.ReagentsOnTile.Total - REAGENT_LIMIT_PER_CELL);
 
 			if (AvailableNeighbours == 0) continue;
 
-			SplitMix.Divide(AvailableNeighbours);
+			splitMix.Divide(AvailableNeighbours);
 
 			foreach (var NeighbourPosition in loop)
 			{
@@ -726,7 +720,7 @@ public class MetaDataLayer : MonoBehaviour
 					matrix.ReactionManager.ExtinguishHotspot(neighbor.LocalPosition);
 				}
 
-				neighbor.ReagentsOnTile.Add(SplitMix);
+				neighbor.ReagentsOnTile.Add(splitMix);
 
 				CleanAndMoveToExcess(neighbor.LocalPosition.ToWorldInt(matrix), neighbor.LocalPosition,neighbor.ReagentsOnTile);
 
