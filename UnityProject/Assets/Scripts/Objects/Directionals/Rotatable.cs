@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core.Highlight;
 using Logs;
 using Mirror;
 using NaughtyAttributes;

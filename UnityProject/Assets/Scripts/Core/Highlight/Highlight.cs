@@ -1,368 +1,538 @@
-﻿using System;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Initialisation;
 using Logs;
+using UnityEngine;
 
-public class Highlight : MonoBehaviour, IInitialise
+namespace Core.Highlight
 {
-	public static bool HighlightEnabled;
-	public static Highlight instance;
-
-	public GameObject TargetObject;
-
-	public SpriteRenderer prefabSpriteRenderer;
-	public SpriteRenderer spriteRenderer;
-	public Material material;
-
-	private static List<SpriteHandler> subscribeSpriteHandlers = new List<SpriteHandler>();
-
-
-
-	public InitialisationSystems Subsystem => InitialisationSystems.Highlight;
-
-	void IInitialise.Initialise()
+	public class Highlight : MonoBehaviour, IInitialise
 	{
-		if (PlayerPrefs.HasKey(PlayerPrefKeys.EnableHighlights))
+		private const int HighlightPadding = 3;
+		public static bool HighlightEnabled;
+		public static Highlight instance;
+
+		public GameObject TargetObject;
+
+		public SpriteRenderer prefabSpriteRenderer;
+		public SpriteRenderer spriteRenderer;
+		public Material material;
+
+		private static List<SpriteHandler> subscribeSpriteHandlers = new();
+		private static readonly int OutlineColor = Shader.PropertyToID("_OutlineColor");
+		private static GameObject cachedTarget;
+		private static Vector2Int cachedMaxSpriteSize;
+		private static bool cachedSizeValid;
+
+
+		public InitialisationSystems Subsystem => InitialisationSystems.Highlight;
+
+		void IInitialise.Initialise()
 		{
-			if (PlayerPrefs.GetInt(PlayerPrefKeys.EnableHighlights) == 1)
+			if (PlayerPrefs.HasKey(PlayerPrefKeys.EnableHighlights))
 			{
+				if (PlayerPrefs.GetInt(PlayerPrefKeys.EnableHighlights) == 1)
+				{
+					HighlightEnabled = true;
+				}
+				else
+				{
+					HighlightEnabled = false;
+				}
+			}
+			else
+			{
+				PlayerPrefs.SetInt(PlayerPrefKeys.EnableHighlights, 1);
+				PlayerPrefs.Save();
+			}
+		}
+
+		public static void SetPreference(bool preference)
+		{
+			if (preference)
+			{
+				PlayerPrefs.SetInt(PlayerPrefKeys.EnableHighlights, 1);
 				HighlightEnabled = true;
 			}
 			else
 			{
+				PlayerPrefs.SetInt(PlayerPrefKeys.EnableHighlights, 0);
 				HighlightEnabled = false;
 			}
-		}
-		else
-		{
-			PlayerPrefs.SetInt(PlayerPrefKeys.EnableHighlights, 1);
+
 			PlayerPrefs.Save();
 		}
-	}
 
-	public static void SetPreference(bool preference)
-	{
-		if (preference)
+		private void Awake()
 		{
-			PlayerPrefs.SetInt(PlayerPrefKeys.EnableHighlights, 1);
-			HighlightEnabled = true;
-		}
-		else
-		{
-			PlayerPrefs.SetInt(PlayerPrefKeys.EnableHighlights, 0);
-			HighlightEnabled = false;
-		}
-
-		PlayerPrefs.Save();
-	}
-
-	private void Awake()
-	{
-		if (instance == null)
-		{
-			instance = this;
-		}
-		else
-		{
-			Destroy(gameObject);
-		}
-	}
-
-	public static void UpdateCurrentHighlight()
-	{
-		if (instance == null) return;
-		if (HighlightEnabled && instance.TargetObject != null)
-		{
-			HighlightThis(instance.TargetObject);
-		}
-		else
-		{
-			foreach (var SH in subscribeSpriteHandlers)
+			if (instance == null)
 			{
-				if (SH == null) continue;
-				SH.OnSpriteUpdated -= (UpdateCurrentHighlight);
+				instance = this;
 			}
-
-			subscribeSpriteHandlers.Clear();
+			else
+			{
+				Destroy(gameObject);
+			}
 		}
-	}
+
+		public static void UpdateCurrentHighlight()
+		{
+			if (instance == null) return;
+			if (HighlightEnabled && instance.TargetObject != null)
+			{
+				HighlightThis(instance.TargetObject);
+			}
+			else
+			{
+				foreach (var handler in subscribeSpriteHandlers)
+				{
+					if (handler == null) continue;
+					handler.OnSpriteUpdated -= (UpdateCurrentHighlight);
+				}
+
+				subscribeSpriteHandlers.Clear();
+			}
+		}
 
 
-	public static void DeHighlight()
-	{
-		if (HighlightEnabled)
+		public static void DeHighlight()
+		{
+			if (HighlightEnabled)
+			{
+				if (instance.spriteRenderer == null)
+				{
+					instance.spriteRenderer = Instantiate(instance.prefabSpriteRenderer);
+				}
+
+				foreach (var handler in subscribeSpriteHandlers)
+				{
+					if (handler == null) continue;
+					handler.OnSpriteUpdated -= (UpdateCurrentHighlight);
+				}
+
+				subscribeSpriteHandlers.Clear();
+
+				Texture2D mainTex = instance.spriteRenderer.sprite.texture;
+				var data = mainTex.GetPixels();
+				for (int xy = 0; xy < data.Length; xy++)
+				{
+					data[xy] = new Color32(0, 0, 0, 0);
+				}
+
+				mainTex.SetPixels(data);
+				mainTex.Apply();
+				instance.TargetObject = null;
+				cachedTarget = null;
+				cachedSizeValid = false;
+			}
+		}
+
+		public static void HighlightThis(GameObject highlightobject)
+		{
+			if (PlayerManager.LocalPlayerScript.IsNormal && HighlightEnabled)
+			{
+				if (highlightobject.TryGetComponent<Attributes>(out var attributes))
+				{
+					if (attributes.NoMouseHighlight) return;
+				}
+
+				ShowHighlight(highlightobject);
+			}
+		}
+
+
+
+		public static void ShowHighlight(GameObject highlightobject, bool ignoreHandApply = false)
 		{
 			if (instance.spriteRenderer == null)
 			{
 				instance.spriteRenderer = Instantiate(instance.prefabSpriteRenderer);
 			}
 
-			foreach (var SH in subscribeSpriteHandlers)
+			instance.TargetObject = highlightobject;
+			instance.spriteRenderer.gameObject.SetActive(true);
+			instance.spriteRenderer.enabled = true;
+			var spriteRenderers = highlightobject.GetComponentsInChildren<SpriteRenderer>();
+			SpriteRenderer rootRenderer = spriteRenderers.FirstOrDefault(x => x.sprite != null);
+			if (rootRenderer == null)
 			{
-				if (SH == null) continue;
-				SH.OnSpriteUpdated -= (UpdateCurrentHighlight);
+				return;
+			}
+			Transform trans = instance.spriteRenderer.transform;
+
+			trans.SetParent(rootRenderer.transform, false);
+			trans.localPosition = Vector3.zero;
+			trans.transform.localRotation = Quaternion.Euler(0, 0, 0);
+			trans.localScale = Vector3.one;
+			instance.spriteRenderer.sortingLayerID = rootRenderer.sortingLayerID;
+
+			foreach (var handler in subscribeSpriteHandlers)
+			{
+				if (handler == null) continue;
+				handler.OnSpriteUpdated -= (UpdateCurrentHighlight);
+				handler.OnSpriteUpdated -= (InvalidateCachedSize);
 			}
 
-			subscribeSpriteHandlers.Clear();
-
-			Texture2D mainTex = instance.spriteRenderer.sprite.texture;
-			var data = mainTex.GetPixels();
-			for (int xy = 0; xy < data.Length; xy++)
+			subscribeSpriteHandlers = highlightobject.GetComponentsInChildren<SpriteHandler>().ToList();
+			foreach (var handler in subscribeSpriteHandlers)
 			{
-				data[xy] = new Color32(0, 0, 0, 0);
+				if (handler == null) continue;
+				handler.OnSpriteUpdated += (UpdateCurrentHighlight);
+				handler.OnSpriteUpdated += (InvalidateCachedSize);
 			}
 
-			mainTex.SetPixels(data);
-			mainTex.Apply();
-			instance.TargetObject = null;
-		}
-	}
-
-	public static void HighlightThis(GameObject Highlightobject)
-	{
-		if (PlayerManager.LocalPlayerScript.IsNormal && HighlightEnabled)
-		{
-			if (Highlightobject.TryGetComponent<Attributes>(out var attributes))
+			spriteRenderers = spriteRenderers.Where(x => x.sprite != null && x != instance.spriteRenderer && x.CompareTag("DontHighlightSpecial") == false).ToArray();
+			if (cachedTarget != highlightobject)
 			{
-				if (attributes.NoMouseHighlight) return;
+				cachedTarget = highlightobject;
+				cachedSizeValid = false;
 			}
 
-			ShowHighlight(Highlightobject);
-		}
-	}
+			if (!cachedSizeValid)
+			{
+				cachedMaxSpriteSize = GetMaxSpriteRectSize(spriteRenderers);
+				cachedSizeValid = true;
+			}
 
+			var maxSpriteSize = cachedMaxSpriteSize;
+			var mainTex = EnsureHighlightTexture(instance.spriteRenderer, maxSpriteSize.x, maxSpriteSize.y, HighlightPadding);
+			ClearTexture(mainTex);
 
+			bool canHighlight = ignoreHandApply || CheckHandApply(highlightobject);
+			if (!canHighlight)
+			{
+				mainTex.Apply();
+				instance.spriteRenderer.enabled = false;
+				return;
+			}
 
-	public static void ShowHighlight(GameObject Highlightobject, bool ignoreHandApply = false)
-	{
-		if (instance.spriteRenderer == null)
-		{
-			instance.spriteRenderer = Instantiate(instance.prefabSpriteRenderer);
-		}
-
-		Texture2D mainTex = instance.spriteRenderer.sprite.texture;
-		var data = mainTex.GetPixels();
-		for (int xy = 0; xy < data.Length; xy++)
-		{
-			data[xy] = new Color32(0, 0, 0, 0);
-		}
-
-		mainTex.SetPixels(data);
-
-		instance.TargetObject = Highlightobject;
-		instance.spriteRenderer.gameObject.SetActive(true);
-		instance.spriteRenderer.enabled = true;
-		var SpriteRenderers = Highlightobject.GetComponentsInChildren<SpriteRenderer>();
-		var trans = instance.spriteRenderer.transform;
-
-		trans.SetParent(SpriteRenderers[0].transform, false);
-		trans.localPosition = Vector3.zero;
-		trans.transform.localRotation = Quaternion.Euler(0, 0, 0);
-		trans.localScale = Vector3.one;
-		instance.spriteRenderer.sortingLayerID = SpriteRenderers[0].sortingLayerID;
-
-		foreach (var SH in subscribeSpriteHandlers)
-		{
-			if (SH == null) continue;
-			SH.OnSpriteUpdated -= (UpdateCurrentHighlight);
-		}
-
-		subscribeSpriteHandlers = Highlightobject.GetComponentsInChildren<SpriteHandler>().ToList();
-		foreach (var SH in subscribeSpriteHandlers)
-		{
-			if (SH == null) continue;
-			SH.OnSpriteUpdated += (UpdateCurrentHighlight);
-		}
-
-		SpriteRenderers = SpriteRenderers.Where(x => x.sprite != null && x != instance.spriteRenderer && x.CompareTag("DontHighlightSpecial") == false).ToArray();
-
-		if (ignoreHandApply || CheckHandApply(Highlightobject))
-		{
 			if (ignoreHandApply)
 			{
-				instance.material.SetColor("_OutlineColor", Color.green);
+				instance.material.SetColor(OutlineColor, Color.green);
 			}
 
-			foreach (var T in SpriteRenderers)
+			foreach (var T in spriteRenderers)
 			{
 				if (DevCameraControls.ObjecIsVisible(T.gameObject) == false) continue;
 				if (T.sortingLayerName == "Preview") continue;
-				RecursiveTextureStack(mainTex, T);
+				RecursiveTextureStack(mainTex, T, HighlightPadding);
 			}
 
 			mainTex.Apply();
+			instance.spriteRenderer.enabled = true;
 			instance.spriteRenderer.sprite = Sprite.Create(mainTex, new Rect(0, 0, mainTex.width, mainTex.height),
-				new Vector2(0.5f, 0.5f), 32, 1, SpriteMeshType.FullRect, new Vector4(32, 32, 32, 32));
+				new Vector2(0.5f, 0.5f), instance.spriteRenderer.sprite.pixelsPerUnit, 1, SpriteMeshType.FullRect, Vector4.zero);
 		}
-	}
 
 
-	static void RecursiveTextureStack(Texture2D mainTex, SpriteRenderer SpriteRenderers)
-	{
-		int xx = 3;
-		int yy = 3;
-
-		for (int x = (int) SpriteRenderers.sprite.textureRect.position.x;
-		     x < (int) SpriteRenderers.sprite.textureRect.position.x + SpriteRenderers.sprite.rect.width;
-		     x++)
+		static void RecursiveTextureStack(Texture2D mainTex, SpriteRenderer spriteRenderers, int padding)
 		{
-			for (int y = (int) SpriteRenderers.sprite.textureRect.position.y;
-			     y < SpriteRenderers.sprite.textureRect.position.y + SpriteRenderers.sprite.rect.height;
-			     y++)
-			{
-				if (SpriteRenderers.gameObject.activeInHierarchy == false) continue;
-				//Loggy.Log(yy + " <XX YY> " + xx + "   " +  x + " <X Y> " + y  );
-				if (SpriteRenderers.sprite.texture.GetPixel(x, y).a != 0)
-				{
-					mainTex.SetPixel(xx, yy, SpriteRenderers.sprite.texture.GetPixel(x, y));
-				}
+			if (spriteRenderers.gameObject.activeInHierarchy == false) return;
+			Sprite sprite = spriteRenderers.sprite;
+			Texture2D texture = sprite.texture;
+			if (texture == null) return;
 
-				yy += 1;
+			int width = Mathf.RoundToInt(sprite.rect.width);
+			int height = Mathf.RoundToInt(sprite.rect.height);
+			if (width <= 0 || height <= 0) return;
+
+			int maxX = mainTex.width - padding;
+			int maxY = mainTex.height - padding;
+
+			bool hasUvCorners = TryGetSpriteUvCorners(sprite, out var uvCorners);
+			Rect rect = sprite.textureRect;
+
+			for (int x = 0; x < width; x++)
+			{
+				int xx = padding + x;
+				if (xx >= maxX) break;
+
+				for (int y = 0; y < height; y++)
+				{
+					int yy = padding + y;
+					if (yy >= maxY) break;
+
+					Color color;
+					if (hasUvCorners)
+					{
+						float u = (x + 0.5f) / width;
+						float v = (y + 0.5f) / height;
+						Vector2 uv = Vector2.Lerp(
+							Vector2.Lerp(uvCorners.BottomLeft, uvCorners.BottomRight, u),
+							Vector2.Lerp(uvCorners.TopLeft, uvCorners.TopRight, u),
+							v);
+						color = texture.GetPixelBilinear(uv.x, uv.y);
+					}
+					else
+					{
+						int texX = Mathf.FloorToInt(rect.x) + x;
+						int texY = Mathf.FloorToInt(rect.y) + y;
+						color = texture.GetPixel(texX, texY);
+					}
+
+					if (color.a != 0)
+					{
+						mainTex.SetPixel(xx, yy, color);
+					}
+				}
+			}
+		}
+
+		private static Vector2Int GetMaxSpriteRectSize(SpriteRenderer[] renderers)
+		{
+			int maxW = 0;
+			int maxH = 0;
+
+			foreach (SpriteRenderer renderer in renderers)
+			{
+				if (renderer == null || renderer.sprite == null) continue;
+				maxW = Mathf.Max(maxW, Mathf.RoundToInt(renderer.sprite.rect.width));
+				maxH = Mathf.Max(maxH, Mathf.RoundToInt(renderer.sprite.rect.height));
 			}
 
-			yy = 3;
-			xx += 1;
-		}
-	}
-
-	public void OnDestroy()
-	{
-		foreach (var SH in subscribeSpriteHandlers)
-		{
-			if (SH == null) continue;
-			SH.OnSpriteUpdated -= (UpdateCurrentHighlight);
+			return new Vector2Int(maxW, maxH);
 		}
 
-		subscribeSpriteHandlers.Clear();
-	}
-
-
-	public static bool CheckHandApply(GameObject target)
-	{
-		//call the used object's handapply interaction methods if it has any, for each object we are applying to
-		var handApply = HandApply.ByLocalPlayer(target);
-		var posHandApply = PositionalHandApply.ByLocalPlayer(target);
-
-		handApply.IsHighlight = true;
-		posHandApply.IsHighlight = true;
-
-		//if handobj is null, then its an empty hand apply so we only need to check the receiving object
-		if (handApply.HandObject != null)
+		private static Texture2D EnsureHighlightTexture(SpriteRenderer renderer, int spriteWidth, int spriteHeight, int padding)
 		{
-			//get all components that can handapply or PositionalHandApply
-			var handAppliables = handApply.HandObject.GetComponents<MonoBehaviour>()
-				.Where(c => c != null && c.enabled &&
-				            (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
-			Loggy.Trace().Format("Checking HandApply / PositionalHandApply interactions from {0} targeting {1}",
-				Category.Interaction, handApply.HandObject.name, target.name);
+			Sprite currentSprite = renderer.sprite;
+			Texture2D currentTexture = currentSprite != null ? currentSprite.texture : null;
+			int targetWidth = Mathf.Max(1, spriteWidth + padding * 2);
+			int targetHeight = Mathf.Max(1, spriteHeight + padding * 2);
 
-			foreach (var handAppliable in handAppliables.Reverse())
+			if (currentTexture != null && currentTexture.width == targetWidth && currentTexture.height == targetHeight)
 			{
-				if (handAppliable is IBaseInteractable<HandApply>)
+				return currentTexture;
+			}
+
+			TextureFormat format = currentTexture != null ? currentTexture.format : TextureFormat.RGBA32;
+			var newTexture = new Texture2D(targetWidth, targetHeight, format, false)
+			{
+				filterMode = currentTexture != null ? currentTexture.filterMode : FilterMode.Point,
+				wrapMode = currentTexture != null ? currentTexture.wrapMode : TextureWrapMode.Clamp,
+				name = "HighlightTexture"
+			};
+
+			float pixelsPerUnit = currentSprite != null ? currentSprite.pixelsPerUnit : 32f;
+			renderer.sprite = Sprite.Create(newTexture, new Rect(0, 0, targetWidth, targetHeight),
+				new Vector2(0.5f, 0.5f), pixelsPerUnit, 1, SpriteMeshType.FullRect, Vector4.zero);
+			return newTexture;
+		}
+
+		private static void ClearTexture(Texture2D texture)
+		{
+			var data = new Color32[texture.width * texture.height];
+			texture.SetPixels32(data);
+		}
+
+		private struct SpriteUvCorners
+		{
+			public Vector2 BottomLeft;
+			public Vector2 TopLeft;
+			public Vector2 BottomRight;
+			public Vector2 TopRight;
+		}
+
+		private static bool TryGetSpriteUvCorners(Sprite sprite, out SpriteUvCorners corners)
+		{
+			corners = default;
+			var verts = sprite.vertices;
+			var uvs = sprite.uv;
+			if (verts == null || uvs == null || verts.Length != uvs.Length || verts.Length < 4)
+			{
+				return false;
+			}
+
+			float minX = float.PositiveInfinity;
+			float maxX = float.NegativeInfinity;
+			float minY = float.PositiveInfinity;
+			float maxY = float.NegativeInfinity;
+
+			for (int i = 0; i < verts.Length; i++)
+			{
+				var v = verts[i];
+				minX = Mathf.Min(minX, v.x);
+				maxX = Mathf.Max(maxX, v.x);
+				minY = Mathf.Min(minY, v.y);
+				maxY = Mathf.Max(maxY, v.y);
+			}
+
+			const float epsilon = 0.0001f;
+			bool foundBL = false;
+			bool foundTL = false;
+			bool foundBR = false;
+			bool foundTR = false;
+
+			for (int i = 0; i < verts.Length; i++)
+			{
+				Vector2 v = verts[i];
+				Vector2 uv = uvs[i];
+				if (Mathf.Abs(v.x - minX) < epsilon && Mathf.Abs(v.y - minY) < epsilon)
 				{
-					var hap = handAppliable as IBaseInteractable<HandApply>;
-					if (CheckInteractInternal(hap, handApply, NetworkSide.Client))
+					corners.BottomLeft = uv;
+					foundBL = true;
+				}
+				else if (Mathf.Abs(v.x - minX) < epsilon && Mathf.Abs(v.y - maxY) < epsilon)
+				{
+					corners.TopLeft = uv;
+					foundTL = true;
+				}
+				else if (Mathf.Abs(v.x - maxX) < epsilon && Mathf.Abs(v.y - minY) < epsilon)
+				{
+					corners.BottomRight = uv;
+					foundBR = true;
+				}
+				else if (Mathf.Abs(v.x - maxX) < epsilon && Mathf.Abs(v.y - maxY) < epsilon)
+				{
+					corners.TopRight = uv;
+					foundTR = true;
+				}
+			}
+
+			return foundBL && foundTL && foundBR && foundTR;
+		}
+
+		private static void InvalidateCachedSize()
+		{
+			cachedSizeValid = false;
+		}
+
+		public void OnDestroy()
+		{
+			foreach (SpriteHandler handler in subscribeSpriteHandlers)
+			{
+				if (handler == null) continue;
+				handler.OnSpriteUpdated -= (UpdateCurrentHighlight);
+			}
+
+			subscribeSpriteHandlers.Clear();
+		}
+
+
+		public static bool CheckHandApply(GameObject target)
+		{
+			//call the used object's handapply interaction methods if it has any, for each object we are applying to
+			HandApply handApply = HandApply.ByLocalPlayer(target);
+			PositionalHandApply posHandApply = PositionalHandApply.ByLocalPlayer(target);
+
+			handApply.IsHighlight = true;
+			posHandApply.IsHighlight = true;
+
+			//if handobj is null, then its an empty hand apply so we only need to check the receiving object
+			if (handApply.HandObject != null)
+			{
+				//get all components that can handapply or PositionalHandApply
+				var handAppliables = handApply.HandObject.GetComponents<MonoBehaviour>()
+					.Where(c => c != null && c.enabled &&
+								c is IBaseInteractable<HandApply> or IBaseInteractable<PositionalHandApply>);
+				Loggy.Trace().Format("Checking HandApply / PositionalHandApply interactions from {0} targeting {1}",
+					Category.Interaction, handApply.HandObject.name, target.name);
+
+				foreach (var handAppliable in handAppliables.Reverse())
+				{
+					if (handAppliable is IBaseInteractable<HandApply>)
 					{
-						instance.material.SetColor("_OutlineColor", Color.cyan);
+						var hap = handAppliable as IBaseInteractable<HandApply>;
+						if (CheckInteractInternal(hap, handApply, NetworkSide.Client))
+						{
+							instance.material.SetColor(OutlineColor, Color.cyan);
+							return true;
+						}
+					}
+					else
+					{
+						var hap = handAppliable as IBaseInteractable<PositionalHandApply>;
+						if (CheckInteractInternal(hap, posHandApply, NetworkSide.Client))
+						{
+							instance.material.SetColor(OutlineColor, Color.magenta);
+							return true;
+						}
+					}
+				}
+			}
+
+
+			//call the hand apply interaction methods on the target object if it has any
+			var targetHandAppliables = handApply.TargetObject.GetComponents<MonoBehaviour>()
+				.Where(c => c != null && c.enabled &&
+							c is IBaseInteractable<HandApply> or IBaseInteractable<PositionalHandApply>);
+			foreach (MonoBehaviour targetHandAppliable in targetHandAppliables.Reverse())
+			{
+				if (targetHandAppliable is IBaseInteractable<HandApply> interactable)
+				{
+					//var hap = targetHandAppliable as IBaseInteractable<HandApply>;
+					if (CheckInteractInternal(interactable, handApply, NetworkSide.Client))
+					{
+						instance.material.SetColor(OutlineColor, Color.green);
 						return true;
 					}
 				}
 				else
 				{
-					var hap = handAppliable as IBaseInteractable<PositionalHandApply>;
+					var hap = targetHandAppliable as IBaseInteractable<PositionalHandApply>;
 					if (CheckInteractInternal(hap, posHandApply, NetworkSide.Client))
 					{
-						instance.material.SetColor("_OutlineColor", Color.magenta);
+						instance.material.SetColor(OutlineColor, new Color(1, 0.647f, 0));
 						return true;
 					}
 				}
 			}
+
+			return false;
 		}
 
 
-		//call the hand apply interaction methods on the target object if it has any
-		var targetHandAppliables = handApply.TargetObject.GetComponents<MonoBehaviour>()
-			.Where(c => c != null && c.enabled &&
-			            (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
-		foreach (var targetHandAppliable in targetHandAppliables.Reverse())
+		private static bool CheckInteractInternal<T>(IBaseInteractable<T> interactable, T interaction,
+			NetworkSide side)
+			where T : Interaction
 		{
-			if (targetHandAppliable is IBaseInteractable<HandApply> Hap)
+			if (Cooldowns.IsOn(interaction, CooldownID.Asset(CommonCooldowns.Instance.Interaction, side))) return false;
+			var result = false;
+			//check if client side interaction should be triggered
+			if (side == NetworkSide.Client && interactable is IClientInteractable<T> clientInteractable)
 			{
-				//var hap = targetHandAppliable as IBaseInteractable<HandApply>;
-				if (CheckInteractInternal(Hap, handApply, NetworkSide.Client))
+				result = clientInteractable.Interact(interaction);
+				if (result)
 				{
-					instance.material.SetColor("_OutlineColor", Color.green);
+					Loggy.Trace().Format("ClientInteractable triggered from {0} on {1} for object {2}",
+						Category.Interaction, typeof(T).Name, clientInteractable.GetType().Name,
+						(clientInteractable as Component)?.gameObject.name);
+					Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Interaction);
 					return true;
 				}
 			}
-			else
+
+			//check other kinds of interactions
+			if (interactable is ICheckable<T> checkable)
 			{
-				var hap = targetHandAppliable as IBaseInteractable<PositionalHandApply>;
-				if (CheckInteractInternal(hap, posHandApply, NetworkSide.Client))
+				result = checkable.WillInteract(interaction, side);
+				if (result)
 				{
-					instance.material.SetColor("_OutlineColor", new Color(1, 0.647f, 0));
+					Loggy.Trace().Format("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction,
+						typeof(T).Name, checkable.GetType().Name,
+						(checkable as Component)?.gameObject.name);
 					return true;
 				}
 			}
-		}
-
-		//instance.material.SetColor("_OutlineColor", Color.grey);
-		return false;
-	}
-
-
-	private static bool CheckInteractInternal<T>(IBaseInteractable<T> interactable, T interaction,
-		NetworkSide side)
-		where T : Interaction
-	{
-		if (Cooldowns.IsOn(interaction, CooldownID.Asset(CommonCooldowns.Instance.Interaction, side))) return false;
-		var result = false;
-		//check if client side interaction should be triggered
-		if (side == NetworkSide.Client && interactable is IClientInteractable<T> clientInteractable)
-		{
-			result = clientInteractable.Interact(interaction);
-			if (result)
+			else if (interactable is IInteractable<T>)
 			{
-				Loggy.Trace().Format("ClientInteractable triggered from {0} on {1} for object {2}",
-					Category.Interaction, typeof(T).Name, clientInteractable.GetType().Name,
-					(clientInteractable as Component).gameObject.name);
-				Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Interaction);
-				return true;
+				//use default logic
+				result = DefaultWillInteract.Default(interaction, side);
+				if (result)
+				{
+					Loggy.Trace().Format("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction,
+						typeof(T).Name, interactable.GetType().Name,
+						(interactable as Component)?.gameObject.name);
+
+					return true;
+				}
 			}
+
+			Loggy.Trace().Format("No interaction triggered from {0} on {1} for object {2}", Category.Interaction,
+				typeof(T).Name, interactable.GetType().Name,
+				(interactable as Component)?.gameObject.name);
+
+			return false;
 		}
-
-		//check other kinds of interactions
-		if (interactable is ICheckable<T> checkable)
-		{
-			result = checkable.WillInteract(interaction, side);
-			if (result)
-			{
-				Loggy.Trace().Format("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction,
-					typeof(T).Name, checkable.GetType().Name,
-					(checkable as Component).gameObject.name);
-				return true;
-			}
-		}
-		else if (interactable is IInteractable<T>)
-		{
-			//use default logic
-			result = DefaultWillInteract.Default(interaction, side);
-			if (result)
-			{
-				Loggy.Trace().Format("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction,
-					typeof(T).Name, interactable.GetType().Name,
-					(interactable as Component).gameObject.name);
-
-				return true;
-			}
-		}
-
-		Loggy.Trace().Format("No interaction triggered from {0} on {1} for object {2}", Category.Interaction,
-			typeof(T).Name, interactable.GetType().Name,
-			(interactable as Component).gameObject.name);
-
-		return false;
 	}
 }
