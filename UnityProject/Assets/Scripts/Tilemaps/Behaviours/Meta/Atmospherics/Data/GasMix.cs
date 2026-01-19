@@ -398,6 +398,11 @@ namespace Systems.Atmospherics
 			return Pressure * (GetMoles(gas) / Moles);
 		}
 
+		/// <summary>
+		/// Returns the moles of the specified gas in the mix.
+		/// </summary>
+		/// <param name="gas">The gas that you want checked. (Example: Gas.WaterVapor)</param>
+		/// <returns>The amount of moles of a Gas that is within a GasMix.</returns>
 		public float GetMoles(GasSO gas)
 		{
 			return GasData.GetGasMoles(gas);

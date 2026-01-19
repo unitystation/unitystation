@@ -389,6 +389,12 @@ namespace Systems.Atmospherics
 				return false;
 			}
 
+			//Too much water vapor to sustain a hotspot
+			if (gasMix.GasRatio(Gas.WaterVapor) >= 0.25f)
+			{
+				return false;
+			}
+
 			//Passed all checks, this position is allowed a hotspot
 			return true;
 		}
