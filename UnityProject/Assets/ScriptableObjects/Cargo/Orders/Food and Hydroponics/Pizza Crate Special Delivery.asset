@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0c8fd537387459c95edf35f9c5dd2c3, type: 3}
+  m_Name: Pizza Crate Special Delivery
+  m_EditorClassIdentifier: 
+  OrderName: Special Delivery Pizza Crate
+  CreditCost: 3000
+  Crate: {fileID: 3580202830580183012, guid: d0665b639a1bfc340afe3b1fde2773dd, type: 3}
+  Items:
+  - {fileID: 1005331547821503118, guid: d05b4ccf9ea755264a3844dca5d387c6, type: 3}
+  - {fileID: 1005331547821503118, guid: d05b4ccf9ea755264a3844dca5d387c6, type: 3}
+  - {fileID: 1005331547821503118, guid: d05b4ccf9ea755264a3844dca5d387c6, type: 3}
+  - {fileID: 1005331547821503118, guid: d05b4ccf9ea755264a3844dca5d387c6, type: 3}
+  - {fileID: 5724235118832229837, guid: b14ebaef76ba2ea45a602bdac304de0a, type: 3}
+  EmagOnly: 1
+  SuggestedCargoPrice: 34
+  ContentSellPrice: 29
+  WillFailUnitTests: 0

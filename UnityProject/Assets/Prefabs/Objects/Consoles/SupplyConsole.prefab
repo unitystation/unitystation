@@ -190,6 +190,21 @@ PrefabInstance:
       propertyPath: Color.r
       value: 0.64
       objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.186
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.546
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.64
+      objectReference: {fileID: 0}
     - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: parentID
@@ -256,6 +271,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 731e7e4e3deb58b48b499298e1b4fc1e,
         type: 2}
+    - target: {fileID: 8201155816690774842, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 731e7e4e3deb58b48b499298e1b4fc1e,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -294,15 +315,14 @@ MonoBehaviour:
   Emagged: 0
   cargoGUI: {fileID: 0}
   creditArrivalSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/UI/Select.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  offlineMessage: The console flashes red as an error message appears and says that
-    access is denied.
+  offlineMessage: The console flashes red and an "Access Denied" message appears.
 --- !u!114 &6830909595332144673
 MonoBehaviour:
   m_ObjectHideFlags: 0
