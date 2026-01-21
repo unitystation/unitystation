@@ -96,6 +96,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
+      propertyPath: exportName
+      value: plasma tank
+      objectReference: {fileID: 0}
+    - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
       propertyPath: initialName
       value: plasma tank
       objectReference: {fileID: 0}
@@ -121,6 +126,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6fd7d0306a273914bb4d7fdb7619c6c2,
         type: 2}
+    - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ac04099e920e2e34aa61f84990b2c145,
+        type: 2}
+    - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 6fd7d0306a273914bb4d7fdb7619c6c2,
+        type: 2}
     - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
       propertyPath: ignoreInternals
@@ -142,9 +159,21 @@ PrefabInstance:
       propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].GasType
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: StoredInitialGasMix.GasData.GasesArray.Array.data[0].GasSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d3c38fe76e3df249ade18fd6fdac274,
+        type: 2}
     - target: {fileID: 8368062230162943655, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1874f86c4337ecb438d49e2bd71a781f,
+        type: 2}
+    - target: {fileID: 8368062230162943655, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 1874f86c4337ecb438d49e2bd71a781f,
         type: 2}

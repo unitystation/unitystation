@@ -135,6 +135,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5558963727416466196, guid: 38587331617a9c747832658ce8bee272,
         type: 3}
+      propertyPath: exportCost
+      value: 125
+      objectReference: {fileID: 0}
+    - target: {fileID: 5558963727416466196, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: exportName
+      value: emergency plasma internals tank
+      objectReference: {fileID: 0}
+    - target: {fileID: 5558963727416466196, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
       propertyPath: initialName
       value: emergency plasma internals tank
       objectReference: {fileID: 0}
@@ -164,6 +174,24 @@ PrefabInstance:
     - target: {fileID: 5558963727416466196, guid: 38587331617a9c747832658ce8bee272,
         type: 3}
       propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 635cb0b4ad5e32041ac2144508689686,
+        type: 2}
+    - target: {fileID: 5558963727416466196, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 381b7eb888fc4684e8d1d0e846dbb69c,
+        type: 2}
+    - target: {fileID: 5558963727416466196, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 502be0126d6693c4abbfd86b2e736a7c,
+        type: 2}
+    - target: {fileID: 5558963727416466196, guid: 38587331617a9c747832658ce8bee272,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
       value: 
       objectReference: {fileID: 11400000, guid: 635cb0b4ad5e32041ac2144508689686,
         type: 2}

@@ -68,6 +68,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
+      propertyPath: StoredInitialGasMix.Volume
+      value: 0.200108
+      objectReference: {fileID: 0}
+    - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
+      propertyPath: StoredInitialGasMix.pressure
+      value: 1035.334
+      objectReference: {fileID: 0}
+    - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
       propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].Moles
       value: 85
       objectReference: {fileID: 0}
@@ -75,6 +85,11 @@ PrefabInstance:
         type: 3}
       propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].moles
       value: 85
+      objectReference: {fileID: 0}
+    - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
+      propertyPath: StoredInitialGasMix.GasData.GasesArray.Array.data[0].moles
+      value: 85.000404
       objectReference: {fileID: 0}
     - target: {fileID: 8683563700070376267, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
@@ -154,6 +169,16 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 9114212219146629469, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
+      propertyPath: exportCost
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 9114212219146629469, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
+      propertyPath: exportName
+      value: extended-capacity emergency oxygen tank
+      objectReference: {fileID: 0}
+    - target: {fileID: 9114212219146629469, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
       propertyPath: initialName
       value: extended-capacity emergency oxygen tank
       objectReference: {fileID: 0}
@@ -166,6 +191,18 @@ PrefabInstance:
     - target: {fileID: 9114212219146629469, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d36c552d52628744f9329654bbdf563b,
+        type: 2}
+    - target: {fileID: 9114212219146629469, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7335808bfdf794f40a9e4a2b475c9870,
+        type: 2}
+    - target: {fileID: 9114212219146629469, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: d36c552d52628744f9329654bbdf563b,
         type: 2}
