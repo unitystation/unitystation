@@ -697,7 +697,17 @@
             "GitID": "abe9c13902b62ce449fdfec99db8f554_-4.12┼-1┼0┼",
             "PrefabID": "abe9c13902b62ce449fdfec99db8f554",
             "Name": "Lantern (2)",
-            "LocalPRS": "-4.12┼-1┼0┼"
+            "LocalPRS": "-4.12┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "dde361d656542f048bdeebf4e87dd7d3_-4┼-1┼0┼",
@@ -744,7 +754,17 @@
             "GitID": "abe9c13902b62ce449fdfec99db8f554_-3.88┼-1┼0┼",
             "PrefabID": "abe9c13902b62ce449fdfec99db8f554",
             "Name": "Lantern (1)",
-            "LocalPRS": "-3.88┼-1┼0┼"
+            "LocalPRS": "-3.88┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "bed6dd4c42e234f4180cfa233fcf9027_-3.75┼-0.75┼0┼",
@@ -1057,8 +1077,8 @@
             "LocalPRS": "3┼1.12┼0┼"
           },
           {
-            "GitID": "OPQ0C59Qi61@EcYkTJHR_3.88┼1┼0┼",
-            "PrefabID": "OPQ0C59Qi61@EcYkTJHR",
+            "GitID": "70403efb456973040a63651bdcb72ca1_3.88┼1┼0┼",
+            "PrefabID": "70403efb456973040a63651bdcb72ca1",
             "Name": "MiningScanner (1)",
             "LocalPRS": "3.88┼1┼0┼"
           },
@@ -1101,9 +1121,10 @@
             }
           },
           {
-            "GitID": "OPQ0C59Qi61@EcYkTJHR_4.12┼1┼0┼",
-            "PrefabID": "OPQ0C59Qi61@EcYkTJHR",
-            "Name": "MiningScanner (2)",
+            "GitID": "70403efb456973040a63651bdcb72ca1_4.12┼1┼0┼",
+            "PrefabID": "70403efb456973040a63651bdcb72ca1",
+            "NameMatches": true,
+            "Name": "MiningScanner",
             "LocalPRS": "4.12┼1┼0┼"
           },
           {

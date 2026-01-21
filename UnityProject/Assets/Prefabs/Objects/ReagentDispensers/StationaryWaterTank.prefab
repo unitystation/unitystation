@@ -79,6 +79,16 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4623851299524474988, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 5000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4623851299524474988, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
+      value: 5000
+      objectReference: {fileID: 0}
     - target: {fileID: 5323037765139105522, guid: 39da184d881f73c48b25ae5921795c55,
         type: 3}
       propertyPath: isDirty
@@ -107,6 +117,12 @@ PrefabInstance:
     - target: {fileID: 9102368241754052938, guid: 39da184d881f73c48b25ae5921795c55,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: efa812c0a1247334ab7e9da10f103f84,
+        type: 2}
+    - target: {fileID: 9102368241754052938, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: efa812c0a1247334ab7e9da10f103f84,
         type: 2}
@@ -147,5 +163,13 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0

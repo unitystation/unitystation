@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1214260697378847585, guid: 34ecf2817a168de479d040f2ad8b9473,
         type: 3}
+      propertyPath: exportCost
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 1214260697378847585, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
       propertyPath: initialName
       value: anesthetic tank
       objectReference: {fileID: 0}
@@ -27,6 +32,18 @@ PrefabInstance:
     - target: {fileID: 1214260697378847585, guid: 34ecf2817a168de479d040f2ad8b9473,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c5dd42c85c271064a8402a2e5cc3acb7,
+        type: 2}
+    - target: {fileID: 1214260697378847585, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 91e8d86ff751b014a9b138a85758b8d9,
+        type: 2}
+    - target: {fileID: 1214260697378847585, guid: 34ecf2817a168de479d040f2ad8b9473,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: c5dd42c85c271064a8402a2e5cc3acb7,
         type: 2}

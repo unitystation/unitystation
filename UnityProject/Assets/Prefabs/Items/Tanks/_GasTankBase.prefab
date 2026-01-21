@@ -89,7 +89,7 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: exportCost
-      value: 300
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -104,7 +104,7 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialName
-      value: tank
+      value: gas tank
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -174,7 +174,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   GasSO: {fileID: 0}
-  StoredGasMix:
+  StoredInitialGasMix:
     GasData:
       GasesArray: []
     pressure: 0
@@ -184,3 +184,5 @@ MonoBehaviour:
   ReleasePressure: 101.325
   CargoSealApproved: 0
   explodeOnTooMuchDamage: 1
+  ignoreInternals: 0
+  canToggleIgnoreInternals: 1

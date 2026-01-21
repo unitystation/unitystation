@@ -210,7 +210,7 @@ namespace Systems.Atmospherics
 
 					var pushable = registerTile.ObjectPhysics.Component;
 					if (pushable.isNotPushable) return;
-					float correctedForce = (windyNode.WindForce ) / (int) pushable.GetSize();
+					float correctedForce = (windyNode.WindForce) / (int) pushable.GetSize();
 
 					correctedForce = Mathf.Clamp(correctedForce, 0, 30);
 
