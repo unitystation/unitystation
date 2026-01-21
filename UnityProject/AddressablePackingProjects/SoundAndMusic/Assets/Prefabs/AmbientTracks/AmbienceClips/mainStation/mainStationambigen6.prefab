@@ -53,9 +53,13 @@ PrefabInstance:
       value: mainStationambigen6
       objectReference: {fileID: 0}
     - target: {fileID: 3578133899281180658, guid: dc2ffb971d5eb3a4fb81e40c1563a528, type: 3}
-      propertyPath: m_audioClip
+      propertyPath: m_Resource
       value: 
       objectReference: {fileID: 8300000, guid: 813f8ec554f545249aeab6f80c7328fc, type: 3}
+    - target: {fileID: 3578133899281180658, guid: dc2ffb971d5eb3a4fb81e40c1563a528, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

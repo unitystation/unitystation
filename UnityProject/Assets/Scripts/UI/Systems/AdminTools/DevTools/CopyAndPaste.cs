@@ -241,16 +241,18 @@ public class CopyAndPaste  : SingletonManager<CopyAndPaste>
 			text = "None",
 		});
 		var Folders = new List<string>();
+
+		List<string> Maps = new List<string>();
+
 		try
 		{
-			Folders =  Folders = AccessFile.DirectoriesOrFilesIn("", FolderType.Maps, files: false, userPersistent:UsePersistent.isOn ).ToList();
+			Folders = AccessFile.DirectoriesOrFilesIn("", FolderType.Maps, files: false, userPersistent:UsePersistent.isOn ).ToList();
+			Maps = AccessFile.DirectoriesOrFilesIn("", FolderType.Maps, files: true, userPersistent:UsePersistent.isOn ).ToList();
 		}
 		catch (Exception e)
 		{
 			maps.options = Options;
 		}
-
-		List<string> Maps = new List<string>();
 
 		int safe = 50;
 

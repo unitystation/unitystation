@@ -7,6 +7,12 @@ using Random = UnityEngine.Random;
 
 public class Camera2DFollow : MonoBehaviour
 {
+	public float xCorrectionMultiplier = 0;
+
+	public float AspectRatioCorrectionMultiplier = 1;
+	public float AspectRatioCorrectionPowerMultiplier = 1;
+
+
 	//Static to make sure its the only cam in scene & for later access to camshake
 	public static Camera2DFollow followControl;
 
@@ -49,6 +55,8 @@ public class Camera2DFollow : MonoBehaviour
 	//Shake Cam
 	private float shakeAmount;
 
+
+	public Transform FOVtarget;
 	public Transform target;
 	public float xOffset = 4f;
 
@@ -106,6 +114,7 @@ public class Camera2DFollow : MonoBehaviour
 	//idk I don't know probably should look into the sometime TODO look into this
 	public void SetCameraXOffset()
 	{
+		return;
 		float xOffSet =
 			(transform.position.x - Camera.main.ScreenToWorldPoint(UIManager.Instance.transform.position).x) * 1.38f;
 
@@ -114,8 +123,37 @@ public class Camera2DFollow : MonoBehaviour
 
 	private void UpdateMe()
 	{
+		//VOX!!!!
+		//or 3d Graph to work out what's going on
+
 		if (target != null && !isShaking)
 		{
+
+			if (FOVtarget != null)
+			{
+				var fovoffset = FOVtarget.transform.position - target.transform.position;
+				// var oldx = fovoffset.x;
+				//
+				//
+				//
+				// //Loggy.Info(((float)Screen.width / Screen.height).ToString());
+				//
+				// var CorrectionNumber = xCorrectionMultiplier;
+				//
+				// switch (PixelPerfectCamera.assetsPPU)
+				// {
+				// 	case 32:
+				// 		//CorrectionNumber = -0.3f;
+				// 		break;
+				// }
+				// var newx = fovoffset.x *  Mathf.Pow( (((float) Screen.height/  Screen.width) *  AspectRatioCorrectionMultiplier), AspectRatioCorrectionPowerMultiplier);
+				// fovoffset.x = oldx - (newx * CorrectionNumber);
+				lightingSystem.fovCenterOffset = fovoffset;
+			}
+			else
+			{
+				lightingSystem.fovCenterOffset = Vector3.zero;
+			}
 
 			recoilOffset = Vector3.zero;
 			//if  we are recoiling, adjust target position
