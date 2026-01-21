@@ -765,16 +765,16 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 		}
 
 		matrixInfo ??= AtPoint(worldPos, true);
+		var usableTilePos = GetNearestNonSpaceTilePosition(worldPos, matrixInfo, true);
 
-		if (IsSpaceWithNoTilesNearbyAt(worldPos, matrixInfo))
+		if (usableTilePos == Vector3.zero)
 		{
 			Loggy.Warning($"Attempted to do a reagent reaction in the middle of space at {worldPos}", Category.Chemistry);
 			return;
 		}
 
-
-		Vector3Int localPos = WorldToLocalInt(worldPos, matrixInfo);
-		matrixInfo.MetaDataLayer.ReagentReact(reagents, worldPos, localPos, spawnPrefabEffect, direction, Scatter, from, bodyPartAim);
+		Vector3Int localPos = WorldToLocalInt(usableTilePos, matrixInfo);
+		matrixInfo.MetaDataLayer.ReagentReact(reagents, usableTilePos, localPos, spawnPrefabEffect, direction, Scatter, from, bodyPartAim);
 	}
 
 	public static bool IsSpaceWithNoTilesNearbyAt(Vector3 worldPos, MatrixInfo matrixInfo = null)
@@ -789,6 +789,22 @@ public partial class MatrixManager : SingletonManager<MatrixManager>
 			break;
 		}
 		return dontReactInSpace != worldPos;
+	}
+
+	/// <summary>
+	/// Grab the nearest non-space tile position to the origin.
+	/// </summary>
+	/// <returns>The position of the first tile that fails IsSpaceAt() in the neighbors of worldPos.</returns>
+	public static Vector3 GetNearestNonSpaceTilePosition(Vector3 worldPos, MatrixInfo matrixInfo, bool returnZeroZeroIfAllSpace)
+	{
+		if (IsSpaceAt(worldPos, true) == false) return worldPos;
+		var neighbors = worldPos.GetNeighbors();
+		foreach (var n in neighbors)
+		{
+			if (IsSpaceAt(n, true, matrixInfo)) continue;
+			return n;
+		}
+		return returnZeroZeroIfAllSpace ? Vector3.zero : worldPos;
 	}
 
 	/// <summary>
