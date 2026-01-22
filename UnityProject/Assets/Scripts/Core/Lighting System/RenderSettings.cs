@@ -4,6 +4,8 @@ using UnityEngine;
 [Serializable]
 public class RenderSettings
 {
+	public float sscalerOffset = 1;
+
 	[Tooltip("View override for quick overview of the process stages. For Debug purposes.")]
 	public ViewMode viewMode;
 

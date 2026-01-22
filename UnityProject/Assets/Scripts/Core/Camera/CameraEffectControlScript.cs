@@ -96,7 +96,9 @@ namespace CameraEffects
 			var Localpos = position.ToLocal(matrix);
 			Bumps.Clear();
 
-			if (matrix.MetaTileMap.GetTile(Localpos.RoundToInt(), LayerType.Walls) != null)
+			bool HasFovMOd = Camera2DFollow.followControl.FOVtarget != null;
+
+			if (matrix.MetaTileMap.GetTile(Localpos.RoundToInt(), LayerType.Walls) != null && HasFovMOd == false)
 			{
 				if (Xray.HasPosition(this.gameObject) == false)
 				{

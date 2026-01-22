@@ -61,6 +61,8 @@ namespace Systems.Ai
 		private SecurityCamera coreCamera = null;
 		public SecurityCamera CoreCamera => coreCamera;
 
+		private SecurityCamera CurrentSecurityCamera = null;
+
 		//Valid client side and serverside for validations
 		//Client sends message to where it wants to go, server keeps track to do validations
 		private Transform cameraLocation;
@@ -95,6 +97,10 @@ namespace Systems.Ai
 
 		[SyncVar(hook = nameof(SyncNumberOfCameras))]
 		private uint numberOfCameras = 100;
+
+		[SyncVar(hook = nameof(SyncFOVRoot))]
+		private NetworkIdentity FOVFollowCamera;
+
 
 		//Client and server accurate
 		private bool isCarded;
@@ -162,6 +168,9 @@ namespace Systems.Ai
 		{
 			playerScript = GetComponent<PlayerScript>();
 			playerScript.OnActionControlPlayer += PlayerEnterBody;
+			playerScript.OnBodyControlledByPlayer.AddListener(PlayerEnterBody);
+			playerScript.OnBodyUnControlledByPlayer.AddListener(PlayerLeaveBody);
+
 
 			cooldowns = GetComponent<HasCooldowns>();
 			lineRenderer = GetComponentInChildren<LineRenderer>();
@@ -247,9 +256,15 @@ namespace Systems.Ai
 			}
 		}
 
+		public void PlayerLeaveBody()
+		{
+			Camera2DFollow.followControl.FOVtarget = null;
+		}
+
 		public void PlayerEnterBody()
 		{
 			if (isOwned == false) return;
+			Camera2DFollow.followControl.FOVtarget = FOVFollowCamera?.transform;;
 			playerScript.Mind.SetPermanentName(playerScript.characterSettings.AiName);
 			Init();
 
@@ -346,6 +361,16 @@ namespace Systems.Ai
 			aiUi.SetIntegrityLevel(newValue);
 		}
 
+		private void SyncFOVRoot(NetworkIdentity oldValue, NetworkIdentity newValue)
+		{
+			FOVFollowCamera= newValue;
+
+			if (CustomNetworkManager.IsHeadless || PlayerManager.LocalPlayerObject != gameObject) return;
+
+			Camera2DFollow.followControl.FOVtarget = FOVFollowCamera?.transform;
+		}
+
+
 		[Client]
 		private void SyncNumberOfCameras(uint oldValue, uint newValue)
 		{
@@ -395,6 +420,18 @@ namespace Systems.Ai
 
 			//Set location for validation checks
 			cameraLocation = newObject.transform;
+
+			if (newObject.TryGetComponent<SecurityCamera>(out var AsecurityCamera))
+			{
+				CurrentSecurityCamera = AsecurityCamera;
+				SyncFOVRoot(FOVFollowCamera, CurrentSecurityCamera.netIdentity);
+			}
+			else if (isCarded)
+			{
+
+				CurrentSecurityCamera = null;
+				SyncFOVRoot(FOVFollowCamera, null);
+			}
 
 			//This is to move the player object so we can see the Ai Eye sprite underneath us
 			//TODO for some reason this isnt always working the sprite sometimes stays on the core, or last position
@@ -533,6 +570,14 @@ namespace Systems.Ai
 
 			//Set our sprite state
 			SetSpriteVisibility(newState);
+		}
+
+		[Command]
+		//Used by the Ai teleport tab to move camera
+		public void CmdTeleportTo(Vector3 newCamera)
+		{
+			playerScript.PlayerSync.AppearAtWorldPositionServer(newCamera, false);
+			ServerSetCameraLocation(this.gameObject,moveMessage : false);
 		}
 
 		[Command]
@@ -690,7 +735,7 @@ namespace Systems.Ai
 
 		//Moving the camera using the arrow keys
 		[Client]
-		public void MoveCameraByKey(MoveAction moveAction)
+		public void MoveCameraByKey(Vector2 moveAction)
 		{
 			if (isCarded)
 			{
@@ -699,24 +744,10 @@ namespace Systems.Ai
 			}
 
 			var lowerDegree = 0;
+			CmdTeleportTo(this.transform.position + moveAction.To3());
 
-			switch (moveAction)
-			{
-				case MoveAction.MoveUp:
-					lowerDegree = 0;
-					break;
-				case MoveAction.MoveLeft:
-					lowerDegree = 90;
-					break;
-				case MoveAction.MoveDown:
-					lowerDegree = 180;
-					break;
-				case MoveAction.MoveRight:
-					lowerDegree = 270;
-					break;
-				default:
-					return;
-			}
+			return;
+
 
 			var chosenCameras = new List<SecurityCamera>();
 			var aiPlayerCameraLocation = cameraLocation == null ? vesselObject.AssumedWorldPosServer() : cameraLocation.position;

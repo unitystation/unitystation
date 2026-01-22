@@ -823,14 +823,17 @@ public class MouseInputController : MonoBehaviour
 				switch (UIManager.CurrentIntent)
 				{
 					case Intent.Harm:
+						if (HarmCursor == null) return;
 						Cursor.SetCursor(HarmCursor.Texture, HarmCursor.Offset, CursorMode.Auto);
 						previousIntent = UIManager.CurrentIntent;
 						break;
 					case Intent.Disarm:
+						if (DisarmCursor == null) return;
 						Cursor.SetCursor(DisarmCursor.Texture, DisarmCursor.Offset, CursorMode.Auto);
 						previousIntent = UIManager.CurrentIntent;
 						break;
 					case Intent.Grab:
+						if (GrabCursor == null) return;
 						Cursor.SetCursor(GrabCursor.Texture, GrabCursor.Offset, CursorMode.Auto);
 						previousIntent = UIManager.CurrentIntent;
 						break;
