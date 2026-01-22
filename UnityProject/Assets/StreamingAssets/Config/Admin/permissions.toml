@@ -1,4 +1,10 @@
-#all tags
+#######################
+## Permissions config ##
+#######################
+
+# Use this file to define the ranks and permissions for your server. Assign players to ranks using their unique identifier.
+# This is a list of all available permissions.
+
 #[ "MANAGE_SERVER_PLAYERCAP",  "SETTING_VOICE_CHAT",  "PLAYER_INFO",  "PLAYER_INFO_IP",  "MANAGE_SERVER_FPS",
 #  "ADMIN_BYPASS_PLAYER_LIMIT",  "ADMIN_BYPASS_WHITE_LIST",  "PLAYER_JOB_BAN",  "EDIT_PLAYER",
 #  "MANAGE_SERVER_PASSWORD",  "MANAGE_SERVER_OOCMUTE",  "MANAGE_ROUND_3D",  "MANAGE_ROUND_NEXT_GAMEMODE",
@@ -24,9 +30,27 @@
 #
 # ]
 
+#######################
+## Players assigment ##
+#######################
+
+# Assign your players here, use the unique identifier for their account and the rank you want to assign them.
+
+players = [
+    { identifier = "host_user_id", rank = "host" },
+    { identifier = "admin_user_id", rank = "admin" },
+    { identifier = "developer_user_id", rank = "developer" },
+    { identifier = "game_master_user_id", rank = "game_master" },
+    { identifier = "mentor_user_id", rank = "mentor" },
+    { identifier = "supporter_user_id", rank = "supporter" },
+]
+
+# if present, any player that doesn't have a rank assigned in the players list will get this rank
+auto_rank = "player"
+
 ######################
 ## Rank definitions ##
-#######################
+######################
 
 [ranks.host]
 show_in_chat = false
@@ -347,36 +371,15 @@ abbreviation = "M"
 color = "#6400ff"
 permissions = ["MENTOR_MESSAGE", "PLAYER_INFO"]
 
+# Ranks can also have sprites to show in chat.
 [ranks.supporter]
 show_in_chat = true
 abbreviation = "<sprite=\"icon_id_gold\" index=1>"
 color = "#8fbc8f"
 permissions = ["SUPPORTER"]
 
-#######################
-## Player bindings ####
-#######################
-
-[[players]]
-identifier = "host_user_id"
-rank = "host"
-
-[[players]]
-identifier = "admin_user_id"
-rank = "admin"
-
-[[players]]
-identifier = "developer_user_id"
-rank = "developer"
-
-[[players]]
-identifier = "game_master_user_id"
-rank = "game_master"
-
-[[players]]
-identifier = "mentor_user_id"
-rank = "mentor"
-
-[[players]]
-identifier = "supporter_user_id"
-rank = "supporter"
+[ranks.player]
+show_in_chat = false
+abbreviation = "P"
+color = "white"
+permissions = []
