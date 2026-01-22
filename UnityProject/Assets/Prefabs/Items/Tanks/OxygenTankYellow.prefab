@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 1431136230137613589, guid: 5f8f71237e56b5244a4119555cda299e,
         type: 3}
       propertyPath: initialDescription
-      value: A tank of oxygen, this one is yellow.
+      value: A tank of oxygen. This one is yellow.
       objectReference: {fileID: 0}
     - target: {fileID: 1431136230137613589, guid: 5f8f71237e56b5244a4119555cda299e,
         type: 3}
@@ -28,6 +28,24 @@ PrefabInstance:
     - target: {fileID: 1431136230137613589, guid: 5f8f71237e56b5244a4119555cda299e,
         type: 3}
       propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: ec0e04de167151e4c9c2c7b2fb3f60ef,
+        type: 2}
+    - target: {fileID: 1431136230137613589, guid: 5f8f71237e56b5244a4119555cda299e,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 5e5fd2a89053cd84f803f48aa4d5cb58,
+        type: 2}
+    - target: {fileID: 1431136230137613589, guid: 5f8f71237e56b5244a4119555cda299e,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 3b865c08cc395924e90f09499dce0b10,
+        type: 2}
+    - target: {fileID: 1431136230137613589, guid: 5f8f71237e56b5244a4119555cda299e,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
       value: 
       objectReference: {fileID: 11400000, guid: ec0e04de167151e4c9c2c7b2fb3f60ef,
         type: 2}

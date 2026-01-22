@@ -11,12 +11,12 @@ PrefabInstance:
     - target: {fileID: 101907552170849241, guid: b087cae0f7059d946a59146ea8d0fb04,
         type: 3}
       propertyPath: maxCapacity
-      value: 100000
+      value: 50000
       objectReference: {fileID: 0}
     - target: {fileID: 101907552170849241, guid: b087cae0f7059d946a59146ea8d0fb04,
         type: 3}
       propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
-      value: 100000
+      value: 50000
       objectReference: {fileID: 0}
     - target: {fileID: 620949774835371335, guid: b087cae0f7059d946a59146ea8d0fb04,
         type: 3}
@@ -46,6 +46,12 @@ PrefabInstance:
     - target: {fileID: 4545028754367107839, guid: b087cae0f7059d946a59146ea8d0fb04,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2bb18b2472f84d043abb551eab876dc4,
+        type: 2}
+    - target: {fileID: 4545028754367107839, guid: b087cae0f7059d946a59146ea8d0fb04,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 2bb18b2472f84d043abb551eab876dc4,
         type: 2}

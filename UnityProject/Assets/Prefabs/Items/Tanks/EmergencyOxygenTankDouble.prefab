@@ -69,12 +69,12 @@ PrefabInstance:
     - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
       propertyPath: StoredInitialGasMix.Volume
-      value: 2.00107
+      value: 0.200108
       objectReference: {fileID: 0}
     - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
       propertyPath: StoredInitialGasMix.pressure
-      value: 109.62365
+      value: 1096.236
       objectReference: {fileID: 0}
     - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
@@ -89,7 +89,7 @@ PrefabInstance:
     - target: {fileID: 3519444805694504380, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
       propertyPath: StoredInitialGasMix.GasData.GasesArray.Array.data[0].moles
-      value: 90
+      value: 90.00043
       objectReference: {fileID: 0}
     - target: {fileID: 8683563700070376267, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
@@ -167,6 +167,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 130c77b872b45294497b28f2a72237ff,
         type: 3}
+    - target: {fileID: 9114212219146629469, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
+      propertyPath: exportCost
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 9114212219146629469, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
+        type: 3}
+      propertyPath: exportName
+      value: double emergency oxygen tank
+      objectReference: {fileID: 0}
     - target: {fileID: 9114212219146629469, guid: 9ad3756f014fe4f4c9aa35bf9b523a1a,
         type: 3}
       propertyPath: initialName
