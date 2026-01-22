@@ -3280,7 +3280,7 @@ MonoBehaviour:
   Load: {fileID: 6695947474531629431}
   Save: {fileID: 2238961718316381683}
   TMP_Dropdown: {fileID: 4032593805246014987}
-  MAPS: {fileID: 6236969936358399236}
+  maps: {fileID: 6236969936358399236}
   Templates: {fileID: 8824079748649116267}
   TMP_InputField: {fileID: 4023588223796612805}
   Updating: 0
@@ -10214,7 +10214,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9149249656799501178}
         m_TargetAssemblyTypeName: CopyAndPaste, Assets
-        m_MethodName: OnSave
+        m_MethodName: OnSaveMAP
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

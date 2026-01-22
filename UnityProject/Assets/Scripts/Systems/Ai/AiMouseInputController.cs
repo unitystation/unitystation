@@ -102,7 +102,7 @@ namespace Systems.Ai
 
 			StartCoroutine(CoolDown());
 
-			aiPlayer.MoveCameraByKey(PlayerAction.GetMoveAction(moveActions.Direction()));
+			aiPlayer.MoveCameraByKey(moveActions.Direction());
 		}
 
 		private IEnumerator CoolDown()
