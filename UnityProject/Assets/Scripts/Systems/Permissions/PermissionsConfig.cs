@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using JetBrains.Annotations;
 using Tomlyn.Model;
 
 namespace Systems.Permissions
@@ -11,8 +12,13 @@ namespace Systems.Permissions
 		// keep comments on config file
 		public TomlPropertiesMetadata PropertiesMetadata { get; set; }
 
+		[UsedImplicitly]
 		public Dictionary<string, Rank> Ranks { get; set; }
+
+		[UsedImplicitly]
 		public List<Player> Players { get; set; }
+
+		[CanBeNull] [UsedImplicitly] public string AutoRank { get; set; }
 	}
 
 	[System.Serializable]
