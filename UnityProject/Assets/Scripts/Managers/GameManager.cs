@@ -128,6 +128,9 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// <summary>
 	public string InitialGameMode { get; set; } = "Random";
 
+	public bool AllowExtendedGameMode { get; set; }
+	public bool ForceExtendedGameMode { get; set; }
+
 	public Text roundTimer;
 	public bool waitForStart;
 
@@ -201,7 +204,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		// Set up server defaults, needs to be loaded here to ensure gameConfigManager is load.
 		LoadConfig();
 		RespawnCurrentlyAllowed = RespawnAllowed;
-		NextGameMode = InitialGameMode;
+		NextGameMode = ForceExtendedGameMode ? "Extended" : InitialGameMode;
 	}
 
 	private void Awake()
@@ -246,6 +249,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		DefaultRoundEndTime = GameConfigManager.GameConfig.RoundEndTime;
 		RoundsPerMap = GameConfigManager.GameConfig.RoundsPerMap;
 		InitialGameMode = GameConfigManager.GameConfig.InitialGameMode;
+		AllowExtendedGameMode = GameConfigManager.GameConfig.AllowExtendedGameMode;
+		ForceExtendedGameMode = GameConfigManager.GameConfig.ForceExtendedGameMode;
 		RespawnAllowed = GameConfigManager.GameConfig.RespawnAllowed;
 		RespawnCurrentlyAllowed = RespawnAllowed;
 		ShuttleDepartTime = GameConfigManager.GameConfig.ShuttleDepartTime;
@@ -262,7 +267,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		RebootOnAverageFPSOrLower = GameConfigManager.GameConfig.RebootOnAverageFPSOrLower;
 		AccountAPIHost = GameConfigManager.GameConfig.AccountAPIHost;
 
-		Physics.autoSimulation = false;
+		Physics.simulationMode = SimulationMode.Script;
 		Physics2D.simulationMode = SimulationMode2D.Update;
 	}
 

@@ -68,15 +68,20 @@ public partial class GameManager
 	/// <summary>
 	/// Sets the current gamemode using a string to find the gamemode name
 	/// </summary>
-	public void SetGameMode(string gmName)
+	private void SetGameMode(string gmName)
 	{
-		GameMode selectedGM = GameModeData.GetGameMode(gmName);
-		SetGameMode(selectedGM);
+		if (ForceExtendedGameMode)
+		{
+			SetGameMode(GameModeData.ExtendedReference);
+			return;
+		}
+		GameMode selectedGm = GameModeData.GetGameMode(gmName, AllowExtendedGameMode);
+		SetGameMode(selectedGm);
 	}
 
 	public List<string> GetAvailableGameModeNames()
 	{
-		return GameModeData.GetAvailableGameModeNames();
+		return GameModeData.GetAvailableGameModeNames(AllowExtendedGameMode);
 	}
 
 	/// <summary>
@@ -96,19 +101,19 @@ public partial class GameManager
 	/// <summary>
 	/// Shuffles a list of game modes then iterate through by round ( If not possible skips)
 	/// </summary>
-	public void PickFromCarouselGameMode()
+	private void PickFromCarouselGameMode()
 	{
-		GameMode randomGM = GameModeData.PickFromCarouselGameMode();
-		SetGameMode(randomGM);
+		GameMode randomGm = GameModeData.PickFromCarouselGameMode(AllowExtendedGameMode);
+		SetGameMode(randomGm);
 	}
 
 	/// <summary>
 	/// Sets a random gamemode which is currently possible
 	/// </summary>
-	public void SetRandomGameMode()
+	private void SetRandomGameMode()
 	{
-		GameMode randomGM = GameModeData.ChooseGameMode();
-		SetGameMode(randomGM);
+		GameMode randomGm = GameModeData.ChooseGameMode(AllowExtendedGameMode);
+		SetGameMode(randomGm);
 	}
 
 	/// <summary>
