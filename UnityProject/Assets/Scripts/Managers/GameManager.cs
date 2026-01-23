@@ -267,7 +267,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		RebootOnAverageFPSOrLower = GameConfigManager.GameConfig.RebootOnAverageFPSOrLower;
 		AccountAPIHost = GameConfigManager.GameConfig.AccountAPIHost;
 
-		Physics.simulationMode = SimulationMode.Script;
+		Physics.autoSimulation = false;
 		Physics2D.simulationMode = SimulationMode2D.Update;
 	}
 
@@ -365,7 +365,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 			for (int i = 0; i < SpaceBodies.Count; i++)
 			{
 				if (Vector3.Distance(proposedPosition, SpaceBodies[i].transform.position) <
-				    minDistanceBetweenSpaceBodies)
+					minDistanceBetweenSpaceBodies)
 				{
 					failedChecks = true;
 				}
@@ -501,7 +501,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			try
 			{
-				s.OnSpawnServer(SpawnInfo.Mapped(((Component) s).gameObject));
+				s.OnSpawnServer(SpawnInfo.Mapped(((Component)s).gameObject));
 			}
 			catch (Exception e)
 			{
@@ -648,7 +648,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	/// <summary>
 	/// Calls the end of the round which plays a sound and shows the round report. Server only
 	/// </summary>
-	public void EndRound( int TriggeredOnID)
+	public void EndRound(int TriggeredOnID)
 	{
 		if (TriggeredOnID != GameManager.RoundID)
 		{
@@ -658,8 +658,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		if (CustomNetworkManager.IsServer == false) return;
 
 		if (CurrentRoundState != RoundState.Started &&
-		    CurrentRoundState != RoundState.PreRound)
-			//PreRound If the round didn't even start at all and because of an error
+			CurrentRoundState != RoundState.PreRound)
+		//PreRound If the round didn't even start at all and because of an error
 		{
 			if (CurrentRoundState == RoundState.Ended)
 			{
@@ -822,8 +822,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 	public int ClientGetOccupationsCount(JobType jobType)
 	{
 		if (jobType == JobType.NULL ||
-		    CrewManifestManager.Instance == null ||
-		    CrewManifestManager.Instance.Jobs.Count == 0)
+			CrewManifestManager.Instance == null ||
+			CrewManifestManager.Instance.Jobs.Count == 0)
 		{
 			return 0;
 		}
@@ -966,8 +966,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		{
 			string[] args = Environment.GetCommandLineArgs();
 			if ((ServerShutsDownOnRoundEnd == false || args.Contains("-NoReboot"))
-			    && (ServerAverageFPS >= RebootOnAverageFPSOrLower || GetMemeoryUsagePrecentage() <= 75f) ||
-			    args.Contains("-AlwaysReboot") == false)
+				&& (ServerAverageFPS >= RebootOnAverageFPSOrLower || GetMemeoryUsagePrecentage() <= 75f) ||
+				args.Contains("-AlwaysReboot") == false)
 			{
 				reboot = false;
 			}
@@ -1017,7 +1017,7 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		else
 		{
 			Loggy.Error("Server is rebooting now. If you don't have a way to automatically restart the " +
-			               "Unitystation process such as systemctl the server won't be able to restart!",
+						   "Unitystation process such as systemctl the server won't be able to restart!",
 				Category.Round);
 			Chat.AddGameWideSystemMsgToChat("<size=72><b>The server is now restarting!</b></size>");
 			yield return WaitFor.Seconds(4f);
