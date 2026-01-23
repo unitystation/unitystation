@@ -69,6 +69,15 @@ namespace Tests.Permissions
 		}
 
 		[Test]
+		public void GivenInvalidConfig_WhenLoadingConfig_ThenDefaultIsLoadedSuccessfully()
+		{
+			manager.LoadPermissionsConfig("");
+			Assert.NotNull(manager.Config);
+			Assert.NotNull(manager.Config.Players);
+			Assert.NotNull(manager.Config.Ranks);
+		}
+
+		[Test]
 		public void GivenValidConfig_WhenLoadingConfig_ThenConfigIsLoaded()
 		{
 			Assert.NotNull(manager.Config);
@@ -83,7 +92,7 @@ namespace Tests.Permissions
 		[TestCase("player_bcd", "perm_d")]
 		public void GivenAUserWhoHasPermission_WhenCheckingPermission_ThenPermissionIsGranted(string identifier, string permission)
 		{
-			Assert.True(manager.HasPermission(identifier, permission));
+			Assert.True(manager.PlayerHasPermission(identifier, permission));
 		}
 
 		[Test]
@@ -96,7 +105,7 @@ namespace Tests.Permissions
 		[TestCase("player_no_perms", "perm_d")]
 		public void GivenAUserWhoDoesNotHavePermission_WhenCheckingPermission_ThenPermissionIsNotGranted(string identifier, string permission)
 		{
-			Assert.False(manager.HasPermission(identifier, permission));
+			Assert.False(manager.PlayerHasPermission(identifier, permission));
 		}
 
 		[Test]
@@ -107,36 +116,38 @@ namespace Tests.Permissions
 		[TestCase("player_god", "perm_not_listed")]
 		public void GivenAUserWithWildcardPermission_WhenCheckingPermission_ThenPermissionIsGranted(string identifier, string permission)
 		{
-			Assert.True(manager.HasPermission(identifier, permission));
+			Assert.True(manager.PlayerHasPermission(identifier, permission));
 		}
 
 		[Test]
 		public void GivenAUserThatDoesNotExist_WhenCheckingPermission_ThenPermissionIsNotGranted()
 		{
-			Assert.False(manager.HasPermission("nonexistentPlayer", "perm_a"));
+			Assert.False(manager.PlayerHasPermission("nonexistentPlayer", "perm_a"));
 		}
 
 		[Test]
 		public void GivenThatAutoRankIsDefined_WhenPlayerHasNoRank_ThenPlayerHasAutoRank()
 		{
-			StringBuilder newConfig = new("auto_rank = \"god\"");
+			StringBuilder newConfig = new("auto_rank = \"no_perms\"");
 			newConfig.AppendLine(CONFIG_CONTENT);
 			manager.LoadPermissionsConfig(newConfig.ToString());
+			Rank rank = manager.GetRankForAccount("non_defined_player");
 
-			Assert.True(manager.HasRank("non_defined_player", "god"));
+			Assert.That(rank?.Name == "no_perms");
 		}
 
 		[Test]
 		[TestCase("player_god", "god")]
 		[TestCase("player_abc", "abc")]
 		[TestCase("player_bcd", "bcd")]
-		public void GivenThatAutoRankIsDefined_WhenPlayerHasRank_ThenPlayerHasRank(string identifier, string rank)
+		public void GivenThatAutoRankIsDefined_WhenPlayerHasRank_ThenPlayerHasRank(string accountId, string expectedRank)
 		{
-			StringBuilder newConfig = new("auto_rank = \"god\"");
+			StringBuilder newConfig = new("auto_rank = \"no_perms\"");
 			newConfig.AppendLine(CONFIG_CONTENT);
 			manager.LoadPermissionsConfig(newConfig.ToString());
+			Rank rank =  manager.GetRankForAccount(accountId);
 
-			Assert.True(manager.HasRank(identifier, rank));
+			Assert.That(rank?.Name == expectedRank);
 		}
 	}
 }

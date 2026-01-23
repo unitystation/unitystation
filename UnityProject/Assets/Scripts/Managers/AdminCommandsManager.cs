@@ -114,7 +114,7 @@ namespace AdminCommands
 			bool Valid = false;
 
 			//TODO Handle local UI + Local stuff
-			Valid = PermissionsManager.Instance.HasPermission(player.AccountId, PermissionCode);
+			Valid = PermissionsManager.Instance.PlayerHasPermission(player.AccountId, PermissionCode);
 
 			if (Valid == false && logFailure)
 			{

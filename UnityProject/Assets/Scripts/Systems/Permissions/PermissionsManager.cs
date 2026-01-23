@@ -2,18 +2,20 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using JetBrains.Annotations;
 using Logs;
 using SecureStuff;
 using Shared.Managers;
 using Tomlyn;
+using Tomlyn.Syntax;
 
 namespace Systems.Permissions
 {
 	public class PermissionsManager : SingletonManager<PermissionsManager>
 	{
-		public readonly string configPath = Path.Combine(AccessFile.AdminFolder, "permissions.toml");
-
-		public PermissionsConfig Config { get; private set; }
+		public readonly string ConfigPath = Path.Combine(AccessFile.AdminFolder, "permissions.toml");
+		public PermissionsConfig Config { get; private set; } = new();
+		[CanBeNull] private Rank DefinedAutoRank => Config.Ranks.GetValueOrDefault(Config.AutoRank);
 
 		/// <summary>
 		/// Tries to read the permissions config file and load it in memory. If for whatever reason it fails,
@@ -23,21 +25,22 @@ namespace Systems.Permissions
 		/// </summary>
 		public void LoadPermissionsConfig()
 		{
-			if (AccessFile.Exists(configPath) == false)
+			// File lives on server, if client has a file it is irrelevant
+			if (CustomNetworkManager.IsServer == false) return;
+
+			if (AccessFile.Exists(ConfigPath) == false)
 			{
 				Loggy.Error("Permissions config file not found!", Category.Admin);
-				Config = new PermissionsConfig();
 				return;
 			}
 
-			var fileContent = AccessFile.Load(configPath);
-
+			var fileContent = AccessFile.Load(ConfigPath);
 			LoadPermissionsConfig(fileContent);
 		}
 
 		public void LoadPermissionsConfig(string fileContent)
 		{
-			if (Toml.TryToModel<PermissionsConfig>(fileContent, out var model, out var diagnostics) == false)
+			if (Toml.TryToModel(fileContent, out PermissionsConfig model, out DiagnosticsBag diagnostics) == false)
 			{
 				Loggy.Error("Permissions config file is invalid! See next to find why.", Category.Admin);
 				var errors = diagnostics.GetEnumerator();
@@ -46,41 +49,47 @@ namespace Systems.Permissions
 					Loggy.Error($"reason: {errors.Current?.Message}", Category.Admin);
 				}
 				errors.Dispose();
-				Config = new PermissionsConfig();
 				return;
 			}
 
 			Config = model;
+			FillRankNames();
 
-			var names = new StringBuilder();
-			names.Append("Players with rank defined: ");
-			foreach (Player player in Config.Players)
+			StringBuilder logMessage = new("Finished loading permissions config file.");
+			logMessage.Append("Players with rank defined: ");
+			if (Config.Players.Count > 0)
 			{
-				names.AppendLine($"Rank > {player.Rank} ID > {player.Identifier}");
+				logMessage.AppendLine("The following players have ranks assigned: ");
+				foreach (Player player in Config.Players)
+				{
+					logMessage.AppendLine($" >AccountId: {player.Identifier} >Rank: {player.Rank}");
+				}
 			}
-			Loggy.Info(names.ToString());
+			Loggy.Info(logMessage.ToString());
 		}
 
 		/// <summary>
 		/// Returns true if the player has the permission, false otherwise.
 		/// </summary>
-		/// <param name="identifier">UUID from firebase or player identifier after we migrate to django.</param>
-		/// <param name="permission">which permission are we looking for</param>
+		/// <param name="accountId">Unique identifier of the account</param>
+		/// <param name="permission">which permission tag are we looking for</param>
 		/// <returns></returns>
-		public bool HasPermission(string identifier, string permission)
+		public bool PlayerHasPermission(string accountId, string permission)
 		{
-			Player player = Config.Players.Find(p => p.Identifier == identifier);
+			Player player = Config.Players.Find(p => p.Identifier == accountId);
 			if (player == null)
 			{
-				//Player not found, so they don't have any permissions
-				return false;
+				// Player is not in the permissions configuration. Try to find if auto rank is defined and return that,
+				// otherwise the player has no permission
+				return DefinedAutoRank != null && DefinedAutoRank.Permissions.Contains(permission);
 			}
-			var rankName = player.Rank;
 
-			if (Config.Ranks.TryGetValue(rankName, out Rank rank) == false)
+			Rank rank = Config.Ranks.GetValueOrDefault(player.Rank);
+			if (rank == null)
 			{
-				//Rank not found, so they don't have any permissions
-				return false;
+				Loggy.Error($"Rank {player.Identifier} not found! We will provide auto rank if defined, " +
+				            "otherwise the player has no permissions", Category.Admin);
+				return DefinedAutoRank != null && DefinedAutoRank.Permissions.Contains(permission);
 			}
 
 			//wildcard permission means they have all permissions
@@ -88,99 +97,85 @@ namespace Systems.Permissions
 			       rank.Permissions.Contains(permission);
 		}
 
-		/// <summary>
-		/// Returns a list of the permissions a player has, returns an empty list if they don't have any or Player is not found
-		/// </summary>
-		/// <param name="identifier">Unique identifier for this player's account.</param>
-		/// <param name="rankType">rank associated with this identifier if any, empty otherwise.</param>
-		/// <returns></returns>
-		public List<string> GetPermissions(string identifier, out string rankType)
+		[CanBeNull]
+		public Rank GetRankForAccount(string identifier)
 		{
-			rankType = "";
-			List<string> returning = new();
-			Rank rank = GetRankForAccount(identifier, out rankType);
-
-			if (rank == null)
-			{
-				return returning;
-			}
-
-			//wildcard permission means they have all permissions
-			returning.AddRange(rank.Permissions);
-			return returning;
-		}
-
-		public Rank GetRankForAccount(string identifier, out string rankType)
-		{
-			rankType = "";
 			Player player = Config.Players.Find(p => p.Identifier == identifier);
-			if (player == null)
-			{
-				// Player has no rank.
-				if (string.IsNullOrWhiteSpace(Config.AutoRank))
-				{
-					// No auto rank configured, we return no rank at all
-					return null;
-				}
-
-				// We will return the configured auto rank or null if it is improperly defined
-				rankType = Config.AutoRank;
-				return Config.Ranks.GetValueOrDefault(Config.AutoRank);
-			}
-			var rankName = player.Rank;
-			rankType = rankName;
-			// Player has rank, we will return it or null if improperly defined
-			return Config.Ranks.GetValueOrDefault(rankName);
+			return player == null
+				? DefinedAutoRank
+				: // Player is defined in config file, we will return their rank or null if improperly defined
+				Config.Ranks.GetValueOrDefault(player.Rank);
 		}
-
 
 		public void AddRoleTo(string userID, string rankType, bool saveFile = false)
 		{
-			var data = GetRankForAccount(userID, out var Rank);
+			if (CustomNetworkManager.IsServer == false)
+			{
+				Loggy.Error("Client attempt to modify permissions config!", Category.Admin);
+				return;
+			}
 
-			if (data != null) return;
+			if (Config.Ranks.GetValueOrDefault(rankType) == null)
+			{
+				Loggy.Error($"Tried to add a non existent rank: {rankType} to Player with id:  {userID}", Category.Admin);
+				return;
+			}
 
-			Config.Players.Add(new Player() { Identifier = userID, Rank = rankType });
+			Player player = Config.Players.FirstOrDefault(x => x.Identifier == userID);
+			if (player == null)
+			{
+				Config.Players.Add(new Player {Identifier = userID, Rank = rankType});
+			}
+			else
+			{
+				player.Rank = rankType;
+			}
 
 			if (saveFile)
 			{
-				AccessFile.Save(configPath, Toml.FromModel(Config));
+				AccessFile.Save(ConfigPath, Toml.FromModel(Config));
 			}
 		}
 
 		public void AddTempRoleTo(string userID, string rankType)
 		{
+			if (CustomNetworkManager.IsServer == false)
+			{
+				Loggy.Error("Client attempt to modify permissions config!", Category.Admin);
+				return;
+			}
+
 			Config.Players.Add(new Player() { Identifier = userID, Rank = rankType });
 		}
 
 		public void RemoveRoleFrom(string userID, string rankType, bool saveFile = false)
 		{
-			var data = GetRankForAccount(userID, out var Rank);
+			if (CustomNetworkManager.IsServer == false)
+			{
+				Loggy.Error("Client attempt to modify permissions config!", Category.Admin);
+				return;
+			}
 
-			if (data == null) return;
-
-			if (Rank != rankType) return;
-
-			var player = Config.Players.FirstOrDefault(x => x.Identifier == userID);
+			Rank rank = GetRankForAccount(userID);
+			if (rank == null) return;
+			if (rank.Name != rankType) return;
+			Player player = Config.Players.FirstOrDefault(x => x.Identifier == userID);
 
 			Config.Players.Remove(player);
 
 			if (saveFile)
 			{
-				AccessFile.Save(configPath, Toml.FromModel(Config));
+				AccessFile.Save(ConfigPath, Toml.FromModel(Config));
 			}
 		}
 
-		public bool HasRank(string identifier, string expectedRank)
+		private void FillRankNames()
 		{
-			_ =  GetRankForAccount(identifier, out var rankName);
-			return rankName != null && rankName.Equals(expectedRank);
-		}
-
-		public bool HasAnyRank(string identifier)
-		{
-			Player player = Config.Players.Find(p => p.Identifier == identifier);
-			return player != null;
+			foreach (var kvp  in Config.Ranks )
+			{
+				if (kvp.Value == null) continue;
+				kvp.Value.Name = kvp.Key;
+			}
 		}
 	}
 }

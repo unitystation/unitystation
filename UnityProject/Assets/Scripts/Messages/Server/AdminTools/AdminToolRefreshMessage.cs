@@ -7,6 +7,7 @@ using InGameEvents;
 using Mirror;
 using Newtonsoft.Json;
 using SecureStuff;
+using Systems.Permissions;
 using UnityEngine;
 
 namespace Messages.Server.AdminTools
@@ -106,41 +107,36 @@ namespace Messages.Server.AdminTools
 					entry.ipAddress = player.ConnectionIP;
 				}
 
-
 				if (player.Script != null && player.Script.playerHealth != null)
 				{
 					entry.isAlive = player.Script.playerHealth.ConsciousState != ConsciousState.DEAD;
 				}
 
-				var Rank= PlayerList.GetRankForAccount(player.AccountId, out var rankName);
+				Rank rank = PlayerList.GetRankForAccount(player.AccountId);
 
-
-				var NotePath = Path.Combine(AccessFile.AdminFolder, "Notes", player.AccountId);
-				if (AccessFile.Exists(NotePath,true ,  FolderType.Logs))
+				var notePath = Path.Combine(AccessFile.AdminFolder, "Notes", player.AccountId);
+				if (AccessFile.Exists(notePath,true ,  FolderType.Logs))
 				{
-					entry.PlayerNotes = AccessFile.ReadAllLines(NotePath, FolderType.Logs, false)[0];
+					entry.PlayerNotes = AccessFile.ReadAllLines(notePath, FolderType.Logs, false)[0];
 				}
 				else
 				{
 					entry.PlayerNotes = "";
 				}
 
-
-
 				entry.isAntag = PlayerList.Instance.AntagPlayers.Contains(player);
 				entry.hasAChat = PlayerList.HasTAGServer(TAG.ADMIN_CHAT, player.AccountId);
-				entry.roleSmall = Rank?.Abbreviation;
-				entry.roleColour = Rank?.Color;
+				entry.roleSmall = rank?.Abbreviation;
+				entry.roleColour = rank?.Color;
 
-				entry.hasMentorRole = rankName == "mentor";
+				entry.hasMentorRole = rank?.Name == "mentor";
 				entry.isOnline = player.Connection.observing.Count > 0;
 				entry.isOOCMuted = player.IsOOCMuted;
 				if (AdminSetWatchlist.Watchlist.ContainsKey(player.AccountId))
 				{
 					entry.OnWatchlist = AdminSetWatchlist.Watchlist[player.AccountId];
 				}
-
-
+				
 				if (AdminJail.AdminJailLocation != null && AdminJail.AdminJailLocation.JailedLocations.ContainsKey(player.AccountId))
 				{
 					entry.InJail = true;
@@ -149,9 +145,6 @@ namespace Messages.Server.AdminTools
 				{
 					entry.InJail = false;
 				}
-
-
-
 
 				if (player?.Script != null)
 				{
