@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿using System.Text;
+using NUnit.Framework;
 using Systems.Permissions;
 using UnityEngine;
 
@@ -113,6 +114,29 @@ namespace Tests.Permissions
 		public void GivenAUserThatDoesNotExist_WhenCheckingPermission_ThenPermissionIsNotGranted()
 		{
 			Assert.False(manager.HasPermission("nonexistentPlayer", "perm_a"));
+		}
+
+		[Test]
+		public void GivenThatAutoRankIsDefined_WhenPlayerHasNoRank_ThenPlayerHasAutoRank()
+		{
+			StringBuilder newConfig = new("auto_rank = \"god\"");
+			newConfig.AppendLine(CONFIG_CONTENT);
+			manager.LoadPermissionsConfig(newConfig.ToString());
+
+			Assert.True(manager.HasRank("non_defined_player", "god"));
+		}
+
+		[Test]
+		[TestCase("player_god", "god")]
+		[TestCase("player_abc", "abc")]
+		[TestCase("player_bcd", "bcd")]
+		public void GivenThatAutoRankIsDefined_WhenPlayerHasRank_ThenPlayerHasRank(string identifier, string rank)
+		{
+			StringBuilder newConfig = new("auto_rank = \"god\"");
+			newConfig.AppendLine(CONFIG_CONTENT);
+			manager.LoadPermissionsConfig(newConfig.ToString());
+
+			Assert.True(manager.HasRank(identifier, rank));
 		}
 	}
 }
