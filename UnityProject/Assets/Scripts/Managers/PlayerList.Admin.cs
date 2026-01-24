@@ -4,15 +4,12 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using AdminCommands;
-using C5;
 using SecureStuff;
 using DatabaseAPI;
 using Mirror;
 using UnityEngine;
-using Core.Accounts;
 using Core.Admin.Logs;
 using DiscordWebhook;
 using Lobby;
@@ -21,7 +18,6 @@ using Messages.Client;
 using Messages.Server;
 using Messages.Server.AdminTools;
 using Newtonsoft.Json;
-using Systems.Character;
 using Systems.Permissions;
 using UI;
 
@@ -32,7 +28,7 @@ using UI;
 /// </summary>
 public partial class PlayerList
 {
-	private Dictionary<string, System.Collections.Generic.HashSet<string>> LoggedInWithTag = new Dictionary<string, System.Collections.Generic.HashSet<string> >();
+	private Dictionary<string, HashSet<string>> LoggedInWithTag = new();
 
 	private BanList banList;
 	private string banPath;
@@ -57,11 +53,11 @@ public partial class PlayerList
 	[Server]
 	void InitAdminController()
 	{
-		banPath = Path.Combine( AccessFile.AdminFolder, "banlist.json");
-		whiteListPath = Path.Combine( AccessFile.AdminFolder, "whitelist.txt");
-		jobBanPath = Path.Combine( AccessFile.AdminFolder, "jobBanlist.json");
+		banPath = Path.Combine(AccessFile.AdminFolder, "banlist.json");
+		whiteListPath = Path.Combine(AccessFile.AdminFolder, "whitelist.txt");
+		jobBanPath = Path.Combine(AccessFile.AdminFolder, "jobBanlist.json");
 
-		if (AccessFile.Exists(banPath)  == false)
+		if (AccessFile.Exists(banPath) == false)
 		{
 			AccessFile.Save(banPath, JsonConvert.SerializeObject(new BanList()));
 		}
@@ -72,7 +68,7 @@ public partial class PlayerList
 		}
 
 		AccessFile.Watch(whiteListPath, ThreadLoadWhiteList);
-		AccessFile.Watch(PermissionsManager.Instance.configPath, LoadCurrentAdmins);
+		AccessFile.Watch(PermissionsManager.Instance.ConfigPath, LoadCurrentAdmins);
 
 		LoadBanList();
 		LoadCurrentAdmins();
@@ -209,9 +205,9 @@ public partial class PlayerList
 
 
 
-	public  static Rank GetRankForAccount(string AccountID, out string RankName)
+	public static Rank GetRankForAccount(string accountId)
 	{
-		return PermissionsManager.Instance.GetRankForAccount(AccountID, out RankName);
+		return PermissionsManager.Instance.GetRankForAccount(accountId);
 	}
 
 	[Server]
@@ -230,12 +226,9 @@ public partial class PlayerList
 	[Server]
 	public void TryAddRank(string userID, string inRank, bool addToFile = true)
 	{
-		var data = GetRankForAccount(userID, out var Rank);
-
-		if (data != null) return;
-
+		Rank rank = PermissionsManager.Instance.GetRankForAccount(userID);
+		if (rank?.Name == inRank) return;
 		Loggy.Warning($"Adding rank of {inRank} To userID > {userID} addToFile > {addToFile} ");
-
 		PermissionsManager.Instance.AddRoleTo(userID, inRank, addToFile);
 
 		if (TryGetOnlineByUserID(userID, out var player))
@@ -247,9 +240,8 @@ public partial class PlayerList
 	[Server]
 	public void TryRemoveRank(string userID, string inRank, bool addToFile = true)
 	{
-		var data = GetRankForAccount(userID, out var Rank);
-
-		if (Rank != inRank)  return;
+		Rank rank = GetRankForAccount(userID);
+		if (rank.Name != inRank) return;
 
 		if (TryGetOnlineByUserID(userID, out var player))
 		{
@@ -289,8 +281,8 @@ public partial class PlayerList
 
 
 		if (ConnectionCount > GameManager.Instance.PlayerLimit
-		    && roundPlayers.Contains(player) == false
-		    && AdminCommandsManager.HasPermission(player,TAG.ADMIN_BYPASS_PLAYER_LIMIT) == false)
+			&& roundPlayers.Contains(player) == false
+			&& AdminCommandsManager.HasPermission(player, TAG.ADMIN_BYPASS_PLAYER_LIMIT) == false)
 		{
 			ServerKickPlayer(player, $"Server Error: The server is full, player limit: {playerLimit}.");
 			Loggy.Info($"{player.Username} tried to log in but PlayerLimit ({playerLimit}) was reached. IP: {player.ConnectionIP}", Category.Admin);
@@ -302,7 +294,7 @@ public partial class PlayerList
 		//Whitelist only activates if whitelist is populated.
 		var lines = AccessFile.ReadAllLines(whiteListPath);
 		if (lines.Length > 0 && !whiteListUsers.Contains(player.AccountId)
-		    && AdminCommandsManager.HasPermission(player,TAG.ADMIN_BYPASS_WHITE_LIST) == false)
+			&& AdminCommandsManager.HasPermission(player, TAG.ADMIN_BYPASS_WHITE_LIST) == false)
 		{
 			ServerKickPlayer(player, $"This server uses a whitelist. This account is not whitelisted.");
 			Loggy.Info($"{player.Username} tried to log in but the account is not whitelisted. IP: {player.ConnectionIP}", Category.Admin);
@@ -699,19 +691,21 @@ public partial class PlayerList
 		AddPlayerTAGS(player);
 	}
 
-	void RemovePlayerTAGS(PlayerInfo Player)
+	void RemovePlayerTAGS(PlayerInfo player)
 	{
-		var Permissions = PermissionsManager.Instance.GetPermissions(Player.AccountId, out var Rank );
-		foreach (var Permission in Permissions)
+		Rank rank = PermissionsManager.Instance.GetRankForAccount(player.AccountId);
+		if (rank == null) return;
+
+		foreach (var permission in rank.Permissions)
 		{
-			if (LoggedInWithTag.ContainsKey(Permission) == false) continue;
-			if (LoggedInWithTag[Permission].Contains(Player.AccountId))
+			if (LoggedInWithTag.ContainsKey(permission) == false) continue;
+			if (LoggedInWithTag[permission].Contains(player.AccountId))
 			{
-				LoggedInWithTag[Permission].Remove(Player.AccountId);
+				LoggedInWithTag[permission].Remove(player.AccountId);
 			}
 		}
-		Permissions.Clear();
-		AdminEnableMessage.SendMessage(Player, Permissions);
+		rank.Permissions.Clear();
+		AdminEnableMessage.SendMessage(player, rank.Permissions);
 	}
 
 	[Server]
@@ -731,22 +725,23 @@ public partial class PlayerList
 			LocalAdminSetup(player);
 			return;
 		}
-		if (PermissionsManager.Instance.HasAnyRank(player.AccountId)) EnableAdmin(player);
+		if (PermissionsManager.Instance.GetRankForAccount(player.AccountId) != null) EnableAdmin(player);
 	}
 
 	private void LocalAdminSetup(PlayerInfo player)
 	{
-		TryAddRank(player.AccountId,"host", false);
+		TryAddRank(player.AccountId, "host", false);
 		Loggy.Info($"Found local host ({player.AccountId}/{player.Connection.address}). Assigning 'host' perms to them.");
 		EnableAdmin(player);
 	}
 
 	private void EnableAdmin(PlayerInfo player)
 	{
-		var permissions = PermissionsManager.Instance.GetPermissions(player.AccountId, out var Rank);
-		if (permissions.Count > 0)
+		Rank rank = PermissionsManager.Instance.GetRankForAccount(player.AccountId);
+		var permissions = rank?.Permissions;
+		if (permissions?.Count > 0)
 		{
-			Loggy.Info($"{player.Username} logged in with tags. IP: {player.ConnectionIP} and Rank {Rank} ", Category.Admin);
+			Loggy.Info($"{player.Username} logged in with tags. IP: {player.ConnectionIP} and Rank {rank.Name} ", Category.Admin);
 			foreach (var tag in permissions)
 			{
 				if (LoggedInWithTag.ContainsKey(tag) == false)
