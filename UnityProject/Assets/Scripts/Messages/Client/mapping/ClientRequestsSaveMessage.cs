@@ -78,17 +78,20 @@ public class ClientRequestsSaveMessage : ClientMessage<ClientRequestsSaveMessage
 				Layers = msg.Layers.ToHashSet();
 			}
 
-			var Data = MapSaver.MapSaver.SaveMatrix(msg.Compact, Matrix.MetaTileMap, true, msg.Bounds.ToList(),
-				msg.NonmappedItems, Layers, msg.SaveObjects, msg.CutSection, msg.PreviewGizmos.ToList());
-
-			var StringData = JsonConvert.SerializeObject(Data, settings);
 			if (string.IsNullOrEmpty(msg.MapSAVEName))
 			{
+				var Data = MapSaver.MapSaver.SaveMatrix(msg.Compact, Matrix.MetaTileMap, true, msg.Bounds.ToList(),
+					msg.NonmappedItems, Layers, msg.SaveObjects, msg.CutSection, msg.PreviewGizmos.ToList());
+
+				var StringData = JsonConvert.SerializeObject(Data, settings);
 				ServerReturnMapData.Send(SentByPlayer.GameObject, StringData,
 					ServerReturnMapData.MessageType.MapDataFromSave, -1);
 			}
 			else
 			{
+				var Matrixs = msg.MatrixIDs.Select(x => MatrixManager.Get(x).MetaTileMap).Where(x =>x.matrix != MatrixManager.Instance.spaceMatrix).ToList();
+				var Data = MapSaver.MapSaver.SaveMap(Matrixs, msg.Compact, msg.MapName);
+				var StringData = JsonConvert.SerializeObject(Data, settings);
 				ServerReturnMapData.Send(SentByPlayer.GameObject, StringData,
 					ServerReturnMapData.MessageType.MapSaveName, -1, msg.MapSAVEName);
 			}

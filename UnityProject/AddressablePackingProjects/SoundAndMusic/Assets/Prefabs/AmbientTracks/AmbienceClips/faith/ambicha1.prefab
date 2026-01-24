@@ -53,9 +53,13 @@ PrefabInstance:
       value: ambicha1
       objectReference: {fileID: 0}
     - target: {fileID: 3578133899281180658, guid: dc2ffb971d5eb3a4fb81e40c1563a528, type: 3}
-      propertyPath: m_audioClip
+      propertyPath: m_Resource
       value: 
       objectReference: {fileID: 8300000, guid: f42d922e3e97eff4c92fe38c5b7eb92b, type: 3}
+    - target: {fileID: 3578133899281180658, guid: dc2ffb971d5eb3a4fb81e40c1563a528, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

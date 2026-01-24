@@ -158,7 +158,6 @@ public class PlayerManager : SingletonManager<PlayerManager>
 		Equipment = playerObjToControl.GetComponent<Equipment>();
 
 		Camera2DFollow.followControl.target = playerObjToControl.transform;
-
 		HasSpawned = true;
 
 		SetMovementControllable(movementControllable);

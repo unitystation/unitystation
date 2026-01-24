@@ -170,7 +170,7 @@ public class PostProcessingStack
 
 		// Adjust scale from Extended mask to Screen size mask.
 		float _yUVScale =
-			1 / ((float) iFloorOcclusionMask.renderTexture.width / iFloorOcclusionMask.renderTexture.height);
+			1 / ((float) iFloorOcclusionMask.renderTexture.width /  iFloorOcclusionMask.renderTexture.height);
 		Vector3 _adjustedDistance = iFovDistance * iOperationParameters.cameraViewportUnitsInWorldSpace *
 			iRawOcclusionMask.orthographicSize / iFloorOcclusionMask.orthographicSize;
 
