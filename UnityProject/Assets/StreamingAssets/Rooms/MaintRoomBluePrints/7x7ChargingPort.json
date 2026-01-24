@@ -605,99 +605,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "Name": "light (2)",
-                  "ObjectLayer": 0,
-                  "ID": "0,3",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "Transform@0",
-                      "Data": []
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
-                    },
-                    {
-                      "ClassID": "LightSprite@0",
-                      "Data": [
-                        {
-                          "Name": "LightOrigin",
-                          "Data": "0,0,1"
-                        },
-                        {
-                          "Name": "Shape",
-                          "Data": "Point"
-                        },
-                        {
-                          "Name": "GivenID",
-                          "Data": "0"
-                        },
-                        {
-                          "Name": "InitialColour",
-                          "Data": "\u0000ÆÿÍ"
-                        },
-                        {
-                          "Name": "SortingOrder",
-                          "Data": "0"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "MeshFilter@0",
-                      "Data": []
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "NetworkThis",
-                          "Data": "True"
-                        },
-                        {
-                          "Name": "SubCatalogue#0",
-                          "Data": "30dfa7309f045854aabe3d39b2cc5a24"
-                        },
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "30dfa7309f045854aabe3d39b2cc5a24"
-                        },
-                        {
-                          "Name": "randomInitialSprite",
-                          "Data": "False"
-                        },
-                        {
-                          "Name": "spriteRenderer",
-                          "Data": "NULL"
-                        },
-                        {
-                          "Name": "doReverseAnimation",
-                          "Data": "False"
-                        },
-                        {
-                          "Name": "pushTextureOnStartUp",
-                          "Data": "True"
-                        },
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "0"
-                        },
-                        {
-                          "Name": "InitialColour",
-                          "Data": "\u0000ÆÿÍ"
-                        },
-                        {
-                          "Name": "initialSortingOrder",
-                          "Data": "-1"
-                        },
-                        {
-                          "Name": "initialSortingLayerName",
-                          "Data": ""
-                        }
-                      ]
-                    }
-                  ]
                 }
               ]
             }
@@ -707,6 +614,45 @@
             "PrefabID": "c80393b4412660b41937e05425ceb921",
             "Name": "DirectionalWindowReinforced (1)",
             "LocalPRS": "1┼5┼0┼"
+          },
+          {
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_1.001┼5┼0┼",
+            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
+            "Name": "MappingLightSource (4)",
+            "LocalPRS": "1.001┼5┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "LocalPRS": "0┼0┼0┼1↔1↔0.25↔",
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "LightSprite@0",
+                      "Data": [
+                        {
+                          "Name": "InitialColour",
+                          "Data": ".ÑÿÈ"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightSpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "30dfa7309f045854aabe3d39b2cc5a24"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": ".ÑÿÈ"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_2┼2┼0┼",
@@ -825,99 +771,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "Name": "light (2)",
-                  "ObjectLayer": 0,
-                  "ID": "0,3",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "Transform@0",
-                      "Data": []
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
-                    },
-                    {
-                      "ClassID": "LightSprite@0",
-                      "Data": [
-                        {
-                          "Name": "LightOrigin",
-                          "Data": "0,0,1"
-                        },
-                        {
-                          "Name": "Shape",
-                          "Data": "Point"
-                        },
-                        {
-                          "Name": "GivenID",
-                          "Data": "0"
-                        },
-                        {
-                          "Name": "InitialColour",
-                          "Data": "\u0000ÆÿÍ"
-                        },
-                        {
-                          "Name": "SortingOrder",
-                          "Data": "0"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "MeshFilter@0",
-                      "Data": []
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "NetworkThis",
-                          "Data": "True"
-                        },
-                        {
-                          "Name": "SubCatalogue#0",
-                          "Data": "30dfa7309f045854aabe3d39b2cc5a24"
-                        },
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "30dfa7309f045854aabe3d39b2cc5a24"
-                        },
-                        {
-                          "Name": "randomInitialSprite",
-                          "Data": "False"
-                        },
-                        {
-                          "Name": "spriteRenderer",
-                          "Data": "NULL"
-                        },
-                        {
-                          "Name": "doReverseAnimation",
-                          "Data": "False"
-                        },
-                        {
-                          "Name": "pushTextureOnStartUp",
-                          "Data": "True"
-                        },
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "0"
-                        },
-                        {
-                          "Name": "InitialColour",
-                          "Data": "\u0000ÆÿÍ"
-                        },
-                        {
-                          "Name": "initialSortingOrder",
-                          "Data": "-1"
-                        },
-                        {
-                          "Name": "initialSortingLayerName",
-                          "Data": ""
-                        }
-                      ]
-                    }
-                  ]
                 }
               ]
             }
@@ -927,6 +780,45 @@
             "PrefabID": "c80393b4412660b41937e05425ceb921",
             "Name": "DirectionalWindowReinforced (2)",
             "LocalPRS": "3┼5┼0┼"
+          },
+          {
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_3.001┼5┼0┼",
+            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
+            "Name": "MappingLightSource (5)",
+            "LocalPRS": "3.001┼5┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "LocalPRS": "0┼0┼0┼1↔1↔0.25↔",
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "LightSprite@0",
+                      "Data": [
+                        {
+                          "Name": "InitialColour",
+                          "Data": ".ÑÿÈ"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightSpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "30dfa7309f045854aabe3d39b2cc5a24"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": ".ÑÿÈ"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "500fc59070199404fb9f20bc8c600044_3.01┼3.06┼0┼",
@@ -1054,99 +946,6 @@
                       ]
                     }
                   ]
-                },
-                {
-                  "Name": "light (2)",
-                  "ObjectLayer": 0,
-                  "ID": "0,3",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "Transform@0",
-                      "Data": []
-                    },
-                    {
-                      "ClassID": "MeshRenderer@0",
-                      "Data": []
-                    },
-                    {
-                      "ClassID": "LightSprite@0",
-                      "Data": [
-                        {
-                          "Name": "LightOrigin",
-                          "Data": "0,0,1"
-                        },
-                        {
-                          "Name": "Shape",
-                          "Data": "Point"
-                        },
-                        {
-                          "Name": "GivenID",
-                          "Data": "0"
-                        },
-                        {
-                          "Name": "InitialColour",
-                          "Data": "\u0000ÆÿÍ"
-                        },
-                        {
-                          "Name": "SortingOrder",
-                          "Data": "0"
-                        }
-                      ]
-                    },
-                    {
-                      "ClassID": "MeshFilter@0",
-                      "Data": []
-                    },
-                    {
-                      "ClassID": "LightSpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "NetworkThis",
-                          "Data": "True"
-                        },
-                        {
-                          "Name": "SubCatalogue#0",
-                          "Data": "30dfa7309f045854aabe3d39b2cc5a24"
-                        },
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "30dfa7309f045854aabe3d39b2cc5a24"
-                        },
-                        {
-                          "Name": "randomInitialSprite",
-                          "Data": "False"
-                        },
-                        {
-                          "Name": "spriteRenderer",
-                          "Data": "NULL"
-                        },
-                        {
-                          "Name": "doReverseAnimation",
-                          "Data": "False"
-                        },
-                        {
-                          "Name": "pushTextureOnStartUp",
-                          "Data": "True"
-                        },
-                        {
-                          "Name": "initialVariantIndex",
-                          "Data": "0"
-                        },
-                        {
-                          "Name": "InitialColour",
-                          "Data": "\u0000ÆÿÍ"
-                        },
-                        {
-                          "Name": "initialSortingOrder",
-                          "Data": "-1"
-                        },
-                        {
-                          "Name": "initialSortingLayerName",
-                          "Data": ""
-                        }
-                      ]
-                    }
-                  ]
                 }
               ]
             }
@@ -1156,6 +955,45 @@
             "PrefabID": "c80393b4412660b41937e05425ceb921",
             "Name": "DirectionalWindowReinforced (3)",
             "LocalPRS": "5┼5┼0┼"
+          },
+          {
+            "GitID": "2304f6197e788654ebfe0cf0947a8b1a_5.001┼5┼0┼",
+            "PrefabID": "2304f6197e788654ebfe0cf0947a8b1a",
+            "Name": "MappingLightSource (6)",
+            "LocalPRS": "5.001┼5┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "LocalPRS": "0┼0┼0┼1↔1↔0.25↔",
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "LightSprite@0",
+                      "Data": [
+                        {
+                          "Name": "InitialColour",
+                          "Data": ".ÑÿÈ"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightSpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "30dfa7309f045854aabe3d39b2cc5a24"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": ".ÑÿÈ"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           }
         ],
         "IDToNetIDClient": {}
