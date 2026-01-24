@@ -24,6 +24,12 @@ PrefabInstance:
       propertyPath: pushTextureOnStartUp
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 365286942262964143, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: af312efc417fa7f4cace32afb44bd310,
+        type: 2}
     - target: {fileID: 2391862290675865850, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: m_Sprite
@@ -113,8 +119,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2679066993449747652, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
+      propertyPath: initialName
+      value: low machine connector
+      objectReference: {fileID: 0}
+    - target: {fileID: 2679066993449747652, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
       propertyPath: initialDescription
-      value: used to connect  machines that are running on the 240V line
+      value: Used to connect machines that are running on the 240V line.
       objectReference: {fileID: 0}
     - target: {fileID: 2679066993449747652, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
@@ -166,6 +177,12 @@ PrefabInstance:
       propertyPath: pushTextureOnStartUp
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4724191004971380045, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: af312efc417fa7f4cace32afb44bd310,
+        type: 2}
     - target: {fileID: 5065124234103176114, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: NetworkThis
@@ -182,6 +199,12 @@ PrefabInstance:
       propertyPath: pushTextureOnStartUp
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5065124234103176114, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: af312efc417fa7f4cace32afb44bd310,
+        type: 2}
     - target: {fileID: 5422858671993271279, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: m_Sprite
@@ -225,6 +248,12 @@ PrefabInstance:
       propertyPath: pushTextureOnStartUp
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5509797517278718378, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: af312efc417fa7f4cace32afb44bd310,
+        type: 2}
     - target: {fileID: 5876897435817811983, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: m_Sprite

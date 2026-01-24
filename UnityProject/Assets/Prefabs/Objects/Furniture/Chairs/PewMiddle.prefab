@@ -30,6 +30,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1531201218411481544, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
+      propertyPath: exportName
+      value: wooden pew
+      objectReference: {fileID: 0}
+    - target: {fileID: 1531201218411481544, guid: 1a00e842e154f7d43811c5d45328988c,
+        type: 3}
       propertyPath: initialName
       value: wooden pew
       objectReference: {fileID: 0}
@@ -41,6 +46,12 @@ PrefabInstance:
     - target: {fileID: 3732048457055730722, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 376a8a3fbddbf1b4fb8e611e4e796242,
+        type: 2}
+    - target: {fileID: 3732048457055730722, guid: 1a00e842e154f7d43811c5d45328988c,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 376a8a3fbddbf1b4fb8e611e4e796242,
         type: 2}
