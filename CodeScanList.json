@@ -73,7 +73,10 @@
             "IDeserializationCallback": {
                 "All": true
             },
-            "StreamingContext": {}
+            "StreamingContext": {},
+            "IgnoreDataMemberAttribute": {
+                "All": true
+            }
         },
         "System.Security.Principal": {
             "IIdentity": {
