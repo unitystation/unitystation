@@ -180,6 +180,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5666735912054379986, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
+        type: 2}
+    - target: {fileID: 5666735912054379986, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0,
@@ -216,6 +222,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 87590b3bea51ad9489dc3aafbc926b16,
         type: 2}
+    - target: {fileID: 5985477544408477782, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 87590b3bea51ad9489dc3aafbc926b16,
+        type: 2}
     - target: {fileID: 6872015153723498109, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: m_Enabled
@@ -223,8 +235,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7516867733009817656, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
-      propertyPath: exportName
-      value: body bag
+      propertyPath: exportCost
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7516867733009817656, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}

@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using Logs;
 using Mirror;
+using Systems.Permissions;
 using UI;
 using UI.Systems.PreRound;
+using UnityEngine;
 
 namespace Messages.Server
 {
@@ -47,11 +49,11 @@ namespace Messages.Server
 			{
 				var tag = "";
 
-				var Rank = PlayerList.GetRankForAccount(c.AccountId, out var RankName);
+				Rank rank = PlayerList.GetRankForAccount(c.AccountId);
 
-				if (Rank?.ShowInChat == true)
+				if (rank?.ShowInChat == true)
 				{
-					tag = $"<color={Rank.Color}>[{RankName}]</color>";
+					tag = $"<color={rank.Color}>[{rank.Name}]</color>";
 				}
 
 				prepareConnectedPlayers.Add(new ClientConnectedPlayer

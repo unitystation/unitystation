@@ -24,6 +24,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 446f4472e9b196b4cacb3286f2eada4c,
         type: 2}
+    - target: {fileID: 4322357872256689866, guid: 5615206684c0a714997f9e856ba438ce,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 446f4472e9b196b4cacb3286f2eada4c,
+        type: 2}
     - target: {fileID: 7518649724926587439, guid: 5615206684c0a714997f9e856ba438ce,
         type: 3}
       propertyPath: initialName
@@ -58,9 +64,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7518649724926587439, guid: 5615206684c0a714997f9e856ba438ce,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 3ff158f16a0e2de4cb4be915e5569139,
+        type: 2}
+    - target: {fileID: 7518649724926587439, guid: 5615206684c0a714997f9e856ba438ce,
+        type: 3}
       propertyPath: inventoryRemoveSound.AssetAddress
       value: null
       objectReference: {fileID: 0}
+    - target: {fileID: 7518649724926587439, guid: 5615206684c0a714997f9e856ba438ce,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 98136b65c48e5a94b85a680617fb288d,
+        type: 2}
     - target: {fileID: 7688367562615853652, guid: 5615206684c0a714997f9e856ba438ce,
         type: 3}
       propertyPath: prefabVariant
