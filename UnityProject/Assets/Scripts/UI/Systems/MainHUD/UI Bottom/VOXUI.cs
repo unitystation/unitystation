@@ -29,10 +29,13 @@ namespace AI
 
 		public List<string> VOXLines = new List<string>();
 
+		public string VOXStringLine = "Assets/Prefabs/AI/VOX/";
+		public string VOXStringLineEnd = ".prefab";
+
 		public void Start()
 		{
-			VOXLines = AdminGlobalAudio.audioList.Where(x => x.Contains("AI/VOX"))
-				.Select(x => x.Replace("Assets/Prefabs/AI/VOX/", "").Replace(".prefab", "")).ToList();
+			VOXLines = AdminGlobalAudio.audioList.Where(x => x.Contains(VOXStringLine))
+				.Select(x => x.Replace(VOXStringLine, "").Replace(VOXStringLineEnd, "")).ToList();
 			InputField.onValueChanged.AddListener(Search);
 		}
 
@@ -93,7 +96,7 @@ namespace AI
 				await UniTask.SwitchToMainThread();
 				RequestVOXsay.Send(Text.Text.text);
 				var Source = new AddressableAudioSource()
-					{AssetAddress = "Assets/Prefabs/AI/VOX/" + Text.Text.text + ".prefab"};
+					{AssetAddress = VOXStringLine + Text.Text.text + VOXStringLineEnd};
 				AddressableAudioSource addressableAudioSource =
 					await AudioManager.GetAddressableAudioSourceFromCache(Source);
 				await UniTask.Delay(TimeSpan.FromSeconds(addressableAudioSource.AudioSource.clip.length),

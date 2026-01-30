@@ -22,7 +22,7 @@ namespace Messages.Client
 			if (Player == null) return;
 			if (Player.HasDied) return;
 
-			SoundManager.PlayNetworked(new AddressableAudioSource(){AssetAddress = "Assets/Prefabs/AI/VOX/" + msg.VoxMessage  + ".prefab" }, new AudioSourceParameters( spatialBlend: 1));
+			SoundManager.PlayNetworked(new AddressableAudioSource(){AssetAddress = Player.VOXStringLine + msg.VoxMessage  + Player.VOXStringLineEnd }, new AudioSourceParameters( spatialBlend: 1));
 		}
 
 		//This is only used to send the chat input on the client to the server

@@ -127,6 +127,9 @@ namespace Systems.Ai
 
 		private bool isMalf = false;
 
+		public string VOXStringLine = "Assets/Prefabs/AI/VOX/";
+		public string VOXStringLineEnd = ".prefab";
+
 		public bool IsMalf
 		{
 			get => isMalf;
