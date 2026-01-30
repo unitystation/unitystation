@@ -13,7 +13,7 @@
             "Key": "X0Y0",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -32,7 +32,7 @@
             "Key": "X0Y2",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -43,6 +43,9 @@
             "Key": "X0Y3",
             "Value": [
               {
+                "Tel": "ReinforcedWall"
+              },
+              {
                 "Tel": "Plating"
               }
             ]
@@ -51,7 +54,7 @@
             "Key": "X0Y4",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -62,7 +65,7 @@
             "Key": "X1Y0",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -97,6 +100,9 @@
             "Key": "X1Y4",
             "Value": [
               {
+                "Tel": "ReinforcedWall"
+              },
+              {
                 "Tel": "Plating"
               }
             ]
@@ -104,6 +110,9 @@
           {
             "Key": "X2Y0",
             "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
               {
                 "Tel": "Plating"
               }
@@ -140,7 +149,7 @@
             "Key": "X2Y4",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -150,9 +159,6 @@
           {
             "Key": "X3Y0",
             "Value": [
-              {
-                "Tel": "Wall"
-              },
               {
                 "Tel": "Plating"
               }
@@ -194,7 +200,7 @@
             "Key": "X4Y0",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -213,7 +219,7 @@
             "Key": "X4Y2",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -224,6 +230,9 @@
             "Key": "X4Y3",
             "Value": [
               {
+                "Tel": "ReinforcedWall"
+              },
+              {
                 "Tel": "Plating"
               }
             ]
@@ -232,7 +241,7 @@
             "Key": "X4Y4",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -242,32 +251,14 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.2",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
-            "GitID": "74425ae81613a44b78b24737fd383d2f_0┼1┼0┼",
-            "PrefabID": "74425ae81613a44b78b24737fd383d2f",
-            "Name": "FalseWall (1)",
-            "LocalPRS": "0┼1┼0┼"
-          },
-          {
-            "GitID": "74425ae81613a44b78b24737fd383d2f_0┼3┼0┼",
-            "PrefabID": "74425ae81613a44b78b24737fd383d2f",
-            "Name": "FalseWall (2)",
-            "LocalPRS": "0┼3┼0┼"
-          },
-          {
-            "GitID": "74425ae81613a44b78b24737fd383d2f_1┼4┼0┼",
-            "PrefabID": "74425ae81613a44b78b24737fd383d2f",
+            "GitID": "ad3ad861919b88a479eacc3d06e05fd5_0┼1┼0┼",
+            "PrefabID": "ad3ad861919b88a479eacc3d06e05fd5",
             "Name": "FalseWall (3)",
-            "LocalPRS": "1┼4┼0┼"
-          },
-          {
-            "GitID": "74425ae81613a44b78b24737fd383d2f_2┼0┼0┼",
-            "PrefabID": "74425ae81613a44b78b24737fd383d2f",
-            "Name": "FalseWall (1)",
-            "LocalPRS": "2┼0┼0┼"
+            "LocalPRS": "0┼1┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_2┼3┼0┼",
@@ -314,22 +305,22 @@
             }
           },
           {
-            "GitID": "74425ae81613a44b78b24737fd383d2f_3┼4┼0┼",
-            "PrefabID": "74425ae81613a44b78b24737fd383d2f",
-            "Name": "FalseWall (4)",
+            "GitID": "ad3ad861919b88a479eacc3d06e05fd5_3┼0┼0┼",
+            "PrefabID": "ad3ad861919b88a479eacc3d06e05fd5",
+            "Name": "FalseWall (5)",
+            "LocalPRS": "3┼0┼0┼"
+          },
+          {
+            "GitID": "ad3ad861919b88a479eacc3d06e05fd5_3┼4┼0┼",
+            "PrefabID": "ad3ad861919b88a479eacc3d06e05fd5",
+            "Name": "FalseWall (8)",
             "LocalPRS": "3┼4┼0┼"
           },
           {
-            "GitID": "74425ae81613a44b78b24737fd383d2f_4┼1┼0┼",
-            "PrefabID": "74425ae81613a44b78b24737fd383d2f",
+            "GitID": "ad3ad861919b88a479eacc3d06e05fd5_4┼1┼0┼",
+            "PrefabID": "ad3ad861919b88a479eacc3d06e05fd5",
             "Name": "FalseWall (6)",
             "LocalPRS": "4┼1┼0┼"
-          },
-          {
-            "GitID": "74425ae81613a44b78b24737fd383d2f_4┼3┼0┼",
-            "PrefabID": "74425ae81613a44b78b24737fd383d2f",
-            "Name": "FalseWall (5)",
-            "LocalPRS": "4┼3┼0┼"
           }
         ],
         "IDToNetIDClient": {}

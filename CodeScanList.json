@@ -73,7 +73,10 @@
             "IDeserializationCallback": {
                 "All": true
             },
-            "StreamingContext": {}
+            "StreamingContext": {},
+            "IgnoreDataMemberAttribute": {
+                "All": true
+            }
         },
         "System.Security.Principal": {
             "IIdentity": {
@@ -825,9 +828,9 @@
             "ConfiguredTaskAwaitable/ConfiguredTaskAwaiter": {
                 "All": true
             },
-			"CallerFilePathAttribute" : {
-				"All": true
-			}
+            "CallerFilePathAttribute": {
+                "All": true
+            }
         },
         "System.Runtime.ExceptionServices": {
             "ExceptionDispatchInfo": {
@@ -2472,7 +2475,7 @@
                     "void Quit()",
                     "void remove_logMessageReceived(UnityEngine.Application/LogCallback)",
                     "void add_logMessageReceived(UnityEngine.Application/LogCallback)",
-					"UnityEngine.SystemLanguage get_systemLanguage()",
+                    "UnityEngine.SystemLanguage get_systemLanguage()",
                 ],
                 "NestedTypes": {
                     "LogCallback": {
@@ -2805,7 +2808,7 @@
             "Tile": {
                 "All": true
             },
-			"TileAnimationFlags": {
+            "TileAnimationFlags": {
                 "All": true
             },
         },
@@ -2953,6 +2956,12 @@
         },
         "JetBrains.Annotations": {
             "CanBeNullAttribute": {
+                "All": true
+            },
+            "NotNullAttribute": {
+                "All": true
+            },
+            "UsedImplicitlyAttribute": {
                 "All": true
             }
         },
@@ -3149,7 +3158,6 @@
         "Mirror.BouncyCastle.Crypto.Parameters": {
             "RsaKeyParameters": {},
             "RsaPrivateCrtKeyParameters": {}
-
         },
         "Mirror.BouncyCastle.Crypto.Generators": {
             "RsaKeyPairGenerator": {
@@ -3217,7 +3225,7 @@
                 "Methods": [
                     "byte[] get_EncryptionPublicKey()"
                 ],
-				"Fields": [
+                "Fields": [
                     "System.Func`2<Mirror.BouncyCastle.Crypto.PubKeyInfo, bool> OnClientValidateServerPubKey"
                 ]
             }
@@ -3231,7 +3239,6 @@
             "SecureRandom": {
                 "ALL": true
             }
-
         },
         "Mirror.BouncyCastle.OpenSsl": {
             "PemWriter": {
@@ -3637,21 +3644,21 @@
             "PlayerLoopTiming": {
                 "All": true
             },
-			"UniTaskExtensions" : {
-				"All": true
-			},
-			"SwitchToThreadPoolAwaitable" : {
-				"All": true
-			},
-			"SwitchToMainThreadAwaitable": {
-				"All": true
-			},
-			"SwitchToThreadPool":{
-				"All": true
-			},
-			"SwitchToMainThread":{
-				"All": true
-			}
+            "UniTaskExtensions": {
+                "All": true
+            },
+            "SwitchToThreadPoolAwaitable": {
+                "All": true
+            },
+            "SwitchToMainThreadAwaitable": {
+                "All": true
+            },
+            "SwitchToThreadPool": {
+                "All": true
+            },
+            "SwitchToMainThread": {
+                "All": true
+            }
         },
         "Cysharp.Threading.Tasks.CompilerServices": {
             "AsyncUniTaskMethodBuilder": {

@@ -23,9 +23,20 @@ PrefabInstance:
       propertyPath: isInitiallyNotPushable
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1531201218411481544, guid: 1a00e842e154f7d43811c5d45328988c,
+        type: 3}
+      propertyPath: initialName
+      value: office chair
+      objectReference: {fileID: 0}
     - target: {fileID: 3732048457055730722, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 754a3e958700246408343fe2eeb3bac0,
+        type: 2}
+    - target: {fileID: 3732048457055730722, guid: 1a00e842e154f7d43811c5d45328988c,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 754a3e958700246408343fe2eeb3bac0,
         type: 2}

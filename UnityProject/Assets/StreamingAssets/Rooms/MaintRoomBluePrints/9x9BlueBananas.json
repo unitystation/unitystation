@@ -759,7 +759,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.2",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -1314,10 +1314,6 @@
                       "Name": "potentialWildPlants#0",
                       "Data": "{\"ForeverId\":\"e7021e1ae09eb3c459743d93b8352b3e\",\"ComponentName\":\"SeedPacket\"}",
                       "IsPrefabID": true
-                    },
-                    {
-                      "Name": "modification",
-                      "Data": "Potency"
                     }
                   ]
                 }
@@ -1325,10 +1321,10 @@
             }
           },
           {
-            "GitID": "4afa9d7a68a5bd54c80ae3dca95dd7c5_4.75┼1.62┼0┼",
+            "GitID": "4afa9d7a68a5bd54c80ae3dca95dd7c5_4.75┼1.63┼0┼",
             "PrefabID": "4afa9d7a68a5bd54c80ae3dca95dd7c5",
             "Name": "BluespaceBanana (7)",
-            "LocalPRS": "4.75┼1.62┼0┼"
+            "LocalPRS": "4.75┼1.63┼0┼"
           },
           {
             "GitID": "ebb08cf966efc084aa918bd8d9429604_5┼2┼0┼",
@@ -1353,6 +1349,7 @@
               ],
               "Children": [
                 {
+                  "LocalPRS": "0┼0┼0┼2↔2↔1↔",
                   "ID": "0,0",
                   "ClassDatas": [
                     {
@@ -1376,22 +1373,16 @@
             "LocalPRS": "5┼6┼0┼"
           },
           {
-            "GitID": "4afa9d7a68a5bd54c80ae3dca95dd7c5_5.5┼1.75┼0┼",
-            "PrefabID": "4afa9d7a68a5bd54c80ae3dca95dd7c5",
-            "Name": "BluespaceBanana (1)",
-            "LocalPRS": "5.5┼1.75┼0┼"
-          },
-          {
             "GitID": "4afa9d7a68a5bd54c80ae3dca95dd7c5_5.62┼3.62┼0┼",
             "PrefabID": "4afa9d7a68a5bd54c80ae3dca95dd7c5",
             "Name": "BluespaceBanana (6)",
             "LocalPRS": "5.62┼3.62┼0┼"
           },
           {
-            "GitID": "4afa9d7a68a5bd54c80ae3dca95dd7c5_5.88┼4.62┼0┼",
+            "GitID": "4afa9d7a68a5bd54c80ae3dca95dd7c5_5.88┼1.75┼0┼",
             "PrefabID": "4afa9d7a68a5bd54c80ae3dca95dd7c5",
-            "Name": "BluespaceBanana (4)",
-            "LocalPRS": "5.88┼4.62┼0┼"
+            "Name": "BluespaceBanana (1)",
+            "LocalPRS": "5.88┼1.75┼0┼"
           },
           {
             "GitID": "ebb08cf966efc084aa918bd8d9429604_6┼4┼0┼",
@@ -1416,6 +1407,7 @@
               ],
               "Children": [
                 {
+                  "LocalPRS": "0┼0┼0┼2↔2↔1↔",
                   "ID": "0,0",
                   "ClassDatas": [
                     {
@@ -1521,10 +1513,6 @@
                       "Name": "potentialWildPlants#0",
                       "Data": "{\"ForeverId\":\"e7021e1ae09eb3c459743d93b8352b3e\",\"ComponentName\":\"SeedPacket\"}",
                       "IsPrefabID": true
-                    },
-                    {
-                      "Name": "modification",
-                      "Data": "Potency"
                     }
                   ]
                 }
@@ -1582,6 +1570,12 @@
             "LocalPRS": "6.12┼3.38┼0┼"
           },
           {
+            "GitID": "4afa9d7a68a5bd54c80ae3dca95dd7c5_6.38┼3.25┼0┼",
+            "PrefabID": "4afa9d7a68a5bd54c80ae3dca95dd7c5",
+            "Name": "BluespaceBanana (4)",
+            "LocalPRS": "6.38┼3.25┼0┼"
+          },
+          {
             "GitID": "c937e0abe85aca9499d09951de736ec6_7┼3┼0┼",
             "PrefabID": "c937e0abe85aca9499d09951de736ec6",
             "Name": "LightBulbFixture (1)",
@@ -1630,10 +1624,10 @@
             }
           },
           {
-            "GitID": "4afa9d7a68a5bd54c80ae3dca95dd7c5_7┼4┼0┼",
+            "GitID": "4afa9d7a68a5bd54c80ae3dca95dd7c5_7┼3.88┼0┼",
             "PrefabID": "4afa9d7a68a5bd54c80ae3dca95dd7c5",
             "Name": "BluespaceBanana (3)",
-            "LocalPRS": "7┼4┼0┼"
+            "LocalPRS": "7┼3.88┼0┼"
           },
           {
             "GitID": "157fcff274a3644448d1ff3bdc019619_7┼6┼0┼",

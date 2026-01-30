@@ -46,6 +46,8 @@ namespace GameConfig
 		public float RoundEndTime;
 		public int RoundsPerMap;
 		public string InitialGameMode;
+		public bool AllowExtendedGameMode;
+		public bool ForceExtendedGameMode;
 		public bool RespawnAllowed = false;
 		public int ShuttleDepartTime;
 		public bool GibbingAllowed = true;

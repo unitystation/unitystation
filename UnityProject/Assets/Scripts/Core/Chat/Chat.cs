@@ -272,7 +272,7 @@ public partial class Chat : MonoBehaviour
 			chatEvent.speaker = StripAll(sentByPlayer.Username);
 
 			//Show admin tag for ghosts
-			var rank = PlayerList.GetRankForAccount(sentByPlayer.AccountId, out _);
+			var rank = PlayerList.GetRankForAccount(sentByPlayer.AccountId);
 			var nameBuilder = new StringBuilder();
 
 			if (rank?.ShowInChat == true)

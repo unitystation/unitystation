@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
+using JetBrains.Annotations;
 using Tomlyn.Model;
 
 namespace Systems.Permissions
@@ -9,24 +11,28 @@ namespace Systems.Permissions
 	public class PermissionsConfig: ITomlMetadataProvider
 	{
 		// keep comments on config file
-		public TomlPropertiesMetadata PropertiesMetadata { get; set; }
+		public TomlPropertiesMetadata PropertiesMetadata { get; set; } = new();
 
-		public Dictionary<string, Rank> Ranks { get; set; }
-		public List<Player> Players { get; set; }
+		[UsedImplicitly] public Dictionary<string, Rank> Ranks { get; set; } = new();
+
+		[UsedImplicitly] public List<Player> Players { get; set; } = new();
+
+		[CanBeNull] [UsedImplicitly] public string AutoRank { get; set; } = "";
 	}
 
 	[System.Serializable]
 	public class Rank
 	{
-		public bool ShowInChat { get; set; }
-		public string Abbreviation { get; set; }
-		public string Color { get; set; }
-		public List<string> Permissions { get; set; }
+		[IgnoreDataMember] public string Name { get; set; } = "";
+		public bool ShowInChat { get; set; } = false;
+		public string Abbreviation { get; set; } = "";
+		public string Color { get; set; } = "";
+		public List<string> Permissions { get; set; } = new();
 	}
 
 	public class Player
 	{
-		public string Identifier { get; set; }
-		public string Rank { get; set; }
+		public string Identifier { get; set; } = "";
+		public string Rank { get; set; } = "";
 	}
 }
