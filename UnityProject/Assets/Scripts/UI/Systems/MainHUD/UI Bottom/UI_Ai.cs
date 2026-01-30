@@ -28,6 +28,9 @@ namespace UI.Systems.MainHUD.UI_Bottom
 		private GameObject aiLawsTab = null;
 
 		[SerializeField]
+		private GameObject aiVOXTab = null;
+
+		[SerializeField]
 		private Transform aiLawsTabContents = null;
 
 		[SerializeField]
@@ -378,5 +381,11 @@ namespace UI.Systems.MainHUD.UI_Bottom
 		}
 
 		#endregion
+
+
+		public void OpenVOX()
+		{
+			aiVOXTab.gameObject.SetActive(true);
+		}
 	}
 }
