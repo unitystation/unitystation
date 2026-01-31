@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using AdminTools;
 using DatabaseAPI;
 using Initialisation;
 using Logs;
@@ -112,6 +113,8 @@ public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 			}
 
 		}
+
+		AdminGlobalAudio.DoLoadAudio();
 	}
 
 	public void AssetBundleDownloadDependencies(AsyncOperationHandle<IResourceLocator> Content, bool RegisterComplete = true)

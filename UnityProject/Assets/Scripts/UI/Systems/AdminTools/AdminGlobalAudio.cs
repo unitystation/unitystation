@@ -1,9 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Threading.Tasks;
 using UnityEngine;
 using Audio.Containers;
 using AddressableReferences;
+using Cysharp.Threading.Tasks;
 using DatabaseAPI;
 using Logs;
 using SecureStuff;
@@ -25,22 +28,24 @@ namespace AdminTools
 		private AdminGlobalAudioSearchBar SearchBar;
 		public List<GameObject> audioButtons = new List<GameObject>();
 
-		public Dictionary<AddressableAudioSource, string> audioList = new Dictionary<AddressableAudioSource, string>();
+		public static HashSet<string> audioList = new HashSet<string>();
 
 		private void Awake()
 		{
 			SearchBar = GetComponentInChildren<AdminGlobalAudioSearchBar>();
-			DoLoadAudio();
+			LoadButtons();
 		}
 
-		private async void DoLoadAudio()
+
+		public static async void DoLoadAudio()
 		{
-			loadingView.SetActive(true);
-			audioList = new Dictionary<AddressableAudioSource, string>();
+
+			//loadingView.SetActive(true);
+			audioList = new HashSet<string>();
 			var serverCatalouges = new List<string>();
 			serverCatalouges.AddRange(ServerData.ServerConfig.AddressableCatalogues);
 			serverCatalouges.AddRange(ServerData.ServerConfig.LobbyAddressableCatalogues);
-			loadingBar.size = 0;
+			//loadingBar.size = 0;
 			//(Max): This shit wont work correctly in the editor when adding new sounds but i don't give a fuck anymore.
 			//Fuck addressables and I hope everyone who agreed to use addressables in this project to be forced into an
 			//ALS Ice Bucket Challenge, CIA style.
@@ -64,14 +69,12 @@ namespace AdminTools
 				var count = 0;
 				foreach (var audioSources in task.Result.Keys)
 				{
-					loadingBar.size = (count - 0.1f) / (task.Result.Keys.Count() - 0.1f);
+					//loadingBar.size = (count - 0.1f) / (task.Result.Keys.Count() - 0.1f);
 					count++;
+					if (audioSources.ToString().Contains("/") == false) continue;
 					try
 					{
-						AddressableAudioSource audioSource = new AddressableAudioSource();
-						audioSource.AssetAddress = audioSources.ToString();
-						audioSource = await AudioManager.GetAddressableAudioSourceFromCache(audioSource);
-						if(audioSource != null) audioList.Add(audioSource, audioSources.ToString());
+						audioList.Add(audioSources.ToString());
 					}
 					catch
 					{
@@ -79,33 +82,50 @@ namespace AdminTools
 					}
 				}
 			}
-			loadingView.SetActive(false);
-			LoadButtons();
+			//loadingView.SetActive(false);
+
 		}
 
 		/// <summary>
 		/// Generates buttons for the audio list
 		/// </summary>
-		private void LoadButtons()
+		private async void LoadButtons()
 		{
+			loadingView.SetActive(true);
+
 			if (SearchBar != null)
 			{
 				SearchBar.Resettext();
 			}
 
+			List<Task<AddressableAudioSource>> audioSources = new List<Task<AddressableAudioSource>>();
+
 			int index = 0;
 			foreach (var audio in audioList)
 			{
-				AudioSource source = audio.Key.AudioSource;
+				AddressableAudioSource audioSource = new AddressableAudioSource();
+				audioSource.AssetAddress = audio.ToString();
+				audioSources.Add(AudioManager.GetAddressableAudioSourceFromCache(audioSource));
+			}
+
+			var results = await Task.WhenAll(audioSources);
+			await UniTask.SwitchToMainThread();
+			foreach (var audio in results)
+			{
+				if (audio == null) continue;
+				loadingBar.size = (index - 0.1f) / (audioList.Count() - 0.1f);
+				AudioSource source = audio.AudioSource;
 				if (source.loop) continue;
 				GameObject button = Instantiate(buttonTemplate); //creates new button
 				button.SetActive(true);
 				AdminGlobalAudioButton buttonScript = button.GetComponent<AdminGlobalAudioButton>();
 				buttonScript.SetText($"{source.clip.name}\n {(int)source.clip.length} seconds");
-				buttonScript.SoundAddress = audio.Value;
+				buttonScript.SoundAddress = audio.AssetAddress;
 				audioButtons.Add(button);
 				button.transform.SetParent(buttonTemplate.transform.parent, false);
 			}
+
+			loadingView.SetActive(false);
 		}
 
 		public virtual void PlayAudio(string index) {}
