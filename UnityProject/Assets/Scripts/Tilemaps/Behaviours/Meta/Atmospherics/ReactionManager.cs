@@ -45,6 +45,7 @@ namespace Systems.Atmospherics
 		private List<WindEffectData> windEffectNodes = new List<WindEffectData>(30);
 
 		private const float WindParticleBlockTime = 3f;
+		private const float MINIMUM_AMOUNT_OF_DAMPNESS_IN_THE_AIR = 0.25f;
 
 
 		public enum WindStrength
@@ -390,7 +391,7 @@ namespace Systems.Atmospherics
 			}
 
 			//Too much water vapor to sustain a hotspot
-			if (gasMix.GasRatio(Gas.WaterVapor) >= 0.25f)
+			if (gasMix.GasRatio(Gas.WaterVapor) >= MINIMUM_AMOUNT_OF_DAMPNESS_IN_THE_AIR)
 			{
 				return false;
 			}
