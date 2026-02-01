@@ -56,6 +56,7 @@ public class MetaDataLayer : MonoBehaviour
 
 	private const float REAGENT_LIMIT_PER_CELL = 10f;
 	private const float EVAPORATE_TICK_DURATION = 64f;
+	private const float MINIMUM_TEMPERATURE_TO_EVAPORATE_CELSIUS = 29f;
 
 	public void OnEnable()
 	{
@@ -117,10 +118,10 @@ public class MetaDataLayer : MonoBehaviour
 			if (trackedTilesWithReagentsOnThem == null || trackedTilesWithReagentsOnThem.Count == 0) break;
 			var toRemove = safeList[i];
 			if (trackedTilesWithReagentsOnThem.Contains(toRemove) == false) continue;
-			if (TemperatureUtils.FromKelvin(toRemove.GasMixLocal.Temperature, TemeratureUnits.C) >= 29f)
+			if (TemperatureUtils.FromKelvin(toRemove.GasMixLocal.Temperature, TemeratureUnits.C) >= MINIMUM_TEMPERATURE_TO_EVAPORATE_CELSIUS)
 			{
 				if (toRemove.ReagentsOnTile == null) continue;
-				if (toRemove.ReagentsOnTile.MixState != ReagentState.Liquid) continue;
+				if (toRemove.ReagentsOnTile.MixState == ReagentState.Solid) continue;
 				if (toRemove.GasMixLocal != null)
 				{
 					toRemove.GasMixLocal.AddGas(Gas.WaterVapor, toRemove.ReagentsOnTile.Total * 2,
