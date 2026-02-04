@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Doors;
+using Objects.Doors;
 using Systems.Clearance;
 
 namespace Systems.MobAIs

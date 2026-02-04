@@ -1,15 +1,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Doors;
 using Doors.Modules;
 using Messages.Server;
 using Messages.Server.SoundMessages;
-using UnityEngine;
 using Objects.Construction;
 using Systems.Clearance;
 using UI.Systems.Tooltips.HoverTooltips;
+using UnityEngine;
 
-namespace Doors
+namespace Objects.Doors.DoorDeconstruction
 {
 	public class ConstructibleDoor : MonoBehaviour, ICheckedInteractable<HandApply>, IHoverTooltip
 	{
@@ -36,11 +37,17 @@ namespace Doors
 		[SerializeField] private bool allowHackingPanel = true;
 		public bool AllowHackingPanel => allowHackingPanel;
 
+		public bool AllowTampering = true;
+
 		private DoorMasterController doorMasterController;
 		private BoltsModule boltsModule;
 		private WeldModule weldModule;
 		private PowerModule powerModule;
 		private Integrity integrity;
+
+
+		[SerializeReference, Core.Editor.Attributes.SelectImplementation(typeof(IDeconstructionMethod))]
+		public List<IDeconstructionMethod> DeconstructionMethods = new List<IDeconstructionMethod>();
 
 		private void Awake()
 		{
@@ -58,25 +65,25 @@ namespace Doors
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (!DefaultWillInteract.Default(interaction, side) || interaction.TargetObject != gameObject)
-				return false;
+			if (AllowTampering == false) return false;
+			if (!DefaultWillInteract.Default(interaction, side) || interaction.TargetObject != gameObject) return false;
 
-			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver))
-				return true;
-
-			if (Validations.HasUsedComponent<AirlockPainter>(interaction))
-				return true;
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver)) return true;
+			if (Validations.HasUsedComponent<AirlockPainter>(interaction)) return true;
 
 			if (Panelopen && AllowHackingPanel && (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Cable) ||
 					Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter)))
 				return true;
 
-			if (CheckWeld() && CheckBolts() && CheckPower())
+			// What deconstruction methods does this door use?
+			if (DeconstructionMethods != null)
 			{
-				return Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Crowbar);
+				foreach (var method in DeconstructionMethods)
+				{
+					if (method != null && method.CanInteract(this, interaction, side))
+						return true;
+				}
 			}
-
-				//TODO add pins here//TODO check if clicking on pins region
 
 			return false;
 		}
@@ -88,11 +95,16 @@ namespace Doors
 			{
 				return true;
 			}
-			else
-			{
-				return weldModule.IsWelded; //Door has to be welded to allow Deconstruction
-			}
+			return weldModule.IsWelded; //Door has to be welded to allow Deconstruction
+		}
 
+		public bool IsWeldedShut()
+		{
+			if (weldModule == null)
+			{
+				return false;
+			}
+			return weldModule.IsWelded;
 		}
 
 		public bool CheckBolts()
@@ -107,77 +119,62 @@ namespace Doors
 			}
 		}
 
+		public bool HasBoltsDown()
+		{
+			if (boltsModule == null)
+			{
+				return false;
+			}
+			return boltsModule.BoltsDown;
+		}
+
 		public bool CheckPower()
 		{
 			if (powerModule == null)
 			{
 				return true;
 			}
+			//(Max): Confusing method name, returns true if there is NO power.
 			return !powerModule.HasPower;
+		}
+
+		public bool HasPower()
+		{
+			if (powerModule == null)
+			{
+				return false;
+			}
+			return powerModule.HasPower;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if (DeconstructionMethods != null)
+			{
+				foreach (var method in DeconstructionMethods)
+				{
+					if (method != null && method.CanInteract(this, interaction, NetworkSide.Server))
+					{
+						method.ServerPerform(this, interaction);
+						return;
+					}
+				}
+			}
+
 			if (Panelopen && AllowHackingPanel)
 			{
-				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Cable) ||
-					Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter))
-				{
-					TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.HackingPanel, TabAction.Open);
-					return;
-				}
+				if (IsTryingToHackDoor(interaction)) return;
 			}
 
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && AllowHackingPanel)
 			{
-				panelopen = !panelopen;
-				if (panelopen)
-				{
-					DoorAnimatorV2.AddPanelOverlay();
-					Chat.AddActionMsgToChat(interaction.Performer,
-						$"{interaction.Performer.ExpensiveName()} unscrews {gameObject.ExpensiveName()}'s cable panel.");
-				}
-				else
-				{
-					DoorAnimatorV2.RemovePanelOverlay();
-					Chat.AddActionMsgToChat(interaction.Performer,
-						$"{interaction.Performer.ExpensiveName()} screws in {gameObject.ExpensiveName()}'s cable panel.");
-
-					//Force close net tab when panel is closed
-					TabUpdateMessage.SendToPeepers(gameObject, NetTabType.HackingPanel, TabAction.Close);
-				}
-
-
-				AudioSourceParameters audioSourceParameters =
-					new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.8f, 1.2f));
-				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver,
-					interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);
+				MessWithPanel(interaction);
+				return;
 			}
 
-			if (CheckWeld() && CheckBolts() && CheckPower())
-			{
-				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Crowbar) && airlockAssemblyPrefab)
-				{
-					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
-					$"You start to remove electronics from the airlock assembly...",
-					$"{interaction.Performer.ExpensiveName()} starts to remove electronics from the airlock assembly...",
-					"You removed the airlock electronics from the airlock assembly.",
-					$"{interaction.Performer.ExpensiveName()} removed the electronics from the airlock assembly.",
-					() => WhenDestroyed(null));
-				}
-			}
 			if (Validations.HasUsedComponent<AirlockPainter>(interaction))
 			{
-				AirlockPainter painter = interaction.HandObject.GetComponent<AirlockPainter>();
-				if (painter)
-				{
-					ToolUtils.ServerUseToolWithActionMessages(interaction, 3f,
-						$"You start to paint the {gameObject.ExpensiveName()}...",
-						$"{interaction.Performer.ExpensiveName()} starts to paint the {gameObject.ExpensiveName()}...",
-						$"You painted the {gameObject.ExpensiveName()}.",
-						$"{interaction.Performer.ExpensiveName()} painted the {gameObject.ExpensiveName()}.",
-						() => painter.ServerPaintTheAirlock(gameObject, interaction.Performer));
-				}
+				PaintDoor(interaction);
 			}
 		}
 
@@ -205,12 +202,78 @@ namespace Doors
 			_ = Despawn.ServerSingle(gameObject);
 		}
 
+		private bool IsTryingToHackDoor(HandApply interaction)
+		{
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Cable) ||
+			    Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wirecutter))
+			{
+				TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.HackingPanel, TabAction.Open);
+				return true;
+			}
+
+			return false;
+		}
+
+		private void MessWithPanel(HandApply interaction)
+		{
+			panelopen = !panelopen;
+			if (panelopen)
+			{
+				DoorAnimatorV2.AddPanelOverlay();
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"{interaction.Performer.ExpensiveName()} unscrews {gameObject.ExpensiveName()}'s cable panel.");
+			}
+			else
+			{
+				DoorAnimatorV2.RemovePanelOverlay();
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"{interaction.Performer.ExpensiveName()} screws in {gameObject.ExpensiveName()}'s cable panel.");
+
+				//Force close net tab when panel is closed
+				TabUpdateMessage.SendToPeepers(gameObject, NetTabType.HackingPanel, TabAction.Close);
+			}
+
+			AudioSourceParameters audioSourceParameters =
+				new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.8f, 1.2f));
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver,
+				interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: gameObject);
+		}
+
+		private void PaintDoor(HandApply interaction)
+		{
+			AirlockPainter painter = interaction.HandObject.GetComponent<AirlockPainter>();
+			if (painter)
+			{
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 3f,
+					$"You start to paint the {gameObject.ExpensiveName()}...",
+					$"{interaction.Performer.ExpensiveName()} starts to paint the {gameObject.ExpensiveName()}...",
+					$"You painted the {gameObject.ExpensiveName()}.",
+					$"{interaction.Performer.ExpensiveName()} painted the {gameObject.ExpensiveName()}.",
+					() => painter.ServerPaintTheAirlock(gameObject, interaction.Performer));
+			}
+		}
+
 		public string HoverTip()
 		{
-			var panelIsOpen = panelopen ? "Open" : "Closed";
 			StringBuilder tips = new();
-			tips.AppendLine($"The interacted panel is currently {panelIsOpen}.");
-			tips.AppendLine($"You can use a screwdriver to unlock or lock the panel.");
+			if (allowHackingPanel)
+			{
+				var panelIsOpen = panelopen ? "Open" : "Closed";
+				tips.AppendLine($"The interacted panel is currently {panelIsOpen}.");
+				tips.AppendLine($"You can use a screwdriver to unlock or lock the panel.");
+			}
+
+			// Append tips from deconstruction methods
+			if (DeconstructionMethods != null && AllowTampering)
+			{
+				foreach (var method in DeconstructionMethods)
+				{
+					if (method == null) continue;
+					var tip = method.HoverTip(this);
+					if (!string.IsNullOrEmpty(tip)) tips.AppendLine(tip);
+				}
+			}
+
 			return tips.ToString();
 		}
 
@@ -232,7 +295,7 @@ namespace Doors
 		public List<TextColor> InteractionsStrings()
 		{
 			var tips = new List<TextColor>();
-			if (PlayerManager.LocalPlayerScript == null) return tips;
+			if (PlayerManager.LocalPlayerScript == null || AllowTampering == false) return tips;
 
 			var itemsInHandSlots = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetHandSlots();
 			foreach (var slot in itemsInHandSlots)
@@ -245,10 +308,16 @@ namespace Doors
 				{
 					tips.Add(new TextColor{ Text = "Cut wires using a wire-cutter.", Color = Color.green});
 				}
-				else if (CheckWeld() && CheckBolts() && CheckPower() &&
-				         Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.Crowbar))
+			}
+
+			// Merge interaction tips from deconstruction methods
+			if (DeconstructionMethods != null)
+			{
+				foreach (var method in DeconstructionMethods)
 				{
-					tips.Add(new TextColor{ Text = "Start the deconstruction process by using a crowbar.", Color = Color.green});
+					if (method == null) continue;
+					var methodTips = method.InteractionStrings(this);
+					if (methodTips != null) tips.AddRange(methodTips);
 				}
 			}
 
@@ -256,3 +325,4 @@ namespace Doors
 		}
 	}
 }
+

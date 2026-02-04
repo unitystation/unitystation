@@ -3,6 +3,7 @@ using Doors;
 using Doors.Modules;
 using Logs;
 using Mirror;
+using Objects.Doors;
 using Systems.Clearance;
 using UnityEngine;
 

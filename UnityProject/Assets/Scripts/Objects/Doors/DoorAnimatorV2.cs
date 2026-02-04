@@ -5,6 +5,7 @@ using NaughtyAttributes;
 using Core.Editor.Attributes;
 using Mirror;
 using Cysharp.Threading.Tasks;
+using Objects.Doors;
 using SecureStuff;
 
 

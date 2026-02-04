@@ -2,6 +2,7 @@
 using Doors;
 using Doors.Modules;
 using Mirror;
+using Objects.Doors;
 using Player;
 
 namespace Messages.Server

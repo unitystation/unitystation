@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UI.Core.NetUI;
 using Doors;
 using Doors.Modules;
+using Objects.Doors;
 
 namespace UI.Objects
 {

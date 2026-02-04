@@ -22,6 +22,7 @@ using Newtonsoft.Json.Linq;
 using Items;
 using Items.Botany;
 using Logs;
+using Objects.Doors;
 using SecureStuff;
 using Systems.Atmospherics;
 using Systems.Character;

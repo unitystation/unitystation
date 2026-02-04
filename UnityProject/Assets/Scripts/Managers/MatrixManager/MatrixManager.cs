@@ -19,6 +19,7 @@ using Messages.Client.SpriteMessages;
 using Shared.Managers;
 using Mirror;
 using Objects;
+using Objects.Doors;
 using Player;
 using Shuttles;
 using Tilemaps.Behaviours.Layers;

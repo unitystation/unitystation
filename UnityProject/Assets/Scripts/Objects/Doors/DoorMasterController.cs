@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AdminCommands;
-using UnityEngine;
-using Mirror;
-using UI.Core.Net;
-using Systems.Hacking;
-using Systems.Interaction;
 using System.Threading;
+using AdminCommands;
 using Cysharp.Threading.Tasks;
+using Doors;
 using Doors.Modules;
 using HealthV2;
-using Objects;
+using Mirror;
+using Objects.Doors.DoorDeconstruction;
 using Objects.Wallmounts;
 using Shared.Systems.ObjectConnection;
+using Systems.Hacking;
+using Systems.Interaction;
+using UI.Core.Net;
+using UnityEngine;
 
-namespace Doors
+namespace Objects.Doors
 {
 	/// <summary>
 	/// This is the master 'controller' for the door. It handles interactions by players and passes any interactions it need to to its components.
