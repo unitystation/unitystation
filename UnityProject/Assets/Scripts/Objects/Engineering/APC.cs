@@ -254,7 +254,7 @@ namespace Objects.Engineering
 				for (int i = 0; i < connectedDevicesCount; i++)
 				{
 
-					connectedDevices[i].PowerNetworkUpdate(voltages);
+					connectedDevices[i]?.PowerNetworkUpdate(voltages);
 					calculatingResistance += (1 / connectedDevices[i].Resistance);
 				}
 			}

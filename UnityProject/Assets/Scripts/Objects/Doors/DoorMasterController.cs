@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AdminCommands;
 using UnityEngine;
 using Mirror;
-using UI.Objects;
 using UI.Core.Net;
-using Messages.Server;
-using Systems.Electricity;
 using Systems.Hacking;
 using Systems.Interaction;
 using System.Threading;
@@ -181,10 +176,10 @@ namespace Doors
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			HackingProcessBase.RegisterPort(Close, this.GetType());
-			HackingProcessBase.RegisterPort(Open, this.GetType());
-			HackingProcessBase.RegisterPort(TryBump, this.GetType());
-			HackingProcessBase.RegisterPort(AIConnection, this.GetType());
+			HackingProcessBase?.RegisterPort(Close, this.GetType());
+			HackingProcessBase?.RegisterPort(Open, this.GetType());
+			HackingProcessBase?.RegisterPort(TryBump, this.GetType());
+			HackingProcessBase?.RegisterPort(AIConnection, this.GetType());
 
 			//This is needed so servers properly render doors with the IsOpen boolean toggled in mapping
 			if (CustomNetworkManager.IsServer)
@@ -505,7 +500,7 @@ namespace Doors
 		public void OnBump(GameObject inOriginator, GameObject client)
 		{
 			originator = inOriginator;
-			HackingProcessBase.ImpulsePort(TryBump);
+			HackingProcessBase?.ImpulsePort(TryBump);
 		}
 
 		/// <summary>
@@ -537,7 +532,7 @@ namespace Doors
 			byForce = bypassSoftware;
 
 			if (overrideLogic || TryInteraction())
-				HackingProcessBase.ImpulsePort(Open);
+				HackingProcessBase?.ImpulsePort(Open);
 		}
 
 		/// <summary>
@@ -598,7 +593,7 @@ namespace Doors
 			byForce = bypassSoftware;
 
 			if (overrideLogic || TryInteraction())
-				HackingProcessBase.ImpulsePort(Close);
+				HackingProcessBase?.ImpulsePort(Close);
 
 			//If the door didn't close for whatever reason (bolts, wire cut) we want it to autoclose still when that reason is gone
 			WaitToAutoClose();
@@ -854,7 +849,7 @@ namespace Doors
 
 				// Tells the AI if the door is miswired. We pulse the door anyway in case of hacking shennanigans,
 				// but the AI player should get some feedback as to why the door didn't open when they clicked
-				if (HackingProcessBase.HasConnection(Open) == false)
+				if (HackingProcessBase?.HasConnection(Open) == false)
 					Chat.AddExamineMsgFromServer(performer, $"The {DoorName} is wired incorrectly and wont open");
 				else
 				{
@@ -871,7 +866,7 @@ namespace Doors
 
 				// Tells the AI if the door is miswired. We pulse the door anyway in case of hacking shennanigans,
 				// but the AI player should get some feedback as to why the door didn't close when they clicked
-				if (HackingProcessBase.HasConnection(Close) == false)
+				if (HackingProcessBase?.HasConnection(Close) == false)
 					Chat.AddExamineMsgFromServer(performer, $"The {DoorName} is wired incorrectly and wont close");
 				else
 				{
@@ -897,7 +892,7 @@ namespace Doors
 			{
 				bolts.PulseToggleBolts();
 
-				if (HackingProcessBase.HasConnection(bolts.ToggleBolts) == false)
+				if (HackingProcessBase?.HasConnection(bolts.ToggleBolts) == false)
 					Chat.AddExamineMsgFromServer(performer, $"The {DoorName} is wired incorrectly and you can't access the bolts mechanism");
 
 				UpdateGui();
@@ -917,7 +912,7 @@ namespace Doors
 			{
 				electrifyModule.ToggleElectrocutionInput();
 
-				if (HackingProcessBase.HasConnection(electrifyModule.ToggleElectrocution) == false)
+				if (HackingProcessBase?.HasConnection(electrifyModule.ToggleElectrocution) == false)
 					Chat.AddExamineMsgFromServer(performer, $"The {DoorName} is wired incorrectly and you can't access the safety mechanism");
 
 				UpdateGui();
@@ -955,7 +950,7 @@ namespace Doors
 		/// </summary>
 		public bool CanAIInteract()
 		{
-			if (HasPower == false) return false;
+			if (HasPower == false || HackingProcessBase == null) return false;
 			HackingProcessBase.ImpulsePort(AIConnection);
 			return HackingProcessBase.HasConnection(AIConnection);
 		}

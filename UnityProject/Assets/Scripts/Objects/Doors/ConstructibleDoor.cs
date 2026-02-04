@@ -1,16 +1,17 @@
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using Doors.Modules;
 using Messages.Server;
 using Messages.Server.SoundMessages;
 using UnityEngine;
 using Objects.Construction;
 using Systems.Clearance;
-using Systems.Clearance.Utils;
-using Systems.Interaction;
+using UI.Systems.Tooltips.HoverTooltips;
 
 namespace Doors
 {
-	public class ConstructibleDoor : MonoBehaviour, ICheckedInteractable<HandApply>
+	public class ConstructibleDoor : MonoBehaviour, ICheckedInteractable<HandApply>, IHoverTooltip
 	{
 		public DoorAnimatorV2 DoorAnimatorV2;
 
@@ -202,6 +203,56 @@ namespace Doors
 			}
 
 			_ = Despawn.ServerSingle(gameObject);
+		}
+
+		public string HoverTip()
+		{
+			var panelIsOpen = panelopen ? "Open" : "Closed";
+			StringBuilder tips = new();
+			tips.AppendLine($"The interacted panel is currently {panelIsOpen}.");
+			tips.AppendLine($"You can use a screwdriver to unlock or lock the panel.");
+			return tips.ToString();
+		}
+
+		public string CustomTitle()
+		{
+			return null;
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			var tips = new List<TextColor>();
+			if (PlayerManager.LocalPlayerScript == null) return tips;
+
+			var itemsInHandSlots = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetHandSlots();
+			foreach (var slot in itemsInHandSlots)
+			{
+				if (Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.Screwdriver) && AllowHackingPanel)
+				{
+					tips.Add(new TextColor{ Text = "You can use a <b>screwdriver</b> to unlock the panel for cutting wires, or deconstructing the door.", Color = Color.green} );
+				}
+				else if (Panelopen && Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.Wirecutter))
+				{
+					tips.Add(new TextColor{ Text = "Cut wires using a wire-cutter.", Color = Color.green});
+				}
+				else if (CheckWeld() && CheckBolts() && CheckPower() &&
+				         Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.Crowbar))
+				{
+					tips.Add(new TextColor{ Text = "Start the deconstruction process by using a crowbar.", Color = Color.green});
+				}
+			}
+
+			return tips;
 		}
 	}
 }
