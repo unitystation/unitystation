@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Objects.Doors;
 using UnityEngine;
 namespace Doors.Modules
 {

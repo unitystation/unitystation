@@ -5,6 +5,7 @@ using Objects.Construction;
 using System.Collections.Generic;
 using Logs;
 using Objects.Doors;
+using Objects.Doors.DoorDeconstruction;
 using ScriptableObjects;
 using UI.Core.RightClick;
 using UnityEngine;

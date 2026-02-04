@@ -8,6 +8,7 @@ using Audio.Managers;
 using Messages.Server;
 using Messages.Server.SoundMessages;
 using Mirror;
+using Objects.Doors;
 
 namespace Doors
 {

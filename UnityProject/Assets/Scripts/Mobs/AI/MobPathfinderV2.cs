@@ -4,6 +4,7 @@ using System.Linq;
 using Doors;
 using HealthV2;
 using Logs;
+using Objects.Doors;
 using PathFinding;
 using Systems.Clearance;
 using Systems.MobAIs;

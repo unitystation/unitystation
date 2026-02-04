@@ -5,6 +5,7 @@ using Doors;
 using NUnit.Framework;
 using Objects.Atmospherics;
 using Objects.Disposals;
+using Objects.Doors;
 using Objects.Engineering;
 using Objects.Lighting;
 using Objects.Wallmounts;

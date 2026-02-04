@@ -5,6 +5,7 @@ using UnityEngine;
 using Mirror;
 using ScriptableObjects;
 using Doors;
+using Objects.Doors;
 using TileManagement;
 using Tiles;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
