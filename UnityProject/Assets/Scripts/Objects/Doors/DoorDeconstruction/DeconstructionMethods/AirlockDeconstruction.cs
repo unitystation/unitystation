@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using UI.Systems.Tooltips.HoverTooltips;
 using UnityEngine;
 
@@ -33,23 +34,21 @@ namespace Objects.Doors.DoorDeconstruction.DeconstructionMethods
 
 		public string HoverTip(ConstructibleDoor door)
 		{
-			return $"Use a <b>crowbar</b> to pry this door apart. Time: {deconstructTime}s";
+			return null;
 		}
 
 		public List<TextColor> InteractionStrings(ConstructibleDoor door)
 		{
 			var tips = new List<TextColor>();
-			if (PlayerManager.LocalPlayerScript == null) return tips;
-
-			var items = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetHandSlots();
-			foreach (var slot in items)
-			{
-				if (Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.Crowbar))
-				{
-					tips.Add(new TextColor { Text = $"Pry apart the door with a <b>crowbar</b> ({deconstructTime}s)", Color = Color.green });
-				}
-			}
-
+			StringBuilder tipBuilder = new StringBuilder();
+			tipBuilder.AppendLine("----");
+			tipBuilder.AppendLine("To deconstruct this airlock door:");
+			tipBuilder.AppendLine("1. Ensure the door is <b>welded shut</b>.");
+			tipBuilder.AppendLine("2. Ensure the door's <b>bolts are retracted</b>.");
+			tipBuilder.AppendLine("3. Ensure the door has <b>no power</b>.");
+			tipBuilder.AppendLine("4. Use a <b>crowbar</b> to pry the door apart.");
+			tipBuilder.AppendLine("----");
+			tips.Add(new TextColor { Text = tipBuilder.ToString(), Color = Color.yellow });
 			return tips;
 		}
 	}

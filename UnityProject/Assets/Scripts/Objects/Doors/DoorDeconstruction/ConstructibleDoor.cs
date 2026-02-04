@@ -260,7 +260,6 @@ namespace Objects.Doors.DoorDeconstruction
 			{
 				var panelIsOpen = panelopen ? "Open" : "Closed";
 				tips.AppendLine($"The interacted panel is currently {panelIsOpen}.");
-				tips.AppendLine($"You can use a screwdriver to unlock or lock the panel.");
 			}
 
 			// Append tips from deconstruction methods
@@ -295,19 +294,15 @@ namespace Objects.Doors.DoorDeconstruction
 		public List<TextColor> InteractionsStrings()
 		{
 			var tips = new List<TextColor>();
-			if (PlayerManager.LocalPlayerScript == null || AllowTampering == false) return tips;
+			if (AllowTampering == false) return tips;
 
-			var itemsInHandSlots = PlayerManager.LocalPlayerScript.DynamicItemStorage.GetHandSlots();
-			foreach (var slot in itemsInHandSlots)
+			if (AllowHackingPanel)
 			{
-				if (Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.Screwdriver) && AllowHackingPanel)
-				{
-					tips.Add(new TextColor{ Text = "You can use a <b>screwdriver</b> to unlock the panel for cutting wires, or deconstructing the door.", Color = Color.green} );
-				}
-				else if (Panelopen && Validations.HasItemTrait(slot.ItemObject, CommonTraits.Instance.Wirecutter))
-				{
-					tips.Add(new TextColor{ Text = "Cut wires using a wire-cutter.", Color = Color.green});
-				}
+				tips.Add(new TextColor{ Text = "You can use a <b>screwdriver</b> to unlock the panel for cutting wires, or deconstructing the door.", Color = Color.green} );
+			}
+			if (Panelopen)
+			{
+				tips.Add(new TextColor{ Text = "Cut wires using a wire-cutter.", Color = Color.green});
 			}
 
 			// Merge interaction tips from deconstruction methods
