@@ -127,6 +127,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2002631705224524847, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
+      propertyPath: transferMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2002631705224524847, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
       propertyPath: ExamineContent
       value: 1
       objectReference: {fileID: 0}
@@ -134,6 +139,11 @@ PrefabInstance:
         type: 3}
       propertyPath: UseStandardExamine
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2002631705224524847, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: onlyAllowSyringeFilling
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2002631705224524847, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
@@ -223,10 +233,10 @@ MonoBehaviour:
   RequiredImpactSpeed: 3
   useCustomSound: 1
   customSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GlassBreak02.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
