@@ -704,8 +704,8 @@ public partial class PlayerList
 				LoggedInWithTag[permission].Remove(player.AccountId);
 			}
 		}
-		rank.Permissions.Clear();
-		AdminEnableMessage.SendMessage(player, rank.Permissions);
+
+		AdminEnableMessage.SendMessage(player, new List<string>());
 	}
 
 	[Server]

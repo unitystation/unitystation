@@ -99,7 +99,7 @@ namespace Items.Implants.Organs
 				return;
 
 			Brain brain = RelatedPart.HealthMaster.brain;
-			if (brain && brain.RelatedPart.TotalModified <= 0.2f)
+			if (brain && brain.RelatedPart.TotalDamageWithoutOxyCloneRadStam > 100)
 				return;
 
 			Vector3Int position = RelatedPart.HealthMaster.ObjectBehaviour.registerTile.WorldPosition;

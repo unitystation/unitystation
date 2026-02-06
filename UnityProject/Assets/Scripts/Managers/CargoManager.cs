@@ -84,13 +84,13 @@ namespace Systems.Cargo
 		private void OnEnable()
 		{
 			UpdateManager.Add(UpdateMe, checkForTimeCooldown);
-			EventManager.AddHandler(Event.PostRoundStarted, CallShuttle);
+			EventManager.AddHandler(Event.ScenesLoadedServer, CallShuttle);
 		}
 
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
-			EventManager.RemoveHandler(Event.PostRoundStarted,  CallShuttle);
+			EventManager.RemoveHandler(Event.ScenesLoadedServer,  CallShuttle);
 		}
 
 		/// <summary>

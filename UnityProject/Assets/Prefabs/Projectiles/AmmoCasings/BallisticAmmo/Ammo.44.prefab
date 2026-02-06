@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 625300282032245400, guid: 31d01d60b659392429fe6a6384563082,
+        type: 3}
+      propertyPath: ammoType
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1822513943335648427, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
       propertyPath: initialName
@@ -98,8 +103,19 @@ PrefabInstance:
       propertyPath: foreverID
       value: 19f30b1bd0d3b284e8cef025ed87fd5a
       objectReference: {fileID: 0}
+    - target: {fileID: 5395694184195221582, guid: 31d01d60b659392429fe6a6384563082,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 7935428585495677518}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31d01d60b659392429fe6a6384563082, type: 3}
+--- !u!212 &7935428585495677518 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2114072713808011413, guid: 31d01d60b659392429fe6a6384563082,
+    type: 3}
+  m_PrefabInstance: {fileID: 8320118491200629467}
+  m_PrefabAsset: {fileID: 0}
