@@ -52,6 +52,8 @@ public class EscapeShuttle : AutopilotShipMachine
 
 	private bool Initialised = false;
 
+	private float SecondInitDelay = 0;
+
 	public OrientationEnum CentralCommandOverrideDirection = OrientationEnum.Default;
 
 
@@ -279,11 +281,15 @@ public class EscapeShuttle : AutopilotShipMachine
 		{
 			if (mm.NetworkedMatrixMove.HasMoveToTarget == false)
 			{
-				Initialised = true;
-				MoveDirectionIn = true;
-				Status = EscapeShuttleStatus.OnRouteToCentCom;
-				DirectionOverride = CentralCommandOverrideDirection;
-				MoveToTargetBuoy(TargetDestinationBuoy);
+				SecondInitDelay += Time.deltaTime;
+				if (SecondInitDelay > 2)
+				{
+					Initialised = true;
+					MoveDirectionIn = true;
+					Status = EscapeShuttleStatus.OnRouteToCentCom;
+					DirectionOverride = CentralCommandOverrideDirection;
+					MoveToTargetBuoy(TargetDestinationBuoy);
+				}
 			}
 		}
 

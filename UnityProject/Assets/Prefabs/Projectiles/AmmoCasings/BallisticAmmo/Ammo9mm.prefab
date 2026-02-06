@@ -119,8 +119,19 @@ PrefabInstance:
       propertyPath: foreverID
       value: 5d37ebc7a0cbd0948a172b21dd46ca54
       objectReference: {fileID: 0}
+    - target: {fileID: 5395694184195221582, guid: 31d01d60b659392429fe6a6384563082,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4905270266154034975}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31d01d60b659392429fe6a6384563082, type: 3}
+--- !u!212 &4905270266154034975 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2114072713808011413, guid: 31d01d60b659392429fe6a6384563082,
+    type: 3}
+  m_PrefabInstance: {fileID: 6432746379272701834}
+  m_PrefabAsset: {fileID: 0}

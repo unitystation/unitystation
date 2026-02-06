@@ -61,7 +61,7 @@ public class ChangeTileWhenItemUsed : TileInteraction
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-		if (harmIntentRequired == true)
+		if (harmIntentRequired == true && RequiredIntent == Intent.None)
 		{
 			if (interaction.Intent != Intent.Harm) return false;
 		}

@@ -201,6 +201,30 @@ namespace Weapons
 			return $"Loaded {toTransfer} round{plural}";
 		}
 
+		//I need more bullets!
+		public string LoadBullet(BulletAmmo Bullet)
+		{
+			if (magType == MagType.Standard)
+			{
+				if (Bullet.initalProjectile == null)
+				{
+					containedBullets.Add(initalProjectile);
+					containedProjectilesFired.Add(ProjectilesFired);
+				}
+				else
+				{
+					containedBullets.Add(Bullet.initalProjectile);
+					containedProjectilesFired.Add(Bullet.ProjectilesFired);
+				}
+
+			}
+
+			ServerSetAmmoRemains(serverAmmoRemains + 1);
+
+
+			return $"Loaded 1 round";
+		}
+
 		/// <summary>
 		/// method to add info to the projectile array,
 		/// should be used when ammo is being increased outside of the reload logic
@@ -218,12 +242,20 @@ namespace Weapons
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
-
+			if (interaction.UsedObject == null) return false;
 			MagazineBehaviour mag = interaction.TargetObject.GetComponent<MagazineBehaviour>();
 
-			if (mag == null) return false;
-			if (interaction.UsedObject == null) return false;
-			if (mag.ammoType != ammoType || magType != MagType.Clip) return false;
+			if (mag != null)
+			{
+				if (mag == null) return false;
+				if (mag.ammoType != ammoType || magType != MagType.Clip) return false;
+
+				return true;
+			}
+
+			BulletAmmo bul = interaction.TargetObject.GetComponent<BulletAmmo>();
+			if (bul == null) return false;
+			if (bul.ammoType != ammoType) return false;
 
 			return true;
 		}
@@ -231,10 +263,27 @@ namespace Weapons
 		public void ServerPerformInteraction(InventoryApply interaction)
 		{
 			if (interaction.UsedObject == null || interaction.Performer == null) return;
-			MagazineBehaviour clip = interaction.UsedObject.GetComponent<MagazineBehaviour>();
-			MagazineBehaviour usedclip = interaction.TargetObject.GetComponent<MagazineBehaviour>();
-			string message = usedclip.LoadFromClip(clip);
-			Chat.AddExamineMsg(interaction.Performer, message);
+
+			MagazineBehaviour mag = interaction.TargetObject.GetComponent<MagazineBehaviour>();
+
+			if (mag != null)
+			{
+				MagazineBehaviour clip = interaction.UsedObject.GetComponent<MagazineBehaviour>();
+				MagazineBehaviour usedclip = interaction.TargetObject.GetComponent<MagazineBehaviour>();
+				string message = usedclip.LoadFromClip(clip);
+				Chat.AddExamineMsg(interaction.Performer, message);
+			}
+			else
+			{
+				BulletAmmo bul = interaction.TargetObject.GetComponent<BulletAmmo>();
+				MagazineBehaviour clip = interaction.UsedObject.GetComponent<MagazineBehaviour>();
+				string message = clip.LoadBullet(bul);
+				Chat.AddExamineMsg(interaction.Performer, message);
+				Destroy(bul.gameObject);
+
+
+
+			}
 		}
 
 		public virtual String Examine(Vector3 pos)

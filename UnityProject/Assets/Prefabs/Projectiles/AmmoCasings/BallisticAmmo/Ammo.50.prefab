@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 625300282032245400, guid: 31d01d60b659392429fe6a6384563082,
+        type: 3}
+      propertyPath: ammoType
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 1822513943335648427, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
       propertyPath: exportCost
@@ -111,7 +116,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5395694184195221582, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 7038641501412784715}
+    - target: {fileID: 5395694184195221582, guid: 31d01d60b659392429fe6a6384563082,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: adc89861d7f37e248bae186467bc56df,
+        type: 2}
+    - target: {fileID: 5395694184195221582, guid: 31d01d60b659392429fe6a6384563082,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: adc89861d7f37e248bae186467bc56df,
         type: 2}
@@ -120,3 +136,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31d01d60b659392429fe6a6384563082, type: 3}
+--- !u!212 &7038641501412784715 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2114072713808011413, guid: 31d01d60b659392429fe6a6384563082,
+    type: 3}
+  m_PrefabInstance: {fileID: 9005218800606943966}
+  m_PrefabAsset: {fileID: 0}
