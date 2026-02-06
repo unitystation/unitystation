@@ -7,6 +7,7 @@ using UnityEngine.Serialization;
 using PathFinding;
 using Doors;
 using Logs;
+using Objects.Doors;
 using SecureStuff;
 using Systems.Clearance;
 using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;

@@ -91,6 +91,8 @@ namespace CameraEffects
 		public void UpdateMe()
 		{
 			if (PlayerManager.LocalPlayerObject == null) return;
+			Camera cam = Camera.main;
+			if (cam == null) return;
 			var position = PlayerManager.LocalPlayerObject.AssumedWorldPosServer(false);
 			var matrix = position.GetMatrixAtWorld();
 			var Localpos = position.ToLocal(matrix);
@@ -102,11 +104,10 @@ namespace CameraEffects
 			{
 				if (Xray.HasPosition(this.gameObject) == false)
 				{
-					if (Xray == false)
+					if (Xray == false && cam.TryGetComponent<CameraEffectControlScript>(out var camEffect))
 					{
-						Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().lightingSystem.renderSettings.fovHorizonSmooth = 90;
-						Camera.main.GetComponent<CameraEffects.CameraEffectControlScript>().lightingSystem.fovDistance =
-							1.1f;
+						camEffect.lightingSystem.renderSettings.fovHorizonSmooth = 90;
+						camEffect.lightingSystem.fovDistance = 1.1f;
 						Xray.RecordPosition(this.gameObject, true);
 					}
 				}

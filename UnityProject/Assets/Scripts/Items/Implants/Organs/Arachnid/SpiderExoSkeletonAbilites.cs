@@ -6,6 +6,7 @@ using Cysharp.Threading.Tasks;
 using Doors;
 using HealthV2;
 using Logs;
+using Objects.Doors;
 using UnityEngine;
 
 namespace Items.Implants.Organs.Arachnid

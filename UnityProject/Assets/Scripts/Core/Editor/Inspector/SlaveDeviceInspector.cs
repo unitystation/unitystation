@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Doors;
 using Objects.Atmospherics;
+using Objects.Doors;
 using Objects.Engineering;
 using Objects.Engineering.Reactor;
 using Objects.Lighting;

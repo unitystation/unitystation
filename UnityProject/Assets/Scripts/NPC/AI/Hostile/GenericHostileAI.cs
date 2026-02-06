@@ -9,6 +9,7 @@ using AddressableReferences;
 using HealthV2;
 using Messages.Server.SoundMessages;
 using System.Threading.Tasks;
+using Objects.Doors;
 using Systems.Score;
 using UnityEngine.Serialization;
 

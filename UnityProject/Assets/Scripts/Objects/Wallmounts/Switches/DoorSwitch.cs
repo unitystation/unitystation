@@ -9,6 +9,7 @@ using Systems.Interaction;
 using Doors;
 using CustomInspectors;
 using Items;
+using Objects.Doors;
 using Shared.Systems.ObjectConnection;
 using Systems.Electricity;
 using Util.Independent.FluentRichText;

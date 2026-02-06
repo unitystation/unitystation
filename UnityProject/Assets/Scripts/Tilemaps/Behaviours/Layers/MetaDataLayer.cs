@@ -2,10 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using Systems.Atmospherics;
 using Chemistry;
 using Chemistry.Components;
 using Core.Factories;
+using Cysharp.Threading.Tasks;
 using Doors;
 using HealthV2;
 using InGameGizmos;
@@ -50,8 +52,11 @@ public class MetaDataLayer : MonoBehaviour
 	private List<MetaDataNode> trackedTilesWithReagentsOnThem = new List<MetaDataNode>();
 	public bool DebugGizmos = false;
 
+	private CancellationToken EvaporationCancellationToken = CancellationToken.None;
+
 	private const float REAGENT_LIMIT_PER_CELL = 10f;
 	private const float EVAPORATE_TICK_DURATION = 64f;
+	private const float MINIMUM_TEMPERATURE_TO_EVAPORATE_CELSIUS = 29f;
 
 	public void OnEnable()
 	{
@@ -95,32 +100,36 @@ public class MetaDataLayer : MonoBehaviour
 
 	public void EvaporationTick()
 	{
-		StartCoroutine(EvaporateCheck());
+		if (EvaporationCancellationToken.IsCancellationRequested)
+		{
+			EvaporationCancellationToken = new CancellationTokenSource().Token;
+		}
+		_ = EvaporationCheck();
 	}
 
-	private IEnumerator EvaporateCheck()
+	private async UniTask EvaporationCheck()
 	{
 		var safeList = trackedTilesWithReagentsOnThem.Shuffle().ToList();
 		for (int i = 0; i < safeList.Count - 1; i++)
 		{
-			yield return WaitFor.EndOfFrame;
+			await UniTask.WaitForEndOfFrame(cancellationToken: EvaporationCancellationToken);
+			if (EvaporationCancellationToken.IsCancellationRequested) return;
 			if (safeList.Count <= 0) break;
 			if (trackedTilesWithReagentsOnThem == null || trackedTilesWithReagentsOnThem.Count == 0) break;
 			var toRemove = safeList[i];
 			if (trackedTilesWithReagentsOnThem.Contains(toRemove) == false) continue;
-			if (TemperatureUtils.FromKelvin(toRemove.GasMixLocal.Temperature, TemeratureUnits.C) >= 32f)
+			if (TemperatureUtils.FromKelvin(toRemove.GasMixLocal.Temperature, TemeratureUnits.C) >= MINIMUM_TEMPERATURE_TO_EVAPORATE_CELSIUS)
 			{
-				if (toRemove.ReagentsOnTile == null) 	continue;
+				if (toRemove.ReagentsOnTile == null) continue;
 				if (toRemove.ReagentsOnTile.MixState == ReagentState.Solid) continue;
 				if (toRemove.GasMixLocal != null)
 				{
-					toRemove.GasMixLocal.AddGas(CommonGasses.Instance.WaterVapor, toRemove.ReagentsOnTile.Total * 2,
+					toRemove.GasMixLocal.AddGas(Gas.WaterVapor, toRemove.ReagentsOnTile.Total * 2,
 						toRemove.ReagentsOnTile.InternalEnergy / 2);
 				}
-
+				matrix.ReactionManager.ExtinguishHotspot(toRemove.LocalPosition);
 				RemoveLiquidOnTile(toRemove.LocalPosition, toRemove);
 				trackedTilesWithReagentsOnThem.Remove(toRemove);
-				continue;
 			}
 		}
 	}

@@ -28,6 +28,7 @@ using Messages.Server.SoundMessages;
 using Objects;
 using Objects.Atmospherics;
 using Objects.Disposals;
+using Objects.Doors;
 using Objects.Lighting;
 using Objects.Wallmounts;
 using ScriptableObjects;

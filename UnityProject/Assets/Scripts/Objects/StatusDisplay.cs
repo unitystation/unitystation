@@ -11,6 +11,7 @@ using Systems.Interaction;
 using Managers;
 using Doors;
 using Logs;
+using Objects.Doors;
 using SecureStuff;
 using Shared.Systems.ObjectConnection;
 using Systems.Ai;

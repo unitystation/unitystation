@@ -1,5 +1,6 @@
 ﻿using System;
 using Doors;
+using Objects.Doors;
 using Tiles;
 using UnityEngine;
 

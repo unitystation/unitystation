@@ -5,6 +5,7 @@ using Doors.Modules;
 using Logs;
 using Managers;
 using Objects.Construction;
+using Objects.Doors;
 using Shared.Managers;
 
 namespace Systems.Score
