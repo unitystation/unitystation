@@ -26,6 +26,9 @@ namespace Weapons.Projectiles.Behaviours
 
 		private void OnEnable()
 		{
+			// Reset exploded state to make it reusable from poolConfig.
+			hasExploded = false;
+
 			if (!explodeOnMaxRange) return;
 
 			rangeLimited = GetComponent<ProjectileRangeLimited>();
