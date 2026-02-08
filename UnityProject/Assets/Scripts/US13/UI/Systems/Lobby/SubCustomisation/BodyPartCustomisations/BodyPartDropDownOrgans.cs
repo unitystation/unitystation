@@ -3,6 +3,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using US13.Core.Lifecycle;
 using US13.HealthV2.Living;
+using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 
 namespace US13.UI.Systems.Lobby.SubCustomisation.BodyPartCustomisations

@@ -5,9 +5,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
@@ -32,13 +29,10 @@ using US13.Player.MovementV2;
 using US13.Systems.Lobby;
 using US13.Tilemaps.Behaviours.Layers;
 using US13.UI.Core;
-using Debug = UnityEngine.Debug;
 using Random = System.Random;
 
 namespace Util
 {
-
-
 
 	/// <summary>
 	/// Used for random ass editor scripts, Has all the functions you need in a pinch
@@ -62,7 +56,7 @@ namespace Util
 				DestroyImmediate(rootObject);
 			}
 
-			Debug.Log("All root GameObjects have been deleted.");
+			UnityEngine.Debug.Log("All root GameObjects have been deleted.");
 		}
 
 
@@ -174,7 +168,7 @@ namespace Util
 				}
 			}
 			t1.Stop();
-			Debug.Log($"[HasFlagFast] - Ticks taken: {t1.ElapsedTicks}");
+			UnityEngine.Debug.Log($"[HasFlagFast] - Ticks taken: {t1.ElapsedTicks}");
 
 			System.Diagnostics.Stopwatch t2 = new Stopwatch();
 			t2.Start();
@@ -191,7 +185,7 @@ namespace Util
 				}
 			}
 			t2.Stop();
-			Debug.Log($"[HasFlag] - Ticks taken: {t2.ElapsedTicks}");
+			UnityEngine.Debug.Log($"[HasFlag] - Ticks taken: {t2.ElapsedTicks}");
 
 			// AssetDatabase.StartAssetEditing();
 			// var AAAa = FindAssetsByType<Chemistry.Reaction>();
@@ -917,7 +911,7 @@ UnityEngine";
 					t = t.parent;
 				}
 
-				Debug.Log($"{s} has a missing script at {i}", g);
+				UnityEngine.Debug.Log($"{s} has a missing script at {i}", g);
 
 				var serializedObject = new SerializedObject(g);
 

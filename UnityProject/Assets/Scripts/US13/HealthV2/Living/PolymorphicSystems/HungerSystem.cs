@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Chemistry;
 using Logs;
 using UnityEngine;
+using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 using US13.HealthV2.Living.Metabolism;
 using US13.HealthV2.Living.PolymorphicSystems.Bodypart;

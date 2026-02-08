@@ -2,6 +2,7 @@
 using TMPro;
 using UnityEngine;
 using US13.Core.Sprite_Handler;
+using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 
 namespace US13.HealthV2.Living.Surgery

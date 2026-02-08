@@ -6,7 +6,7 @@ using UnityEngine;
 using US13.Core.Chat;
 using US13.Core.Lifecycle;
 using US13.Core.Utils;
-using US13.HealthV2.Living.BodyParts.Damage;
+using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.Surgery.Procedures;
 using US13.Items;
 using US13.Items.Implants.Organs;
@@ -252,7 +252,7 @@ namespace US13.HealthV2.Living
 
 			yield return WaitFor.Seconds((SecondsForSpeciesMutation / 4f) * modifier);
 
-			var SpawnedBodypart = Spawn.ServerPrefab(BodyPart).GameObject.GetComponent<BodyPart>();
+			var SpawnedBodypart = Spawn.ServerPrefab(BodyPart).GameObject.GetComponent<BodyParts.BodyPart>();
 
 			Chat.AddExamineMsgFromServer(GameObjectExtensions.OrNull<LivingHealthMasterBase>(RelatedPart.OrNull()?.HealthMaster)?.gameObject,
 				$" Your {SweetExtensions.ExpensiveName(RelatedPart.gameObject)} Morphs into a {SweetExtensions.ExpensiveName(SpawnedBodypart.gameObject)}");
@@ -361,7 +361,7 @@ namespace US13.HealthV2.Living
 			}
 		}
 
-		private void SettingUpSubOrgans(BodyPart SpawnedBodypart, ItemStorage bodyPartExampleStorage, bool HasOpenProcedure)
+		private void SettingUpSubOrgans(BodyParts.BodyPart SpawnedBodypart, ItemStorage bodyPartExampleStorage, bool HasOpenProcedure)
 		{
 			var usedOrgansInSpawnedPart = new List<GameObject>();
 
@@ -453,7 +453,7 @@ namespace US13.HealthV2.Living
 
 		private void PerfomChangeToSpecies(GameObject BodyPart, CharacterSheet characterSheet = null)
 		{
-			var SpawnedBodypart = Spawn.ServerPrefab(BodyPart).GameObject.GetComponent<BodyPart>();
+			var SpawnedBodypart = Spawn.ServerPrefab(BodyPart).GameObject.GetComponent<BodyParts.BodyPart>();
 
 			ColorUtility.TryParseHtmlString(characterSheet.SkinTone, out var bodyColor);
 

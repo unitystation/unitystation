@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
-using US13.HealthV2.Living.BodyParts.Damage;
-using US13.HealthV2.Living.Damage;
-using BodyPart = US13.HealthV2.Living.CirculatorySystem.BodyPart;
+using US13.HealthV2.Living.BodyParts;
 
 namespace US13.HealthV2.Living.Mutations.Surface
 {

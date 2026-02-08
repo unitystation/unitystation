@@ -5,8 +5,7 @@ using US13.Tilemaps.Behaviours.Layers;
 using US13.Tilemaps.Behaviours.Objects;
 using Util;
 
-
-namespace Systems.Research
+namespace US13.ScriptableObjects.Research.Artifacts.Effects.AreaEffects
 {
 	[CreateAssetMenu(fileName = "SpawningArtifactEffect", menuName = "ScriptableObjects/Systems/Artifacts/SpawnPrefabAreaEffect")]
 	public class SpawningArtifactEffect : AreaEffectBase
@@ -34,7 +33,7 @@ namespace Systems.Research
 				if(avoidSpace && matrix.IsSpaceAt(pos, true)) continue;
 
 				if(avoidImpassable && (matrix.IsWallAt(pos, true))) continue;
-				
+
 				Spawn.ServerPrefab(objectToSpawn, SpawnDestination.At(shape.PickRandom()));
 			}
 		}

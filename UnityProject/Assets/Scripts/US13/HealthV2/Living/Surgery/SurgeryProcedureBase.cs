@@ -2,7 +2,6 @@
 using UnityEngine;
 using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.HealthV2.Living.BodyParts;
-using BodyPart = US13.HealthV2.Living.CirculatorySystem.BodyPart;
 
 namespace US13.HealthV2.Living.Surgery
 {

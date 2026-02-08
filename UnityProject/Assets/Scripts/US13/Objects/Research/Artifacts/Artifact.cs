@@ -26,6 +26,7 @@ using US13.Managers.NetworkManagement;
 using US13.Managers.UpdateManager;
 using US13.Projectiles.Behaviours;
 using US13.ScriptableObjects.Atmospherics;
+using US13.ScriptableObjects.Research.Artifacts.Effects.AreaEffects;
 using US13.Systems.Radiation;
 using US13.Tilemaps.Behaviours.Layers;
 using US13.Tilemaps.Behaviours.Meta.Atmospherics.Data;

@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using US13.Core.Lifecycle;
 using US13.HealthV2.Living;
+using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 using US13.Player;
 
@@ -15,7 +16,7 @@ namespace US13.UI.Systems.Lobby.SubCustomisation.BodyPartCustomisations
 	{
 		public Dropdown Dropdown;
 
-		private List<BodyPart> ToChooseFromBodyParts = new List<BodyPart>();
+		private List<BodyPart> ToChooseFromBodyParts = new();
 
 		private BodyPart CurrentBodyPart;
 

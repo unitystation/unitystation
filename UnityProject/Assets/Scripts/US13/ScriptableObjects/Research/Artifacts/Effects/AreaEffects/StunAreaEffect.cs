@@ -1,8 +1,8 @@
 using UnityEngine;
-using US13.HealthV2.Living.CirculatorySystem;
+using US13.HealthV2.Living.BodyParts;
 using US13.Player;
 
-namespace Systems.Research
+namespace US13.ScriptableObjects.Research.Artifacts.Effects.AreaEffects
 {
 	[CreateAssetMenu(fileName = "StunAreaEffect", menuName = "ScriptableObjects/Systems/Artifacts/StunAreaEffect")]
 	public class StunAreaEffect : AreaEffectBase

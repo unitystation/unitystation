@@ -1,14 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using Core;
-using UnityEngine;
 using NaughtyAttributes;
+using UnityEngine;
 using US13.Managers.MatrixManager;
 using US13.ScriptableObjects.Atmospherics;
 using US13.Tilemaps.Behaviours.Meta;
 using UniversalObjectPhysics = US13.Core.Physics.UniversalObjectPhysics;
 
-namespace Systems.Research
+namespace US13.ScriptableObjects.Research.Artifacts.Effects.AreaEffects
 {
 	[CreateAssetMenu(fileName = "GasAreaEffect", menuName = "ScriptableObjects/Systems/Artifacts/GasAreaEffect")]
 	public class GasAreaEffect : AreaEffectBase

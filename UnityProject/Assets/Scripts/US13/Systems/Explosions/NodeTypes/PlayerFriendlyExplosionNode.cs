@@ -3,6 +3,7 @@ using Light2D;
 using UnityEngine;
 using US13.Health.Objects;
 using US13.HealthV2;
+using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 using US13.Items;
 using US13.Tilemaps.Behaviours.Layers;

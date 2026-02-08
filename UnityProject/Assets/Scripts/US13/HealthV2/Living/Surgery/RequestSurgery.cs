@@ -1,6 +1,7 @@
 ﻿using Mirror;
 using UnityEngine;
 using US13.Core.Input_System.InteractionV2;
+using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 using US13.Messages.Client;
 using Util;

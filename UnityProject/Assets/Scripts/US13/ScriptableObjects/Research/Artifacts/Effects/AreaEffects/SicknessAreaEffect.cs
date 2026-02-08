@@ -1,9 +1,9 @@
 using UnityEngine;
-using US13.HealthV2.Living.CirculatorySystem;
+using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.MedicalChemistry;
 using US13.Player;
 
-namespace Systems.Research
+namespace US13.ScriptableObjects.Research.Artifacts.Effects.AreaEffects
 {
 	/// <summary>
 	/// Gives nearby players artifact sickness

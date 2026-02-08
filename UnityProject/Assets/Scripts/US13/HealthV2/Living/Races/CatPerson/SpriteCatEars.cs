@@ -3,7 +3,6 @@ using US13.Clothing;
 using US13.Core.Sprite_Handler;
 using US13.Core.Transform;
 using US13.HealthV2.Living.BodyParts;
-using BodyPart = US13.HealthV2.Living.CirculatorySystem.BodyPart;
 
 namespace US13.HealthV2.Living.Races.CatPerson
 {

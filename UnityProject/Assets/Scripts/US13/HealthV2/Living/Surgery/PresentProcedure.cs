@@ -7,7 +7,6 @@ using US13.HealthV2.Living.BodyParts;
 using US13.Items.Tool;
 using US13.Items.Traits;
 using Util;
-using BodyPart = US13.HealthV2.Living.CirculatorySystem.BodyPart;
 using Random = System.Random;
 
 namespace US13.HealthV2.Living.Surgery

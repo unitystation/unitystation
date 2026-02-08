@@ -1,4 +1,5 @@
 using US13.Clothing.Eyewear;
+using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 using US13.Systems.Inventory;
 using US13.Tilemaps.Behaviours.Objects;

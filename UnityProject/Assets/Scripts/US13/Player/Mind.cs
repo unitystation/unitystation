@@ -983,7 +983,7 @@ namespace US13.Player
 		/// Returns true if the given mind is of the given Antagonist type.
 		/// </summary>
 		/// <typeparam name="T">The type of antagonist to check against</typeparam>
-		public bool IsOfAntag<T>() where T : Antagonist
+		public bool IsOfAntag<T>()
 		{
 			if (IsAntag == false) return false;
 

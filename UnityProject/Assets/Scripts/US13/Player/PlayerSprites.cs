@@ -22,7 +22,6 @@ using US13.UI.Systems.Lobby;
 using US13.UI.Systems.Lobby.SubCustomisation;
 using US13.UI.Systems.Lobby.SubCustomisation.BodyPartCustomisations;
 using Util;
-using BodyPart = US13.HealthV2.Living.CirculatorySystem.BodyPart;
 
 namespace US13.Player
 {

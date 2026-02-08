@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 using US13.Core.Lifecycle;
 using US13.Effects.EffectShape;
 using US13.Managers.MatrixManager;
@@ -7,7 +7,7 @@ using US13.Tilemaps.Tiles;
 using US13.Tilemaps.Utils;
 using Util;
 
-namespace Systems.Research
+namespace US13.ScriptableObjects.Research.Artifacts.Effects.AreaEffects
 {
 	/// <summary>
 	/// Terraforms the surrounding enviroment by replacing tiles with the specified tiles and placing prefabs.

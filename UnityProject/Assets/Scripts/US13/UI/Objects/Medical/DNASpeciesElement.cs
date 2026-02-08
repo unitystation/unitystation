@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using US13.Clothing;
 using US13.Core.Sprite_Handler;
+using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 using US13.Player;
 using US13.UI.Core.Net.Elements;

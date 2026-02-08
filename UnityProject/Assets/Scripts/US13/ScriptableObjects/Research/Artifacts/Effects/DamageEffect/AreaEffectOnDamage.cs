@@ -1,6 +1,7 @@
 using Core;
 using UnityEngine;
 using US13.Health.Objects;
+using US13.ScriptableObjects.Research.Artifacts.Effects.AreaEffects;
 using UniversalObjectPhysics = US13.Core.Physics.UniversalObjectPhysics;
 
 namespace Systems.Research

@@ -1,6 +1,6 @@
-using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using US13.Effects.EffectShape;
 using US13.Health.Objects;
 using US13.HealthV2;
@@ -13,7 +13,7 @@ using US13.Tilemaps.Tiles;
 using US13.Tilemaps.Utils;
 using Util;
 
-namespace Systems.Research
+namespace US13.ScriptableObjects.Research.Artifacts.Effects.AreaEffects
 {
 	[CreateAssetMenu(fileName = "LightningAreaEffect", menuName = "ScriptableObjects/Systems/Artifacts/LightningAreaEffect")]
 	public class LightningAreaEffect : AreaEffectBase
@@ -77,7 +77,7 @@ namespace Systems.Research
 						Zap(centeredAround, target, Random.Range(1, shots));
 					}
 				}
-			
+
 				objectsToShoot.Remove(target);
 			}
 		}
@@ -111,7 +111,7 @@ namespace Systems.Research
 			{
 				var groundingRods = teslaCoils.Where(o => o.TryGetComponent<TeslaCoil>(out var coil) && coil.CurrentState == TeslaCoil.TeslaCoilState.Grounding).ToList();
 
-				return groundingRods.Any() ? groundingRods.PickRandom() : objectsToShoot.PickRandom();			
+				return groundingRods.Any() ? groundingRods.PickRandom() : objectsToShoot.PickRandom();
 			}
 			return objectsToShoot.PickRandom();
 		}

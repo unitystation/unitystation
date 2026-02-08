@@ -4,6 +4,7 @@ using Chemistry;
 using UnityEngine;
 using US13.Core.Lifecycle;
 using US13.HealthV2.Living;
+using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 using US13.Managers.MatrixManager;
 using US13.Systems.Explosions;
@@ -59,10 +60,6 @@ namespace US13.Systems.ChemistryEffects
 					_ = Despawn.ServerSingle(sender.gameObject);
 				}
 			}
-
-
-
-
 
 
 			if (strength > 0)

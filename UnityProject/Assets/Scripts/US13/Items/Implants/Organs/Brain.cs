@@ -9,6 +9,7 @@ using US13.Core.Camera;
 using US13.Core.Chat;
 using US13.Core.Utils;
 using US13.HealthV2.Living;
+using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 using US13.HealthV2.Living.PolymorphicSystems.Bodypart;
 using US13.Managers;

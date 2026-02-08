@@ -1,14 +1,15 @@
-using System.Linq;
-using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 using Objects.Research;
+using Systems.Research;
+using UnityEngine;
 using US13.Effects.EffectShape;
 using US13.HealthV2;
-using US13.HealthV2.Living.CirculatorySystem;
+using US13.HealthV2.Living.BodyParts;
 using US13.Player;
 using Util;
 
-namespace Systems.Research
+namespace US13.ScriptableObjects.Research.Artifacts.Effects.AreaEffects
 {
 	public class AreaEffectBase : ArtifactEffect
 	{

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Systems.Research;
 using US13.Items.Traits;
+using US13.ScriptableObjects.Research.Artifacts.Effects.AreaEffects;
 
 namespace ScriptableObjects.Systems.Research
 {

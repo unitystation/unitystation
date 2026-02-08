@@ -23,7 +23,7 @@ using US13.UI.Systems.Character;
 using US13.UI.Systems.Lobby.SubCustomisation;
 using US13.UI.Systems.Lobby.SubCustomisation.BodyPartCustomisations;
 using Util;
-using BodyPart = US13.HealthV2.Living.CirculatorySystem.BodyPart;
+using BodyPart = US13.HealthV2.Living.BodyParts.BodyPart;
 
 namespace US13.UI.Systems.Lobby
 {

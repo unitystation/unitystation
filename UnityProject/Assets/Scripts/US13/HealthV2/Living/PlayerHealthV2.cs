@@ -6,7 +6,7 @@ using US13.Core.Addressables;
 using US13.Core.Chat;
 using US13.Health;
 using US13.Health.Objects;
-using US13.HealthV2.Living.CirculatorySystem;
+using US13.HealthV2.Living.BodyParts;
 using US13.Managers;
 using US13.Managers.NetworkManagement;
 using US13.Messages.Server;

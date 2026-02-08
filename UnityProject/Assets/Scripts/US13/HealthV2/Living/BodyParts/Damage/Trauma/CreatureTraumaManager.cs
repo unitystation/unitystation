@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using US13.HealthV2.Living.Damage.Trauma;
 
 namespace US13.HealthV2.Living.BodyParts.Damage.Trauma
 {

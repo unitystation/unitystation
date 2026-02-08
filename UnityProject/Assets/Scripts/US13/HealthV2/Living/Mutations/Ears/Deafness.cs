@@ -1,4 +1,5 @@
 using UnityEngine;
+using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 
 namespace US13.HealthV2.Living.Mutations.Ears

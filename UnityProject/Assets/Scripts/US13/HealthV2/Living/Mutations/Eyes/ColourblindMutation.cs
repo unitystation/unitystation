@@ -1,5 +1,6 @@
 using UnityEngine;
 using US13.Core.Camera;
+using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 using US13.Items.Implants.Organs;
 
@@ -8,8 +9,6 @@ namespace US13.HealthV2.Living.Mutations.Eyes
 	[CreateAssetMenu(fileName = "Colourblindness", menuName = "ScriptableObjects/Mutations/Colourblindness")]
 	public class ColourblindMutation : MutationSO
 	{
-
-
 		public ColourBlindMode ColourBlindMode;
 		public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 		{

@@ -4,6 +4,7 @@ using UnityEngine.Serialization;
 using US13.Clothing;
 using US13.Core.Attributes;
 using US13.HealthV2.Living;
+using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 using US13.HealthV2.Living.PolymorphicSystems;
 using US13.HealthV2.Living.Surgery.Procedures;

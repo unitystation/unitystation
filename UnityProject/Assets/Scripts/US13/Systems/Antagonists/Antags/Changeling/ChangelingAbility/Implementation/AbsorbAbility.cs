@@ -66,7 +66,7 @@ namespace US13.Systems.Antagonists.Antags.Changeling.ChangelingAbility.Implement
 			bool targetIsChangeling = false;
 			try
 			{
-				targetIsChangeling = target.PlayerInfo.Mind.IsOfAntag<Changeling>();
+				targetIsChangeling = target.PlayerInfo.Mind.IsOfAntag<ChangelingMain>();
 			}
 			catch (Exception ex)
 			{

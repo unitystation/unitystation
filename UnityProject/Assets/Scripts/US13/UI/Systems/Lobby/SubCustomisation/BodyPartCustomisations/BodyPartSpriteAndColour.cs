@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using US13.Clothing;
 using US13.HealthV2.Living;
+using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 using Util;
 

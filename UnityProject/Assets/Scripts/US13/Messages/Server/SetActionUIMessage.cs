@@ -6,6 +6,7 @@ using UnityEngine;
 using US13.Actions;
 using US13.Core.Sprite_Handler;
 using US13.Player;
+using US13.Systems.Antagonists.Antags.Changeling.ChangelingAbility;
 using US13.Systems.Spells;
 using US13.UI.Systems.MainHUD;
 using Util;

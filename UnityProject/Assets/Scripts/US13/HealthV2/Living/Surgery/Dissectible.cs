@@ -6,6 +6,7 @@ using US13.Core.Input_System;
 using US13.Core.Input_System.InteractionV2;
 using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 using US13.HealthV2.Living.Surgery.Procedures;
 using US13.Items.Traits;

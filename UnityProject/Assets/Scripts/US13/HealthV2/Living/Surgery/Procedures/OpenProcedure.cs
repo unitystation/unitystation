@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using US13.Core.Input_System.InteractionV2.Interactions;
+using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 
 namespace US13.HealthV2.Living.Surgery.Procedures

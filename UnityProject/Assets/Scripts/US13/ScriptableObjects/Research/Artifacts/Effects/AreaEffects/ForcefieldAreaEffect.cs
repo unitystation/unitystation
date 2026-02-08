@@ -1,12 +1,12 @@
-using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
 using Objects.Research;
+using UnityEngine;
 using US13.Core.Lifecycle;
 using US13.Effects.EffectShape;
 using Util;
 
-namespace Systems.Research
+namespace US13.ScriptableObjects.Research.Artifacts.Effects.AreaEffects
 {
 	[CreateAssetMenu(fileName = "ForcefieldAreaEffect", menuName = "ScriptableObjects/Systems/Artifacts/ForcefieldAreaEffect")]
 	public class ForcefieldAreaEffect : AreaEffectBase
@@ -40,13 +40,13 @@ namespace Systems.Research
 			if(centeredAround.TryGetComponent<Artifact>(out var parentArtifact) == false) return;
 
 			parentArtifact.StartCoroutine(this.DespawnObstructions(obstructions));
-			
+
 		}
 
 		public IEnumerator DespawnObstructions(List<GameObject> obstructions)
 		{
 			yield return new WaitForSeconds(lifespan);
-			
+
 			foreach (GameObject obstruction in obstructions)
 			{
 				if (obstruction == null) continue;

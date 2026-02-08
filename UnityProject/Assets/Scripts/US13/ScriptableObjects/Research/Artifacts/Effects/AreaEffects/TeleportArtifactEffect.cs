@@ -1,13 +1,12 @@
-using Core;
 using UnityEngine;
-using US13.HealthV2.Living.CirculatorySystem;
+using US13.HealthV2.Living.BodyParts;
 using US13.Player;
 using US13.Systems.Explosions;
 using US13.Systems.MaintRooms;
 using Util;
 using UniversalObjectPhysics = US13.Core.Physics.UniversalObjectPhysics;
 
-namespace Systems.Research
+namespace US13.ScriptableObjects.Research.Artifacts.Effects.AreaEffects
 {
 	[CreateAssetMenu(fileName = "ArtifactTeleportEffect", menuName = "ScriptableObjects/Systems/Artifacts/ArtifactTeleportEffect")]
 	public class TeleportArtifactEffect : AreaEffectBase

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Mirror;
 using Newtonsoft.Json;
+using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 using US13.Managers;
 using US13.Messages.Server;
