@@ -1,0 +1,75 @@
+using System;
+using System.Linq;
+using SecureStuff;
+using UnityEngine;
+using Util;
+
+namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
+{
+	public interface IBodyPartComponentBase
+	{
+		public void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null);
+		public void OnAddedToBody(LivingHealthMasterBase livingHealth);
+		public bool HasSystem(LivingHealthMasterBase livingHealth);
+
+		public void SetSystem(HealthSystemBase healthSystemBase, bool removing);
+	}
+
+	public abstract class BodyPartComponentBase<T> : BodyPartFunctionality, IBodyPartComponentBase  where T : HealthSystemBase, new()
+	{
+		[NonSerialized]
+		public T AssociatedSystem;
+
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
+		{
+			foreach (var sys in livingHealth.ActiveSystems)
+			{
+				sys.InternalBodyPartRemoved(RelatedPart, this);
+				SetSystem(sys, true);
+			}
+		}
+
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
+		{
+			if(HasSystem(livingHealth) == false)
+			{
+				var sys = GenSystem();
+				sys.Base = livingHealth;
+				sys.InIt();
+				livingHealth.ActiveSystems.Add(sys);
+				SetSystem(sys, false);
+				sys.BodyPartAdded(this.RelatedPart);
+			}
+
+			foreach (var sys in livingHealth.ActiveSystems)
+			{
+				sys.InternalBodyPartAdded(RelatedPart, this);
+			}
+		} //Warning only add body parts do not remove body parts in this
+
+		public bool HasSystem(LivingHealthMasterBase livingHealth)
+		{
+			return SweetExtensions.OfType<T>(livingHealth.ActiveSystems).Any();
+		}
+
+		public HealthSystemBase GenSystem()
+		{
+			return AllowedReflection.CreateInstance<T>();
+		}
+
+		public void SetSystem(HealthSystemBase healthSystemBase, bool removing)
+		{
+			if (healthSystemBase is T sys)
+			{
+				if (removing)
+				{
+					AssociatedSystem = default(T);
+				}
+				else
+				{
+					AssociatedSystem = sys;
+				}
+			}
+		}
+	}
+}

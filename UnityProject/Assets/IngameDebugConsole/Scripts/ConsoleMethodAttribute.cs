@@ -1,7 +1,7 @@
 ﻿using System;
 using SecureStuff;
 
-namespace IngameDebugConsole
+namespace IngameDebugConsole.Scripts
 {
 	[AttributeUsage( AttributeTargets.Method, Inherited = false, AllowMultiple = true )]
 	public class ConsoleMethodAttribute : BaseAttribute

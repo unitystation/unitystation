@@ -1,0 +1,116 @@
+﻿using UnityEngine;
+using US13.Clothing;
+using US13.Core.Input_System.InteractionV2;
+using US13.Core.Input_System.InteractionV2.Interactions;
+using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Core.Lifecycle;
+using US13.Player;
+using US13.Systems.Antagonists;
+using US13.Systems.Inventory;
+using US13.Tilemaps.Utils;
+using US13.UI.Systems.MainHUD.UI_Bottom;
+using Util;
+
+namespace US13.NPC.AI.Hostile
+{
+	public class FaceHuggerAI : GenericHostileAI, ICheckedInteractable<HandApply>
+	{
+		[SerializeField]
+		[Tooltip("If true, this hugger won't be counted for the cap Queens use for lying eggs.")]
+		private bool ignoreInQueenCount = false;
+		private bool processedRemovalFromQueenCount = false; //Lifecycle updates can still occur on dead creatures due to healing and the like. We only want to remove the hugger from the queen count once.
+		//private MobMeleeAction mobMeleeAction;
+		private FaceHugAction faceHugAction;
+
+		#region Lifecycle
+
+		protected override void Awake()
+		{
+			faceHugAction = gameObject.GetComponent<FaceHugAction>();
+			base.Awake();
+		}
+
+		protected override void OnSpawnMob()
+		{
+			base.OnSpawnMob();
+			if (ignoreInQueenCount == false)
+			{
+				XenoQueenAI.AddFacehuggerToCount();
+				processedRemovalFromQueenCount = false;
+			}
+			ResetBehaviours();
+		}
+
+		#endregion
+
+		/// <summary>
+		/// Looks around and tries to find players to target
+		/// </summary>
+		/// <returns>Gameobject of the first player it found</returns>
+		protected override GameObject SearchForTarget()
+		{
+			var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls , rotatable.CurrentDirection.ToLocalVector3(), 10f);
+			if (hits.Count == 0)
+			{
+				return null;
+			}
+
+			foreach (var coll in hits)
+			{
+				if (coll.layer != playersLayer) continue;
+
+				if(coll.gameObject.TryGetComponent<PlayerScript>(out var playerScript) == false) continue;
+
+				if(playerScript.PlayerType == PlayerTypes.Alien) continue;
+
+				return coll;
+			}
+
+			return null;
+		}
+
+		/// <summary>
+		/// What happens when the mob dies or is unconscious
+		/// </summary>
+		protected override void HandleDeathOrUnconscious()
+		{
+			if (ignoreInQueenCount == false && processedRemovalFromQueenCount == false)
+			{
+				XenoQueenAI.RemoveFacehuggerFromCount();
+				processedRemovalFromQueenCount = true;
+			}
+
+			base.HandleDeathOrUnconscious();
+		}
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side, PlayerTypes.Normal | PlayerTypes.Alien) == false) return false;
+
+			if(interaction.HandObject != null) return false;
+
+			if (interaction.Intent != Intent.Help && interaction.Intent != Intent.Grab) return false;
+
+			if (interaction.PerformerPlayerScript.TryGetComponent<AlienPlayer>(out var alien) && alien.IsLarva) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			var handSlot = interaction.HandSlot;
+
+			var result = Spawn.ServerPrefab(faceHugAction.MaskObject);
+			var mask = result.GameObject;
+
+			if (IsDead || IsUnconscious)
+			{
+				mask.GetComponent<FacehuggerImpregnation>().KillHugger();
+			}
+
+			Inventory.ServerAdd(mask, handSlot, ReplacementStrategy.DropOther);
+
+			_ = Despawn.ServerSingle(gameObject);
+		}
+	}
+}

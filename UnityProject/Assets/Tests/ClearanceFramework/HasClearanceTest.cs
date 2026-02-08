@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Systems.Clearance;
 using NUnit.Framework;
 using UnityEngine;
+using US13.Systems.Clearance;
 
 namespace Tests.ClearanceFramework
 {

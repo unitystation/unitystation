@@ -1,0 +1,70 @@
+﻿using Logs;
+using UnityEngine;
+using US13.Core.Sound;
+using US13.Managers;
+using US13.Managers.NetworkManagement;
+using US13.Managers.UpdateManager;
+using Util;
+
+namespace US13.Systems.DynamicAmbience
+{
+	public class DynamicReverb : MonoBehaviour
+	{
+		[SerializeField] private float updateTime = 0.75f;
+		[SerializeField] private bool debug = false;
+
+		private const string AUDIOMIXER_REVERB_KEY = "SFXReverb";
+		private bool isEnabled = false;
+
+		private void Start()
+		{
+			AudioManager.Instance.AudioReflectionsToggled += OnAudioReflectionsSettingToggled;
+		}
+
+		private void OnAudioReflectionsSettingToggled(bool value)
+		{
+			if (value)
+			{
+				EnableAmbienceForPlayer();
+			}
+			else
+			{
+				DisableAmbienceForPlayer();
+			}
+		}
+
+		public void EnableAmbienceForPlayer()
+		{
+			if (CustomNetworkManager.IsHeadless) return;
+			if (transform.parent.gameObject.NetWorkIdentity()?.isOwned == false || isEnabled) return;
+
+			Loggy.Info("Enabling Dynamic Reverb system.");
+			UpdateManager.Add(UpdateMe, updateTime);
+			isEnabled = true;
+		}
+
+		public void DisableAmbienceForPlayer()
+		{
+			if (CustomNetworkManager.IsHeadless) return;
+			if (transform.parent.gameObject.NetWorkIdentity()?.isOwned == false || isEnabled == false) return;
+
+			if (AudioManager.Instance == null) return;
+			Loggy.Info("Disabling Dynamic Reverb system.");
+			AudioManager.Instance.GameplayMixer.audioMixer.ClearFloat(AUDIOMIXER_REVERB_KEY);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+			isEnabled = false;
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
+		{
+			var roomSize = SoundPhysics.CalculateRoomSize(gameObject, debug);
+			var strength = SoundPhysics.RoomSizeToReverbStrength[roomSize];
+			AudioManager.Instance.GameplayMixer.audioMixer.SetFloat(AUDIOMIXER_REVERB_KEY, strength);
+		}
+	}
+}

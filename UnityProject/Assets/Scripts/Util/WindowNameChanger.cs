@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using DatabaseAPI;
 using UnityEngine;
+using US13.Core.Database;
+using US13.Managers;
+using US13.Managers.SubSceneManager;
+using Event = US13.Managers.Event;
 
 namespace Util
 {

@@ -2,26 +2,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using AdminCommands;
-using Core;
-using UnityEngine;
-using UnityEditor;
-using Systems.Atmospherics;
-using Random = UnityEngine.Random;
-using Core.Accounts;
-using HealthV2;
-using Items.Implants.Organs;
-using Learning;
 using Logs;
-using Messages.Server;
-using Messages.Server.HealthMessages;
-using ScriptableObjects;
-using Systems.Character;
-using Systems.Score;
-using Systems.StatusesAndEffects;
-using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
+using UnityEditor;
+using UnityEngine;
+using US13.Core.Chat;
+using US13.Core.Lifecycle;
+using US13.Health.Objects;
+using US13.HealthV2;
+using US13.HealthV2.Living;
+using US13.Items.Implants.Organs;
+using US13.Learning;
+using US13.Managers;
+using US13.Managers.MatrixManager;
+using US13.Managers.NetworkManagement;
+using US13.Messages.Server;
+using US13.Messages.Server.HealthMessages;
+using US13.Player;
+using US13.ScriptableObjects;
+using US13.Shuttles;
+using US13.Systems.Antagonists;
+using US13.Systems.Inventory;
+using US13.Systems.Lobby;
+using US13.Systems.Occupations;
+using US13.Systems.Score;
+using US13.Systems.StatusesAndEffects;
+using US13.Tilemaps.Behaviours.Meta.Atmospherics;
+using US13.Tilemaps.Behaviours.Meta.Atmospherics.Data;
+using US13.UI.Systems;
+using Util;
+using Random = UnityEngine.Random;
+using UniversalObjectPhysics = US13.Core.Physics.UniversalObjectPhysics;
 
-namespace IngameDebugConsole
+namespace IngameDebugConsole.Scripts
 {
 	/// <summary>
 	/// Contains all the custom defined commands for the IngameDebugLogger
@@ -586,7 +598,7 @@ namespace IngameDebugConsole
 				return;
 			}
 
-			Antagonists.AntagManager.Instance.ObjectiveEndAndShowAntagStatusReport();
+			AntagManager.Instance.ObjectiveEndAndShowAntagStatusReport();
 		}
 
 		[ConsoleMethod("antag-remind", "Remind all antags of their own objectives. Server only command")]
@@ -598,7 +610,7 @@ namespace IngameDebugConsole
 				return;
 			}
 
-			Antagonists.AntagManager.Instance.RemindAntags();
+			AntagManager.Instance.RemindAntags();
 		}
 
 #if UNITY_EDITOR

@@ -1,0 +1,33 @@
+﻿using UnityEngine;
+using US13.UI.Core.Net.Elements;
+using US13.UI.Core.Net.Elements.Dynamic;
+
+namespace US13.Systems.Faith.UI
+{
+	public class ShopItemButton : DynamicEntry
+	{
+		[SerializeField] private NetText_label text;
+		[SerializeField] private NetSpriteHandler spriteSO;
+		[SerializeField] private GUI_ChaplainPointShopScreen screen;
+
+		public IFaithMiracle Miracle;
+
+		public void SetValues(IFaithMiracle newMiracle, GUI_ChaplainPointShopScreen inscreen )
+		{
+			screen = inscreen;
+			Miracle = newMiracle;
+			text.MasterSetValue(Miracle.FaithMiracleName);
+			spriteSO.MasterSetValue(Miracle.MiracleIcon.SetID);
+		}
+
+		public void DoMiracle()
+		{
+			Miracle.DoMiracle(screen.HolderFaith);
+		}
+
+		public void OnCategoryChosen()
+		{
+			screen.SetMasterData(this);
+		}
+	}
+}

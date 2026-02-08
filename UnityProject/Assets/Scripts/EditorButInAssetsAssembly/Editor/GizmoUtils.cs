@@ -1,10 +1,10 @@
 #if UNITY_EDITOR
 using System.Collections.Generic;
 using Logs;
-using UnityEngine;
 using UnityEditor;
+using UnityEngine;
 
-namespace Shared.Editor
+namespace EditorButInAssetsAssembly.Editor
 {
 	public static class GizmoUtils
 	{

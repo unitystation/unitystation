@@ -35,14 +35,13 @@ THE SOFTWARE.
 An Interface for the Jump Point Search Algorithm Class.
 
 */
-using C5;
+
 using System;
 using System.Collections.Generic;
-using System.Collections;
-using UnityEngine;
+using C5;
+using Standard_Assets.PathFinder.Grid;
 
-
-namespace EpPathFinding.cs
+namespace Standard_Assets.PathFinder
 {
     public enum IterationType
     {

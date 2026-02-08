@@ -1,0 +1,37 @@
+using UnityEngine;
+using US13.Items.Others;
+using US13.Managers;
+using US13.UI.Core.Net.Elements;
+using US13.UI.Core.Net.Elements.Dynamic;
+
+namespace US13.UI.Objects.Research
+{
+	public class TeleporterEntry : DynamicEntry
+	{
+		[SerializeField]
+		private NetText_label beaconNameLabel = null;
+		[SerializeField]
+		private NetText_label beaconSetButtonLabel = null;
+
+		private TrackingBeacon trackingBeacon;
+		private GUI_TeleporterConsole teleporterConsole;
+
+		public void OnBeaconSetButtonPressed(PlayerInfo player)
+		{
+			if (trackingBeacon == null || teleporterConsole == null) return;
+
+			teleporterConsole.OnTeleporterEntryButtonPressed(trackingBeacon, player);
+		}
+
+		public void SetValues(GUI_TeleporterConsole teleporterConsole, TrackingBeacon trackingBeacon)
+		{
+			this.teleporterConsole = teleporterConsole;
+			this.trackingBeacon = trackingBeacon;
+
+			beaconNameLabel.MasterSetValue(trackingBeacon.ItemAttributesV2.ArticleName);
+
+			beaconSetButtonLabel.MasterSetValue(teleporterConsole.TeleporterControl.LinkedBeacon == trackingBeacon ?
+				"Currently Set" : "Set");
+		}
+	}
+}

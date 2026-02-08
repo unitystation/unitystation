@@ -2,6 +2,7 @@
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
+using US13.Managers;
 
 namespace Tests.Config
 {

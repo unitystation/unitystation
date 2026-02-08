@@ -1,21 +1,24 @@
 ﻿using System;
 
-public static class CodeUtilities
+namespace Util
 {
-	public static string RemoveClone(this string text) => text?.Replace("(Clone)", string.Empty);
-
-	public static string GetUntilOrEmpty(this string text, string stopAt = "-")
+	public static class CodeUtilities
 	{
-		if (!String.IsNullOrWhiteSpace(text))
+		public static string RemoveClone(this string text) => text?.Replace("(Clone)", string.Empty);
+
+		public static string GetUntilOrEmpty(this string text, string stopAt = "-")
 		{
-			int charLocation = text.IndexOf(stopAt, StringComparison.Ordinal);
-
-			if (charLocation > 0)
+			if (!String.IsNullOrWhiteSpace(text))
 			{
-				return text.Substring(0, charLocation);
-			}
-		}
+				int charLocation = text.IndexOf(stopAt, StringComparison.Ordinal);
 
-		return String.Empty;
+				if (charLocation > 0)
+				{
+					return text.Substring(0, charLocation);
+				}
+			}
+
+			return String.Empty;
+		}
 	}
 }

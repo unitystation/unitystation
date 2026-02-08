@@ -1,0 +1,28 @@
+﻿using System;
+using System.Collections.Generic;
+using NaughtyAttributes;
+using UnityEngine;
+using US13.Core.Lifecycle;
+
+namespace US13.Tilemaps.Tiles
+{
+	public class SimpleTile : BasicTile
+	{
+
+
+		public bool CanBeHighlightedThroughScanners = false;
+
+		[NonSerialized] public List<GameObject> AssoicatedSpawnedObjects = new List<GameObject>();
+
+		[ShowIf(nameof(CanBeHighlightedThroughScanners))]
+		public GameObject HighlightObject;
+
+		private void OnDestroy()
+		{
+			foreach (var obj in AssoicatedSpawnedObjects)
+			{
+				Despawn.ClientSingle(obj);
+			}
+		}
+	}
+}

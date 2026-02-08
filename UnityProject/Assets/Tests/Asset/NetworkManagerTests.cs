@@ -6,6 +6,9 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.SceneManagement;
+using US13.Core.Networking;
+using US13.Managers.NetworkManagement;
+using US13.UI.Core;
 using Util;
 
 namespace Tests.Asset

@@ -1,6 +1,8 @@
-using HealthV2;
 using NUnit.Framework;
-using ScriptableObjects.Systems.Spells;
+using US13.HealthV2.Living.Surgery;
+using US13.ScriptableObjects;
+using US13.Systems.Spells;
+using US13.UI.Core.Alerts;
 
 namespace Tests.Asset
 {

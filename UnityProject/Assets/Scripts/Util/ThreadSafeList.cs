@@ -1,59 +1,62 @@
 ﻿using System.Collections.Generic;
 
-public delegate void GenericDelegate<in T>(T item);
-
-public class ThreadSafeList<T>
+namespace Util
 {
-	private List<T> list = new List<T>();
-	public event GenericDelegate<T> Event;
+	public delegate void GenericDelegate<in T>(T item);
 
-	public void Iterate(GenericDelegate<T> thingToCall)
+	public class ThreadSafeList<T>
 	{
-		lock (list)
+		private List<T> list = new List<T>();
+		public event GenericDelegate<T> Event;
+
+		public void Iterate(GenericDelegate<T> thingToCall)
 		{
-			Event += thingToCall;
-			for (int i = list.Count -1; i >= 0; i--)
+			lock (list)
 			{
-				Event(list[i]);
+				Event += thingToCall;
+				for (int i = list.Count -1; i >= 0; i--)
+				{
+					Event(list[i]);
+				}
+				Event -= thingToCall;
 			}
-			Event -= thingToCall;
 		}
-	}
 
-	public void Add(T item)
-	{
-		lock (list)
+		public void Add(T item)
 		{
-			list.Add(item);
-		}
-	}
-
-	public bool Remove(T item)
-	{
-		lock (list)
-		{
-			return list.Remove(item);
-		}
-	}
-
-	public void AddIfMissing(T item)
-	{
-		lock (list)
-		{
-			if (list.Contains(item) == false)
+			lock (list)
 			{
 				list.Add(item);
 			}
 		}
-	}
 
-	public void Clear()
-	{
-		lock (list)
+		public bool Remove(T item)
 		{
-			list.Clear();
+			lock (list)
+			{
+				return list.Remove(item);
+			}
 		}
+
+		public void AddIfMissing(T item)
+		{
+			lock (list)
+			{
+				if (list.Contains(item) == false)
+				{
+					list.Add(item);
+				}
+			}
+		}
+
+		public void Clear()
+		{
+			lock (list)
+			{
+				list.Clear();
+			}
+		}
+
+
 	}
-
-
 }

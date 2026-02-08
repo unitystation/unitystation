@@ -1,0 +1,217 @@
+﻿using System.Collections.Generic;
+using UnityEngine;
+using US13.Clothing;
+using US13.Core.Sprite_Handler;
+using US13.Core.Transform;
+using US13.Player;
+using US13.Systems.Inventory;
+using Util;
+
+namespace US13.Items
+{
+	public enum SpriteHandType
+	{
+		Other,
+		RightHand,
+		LeftHand
+	}
+
+	public delegate void OnClothingEquippedDelegate(ClothingV2 clothing, bool isEquiped);
+
+//TODO: This conflicted with commit: 888873b483eac262353c5318c0e0cb42eae5086f Fix annyoing fix annoying NRE by @corp-0 tried to merge into Health V2 but caused to many issues.
+	/// <summary>
+	/// For the Individual clothing player sprite renderers
+	/// </summary>
+	[RequireComponent(typeof(SpriteRenderer))]
+	public class ClothingItem : MonoBehaviour
+	{
+		[Tooltip("Slot this clothing item is equipped to.")]
+		public NamedSlot Slot;
+
+		/// <summary>
+		/// Absolute orientation
+		/// </summary>
+		private OrientationEnum currentDirection = OrientationEnum.Down_By180;
+
+		protected int referenceOffset;
+
+		public SpriteHandler spriteHandler;
+
+		public GameObject ServerGameObjectReference;
+
+		//choice between left or right or other(clothing)
+		public SpriteHandType spriteType;
+
+		public PlayerScript thisPlayerScript;
+
+		/// <summary>
+		/// Direction clothing is facing (absolute)
+		/// </summary>
+		public OrientationEnum Direction
+		{
+			set
+			{
+				currentDirection = value;
+				UpdateReferenceOffset();
+			}
+			get { return currentDirection; }
+		}
+
+		/// <summary>
+		/// Are we holding item or clothing in hands?
+		/// </summary>
+		private bool InHands
+		{
+			get { return spriteType == SpriteHandType.RightHand || spriteType == SpriteHandType.LeftHand; }
+		}
+
+		public void SetColor(Color value)
+		{
+			if (spriteHandler != null)
+			{
+				spriteHandler.SetColor(value);
+			}
+		}
+
+		public virtual void SetReference(GameObject item)
+		{
+			UpdateReferenceOffset();
+			if (item == null)
+			{
+				if (spriteHandler != null)
+				{
+					spriteHandler.Empty();
+				}
+
+				if (!InHands && ServerGameObjectReference != null)
+				{
+					// did we take off clothing?
+					var unequippedClothing = ServerGameObjectReference.GetComponent<ClothingV2>();
+					if (unequippedClothing != null)
+					{
+						if (unequippedClothing)
+							unequippedClothing.OrNull()?.LinkClothingItem(null);
+						thisPlayerScript.playerSprites.OnClothingEquipped(unequippedClothing, false);
+					}
+				}
+
+				ServerGameObjectReference = null; // Remove the item from equipment
+			}
+
+			if (item != null)
+			{
+				ServerGameObjectReference = item; // Add item to equipment
+
+				if (InHands)
+				{
+					var ItemAttributesV2 = item.GetComponent<ItemAttributesV2>();
+					var InHandsSprites = ItemAttributesV2?.ItemSprites;
+					SetInHand(InHandsSprites);
+				}
+				else
+				{
+					var equippedClothing = item.GetComponent<ClothingV2>();
+					equippedClothing?.LinkClothingItem(this);
+
+					// Set the slots defined in hidesSlots as hidden.
+					//thisPlayerScript.Equipment.obscuredSlots |= equippedClothing.HiddenSlots;
+
+					// Some items like trash bags / mining satchels can be equipped but are not clothing and do not show on character sprite
+					// But for the others, we call the OnClothingEquipped event.
+					if (equippedClothing)
+					{
+						thisPlayerScript.playerSprites.OnClothingEquipped(equippedClothing, true);
+					}
+				}
+			}
+
+			UpdateReferenceOffset(true);
+		}
+
+		public void RefreshFromClothing(ClothingV2 clothing)
+		{
+
+			if (InHands)
+			{
+				var ItemAttributesV2 = clothing.GetComponent<ItemAttributesV2>();
+				var InHandsSprites = ItemAttributesV2?.ItemSprites;
+				SetInHand(InHandsSprites);
+			}
+			else
+			{
+				spriteHandler.SetCatalogue(clothing.SpriteDataSO);
+				spriteHandler.SetCatalogueIndexSprite(clothing.CurrentClothIndex);
+				List<Color> palette = clothing.GetComponent<ItemAttributesV2>()?.ItemSprites?.Palette;
+				if (clothing.GetComponent<ItemAttributesV2>()?.ItemSprites?.IsPaletted == true)
+				{
+					spriteHandler.SetPaletteOfCurrentSprite(palette);
+				}
+				else
+				{
+					spriteHandler.SetColor(clothing.Colour);
+				}
+			}
+
+			PushTexture();
+
+		}
+
+		private void UpdateReferenceOffset(bool Network = false)
+		{
+			if (currentDirection == OrientationEnum.Down_By180)
+			{
+				referenceOffset = 0;
+			}
+
+			if (currentDirection == OrientationEnum.Up_By0)
+			{
+				referenceOffset = 1;
+			}
+
+			if (currentDirection == OrientationEnum.Right_By270)
+			{
+				referenceOffset = 2;
+			}
+
+			if (currentDirection == OrientationEnum.Left_By90)
+			{
+				referenceOffset = 3;
+			}
+
+			UpdateSprite(Network);
+		}
+
+		public virtual void UpdateSprite(bool Network = false)
+		{
+			if (spriteHandler != null)
+			{
+				spriteHandler.SetSpriteVariant(referenceOffset, Network);
+			}
+		}
+
+		public void PushTexture()
+		{
+			if (spriteHandler != null)
+			{
+				spriteHandler.PushTexture();
+			}
+		}
+
+		public void SetInHand(ItemsSprites _ItemsSprites)
+		{
+			if (_ItemsSprites != null)
+			{
+				if (spriteType == SpriteHandType.RightHand)
+				{
+					spriteHandler.SetSpriteSO(_ItemsSprites.SpriteRightHand);
+				}
+				else
+				{
+					spriteHandler.SetSpriteSO(_ItemsSprites.SpriteLeftHand);
+				}
+
+				spriteHandler.SetPaletteOfCurrentSprite(_ItemsSprites.Palette);
+			}
+		}
+	}
+}

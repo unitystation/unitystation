@@ -1,0 +1,72 @@
+﻿using System;
+using System.Collections.Generic;
+using Shared.Managers;
+using UnityEngine;
+using US13.Messages.Client;
+using US13.Player;
+using US13.ScriptableObjects.RP;
+using US13.UI.Core;
+
+namespace US13.Core.Chat
+{
+	public class EmoteActionManager : SingletonManager<EmoteActionManager>
+	{
+		[SerializeField] private EmoteListSO emoteList;
+		public EmoteListSO EmoteList => emoteList;
+
+
+		public void CheckForInputForEmoteWindow()
+		{
+			if (PlayerManager.LocalPlayerObject == null) return;
+			DisplayEmoteWindow();
+		}
+
+		public static void DisplayEmoteWindow()
+		{
+			var choices = new List<DynamicUIChoiceEntryData>();
+			foreach (var emote in Instance.emoteList.Emotes)
+			{
+				var newChoice = new DynamicUIChoiceEntryData();
+				newChoice.Text = emote.EmoteName;
+				newChoice.Icon = emote.EmoteIcon;
+				// Emotes can only be ran server side, so we have to invoke a command on the server.
+				newChoice.ChoiceAction = () => RequestEmote.Send(emote.EmoteName);
+				choices.Add(newChoice);
+			}
+			DynamicChoiceUI.ClientDisplayChoicesNotNetworked("Emotes", "Choose an emote you'd like to perform.", choices, true);
+		}
+
+		public static bool HasEmote(string emote)
+		{
+			string[] emoteArray = emote.Split(' ');
+
+			foreach (var e in Instance.emoteList.Emotes)
+			{
+				if(emoteArray[0].Equals(e.EmoteName, StringComparison.CurrentCultureIgnoreCase))
+				{
+					return true;
+				}
+			}
+			return false;
+		}
+
+		public static void DoEmote(string emote, GameObject player)
+		{
+			if (player == null) return;
+			foreach (var e in Instance.emoteList.Emotes)
+			{
+				if(emote.Equals(e.EmoteName, StringComparison.CurrentCultureIgnoreCase))
+				{
+					e.Do(player);
+					return;
+				}
+			}
+		}
+
+		public static void DoEmote(EmoteSO emoteSo, GameObject player)
+		{
+			if (emoteSo == null) return;
+			emoteSo.Do(player);
+		}
+	}
+}

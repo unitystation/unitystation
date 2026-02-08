@@ -1,0 +1,369 @@
+﻿using System.Collections;
+using Mirror;
+using UnityEngine;
+using UnityEngine.Events;
+using US13.Core;
+using US13.Core.Addressables.Types;
+using US13.Core.Chat;
+using US13.Core.Input_System.InteractionV2;
+using US13.Core.Input_System.InteractionV2.Interactions;
+using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Core.Lifecycle;
+using US13.HealthV2;
+using US13.HealthV2.Living;
+using US13.Items.Traits;
+using US13.Managers;
+using US13.Managers.MatrixManager;
+using US13.Systems.Antagonists;
+using US13.Systems.Inventory;
+using US13.Systems.Score;
+using US13.Systems.Score.ScoreEntry;
+using US13.Tilemaps.Behaviours.Objects;
+using US13.UI.Systems;
+using US13.UI.Systems.AdminTools.Interfaces;
+using Util;
+using Random = UnityEngine.Random;
+using UniversalObjectPhysics = US13.Core.Physics.UniversalObjectPhysics;
+
+namespace US13.Objects
+{
+	/// <summary>
+	/// Main component for nuke.
+	/// </summary>
+	public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>, IAdminInfo, IServerLifecycle
+	{
+		public NukeTimerEvent OnTimerUpdate = new NukeTimerEvent();
+
+		[SerializeField] private AddressableAudioSource TimerTickSound = null;
+
+		private UniversalObjectPhysics objectBehaviour;
+		private ItemStorage itemNuke;
+		private Coroutine timerHandle;
+		private CentComm.AlertLevel CurrentAlertLevel;
+		private ItemSlot nukeSlot;
+
+		public ItemSlot NukeSlot => nukeSlot;
+
+		[SerializeField]
+		private bool isAncharable = true;
+
+		public bool IsAncharable => isAncharable;
+
+		private bool isSafetyOn = true;
+
+
+		private bool isCodeRight;
+
+		public bool IsCodeRight => isCodeRight;
+
+		public float explosionRadius = 1500;
+		[SerializeField]
+		private int minTimer = 270;
+		private bool isTimer;
+
+		public bool IsTimer => isTimer;
+
+		private bool isTimerTicking;
+
+		private int currentTimerSeconds;
+		public int CurrentTimerSeconds {
+			get => currentTimerSeconds;
+			private set {
+				currentTimerSeconds = value;
+				OnTimerUpdate.Invoke(currentTimerSeconds);
+			}
+		}
+
+		public static bool Detonated;
+
+		private string currentCode = "";
+		public string CurrentCode => currentCode;
+
+		//Nuke code is only populated on the server
+		private int nukeCode;
+		public int NukeCode => nukeCode;
+
+		public bool UseSyndiNukeCode = false;
+
+		private const string ON_NUKE_SCORE_ENTRY = "nukedStation";
+		private const int ON_NUKE_SCORE_VALUE = -550000;
+
+		public int loadedOnRoundID = 0;
+
+		private void Awake()
+		{
+			currentTimerSeconds = minTimer;
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
+			itemNuke = GetComponent<ItemStorage>();
+			nukeSlot = itemNuke.GetIndexedItemSlot(0);
+			Detonated = false;
+
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+
+			if (UseSyndiNukeCode)
+			{
+				nukeCode = AntagManager.SyndiNukeCode;
+			}
+			else
+			{
+				nukeCode = CodeGenerator();
+			}
+		}
+
+		private void OnDisable()
+		{
+			//Stop nuke detonating after round end or if its been destroyed!
+			StopAllCoroutines();
+		}
+
+		public void OnDespawnServer(DespawnInfo info)
+		{
+			//Stop nuke detonating after round end or if its been destroyed!
+			StopAllCoroutines();
+		}
+
+		public static int CodeGenerator()
+		{
+			return Random.Range(1000, 9999);
+		}
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side))
+				return false;
+
+			//interaction only works if using an ID card on console
+			if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.NukeDisk))
+			{ return false; }
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			Inventory.ServerTransfer(interaction.HandSlot, nukeSlot);
+		}
+
+		#region Detonation
+		[Server]
+		private void Detonate()
+		{
+			if ((gameObject.AssumedWorldPosServer() - MatrixManager.MainStationMatrix.GameObject.AssumedWorldPosServer()).magnitude < explosionRadius)
+			{
+				Detonated = true;
+				//if yes, blow up the nuke
+				RpcDetonate();
+				//Kills everyone on the matrix the nuke is currently on
+				StartCoroutine(WaitForDeath());
+				GameManager.Instance.RespawnCurrentlyAllowed = false;
+				DetonateVideo();
+				ScoreMachine.AddNewScoreEntry(ON_NUKE_SCORE_ENTRY, "Station Nuked",
+					ScoreMachine.ScoreType.Int, ScoreCategory.StationScore, ScoreAlignment.Bad);
+				ScoreMachine.AddToScoreInt(ON_NUKE_SCORE_VALUE, ON_NUKE_SCORE_ENTRY);
+			}
+			else
+			{
+				GameManager.Instance.EndRound(loadedOnRoundID);
+			}
+		}
+
+		//Server telling the nukes to explode
+		[ClientRpc]
+		void RpcDetonate()
+		{
+			DetonateVideo();
+		}
+
+		void DetonateVideo()
+		{
+			SoundAmbientManager.StopAllAudio();
+			//turning off all the UI except for the right panel
+			UIManager.PlayerHealthUI.gameObject.SetActive(false);
+			UIManager.Display.hudBottomHuman.gameObject.SetActive(false);
+			UIManager.Display.hudBottomGhost.gameObject.SetActive(false);
+			ChatUI.Instance.CloseChatWindow();
+
+			//Playing the video
+			UIManager.Display.VideoPlayer.PlayNukeDetVideo();
+		}
+
+		#endregion
+
+
+		#region Buttons related
+
+		/// <summary>
+		/// Tries to add new digit to code input
+		/// </summary>
+		/// <param name="c"></param>
+		/// <returns>true if digit is appended ok</returns>
+		public bool AppendKey(char c)
+		{
+			int digit;
+			if (int.TryParse(c.ToString(), out digit) && currentCode.Length < nukeCode.ToString().Length)
+			{
+				currentCode = CurrentCode + digit;
+				return true;
+			}
+			return false;
+		}
+
+		[Server]
+		public bool? SafetyNuke()
+		{
+			if (!isSafetyOn)
+			{
+				if (isTimer)
+				{
+					if (isTimerTicking)
+					{
+						GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.RoundTime;
+						GameManager.Instance.CentComm.ChangeAlertLevel(CurrentAlertLevel);
+						this.TryStopCoroutine(ref timerHandle);
+						isTimerTicking = false;
+					}
+					isTimer = false;
+				}
+				isSafetyOn = !isSafetyOn;
+				return isSafetyOn;
+			}
+			else if (isCodeRight)
+			{
+				isSafetyOn = !isSafetyOn;
+				return isSafetyOn;
+			}
+			return null;
+		}
+
+		[Server]
+		public bool? AnchorNuke()
+		{
+			if (IsCodeRight && !isSafetyOn)
+			{
+				bool isPushable = !objectBehaviour.IsNotPushable;
+				objectBehaviour.SetIsNotPushable(isPushable);
+				return isPushable;
+			}
+			return null;
+		}
+
+		public bool? ToggleTimer()
+		{
+			if (IsCodeRight && !isSafetyOn)
+			{
+				if (isTimer && isTimerTicking)
+				{
+					isTimerTicking = false;
+					GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.RoundTime;
+					GameManager.Instance.CentComm.ChangeAlertLevel(CurrentAlertLevel);
+					this.TryStopCoroutine(ref timerHandle);
+				}
+				isTimer = !isTimer;
+				return isTimer;
+			}
+			return null;
+		}
+
+		//Server validating the code sent back by the GUI
+		[Server]
+		public bool? Validate()
+		{
+			if (isCodeRight && isTimer && !isTimerTicking)
+			{
+				if (currentCode == "")
+				{
+					return false;
+				}
+				int digit = int.Parse(currentCode);
+				if (digit < minTimer)
+				{
+					return false;
+				}
+				isTimerTicking = true;
+				CurrentTimerSeconds = digit;
+				CurrentAlertLevel = GameManager.Instance.CentComm.CurrentAlertLevel;
+				GameManager.Instance.CentComm.lastAlertChange = GameManager.Instance.RoundTime;
+				GameManager.Instance.CentComm.ChangeAlertLevel(CentComm.AlertLevel.Delta);
+				loadedOnRoundID = GameManager.RoundID;
+				this.StartCoroutine(TickTimer(), ref timerHandle);
+				return true;
+			}
+			if (!isCodeRight)
+			{
+				isCodeRight = CurrentCode == NukeCode.ToString();
+				return isCodeRight;
+			}
+			return null;
+		}
+
+		public void EjectDisk()
+		{
+			if (!nukeSlot.IsEmpty)
+			{
+				Inventory.ServerDrop(nukeSlot);
+				isCodeRight = false;
+				Clear();
+			}
+		}
+
+		public void Clear()
+		{
+			currentCode = "";
+		}
+
+		#endregion
+
+		IEnumerator WaitForDeath()
+		{
+			yield return WaitFor.Seconds(2.5f);
+
+			//Grab the bounds of the matrix, grab all living creatures that are close-ish
+			//to the center of the matrix and gib them if they are within the bounds
+			//This is done instead of iterating over PresentPlayers on that matrix so that if a player is
+			//nearby but over a space tile or on a seperate matrix they still get gibbed
+
+			var matrix = gameObject.GetMatrixRoot();
+
+			//Prevent shenanigans caused by removal of the tile below the nuke
+			if (matrix.IsSpaceMatrix && MatrixManager.MainStationMatrix.WorldBounds.Contains(gameObject.AssumedWorldPosServer()))
+			{
+				matrix = MatrixManager.MainStationMatrix.Matrix;
+			}
+
+			var matrixbounds = matrix.MatrixInfo.WorldBounds;
+			float searchradius = Mathf.Max(matrixbounds.size.x, matrixbounds.size.y);
+			var grabEntities = ComponentsTracker<LivingHealthMasterBase>.GetAllNearbyTypesToLocation(matrixbounds.center, searchradius, bypassInventories:true);
+			foreach (LivingHealthMasterBase livingHealth in grabEntities)
+			{
+				if (matrixbounds.Contains(livingHealth.GetComponent<RegisterTile>().WorldPosition))
+				{
+					//Cyborgs wont actually die from livingHealth.Death() so gib everything instead
+					livingHealth.GetComponent<IGib>()?.OnGib(true);
+				}
+			}
+			yield return WaitFor.Seconds(10f);
+			// Trigger end of round
+			GameManager.Instance.RoundEndTime = 10;
+			GameManager.Instance.EndRound(loadedOnRoundID);
+		}
+
+		IEnumerator TickTimer()
+		{
+			while (CurrentTimerSeconds > 0)
+			{
+				CurrentTimerSeconds -= 1;
+				SoundManager.PlayNetworkedAtPos(TimerTickSound, gameObject.AssumedWorldPosServer());
+				yield return WaitFor.Seconds(1);
+			}
+			Detonate();
+		}
+		public string AdminInfoString()
+		{
+			return $"Nuke Code: {nukeCode}";
+		}
+	}
+	public class NukeTimerEvent : UnityEvent<int> { }
+}

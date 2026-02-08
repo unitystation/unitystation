@@ -1,0 +1,69 @@
+﻿using System;
+using UnityEngine;
+using US13.Core.Sprite_Handler;
+using US13.Managers.UpdateManager;
+
+namespace US13.Core.Lighting.Animations
+{
+	public class GraphLightAnimator : MonoBehaviour, ILightAnimation
+	{
+		public bool AnimationActive { get; set; } = false;
+
+		[SerializeField] private SpriteHandler spriteHandler;
+		[SerializeField] private LightSource source;
+		[SerializeField] private AnimationCurve curve;
+		[SerializeField] private float duration = 0.75f;
+		[SerializeField] private Color defaultStateOnUpdateEnd = Color.white;
+		[SerializeField] private Color colorToAnimateTowards = Color.white;
+		private DateTime timeSinceAnimStart = DateTime.Now;
+
+		SpriteHandler ILightAnimation.SpriteHandler
+		{
+			get => spriteHandler;
+			set => spriteHandler = value;
+		}
+
+		LightSource ILightAnimation.Source
+		{
+			get => source;
+			set => source = value;
+		}
+
+		[field: SerializeField] public int ID { get; set; }
+
+		public void AnimateLight()
+		{
+			float elapsedTime = (float)(DateTime.Now.Ticks - timeSinceAnimStart.Ticks) / TimeSpan.TicksPerSecond / duration;
+			float t = curve.Evaluate(elapsedTime);
+			Color lerpedColor = Color.Lerp(source.CurrentOnColor, colorToAnimateTowards, t);
+			source.LightSpriteUsed.Color = lerpedColor;
+			if (t >= 1)
+			{
+				timeSinceAnimStart = DateTime.Now;
+				source.LightSpriteUsed.Color = defaultStateOnUpdateEnd;
+			}
+		}
+
+		public void StopAnimation()
+		{
+			if (AnimationActive == false) return;
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			source.LightSpriteUsed.Color = defaultStateOnUpdateEnd;
+			AnimationActive = false;
+		}
+
+		public void StartAnimation()
+		{
+			if (AnimationActive) return;
+			defaultStateOnUpdateEnd = source.CurrentOnColor;
+			timeSinceAnimStart = DateTime.Now;
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			AnimationActive = true;
+		}
+
+		public void UpdateMe()
+		{
+			AnimateLight();
+		}
+	}
+}

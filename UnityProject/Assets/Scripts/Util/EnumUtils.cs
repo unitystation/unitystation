@@ -1,20 +1,18 @@
-﻿using System;
-using System.ComponentModel;
-using System.Linq;
-using System.Reflection;
-
-public static class EnumUtils
+﻿namespace Util
 {
-	public static int GetSetBitCount(long lValue)
+	public static class EnumUtils
 	{
-		int iCount = 0;
-
-		while (lValue != 0)
+		public static int GetSetBitCount(long lValue)
 		{
-			lValue = lValue & (lValue - 1);
-			iCount++;
-		}
+			int iCount = 0;
 
-		return iCount;
+			while (lValue != 0)
+			{
+				lValue = lValue & (lValue - 1);
+				iCount++;
+			}
+
+			return iCount;
+		}
 	}
 }

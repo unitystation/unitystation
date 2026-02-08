@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace IngameDebugConsole
+namespace IngameDebugConsole.Scripts
 {
 	/// <summary>
 	/// Container for a simple debug entry

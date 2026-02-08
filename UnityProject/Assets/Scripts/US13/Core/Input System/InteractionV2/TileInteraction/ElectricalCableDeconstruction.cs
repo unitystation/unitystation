@@ -1,0 +1,73 @@
+﻿using UnityEngine;
+using US13.Health;
+using US13.HealthV2.Living;
+using US13.Items.Traits;
+using US13.Systems.Electricity.FunctionsAndClasses;
+using US13.Tilemaps.Utils;
+
+namespace US13.Core.Input_System.InteractionV2.TileInteraction
+{
+	/// <summary>
+	/// Used for deconstructing cables in a Thread Friendly way
+	/// </summary>
+	[CreateAssetMenu(fileName = "ElectricalCableDeconstruction",
+		menuName = "Interaction/TileInteraction/ElectricalCableDeconstruction")]
+	public class ElectricalCableDeconstruction : TileInteraction
+	{
+		[Tooltip(
+			"Trait required on the used item in order to deconstruct the tile. If welder, will check if welder is on.")]
+		[SerializeField]
+		private ItemTrait requiredTrait = null;
+
+		// TODO Unused. See https://github.com/unitystation/unitystation/issues/3903
+		[Tooltip("Action message to performer when they begin this interaction.")]
+		[SerializeField]
+		private string performerStartActionMessage = null;
+
+		[Tooltip(
+			"Use {performer} for performer name. Action message to others when the performer begins this interaction.")]
+		[SerializeField]
+		private string othersStartActionMessage = null;
+
+		// Start is called before the first frame update
+		public override bool WillInteract(TileApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (requiredTrait == CommonTraits.Instance.Welder)
+			{
+				return Validations.HasUsedActiveWelder(interaction);
+			}
+
+			return Validations.HasItemTrait(interaction.HandObject, requiredTrait);
+		}
+
+		public override void ServerPerformInteraction(TileApply interaction)
+		{
+			string othersMessage = Chat.Chat.ReplacePerformer(othersStartActionMessage, interaction.Performer);
+			Chat.Chat.AddActionMsgToChat(interaction.Performer, performerStartActionMessage, othersMessage);
+			if (interaction.BasicTile.LayerType != LayerType.Electrical) return;
+
+			var electricalCable = interaction.BasicTile as ElectricalCableTile;
+			if (electricalCable == null) return;
+
+			var matrix = interaction.TileChangeManager.MetaTileMap.Layers[LayerType.Electrical].Matrix;
+			var metaDataNode = matrix.GetMetaDataNode(interaction.TargetCellPos);
+
+			foreach (var electricalData in metaDataNode.ElectricalData)
+			{
+				if (electricalData.RelatedTile != electricalCable) continue;
+
+				// Electrocute the performer. If shock is painful enough, cancel the interaction.
+				ElectricityFunctions.WorkOutActualNumbers(electricalData.InData);
+				float voltage = electricalData.InData.Data.ActualVoltage;
+				var electrocution = new Electrocution(voltage, interaction.WorldPositionTarget, "cable");
+				var performerLhb = interaction.Performer.GetComponent<LivingHealthMasterBase>();
+				var severity = performerLhb.Electrocute(electrocution);
+				if (severity > LivingShockResponse.Mild) return;
+
+				electricalData.InData.DestroyThisPlease();
+				return;
+			}
+		}
+	}
+}

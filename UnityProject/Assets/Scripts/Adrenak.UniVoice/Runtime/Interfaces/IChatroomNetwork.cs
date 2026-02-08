@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Adrenak.UniVoice.Runtime.Types;
 
-namespace Adrenak.UniVoice {
+namespace Adrenak.UniVoice.Runtime.Interfaces {
     /// <summary>
     /// A chatroom specific networking interface for creating & joining
     /// chatrooms and sending & receiving data to and from chatroom peers.

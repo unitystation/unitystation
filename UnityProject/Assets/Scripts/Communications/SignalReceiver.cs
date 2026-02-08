@@ -1,8 +1,9 @@
 using System;
-using Managers;
 using Mirror;
-using ScriptableObjects.Communications;
 using UnityEngine;
+using US13.Core.Lifecycle;
+using US13.Managers;
+using US13.Managers.NetworkManagement;
 using Random = UnityEngine.Random;
 
 namespace Communications

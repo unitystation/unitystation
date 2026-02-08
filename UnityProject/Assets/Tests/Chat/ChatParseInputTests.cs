@@ -1,4 +1,6 @@
 ﻿using NUnit.Framework;
+using US13.Core.Chat;
+using US13.Core.Chat.ChatContext;
 
 namespace Tests
 {

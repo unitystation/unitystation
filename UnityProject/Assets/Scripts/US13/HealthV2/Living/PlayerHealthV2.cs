@@ -1,0 +1,329 @@
+﻿using System;
+using System.Collections;
+using Mirror;
+using UnityEngine;
+using US13.Core.Addressables;
+using US13.Core.Chat;
+using US13.Health;
+using US13.Health.Objects;
+using US13.HealthV2.Living.CirculatorySystem;
+using US13.Managers;
+using US13.Managers.NetworkManagement;
+using US13.Messages.Server;
+using US13.Messages.Server.SoundMessages;
+using US13.Player;
+using US13.Player.Movement;
+using US13.Player.MovementV2;
+using US13.Systems.Inventory;
+using US13.Systems.StatusesAndEffects.Implementations;
+using US13.Tilemaps.Behaviours.Objects;
+using Util;
+using Event = US13.Managers.Event;
+
+namespace US13.HealthV2.Living
+{
+	public class PlayerHealthV2 : LivingHealthMasterBase, RegisterPlayer.IControlPlayerState
+	{
+		private MovementSynchronisation playerMove;
+		/// <summary>
+		/// Controller for sprite direction and walking into objects
+		/// </summary>
+		public MovementSynchronisation PlayerMove => playerMove;
+
+		private PlayerNetworkActions playerNetworkActions;
+
+		private RegisterPlayer registerPlayer;
+		/// <summary>
+		/// Cached register player
+		/// </summary>
+		public RegisterPlayer RegisterPlayer => registerPlayer;
+
+		private DynamicItemStorage dynamicItemStorage;
+
+		//fixme: not actually set or modified. keep an eye on this!
+		public bool serverPlayerConscious { get; set; } = true; //Only used on the server
+
+		[SerializeField]
+		private Convulsing convulsionEffect;
+
+		public override void Awake()
+		{
+			base.Awake();
+			playerNetworkActions = GetComponent<PlayerNetworkActions>();
+			playerMove = GetComponent<MovementSynchronisation>();
+			playerSprites = GetComponent<PlayerSprites>();
+			registerPlayer = GetComponent<RegisterPlayer>();
+			dynamicItemStorage = GetComponent<DynamicItemStorage>();
+			OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
+			registerPlayer.AddStatus(this);
+			OnDeath += OnDeathActions;
+		}
+
+		private void OnPlayerConsciousStateChangeServer(ConsciousState oldState, ConsciousState newState)
+		{
+			if (isServer)
+			{
+				switch (newState)
+				{
+					case ConsciousState.CONSCIOUS:
+						playerMove.ServerAllowInput.RemovePosition(this);
+						playerMove.CurrentMovementType = MovementType.Running;
+						break;
+					case ConsciousState.BARELY_CONSCIOUS:
+						//Drop hand items when unconscious
+						foreach (var itemSlot in playerScript.DynamicItemStorage.GetHandSlots())
+						{
+							Inventory.ServerDrop(itemSlot);
+						}
+						playerMove.ServerAllowInput.RemovePosition(this);
+						playerMove.CurrentMovementType = MovementType.Crawling;
+						if (oldState == ConsciousState.CONSCIOUS)
+						{
+							//only play the sound if we are falling
+							SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
+						}
+
+						break;
+					case ConsciousState.DEAD:
+					case ConsciousState.UNCONSCIOUS:
+						//Drop items when unconscious
+						foreach (var itemSlot in playerScript.DynamicItemStorage.GetHandSlots())
+						{
+							Inventory.ServerDrop(itemSlot);
+						}
+						playerMove.ServerAllowInput.RecordPosition(this, false);
+						if (oldState == ConsciousState.CONSCIOUS)
+						{
+							//only play the sound if we are falling
+							SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bodyfall, transform.position, sourceObj: gameObject);
+						}
+
+						break;
+				}
+
+				playerScript.ObjectPhysics.StopPulling(false);
+			}
+
+			//we stay upright if buckled or conscious
+			registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.BuckledToObject != null);
+		}
+
+		bool RegisterPlayer.IControlPlayerState.AllowChange(bool rest)
+		{
+			if (rest)
+			{
+				return true;
+			}
+
+			return ConsciousState == ConsciousState.CONSCIOUS;
+		}
+
+		/// <summary>
+		/// Actions the server performs when the player dies
+		/// </summary>
+		private void OnDeathActions()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			AnnounceDeathNearby();
+			registerPlayer.ServerLayDown();
+			TriggerEventMessage.SendTo(gameObject, Event.PlayerDied);
+		}
+
+		private void AnnounceDeathNearby()
+		{
+			PlayerInfo player = playerScript.PlayerInfo;
+			string their = null;
+			if (player != null)
+			{
+				their = playerScript.characterSettings?.TheirPronoun(player.Script);
+			}
+			their ??= "their";
+			Chat.AddActionMsgToChat(gameObject, $"<b>{playerScript.visibleName}</b> seizes up and falls limp, {their} eyes dead and lifeless...");
+		}
+
+		#region Electrocution
+
+		private const int ELECTROCUTION_BURNDAMAGE_MODIFIER = 100; // Less is more.
+		private const int ELECTROCUTION_MAX_DAMAGE = 100; // -1 to disable limit
+		private const int ELECTROCUTION_STUN_PERIOD = 10; // In seconds.
+		private const int ELECTROCUTION_ANIM_PERIOD = 5; // Set less than stun period.
+		private const int ELECTROCUTION_MICROLERP_PERIOD = 15;
+		private BodyPartType electrocutedHand;
+		private BodyPart electrocutedPart;
+		/// <summary>
+		/// Electrocutes a player, applying effects to the victim depending on the electrocution power.
+		/// </summary>
+		/// <param name="electrocution">The object containing all information for this electrocution</param>
+		/// <returns>Returns an ElectrocutionSeverity for when the following logic depends on the elctrocution severity.</returns>
+		public override LivingShockResponse Electrocute(Electrocution electrocution)
+		{
+			electrocutedPart = playerNetworkActions?.activeHand?.GetComponent<BodyPart>();
+
+			if (electrocutedPart != null)
+			{
+				if (playerNetworkActions.CurrentActiveHand == NamedSlot.leftHand)
+				{
+					electrocutedHand = BodyPartType.LeftArm;
+				}
+				else
+				{
+					electrocutedHand = BodyPartType.RightArm;
+				}
+			}
+
+
+			return base.Electrocute(electrocution);
+		}
+
+		/// <summary>
+		/// Calculates the humanoid body's hand-to-foot electrical resistance based on the voltage.
+		/// Based on the figures provided by Wikipedia's electrical injury page (hand-to-hand).
+		/// Trends to 1200 Ohms at significant voltages.
+		/// </summary>
+		/// <param name="voltage">The potential difference across the human</param>
+		/// <returns>float resistance</returns>
+		private float GetNakedHumanoidElectricalResistance(float voltage)
+		{
+			float resistance = 1000 + (3000 / (1 + (float)Math.Pow(voltage / 55, 1.5f)));
+			return resistance *= 1.2f; // A bit more resistance due to slightly longer (hand-foot) path.
+		}
+
+		/// <summary>
+		/// Calculates the player's total resistance using a base humanoid resistance value,
+		/// their health and the items the performer is wearing or holding.
+		/// Assumes the player is a humanoid.
+		/// </summary>
+		/// <param name="voltage">The potential difference across the player</param>
+		/// <returns>float resistance</returns>
+		protected override float ApproximateElectricalResistance(Electrocution electrocution)
+		{
+			// Assume the player is a humanoid
+			float resistance = GetNakedHumanoidElectricalResistance(electrocution.Voltage);
+
+			if (electrocution.IgnoreProtection == false)
+			{
+				// Give the humanoid extra/less electrical resistance based on what they're holding/wearing
+				foreach (var itemSlot in dynamicItemStorage.GetNamedItemSlots(NamedSlot.hands))
+				{
+					resistance += Electrocution.GetItemElectricalResistance(itemSlot.ItemObject);
+				}
+				foreach (var itemSlot in dynamicItemStorage.GetNamedItemSlots(NamedSlot.feet))
+				{
+					resistance += Electrocution.GetItemElectricalResistance(itemSlot.ItemObject);
+				}
+				// A solid grip on a conductive item will reduce resistance - assuming it is conductive.
+				if (dynamicItemStorage?.GetActiveHandSlot()?.Item != null) resistance -= 300;
+			}
+
+			// Broken skin reduces electrical resistance - arbitrarily chosen at 4 to 1.
+			resistance -= 4 * GetTotalBruteDamage();
+
+			// Make sure the humanoid doesn't get ridiculous conductivity.
+			if (resistance < 100) resistance = 100;
+			return resistance;
+		}
+
+		/// <summary>
+		/// Applies burn damage to the specified victim's bodyparts.
+		/// Attack type is internal, so as to avoid needing to add electrical resistances to Armor class.
+		/// </summary>
+		/// <param name="damage">The amount of damage to apply to the bodypart</param>
+		/// <param name="bodypart">The BodyPartType to damage.</param>
+		private void DealElectrocutionDamage(float damage, BodyPartType bodypart)
+		{
+			ApplyDamageToBodyPart(null, damage, AttackType.Internal, DamageType.Burn, bodypart);
+		}
+
+		protected override void MildElectrocution(Electrocution electrocution, float shockPower)
+		{
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.ElectricShock, registerPlayer.WorldPosition);
+			Chat.AddExamineMsgFromServer(gameObject, $"The {electrocution.ShockSourceName} gives you a slight tingling sensation...");
+		}
+
+		private void AddConvulsingEffect(int stacks = 1)
+		{
+			var convulsing = Instantiate(convulsionEffect);
+			convulsing.InitialStacks = stacks;
+			playerScript.StatusEffectManager.AddStatus(convulsing);
+		}
+
+		protected override void PainfulElectrocution(Electrocution electrocution, float shockPower)
+		{
+			// TODO: Add sparks VFX at shockSourcePos.
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Sparks, electrocution.ShockSourcePos);
+			Inventory.ServerDrop(dynamicItemStorage.GetActiveHandSlot());
+
+			// Slip is essentially a yelp SFX.
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.4f, 1.2f));
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Slip, registerPlayer.WorldPosition,
+					audioSourceParameters, sourceObj: gameObject);
+
+			string victimChatString = (electrocution.ShockSourceName != null ? $"The {electrocution.ShockSourceName}" : "Something") +
+					" gives you a small electric shock!";
+			Chat.AddExamineMsgFromServer(gameObject, victimChatString);
+
+			AddConvulsingEffect();
+
+			DealElectrocutionDamage(5, electrocutedHand);
+		}
+
+		protected override void LethalElectrocution(Electrocution electrocution, float shockPower)
+		{
+			// TODO: Add sparks VFX at shockSourcePos.
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Sparks, electrocution.ShockSourcePos);
+			StartCoroutine(ElectrocutionSequence());
+
+			string victimChatString, observerChatString;
+			if (electrocution.ShockSourceName != null)
+			{
+				victimChatString = $"The {electrocution.ShockSourceName} electrocutes you!";
+				observerChatString = $"{gameObject.ExpensiveName()} is electrocuted by the {electrocution.ShockSourceName}!";
+			}
+			else
+			{
+				victimChatString = $"Something electrocutes you!";
+				observerChatString = $"{gameObject.ExpensiveName()} is electrocuted by something!";
+			}
+			Chat.AddCombatMsgToChat(gameObject, victimChatString, observerChatString);
+
+			var damage = shockPower / ELECTROCUTION_BURNDAMAGE_MODIFIER;
+			if (ELECTROCUTION_MAX_DAMAGE != -1 && damage > ELECTROCUTION_MAX_DAMAGE) damage = ELECTROCUTION_MAX_DAMAGE;
+			DealElectrocutionDamage(damage * 0.4f, electrocutedHand);
+			DealElectrocutionDamage(damage * 0.25f, BodyPartType.Chest);
+			DealElectrocutionDamage(damage * 0.175f, BodyPartType.LeftLeg);
+			DealElectrocutionDamage(damage * 0.175f, BodyPartType.RightLeg);
+
+			AddConvulsingEffect(5);
+		}
+
+		private IEnumerator ElectrocutionSequence()
+		{
+			float timeBeforeDrop = 0.5f;
+
+			RpcToggleElectrocutedOverlay();
+			// TODO: Add micro-lerping here. (Player quick but short vertical, horizontal movements)
+
+			yield return WaitFor.Seconds(timeBeforeDrop); // Instantly dropping to ground looks odd.
+														  // TODO: Add sparks VFX at shockSourcePos.
+			registerPlayer.ServerStun(ELECTROCUTION_STUN_PERIOD - timeBeforeDrop);
+
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.8f, 1.2f));
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bodyfall, registerPlayer.WorldPosition,
+					audioSourceParameters, sourceObj: gameObject);
+
+			yield return WaitFor.Seconds(ELECTROCUTION_ANIM_PERIOD - timeBeforeDrop);
+			RpcToggleElectrocutedOverlay();
+
+			//yield return WaitFor.Seconds(ELECTROCUTION_MICROLERP_PERIOD - ELECTROCUTION_ANIM_PERIOD - timeBeforeDrop);
+			// TODO: End micro-lerping here.
+		}
+
+		[ClientRpc]
+		private void RpcToggleElectrocutedOverlay()
+		{
+			playerSprites.ToggleElectrocutedOverlay();
+		}
+
+		#endregion Electrocution
+	}
+}

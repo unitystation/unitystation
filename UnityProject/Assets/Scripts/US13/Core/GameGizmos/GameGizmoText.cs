@@ -1,0 +1,20 @@
+using TMPro;
+using UnityEngine;
+
+namespace US13.Core.GameGizmos
+{
+	public class GameGizmoText : GameGizmoTracked
+	{
+		public TMP_Text text;
+
+
+		public void SetUp(GameObject TrackingFrom, Vector3 Position, string Text, Color Colour, float TextSize = 3)
+		{
+			SetUp(Position, TrackingFrom);
+			text.text = Text;
+			text.color = Colour;
+			text.fontSize = TextSize;
+		}
+
+	}
+}

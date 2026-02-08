@@ -1,0 +1,119 @@
+using System.Collections;
+using System.Threading.Tasks;
+using Communications;
+using Mirror;
+using UnityEngine;
+using US13.Core.Input_System.InteractionV2;
+using US13.Core.Input_System.InteractionV2.Interactions;
+using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Core.Lifecycle;
+using US13.Health.Objects;
+using US13.HealthV2;
+using US13.HealthV2.Living;
+using US13.HealthV2.Living.CirculatorySystem;
+using US13.Managers;
+using US13.Systems.Inventory;
+using Util;
+
+namespace US13.Items.Weapons
+{
+	public class ImplantExplosive : ExplosiveBase, IServerSpawn, ICheckedInteractable<InventoryApply>, IInteractable<HandActivate>
+	{
+		[SerializeField] BodyPart bodyPart;
+
+		protected override void Detonate()
+		{
+			if (bodyPart.ContainedIn != null)
+			{
+				if (explosiveStrength >= 750)
+				{
+					LivingHealthMasterBase master = bodyPart.HealthMaster;
+					BodyPart containedIn = bodyPart.ContainedIn;
+
+					if(containedIn != null) Inventory.ServerDrop(containedIn.OrganStorage.GetSlotFromItem(this.gameObject));
+					if (master != null)
+					{
+						//Drop all the players stuff so that the explosion can destroy and trigger destruction events
+						Inventory.ServerDropAll(master.playerScript.DynamicItemStorage);
+
+						//Macrobombs and microbombs will gib their victim
+						master.OnGib();
+					}
+				}
+				else if (bodyPart.ContainedIn.BodyPartType != BodyPartType.Chest)
+				{
+					//Removes limb it is implanted in
+					bodyPart.HealthMaster.DismemberBodyPart(bodyPart.ContainedIn);
+				}
+				else
+				{
+					//This prevents those with bomb proof armour from just tanking an explosion thats supposed to be inside them
+					bodyPart.HealthMaster.ApplyDamageToBodyPart(gameObject, 200, AttackType.Internal, DamageType.Burn, bodyPart.ContainedIn.BodyPartType);
+				}
+
+			}
+
+			base.Detonate();
+		}
+
+		public bool WillInteract(InventoryApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (interaction.UsedObject != null && interaction.UsedObject.TryGetComponent<SignalEmitter>(out var emitter) == false) return false;
+			return true;
+		}
+
+		public void ServerPerformInteraction(InventoryApply interaction)
+		{
+			if (HackEmitter(interaction)) return;
+			explosiveGUI.ServerPerformInteraction(interaction);
+		}
+
+		public void ServerPerformInteraction(HandActivate interaction)
+		{
+			explosiveGUI.ServerPerformInteraction(interaction);
+		}
+
+		[Server]
+		public override IEnumerator Countdown()
+		{
+			if (countDownActive) yield break;
+
+			countDownActive = true;
+			spriteHandler.SetSpriteSO(activeSpriteSO);
+
+			if (GUI != null) GUI.StartCoroutine(GUI.UpdateTimer());
+
+			WaitForSeconds delay = new WaitForSeconds(1); //Should prevent garbage in repeated delay
+
+			for(int i = 0; i < timeToDetonate; i++)
+			{
+				PlayBeepAtPos();
+				yield return delay;
+			}
+
+			this.Detonate();
+		}
+
+		async Task PlayBeepAtPos() //async so doesn't effect how long countdown takes
+		{
+			Vector3 pos;
+
+			if (bodyPart.HealthMaster != null)
+			{
+				pos = bodyPart.HealthMaster.playerScript.AssumedWorldPos;
+			}
+			else
+			{
+				pos = gameObject.AssumedWorldPosServer();
+			}
+
+			await SoundManager.PlayNetworkedAtPosAsync(beepSound, pos);
+		}
+		private void OnDisable()
+		{
+			Emitter = null;
+		}
+
+	}
+}
