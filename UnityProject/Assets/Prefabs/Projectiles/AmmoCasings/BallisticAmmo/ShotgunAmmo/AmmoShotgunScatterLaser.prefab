@@ -11,11 +11,23 @@ PrefabInstance:
     - target: {fileID: -4441519557137854397, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: ProjectilesFired
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: -4441519557137854397, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: initalProjectile
+      value: 
+      objectReference: {fileID: 329406111395128910, guid: c99068ab7096b3d4fb6bd8673eb6b7c8,
+        type: 3}
     - target: {fileID: 2361978366132242104, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 874f4d02579b25d43b44e32fbb21df70,
+        type: 2}
+    - target: {fileID: 2361978366132242104, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 874f4d02579b25d43b44e32fbb21df70,
         type: 2}

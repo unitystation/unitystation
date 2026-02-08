@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 591280896044672247, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
+      propertyPath: maxDistance
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 2318685547332036631, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
       propertyPath: m_Sprite
@@ -161,3 +166,4 @@ MonoBehaviour:
   explosionPrefab: {fileID: 1516046346184751261, guid: 5c989e33fac52e543b05e6356af6a1fe,
     type: 3}
   explosionStrength: 80
+  explodeOnMaxRange: 1

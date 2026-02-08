@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace Weapons.Projectiles.Behaviours
 {
@@ -10,6 +11,11 @@ namespace Weapons.Projectiles.Behaviours
 		[Tooltip("How many tiles it will travel.")]
 		[SerializeField] private float maxDistance = 15;
 		private float currentDistance;
+
+		/// <summary>
+		/// Invoked when the projectile reaches or exceeds its max distance (before the projectile is removed).
+		/// </summary>
+		public event Action OnMaxDistanceReached;
 
 		public float CurrentDistance => currentDistance;
 
@@ -29,6 +35,7 @@ namespace Weapons.Projectiles.Behaviours
 			currentDistance += distance;
 			if (maxDistance <= currentDistance)
 			{
+				OnMaxDistanceReached?.Invoke();
 				return true;
 			}
 
