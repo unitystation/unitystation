@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 using US13.Health.Objects;
-using US13.HealthV2.Living.BodyParts.Damage;
-using US13.HealthV2.Living.BodyParts.Damage.Trauma;
 using US13.HealthV2.Living.MedicalChemistry;
 using Util;
 
-namespace US13.HealthV2.Living.Damage.Trauma.TraumaTypes
+namespace US13.HealthV2.Living.BodyParts.Damage.Trauma.TraumaTypes
 {
 	public class TraumaRadiationAfflict : TraumaLogic
 	{

@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using US13.Core.Chat;
 using US13.Health.Objects;
-using US13.HealthV2.Living.BodyParts.Damage;
-using US13.HealthV2.Living.BodyParts.Damage.Trauma;
 using Util;
 
-namespace US13.HealthV2.Living.Damage.Trauma.TraumaTypes
+namespace US13.HealthV2.Living.BodyParts.Damage.Trauma.TraumaTypes
 {
 	public class TraumaSlashHumanoid : TraumaLogic
 	{
