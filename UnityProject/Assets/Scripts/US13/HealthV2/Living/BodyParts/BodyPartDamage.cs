@@ -4,12 +4,11 @@ using Logs;
 using NaughtyAttributes;
 using UnityEngine;
 using US13.Health.Objects;
-using US13.HealthV2.Living.BodyParts;
 using US13.UI.Systems;
 using US13.UI.Systems.Alerts;
 using Util;
 
-namespace US13.HealthV2.Living.Damage
+namespace US13.HealthV2.Living.BodyParts
 {
 	public partial class BodyPart
 	{
@@ -449,7 +448,7 @@ namespace US13.HealthV2.Living.Damage
 			}
 			else
 			{
-				var organBodyPart = EnumerableExt.PickRandom<CirculatorySystem.BodyPart>(containBodyParts); //It's not like you can aim for Someone's liver can you
+				var organBodyPart = EnumerableExt.PickRandom<BodyPart>(containBodyParts); //It's not like you can aim for Someone's liver can you
 				organBodyPart.TakeDamage(null, subDamage, attackType , damageType);
 			}
 		}

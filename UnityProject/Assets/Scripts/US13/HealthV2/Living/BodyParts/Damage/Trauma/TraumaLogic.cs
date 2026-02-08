@@ -5,7 +5,7 @@ using US13.Core.Addressables.Types;
 using US13.Managers;
 using Util;
 
-namespace US13.HealthV2.Living.Damage.Trauma
+namespace US13.HealthV2.Living.BodyParts.Damage.Trauma
 {
 	public abstract class TraumaLogic : MonoBehaviour
 	{
@@ -13,7 +13,7 @@ namespace US13.HealthV2.Living.Damage.Trauma
 		public TraumaticDamageTypes traumaTypes { get; private set; } = TraumaticDamageTypes.NONE;
 
 		[SerializeField] protected float deadlyDamageInOneHit = 55f;
-		[SerializeField] protected CirculatorySystem.BodyPart bodyPart;
+		[SerializeField] protected BodyPart bodyPart;
 
 		[SerializeField] protected List<AddressableAudioSource> onTakeDamageSounds = new List<AddressableAudioSource>();
 		[SerializeField] protected bool playTraumaNoise = false;

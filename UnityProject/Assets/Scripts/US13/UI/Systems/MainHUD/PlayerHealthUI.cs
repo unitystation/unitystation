@@ -3,6 +3,7 @@ using Prefabs.Mobs;
 using UnityEngine;
 using UnityEngine.UI;
 using US13.HealthV2;
+using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 using US13.Managers.UpdateManager;
 using US13.Player;

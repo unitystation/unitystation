@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using US13.HealthV2.Living.Damage.Trauma;
 
-namespace US13.HealthV2.Living.Damage.Trauma
+namespace US13.HealthV2.Living.BodyParts.Damage.Trauma
 {
 	public class CreatureTraumaManager : MonoBehaviour
 	{
-		public Dictionary<CirculatorySystem.BodyPart, BodyPartTrauma> Traumas { get; private set; } = new Dictionary<CirculatorySystem.BodyPart, BodyPartTrauma>();
+		public Dictionary<BodyPart, BodyPartTrauma> Traumas { get; private set; } = new();
 		[SerializeField] private LivingHealthMasterBase health;
 
 
@@ -15,7 +16,7 @@ namespace US13.HealthV2.Living.Damage.Trauma
 			if (health == null) health = GetComponent<LivingHealthMasterBase>();
 		}
 
-		public bool HealBodyPartTrauma(CirculatorySystem.BodyPart bodyPart, TraumaticDamageTypes traumaToHeal)
+		public bool HealBodyPartTrauma(BodyPart bodyPart, TraumaticDamageTypes traumaToHeal)
 		{
 			if (bodyPart == null || Traumas.ContainsKey(bodyPart) == false) return false;
 			return Traumas[bodyPart].HealTraumaStage(traumaToHeal);

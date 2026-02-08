@@ -3,6 +3,8 @@ using Logs;
 using UnityEngine;
 using US13.Core.Chat;
 using US13.Health.Objects;
+using US13.HealthV2.Living.BodyParts.Damage;
+using US13.HealthV2.Living.BodyParts.Damage.Trauma;
 using US13.Managers.UpdateManager;
 using Util;
 

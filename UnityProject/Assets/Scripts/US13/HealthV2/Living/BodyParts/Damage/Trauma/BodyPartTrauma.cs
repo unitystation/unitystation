@@ -2,7 +2,7 @@
 using Logs;
 using UnityEngine;
 
-namespace US13.HealthV2.Living.Damage.Trauma
+namespace US13.HealthV2.Living.BodyParts.Damage.Trauma
 {
 	public class BodyPartTrauma : BodyPartFunctionality
 	{

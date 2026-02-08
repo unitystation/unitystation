@@ -5,15 +5,15 @@ using US13.Objects.Directionals;
 using Util;
 using Random = UnityEngine.Random;
 
-namespace US13.HealthV2.Living.Damage.Trauma
+namespace US13.HealthV2.Living.BodyParts.Damage.Trauma
 {
 	public class BloodSplater : MonoBehaviour
 	{
-		[SerializeField] private CirculatorySystem.BodyPart bodyPart;
+		[SerializeField] private BodyPart bodyPart;
 		[SerializeField] private float minimumDamageRequired = 8;
 		private void Awake()
 		{
-			if (bodyPart == null) bodyPart = GetComponentInParent<CirculatorySystem.BodyPart>();
+			if (bodyPart == null) bodyPart = GetComponentInParent<BodyPart>();
 			bodyPart.OnDamageTaken += OnTakeDamage;
 		}
 

@@ -6,7 +6,7 @@ using UnityEngine;
 using US13.Core.Chat;
 using US13.Core.Lifecycle;
 using US13.Core.Utils;
-using US13.HealthV2.Living.Damage;
+using US13.HealthV2.Living.BodyParts.Damage;
 using US13.HealthV2.Living.Surgery.Procedures;
 using US13.Items;
 using US13.Items.Implants.Organs;
@@ -18,7 +18,7 @@ using US13.Systems.Lobby;
 using US13.UI.Core;
 using US13.UI.Objects.Medical.genetics.SudokuPuzzle.sudoku_generator;
 using Util;
-using BodyPart = US13.HealthV2.Living.CirculatorySystem.BodyPart;
+using BodyPart = US13.HealthV2.Living.CirculatorySystem;
 using Random = UnityEngine.Random;
 
 namespace US13.HealthV2.Living

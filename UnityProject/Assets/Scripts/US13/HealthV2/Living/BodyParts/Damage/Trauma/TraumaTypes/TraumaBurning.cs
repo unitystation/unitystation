@@ -3,6 +3,8 @@ using US13.Core.Chat;
 using US13.Core.Lifecycle;
 using US13.Core.Sprite_Handler;
 using US13.Health.Objects;
+using US13.HealthV2.Living.BodyParts.Damage;
+using US13.HealthV2.Living.BodyParts.Damage.Trauma;
 using US13.Systems.Inventory;
 using Util;
 using Util.Independent.FluentRichText;

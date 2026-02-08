@@ -5,6 +5,7 @@ using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.HealthV2;
 using US13.HealthV2.Living;
+using US13.HealthV2.Living.BodyParts.Damage.Trauma;
 using US13.HealthV2.Living.Damage.Trauma;
 using US13.HealthV2.Living.Surgery;
 using US13.UI.Core.ProgressBar;

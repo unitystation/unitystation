@@ -2,6 +2,7 @@
 using US13.Core.Factories;
 using US13.HealthV2;
 using US13.HealthV2.Living;
+using US13.HealthV2.Living.BodyParts.Damage.Trauma;
 using US13.HealthV2.Living.Damage.Trauma;
 using US13.Managers;
 using Util;
