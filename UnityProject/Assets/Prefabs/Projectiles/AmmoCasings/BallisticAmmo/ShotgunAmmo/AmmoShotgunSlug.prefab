@@ -121,6 +121,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4ea3027d152d5b140a05502c6de74c01,
         type: 2}
+    - target: {fileID: 5395694184195221582, guid: 31d01d60b659392429fe6a6384563082,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ea3027d152d5b140a05502c6de74c01,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -152,7 +158,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   magType: 1
-  initalProjectile: {fileID: 2003804624138751089, guid: 0db28ea7632de0b4593a32bba473e844,
+  initalProjectile: {fileID: 4522712337488153039, guid: b6e30da8af01a264a88eb7fd31299407,
     type: 3}
   ProjectilesFired: 1
   ammoType: 15

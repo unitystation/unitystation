@@ -18,6 +18,40 @@ namespace Weapons.Projectiles.Behaviours
 		[SerializeField, HideIf(nameof(useExplosionPrefab))]
 		private int explosionStrength = 80;
 
+		[SerializeField, Tooltip("When true the projectile will also explode when it reaches its maximum range (ProjectileRangeLimited).")]
+		private bool explodeOnMaxRange = false;
+
+		private ProjectileRangeLimited rangeLimited;
+		private bool hasExploded;
+
+		private void OnEnable()
+		{
+			// Reset exploded state to make it reusable from poolConfig.
+			hasExploded = false;
+
+			if (!explodeOnMaxRange) return;
+
+			rangeLimited = GetComponent<ProjectileRangeLimited>();
+			if (rangeLimited != null)
+			{
+				rangeLimited.OnMaxDistanceReached += HandleMaxRangeReached;
+			}
+		}
+
+		private void OnDisable()
+		{
+			if (rangeLimited != null)
+			{
+				rangeLimited.OnMaxDistanceReached -= HandleMaxRangeReached;
+			}
+		}
+
+		private void HandleMaxRangeReached()
+		{
+			// use transform.position as the explosion point when range is reached
+			Explode(transform.position);
+		}
+
 		public bool OnHit(MatrixManager.CustomPhysicsHit hit)
 		{
 			if (hit.CollisionHit.GameObject == null)
@@ -36,6 +70,8 @@ namespace Weapons.Projectiles.Behaviours
 		private void Explode(Vector3 worldPosition)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
+			if (hasExploded) return;
+			hasExploded = true;
 
 			Vector3Int worldTilePosition = worldPosition.CutToInt();
 
