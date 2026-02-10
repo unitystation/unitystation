@@ -1,8 +1,8 @@
-﻿using Standard_Assets.HSVPicker.UtilityScripts;
+﻿#if UNITY_EDITOR
+using Standard_Assets.HSVPicker.UtilityScripts;
 using UnityEditor;
 using UnityEditor.UI;
 
-#if UNITY_EDITOR
 namespace Standard_Assets.Editor
 {
 	[CustomEditor(typeof(BoxSlider), true)]
