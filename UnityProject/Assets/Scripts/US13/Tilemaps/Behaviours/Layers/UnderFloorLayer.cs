@@ -1,16 +1,19 @@
 using Logs;
 using NaughtyAttributes;
-using UnityEditor;
-using UnityEditor.SceneManagement;
 using UnityEngine;
 using US13.Objects.Disposals;
 using US13.Objects.Pipes;
 using US13.Systems.Electricity.FunctionsAndClasses;
 
+#if UNITY_EDITOR
+using UnityEditor;
+using UnityEditor.SceneManagement;
+#endif
+
 namespace US13.Tilemaps.Behaviours.Layers
 {
 	/// <summary>
-	/// Used for stacking tiles Since thats what happens in the Underfloor stuff
+	/// Used for stacking tiles Since that's what happens in the Underfloor stuff
 	/// </summary>
 	[ExecuteInEditMode]
 	public class UnderFloorLayer : Layer
@@ -93,7 +96,6 @@ namespace US13.Tilemaps.Behaviours.Layers
 			EditorSceneManager.MarkSceneDirty(gameObject.scene);
 			EditorSceneManager.SaveScene(gameObject.scene);
 		}
-
 #endif
 	}
 }

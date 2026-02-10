@@ -80,7 +80,6 @@ namespace Util
 			return "";
 		}
 	}
-#endif
 
 	public class ArrayElementTitleAttribute : PropertyAttribute
 	{
@@ -93,3 +92,4 @@ namespace Util
 		}
 	}
 }
+#endif
