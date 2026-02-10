@@ -60,7 +60,8 @@ namespace US13.Player
 
 		public SpriteDataSO PreviewSprite;
 
-		[SerializeReference, SelectImplementation(typeof(HealthSystemBase))] public List<HealthSystemBase> SystemSettings = new List<HealthSystemBase>();
+		[SerializeReference, SelectImplementation(typeof(HealthSystemBase))]
+		public List<HealthSystemBase> SystemSettings = new List<HealthSystemBase>();
 
 		public List<MutationSO> StartingMutations = new List<MutationSO>();
 	}

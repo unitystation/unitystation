@@ -35,22 +35,22 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 1407928419411034176
-      type: {class: SimpleProclamationText, ns: Systems.Faith.ProclamationGen, asm: Assets}
+      type: {class: SimpleProclamationText, ns: US13.Systems.Faith.ProclamationGen, asm: Assets}
       data:
         Proclamation: There is no god, but god
         Rejection: I do not believe in god anymore
     - rid: 2708802213016240135
-      type: {class: ScienceComesFirst, ns: Systems.Faith.FaithProperties, asm: Assets}
+      type: {class: ScienceComesFirst, ns: US13.Systems.Faith.FaithProperties, asm: Assets}
       data:
         propertyIcon: {fileID: 21300000, guid: 4abf5a8866bc15540960ebfe444ffe19, type: 3}
     - rid: 6780799869088170004
-      type: {class: BlessCrops, ns: Systems.Faith.Miracles, asm: Assets}
+      type: {class: BlessCrops, ns: US13.Systems.Faith.Miracles, asm: Assets}
       data:
         faithMiracleName: Bless Crops
         faithMiracleDesc: Pray for a blessing upon nearby crops.
         miracleIcon: {fileID: 11400000, guid: eb78b8ebd92c01a4d86ba8e5cb4797c9, type: 2}
     - rid: 6780799869088170006
-      type: {class: DarkifyAllLightSources, ns: Systems.Faith.Miracles, asm: Assets}
+      type: {class: DarkifyAllLightSources, ns: US13.Systems.Faith.Miracles, asm: Assets}
       data:
         faithMiracleName: Darkify all Light Sources
         faithMiracleDesc: Turns all light sources into a comfortable warm light.
@@ -61,7 +61,7 @@ MonoBehaviour:
         - {r: 0.8018868, g: 0.6613745, b: 0.3517711, a: 0.5372549}
         - {r: 0.9254902, g: 0.68907875, b: 0.40392154, a: 0.36862746}
     - rid: 6780799869088170008
-      type: {class: GhostOfCarmenMiranda, ns: Systems.Faith.Miracles, asm: Assets}
+      type: {class: GhostOfCarmenMiranda, ns: US13.Systems.Faith.Miracles, asm: Assets}
       data:
         faithMiracleName: Call upon Space Station 3's ghost
         faithMiracleDesc: "The best odds say she likes the rhythms of the stations
@@ -88,7 +88,7 @@ MonoBehaviour:
         - {fileID: 4795735908449438376, guid: 37e025654ce3f9b43bd61c6caf0f79dc, type: 3}
         spawnPointCategory: 37
     - rid: 6780799869088170010
-      type: {class: HealFaithMembers, ns: Systems.Faith.Miracles, asm: Assets}
+      type: {class: HealFaithMembers, ns: US13.Systems.Faith.Miracles, asm: Assets}
       data:
         faithMiracleName: Heal all believers.
         faithMiracleDesc: Heal all alive believers to max health. This does not cure

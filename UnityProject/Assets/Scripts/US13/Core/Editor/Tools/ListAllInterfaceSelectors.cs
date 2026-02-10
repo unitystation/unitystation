@@ -16,6 +16,11 @@ namespace US13.Core.Editor.Tools
 		private List<Result> _results = new List<Result>();
 		private bool _scanned = false;
 
+		// Grouping/filter UI state
+		private string _filterText = string.Empty;
+		private Dictionary<string, bool> _groupVisible = new Dictionary<string, bool>();
+		private Dictionary<string, bool> _groupFoldout = new Dictionary<string, bool>();
+
 		[MenuItem("Tools/US13/List Interface Selectors")]
 		public static void ShowWindow()
 		{
@@ -36,6 +41,18 @@ namespace US13.Core.Editor.Tools
 			{
 				_results.Clear();
 				_scanned = false;
+				_groupVisible.Clear();
+				_groupFoldout.Clear();
+			}
+
+			if (GUILayout.Button("Log Results to Console"))
+			{
+				if (_results.Count == 0) Debug.Log("No results to log. Run Scan first.");
+				else
+				{
+					foreach (var r in _results) Debug.Log(r.ToString());
+					Debug.Log($"Logged {_results.Count} results.");
+				}
 			}
 
 			// Batch fix button: runs AutoFixNamespaces on all found asset paths
@@ -63,44 +80,102 @@ namespace US13.Core.Editor.Tools
 
 			EditorGUILayout.Space();
 
-			EditorGUILayout.LabelField($"Results: {_results.Count}");
+			// Filter and group controls
+			EditorGUILayout.BeginHorizontal();
+			EditorGUILayout.LabelField("Filter:", GUILayout.Width(40));
+			_filterText = EditorGUILayout.TextField(_filterText);
+			if (GUILayout.Button("Clear", GUILayout.Width(50))) _filterText = string.Empty;
+			EditorGUILayout.EndHorizontal();
+
+			EditorGUILayout.Space();
+
+			// Build groups
+			var groups = _results.GroupBy(r => string.IsNullOrEmpty(r.attributeFieldType) ? "<null>" : r.attributeFieldType)
+				.OrderBy(g => g.Key).ToList();
+
+			EditorGUILayout.BeginHorizontal();
+			if (GUILayout.Button("Show All Groups"))
+			{
+				foreach (var g in groups) _groupVisible[g.Key] = true;
+			}
+			if (GUILayout.Button("Hide All Groups"))
+			{
+				foreach (var g in groups) _groupVisible[g.Key] = false;
+			}
+			EditorGUILayout.EndHorizontal();
+
+			EditorGUILayout.Space();
+
+			EditorGUILayout.LabelField($"Results: {_results.Count}   Groups: {groups.Count}", EditorStyles.miniLabel);
 
 			_scroll = EditorGUILayout.BeginScrollView(_scroll);
-			foreach (var r in _results)
-			{
-				EditorGUILayout.BeginVertical("box");
-				EditorGUILayout.LabelField(r.assetPath, EditorStyles.miniLabel);
-				EditorGUILayout.LabelField($"Asset Type: {r.assetType}  \tOwner: {r.ownerType}");
-				EditorGUILayout.LabelField($"Member: {r.memberName}  \tMember Type: {r.memberType}");
-				EditorGUILayout.LabelField($"SelectImplementation FieldType: {r.attributeFieldType}");
 
+			// Render groups
+			foreach (var g in groups)
+			{
+				var key = g.Key;
+				if (!_groupVisible.ContainsKey(key)) _groupVisible[key] = true;
+				if (!_groupFoldout.ContainsKey(key)) _groupFoldout[key] = true;
+
+				EditorGUILayout.BeginVertical("box");
 				EditorGUILayout.BeginHorizontal();
-				if (GUILayout.Button("Ping Asset"))
-				{
-					EditorGUIUtility.PingObject(r.assetRef);
-					Selection.activeObject = r.assetRef;
-				}
-				if (GUILayout.Button("Select Asset"))
-				{
-					Selection.activeObject = r.assetRef;
-				}
-				if (GUILayout.Button("Copy Info"))
-				{
-					var s = r.ToString();
-					EditorGUIUtility.systemCopyBuffer = s;
-					Debug.Log("Copied: " + s);
-				}
-				if (GUILayout.Button("Open Raw"))
-				{
-					RawAssetEditor.ShowEditor(r.assetPath);
-				}
-				if (GUILayout.Button("Auto-Fix Namespaces"))
-				{
-					RawAssetEditor.AutoFixNamespaces(r.assetPath);
-				}
+				_groupVisible[key] = EditorGUILayout.ToggleLeft($"{key} ({g.Count()})", _groupVisible[key], GUILayout.Width(400));
+				_groupFoldout[key] = EditorGUILayout.Foldout(_groupFoldout[key], "Details");
 				EditorGUILayout.EndHorizontal();
+
+				if (_groupVisible[key] && _groupFoldout[key])
+				{
+					// List entries in group filtered by search
+					foreach (var r in g)
+					{
+						if (!String.IsNullOrEmpty(_filterText))
+						{
+							var f = _filterText.ToLowerInvariant();
+							if (!(r.assetPath != null && r.assetPath.ToLowerInvariant().Contains(f) ||
+								(r.ownerType != null && r.ownerType.ToLowerInvariant().Contains(f)) ||
+								(r.memberName != null && r.memberName.ToLowerInvariant().Contains(f)) ||
+								(r.memberType != null && r.memberType.ToLowerInvariant().Contains(f))))
+								continue;
+						}
+
+						EditorGUILayout.BeginVertical("box");
+						EditorGUILayout.LabelField(r.assetPath, EditorStyles.miniLabel);
+						EditorGUILayout.LabelField($"Asset Type: {r.assetType}  \tOwner: {r.ownerType}");
+						EditorGUILayout.LabelField($"Member: {r.memberName}  \tMember Type: {r.memberType}");
+						EditorGUILayout.LabelField($"SelectImplementation FieldType: {r.attributeFieldType}");
+
+						EditorGUILayout.BeginHorizontal();
+						if (GUILayout.Button("Ping Asset"))
+						{
+							EditorGUIUtility.PingObject(r.assetRef);
+							Selection.activeObject = r.assetRef;
+						}
+						if (GUILayout.Button("Select Asset"))
+						{
+							Selection.activeObject = r.assetRef;
+						}
+						if (GUILayout.Button("Copy Info"))
+						{
+							var s = r.ToString();
+							EditorGUIUtility.systemCopyBuffer = s;
+							Debug.Log("Copied: " + s);
+						}
+						if (GUILayout.Button("Open Raw"))
+						{
+							RawAssetEditor.ShowEditor(r.assetPath);
+						}
+						if (GUILayout.Button("Auto-Fix Namespaces"))
+						{
+							RawAssetEditor.AutoFixNamespaces(r.assetPath);
+						}
+						EditorGUILayout.EndHorizontal();
+						EditorGUILayout.EndVertical();
+					}
+				}
+
 				EditorGUILayout.EndVertical();
 			}
+
 			EditorGUILayout.EndScrollView();
 		}
 
@@ -163,11 +238,21 @@ namespace US13.Core.Editor.Tools
 
 		private void AnalyzeObjectMembers(string assetPath, string assetType, Type ownerType, object ownerInstance, UnityEngine.Object assetRef)
 		{
+			AnalyzeObjectMembers(assetPath, assetType, ownerType, ownerInstance, assetRef, "", new HashSet<Type>());
+		}
+
+		private void AnalyzeObjectMembers(string assetPath, string assetType, Type ownerType, object ownerInstance, UnityEngine.Object assetRef, string memberPathPrefix, HashSet<Type> visited)
+		{
+			if (ownerType == null) return;
+			if (visited.Contains(ownerType)) return;
+			visited.Add(ownerType);
+
 			// Check fields
 			var fields = ownerType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 			foreach (var f in fields)
 			{
 				var attr = f.GetCustomAttribute<SelectImplementationAttribute>(true);
+				var memberFullName = string.IsNullOrEmpty(memberPathPrefix) ? f.Name : memberPathPrefix + "." + f.Name;
 				if (attr != null)
 				{
 					_results.Add(new Result
@@ -175,11 +260,34 @@ namespace US13.Core.Editor.Tools
 						assetPath = assetPath,
 						assetType = assetType,
 						ownerType = ownerType.FullName,
-						memberName = f.Name,
-						memberType = f.FieldType.FullName,
+						memberName = memberFullName,
+						memberType = f.FieldType != null ? f.FieldType.FullName : "<null>",
 						attributeFieldType = attr.FieldType != null ? attr.FieldType.FullName : "<null>",
 						assetRef = assetRef
 					});
+				}
+
+				// Recurse into the field's type if it's a serializable class/struct (to find attributes inside nested types)
+				Type fieldType = f.FieldType;
+				// If it's a collection, get the element type
+				if (fieldType.IsArray) fieldType = fieldType.GetElementType();
+				else if (fieldType.IsGenericType)
+				{
+					var genDef = fieldType.GetGenericTypeDefinition();
+					if (genDef == typeof(List<>)) fieldType = fieldType.GetGenericArguments()[0];
+				}
+
+				// Skip primitives, enums, strings and UnityEngine.Object types
+				if (fieldType != null && !fieldType.IsPrimitive && fieldType != typeof(string) && !fieldType.IsEnum && !typeof(UnityEngine.Object).IsAssignableFrom(fieldType))
+				{
+					// For instance value, try to get the actual nested instance to allow deeper traversal with real values (helps for arrays/lists)
+					object nestedInstance = null;
+					if (ownerInstance != null)
+					{
+						try { nestedInstance = f.GetValue(ownerInstance); } catch { nestedInstance = null; }
+					}
+
+					AnalyzeObjectMembers(assetPath, assetType, fieldType, nestedInstance, assetRef, memberFullName, visited);
 				}
 			}
 
@@ -188,6 +296,7 @@ namespace US13.Core.Editor.Tools
 			foreach (var p in props)
 			{
 				var attr = p.GetCustomAttribute<SelectImplementationAttribute>(true);
+				var memberFullName = string.IsNullOrEmpty(memberPathPrefix) ? p.Name : memberPathPrefix + "." + p.Name;
 				if (attr != null)
 				{
 					_results.Add(new Result
@@ -195,11 +304,30 @@ namespace US13.Core.Editor.Tools
 						assetPath = assetPath,
 						assetType = assetType,
 						ownerType = ownerType.FullName,
-						memberName = p.Name,
+						memberName = memberFullName,
 						memberType = p.PropertyType != null ? p.PropertyType.FullName : "<null>",
 						attributeFieldType = attr.FieldType != null ? attr.FieldType.FullName : "<null>",
 						assetRef = assetRef
 					});
+				}
+
+				// Recurse into property type similar to fields (if getter accessible and serializable)
+				Type propType = p.PropertyType;
+				if (propType.IsArray) propType = propType.GetElementType();
+				else if (propType.IsGenericType)
+				{
+					var genDef = propType.GetGenericTypeDefinition();
+					if (genDef == typeof(List<>)) propType = propType.GetGenericArguments()[0];
+				}
+
+				if (propType != null && !propType.IsPrimitive && propType != typeof(string) && !propType.IsEnum && !typeof(UnityEngine.Object).IsAssignableFrom(propType))
+				{
+					object nestedInstance = null;
+					if (ownerInstance != null)
+					{
+						try { nestedInstance = p.GetValue(ownerInstance); } catch { nestedInstance = null; }
+					}
+					AnalyzeObjectMembers(assetPath, assetType, propType, nestedInstance, assetRef, memberFullName, visited);
 				}
 			}
 		}
