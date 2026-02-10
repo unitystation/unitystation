@@ -1,0 +1,108 @@
+﻿using System.Collections.Generic;
+using UnityEngine;
+using US13.Core.Chat;
+using US13.Core.Input_System.InteractionV2;
+using US13.Core.Input_System.InteractionV2.Interactions;
+using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Core.Lifecycle;
+using US13.Items.Traits;
+using US13.Managers;
+using US13.Systems.Crafting;
+using US13.Systems.Inventory;
+
+//TODO No longer used
+
+namespace US13.Items.Others
+{
+	/// <summary>
+	/// Marks an item as a rolling pin, letting it flatten items on the players other hand based on the recipe list in CraftingManager.Roll.
+	/// </summary>
+	[RequireComponent(typeof(Pickupable))]
+	public class RollingPin : MonoBehaviour, ICheckedInteractable<InventoryApply>,  ICheckedInteractable<HandApply>
+	{
+
+
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			//can the player act at all?
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			//if the item isn't a butcher knife, no go.
+			if (!Validations.HasItemTrait(interaction, CommonTraits.Instance.RollingPin)) return false;
+
+			if (interaction.TargetObject == null) return false;
+
+			return true;
+
+		}
+
+		//check if item is being applied to offhand with rollable object on it.
+		public bool WillInteract(InventoryApply interaction, NetworkSide side)
+		{
+			//can the player act at all?
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			//interaction only occurs if cutting target is on a hand slot.
+			if (!interaction.IsToHandSlot) return false;
+
+			//if the item isn't a butcher knife, no go.
+			if (!Validations.HasItemTrait(interaction, CommonTraits.Instance.RollingPin)) return false;
+
+			//TargetSlot must not be empty.
+			if (interaction.TargetSlot.Item == null) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(InventoryApply interaction)
+		{
+			//is the target item cuttable?
+			ItemAttributesV2 attr = interaction.TargetObject.GetComponent<ItemAttributesV2>();
+			Ingredient ingredient = new Ingredient(attr.ArticleName);
+			GameObject roll = CraftingManager.Roll.FindRecipe(new List<Ingredient> { ingredient });
+
+			if (roll != null)
+			{
+				Inventory.ServerDespawn(interaction.TargetSlot);
+
+				SpawnResult spwn = Spawn.ServerPrefab(CraftingManager.Roll.FindOutputMeal(roll.name),
+					SpawnDestination.At(), 1);
+
+				if (spwn.Successful)
+				{
+					Inventory.ServerAdd(spwn.GameObject ,interaction.TargetSlot);
+				}
+			}
+			else
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "You can't roll this out.");
+			}
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			//is the target item cuttable?
+			ItemAttributesV2 attr = interaction.TargetObject.GetComponent<ItemAttributesV2>();
+			Ingredient ingredient = new Ingredient(attr.ArticleName);
+			GameObject roll = CraftingManager.Roll.FindRecipe(new List<Ingredient> { ingredient });
+
+			if (roll != null)
+			{
+				SpawnResult spwn = Spawn.ServerPrefab(CraftingManager.Roll.FindOutputMeal(roll.name),
+					SpawnDestination.At(), 1);
+
+				if (spwn.Successful)
+				{
+					Spawn.ServerPrefab(spwn.GameObject, interaction.TargetObject.transform.position);
+				}
+				_ = Despawn.ServerSingle(interaction.TargetObject);
+			}
+			else
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "You can't roll this out.");
+			}
+		}
+
+	}
+}

@@ -1,0 +1,122 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e3145566f967d4e9706a88c0917052, type: 3}
+  m_Name: Monkey
+  m_EditorClassIdentifier: 
+  Base:
+    Head:
+      Elements:
+      - {fileID: 2288238024031557249, guid: c7f4420829509f1449dcb8ac462e954d, type: 3}
+    Torso:
+      Elements:
+      - {fileID: 6637440862527319535, guid: 4dc0b57a0e0cc864481492d983b8c009, type: 3}
+    ArmRight:
+      Elements:
+      - {fileID: 8523094210017610647, guid: 1dbd91f62e11d1d45bba1391ebcb87eb, type: 3}
+    ArmLeft:
+      Elements:
+      - {fileID: 3689362901462293319, guid: 503aecac3421a3e4db73686472a653bb, type: 3}
+    LegRight:
+      Elements:
+      - {fileID: 2015248221810602767, guid: 9d19f0379b1a54646bbd2b6641978682, type: 3}
+    LegLeft:
+      Elements:
+      - {fileID: 3790489345547190033, guid: 3455c3fc86c943c47bb55fc44a7ec2a9, type: 3}
+    allowedToChangeling: 0
+    CustomisationSettings: []
+    bodyTypeSettings:
+      AvailableBodyTypes:
+      - bodyType: 0
+        Name: Monkey
+    SkinColours:
+    - {r: 1, g: 1, b: 1, a: 1}
+    RootImplantProcedure: {fileID: 11400000, guid: 3de247ed9ca572941975e45430051197,
+      type: 2}
+    BodyPartsThatShareTheSkinTone: []
+    ClueString: a strand of short brown hair
+    MeatProduce: {fileID: 8223452375745627725, guid: a326b8be6d37c4a4ba068dbf1c296357,
+      type: 3}
+    SkinProduce: {fileID: 2687722597682436320, guid: 7fe7da919033bcb44a4eb949fe66cd73,
+      type: 3}
+    SkinningItemTrait: {fileID: 11400000, guid: 4fd46b7ca0066174bb16d0435eef3baa,
+      type: 2}
+    CanBeEmagged: 0
+    CanBePlayerChosen: 1
+    PreviewSprite: {fileID: 11400000, guid: 9e8d6fd5732cfd740b2ec70cc84a60f7, type: 2}
+    SystemSettings:
+    - rid: 7896866705837654025
+    - rid: 7896866705837654026
+    - rid: 7896866705837654027
+    - rid: 7896866705837654029
+    StartingMutations: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 7896866705837654025
+      type: {class: ReagentPoolSystem, ns: HealthV2.Living.PolymorphicSystems, asm: Assets}
+      data:
+        Base: {fileID: 0}
+        BloodPool:
+          temperature: 273.15
+          reagents:
+            m_keys: []
+            m_values: []
+          reagentKeys: []
+        StartingBlood: 500
+        NormalBlood: 500
+        bloodReagent: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
+        PumpingDevices: []
+        TempBloodReservoir:
+          temperature: 273.15
+          reagents:
+            m_keys: []
+            m_values: []
+          reagentKeys: []
+        ReservoirReturnMultiplier: 0.15
+    - rid: 7896866705837654026
+      type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
+        asm: Assets}
+      data:
+        Base: {fileID: 0}
+        InternalMetabolismPerSecond: 1
+        ExternalMetabolismPerSecond: 2
+        MetabolismReactionSets:
+        - {fileID: 11400000, guid: c489a27500b5c5b4392c5f90d1d2fce9, type: 2}
+        ALLMetabolismReactions: []
+        MetabolismComponents: []
+    - rid: 7896866705837654027
+      type: {class: HungerSystem, ns: HealthV2.Living.PolymorphicSystems, asm: Assets}
+      data:
+        Base: {fileID: 0}
+        BodyParts: []
+        NumberOfMinutesBeforeStarving: 30
+        BodyNutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
+          type: 2}
+        CashedHungerState: 1
+        HungerStatusEffects:
+          NotHungryStatusEffect: {fileID: 11400000, guid: 8a92c094201a758498a79523323565eb,
+            type: 2}
+          StravingStatusEffect: {fileID: 11400000, guid: 8526c1e024fdd1e4d8bc35595159d8a4,
+            type: 2}
+          HungryStatusEffect: {fileID: 11400000, guid: a7b8118c2b73a574cbb4425327020959,
+            type: 2}
+          FatStatusEffect: {fileID: 11400000, guid: 8a92c094201a758498a79523323565eb,
+            type: 2}
+    - rid: 7896866705837654029
+      type: {class: NaturalChemicalReleaseSystem, ns: HealthV2.Living.PolymorphicSystems,
+        asm: Assets}
+      data:
+        Base: {fileID: 0}
+        BodyParts: []
+        TotalToxinGenerationPerSecond: 0.1
+        BodyNaturalToxinReagent: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
+          type: 2}

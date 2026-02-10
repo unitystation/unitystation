@@ -1,0 +1,849 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Logs;
+using Mirror;
+using UnityEngine;
+using US13.Actions;
+using US13.Core.Chat;
+using US13.Core.Cooldowns;
+using US13.Core.Input_System;
+using US13.Core.Input_System.InteractionV2;
+using US13.Core.Input_System.InteractionV2.Interactions;
+using US13.Core.Input_System.InteractionV2.Interactions.Internal;
+using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Core.Utils;
+using US13.Items;
+using US13.Managers;
+using US13.Managers.MatrixManager;
+using US13.Managers.NetworkManagement;
+using US13.Messages.Server;
+using US13.Objects.Disposals;
+using US13.Objects.Other;
+using US13.Player;
+using US13.Systems.Inventory;
+using US13.Tilemaps.Behaviours.Objects;
+using US13.Tilemaps.Behaviours.Objects.SpatialRelationship;
+using US13.UI.Systems;
+using US13.UI.Systems.MainHUD.UI_Bottom;
+using US13.UI.Systems.Tooltips.HoverTooltips;
+using Util;
+
+namespace US13.Clothing.BackPack
+{
+	/// <summary>
+	/// Allows a storage object to be interacted with, to open/close it and drag things. Works for
+	/// player inventories and normal indexed storages like backpacks
+	/// </summary>
+	[RequireComponent(typeof(ItemStorage))]
+	[RequireComponent(typeof(MouseDraggable))]
+//[RequireComponent(typeof(ActionControlInventory))] removed because the PDA wont need it
+	public class InteractableStorage : NetworkBehaviour,
+		ICheckedInteractable<HandActivate>,
+		ICheckedInteractable<InventoryApply>,
+		ICheckedInteractable<PositionalHandApply>,
+		ICheckedInteractable<HandApply>,
+		ICheckedInteractable<MouseDrop>,
+		IActionGUI,
+		IItemInOutMovedPlayer,
+		IHoverTooltip
+	{
+
+
+		/// <summary>
+		/// The click pickup mode.
+		/// Single picks up one clicked item.
+		/// Same picks up all items of the same type on a tile.
+		/// All picks up all items on a tile
+		/// </summary>
+		enum PickupMode
+		{
+			Single,
+			Same,
+			All,
+			DropClick
+		}
+
+		[Tooltip(
+			"Add storage items that should prohibited from being added to storage of this storage item (like tool boxes" +
+			"being placed inside other tool boxes")]
+		public StorageItemName denyStorageOfStorageItems;
+
+		/// <summary>
+		/// Item storage that is being interacted with.
+		/// </summary>
+		public ItemStorage ItemStorage => itemStorage;
+
+		[SerializeField]
+		private ItemStorage itemStorage;
+
+		/// <summary>
+		/// Flag to determine if this can store items by clicking on them
+		/// </summary>
+		[SerializeField] [Tooltip("Can you store items by clicking on them with this in hand?")]
+		private bool canClickPickup = false;
+
+		/// <summary>
+		/// Flags if you want the UI action to show or not
+		/// </summary>
+		[SerializeField] [Tooltip("Flags if you want the UI action to show or not")]
+		private bool showUIAction = true;
+
+		/// <summary>
+		/// Flag to determine if this can empty out all items by activating it
+		/// </summary>
+		[SerializeField] [Tooltip("Can you empty out all items by activating this item?")]
+		private bool canQuickEmpty = false;
+
+		[SerializeField] [Tooltip("Does it require alt click When in top-level inventory")]
+		private bool TopLevelAlt = false;
+
+		[SerializeField] [Tooltip("So, It doesn't collide with other interactions if it is full, Not turned on by default Because of large inventories")]
+		private bool NoInteractionIfInventoryFull = false;
+
+		[SerializeField] [Tooltip("Basically when you click on something with it, can the thing you're interacting with look inside of it and take items from it directly")]
+		private bool actAsOpenInventory = false;
+
+		public bool ActAsOpenInventory => actAsOpenInventory;
+
+		/// <summary>
+		/// The current pickup mode used when clicking
+		/// </summary>
+		private PickupMode pickupMode = PickupMode.All;
+
+		private bool allowedToInteract = false;
+
+		private CooldownInstance cooldown = new CooldownInstance(0.5f);
+
+		[SerializeField] private ActionData actionData = null;
+		public ActionData ActionData => actionData;
+
+		private bool preventUIShowingAfterTrapTrigger = false;
+
+		public bool PreventUIShowingAfterTrapTrigger
+		{
+			get => preventUIShowingAfterTrapTrigger;
+			set => preventUIShowingAfterTrapTrigger = value;
+		}
+
+
+		public bool DoNotShowInventoryOnUI = false;
+
+
+
+		[SyncVar] private bool inventoryFull = false;
+
+
+		/// <summary>
+		/// Used on the server to switch the pickup mode of this InteractableStorage
+		/// </summary>
+		public void ServerSwitchPickupMode(GameObject player)
+		{
+			pickupMode = pickupMode.Next();
+
+			string msg = "Nothing happens.";
+			switch (pickupMode)
+			{
+				case PickupMode.Single:
+					msg = $"The {gameObject.ExpensiveName()} now picks up one item at a time.";
+					break;
+				case PickupMode.Same:
+					msg = $"The {gameObject.ExpensiveName()} now picks up all items of a single type at once.";
+					break;
+				case PickupMode.All:
+					msg = $"The {gameObject.ExpensiveName()} now picks up all items in a tile at once.";
+					break;
+				case PickupMode.DropClick:
+					msg = $"The {gameObject.ExpensiveName()} now drops all items on the tile at once";
+					break;
+				default:
+					Loggy.Error($"Unknown pickup mode set! Found: {pickupMode}", Category.Inventory);
+					break;
+			}
+
+			Chat.AddExamineMsgFromServer(player, msg);
+		}
+
+		private void OnEnable()
+		{
+			allowedToInteract = false;
+			if (itemStorage == null)
+			{
+				itemStorage = GetComponent<ItemStorage>();
+			}
+
+			StartCoroutine(SpawnCoolDown());
+		}
+
+		// Trying to prevent auto click spam exploit when storage is being populated
+		private IEnumerator SpawnCoolDown()
+		{
+			yield return WaitFor.Seconds(0.2f);
+			allowedToInteract = true;
+			if (CustomNetworkManager.IsServer == false) yield break;
+
+			if (NoInteractionIfInventoryFull == false) yield break;
+
+			var slots = itemStorage.GetItemSlots();
+			foreach (var slot in slots)
+			{
+				slot.OnSlotContentsChangeServer.AddListener(CheckInventoryFull);
+			}
+		}
+
+		private void CheckInventoryFull()
+		{
+			inventoryFull = itemStorage.GetItemSlots().All(x => x.Item != null);
+		}
+
+		private bool IsFull(GameObject usedObject, GameObject player, bool noMessage = false)
+		{
+			//NOTE: this wont fail on client if the storage they are checking is not being observered by them
+			if (itemStorage.GetBestSlotFor(usedObject) == null && usedObject != null)
+			{
+				if (noMessage == false)
+				{
+					Chat.AddExamineMsg(player,
+						$"<color=red>The {usedObject.ExpensiveName()} won't fit in the {itemStorage.gameObject.ExpensiveName()}. Make some space!</color>");
+				}
+
+				return true;
+			}
+
+			return false;
+		}
+
+
+
+		public bool WillInteract(HandActivate interaction, NetworkSide side)
+		{
+
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			if (Cooldowns.IsOn(interaction, cooldown, side)) return false;
+
+			if (canQuickEmpty)
+			{
+				return true;
+			}
+
+			if (interaction.Intent != Intent.Disarm)
+			{
+				//interaction.PerformerPlayerScript.PlayerNetworkActions.CmdTriggerStorageTrap(gameObject);
+				if (PreventUIShowingAfterTrapTrigger)
+				{
+					preventUIShowingAfterTrapTrigger = false;
+					return true;
+				}
+			}
+
+			// open / close the backpack on activate
+
+
+			return true;
+		}
+
+
+		public void ServerPerformInteraction(HandActivate interaction)
+		{
+			// Drop all items that are inside this storage
+
+			switch (pickupMode)
+			{
+				case PickupMode.DropClick:
+				case PickupMode.All:
+				case PickupMode.Same:
+				case PickupMode.Single:
+					if (canQuickEmpty)
+					{
+						var slots = itemStorage.GetItemSlots();
+						if (slots.All(x => x.Item == null))
+						{
+							Chat.AddExamineMsg(interaction.Performer, "It's already empty!");
+							return;
+						}
+
+						Vector2? possibleTarget = null;
+						foreach (var item in slots)
+						{
+							Inventory.ServerDrop(item, possibleTarget);
+						}
+
+						Chat.AddExamineMsg(interaction.Performer, $"You start dumping out the {gameObject.ExpensiveName()}.");
+					}
+					else
+					{
+						OpenInventoryInteraction(interaction);
+					}
+					break;
+			}
+		}
+
+
+		public void OpenInventoryInteraction(Interaction interaction)
+		{
+			if (interaction.Intent != Intent.Disarm)
+			{
+
+				var slots = itemStorage.GetItemSlots();
+				foreach (var slot in slots)
+				{
+					if(slot.IsEmpty) continue;
+					if (slot.ItemObject.TryGetComponent<MouseTrap>(out var trap))
+					{
+						if (trap.IsArmed)
+						{
+							trap.TriggerTrap(interaction.PerformerPlayerScript.playerHealth);
+							PreventUIShowingAfterTrapTrigger = true;
+							return;
+						}
+					}
+				}
+
+				if (PreventUIShowingAfterTrapTrigger)
+				{
+					preventUIShowingAfterTrapTrigger = false;
+					return;
+				}
+			}
+
+			if (UIManager.StorageHandler.CurrentOpenStorage != itemStorage)
+			{
+				ShowInventoryServer(interaction);
+			}
+			else
+			{
+				CloseInventoryServer(interaction.Performer.gameObject);
+			}
+		}
+
+
+		public bool WillInteract(InventoryApply interaction, NetworkSide side)
+		{
+			if (allowedToInteract == false) return false;
+			// we need to be the target - something is put inside us
+			if (interaction.TargetObject != gameObject) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			if (Cooldowns.IsOn(interaction, cooldown, side)) return false;
+
+			if (IsFull(interaction.UsedObject, interaction.Performer))
+			{
+				if (Cooldowns.TryStart(interaction, cooldown, side) == false) return false;
+
+				return false;
+			}
+
+			if (interaction.UsedObject == null)
+			{
+				if (DoNotShowInventoryOnUI == false)
+				{
+					return interaction.IsAltClick == false;
+				}
+			}
+			else
+			{
+				// item must be able to fit
+				// note: since this is in local player's inventory, we are safe to check this stuff on client side
+				if (Validations.CanPutItemToStorage(interaction.Performer.GetComponent<PlayerScript>(),
+					    itemStorage, interaction.UsedObject, side, examineRecipient: interaction.Performer) == false) return false;
+			}
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(InventoryApply interaction)
+		{
+
+			if (DoNotShowInventoryOnUI == false)
+			{
+				if (interaction.IsAltClick || interaction.UsedObject == null)
+				{
+					OpenInventoryInteraction(interaction);
+					return;
+				}
+			}
+
+			if (allowedToInteract == false) return;
+
+			Inventory.ServerTransfer(interaction.FromSlot,
+				itemStorage.GetBestSlotFor((interaction).UsedObject));
+			if (interaction.UsedObject.Item().InventoryMoveSound != null)
+			{
+				_ = SoundManager.PlayNetworkedAtPosAsync(interaction.UsedObject.Item().InventoryMoveSound,
+					interaction.Performer.AssumedWorldPosServer());
+			}
+		}
+
+		/// <summary>
+		/// Client:
+		/// Allows player to open / close bags in reach using alt-click
+		/// </summary>
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (allowedToInteract == false) return false;
+			// Use default interaction checks
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			if (interaction.IsHighlight == false && Cooldowns.IsOn(interaction, cooldown, side)) return false;
+
+			if (IsFull(interaction.UsedObject, interaction.Performer, interaction.IsHighlight))
+			{
+				if (interaction.IsHighlight == false &&
+				    Cooldowns.TryStart(interaction, cooldown, side) == false) return false;
+
+				return false;
+			}
+
+			// See which item needs to be stored
+			if (Validations.IsTarget(gameObject, interaction))
+			{
+				// We're the target
+				if (interaction.HandObject == null)
+				{
+					// If player's hands are empty and alt-click let them open the bag
+					if (interaction.IsAltClick)
+					{
+						return true;
+					}
+				}
+				else
+				{
+					//We have something in our hand, try to put it in;
+					return true;
+				}
+			}
+
+			return false;
+		}
+
+		/// <summary>
+		/// Server:
+		/// Allows player to open / close bags in reach using alt-click
+		/// </summary>
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (interaction.HandObject == null)
+			{
+				// Reusing mouse drop logic for efficiency
+				ServerPerformInteraction(
+					MouseDrop.ByClient(interaction.Performer,
+						interaction.TargetObject,
+						interaction.Performer,
+						interaction.Intent,
+						interaction.PerformerMind));
+				return;
+			}
+
+			// Reusing mouse drop logic for efficiency
+			ServerPerformInteraction(
+				MouseDrop.ByClient(interaction.Performer,
+					interaction.UsedObject,
+					interaction.TargetObject,
+					interaction.Intent,
+					interaction.PerformerMind));
+		}
+
+		/// <summary>
+		/// Client:
+		/// Allow items to be stored by clicking on bags with item in hand
+		/// and clicking items with bag in hand if CanClickPickup is enabled
+		/// </summary>
+		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
+		{
+			if (inventoryFull) return false;
+			if (allowedToInteract == false) return false;
+			// Use default interaction checks
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (interaction.Intent != Intent.Help) return false;
+
+			if (interaction.TargetObject != null && interaction.TargetObject.HasComponent<DisposalBin>()) return false;
+
+			// See which item needs to be stored
+			if (Validations.IsTarget(gameObject, interaction))
+			{
+				// We're the target
+				// If player's hands are empty let Pickupable handle the interaction
+				if (interaction.HandObject == null) return false;
+
+				// There's something in the player's hands
+				// Check if item from the hand slot fits in this storage sitting in the world
+				if (Validations.CanPutItemToStorage(interaction.PerformerPlayerScript,
+					    itemStorage, interaction.HandObject, side, examineRecipient: interaction.Performer) == false)
+				{
+					Chat.AddExamineMsgToClient($"The {interaction.HandObject.ExpensiveName()} doesn't fit!");
+					return false;
+				}
+
+				return true;
+			}
+			else if (canClickPickup)
+			{
+				// If we can click pickup then try to store the target object
+				switch (pickupMode)
+				{
+					case PickupMode.Single:
+						// See if there's an item to pickup
+						if (interaction.TargetObject == null ||
+						    interaction.TargetObject.Item() == null)
+						{
+							Chat.AddExamineMsgToClient("There's nothing to pickup!");
+							return false;
+						}
+
+						if (!Validations.CanPutItemToStorage(interaction.PerformerPlayerScript,
+							    itemStorage, interaction.TargetObject, side, examineRecipient: interaction.Performer))
+						{
+							// In Single pickup mode if the target item doesn't
+							// fit then don't interact
+							Chat.AddExamineMsgToClient($"The {interaction.TargetObject.ExpensiveName()} doesn't fit!");
+							return false;
+						}
+
+						break;
+					case PickupMode.Same:
+						if (interaction.TargetObject == null)
+						{
+							// If there's nothing to compare then don't interact
+							Chat.AddExamineMsgToClient("There's nothing to pickup!");
+							return false;
+						}
+
+						break;
+				}
+
+				// In Same and All pickup modes other items on the
+				// tile could still be picked up, so we interact
+				return true;
+			}
+			else
+			{
+				// We're not the target and we can't click pickup so don't do anything
+				return false;
+			}
+		}
+
+		/// <summary>
+		/// Server:
+		/// Allow items to be stored by clicking on bags with item in hand
+		/// and clicking items with bag in hand if CanClickPickup is enabled
+		/// </summary>
+		public void ServerPerformInteraction(PositionalHandApply interaction)
+		{
+			if (allowedToInteract == false) return;
+			// See which item needs to be stored
+			if (Validations.IsTarget(gameObject, interaction))
+			{
+				// Add hand item to this storage
+				Inventory.ServerTransfer(interaction.HandSlot, itemStorage.GetBestSlotFor(interaction.HandObject));
+				if (interaction.UsedObject.Item().InventoryMoveSound != null)
+				{
+					_ = SoundManager.PlayNetworkedAtPosAsync(interaction.UsedObject.Item().InventoryMoveSound,
+						interaction.Performer.AssumedWorldPosServer());
+				}
+			}
+			// See if this item can click pickup
+			else if (canClickPickup)
+			{
+				bool pickedUpSomething = false;
+				Pickupable pickup;
+				switch (pickupMode)
+				{
+					case PickupMode.Single:
+
+						// Don't pick up items which aren't set as CanPickup
+						pickup = interaction.TargetObject.GetComponent<Pickupable>();
+						if (pickup == null || pickup.CanPickup == false)
+						{
+							Chat.AddExamineMsgFromServer(interaction.Performer, "There's nothing to pickup!");
+							return;
+						}
+
+						// Store the clicked item
+						var slot = itemStorage.GetBestSlotFor(interaction.TargetObject);
+						if (slot == null)
+						{
+							Chat.AddExamineMsgFromServer(interaction.Performer,
+								$"The {interaction.TargetObject.ExpensiveName()} doesn't fit!");
+							return;
+						}
+
+						Inventory.ServerAdd(interaction.TargetObject, slot);
+						break;
+
+					case PickupMode.Same:
+						if (interaction.TargetObject == null ||
+						    interaction.TargetObject.Item() == null)
+						{
+							Chat.AddExamineMsgFromServer(interaction.Performer, "There's nothing to pickup!");
+							return;
+						}
+
+						// Get all items of the same type on the tile and try to store them
+						var itemsOnTileSame =
+							MatrixManager.GetAt<ItemAttributesV2>(interaction.WorldPositionTarget.RoundTo2Int().To3Int(),
+								true);
+
+						if (itemsOnTileSame is List<ItemAttributesV2> == false)
+						{
+							Chat.AddExamineMsgFromServer(interaction.Performer, "There's nothing to pickup!");
+							return;
+						}
+
+						foreach (var item in itemsOnTileSame)
+						{
+							// Don't pick up items which aren't set as CanPickup
+							pickup = item.gameObject.GetComponent<Pickupable>();
+							if (pickup == null || pickup.CanPickup == false)
+							{
+								continue;
+							}
+
+							// Only try to add it if it matches the target object's traits
+							if (item.HasAllTraits(interaction.TargetObject.Item().GetTraits()))
+							{
+								// Try to add each item to the storage
+								// Can't break this loop when it fails because some items might not fit and
+								// there might be stacks with space still
+								if (Inventory.ServerAdd(item.gameObject, itemStorage.GetBestSlotFor(item.gameObject)))
+								{
+									pickedUpSomething = true;
+								}
+							}
+						}
+
+						Chat.AddExamineMsgFromServer(interaction.Performer,
+							$"You put everything you could in the {gameObject.ExpensiveName()}.");
+						break;
+
+					case PickupMode.All:
+						// Get all items on the tile and try to store them
+						var itemsOnTileAll =
+							MatrixManager.GetAt<ItemAttributesV2>(interaction.WorldPositionTarget.RoundTo2Int().To3Int(),
+								true);
+
+						if (itemsOnTileAll is List<ItemAttributesV2> == false)
+						{
+							Chat.AddExamineMsgFromServer(interaction.Performer, "There's nothing to pickup!");
+							return;
+						}
+
+						foreach (var item in itemsOnTileAll)
+						{
+							// Don't pick up items which aren't set as CanPickup
+							pickup = item.gameObject.GetComponent<Pickupable>();
+							if (pickup == null || pickup.CanPickup == false)
+							{
+								continue;
+							}
+
+							// Try to add each item to the storage
+							// Can't break this loop when it fails because some items might not fit and
+							// there might be stacks with space still
+							if (Inventory.ServerAdd(item.gameObject, itemStorage.GetBestSlotFor(item.gameObject)))
+							{
+								pickedUpSomething = true;
+							}
+						}
+
+						if (pickedUpSomething)
+						{
+							Chat.AddExamineMsgFromServer(interaction.Performer,
+								$"You put everything you could in the {gameObject.ExpensiveName()}.");
+						}
+						else
+						{
+							Chat.AddExamineMsgFromServer(interaction.Performer, "There's nothing to pickup!");
+						}
+
+						break;
+					case PickupMode.DropClick:
+						if (canQuickEmpty)
+						{
+							// Drop all items that are inside this storage
+							var slots = itemStorage.GetItemSlots();
+							if (slots == null)
+							{
+								Chat.AddExamineMsgFromServer(interaction.Performer, "It's already empty!");
+
+
+								return;
+							}
+
+
+							if (Validations.IsInReachDistanceByPositions(
+								    interaction.Performer.transform.position ,
+								    interaction.WorldPositionTarget) == false) return;
+							if (MatrixManager.IsPassableAtAllMatricesOneTile(interaction.WorldPositionTarget.RoundToInt(),
+								    CustomNetworkManager.IsServer) == false) return;
+
+							itemStorage.ServerDropAllAtWorld(interaction.WorldPositionTarget);
+
+							Chat.AddExamineMsgFromServer(interaction.Performer,
+								$"You start dumping out the {gameObject.ExpensiveName()}.");
+						}
+
+						break;
+				}
+			}
+		}
+
+		public bool WillInteract(MouseDrop interaction, NetworkSide side)
+		{
+			if (allowedToInteract == false) return false;
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			//Can't drag / view ourselves
+			if (interaction.Performer == interaction.DroppedObject) return false;
+
+			//Can only drag and drop the object to ourselves, or from our inventory to this object
+			if (interaction.IsFromInventory && interaction.TargetObject == gameObject)
+			{
+				//Trying to add an item from inventory slot to this storage sitting in the world
+				return Validations.CanPutItemToStorage(interaction.Performer.GetComponent<PlayerScript>(),
+					itemStorage, interaction.DroppedObject.GetComponent<Pickupable>(), side,
+					examineRecipient: interaction.Performer);
+			}
+
+			//Trying to view this storage, can only drop on ourselves to view it
+			if (interaction.Performer != interaction.TargetObject) return false;
+
+			//If we're dragging another player to us, it's only allowed if the other player is downed
+			if (Validations.HasComponent<PlayerScript>(interaction.DroppedObject))
+			{
+				//Dragging a player, can only do this if they are down / dead
+				return Validations.IsStrippable(interaction.DroppedObject, side);
+			}
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(MouseDrop interaction)
+		{
+			if (allowedToInteract == false) return;
+			if (interaction.IsFromInventory && interaction.TargetObject == gameObject)
+			{
+				// try to add item to this storage
+				Inventory.ServerTransfer(interaction.FromSlot,
+					itemStorage.GetBestSlotFor(interaction.UsedObject));
+			}
+			else
+			{
+				ShowInventoryServer(interaction);
+			}
+		}
+
+		public void ShowInventoryServer(Interaction interaction)
+		{
+			if (DoNotShowInventoryOnUI) return;
+			// player can observe this storage
+			itemStorage.ServerAddObserverPlayer(interaction.Performer);
+			ObserveInteractableStorageMessage.Send(interaction.Performer, this, true);
+
+			// if we are observing a storage not in our inventory (such as another player's top
+			// level inventory or a storage within their inventory, or a box/backpack sitting on the ground), we must stop observing when it
+			// becomes unobservable for whatever reason (such as the owner becoming unobservable)
+			var rootStorage = itemStorage.GetRootStorageOrPlayer();
+			if (interaction.Performer != rootStorage.gameObject)
+			{
+				// stop observing when it becomes unobservable for whatever reason
+				var relationship = ObserveStorageRelationship.Observe(this,
+					interaction.Performer.GetComponent<RegisterPlayer>(),
+					PlayerScript.INTERACTION_DISTANCE, ServerOnObservationEnded);
+				SpatialRelationship.ServerActivate(relationship);
+			}
+		}
+
+		public void CloseInventoryServer(GameObject RegisterPlayer)
+		{
+			// they can't observe anymore
+			itemStorage.ServerRemoveObserverPlayer(RegisterPlayer);
+			ObserveInteractableStorageMessage.Send(RegisterPlayer, this, false);
+		}
+
+		private void ServerOnObservationEnded(ObserveStorageRelationship cancelled)
+		{
+			CloseInventoryServer(cancelled.ObserverPlayer.gameObject);
+		}
+
+		public RegisterPlayer CurrentlyOn { get; set; }
+		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
+
+		public bool IsValidSetup(RegisterPlayer player)
+		{
+			if (player == null) return false;
+			if (canClickPickup)
+			{
+				foreach (var itemSlot in player.PlayerScript.DynamicItemStorage.GetHandSlots())
+				{
+					if (itemSlot.ItemObject == gameObject)
+					{
+						return true;
+					}
+				}
+			}
+
+			return false;
+		}
+
+		void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer hideForPlayer, RegisterPlayer showForPlayer)
+		{
+			if (canClickPickup)
+			{
+				if (hideForPlayer != null)
+				{
+					if (showUIAction) UIActionManager.ToggleServer(hideForPlayer.gameObject, this, false);
+					itemStorage.ServerRemoveAllObserversExceptOwner();
+					ObserveInteractableStorageMessage.Send(hideForPlayer.PlayerScript.gameObject, this, false);
+				}
+
+				if (showForPlayer != null)
+				{
+					itemStorage.ServerAddObserverPlayer(showForPlayer.PlayerScript.gameObject);
+					if (showUIAction) UIActionManager.ToggleServer(showForPlayer.gameObject, this, true);
+				}
+			}
+		}
+
+		public void CallActionClient()
+		{
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdSwitchPickupMode();
+		}
+
+		public string HoverTip()
+		{
+			if (itemStorage == null) return null;
+			var slots = itemStorage.GetItemSlots().ToList();
+			return slots.Any() == false ? null : $"This has {slots.Count()} slots.";
+		}
+
+		public string CustomTitle() => null;
+
+		public Sprite CustomIcon() => null;
+
+		public List<Sprite> IconIndicators() => null;
+
+		public List<TextColor> InteractionsStrings()
+		{
+			var interactions = new List<TextColor>()
+			{
+				new()
+				{
+					Text = canQuickEmpty
+						? $"Press {KeybindManager.Instance.userKeybinds[KeyAction.HandActivate].PrimaryCombo} or click to quickly empty"
+						: "",
+					Color = Color.green
+				},
+				new()
+				{
+					Text = TopLevelAlt
+						? $"Alt+Click with a free hand to access storage."
+						: "",
+					Color = Color.green
+				}
+			};
+
+			return interactions;
+		}
+	}
+}

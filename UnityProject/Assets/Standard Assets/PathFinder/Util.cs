@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace EpPathFinding.cs
+﻿namespace Standard_Assets.PathFinder
 {
     public class Util
     {

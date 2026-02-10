@@ -1,0 +1,40 @@
+﻿using US13.Core.Chat;
+using US13.Core.Input_System.InteractionV2;
+using US13.Core.Input_System.InteractionV2.Interactions;
+using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Objects;
+using US13.Tilemaps.Behaviours.Objects;
+using Util;
+
+namespace US13.Items.Tool
+{
+	public class FlasherItem : FlasherBase, ICheckedInteractable<HandApply>
+	{
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (interaction.IsAltClick) return false;
+			return gameObject.PickupableOrNull().ItemSlot != null;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (OnCooldown)
+			{
+				Chat.AddExamineMsg(interaction.Performer,"This flash seems to be recharging!");
+				return;
+			}
+			if(interaction.TargetObject == null || interaction.TargetObject.TryGetComponent<RegisterPlayer>(out var player) == false) return;
+			Chat.AddActionMsgToChat(interaction.Performer, $"You flash {player.PlayerScript.visibleName}",
+				$"{interaction.PerformerPlayerScript.visibleName} flashes {player.PlayerScript.visibleName}!");
+			if (stunsPlayers)
+			{
+				FlashTarget(player.gameObject, flashTime, flashTime + stunExtraTime);
+			}
+			else
+			{
+				FlashTarget(player.gameObject, flashTime, 0);
+			}
+		}
+	}
+}

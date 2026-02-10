@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
-using Systems.StatusesAndEffects;
 using UnityEngine;
+using US13.Systems.StatusesAndEffects;
 
 namespace Tests.StatusAndEffectsFramework
 {

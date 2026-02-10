@@ -1,22 +1,19 @@
-
 using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters.Binary;
-
-using UnityEngine;
-
-using Mirror;
-
-using Adrenak.BRW;
-using Initialisation;
+using System.Linq;
+using Adrenak.UniVoice.Runtime.Interfaces;
+using Adrenak.UniVoice.Runtime.Types;
 using Logs;
-using Messages.Client;
-using Messages.Server;
+using Mirror;
+using US13.Core.Initialisation;
+using US13.Managers;
+using US13.Managers.NetworkManagement;
+using US13.Messages.Client;
+using US13.Messages.Server;
+using US13.Player;
+using Util;
 
-namespace Adrenak.UniVoice.MirrorNetwork {
+namespace Adrenak.UniVoice.MirrorNetwork.Runtime {
     public class UniVoiceMirrorNetwork : IChatroomNetwork {
         // Packet tags
         const string NEW_CLIENT_INIT = "NEW_CLIENT_INIT";

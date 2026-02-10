@@ -1,0 +1,189 @@
+﻿using System.Collections;
+using UnityEngine;
+using US13.Core.Chat;
+using US13.Core.Input_System.InteractionV2;
+using US13.Core.Input_System.InteractionV2.Interactions;
+using US13.Core.Input_System.InteractionV2.Interactions.Internal;
+using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Core.Lifecycle;
+using US13.Core.Transform;
+using US13.Items.Traits;
+using US13.Managers.MatrixManager;
+using US13.Managers.NetworkManagement;
+using US13.Managers.UpdateManager;
+using US13.Systems.Inventory;
+using US13.Tilemaps.Behaviours.Meta;
+using US13.Tilemaps.Behaviours.Meta.Atmospherics;
+using US13.Tilemaps.Behaviours.Meta.Atmospherics.Data;
+using US13.Tilemaps.Behaviours.Objects;
+using Util;
+
+namespace US13.Items.Glass
+{
+	public class IceShard : MonoBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>
+	{
+		[SerializeField]
+		private bool isHotIce = default;
+
+		private RegisterTile registerTile;
+		private Stackable stackable;
+		private Pickupable pickupable;
+
+		private MetaDataNode metaDataNode;
+
+		private Vector3 posCache;
+
+		[Tooltip(" how long it takes before it can start melting After being spawned in")]
+		public float MeltTime = 10f;
+
+		#region Lifecycle
+
+		private void Awake()
+		{
+			registerTile = GetComponent<RegisterTile>();
+			stackable = GetComponent<Stackable>();
+			pickupable = GetComponent<Pickupable>();
+		}
+
+		private void OnEnable()
+		{
+			if (CustomNetworkManager.IsServer)
+			{
+				StartCoroutine(StartCooldown());
+			}
+		}
+
+		private void OnDisable()
+		{
+			if (CustomNetworkManager.IsServer)
+			{
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerUpdateCycle);
+			}
+		}
+
+
+
+		private IEnumerator StartCooldown()
+		{
+			yield return WaitFor.Seconds(MeltTime);
+			UpdateManager.Add(ServerUpdateCycle, 1f);
+		}
+
+		private void ServerUpdateCycle()
+		{
+			var pos = registerTile.WorldPosition;
+
+			//If in an itemslot try to get that root position
+			if (pickupable.ItemSlot != null)
+			{
+				pos = pickupable.ItemSlot.GetRootStorageOrPlayer().gameObject.AssumedWorldPosServer().RoundToInt();
+			}
+
+			//If the position is still hidden then the shard or the top pickupable is also hidden
+			if (pos == TransformState.HiddenPos)
+			{
+				return;
+			}
+
+			//Cache pos so we dont try to get the metadata every update if we haven't moved
+			if (pos != posCache)
+			{
+				metaDataNode = MatrixManager.GetMetaDataAt(pos);
+				posCache = pos;
+			}
+
+			if (metaDataNode == null) return;
+
+			if (isHotIce == false && metaDataNode.GasMixLocal.Temperature > AtmosDefines.WATER_VAPOR_FREEZE)
+			{
+				MeltIce(metaDataNode);
+			}
+
+			if (isHotIce && metaDataNode.GasMixLocal.Temperature > 373.15)
+			{
+				MeltHotIce(metaDataNode);
+			}
+		}
+
+		#endregion
+
+		private void MeltIce(MetaDataNode node)
+		{
+			node.GasMixLocal.AddGasWithTemperature(Gas.WaterVapor, stackable.Amount * 2f, AtmosDefines.WATER_VAPOR_FREEZE);
+			_ = Despawn.ServerSingle(gameObject);
+		}
+
+		private void MeltHotIce(MetaDataNode node)
+		{
+			if (node == null) return;
+
+			node.GasMixLocal.AddGasWithTemperature(Gas.Plasma, stackable.Amount * 150,  373.15f);
+			node.GasMixLocal.ChangeTemperature(stackable.Amount * 20 + 300);
+			_ = Despawn.ServerSingle(gameObject);
+		}
+
+		#region Interaction
+
+		//Used on shard on tile
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder)) return true;
+
+			return false;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			OnWelderUse(interaction);
+		}
+
+		//Used on shard in inventory
+		public bool WillInteract(InventoryApply interaction, NetworkSide side)
+		{
+			if (Validations.CanInteract(interaction.PerformerPlayerScript, side) == false) return false;
+
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder)) return true;
+
+			return false;
+		}
+
+		public void ServerPerformInteraction(InventoryApply interaction)
+		{
+			OnWelderUse(interaction);
+		}
+
+		private void OnWelderUse(Interaction interaction)
+		{
+			if (Validations.HasUsedActiveWelder(interaction) == false) return;
+
+			var pos = registerTile.WorldPositionServer;
+
+			//If in inventory use player pos instead, check root in case player is in something
+			if (pickupable.ItemSlot != null)
+			{
+				pos = pickupable.ItemSlot.GetRootStorageOrPlayer().gameObject.AssumedWorldPosServer().RoundToInt();
+			}
+
+			//If hidden then stop
+			if (pos == TransformState.HiddenPos)
+			{
+				return;
+			}
+
+			Chat.AddActionMsgToChat(interaction.Performer, $"You melt the {gameObject.ExpensiveName()} with the {interaction.UsedObject.ExpensiveName()}",
+				$"{interaction.Performer.ExpensiveName()} melts the {gameObject.ExpensiveName()} with the {interaction.UsedObject.ExpensiveName()}");
+
+			if (isHotIce == false)
+			{
+				MeltIce(MatrixManager.GetMetaDataAt(pos));
+				return;
+			}
+
+			MeltHotIce(MatrixManager.GetMetaDataAt(pos));
+		}
+
+		#endregion
+	}
+}

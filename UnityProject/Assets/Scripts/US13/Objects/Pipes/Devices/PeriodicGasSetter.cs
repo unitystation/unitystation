@@ -1,0 +1,89 @@
+using UnityEngine;
+using US13.Managers.NetworkManagement;
+using US13.Managers.UpdateManager;
+using US13.Tilemaps.Behaviours.Meta.Atmospherics.Data;
+using US13.Tilemaps.Behaviours.Meta.Utils;
+using US13.Tilemaps.Behaviours.Objects;
+
+namespace US13.Objects.Pipes.Devices
+{
+	public class PeriodicGasSetter : MonoBehaviour
+	{
+		public float UpdateNSeconds = 10;
+
+		private RegisterTile RegisterTile;
+
+		public GasMix GasMix;
+
+		public bool RunOnStart = true;
+
+		private bool Added = false;
+
+		public void Awake()
+		{
+			RegisterTile = this.GetComponent<RegisterTile>();
+		}
+
+		private void OnEnable()
+		{
+			if (CustomNetworkManager.IsServer == false ) return;
+			if (RunOnStart == false) return;
+			UpdateManager.Add(UpdateLoop,UpdateNSeconds );
+			Added = true;
+		}
+
+		private void OnDisable()
+		{
+			if (CustomNetworkManager.IsServer  == false) return;
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateLoop);
+			Added = false;
+		}
+
+		public void UpdateLoop()
+		{
+			var node = RegisterTile.Matrix.MetaDataLayer.Get(transform.localPosition.RoundToInt());
+			var nodeGasMix =  node.GasMixLocal;
+
+			var gas = GasMix.GasData.CopyTo(nodeGasMix.GasData);
+			nodeGasMix.GasData = gas;
+			nodeGasMix.Temperature = GasMix.Temperature;
+			nodeGasMix.Pressure = GasMix.Pressure;
+			nodeGasMix.Volume = GasMix.Volume;
+			node.GasMixLocal = nodeGasMix;
+		}
+
+
+		public void FireOnce()
+		{
+			UpdateLoop();
+		}
+
+		[NaughtyAttributes.Button]
+		public void StartLoop()
+		{
+			UpdateManager.Add(UpdateLoop,UpdateNSeconds);
+			Added = true;
+		}
+
+		public void StopLoop()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateLoop);
+			Added = false;
+		}
+
+		public void SetLoopSpeed(float NewSpeed)
+		{
+			if (Added)
+			{
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateLoop);
+			}
+
+			UpdateNSeconds = NewSpeed;
+
+			if (Added)
+			{
+				UpdateManager.Add(UpdateLoop,UpdateNSeconds);
+			}
+		}
+	}
+}

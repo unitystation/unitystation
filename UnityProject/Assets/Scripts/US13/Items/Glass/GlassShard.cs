@@ -1,0 +1,88 @@
+﻿using Mirror;
+using UnityEngine;
+using US13.Core.Addressables;
+using US13.Core.Lifecycle;
+using US13.Core.Sprite_Handler;
+using US13.Managers;
+using US13.Messages.Server.SoundMessages;
+using Random = UnityEngine.Random;
+using UniversalObjectPhysics = US13.Core.Physics.UniversalObjectPhysics;
+
+
+namespace US13.Items.Glass
+{
+	public class GlassShard : NetworkBehaviour, IServerSpawn
+	{
+		[SyncVar(hook = nameof(SyncSpriteRotation))]
+		private Quaternion spriteRotation;
+
+		private SpriteRenderer spriteRenderer;
+		private UniversalObjectPhysics ObjectPhysics;
+		private SpriteHandler spriteHandler;
+		public bool AppearWithRandomOffset = true;
+		public bool AppearWithRandomRotation = true;
+
+		#region Lifecycle
+
+
+
+		void Awake()
+		{
+			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+			ObjectPhysics = GetComponent<UniversalObjectPhysics>();
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			SetSpriteAndScatter(Random.Range(0, spriteHandler.CatalogueCount));
+		}
+
+		#endregion Lifecycle
+
+		[Server]
+		public void SetSpriteAndScatter(int index)
+		{
+			spriteHandler.SetCatalogueIndexSprite(index);
+			if (AppearWithRandomOffset)
+			{
+				ObjectPhysics?.ForceDrop(ObjectPhysics.OfficialPosition);
+			}
+
+
+			if (AppearWithRandomRotation)
+			{
+				//Add a bit of rotation variance to the sprite obj:
+				var axis = new Vector3(0, 0, 1);
+				spriteRotation = Quaternion.AngleAxis(Random.Range(-180f, 180f), axis);
+			}
+		}
+
+		private void SyncSpriteRotation(Quaternion oldValue, Quaternion newValue)
+		{
+			spriteRotation = newValue;
+
+			if (spriteRenderer != null)
+			{
+				spriteRenderer.transform.localRotation = spriteRotation;
+			}
+		}
+
+		// Serverside only - play glass crunching sound when stepped on
+		public void OnTriggerEnter2D(Collider2D coll)
+		{
+			if (!isServer)
+			{
+				return;
+			}
+
+			//8 = Players layer
+			if (coll.gameObject.layer == 8)
+			{
+				AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.8f, 1.2f));
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GlassStep, coll.transform.position,
+					audioSourceParameters, sourceObj: gameObject);
+			}
+		}
+	}
+}

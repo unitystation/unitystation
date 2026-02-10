@@ -1,5 +1,5 @@
-﻿using Systems.StatusesAndEffects;
-using Systems.StatusesAndEffects.Interfaces;
+﻿using US13.Systems.StatusesAndEffects;
+using US13.Systems.StatusesAndEffects.Interfaces;
 
 namespace Tests.StatusAndEffectsFramework
 {

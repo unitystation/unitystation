@@ -1,0 +1,336 @@
+using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using EditorButInAssetsAssembly;
+using Logs;
+using UnityEngine;
+using US13.Core.Addressables.Types;
+using US13.Core.Chat;
+using US13.Core.Input_System.InteractionV2;
+using US13.Core.Input_System.InteractionV2.Interactions;
+using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Core.Lifecycle;
+using US13.Core.Lighting;
+using US13.Core.ObjectConnection;
+using US13.Core.Sprite_Handler;
+using US13.Health.Objects;
+using US13.Items.Tool;
+using US13.Items.Traits;
+using US13.Managers;
+using US13.Managers.MatrixManager;
+using US13.Managers.UpdateManager;
+using US13.Objects.Doors;
+using US13.ScriptableObjects;
+using US13.Systems.Inventory;
+using US13.Tilemaps.Behaviours.Layers;
+using US13.Tilemaps.Behaviours.Meta;
+using US13.Tilemaps.Behaviours.Meta.Utils;
+using US13.Tilemaps.Behaviours.Objects;
+using US13.UI.Systems.MainHUD.UI_Bottom;
+using Util;
+
+namespace US13.Objects.Wallmounts
+{
+	public class FireAlarm : ImnterfaceMultitoolGUI, ISubscriptionController, IServerLifecycle,
+		ICheckedInteractable<HandApply>, IMultitoolMasterable, ICheckedInteractable<AiActivate>
+	{
+		public List<FireLock> FireLockList = new List<FireLock>();
+		[SerializeField] private List<LightSource> lightSourcesForAlarm = new List<LightSource>();
+		private MetaDataNode metaNode;
+		public bool activated = false;
+		public float coolDownTime = 1.0f;
+		public bool isInCooldown = false;
+
+		public SpriteHandler baseSpriteHandler;
+		public SpriteHandler topLightSpriteHandler;
+		public SpriteHandler bottomLightSpriteHandler;
+
+		public bool coverOpen;
+		public bool hasCables = true;
+
+		[SerializeField] private RegisterTile registerTile;
+		[SerializeField] private Integrity integrity;
+		[SerializeField] private AddressableAudioSource FireAlarmSFX = null;
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
+		public enum FireAlarmState
+		{
+			TopLightSpriteAlert,
+			OpenEmptySprite,
+			TopLightSpriteNormal,
+			OpenCabledSprite
+		};
+
+		private void Awake()
+		{
+			registerTile ??= GetComponent<RegisterTile>();
+			integrity ??= GetComponent<Integrity>();
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			integrity.OnExposedEvent.AddListener(SendCloseAlerts);
+			MetaDataLayer metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
+			var wallMount = GetComponent<WallmountBehavior>();
+			var direction = wallMount.CalculateFacing().CutToInt();
+			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer + direction, false);
+
+			foreach (var firelock in FireLockList)
+			{
+				if (firelock != null) firelock.fireAlarm = this;
+				else Loggy.Warning("[Object/FireAlarm/OnSpawnServer] Firelock list on fire alarm has null entry.", Category.ItemSpawn);
+			}
+
+			if (info.SpawnItems == false)
+			{
+				hasCables = false;
+				coverOpen = true;
+				SyncSprite(FireAlarmState.OpenEmptySprite);
+			}
+
+			UpdateManager.Add(UpdateMe, 1);
+		}
+
+		public void UpdateMe()
+		{
+			if(activated) return;
+
+			if(metaNode.Exists == false) return;
+
+			if(metaNode.MetaDataSystem.SetUpDone == false) return;
+
+			if ((metaNode.GasMixLocal.Pressure < AtmosConstants.WARNING_LOW_PRESSURE || metaNode.GasMixLocal.Pressure > AtmosConstants.WARNING_HIGH_PRESSURE)
+				&& activated == false)
+			{
+				InternalToggleState();
+			}
+		}
+
+		public void OnDestroy()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+		}
+
+		public void OnDespawnServer(DespawnInfo info)
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+		}
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (interaction.Intent == Intent.Harm) return false;
+			return true;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+			{
+				if (coverOpen)
+				{
+					coverOpen = false;
+					if (activated)
+					{
+						SyncSprite(FireAlarmState.TopLightSpriteAlert);
+					}
+					else
+					{
+						SyncSprite(FireAlarmState.TopLightSpriteNormal);
+					}
+				}
+				else
+				{
+					coverOpen = true;
+					if (hasCables)
+					{
+						SyncSprite(FireAlarmState.OpenCabledSprite);
+					}
+					else
+					{
+						SyncSprite(FireAlarmState.OpenEmptySprite);
+					}
+				}
+				ToolUtils.ServerPlayToolSound(interaction);
+				return;
+			}
+			if (coverOpen)
+			{
+				if (hasCables && Validations.HasItemTrait(interaction, CommonTraits.Instance.Wirecutter))
+				{
+					//cut out cables
+					Chat.AddActionMsgToChat(interaction, $"You remove the cables.",
+						$"{interaction.Performer.ExpensiveName()} removes the cables.");
+					ToolUtils.ServerPlayToolSound(interaction);
+					Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 5);
+					SyncSprite(FireAlarmState.OpenEmptySprite);
+					hasCables = false;
+					activated = false;
+					return;
+				}
+
+				if (!hasCables && Validations.HasItemTrait(interaction, CommonTraits.Instance.Cable) &&
+					Validations.HasUsedAtLeast(interaction, 5))
+				{
+					//add 5 cables
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+						"You start adding cables to the frame...",
+						$"{interaction.Performer.ExpensiveName()} starts adding cables to the frame...",
+						"You add cables to the frame.",
+						$"{interaction.Performer.ExpensiveName()} adds cables to the frame.",
+						() =>
+						{
+							Inventory.ServerConsume(interaction.HandSlot, 5);
+							hasCables = true;
+							SyncSprite(FireAlarmState.OpenCabledSprite);
+						});
+				}
+			}
+			else
+			{
+				InternalToggleState();
+			}
+		}
+
+		public void InternalToggleState()
+		{
+			if (isInCooldown || hasCables == false) return;
+
+			if (activated)
+				ClearAlerts();
+			else
+				SendCloseAlerts();
+		}
+
+		private void ClearAlerts()
+		{
+			activated = false;
+			SyncSprite(FireAlarmState.TopLightSpriteNormal);
+			SwitchCoolDown().Forget();
+
+			foreach (var firelock in FireLockList)
+			{
+				if (firelock == null) continue;
+				firelock.ClearAlert();
+			}
+			foreach (var lightSource in lightSourcesForAlarm)
+			{
+				if (lightSource == null) continue;
+				lightSource.Animator.ServerStopAnim();
+			}
+		}
+
+		private void SendCloseAlerts()
+		{
+			activated = true;
+			SyncSprite(FireAlarmState.TopLightSpriteAlert);
+			SoundManager.PlayNetworkedAtPos(FireAlarmSFX, registerTile.ObjectPhysics.Component.OfficialPosition);
+			SwitchCoolDown().Forget();
+
+			foreach (var firelock in FireLockList)
+			{
+				if (firelock == null) continue;
+				firelock.ReceiveAlert();
+			}
+
+			foreach (var lightSource in lightSourcesForAlarm)
+			{
+				if (lightSource == null) continue;
+				lightSource.Animator.PlayAnimNetworked(0);
+			}
+		}
+
+		private async UniTaskVoid SwitchCoolDown()
+		{
+			isInCooldown = true;
+			await UniTask.WaitForSeconds(coolDownTime);
+			isInCooldown = false;
+		}
+
+		public void SyncSprite(FireAlarmState stateNew)
+		{
+			switch (stateNew)
+			{
+
+				case FireAlarmState.TopLightSpriteAlert:
+					baseSpriteHandler.SetCatalogueIndexSprite(0);
+					topLightSpriteHandler.SetCatalogueIndexSprite(1);
+					bottomLightSpriteHandler.SetCatalogueIndexSprite(2);
+					break;
+				case FireAlarmState.OpenEmptySprite:
+					baseSpriteHandler.SetCatalogueIndexSprite(2);
+					topLightSpriteHandler.PushClear();
+					bottomLightSpriteHandler.PushClear();
+					break;
+				case FireAlarmState.TopLightSpriteNormal:
+					baseSpriteHandler.SetCatalogueIndexSprite(0);
+					topLightSpriteHandler.SetCatalogueIndexSprite(0);
+					bottomLightSpriteHandler.SetCatalogueIndexSprite(0);
+					break;
+				case FireAlarmState.OpenCabledSprite:
+					baseSpriteHandler.SetCatalogueIndexSprite(1);
+					topLightSpriteHandler.PushClear();
+					bottomLightSpriteHandler.PushClear();
+					break;
+			}
+		}
+
+		#region Editor
+
+		public IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
+		{
+			var approvedObjects = new List<GameObject>();
+
+			foreach (var potentialObject in potentialObjects)
+			{
+				var fireLock = potentialObject.GetComponent<FireLock>();
+				if (fireLock == null) continue;
+				AddFireLockFromScene(fireLock);
+				approvedObjects.Add(potentialObject);
+			}
+
+			return approvedObjects;
+		}
+
+		private void AddFireLockFromScene(FireLock fireLock)
+		{
+			if (FireLockList.Contains(fireLock))
+			{
+				FireLockList.Remove(fireLock);
+				fireLock.fireAlarm = null;
+			}
+			else
+			{
+				FireLockList.Add(fireLock);
+				fireLock.fireAlarm = this;
+			}
+		}
+
+		#endregion
+
+		#region Ai Interaction
+
+		public bool WillInteract(AiActivate interaction, NetworkSide side)
+		{
+			if (interaction.ClickType != AiActivate.ClickTypes.NormalClick) return false;
+
+			if (DefaultWillInteract.AiActivate(interaction, side) == false) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(AiActivate interaction)
+		{
+			InternalToggleState();
+		}
+
+		#endregion
+
+		#region Multitool Interaction
+
+		public MultitoolConnectionType ConType => MultitoolConnectionType.FireAlarm;
+		public bool MultiMaster => true; //TODO
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
+
+		#endregion
+	}
+}

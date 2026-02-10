@@ -1,13 +1,14 @@
-﻿using UnityEngine;
-
-public enum ColorValues
+﻿namespace Standard_Assets.HSVPicker.Enums
 {
-    R,
-    G,
-    B,
-    A,
+	public enum ColorValues
+	{
+		R,
+		G,
+		B,
+		A,
 
-    Hue,
-    Saturation,
-    Value
+		Hue,
+		Saturation,
+		Value
+	}
 }

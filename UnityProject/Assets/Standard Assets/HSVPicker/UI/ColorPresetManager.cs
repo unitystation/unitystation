@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Assets.HSVPicker
+namespace Standard_Assets.HSVPicker.UI
 {
     public static class ColorPresetManager
     {

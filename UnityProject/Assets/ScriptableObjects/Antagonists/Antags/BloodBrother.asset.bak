@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d1f709a4738465bad8344d04d81ce34, type: 3}
+  m_Name: BloodBrother
+  m_EditorClassIdentifier: 
+  antagName: Blood Brother
+  team: {fileID: 0}
+  addTeamAtInit: 0
+  antagJobType: 48
+  playSound: 1
+  spawnSound:
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  textColor: {r: 1, g: 0, b: 0, a: 1}
+  backgroundColor: {r: 0.1792453, g: 0, b: 0.067857586, a: 1}
+  numberOfObjectives: 5
+  canUseSharedObjectives: 1
+  needsEscapeObjective: 0
+  chanceForGimmickObjective: 50
+  coreObjectives: []
+  antagOccupation: {fileID: 0}
+  showInPreferences: 1
+  randomizeCharacterForGhostRole: 0
+  ghostRoleOccupation: {fileID: 0}
+  <BlackListedObjectives>k__BackingField:
+  - {fileID: 11400000, guid: ae28c203a113d5b42a7099948692bb10, type: 2}
+  <AlwaysStartWithObjectives>k__BackingField:
+  - {fileID: 11400000, guid: 748ac891cd195d145b7386127b0de87b, type: 2}
+  - {fileID: 11400000, guid: 7bea1ef82dee8264aabacb465d9a7946, type: 2}
+  extraHealthForBrothers: 550
+  initialTC: 8
+  BloodBrotherAbilities:
+  - rid: 6592296116545126588
+  - rid: 6592296116545126590
+  - rid: 6592296116545126592
+  - rid: 6592296116545126594
+  - rid: 6592296116545126596
+  - rid: 6592296116545126598
+  references:
+    version: 2
+    RefIds:
+    - rid: 6592296116545126588
+      type: {class: ImmuneToAllExplosions, ns: Systems.Antagonists.Antags.BloodBrothers.Abilities,
+        asm: Assets}
+      data: 
+    - rid: 6592296116545126590
+      type: {class: ImmuneToAllHeat, ns: Systems.Antagonists.Antags.BloodBrothers.Abilities,
+        asm: Assets}
+      data: 
+    - rid: 6592296116545126592
+      type: {class: ImmuneToStuns, ns: Systems.Antagonists.Antags.BloodBrothers.Abilities,
+        asm: Assets}
+      data: 
+    - rid: 6592296116545126594
+      type: {class: StartParanoid, ns: Systems.Antagonists.Antags.BloodBrothers.Abilities,
+        asm: Assets}
+      data: 
+    - rid: 6592296116545126596
+      type: {class: StartWithBlinding, ns: Systems.Antagonists.Antags.BloodBrothers.Abilities,
+        asm: Assets}
+      data:
+        _serverAddAction:
+          ID: BB_BlindingLight
+          DisplayName: Blinding Light
+          Description: Release a bright shining light that temporarily blinds everyone
+            that's near a blood brother.
+          TriggerType: 0
+          Type: 0
+          AnimatedIconCatalogue:
+          - {fileID: 11400000, guid: 5237e15d52676fb46b8120299a044759, type: 2}
+          CooldownTime: 225
+          CanUseWhileGhosting: 1
+          HasCustomCursor: 0
+          OffsetType: 0
+          CursorOffset: {x: 0, y: 0}
+          CursorTexture: {fileID: 0}
+          TrackingObject: {fileID: 0}
+    - rid: 6592296116545126598
+      type: {class: StartWithRandomSpell, ns: Systems.Antagonists.Antags.BloodBrothers.Abilities,
+        asm: Assets}
+      data: 

@@ -1,0 +1,351 @@
+﻿using System.Collections.Generic;
+using Newtonsoft.Json;
+using Shared.Managers;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+using US13.Core.Performance;
+using US13.Managers;
+using US13.Messages.Client.Admin;
+using US13.UI.Systems.AdminTools.GhostRolesManager;
+using US13.UI.Systems.AdminTools.ObjectiveManager;
+using Util;
+
+namespace US13.UI.Systems.AdminTools
+{
+	public class GUI_AdminTools : SingletonManager<GUI_AdminTools>
+	{
+		[SerializeField] private GameObject retrievingDataScreen = null;
+
+		[SerializeField] private GameObject gameModePage = null;
+		[SerializeField] private GameObject playerManagePage = null;
+		[SerializeField] private GameObject playerChatPage = null;
+		[SerializeField] private GameObject playersScrollView = null;
+		[SerializeField] private GameObject centCommPage = null;
+		[SerializeField] private GameObject eventsManagerPage = null;
+		[SerializeField] private GameObject roundManagerPage = null;
+		[SerializeField] private GameObject devToolsPage = null;
+		[SerializeField] private GameObject serverSettingsPage = null;
+		[SerializeField] private GameObject serverPerformancePage = null;
+		[SerializeField] private GameObject MindManagerPage = null;
+		[SerializeField] private GameObject MindManagerList = null; //Just In case the list gets disabled for some reason
+		[SerializeField] private TeamObjectiveAdminPage teamObjectivePage = null;
+		[SerializeField] private GhostRoleAdminPage ghostRolesPage = null;
+		[SerializeField] private AdminRespawnPage adminRespawnPage = default;
+		[SerializeField] private PlayerObjectiveManagerPage antagManagerPage = default;
+		[SerializeField] private Slider transparencySlider;
+		[SerializeField] private Image backgroundImage;
+		public AdminMindScrollView adminMindScrollView;
+		public AdminGiveItem giveItemPage;
+		private PlayerChatPage playerChatPageScript;
+		public PlayerManagePage playerManagePageScript;
+		public KickBanEntryPage kickBanEntryPage;
+		public AreYouSurePage areYouSurePage;
+
+		[SerializeField] private Transform playerListContent = null;
+		[SerializeField] private GameObject playerEntryPrefab = null;
+
+		[SerializeField] private Text windowTitle = null;
+		[SerializeField] private TMP_Text TMPPerformanceText = null;
+
+		public Text WindowTitle => windowTitle;
+
+		private List<AdminPlayerEntry> playerEntries = new List<AdminPlayerEntry>();
+		public string SelectedPlayer { get; private set; }
+
+		public OnSelectPlayerEvent OnSelectPlayer;
+
+		public List<AdminPlayerEntry> GetPlayerEntries()
+		{
+			return playerEntries;
+		}
+
+		private void OnEnable()
+		{
+			playerChatPageScript = playerChatPage.GetComponent<PlayerChatPage>();
+			playerManagePageScript = playerManagePage.GetComponent<PlayerManagePage>();
+			GameObject.DontDestroyOnLoad(playerChatPage);
+			GameObject.DontDestroyOnLoad(playerManagePage);
+			Instance = this;
+		}
+
+		private void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.LeftShift))
+			{
+				transparencySlider.gameObject.SetActive(!transparencySlider.IsActive());
+			}
+		}
+
+		public void ClosePanel()
+		{
+			gameObject.SetActive(false);
+		}
+
+		public void ToggleOnOff()
+		{
+			gameObject.SetActive(!gameObject.activeInHierarchy);
+		}
+
+		public void ShowGameModePage()
+		{
+			DisableAllPages();
+			gameModePage.SetActive(true);
+			windowTitle.text = "GAME MODE MANAGER";
+			retrievingDataScreen.SetActive(true);
+		}
+
+		public void ShowPlayerManagePage()
+		{
+			DisableAllPages();
+			playerManagePage.SetActive(true);
+			windowTitle.text = "PLAYER MANAGER";
+			playersScrollView.SetActive(true);
+			retrievingDataScreen.SetActive(true);
+		}
+
+		public void ShowPlayerChatPage()
+		{
+			DisableAllPages();
+			playerChatPage.SetActive(true);
+			windowTitle.text = "PLAYER BWOINK";
+			playersScrollView.SetActive(true);
+			retrievingDataScreen.SetActive(true);
+		}
+
+		public void ShowCentCommPage()
+		{
+			DisableAllPages();
+			centCommPage.SetActive(true);
+			windowTitle.text = "CENTCOMM";
+		}
+
+		public void ShowEventsManagerPage()
+		{
+			DisableAllPages();
+			eventsManagerPage.SetActive(true);
+			eventsManagerPage.GetComponent<EventsManagerPage>().GenerateDropDownOptions();
+			windowTitle.text = "EVENTS MANAGER";
+		}
+
+		public void ShowRoundManagerPage()
+		{
+			DisableAllPages();
+			roundManagerPage.SetActive(true);
+			windowTitle.text = "ROUND MANAGER";
+		}
+
+		public void ShowDevToolsPage()
+		{
+			DisableAllPages();
+			devToolsPage.SetActive(true);
+			windowTitle.text = "DEV TOOLS";
+			AdminCommandsManager.Instance.CmdRequestProfiles();
+		}
+
+
+		public void ShowServerStatisticsPage()
+		{
+			DisableAllPages();
+			serverPerformancePage.SetActive(true);
+			windowTitle.text = "SERVER STATISTICS";
+			RefreshServerPerformancePage();
+		}
+
+		public void ShowMindManagerPagePage()
+		{
+			DisableAllPages();
+			MindManagerPage.SetActive(true);
+			MindManagerList.SetActive(true);
+			windowTitle.text = "MIND MANAGER";
+		}
+
+		public void OnAntagonistManager()
+		{
+			antagManagerPage.Init(playerManagePageScript.PlayerEntry);
+			ShowAntagManagerPage();
+		}
+
+		public void ShowServerSettingsPage()
+		{
+			DisableAllPages();
+			serverSettingsPage.SetActive(true);
+			windowTitle.text = "SERVER SETTINGS";
+		}
+
+		public void ShowTeamObjectivePage()
+		{
+			DisableAllPages();
+			teamObjectivePage.gameObject.SetActive(true);
+			teamObjectivePage.Init(this);
+			windowTitle.text = "TEAM OBJECTIVES";
+			retrievingDataScreen.SetActive(true);
+		}
+
+		public void ShowGhostRolesPage()
+		{
+			DisableAllPages();
+			ghostRolesPage.gameObject.SetActive(true);
+			ghostRolesPage.Init();
+			windowTitle.text = "GHOST ROLES";
+			retrievingDataScreen.SetActive(true);
+		}
+
+		public void ShowRespawnPage()
+		{
+			DisableAllPages();
+			adminRespawnPage.gameObject.SetActive(true);
+			windowTitle.text = "RESPAWN A PLAYER";
+		}
+
+		public void ShowAntagManagerPage()
+		{
+			DisableAllPages();
+			antagManagerPage.gameObject.SetActive(true);
+			windowTitle.text = "ANTAGONIST MANAGER";
+		}
+
+		public void ShowGiveItemPagePage()
+		{
+			DisableAllPages();
+			giveItemPage.gameObject.SetActive(true);
+			windowTitle.text = $"Give item to {SelectedPlayer}";
+			UIManager.IsInputFocus = true;
+			UIManager.PreventChatInput = true;
+		}
+
+		void DisableAllPages()
+		{
+			retrievingDataScreen.SetActive(false);
+			gameModePage.SetActive(false);
+			playerManagePage.SetActive(false);
+			playerChatPage.SetActive(false);
+			centCommPage.SetActive(false);
+			eventsManagerPage.SetActive(false);
+			playersScrollView.SetActive(false);
+			roundManagerPage.SetActive(false);
+			devToolsPage.SetActive(false);
+			kickBanEntryPage.gameObject.SetActive(false);
+			areYouSurePage.gameObject.SetActive(false);
+			adminRespawnPage.gameObject.SetActive(false);
+			antagManagerPage.gameObject.SetActive(false);
+			serverSettingsPage.gameObject.SetActive(false);
+			teamObjectivePage.gameObject.SetActive(false);
+			ghostRolesPage.gameObject.SetActive(false);
+			giveItemPage.SetActive(false);
+			serverPerformancePage.SetActive(false);
+			MindManagerPage.SetActive(false);
+		}
+
+		public void CloseRetrievingDataScreen()
+		{
+			retrievingDataScreen.SetActive(false);
+		}
+
+		public void RefreshOnlinePlayerList(AdminPageRefreshData data)
+		{
+			foreach (var e in playerEntries)
+			{
+				Destroy(e.gameObject);
+			}
+
+			playerEntries.Clear();
+
+			foreach (var p in data.players)
+			{
+				var e = Instantiate(playerEntryPrefab, playerListContent);
+				var entry = e.GetComponent<AdminPlayerEntry>();
+				entry.UpdateButton(p, SelectPlayerInList);
+
+				if (p.isOnline)
+				{
+					entry.button.interactable = true;
+				}
+				else
+				{
+					if (!playerChatPage.activeInHierarchy)
+					{
+						entry.button.interactable = false;
+					}
+				}
+
+				playerEntries.Add(entry);
+				if (SelectedPlayer == p.uid)
+				{
+					entry.SelectPlayer();
+					if (playerChatPage.activeInHierarchy)
+					{
+						playerChatPageScript.SetData(entry);
+						SelectedPlayer = entry.PlayerData.uid;
+					}
+
+					if (playerManagePage.activeInHierarchy)
+					{
+						playerManagePageScript.SetData(entry);
+					}
+				}
+			}
+
+			if (string.IsNullOrEmpty(SelectedPlayer))
+			{
+				SelectPlayerInList(playerEntries[0]);
+			}
+		}
+
+		public void SelectPlayerInList(AdminPlayerEntry selectedEntry)
+		{
+			foreach (var p in playerEntries)
+			{
+				if (p != selectedEntry)
+				{
+					p.DeselectPlayer();
+				}
+				else
+				{
+					p.SelectPlayer();
+					SelectedPlayer = selectedEntry.PlayerData.uid;
+				}
+			}
+
+			SelectedPlayer = selectedEntry.PlayerData.uid;
+			OnSelectPlayer?.Invoke(selectedEntry.PlayerData);
+			if (playerChatPage.activeInHierarchy)
+			{
+				playerChatPageScript.SetData(selectedEntry);
+			}
+
+			if (playerManagePage.activeInHierarchy)
+			{
+				playerManagePageScript.SetData(selectedEntry);
+			}
+		}
+
+		public void AddPendingMessagesToLogs(string playerId, List<AdminChatMessage> pendingMessages)
+		{
+			if (pendingMessages.Count == 0) return;
+
+			playerChatPageScript.AddPendingMessagesToLogs(playerId, pendingMessages);
+			if (playerId == SelectedPlayer)
+			{
+				playerChatPageScript.SetData(null);
+			}
+		}
+
+		public void UpdateWindowTransparency()
+		{
+			var bgColor = backgroundImage.color;
+			bgColor.a = transparencySlider.value;
+			backgroundImage.color = bgColor;
+		}
+
+		public void RefreshServerPerformancePage()
+		{
+			AdminRequestPerformancesStatistics.Send();
+		}
+
+		public void SetServerPerformancePage(PerformanceManager.PerformanceInfo Info)
+		{
+			TMPPerformanceText.text = JsonConvert.SerializeObject(Info, Newtonsoft.Json.Formatting.Indented);
+		}
+	}
+}

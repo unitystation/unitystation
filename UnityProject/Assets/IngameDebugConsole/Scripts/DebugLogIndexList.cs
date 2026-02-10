@@ -1,4 +1,4 @@
-﻿namespace IngameDebugConsole
+﻿namespace IngameDebugConsole.Scripts
 {
 	public class DebugLogIndexList
 	{

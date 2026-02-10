@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Standard_Assets.PathFinder.Grid;
 
-namespace EpPathFinding.cs
+namespace Standard_Assets.PathFinder
 {
     public delegate float HeuristicDelegate(int iDx, int iDy);
 
@@ -35,7 +32,7 @@ namespace EpPathFinding.cs
             DiagonalMovement = param.DiagonalMovement;
             m_startNode = param.m_startNode;
             m_endNode = param.m_endNode;
-            
+
         }
 
         internal abstract void _reset(GridPos iStartPos, GridPos iEndPos, BaseGrid iSearchGrid = null);

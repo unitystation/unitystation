@@ -1,14 +1,14 @@
 ﻿#if UNITY_EDITOR
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using Shared.Systems.ObjectConnection;
 using Shared.Util;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using US13.Core.ObjectConnection;
 
-namespace Shared.Editor
+namespace EditorButInAssetsAssembly.Editor
 {
 	/// <summary>
 	/// An editor window to assist in quickly connecting slave devices to their masters while scene editing.

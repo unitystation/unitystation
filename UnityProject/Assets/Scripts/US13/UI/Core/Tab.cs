@@ -1,0 +1,12 @@
+using UnityEngine;
+
+namespace US13.UI.Core
+{
+	public class Tab : MonoBehaviour {
+		[HideInInspector]
+		public bool Hidden = false;
+		public bool isPopOut = true;
+
+		public virtual void RefreshTab() { }
+	}
+}

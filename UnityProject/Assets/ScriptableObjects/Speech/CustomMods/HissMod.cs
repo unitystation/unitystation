@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using UnityEngine;
+using US13.ScriptableObjects;
 
 namespace ScriptableObjects.Speech.CustomMods
 {

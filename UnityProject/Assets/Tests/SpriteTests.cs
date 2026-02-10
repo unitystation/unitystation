@@ -2,6 +2,7 @@ using System.Text;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
+using US13.Core.Sprite_Handler;
 
 namespace Tests
 {

@@ -1,0 +1,29 @@
+using System;
+using UnityEngine;
+
+namespace US13.Core.Input_System.InteractionV2.Interfaces
+{
+	/// <summary>
+	/// Indicates an Examinable object - players can examine this object and get a textual response.
+	/// Implement this if your object's examination response is dynamic.
+	/// </summary>
+	public interface IExaminable
+	{
+		string Examine(Vector3 worldPos = default);
+
+		/// <summary>
+		/// Higher priority will ensure this text is displayed first when constructing the examine message.
+		/// </summary>
+		int ExaminablePriority => 1;
+	}
+
+	[Flags]
+	public enum ExamineType
+	{
+		None = 0,
+		Basic = 1 << 0,
+		AlwaysBasic = 1 << 1 | Basic,
+		Advanced = 1 << 2,
+		AlwaysAdvanced = 1 << 3 | Advanced
+	}
+}

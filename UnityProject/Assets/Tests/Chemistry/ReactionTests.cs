@@ -1,6 +1,5 @@
 using System.Collections;
 using Chemistry;
-using Core.Factories;
 using NUnit.Framework;
 using ScriptableObjects;
 using UnityEngine;

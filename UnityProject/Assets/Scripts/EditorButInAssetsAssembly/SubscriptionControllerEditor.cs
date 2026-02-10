@@ -1,13 +1,13 @@
 ﻿#if UNITY_EDITOR
 
 using System.Linq;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using Shared.Systems.ObjectConnection;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using US13.Core.ObjectConnection;
 
-namespace CustomInspectors
+namespace EditorButInAssetsAssembly
 {
 	public class SubscriptionControllerEditor : InterfaceEditor
 	{

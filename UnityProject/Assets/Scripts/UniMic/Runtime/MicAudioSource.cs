@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace Adrenak.UniMic {
+namespace UniMic.Runtime {
     /// <summary>
-    /// A simple AudioSource based component that just plays what 
+    /// A simple AudioSource based component that just plays what
     /// the <see cref="Mic"/> instance is receiving.
     /// Provides optional feature to start the recording by itself (as a testing tool)
     /// </summary>

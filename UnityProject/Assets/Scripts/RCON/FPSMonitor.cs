@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
-using Messages.Server;
 using Mirror;
 using Shared.Managers;
 using UnityEngine;
+using US13.Managers.UpdateManager;
+using US13.Messages.Server;
 
-namespace Managers
+namespace RCON
 {
 	public class FPSMonitor : SingletonManager<FPSMonitor>
 	{

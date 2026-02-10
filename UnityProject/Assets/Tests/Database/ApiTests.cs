@@ -2,7 +2,7 @@ using System;
 using System.Net.Http;
 using NUnit.Framework;
 using UnityEngine;
-using Core.Database;
+using US13.Core.Database;
 
 namespace Tests.Database
 {

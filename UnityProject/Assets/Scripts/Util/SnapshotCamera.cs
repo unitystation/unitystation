@@ -1,25 +1,29 @@
 
 using UnityEngine;
-/// <summary>
-/// Singleton inside Managers.prefab that you can access to get camera used for snapshots
-/// </summary>
-[RequireComponent(typeof(Camera))]
-public class SnapshotCamera : MonoBehaviour
+
+namespace Util
 {
-	private Camera cam;
-	public Camera Camera => cam ? cam : cam = GetComponent<Camera>();
-
-	public static SnapshotCamera Instance;
-
-	void Awake()
+	/// <summary>
+	/// Singleton inside Managers.prefab that you can access to get camera used for snapshots
+	/// </summary>
+	[RequireComponent(typeof(Camera))]
+	public class SnapshotCamera : MonoBehaviour
 	{
-		if (Instance == null)
+		private Camera cam;
+		public Camera Camera => cam ? cam : cam = GetComponent<Camera>();
+
+		public static SnapshotCamera Instance;
+
+		void Awake()
 		{
-			Instance = this;
-		}
-		else
-		{
-			Destroy(this);
+			if (Instance == null)
+			{
+				Instance = this;
+			}
+			else
+			{
+				Destroy(this);
+			}
 		}
 	}
 }

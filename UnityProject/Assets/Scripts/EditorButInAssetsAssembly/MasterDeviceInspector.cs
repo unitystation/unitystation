@@ -1,11 +1,11 @@
 #if UNITY_EDITOR
 using System.Collections.Generic;
-using Shared.Editor;
-using Shared.Systems.ObjectConnection;
+using EditorButInAssetsAssembly.Editor;
 using UnityEditor;
 using UnityEngine;
+using US13.Core.ObjectConnection;
 
-namespace CustomInspectors
+namespace EditorButInAssetsAssembly
 {
 	/// <summary>
 	/// Simply draws a line between the master device and its linked slave devices for assisted mapping.

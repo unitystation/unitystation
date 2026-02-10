@@ -1,40 +1,44 @@
-using System;
 using UnityEngine;
+using US13.Core.Input_System;
+using US13.Managers.UpdateManager;
 
-public class TiltWindow : MonoBehaviour
+namespace Standard_Assets.HSVPicker.Other
 {
-	public Vector2 range = new Vector2(5f, 3f);
-
-	Transform mTrans;
-	Quaternion mStart;
-	Vector2 mRot = Vector2.zero;
-
-	void Start ()
+	public class TiltWindow : MonoBehaviour
 	{
-		mTrans = transform;
-		mStart = mTrans.localRotation;
-	}
+		public Vector2 range = new Vector2(5f, 3f);
 
-	private void OnEnable()
-	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-	}
+		Transform mTrans;
+		Quaternion mStart;
+		Vector2 mRot = Vector2.zero;
 
-	private void OnDisable()
-	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-	}
+		void Start ()
+		{
+			mTrans = transform;
+			mStart = mTrans.localRotation;
+		}
 
-	void UpdateMe()
-	{
-		Vector3 pos = CommonInput.mousePosition;
+		private void OnEnable()
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
 
-		float halfWidth = Screen.width * 0.5f;
-		float halfHeight = Screen.height * 0.5f;
-		float x = Mathf.Clamp((pos.x - halfWidth) / halfWidth, -1f, 1f);
-		float y = Mathf.Clamp((pos.y - halfHeight) / halfHeight, -1f, 1f);
-		mRot = Vector2.Lerp(mRot, new Vector2(x, y), Time.deltaTime * 5f);
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
 
-		mTrans.localRotation = mStart * Quaternion.Euler(-mRot.y * range.y, mRot.x * range.x, 0f);
+		void UpdateMe()
+		{
+			Vector3 pos = CommonInput.mousePosition;
+
+			float halfWidth = Screen.width * 0.5f;
+			float halfHeight = Screen.height * 0.5f;
+			float x = Mathf.Clamp((pos.x - halfWidth) / halfWidth, -1f, 1f);
+			float y = Mathf.Clamp((pos.y - halfHeight) / halfHeight, -1f, 1f);
+			mRot = Vector2.Lerp(mRot, new Vector2(x, y), Time.deltaTime * 5f);
+
+			mTrans.localRotation = mStart * Quaternion.Euler(-mRot.y * range.y, mRot.x * range.x, 0f);
+		}
 	}
 }

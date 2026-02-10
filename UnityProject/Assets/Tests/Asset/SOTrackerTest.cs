@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using ScriptableObjects;
-using Tiles;
 using UnityEngine;
+using US13.ScriptableObjects;
+using US13.Tilemaps.Tiles;
 
 namespace Tests.Asset
 {

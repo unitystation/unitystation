@@ -1,26 +1,29 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Image))]
-public class ColorImage : MonoBehaviour
+namespace Standard_Assets.HSVPicker.UI
 {
-    public ColorPicker picker;
+	[RequireComponent(typeof(Image))]
+	public class ColorImage : MonoBehaviour
+	{
+		public ColorPicker picker;
 
-    private Image image;
+		private Image image;
 
-    private void Awake()
-    {
-        image = GetComponent<Image>();
-        picker.onValueChanged.AddListener(ColorChanged);
-    }
+		private void Awake()
+		{
+			image = GetComponent<Image>();
+			picker.onValueChanged.AddListener(ColorChanged);
+		}
 
-    private void OnDestroy()
-    {
-        picker.onValueChanged.RemoveListener(ColorChanged);
-    }
+		private void OnDestroy()
+		{
+			picker.onValueChanged.RemoveListener(ColorChanged);
+		}
 
-    private void ColorChanged(Color newColor)
-    {
-        image.color = newColor;
-    }
+		private void ColorChanged(Color newColor)
+		{
+			image.color = newColor;
+		}
+	}
 }

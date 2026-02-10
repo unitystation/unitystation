@@ -1,6 +1,8 @@
 ﻿using System;
 using NUnit.Framework;
 using UnityEngine;
+using US13.Core.Chat;
+using US13.Core.Input_System.InteractionV2.Interfaces;
 
 namespace Tests.Examinables
 {

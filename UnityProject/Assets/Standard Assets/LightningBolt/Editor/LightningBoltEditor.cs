@@ -1,13 +1,12 @@
-﻿using System;
-
-using UnityEngine;
-#if UNITY_EDITOR // Preprocessor line added (and corresponding #endif at the end): non-standard change.
+﻿#if UNITY_EDITOR // Preprocessor line added (and corresponding #endif at the end): non-standard change.
+using System;
 using UnityEditor;
+using UnityEngine;
 
-namespace DigitalRuby.LightningBolt
+namespace Standard_Assets.LightningBolt.Editor
 {
     [CustomEditor(typeof(LightningBoltScript))]
-    public class LightningBoltEditor : Editor
+    public class LightningBoltEditor : UnityEditor.Editor
     {
         private Texture2D logo;
 

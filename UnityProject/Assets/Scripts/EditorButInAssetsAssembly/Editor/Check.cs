@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Shared.Editor
+namespace EditorButInAssetsAssembly.Editor
 {
 	public abstract class Check<T>
 	{

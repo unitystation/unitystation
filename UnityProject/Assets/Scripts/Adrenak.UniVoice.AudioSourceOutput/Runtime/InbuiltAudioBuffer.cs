@@ -1,7 +1,7 @@
-﻿namespace Adrenak.UniVoice.AudioSourceOutput {
+﻿namespace Adrenak.UniVoice.AudioSourceOutput.Runtime {
     [System.Obsolete("InbuiltAudioBuffer as been renamed to CircularAudioClip.")]
     public class InbuiltAudioBuffer : CircularAudioClip {
-        public InbuiltAudioBuffer(int frequency, int channels, int segDataLen, int segCount = 3, string clipName = null) 
+        public InbuiltAudioBuffer(int frequency, int channels, int segDataLen, int segCount = 3, string clipName = null)
         : base(frequency, channels, segDataLen, segCount, clipName) {
         }
     }
