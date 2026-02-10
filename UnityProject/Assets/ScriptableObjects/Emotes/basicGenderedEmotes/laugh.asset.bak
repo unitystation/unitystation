@@ -10,35 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a1e9a7021acd5343ab7777f5bdc00ff, type: 3}
-  m_Name: sigh
+  m_Name: laugh
   m_EditorClassIdentifier: 
-  emoteName: sigh
-  EmoteIcon: {fileID: 21300006, guid: 5ac49bdee78232f4e8d7405935643a36, type: 3}
+  emoteName: laugh
+  EmoteIcon: {fileID: 21300000, guid: cabf396edae30734da23839a694cab70, type: 3}
   requiresHands: 0
   allowEmoteWhileInCrit: 1
-  isAudibleEmote: 0
+  isAudibleEmote: 1
   allowEmoteWhileCrawling: 1
-  viewText: sighs.
-  youText: You let out a sigh.
-  failText: You cannot sigh.
+  viewText: laughs.
+  youText: You let out a laugh.
+  failText: Not Funny. Didn't laugh.
   mouthBlockedText: You are unable to make a sound!
-  critViewText: sighs at their fate.
+  critViewText: hides their pain behind a laugh.
   soundsAreTyped: 1
-  defaultSounds:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/Emotes/Sigh/SighFemale.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
+  defaultSounds: []
   TypedSounds:
-  - VoiceRace: {fileID: 11400000, guid: f8cc40dce57da8d4aa283decb92b4507, type: 2}
+  - VoiceRace: {fileID: 11400000, guid: 4c4d0af544e2b6847a3902db71f721fd, type: 2}
     VoiceDatas:
     - VoiceSex: 1
       Sounds:
       - SetLoadSetting: 0
-        AssetAddress: Assets/Prefabs/Effects/Emotes/Sigh/SighMale.prefab
+        AssetAddress: Assets/Prefabs/Voices/Moth/Laugh/MothLaugh.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
@@ -47,27 +40,7 @@ MonoBehaviour:
     - VoiceSex: 2
       Sounds:
       - SetLoadSetting: 0
-        AssetAddress: Assets/Prefabs/Effects/Emotes/Sigh/SighFemale.prefab
-        AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
-          m_EditorAssetChanged: 0
-  - VoiceRace: {fileID: 11400000, guid: 31250f329a28a20458b0f76c1f157a7f, type: 2}
-    VoiceDatas:
-    - VoiceSex: 1
-      Sounds:
-      - SetLoadSetting: 0
-        AssetAddress: Assets/Prefabs/Effects/Emotes/Sigh/SighMale.prefab
-        AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
-          m_EditorAssetChanged: 0
-    - VoiceSex: 2
-      Sounds:
-      - SetLoadSetting: 0
-        AssetAddress: Assets/Prefabs/Effects/Emotes/Sigh/SighFemale.prefab
+        AssetAddress: Assets/Prefabs/Voices/Moth/Laugh/MothLaugh.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
@@ -78,7 +51,28 @@ MonoBehaviour:
     - VoiceSex: 1
       Sounds:
       - SetLoadSetting: 0
-        AssetAddress: Assets/Prefabs/Effects/Emotes/Sigh/SighMale.prefab
+        AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh 1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh 2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh 3.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
@@ -87,18 +81,46 @@ MonoBehaviour:
     - VoiceSex: 2
       Sounds:
       - SetLoadSetting: 0
-        AssetAddress: Assets/Prefabs/Effects/Emotes/Sigh/SighFemale.prefab
+        AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
           m_EditorAssetChanged: 0
-  - VoiceRace: {fileID: 11400000, guid: 078513666ca7a3540bf3c90b08eb66da, type: 2}
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh 1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh 2.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh 3.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+  - VoiceRace: {fileID: 11400000, guid: f8cc40dce57da8d4aa283decb92b4507, type: 2}
     VoiceDatas:
     - VoiceSex: 1
       Sounds:
       - SetLoadSetting: 0
-        AssetAddress: Assets/Prefabs/Effects/Emotes/Sigh/SighMale.prefab
+        AssetAddress: Assets/Prefabs/Voices/Human/Laughs/MaleLaugh1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Voices/Human/Laughs/MaleLaugh2.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
@@ -107,18 +129,25 @@ MonoBehaviour:
     - VoiceSex: 2
       Sounds:
       - SetLoadSetting: 0
-        AssetAddress: Assets/Prefabs/Effects/Emotes/Sigh/SighFemale.prefab
+        AssetAddress: Assets/Prefabs/Voices/Human/Laughs/FemaleLaugh.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
           m_EditorAssetChanged: 0
-  - VoiceRace: {fileID: 11400000, guid: 4c4d0af544e2b6847a3902db71f721fd, type: 2}
+  - VoiceRace: {fileID: 11400000, guid: 5edc24611f99b9440a3e7b467b15a192, type: 2}
     VoiceDatas:
     - VoiceSex: 1
       Sounds:
       - SetLoadSetting: 0
-        AssetAddress: Assets/Prefabs/Effects/Emotes/Sigh/SighMale.prefab
+        AssetAddress: Assets/Prefabs/Voices/Human/Laughs/MaleLaugh1.prefab
+        AssetReference:
+          m_AssetGUID: 
+          m_SubObjectName: 
+          m_SubObjectType: 
+          m_EditorAssetChanged: 0
+      - SetLoadSetting: 0
+        AssetAddress: Assets/Prefabs/Voices/Human/Laughs/MaleLaugh2.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
@@ -127,60 +156,20 @@ MonoBehaviour:
     - VoiceSex: 2
       Sounds:
       - SetLoadSetting: 0
-        AssetAddress: Assets/Prefabs/Effects/Emotes/Sigh/SighFemale.prefab
+        AssetAddress: Assets/Prefabs/Voices/Human/Laughs/FemaleLaugh.prefab
         AssetReference:
           m_AssetGUID: 
           m_SubObjectName: 
           m_SubObjectType: 
           m_EditorAssetChanged: 0
-  - VoiceRace: {fileID: 11400000, guid: 9964159d746866b47bbdaf9fea2045ff, type: 2}
-    VoiceDatas:
-    - VoiceSex: 1
-      Sounds:
-      - SetLoadSetting: 0
-        AssetAddress: Assets/Prefabs/Effects/Emotes/Sigh/SighMale.prefab
-        AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
-          m_EditorAssetChanged: 0
-    - VoiceSex: 2
-      Sounds:
-      - SetLoadSetting: 0
-        AssetAddress: Assets/Prefabs/Effects/Emotes/Sigh/SighFemale.prefab
-        AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
-          m_EditorAssetChanged: 0
-  - VoiceRace: {fileID: 11400000, guid: 8bc1d65392e05ec4095bddde7a8b1324, type: 2}
-    VoiceDatas:
-    - VoiceSex: 1
-      Sounds:
-      - SetLoadSetting: 0
-        AssetAddress: Assets/Prefabs/Effects/Emotes/Sigh/SighMale.prefab
-        AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
-          m_EditorAssetChanged: 0
-    - VoiceSex: 2
-      Sounds:
-      - SetLoadSetting: 0
-        AssetAddress: Assets/Prefabs/Effects/Emotes/Sigh/SighFemale.prefab
-        AssetReference:
-          m_AssetGUID: 
-          m_SubObjectName: 
-          m_SubObjectType: 
-          m_EditorAssetChanged: 0
-  pitchRange: {x: 0.7, y: 1}
+  pitchRange: {x: 0.8, y: 1}
   allowedPlayerTypes: 1
   Behaviors:
-  - rid: 1202199920717332652
+  - rid: 1202199920717332646
   references:
     version: 2
     RefIds:
-    - rid: 1202199920717332652
-      type: {class: ExhaleOnEmote, ns: US13.ScriptableObjects.RP.EmoteBehaviors, asm: Assets}
+    - rid: 1202199920717332646
+      type: {class: ExhaleOnEmote, ns: ScriptableObjects.RP.EmoteBehaviors, asm: Assets}
       data:
         efficiency: 0.25

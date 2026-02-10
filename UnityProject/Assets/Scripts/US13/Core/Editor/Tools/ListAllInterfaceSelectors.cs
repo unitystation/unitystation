@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.IO;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 using US13.Core.Attributes;
@@ -35,6 +37,28 @@ namespace US13.Core.Editor.Tools
 				_results.Clear();
 				_scanned = false;
 			}
+
+			// Batch fix button: runs AutoFixNamespaces on all found asset paths
+			if (GUILayout.Button("Auto-Fix Namespaces (All Results)"))
+			{
+				if (_results.Count == 0)
+				{
+					Debug.LogWarning("No results to auto-fix. Run Scan first.");
+				}
+				else
+				{
+					var unique = new HashSet<string>(_results.Select(r => r.assetPath));
+					int i = 0;
+					foreach (var path in unique)
+					{
+						i++;
+						EditorUtility.DisplayProgressBar("Auto-Fix Namespaces", $"Processing {path} ({i}/{unique.Count})", (float)i / unique.Count);
+						RawAssetEditor.AutoFixNamespaces(path);
+					}
+					EditorUtility.ClearProgressBar();
+					Debug.Log($"Auto-fixed namespaces for {unique.Count} assets.");
+				}
+			}
 			EditorGUILayout.EndHorizontal();
 
 			EditorGUILayout.Space();
@@ -46,8 +70,8 @@ namespace US13.Core.Editor.Tools
 			{
 				EditorGUILayout.BeginVertical("box");
 				EditorGUILayout.LabelField(r.assetPath, EditorStyles.miniLabel);
-				EditorGUILayout.LabelField($"Asset Type: {r.assetType}  	Owner: {r.ownerType}");
-				EditorGUILayout.LabelField($"Member: {r.memberName}  	Member Type: {r.memberType}");
+				EditorGUILayout.LabelField($"Asset Type: {r.assetType}  \tOwner: {r.ownerType}");
+				EditorGUILayout.LabelField($"Member: {r.memberName}  \tMember Type: {r.memberType}");
 				EditorGUILayout.LabelField($"SelectImplementation FieldType: {r.attributeFieldType}");
 
 				EditorGUILayout.BeginHorizontal();
@@ -65,6 +89,14 @@ namespace US13.Core.Editor.Tools
 					var s = r.ToString();
 					EditorGUIUtility.systemCopyBuffer = s;
 					Debug.Log("Copied: " + s);
+				}
+				if (GUILayout.Button("Open Raw"))
+				{
+					RawAssetEditor.ShowEditor(r.assetPath);
+				}
+				if (GUILayout.Button("Auto-Fix Namespaces"))
+				{
+					RawAssetEditor.AutoFixNamespaces(r.assetPath);
 				}
 				EditorGUILayout.EndHorizontal();
 				EditorGUILayout.EndVertical();
@@ -168,6 +200,448 @@ namespace US13.Core.Editor.Tools
 						attributeFieldType = attr.FieldType != null ? attr.FieldType.FullName : "<null>",
 						assetRef = assetRef
 					});
+				}
+			}
+		}
+
+		/// <summary>
+		/// Small popup editor to view and edit the raw serialized asset file (text-based prefabs and .asset files).
+		/// Provides backup, manual edit, simple namespace auto-fix and rid replacement utilities.
+		/// </summary>
+		public class RawAssetEditor : EditorWindow
+		{
+			private string _assetPath;
+			private string _fullPath;
+			private string _text;
+			private Vector2 _scroll;
+			private string _oldRid = "";
+			private string _newRid = "";
+			private bool _isTextAsset = true;
+
+			public static void ShowEditor(string assetPath)
+			{
+				var w = GetWindow<RawAssetEditor>("Raw Asset Editor");
+				w._assetPath = assetPath;
+				w.LoadAssetText();
+				w.Show();
+			}
+
+			private void LoadAssetText()
+			{
+				_text = string.Empty;
+				_fullPath = GetFullPath(_assetPath);
+				if (!File.Exists(_fullPath))
+				{
+					_text = $"File not found: {_fullPath}";
+					_isTextAsset = false;
+					return;
+				}
+
+				try
+				{
+					// Read all text. If it's binary or very large, user will see it and should cancel.
+					_text = File.ReadAllText(_fullPath);
+					_isTextAsset = true;
+				}
+				catch (Exception ex)
+				{
+					_text = "Failed to read file: " + ex.Message;
+					_isTextAsset = false;
+				}
+			}
+
+			private static string GetFullPath(string assetPath)
+			{
+				if (assetPath.StartsWith("Assets/"))
+				{
+					return Path.Combine(Application.dataPath, assetPath.Substring("Assets/".Length).Replace('/', Path.DirectorySeparatorChar));
+				}
+				// fallback - try to resolve from project root
+				return Path.Combine(Directory.GetCurrentDirectory(), assetPath.Replace('/', Path.DirectorySeparatorChar));
+			}
+
+			private void OnGUI()
+			{
+				EditorGUILayout.LabelField(_assetPath, EditorStyles.boldLabel);
+				EditorGUILayout.Space();
+
+				EditorGUILayout.BeginHorizontal();
+				if (GUILayout.Button("Backup File (.bak)"))
+				{
+					BackupFile();
+				}
+				if (GUILayout.Button("Revert from Backup"))
+				{
+					RevertFromBackup();
+					LoadAssetText();
+				}
+				if (GUILayout.Button("Refresh"))
+				{
+					LoadAssetText();
+				}
+				EditorGUILayout.EndHorizontal();
+
+				EditorGUILayout.Space();
+
+				EditorGUILayout.LabelField("Quick fixes:", EditorStyles.boldLabel);
+				EditorGUILayout.BeginHorizontal();
+				if (GUILayout.Button("Auto-Fix Namespaces (Objects. -> US13.Objects.)"))
+				{
+					AutoFixNamespaces(_assetPath);
+					LoadAssetText();
+				}
+				if (GUILayout.Button("Auto-Fix DeconstructionMethods"))
+				{
+					AutoFixDeconstructionMethods(_assetPath);
+					LoadAssetText();
+				}
+				EditorGUILayout.EndHorizontal();
+
+				EditorGUILayout.Space();
+				EditorGUILayout.LabelField("RID Replace (exact text replace)");
+				EditorGUILayout.BeginHorizontal();
+				_oldRid = EditorGUILayout.TextField("Old RID", _oldRid);
+				if (GUILayout.Button("Generate New RID"))
+				{
+					_newRid = GenerateRid().ToString();
+				}
+				EditorGUILayout.EndHorizontal();
+				EditorGUILayout.BeginHorizontal();
+				_newRid = EditorGUILayout.TextField("New RID", _newRid);
+				if (GUILayout.Button("Replace RID"))
+				{
+					if (string.IsNullOrEmpty(_oldRid) || string.IsNullOrEmpty(_newRid))
+					{
+						Debug.LogWarning("Both old and new RID must be set.");
+					}
+					else
+					{
+						_text = _text.Replace(_oldRid, _newRid);
+						SaveAndReimport();
+						LoadAssetText();
+					}
+				}
+				EditorGUILayout.EndHorizontal();
+
+				EditorGUILayout.Space();
+
+				_scroll = EditorGUILayout.BeginScrollView(_scroll);
+				if (_isTextAsset)
+				{
+					_text = EditorGUILayout.TextArea(_text, GUILayout.ExpandHeight(true));
+				}
+				else
+				{
+					EditorGUILayout.LabelField(_text);
+				}
+				EditorGUILayout.EndScrollView();
+
+				EditorGUILayout.BeginHorizontal();
+				if (GUILayout.Button("Save"))
+				{
+					SaveAndReimport();
+					LoadAssetText();
+				}
+				if (GUILayout.Button("Close"))
+				{
+					Close();
+				}
+				EditorGUILayout.EndHorizontal();
+			}
+
+			private void BackupFile()
+			{
+				try
+				{
+					var bak = _fullPath + ".bak";
+					File.Copy(_fullPath, bak, true);
+					Debug.Log("Backup created: " + bak);
+				}
+				catch (Exception ex)
+				{
+					Debug.LogError("Backup failed: " + ex);
+				}
+			}
+
+			private void RevertFromBackup()
+			{
+				try
+				{
+					var bak = _fullPath + ".bak";
+					if (!File.Exists(bak))
+					{
+						Debug.LogWarning("No backup found: " + bak);
+						return;
+					}
+					File.Copy(bak, _fullPath, true);
+					AssetDatabase.ImportAsset(_assetPath, ImportAssetOptions.ForceUpdate);
+					Debug.Log("Reverted from backup: " + bak);
+				}
+				catch (Exception ex)
+				{
+					Debug.LogError("Revert failed: " + ex);
+				}
+			}
+
+			private static long GenerateRid()
+			{
+				// Generate a 64-bit positive number using ticks + random to reduce collisions.
+				var rnd = new System.Random();
+				var buffer = new byte[8];
+				rnd.NextBytes(buffer);
+				long val = BitConverter.ToInt64(buffer, 0);
+				if (val < 0) val = -val;
+				// ensure non-zero
+				if (val == 0) val = DateTime.UtcNow.Ticks & 0x7FFFFFFFFFFFFFFF;
+				return val;
+			}
+
+			private void SaveAndReimport()
+			{
+				if (!_isTextAsset)
+				{
+					Debug.LogError("Asset not a text-serializable file; won't save.");
+					return;
+				}
+				try
+				{
+					File.WriteAllText(_fullPath, _text);
+					AssetDatabase.ImportAsset(_assetPath, ImportAssetOptions.ForceUpdate);
+					Debug.Log("Saved and reimported: " + _assetPath);
+				}
+				catch (Exception ex)
+				{
+					Debug.LogError("Failed to save file: " + ex);
+				}
+			}
+
+			private static string ResolveNamespaceForClass(string className, string currentNs)
+			{
+				try
+				{
+					var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+					var candidates = new List<Type>();
+					foreach (var a in assemblies)
+					{
+						Type[] types;
+						try { types = a.GetTypes(); } catch { continue; }
+						foreach (var t in types)
+						{
+							if (t.Name == className && !string.IsNullOrEmpty(t.Namespace))
+								candidates.Add(t);
+						}
+					}
+
+					if (candidates.Count == 0)
+					{
+						// If no exact class match in loaded assemblies, attempt to guess by prefixing US13 to the existing namespace
+						if (!string.IsNullOrEmpty(currentNs) && !currentNs.StartsWith("US13."))
+							return "US13." + currentNs.Trim();
+						return currentNs;
+					}
+
+					// Prefer a candidate in US13 namespace
+					var preferred = candidates.FirstOrDefault(t => !string.IsNullOrEmpty(t.Namespace) && t.Namespace.StartsWith("US13."));
+					if (preferred != null) return preferred.Namespace;
+					// Otherwise pick the first candidate's namespace
+					return candidates[0].Namespace;
+				}
+				catch (Exception ex)
+				{
+					Debug.LogWarning($"ResolveNamespaceForClass failed for {className}: {ex.Message}");
+					return currentNs;
+				}
+			}
+
+			private static string FixTypeBodyNamespaces(string typeBody)
+			{
+				// typeBody example: "class: FalseWallDeconstruction, ns: Objects.Doors.DoorDeconstruction.DeconstructionMethods,"
+				try
+				{
+					var classMatch = Regex.Match(typeBody, @"class:\s*([^,}]+)");
+					var nsMatch = Regex.Match(typeBody, @"ns:\s*([^,}]+)");
+					if (!classMatch.Success) return typeBody;
+					var className = classMatch.Groups[1].Value.Trim();
+					var currentNs = nsMatch.Success ? nsMatch.Groups[1].Value.Trim() : string.Empty;
+
+					var resolvedNs = ResolveNamespaceForClass(className, currentNs);
+					if (string.IsNullOrEmpty(resolvedNs)) return typeBody;
+
+					if (nsMatch.Success)
+					{
+						// replace the ns value preserving spacing
+						var newBody = Regex.Replace(typeBody, @"ns:\s*[^,}]+", "ns: " + resolvedNs);
+						return newBody;
+					}
+					else
+					{
+						// no ns present; append it
+						return typeBody.TrimEnd() + ", ns: " + resolvedNs + ",";
+					}
+				}
+				catch (Exception ex)
+				{
+					Debug.LogWarning("FixTypeBodyNamespaces failed: " + ex.Message);
+					return typeBody;
+				}
+			}
+
+			public static void AutoFixNamespaces(string assetPath)
+			{
+				var full = GetFullPath(assetPath);
+				if (!File.Exists(full))
+				{
+					Debug.LogError("File not found: " + full);
+					return;
+				}
+				string text;
+				try
+				{
+					text = File.ReadAllText(full);
+				}
+				catch (Exception ex)
+				{
+					Debug.LogError("Failed to read file: " + ex);
+					return;
+				}
+
+				// Parse all type: {...} blocks and fix their ns by resolving the implementation type
+				var typeBlockRegex = new Regex(@"type:\s*\{([^}]*)\}", RegexOptions.Multiline);
+				var replaced = typeBlockRegex.Replace(text, match =>
+				{
+					var inner = match.Groups[1].Value;
+					var fixedInner = FixTypeBodyNamespaces(inner);
+					return "type: {" + fixedInner + "}";
+				});
+
+				if (replaced == text)
+				{
+					Debug.Log("No namespace changes required in " + assetPath);
+					return;
+				}
+
+				// Backup
+				var bak = full + ".bak";
+				try
+				{
+					File.Copy(full, bak, true);
+					File.WriteAllText(full, replaced);
+					AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
+					Debug.Log("Auto-fixed namespaces and saved: " + assetPath + " (backup: " + bak + ")");
+				}
+				catch (Exception ex)
+				{
+					Debug.LogError("Failed to auto-fix namespaces: " + ex);
+				}
+			}
+
+			public static void AutoFixDeconstructionMethods(string assetPath)
+			{
+				var full = GetFullPath(assetPath);
+				if (!File.Exists(full))
+				{
+					Debug.LogError("File not found: " + full);
+					return;
+				}
+				string text;
+				try
+				{
+					text = File.ReadAllText(full);
+				}
+				catch (Exception ex)
+				{
+					Debug.LogError("Failed to read file: " + ex);
+					return;
+				}
+
+				var deconPattern = new Regex(@"DeconstructionMethods:\s*\r?\n\s*-\s*rid:\s*(\d+)", RegexOptions.Multiline);
+				var matches = deconPattern.Matches(text);
+				if (matches.Count == 0)
+				{
+					Debug.Log("No DeconstructionMethods sections found in " + assetPath);
+					return;
+				}
+
+				bool changed = false;
+				// iterate from last to first so replacements don't shift earlier indexes
+				for (int i = matches.Count - 1; i >= 0; i--)
+				{
+					var m = matches[i];
+					var oldRid = m.Groups[1].Value;
+					var newRid = GenerateRid().ToString();
+
+					// Replace the top-level rid for this DeconstructionMethods entry
+					int replaceIndex = m.Groups[1].Index;
+					text = text.Substring(0, replaceIndex) + newRid + text.Substring(replaceIndex + oldRid.Length);
+
+					// Find RefIds: block after this DeconstructionMethods occurrence
+					int searchStart = m.Index;
+					int refIdsPos = text.IndexOf("RefIds:", searchStart, StringComparison.Ordinal);
+					if (refIdsPos == -1)
+					{
+						Debug.LogWarning($"No RefIds found for DeconstructionMethods (rid={oldRid}) in {assetPath}");
+						changed = true; // top-level rid changed regardless
+						continue;
+					}
+
+					// Find end of RefIds block (next top-level key or EOF)
+					int refBlockEnd = text.Length;
+					var boundaryMatch = Regex.Match(text.Substring(refIdsPos), @"\r?\n(?=[^\s-].+?:)");
+					if (boundaryMatch.Success)
+					{
+						refBlockEnd = refIdsPos + boundaryMatch.Index;
+					}
+
+					string refBlock = text.Substring(refIdsPos, refBlockEnd - refIdsPos);
+
+					// Find last existing RefIds entry (to copy class/ns and indentation)
+					var entryRegex = new Regex(@"-\s*rid:\s*(\d+)\s*\r?\n([ \t]*)type:\s*\{([^}]*)\}", RegexOptions.Multiline);
+					var entryMatches = entryRegex.Matches(refBlock);
+					string indent = "  ";
+					string typeBody = "class: Unknown, ns: US13.Unknown,";
+					if (entryMatches.Count > 0)
+					{
+						var last = entryMatches[entryMatches.Count - 1];
+						indent = last.Groups[2].Value; // indentation before 'type:' line
+						typeBody = last.Groups[3].Value.Trim();
+						// use context-aware namespace fixer
+						typeBody = FixTypeBodyNamespaces(typeBody);
+					}
+
+					// If a RefIds entry with newRid already exists, skip adding
+					if (refBlock.Contains(newRid))
+					{
+						Debug.Log($"RefIds already contains new RID {newRid} in {assetPath}");
+						changed = true;
+						continue;
+					}
+
+					// Build new entry text
+					var newEntry = "\n" + indent + "- rid: " + newRid + "\n" + indent + "type: {" + typeBody + "}";
+
+					// Insert new entry before refBlockEnd
+					text = text.Substring(0, refBlockEnd) + newEntry + text.Substring(refBlockEnd);
+					changed = true;
+				}
+
+				if (changed)
+				{
+					try
+					{
+						var bak = full + ".bak";
+						File.Copy(full, bak, true);
+						File.WriteAllText(full, text);
+						AssetDatabase.ImportAsset(assetPath, ImportAssetOptions.ForceUpdate);
+						Debug.Log("Auto-fixed DeconstructionMethods and saved: " + assetPath + " (backup: " + bak + ")");
+					}
+					catch (Exception ex)
+					{
+						Debug.LogError("Failed to auto-fix deconstruction methods: " + ex);
+					}
+				}
+				else
+				{
+					Debug.Log("No changes made to DeconstructionMethods in " + assetPath);
 				}
 			}
 		}
