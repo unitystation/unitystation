@@ -26,7 +26,7 @@ namespace US13.Core.Editor.Tools
 		private Dictionary<string, bool> _groupVisible = new Dictionary<string, bool>();
 		private Dictionary<string, bool> _groupFoldout = new Dictionary<string, bool>();
 
-		[MenuItem("Tools/US13/List Interface Selectors")]
+		[MenuItem("Tools/List All Interface Selectors")]
 		public static void ShowWindow()
 		{
 			GetWindow<ListAllInterfaceSelectors>("Interface Selectors");
