@@ -10,6 +10,11 @@ using US13.Core.Attributes;
 
 namespace US13.Core.Editor.Tools
 {
+	/// <summary>
+	/// A tool to scan all prefabs and ScriptableObjects in the project for fields/properties using SelectImplementationAttribute,
+	/// which is commonly used for interface-typed fields that require manual namespace updates.
+	/// (Max): This tool is heavily vibe-coded in a lot of areas, and can honestly be cleaned up to be much faster and more user-friendly.
+	/// </summary>
 	public class ListAllInterfaceSelectors : EditorWindow
 	{
 		private Vector2 _scroll;
