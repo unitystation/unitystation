@@ -1,10 +1,9 @@
 ﻿using System;
-
-using Adrenak.UniMic;
+using Adrenak.UniVoice.Runtime.Interfaces;
 using Logs;
-using UnityEngine;
+using UniMic.Runtime;
 
-namespace Adrenak.UniVoice.UniMicInput {
+namespace Adrenak.UniVoice.UniMicInput.Runtime {
     /// <summary>
     /// An <see cref="IAudioInput"/> implementation based on UniMic.
     /// For more on UniMic, visit https://www.github.com/adrenak/unimic

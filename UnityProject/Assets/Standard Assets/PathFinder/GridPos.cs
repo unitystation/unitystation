@@ -1,4 +1,4 @@
-﻿/*! 
+﻿/*!
 @file GridPos.cs
 @author Woong Gyu La a.k.a Chris. <juhgiyo@gmail.com>
 		<http://github.com/juhgiyo/eppathfinding.cs>
@@ -35,11 +35,10 @@ THE SOFTWARE.
 An Interface for the Grid Position Struct.
 
 */
-using System;
-using System.Collections.Generic;
-using System.Collections;
 
-namespace EpPathFinding.cs
+using System;
+
+namespace Standard_Assets.PathFinder
 {
     public class GridPos : IEquatable<GridPos>
     {

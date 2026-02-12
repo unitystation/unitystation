@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 625300282032245400, guid: 31d01d60b659392429fe6a6384563082,
+        type: 3}
+      propertyPath: ammoType
+      value: 23
+      objectReference: {fileID: 0}
     - target: {fileID: 1822513943335648427, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
       propertyPath: initialName
@@ -113,6 +118,12 @@ PrefabInstance:
     - target: {fileID: 5395694184195221582, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0b4333678974d01408da4debbfdedc9e,
+        type: 2}
+    - target: {fileID: 5395694184195221582, guid: 31d01d60b659392429fe6a6384563082,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 0b4333678974d01408da4debbfdedc9e,
         type: 2}

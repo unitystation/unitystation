@@ -1,0 +1,79 @@
+﻿using UnityEngine;
+using US13.Effects;
+using US13.Managers.NetworkManagement;
+using US13.Managers.UpdateManager;
+using US13.Player.MovementV2;
+
+namespace US13.Player
+{
+	/// <summary>
+	/// All effects that needed to be played on the player can be called or looked up from here.
+	/// </summary>
+	public class PlayerEffectsManager : MonoBehaviour
+	{
+		private FloatingEffect floatingEffect;
+		private RotateEffect rotateEffect;
+		private Shake shakeEffect;
+		private MovementSynchronisation playerSync;
+
+		private void Awake()
+		{
+			playerSync = GetComponent<MovementSynchronisation>();
+			floatingEffect = GetComponent<FloatingEffect>();
+			rotateEffect = GetComponent<RotateEffect>();
+			shakeEffect = GetComponent<Shake>();
+		}
+
+		private void OnEnable()
+		{
+			if (CustomNetworkManager.IsHeadless) return;
+			UpdateManager.Add(CallbackType.UPDATE, UpdateLoop);
+		}
+
+		private void OnDisable()
+		{
+			if (CustomNetworkManager.IsHeadless) return;
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateLoop);
+		}
+
+		//Client and Local host only
+		private void UpdateLoop()
+		{
+			if (playerSync == null) return;
+			//Checks if the player is floating and animates them up in down if they are.
+			if(playerSync.IsCurrentlyFloating && floatingEffect.WillAnimate == false)
+			{
+				AnimateFloating();
+				return;
+			}
+
+			if(playerSync.IsCurrentlyFloating == false && floatingEffect.WillAnimate)
+			{
+				AnimateFloating();
+			}
+		}
+
+		private void AnimateFloating()
+		{
+			if (floatingEffect.WillAnimate)
+			{
+				floatingEffect.StopFloating();
+			}
+			else
+			{
+				floatingEffect.StartFloating();
+			}
+		}
+
+		public void RotatePlayer(int times, float speed, float degree, bool random)
+		{
+			rotateEffect.SetupEffectvars(times, speed, degree, random);
+			rotateEffect.StartAnimation();
+		}
+
+		public void ShakePlayer(float duration, float distance, float delay)
+		{
+			shakeEffect.StartShake(duration, distance, delay);
+		}
+	}
+}

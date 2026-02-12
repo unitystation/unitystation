@@ -1,4 +1,4 @@
-﻿namespace Adrenak.UniVoice {
+﻿namespace Adrenak.UniVoice.Runtime.Interfaces {
     /// <summary>
     /// An abstract factory that creates <see cref="IAudioOutput"/> based on
     /// given parameters.

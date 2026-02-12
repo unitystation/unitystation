@@ -1,5 +1,5 @@
 using NUnit.Framework;
-using ScriptableObjects.Systems.Spells;
+using US13.Systems.Spells;
 
 namespace Tests.Asset
 {

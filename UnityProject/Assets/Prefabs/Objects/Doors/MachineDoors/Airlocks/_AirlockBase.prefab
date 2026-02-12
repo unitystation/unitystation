@@ -1544,6 +1544,17 @@ MonoBehaviour:
     type: 3}
   Reinforced: 0
   allowHackingPanel: 1
+  AllowTampering: 1
+  DeconstructionMethods:
+  - rid: 5438197799948386367
+  references:
+    version: 2
+    RefIds:
+    - rid: 5438197799948386367
+      type: {class: AirlockDeconstruction, ns: US13.Objects.Doors.DoorDeconstruction.DeconstructionMethods,
+        asm: Assets}
+      data:
+        deconstructTime: 2.5
 --- !u!114 &8100574057695213285
 MonoBehaviour:
   m_ObjectHideFlags: 0

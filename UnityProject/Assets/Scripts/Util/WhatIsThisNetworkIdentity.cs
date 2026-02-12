@@ -1,19 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
 using Logs;
 using Mirror;
 using UnityEngine;
+using US13.Managers.NetworkManagement;
 
-public class WhatIsThisNetworkIdentity : MonoBehaviour
+namespace Util
 {
-	public uint ID = 0;
-
-	[NaughtyAttributes.Button()]
-	public void WhatIsThis()
+	public class WhatIsThisNetworkIdentity : MonoBehaviour
 	{
-		var spawned =
-			CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+		public uint ID = 0;
 
-		Loggy.Error(spawned[ID].gameObject.name);
+		[NaughtyAttributes.Button()]
+		public void WhatIsThis()
+		{
+			var spawned =
+				CustomNetworkManager.IsServer ? NetworkServer.spawned : NetworkClient.spawned;
+
+			Loggy.Error(spawned[ID].gameObject.name);
+		}
 	}
 }

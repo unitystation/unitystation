@@ -1,0 +1,57 @@
+﻿using System.Collections.Generic;
+using Mirror;
+using Newtonsoft.Json;
+using SecureStuff;
+using UnityEngine;
+using US13.Managers;
+using US13.Messages.Client.Admin;
+using US13.UI.Systems;
+
+namespace US13.Messages.Server.AdminTools
+{
+	public class ProfileMessage : ServerMessage<ProfileMessage.NetMessage>
+	{
+		public struct NetMessage : NetworkMessage
+		{
+			public string JsonData;
+			public uint Recipient;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			LoadNetworkObject(msg.Recipient);
+			var listData = JsonConvert.DeserializeObject<SafeProfileManager.ProfileEntryDataList>(msg.JsonData);
+			UIManager.Instance.profileScrollView.RefreshProfileList(listData);
+
+		}
+
+		public static NetMessage Send(GameObject recipient)
+		{
+			var profileList = new SafeProfileManager.ProfileEntryDataList();
+			profileList.Profiles = GetAllProfiles();
+			var data = JsonConvert.SerializeObject(profileList);
+
+
+			NetMessage msg = new NetMessage {Recipient = recipient.GetComponent<NetworkIdentity>().netId, JsonData = data};
+
+			SendTo(recipient, msg);
+			return msg;
+		}
+
+		public static void SendToApplicable()
+		{
+			var adminList = PlayerList.Instance.GetAllWithTAG(TAG.DEBUG_FRAME_VIEW_PROFILE);
+			foreach (var admin in adminList)
+			{
+				Send(admin.GameObject);
+			}
+		}
+
+		private static List<SafeProfileManager.ProfileEntryData> GetAllProfiles()
+		{
+			return SafeProfileManager.Instance.GetCurrentProfiles();
+		}
+
+
+	}
+}

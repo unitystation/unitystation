@@ -1,0 +1,39 @@
+﻿using NaughtyAttributes;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using US13.Core.Sprite_Handler;
+
+namespace US13.UI.Core.Animations
+{
+	/// <summary>
+	/// Changes the referenced SpriteHandler to use the given spriteSO when hovering and when not. Intended for UI.
+	/// </summary>
+	public class AnimateOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+	{
+		[SerializeField, BoxGroup("References")]
+		private SpriteHandler spriteHandler = default;
+
+		[Tooltip("The sprite SO index to use when the pointer hovers over this object.")]
+		[SerializeField, BoxGroup("Settings")]
+		private int hoverSpriteIndex = 1;
+		[Tooltip("The sprite SO variant index to use when the pointer hovers over this object. Leave as 0 for most SOs.")]
+		[SerializeField, BoxGroup("Settings")]
+		private int hoverSpriteVariant = 0;
+		[SerializeField, BoxGroup("Settings")]
+		private int noHoverSpriteIndex = 0;
+		[SerializeField, BoxGroup("Settings")]
+		private int noHoverSpriteVariant = 0;
+
+		public void OnPointerEnter(PointerEventData eventData)
+		{
+			spriteHandler.SetCatalogueIndexSprite(hoverSpriteIndex, false);
+			spriteHandler.SetSpriteVariant(hoverSpriteVariant, false);
+		}
+
+		public void OnPointerExit(PointerEventData eventData)
+		{
+			spriteHandler.SetCatalogueIndexSprite(noHoverSpriteIndex, false);
+			spriteHandler.SetSpriteVariant(noHoverSpriteVariant, false);
+		}
+	}
+}

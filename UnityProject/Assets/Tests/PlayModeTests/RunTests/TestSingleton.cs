@@ -6,6 +6,7 @@ using System.Text;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
+using US13.Player;
 
 namespace GameRunTests
 {

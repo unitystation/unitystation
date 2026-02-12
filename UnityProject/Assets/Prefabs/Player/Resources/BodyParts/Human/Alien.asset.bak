@@ -1,0 +1,118 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e3145566f967d4e9706a88c0917052, type: 3}
+  m_Name: Alien
+  m_EditorClassIdentifier: 
+  Base:
+    Head:
+      Elements:
+      - {fileID: 5090303986049672628, guid: 7ef2e5135a5194647a916f53cd8636a6, type: 3}
+    Torso:
+      Elements:
+      - {fileID: 1913803608538927147, guid: 91200f794e99e8147ab4e9b5ab32b66e, type: 3}
+    ArmRight:
+      Elements:
+      - {fileID: 6929745943876400093, guid: 5159970d6532f3e46b8b6e57997e115e, type: 3}
+    ArmLeft:
+      Elements:
+      - {fileID: 4765282443109851668, guid: 75e18304c88acf4419ebf1405ea10783, type: 3}
+    LegRight:
+      Elements:
+      - {fileID: 8373094838245108935, guid: 809bc801943bfb34dbc81b0cd43b9f5f, type: 3}
+    LegLeft:
+      Elements:
+      - {fileID: 278567592626375938, guid: 44e3ea029dd328a469544bc9cdfde403, type: 3}
+    allowedToChangeling: 0
+    CustomisationSettings: []
+    bodyTypeSettings:
+      AvailableBodyTypes: []
+    SkinColours: []
+    RootImplantProcedure: {fileID: 0}
+    BodyPartsThatShareTheSkinTone: []
+    ClueString: saliva?
+    MeatProduce: {fileID: 2434222561616808047, guid: ec415b83dd52aba48a8c3eb34564b8dc,
+      type: 3}
+    SkinProduce: {fileID: 7186820348635746022, guid: 8cd3dcf86127057478c50a027e9ac1ea,
+      type: 3}
+    SkinningItemTrait: {fileID: 11400000, guid: 4fd46b7ca0066174bb16d0435eef3baa,
+      type: 2}
+    CanBeEmagged: 0
+    CanBePlayerChosen: 0
+    PreviewSprite: {fileID: 11400000, guid: 41443f225259f634486c6a460fb3bb63, type: 2}
+    SystemSettings:
+    - rid: 5920833068371804161
+    - rid: 5920833068371804162
+    - rid: 5920833068371804164
+    - rid: 5920833068371804166
+    StartingMutations: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 5920833068371804161
+      type: {class: ReagentPoolSystem, ns: HealthV2.Living.PolymorphicSystems, asm: Assets}
+      data:
+        Base: {fileID: 0}
+        BloodPool:
+          temperature: 273.15
+          reagents:
+            m_keys: []
+            m_values: []
+          reagentKeys: []
+        StartingBlood: 500
+        NormalBlood: 500
+        bloodReagent: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
+        PumpingDevices: []
+        TempBloodReservoir:
+          temperature: 273.15
+          reagents:
+            m_keys: []
+            m_values: []
+          reagentKeys: []
+        ReservoirReturnMultiplier: 0.15
+    - rid: 5920833068371804162
+      type: {class: ChemicalMetabolismSystem, ns: HealthV2.Living.PolymorphicSystems,
+        asm: Assets}
+      data:
+        Base: {fileID: 0}
+        InternalMetabolismPerSecond: 1
+        ExternalMetabolismPerSecond: 2
+        MetabolismReactionSets:
+        - {fileID: 11400000, guid: c489a27500b5c5b4392c5f90d1d2fce9, type: 2}
+        ALLMetabolismReactions: []
+        MetabolismComponents: []
+    - rid: 5920833068371804164
+      type: {class: HungerSystem, ns: HealthV2.Living.PolymorphicSystems, asm: Assets}
+      data:
+        Base: {fileID: 0}
+        BodyParts: []
+        NumberOfMinutesBeforeStarving: 30
+        BodyNutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
+          type: 2}
+        CashedHungerState: 1
+        HungerStatusEffects:
+          NotHungryStatusEffect: {fileID: 11400000, guid: 8a92c094201a758498a79523323565eb,
+            type: 2}
+          StravingStatusEffect: {fileID: 11400000, guid: 8526c1e024fdd1e4d8bc35595159d8a4,
+            type: 2}
+          HungryStatusEffect: {fileID: 11400000, guid: a7b8118c2b73a574cbb4425327020959,
+            type: 2}
+          FatStatusEffect: {fileID: 11400000, guid: 8a92c094201a758498a79523323565eb,
+            type: 2}
+    - rid: 5920833068371804166
+      type: {class: NaturalChemicalReleaseSystem, ns: HealthV2.Living.PolymorphicSystems,
+        asm: Assets}
+      data:
+        Base: {fileID: 0}
+        BodyParts: []
+        TotalToxinGenerationPerSecond: 0.1
+        BodyNaturalToxinReagent: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
+          type: 2}

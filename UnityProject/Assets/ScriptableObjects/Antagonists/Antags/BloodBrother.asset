@@ -54,23 +54,23 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 6592296116545126588
-      type: {class: ImmuneToAllExplosions, ns: Systems.Antagonists.Antags.BloodBrothers.Abilities,
+      type: {class: ImmuneToAllExplosions, ns: US13.Systems.Antagonists.Antags.BloodBrothers.Abilities,
         asm: Assets}
       data: 
     - rid: 6592296116545126590
-      type: {class: ImmuneToAllHeat, ns: Systems.Antagonists.Antags.BloodBrothers.Abilities,
+      type: {class: ImmuneToAllHeat, ns: US13.Systems.Antagonists.Antags.BloodBrothers.Abilities,
         asm: Assets}
       data: 
     - rid: 6592296116545126592
-      type: {class: ImmuneToStuns, ns: Systems.Antagonists.Antags.BloodBrothers.Abilities,
+      type: {class: ImmuneToStuns, ns: US13.Systems.Antagonists.Antags.BloodBrothers.Abilities,
         asm: Assets}
       data: 
     - rid: 6592296116545126594
-      type: {class: StartParanoid, ns: Systems.Antagonists.Antags.BloodBrothers.Abilities,
+      type: {class: StartParanoid, ns: US13.Systems.Antagonists.Antags.BloodBrothers.Abilities,
         asm: Assets}
       data: 
     - rid: 6592296116545126596
-      type: {class: StartWithBlinding, ns: Systems.Antagonists.Antags.BloodBrothers.Abilities,
+      type: {class: StartWithBlinding, ns: US13.Systems.Antagonists.Antags.BloodBrothers.Abilities,
         asm: Assets}
       data:
         _serverAddAction:
@@ -90,6 +90,6 @@ MonoBehaviour:
           CursorTexture: {fileID: 0}
           TrackingObject: {fileID: 0}
     - rid: 6592296116545126598
-      type: {class: StartWithRandomSpell, ns: Systems.Antagonists.Antags.BloodBrothers.Abilities,
+      type: {class: StartWithRandomSpell, ns: US13.Systems.Antagonists.Antags.BloodBrothers.Abilities,
         asm: Assets}
       data: 

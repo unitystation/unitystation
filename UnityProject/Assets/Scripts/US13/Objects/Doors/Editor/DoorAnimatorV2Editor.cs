@@ -1,0 +1,106 @@
+﻿#if UNITY_EDITOR
+using Logs;
+using UnityEditor;
+using UnityEngine;
+
+namespace US13.Objects.Doors.Editor
+{
+
+
+	[CustomEditor(typeof(DoorAnimatorV2))]
+	public class DoorAnimatorV2Editor : UnityEditor.Editor
+	{
+		private bool panel = false;
+		private bool welded = false;
+		private bool lights = true;
+
+
+		public override void OnInspectorGUI()
+		{
+			base.OnInspectorGUI();
+
+			if (!Application.isPlaying)
+			{
+				return;
+			}
+
+			DoorAnimatorV2 animator = (DoorAnimatorV2) target;
+			lights = EditorGUILayout.Toggle(lights, "Enable or disable lights");
+
+			if (GUILayout.Button("Toggle hacking panel"))
+			{
+				panel = !panel;
+
+				if (panel)
+				{
+					animator.AddPanelOverlay();
+				}
+				else
+				{
+					animator.RemovePanelOverlay();
+				}
+			}
+
+			if (GUILayout.Button("Toggle welded"))
+			{
+				welded = !welded;
+
+				if (welded)
+				{
+					animator.AddWeldOverlay();
+				}
+				else
+				{
+					animator.RemoveWeldOverlay();
+				}
+			}
+
+			#region Opening and closing
+			GUILayout.Label("Opening and closing", "bold");
+			GUILayout.BeginHorizontal();
+			if (GUILayout.Button("Test opening animation"))
+			{
+				animator.PlayOpeningAnimation(panel: panel, lights: lights).Forget();
+			}
+
+			if (GUILayout.Button("Test closing animation"))
+			{
+				animator.PlayClosingAnimation(panel: panel, lights: lights).Forget();
+			}
+			GUILayout.EndHorizontal();
+			#endregion
+
+			#region Lights
+			GUILayout.Label("Lights", "bold");
+			GUILayout.BeginHorizontal();
+			if (GUILayout.Button("Test denying animation"))
+			{
+				animator.PlayDeniedAnimation().Forget();
+			}
+
+			if (GUILayout.Button("Test pressure warning"))
+			{
+				animator.PlayPressureWarningAnimation().Forget();
+			}
+
+			if (GUILayout.Button("Test emergency"))
+			{
+				Loggy.Info("Not implemented", Category.Doors);
+			}
+			GUILayout.EndHorizontal();
+
+			GUILayout.BeginHorizontal();
+			if (GUILayout.Button("Test bolts On"))
+			{
+				animator.TurnOnBoltsLight();
+			}
+			if (GUILayout.Button("Test bolts Off"))
+			{
+				animator.TurnOffAllLights();
+			}
+			GUILayout.EndHorizontal();
+			#endregion
+		}
+	}
+}
+#endif

@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7018622629282405032}
+  - component: {fileID: 6364953804167058458}
   m_Layer: 18
   m_Name: modules
   m_TagString: Untagged
@@ -31,6 +32,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1622667636829309004}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6364953804167058458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 750678105943001073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dcb740346f9fac4b8b867342b52735e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weldTime: 5
+  repairTime: 10
 --- !u!1 &3939855377403599151
 GameObject:
   m_ObjectHideFlags: 0
@@ -89,6 +104,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -110,6 +127,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1825689229
   m_SortingLayer: 24
   m_SortingOrder: 1
@@ -224,6 +242,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -245,6 +265,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1825689229
   m_SortingLayer: 24
   m_SortingOrder: 1
@@ -353,6 +374,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -374,6 +397,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1825689229
   m_SortingLayer: 24
   m_SortingOrder: 3
@@ -471,6 +495,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -492,6 +518,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1825689229
   m_SortingLayer: 24
   m_SortingOrder: 1
@@ -586,6 +613,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -607,6 +636,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1825689229
   m_SortingLayer: 24
   m_SortingOrder: 2
@@ -706,6 +736,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -727,6 +759,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1825689229
   m_SortingLayer: 24
   m_SortingOrder: 1
@@ -1197,9 +1230,10 @@ MonoBehaviour:
   BlockAutoClose: 0
   clickDisablesAutoClose: 0
   isWindowedDoor: 0
-  UseMachinesForOpenLayer: 0
   HackingProcessBase: {fileID: 3363448639085241135}
   ConstructibleDoor: {fileID: 6739358326816350604}
+  UseMachinesForOpenLayer: 0
+  IsFireLockEngaged: 0
   <CanRelink>k__BackingField: 0
   conType: 7
   requireLink: 0
@@ -1228,7 +1262,10 @@ MonoBehaviour:
   closingAnimationTime: 0.5
   deniedAnimationTime: 0.5
   warningAnimationTime: 0.5
-  CurrentDoorUpdateType: 0
+  slipThroughScaler: 0.5
+  SyncDoorUpdateType: 0
+  PanelOpen: 0
+  LightsWork: 0
 --- !u!114 &6739358326816350604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1246,6 +1283,17 @@ MonoBehaviour:
   airlockElectronicsPrefab: {fileID: 0}
   Reinforced: 0
   allowHackingPanel: 0
+  AllowTampering: 1
+  DeconstructionMethods:
+  - rid: 5438197799948386364
+  references:
+    version: 2
+    RefIds:
+    - rid: 5438197799948386364
+      type: {class: FalseWallDeconstruction, ns: US13.Objects.Doors.DoorDeconstruction.DeconstructionMethods,
+        asm: Assets}
+      data:
+        deconstructTime: 4.5
 --- !u!114 &4730371593326977015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1258,18 +1306,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: ad3502dbb5202e64ab70b125dba1335c,
+  itemStorageStructure: {fileID: 11400000, guid: 31e85fdaff610a047b77f53487ba609b,
     type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 9fbe8f51c62c3024082977a6dce96f20,
+  itemStorageCapacity: {fileID: 11400000, guid: 85a98e52d37b73846953062eec2127ff,
     type: 2}
   itemStoragePopulator: {fileID: 0}
-  forceSpawnContents: 0
+  forceSpawnContents: 1
   ManuallySpawnContent: 0
-  dropItemsOnDespawn: 0
-  UesAddlistPopulater: 0
+  dropItemsOnDespawn: 1
+  UesAddlistPopulater: 1
   Populater:
     SlotContents: []
-    DeprecatedContents: []
+    DeprecatedContents:
+    - {fileID: 5331286249588652700, guid: 29ecbf5a1d918574cbcf5853927e0944, type: 3}
+    - {fileID: 5331286249588652700, guid: 29ecbf5a1d918574cbcf5853927e0944, type: 3}
+    - {fileID: 5331286249588652700, guid: 29ecbf5a1d918574cbcf5853927e0944, type: 3}
+    - {fileID: 5331286249588652700, guid: 29ecbf5a1d918574cbcf5853927e0944, type: 3}
   SetSlotItemNotRemovableOnStartUp: 0
   initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,

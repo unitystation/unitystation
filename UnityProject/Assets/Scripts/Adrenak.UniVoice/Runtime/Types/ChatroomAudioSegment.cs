@@ -1,4 +1,4 @@
-﻿namespace Adrenak.UniVoice {
+﻿namespace Adrenak.UniVoice.Runtime.Types {
     [System.Serializable]
     /// <summary>
     /// A data structure representing the audio transmitted over the network.

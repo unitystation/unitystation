@@ -1,12 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using Logs;
-using Managers;
-using ScriptableObjects.Communications;
 using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
 using UnityEngine.Serialization;
+using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Managers;
+using US13.ScriptableObjects.Telecomms;
 
 namespace Communications
 {

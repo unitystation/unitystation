@@ -1,0 +1,127 @@
+﻿using System.Collections.Generic;
+using Mirror;
+using SecureStuff;
+using UnityEditor;
+using UnityEngine;
+using US13.Managers;
+using US13.Managers.NetworkManagement;
+using US13.Managers.UpdateManager;
+using US13.Tilemaps.Behaviours.Layers;
+using US13.Tilemaps.Behaviours.Objects;
+using US13.UI.Systems.Character;
+
+namespace US13.Objects.Gateway
+{
+	public class MobSpawnControlScript : NetworkBehaviour
+	{
+		public List<LegacyMobSpawnScript> MobSpawners = new List<LegacyMobSpawnScript>();
+
+		public List<PlayerBlueprint> MobSpawnersNew = new List<PlayerBlueprint>();
+
+		public bool DetectViaMatrix;
+
+		private bool SpawnedMobs;
+
+		private const float PlayerCheckTime = 1f;
+
+		[Server, VVNote(VVHighlight.SafeToModify100)]
+		public void SpawnMobs()
+		{
+			if (SpawnedMobs) return;
+			SpawnedMobs = true;
+
+			foreach (var Spawner in MobSpawners)
+			{
+				if (Spawner != null)
+				{
+					Spawner.SpawnMob();
+				}
+			}
+
+			foreach (var Spawner in MobSpawnersNew)
+			{
+				if (Spawner != null)
+				{
+					Spawner.Spawn();
+				}
+			}
+		}
+
+		[ContextMenu("Rebuild mob spawner list"), VVNote(VVHighlight.SafeToModify100), NaughtyAttributes.Button]
+		void RebuildMobSpawnerList()
+		{
+			MobSpawners.Clear();
+			MobSpawnersNew.Clear();
+			foreach (var mobSpawner in transform.GetComponentInParent<ObjectLayer>().GetComponentsInChildren<LegacyMobSpawnScript>())
+			{
+				MobSpawners.Add(mobSpawner);
+			}
+
+
+			foreach (var PlayerBlueprint in transform.GetComponentInParent<ObjectLayer>().GetComponentsInChildren<PlayerBlueprint>())
+			{
+				MobSpawnersNew.Add(PlayerBlueprint);
+			}
+
+
+
+#if UNITY_EDITOR
+			EditorUtility.SetDirty(gameObject);
+#endif
+		}
+
+		protected virtual void UpdateMe()
+		{
+			DetectPlayer();
+		}
+
+		private void OnEnable()
+		{
+			if (!DetectViaMatrix) return;
+			if (!CustomNetworkManager.IsServer) return;
+
+			UpdateManager.Add(UpdateMe, PlayerCheckTime);
+		}
+
+		void OnDisable()
+		{
+			if (!CustomNetworkManager.IsServer) return;
+
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+		}
+
+		[Server]
+		private void DetectPlayer()
+		{
+			foreach (var player in PlayerList.Instance.InGamePlayers)
+			{
+				var script = player.Script;
+				if (script == null) return;
+
+				if (script.IsNormal && script.RegisterPlayer.Matrix == gameObject.GetComponent<RegisterObject>().Matrix)
+				{
+					SpawnMobs();
+					UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+					return;
+				}
+			}
+		}
+
+		void OnDrawGizmosSelected()
+		{
+			var sprite = GetComponentInChildren<SpriteRenderer>();
+			if (sprite == null)
+				return;
+
+			//Highlighting all controlled lightSources
+			Gizmos.color = new Color(0.5f, 0.5f, 1, 1);
+			for (int i = 0; i < MobSpawners.Count; i++)
+			{
+				var mobSpawner = MobSpawners[i];
+				if (mobSpawner == null) continue;
+				Gizmos.DrawLine(sprite.transform.position, mobSpawner.transform.position);
+				Gizmos.DrawSphere(mobSpawner.transform.position, 0.25f);
+			}
+		}
+	}
+}

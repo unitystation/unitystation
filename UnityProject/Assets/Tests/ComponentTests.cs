@@ -1,6 +1,6 @@
-﻿using Items;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using UnityEngine;
+using US13.Items;
 
 namespace Tests
 {

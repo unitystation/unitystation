@@ -1,15 +1,14 @@
-﻿using UnityEngine;
-using System.Reflection;
+﻿using System;
 using System.Collections.Generic;
+using System.Reflection;
 using System.Text;
-using System;
-using System.Linq;
-using Cysharp.Threading.Tasks;
 using Logs;
 using Mirror;
 using SecureStuff;
+using UnityEngine;
+using US13.Managers;
 
-namespace IngameDebugConsole
+namespace IngameDebugConsole.Scripts
 {
 	/// <summary>
 	/// Helper class to store important information about a command

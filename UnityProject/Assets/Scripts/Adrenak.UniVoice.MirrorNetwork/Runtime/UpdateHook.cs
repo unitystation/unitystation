@@ -1,8 +1,7 @@
 using System;
-
 using UnityEngine;
 
-namespace Adrenak.UniVoice.MirrorNetwork {
+namespace Adrenak.UniVoice.MirrorNetwork.Runtime {
     public class UpdateHook : MonoBehaviour {
         public event Action OnUpdate;
 

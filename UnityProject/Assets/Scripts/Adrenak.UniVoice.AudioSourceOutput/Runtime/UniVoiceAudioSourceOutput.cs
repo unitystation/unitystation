@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Adrenak.UniVoice.Runtime.Interfaces;
+using Adrenak.UniVoice.Runtime.Types;
 using Logs;
 using UnityEngine;
+using Util;
 
-namespace Adrenak.UniVoice.AudioSourceOutput {
+namespace Adrenak.UniVoice.AudioSourceOutput.Runtime {
     /// <summary>
     /// This class feeds incoming segments of audio to an AudioBuffer
     /// and plays the buffer's clip on an AudioSource. It also clears segments

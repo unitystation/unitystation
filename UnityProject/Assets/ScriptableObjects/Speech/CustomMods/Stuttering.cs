@@ -1,39 +1,43 @@
 ﻿using System.Text.RegularExpressions;
-using ScriptableObjects;
 using UnityEngine;
+using US13.ScriptableObjects;
+using Util;
 
-[CreateAssetMenu(fileName = "CustomSpeechModifierCode", menuName = "ScriptableObjects/SpeechModifiers/Stuttering")]
-public class Stuttering : CustomSpeechModifier
+namespace ScriptableObjects.Speech.CustomMods
 {
-	private static string Stutter(Match m)
+	[CreateAssetMenu(fileName = "CustomSpeechModifierCode", menuName = "ScriptableObjects/SpeechModifiers/Stuttering")]
+	public class Stuttering : CustomSpeechModifier
 	{
-		string x = m.ToString();
-		string stutter = "";
-
-		//80% to match TG probability
-		if (DMMath.Prob(80))
+		private static string Stutter(Match m)
 		{
-			//Randomly pick how bad is the stutter
-			int intensity = Random.Range(1, 4);
-			for (int i = 0; i < intensity; i++)
+			string x = m.ToString();
+			string stutter = "";
+
+			//80% to match TG probability
+			if (DMMath.Prob(80))
 			{
-				stutter = stutter + x + "-"; //h-h-h-
-			}
+				//Randomly pick how bad is the stutter
+				int intensity = Random.Range(1, 4);
+				for (int i = 0; i < intensity; i++)
+				{
+					stutter = stutter + x + "-"; //h-h-h-
+				}
 
-			stutter += x; //h-h-h-h[ello]
+				stutter += x; //h-h-h-h[ello]
+			}
+			else
+			{
+				stutter = x;
+			}
+			return stutter;
 		}
-		else
+		public override string ProcessMessage(string message)
 		{
-			stutter = x;
-		}
-		return stutter;
-	}
-	public override string ProcessMessage(string message)
-	{
-		//	//Stuttering people randomly repeat beginnings of words
-		//	//Regex - find word boundary followed by non digit, non special symbol, non end of word letter. Basically find the start of words.
+			//	//Stuttering people randomly repeat beginnings of words
+			//	//Regex - find word boundary followed by non digit, non special symbol, non end of word letter. Basically find the start of words.
 			message = Regex.Replace(message, @"(\b)+([^\d\W])\B", Stutter);
 
-		return message;
+			return message;
+		}
 	}
 }

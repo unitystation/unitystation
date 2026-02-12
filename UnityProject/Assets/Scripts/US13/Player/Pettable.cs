@@ -1,0 +1,60 @@
+﻿using Logs;
+using UnityEngine;
+using US13.Core.Chat;
+using US13.Core.Input_System.InteractionV2;
+using US13.Core.Input_System.InteractionV2.Interactions;
+using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Health.Living.SimpleAnimal;
+using US13.HealthV2.Living;
+using US13.NPC.AI;
+using US13.UI.Systems.MainHUD.UI_Bottom;
+using Util;
+
+namespace US13.Player
+{
+	/// <summary>
+	/// Allows an object to be pet by a player. Shameless copy of Huggable.cs
+	/// </summary>
+	public class Pettable : MonoBehaviour, ICheckedInteractable<HandApply>
+	{
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (interaction.HandObject != null) return false;
+			if (interaction.Intent != Intent.Help) return false;
+
+			if (interaction.TargetObject.TryGetComponent<LivingHealthMasterBase>(out var healthV2))
+			{
+				return (healthV2.IsDead || healthV2.IsCrit || healthV2.IsSoftCrit) == false;
+			}
+			// fallback to old system
+			// TODO: convert all mobs to new system then remove this
+			else if (interaction.TargetObject.TryGetComponent<SimpleAnimal>(out var health))
+			{
+				return (health.IsDead || health.IsCrit || health.IsSoftCrit) == false;
+			}
+
+			Loggy.Error($"{this} is missing a health component. Cannot pet this mob.");
+			return false;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			string npcName = gameObject.ExpensiveName();
+			if (TryGetComponent<MobAI>(out var npc))
+			{
+				npc.OnPetted(interaction.Performer.gameObject);
+				if (string.IsNullOrWhiteSpace(npc.mobName) == false)
+				{
+					npcName = npc.mobName;
+				}
+
+			}
+
+			Chat.AddActionMsgToChat(
+				interaction.Performer,
+				$"You pet {npcName}.",
+				$"{interaction.Performer.ExpensiveName()} pets {npcName}.");
+		}
+	}
+}

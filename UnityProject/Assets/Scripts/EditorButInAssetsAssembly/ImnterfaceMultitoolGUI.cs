@@ -1,13 +1,13 @@
 ﻿using System;
-using Mirror;
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-using UnityEngine;
 using System.Collections.Generic;
-using Shared.Systems.ObjectConnection;
+using Mirror;
+using UnityEditor;
+using UnityEngine;
+using US13.Core.ObjectConnection;
+#if UNITY_EDITOR
+#endif
 
-namespace CustomInspectors
+namespace EditorButInAssetsAssembly
 {
 	/// <summary>
 	/// Finds C# interfaces in its inheritor and manually assigns a unity editor GUI for the inspector if appropriate
@@ -43,7 +43,7 @@ namespace CustomInspectors
 	}
 #if UNITY_EDITOR
 	[CustomEditor(typeof(ImnterfaceMultitoolGUI), true)]
-	public class InterfaceGUIEditor : Editor
+	public class InterfaceGUIEditor : UnityEditor.Editor
 	{
 		private ImnterfaceMultitoolGUI imnterfaceMultitoolGUI;
 
@@ -88,7 +88,7 @@ namespace CustomInspectors
 		}
 	}
 
-	public class InterfaceEditor : Editor
+	public class InterfaceEditor : UnityEditor.Editor
 	{
 		public virtual void OnEnableInEditor(object target) { }
 		public virtual void OnDisableInEditor(object target) { }

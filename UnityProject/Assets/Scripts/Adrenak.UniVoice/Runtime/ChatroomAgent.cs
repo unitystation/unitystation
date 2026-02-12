@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Diagnostics;
+using Adrenak.UniVoice.Runtime.Interfaces;
+using Adrenak.UniVoice.Runtime.Types;
 using Logs;
-using Debug = UnityEngine.Debug;
+using US13.Managers.NetworkManagement;
 
-namespace Adrenak.UniVoice
+namespace Adrenak.UniVoice.Runtime
 {
 	/// <summary>
 	/// Provides the means to host or connect to a chatroom.

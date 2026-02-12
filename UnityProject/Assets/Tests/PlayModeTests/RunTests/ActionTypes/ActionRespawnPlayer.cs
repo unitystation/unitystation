@@ -2,8 +2,11 @@ using GameRunTests;
 using NaughtyAttributes;
 using UnityEngine;
 using Newtonsoft.Json;
-using Player;
-using Systems.Character;
+using US13.Core.Lifecycle;
+using US13.Managers;
+using US13.Player;
+using US13.Systems.Lobby;
+using US13.Systems.Occupations;
 
 public partial class TestAction
 {

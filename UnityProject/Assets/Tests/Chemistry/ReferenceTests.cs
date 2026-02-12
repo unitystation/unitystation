@@ -6,6 +6,7 @@ using Chemistry;
 using NUnit.Framework;
 using ScriptableObjects;
 using UnityEngine;
+using US13.ScriptableObjects;
 
 namespace Tests.Chemistry
 {

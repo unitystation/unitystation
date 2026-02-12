@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c58d5c5a6190436e9d4ae8e32a26ee6a, type: 3}
+  m_Name: Spectator
+  m_EditorClassIdentifier: 
+  jobType: 0
+  isCrewmember: 0
+  lateSpawnIsArrivals: 1
+  inventoryPopulator: {fileID: 0}
+  useStandardPopulator: 0
+  useCharacterSettings: 1
+  CustomSpeciesOverwrite: {fileID: 0}
+  limit: 0
+  priority: 0
+  issuedClearance: 
+  issuedLowPopClearance: 
+  spells: []
+  progress: 100
+  choiceColor: {r: 1, g: 1, b: 1, a: 1}
+  previewSprite: {fileID: 21300000, guid: 0ae37b6cf125c88479ab9b036de9fa13, type: 3}
+  displayName: Spectator
+  difficulty: 0
+  descriptionShort: 
+  descriptionLong: 
+  customProperties:
+    m_keys:
+    - gdfgdfg
+    m_values: 01
+  BetterCustomProperties:
+  - rid: 8170595211135418378
+  isTargeteable: 0
+  playSound: 0
+  spawnSound:
+    SetLoadSetting: 0
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  textColor: {r: 1, g: 0, b: 0, a: 1}
+  backgroundColor: {r: 1, g: 0, b: 0, a: 1}
+  specialPlayerPrefab: {fileID: 0}
+  references:
+    version: 2
+    RefIds:
+    - rid: 8170595211135418378
+      type: {class: OccupationOnlyGhostMind, ns: , asm: Assets}
+      data: 

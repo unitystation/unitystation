@@ -1,0 +1,71 @@
+using UnityEngine;
+using US13.Core.Input_System.InteractionV2.Interactions;
+using US13.Core.Sprite_Handler;
+using UniversalObjectPhysics = US13.Core.Physics.UniversalObjectPhysics;
+
+namespace US13.Systems.Inventory
+{
+	/// <summary>
+	/// Only mime can make it visible until it's moved
+	/// </summary>
+	public class InvisibleBox : Pickupable
+	{
+		[Header("Assign these to make it work")]
+		[SerializeField] private SpriteColorSync boxSpriteColor = default;
+		[SerializeField] private UniversalObjectPhysics ObjectPhysics = default;
+		private readonly Color transparent = new Color(1f, 1f, 1f, 0f);
+		private readonly Color semiTransparent = new Color(1f, 1f, 1f, 0.5f);
+
+		public override void Start()
+		{
+			base.Start();
+
+			if (!isServer)
+			{
+				return;
+			}
+
+			if (ObjectPhysics)
+			{
+				if (boxSpriteColor)
+				{
+					boxSpriteColor.SetTransitionTime(1f);
+					boxSpriteColor.SetColorServer(semiTransparent);
+				}
+
+				ObjectPhysics.OnLocalTileReached.AddListener((_, _) =>
+				{
+					if (boxSpriteColor)
+					{
+						boxSpriteColor.SetColorServer(transparent);
+					}
+				});
+			}
+		}
+
+		public override void ServerPerformInteraction(HandApply interaction)
+		{
+			if (interaction.PerformerPlayerScript.Mind.IsMiming)
+			{
+				if (boxSpriteColor)
+				{
+					boxSpriteColor.SetColorServer(semiTransparent);
+				}
+			}
+			base.ServerPerformInteraction(interaction);
+		}
+
+		public override void OnInventoryMoveServer(InventoryMove info)
+		{
+			base.OnInventoryMoveServer(info);
+			if (this.gameObject != info.MovedObject.gameObject) return;
+			if (info.RemoveType == InventoryRemoveType.Drop || info.RemoveType == InventoryRemoveType.Throw)
+			{
+				if (boxSpriteColor)
+				{
+					boxSpriteColor.SetColorServer(transparent);
+				}
+			}
+		}
+	}
+}
