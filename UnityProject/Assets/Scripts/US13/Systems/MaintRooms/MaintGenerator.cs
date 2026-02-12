@@ -120,6 +120,8 @@ namespace US13.Systems.MaintRooms
 			mazeArray = new short[width * height];
 			possibleCells = new List<Vector2Int>();
 
+			roomGenerators.Shuffle(); //We shuffle the generators so that generation of limited rooms doesn't have a bias to the way they are ordered in editor.
+
 			foreach (var room in roomGenerators)
 			{
 				room.SelectRoom();

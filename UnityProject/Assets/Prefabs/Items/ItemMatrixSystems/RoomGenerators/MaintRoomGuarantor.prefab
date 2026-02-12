@@ -213,4 +213,6 @@ MonoBehaviour:
   syncInterval: 0
   maintGenerator: {fileID: 0}
   possibleRoomsToOverride: []
-  possibleRoomsWeighted: []
+  possibleRoomsWeighted:
+  - roomToSpawn: {fileID: 11400000, guid: f33d201a58f767b428deb59651c9b186, type: 2}
+    weight: 100
