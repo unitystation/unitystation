@@ -39,6 +39,7 @@ namespace US13.Systems.MaintRooms
 		[SerializeField] private List<WeightedRoomEntry> possibleRoomsWeighted = new List<WeightedRoomEntry>();
 
 		private MaintRoomSO selectedRoom = null;
+		private bool hasChosenValidRoom = false;
 
 		public void SyncMaintGenerator(MaintGenerator oldGen, MaintGenerator newGen)
 		{
@@ -93,7 +94,13 @@ namespace US13.Systems.MaintRooms
 
 		public void SelectRoom()
 		{
-			PickWeightedRoom(out selectedRoom);
+			hasChosenValidRoom = PickWeightedRoom(out selectedRoom);
+		}
+
+		public void SelectRoom(MaintRoomSO forceRoom)
+		{
+			selectedRoom = forceRoom;
+			hasChosenValidRoom = true;
 		}
 
 		private bool PickWeightedRoom(out MaintRoomSO room)
@@ -112,13 +119,25 @@ namespace US13.Systems.MaintRooms
 
 			chosenWeight = UnityEngine.Random.Range(0, totalWeight + 1);
 
-			foreach (WeightedRoomEntry entry in possibleRoomsWeighted)
+			for (int i = 0; i < possibleRoomsWeighted.Count; i++)
 			{
+				WeightedRoomEntry entry = possibleRoomsWeighted[i];
 				currentTotal += entry.weight;
 				if (chosenWeight > currentTotal) continue;
 				room = entry.roomToSpawn;
+				int startingIndex = i;
+				while (MaintRoomSO.TryRegisterRoomAsSpawned(room) == false)
+				{
+					i++;
+					if (i >= possibleRoomsWeighted.Count) i = 0;
+					if (i == startingIndex) return false;
+
+					room = possibleRoomsWeighted[i].roomToSpawn;
+				}
+
 				return true;
 			}
+
 			return false;
 		}
 
@@ -164,6 +183,7 @@ namespace US13.Systems.MaintRooms
 		public void SpawnRandomRoom(bool isEditor = false)
 		{
 			if (possibleRoomsWeighted.Count == 0) return;
+			if (hasChosenValidRoom == false) return;
 
 			string filePath = Path.Combine("MaintRoomBluePrints", selectedRoom.roomFileName);
 			MapSaver.MapSaver.CodeClass.ThisCodeClass.Reset();
