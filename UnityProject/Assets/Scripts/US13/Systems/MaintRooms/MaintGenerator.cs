@@ -24,6 +24,7 @@ namespace US13.Systems.MaintRooms
 		public int MaxDistance => 9999;
 
 		[SerializeField] private List<MaintRoomGenerator> roomGenerators = new List<MaintRoomGenerator>();
+		[SerializeField] private List<MaintRoomGuarantor> roomGuarantors = new List<MaintRoomGuarantor>();
 
 		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = true;
@@ -90,6 +91,18 @@ namespace US13.Systems.MaintRooms
 			roomGenerators.Remove(roomGenerator);
 		}
 
+		public void AddGuarantor(MaintRoomGuarantor roomGuarantor)
+		{
+			if (roomGuarantors.Contains(roomGuarantor)) return;
+			roomGuarantors.Add(roomGuarantor);
+		}
+
+		public void RemoveGuarantor(MaintRoomGuarantor roomGuarantor)
+		{
+			if (roomGuarantors.Contains(roomGuarantor) == false) return;
+			roomGuarantors.Remove(roomGuarantor);
+		}
+
 		[Button("Add generator reference to connected rooms")]
 		public void AddGeneratorToZones()
 		{
@@ -110,6 +123,11 @@ namespace US13.Systems.MaintRooms
 			foreach (var room in roomGenerators)
 			{
 				room.SelectRoom();
+			}
+
+			foreach (var guarantor in roomGuarantors)
+			{
+				guarantor.SelectRoom();
 			}
 
 			if (skipMazeGeneration) return;
