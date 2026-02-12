@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
         type: 3}
       propertyPath: initialDescription
-      value: Cola. in space.
+      value: Cola. In space.
       objectReference: {fileID: 0}
     - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
         type: 3}
@@ -42,9 +42,21 @@ PrefabInstance:
       objectReference: {fileID: 2800000, guid: f6adaa19c3f94a5439a60f5dd4dd142c, type: 3}
     - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 09d9de05731a0244193c8d794e031739,
+        type: 2}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
       propertyPath: itemSprites.LeftHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 971867b6630cc2a4e8d049840efb800b, type: 3}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 97de1bfc1a46293499d9c040050d8efb,
+        type: 2}
     - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
         type: 3}
       propertyPath: itemSprites.RightHand.EquippedData
@@ -238,6 +250,12 @@ PrefabInstance:
     - target: {fileID: 8841627809843521281, guid: b04d0f9770ef17c459a1af178889e3ba,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 47344237ea23ac34790dbce5e72bbb5c,
+        type: 2}
+    - target: {fileID: 8841627809843521281, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 47344237ea23ac34790dbce5e72bbb5c,
         type: 2}

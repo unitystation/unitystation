@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: MaintsSurvivor
   m_EditorClassIdentifier: 
   jobType: 63
+  jobCategory: 0
   isCrewmember: 0
   lateSpawnIsArrivals: 0
   inventoryPopulator: {fileID: 11400000, guid: b199de27c5b42a64d9a8fd66571ca3b6, type: 2}
@@ -21,7 +22,7 @@ MonoBehaviour:
   CustomSpeciesOverwrite: {fileID: 0}
   limit: 4
   priority: 1
-  issuedClearance: 530000004b0000000b0000000d0000000c000000
+  issuedClearance: 4b0000000b0000000d0000000c000000
   issuedLowPopClearance: 
   spells: []
   progress: 100

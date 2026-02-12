@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
         type: 3}
       propertyPath: initialName
-      value: Dr, Gibb
+      value: Dr. Gibb
       objectReference: {fileID: 0}
     - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
         type: 3}
@@ -42,9 +42,21 @@ PrefabInstance:
       objectReference: {fileID: 2800000, guid: 5fce5a3ad7579fc4f986bda64a8365d0, type: 3}
     - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 66671ad92800961438def20baec5c518,
+        type: 2}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
       propertyPath: itemSprites.LeftHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 9340e5a4651861b4da1aa46cb2d9d4ec, type: 3}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7333ea1ee10923842939e7eb6e79ff7f,
+        type: 2}
     - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
         type: 3}
       propertyPath: itemSprites.RightHand.EquippedData
@@ -213,6 +225,12 @@ PrefabInstance:
     - target: {fileID: 8841627809843521281, guid: b04d0f9770ef17c459a1af178889e3ba,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 7250802f7161a76458fe6cc26decfd10,
+        type: 2}
+    - target: {fileID: 8841627809843521281, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 7250802f7161a76458fe6cc26decfd10,
         type: 2}

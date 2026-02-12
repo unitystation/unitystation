@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "0┼0┼0┼",
+      "Location": "-26┼-53┼0┼",
       "MatrixName": "7x7maintexplorertools",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -13,7 +13,7 @@
             "Key": "X0Y0",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -35,7 +35,7 @@
             "Key": "X0Y2",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -79,7 +79,7 @@
             "Key": "X0Y6",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -158,7 +158,7 @@
             "Key": "X2Y0",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -424,7 +424,7 @@
             "Key": "X6Y0",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -487,7 +487,7 @@
             "Key": "X6Y6",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -566,7 +566,17 @@
             "GitID": "6f371050bff8b32438f91c7c680900bb_3┼2.38┼0┼",
             "PrefabID": "6f371050bff8b32438f91c7c680900bb",
             "Name": "Flashlight (1)",
-            "LocalPRS": "3┼2.38┼0┼"
+            "LocalPRS": "3┼2.38┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "c937e0abe85aca9499d09951de736ec6_3┼5┼0┼",

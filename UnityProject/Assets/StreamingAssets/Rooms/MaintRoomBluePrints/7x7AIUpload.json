@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "0┼0┼0┼",
+      "Location": "-26┼-29┼0┼",
       "MatrixName": "7x7AIUpload",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -13,7 +13,7 @@
             "Key": "X0Y0",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -24,7 +24,7 @@
             "Key": "X0Y1",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -35,7 +35,7 @@
             "Key": "X0Y2",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -46,7 +46,7 @@
             "Key": "X0Y3",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -57,7 +57,7 @@
             "Key": "X0Y4",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -68,7 +68,7 @@
             "Key": "X0Y5",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -79,7 +79,7 @@
             "Key": "X0Y6",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -90,7 +90,7 @@
             "Key": "X1Y0",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -156,7 +156,7 @@
             "Key": "X1Y6",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -167,7 +167,7 @@
             "Key": "X2Y0",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -233,7 +233,7 @@
             "Key": "X2Y6",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -244,7 +244,7 @@
             "Key": "X3Y0",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -310,9 +310,6 @@
             "Key": "X3Y6",
             "Value": [
               {
-                "Tel": "dark"
-              },
-              {
                 "Tel": "Plating"
               }
             ]
@@ -321,7 +318,7 @@
             "Key": "X4Y0",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -387,7 +384,7 @@
             "Key": "X4Y6",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -398,7 +395,7 @@
             "Key": "X5Y0",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -464,7 +461,7 @@
             "Key": "X5Y6",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -475,7 +472,7 @@
             "Key": "X6Y0",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -486,7 +483,7 @@
             "Key": "X6Y1",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -497,7 +494,7 @@
             "Key": "X6Y2",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -508,7 +505,7 @@
             "Key": "X6Y3",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -519,7 +516,7 @@
             "Key": "X6Y4",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -530,7 +527,7 @@
             "Key": "X6Y5",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -541,7 +538,7 @@
             "Key": "X6Y6",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -578,7 +575,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "AIUpload"
+                      "Data": "AwayGeneric2"
                     }
                   ]
                 }
@@ -621,8 +618,12 @@
                   "ClassID": "LightSource@0",
                   "Data": [
                     {
-                      "Name": "isWithoutSwitch",
-                      "Data": "True"
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_4┼5┼0┼@0@LightSwitchV2@0"
+                    },
+                    {
+                      "Name": "InitialState",
+                      "Data": "Off"
                     }
                   ]
                 }
@@ -641,12 +642,6 @@
             "PrefabID": "c7a0601b9d5567942bd6c4d26a735b61",
             "Name": "PurgeModule (1)",
             "LocalPRS": "1.12┼2.88┼0┼"
-          },
-          {
-            "GitID": "500fc59070199404fb9f20bc8c600044_2.01┼3.01┼0┼",
-            "PrefabID": "500fc59070199404fb9f20bc8c600044",
-            "Name": "PlayerSpawnPointMaintRooms (2)",
-            "LocalPRS": "2.01┼3.01┼0┼"
           },
           {
             "GitID": "71484dc6293e4474e8b16b794b7c42c4_3┼1┼0┼",
@@ -769,7 +764,7 @@
                       "Data": [
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "AIUpload"
+                          "Data": "AwayGeneric2"
                         }
                       ]
                     }
@@ -882,8 +877,12 @@
                   "ClassID": "LightSource@0",
                   "Data": [
                     {
-                      "Name": "isWithoutSwitch",
-                      "Data": "True"
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_4┼5┼0┼@0@LightSwitchV2@0"
+                    },
+                    {
+                      "Name": "InitialState",
+                      "Data": "Off"
                     }
                   ]
                 }
@@ -937,9 +936,16 @@
             }
           },
           {
-            "GitID": "5fd9d8acdd4f02849884dcddff5db286_3┼6┼0┼",
-            "PrefabID": "5fd9d8acdd4f02849884dcddff5db286",
-            "Name": "AirlockStandardOpaque (1)",
+            "GitID": "7020b235ecf8ece4ca00af70a60258f8_3┼3┼0┼",
+            "PrefabID": "7020b235ecf8ece4ca00af70a60258f8",
+            "Name": "DirectionalWindowPlasma (1)",
+            "LocalPRS": "3┼3┼0┼"
+          },
+          {
+            "GitID": "1f10fce737097ce44affadeeb9bea4da_3┼6┼0┼",
+            "PrefabID": "1f10fce737097ce44affadeeb9bea4da",
+            "NameMatches": true,
+            "Name": "AirlockGrunge",
             "LocalPRS": "3┼6┼0┼",
             "Object": {
               "ClassDatas": [
@@ -949,6 +955,22 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "AwayGeneric2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -995,10 +1017,159 @@
             }
           },
           {
-            "GitID": "500fc59070199404fb9f20bc8c600044_4.01┼3.01┼0┼",
-            "PrefabID": "500fc59070199404fb9f20bc8c600044",
-            "Name": "PlayerSpawnPointMaintRooms (1)",
-            "LocalPRS": "4.01┼3.01┼0┼"
+            "GitID": "7020b235ecf8ece4ca00af70a60258f8_3.001┼3┼0┼",
+            "PrefabID": "7020b235ecf8ece4ca00af70a60258f8",
+            "Name": "DirectionalWindowPlasma (2)",
+            "LocalPRS": "3.001┼3┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "7020b235ecf8ece4ca00af70a60258f8_3.002┼3┼0┼",
+            "PrefabID": "7020b235ecf8ece4ca00af70a60258f8",
+            "Name": "DirectionalWindowPlasma (3)",
+            "LocalPRS": "3.002┼3┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "7020b235ecf8ece4ca00af70a60258f8_3.003┼3┼0┼",
+            "PrefabID": "7020b235ecf8ece4ca00af70a60258f8",
+            "Name": "DirectionalWindowPlasma (4)",
+            "LocalPRS": "3.003┼3┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "f2432d244a6b7774ea00ff013beb7dcb_4┼5┼0┼",
+            "PrefabID": "f2432d244a6b7774ea00ff013beb7dcb",
+            "NameMatches": true,
+            "Name": "LightSwitch",
+            "LocalPRS": "4┼5┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSwitchV2@0",
+                  "Data": [
+                    {
+                      "Name": "listOfLights#2",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_5┼3┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "listOfLights#1",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_3┼1┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "listOfLights#0",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_1┼3┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "isOn",
+                      "Data": "False"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "5829805cc04f84f48837a9f4ffab8070_4.75┼3.25┼0┼",
@@ -1030,7 +1201,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "AIUpload"
+                      "Data": "AwayGeneric2"
                     }
                   ]
                 }
@@ -1073,8 +1244,12 @@
                   "ClassID": "LightSource@0",
                   "Data": [
                     {
-                      "Name": "isWithoutSwitch",
-                      "Data": "True"
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_4┼5┼0┼@0@LightSwitchV2@0"
+                    },
+                    {
+                      "Name": "InitialState",
+                      "Data": "Off"
                     }
                   ]
                 }

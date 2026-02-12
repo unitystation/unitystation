@@ -159,7 +159,73 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6420373241124541042}
+    - targetCorrespondingSourceObject: {fileID: 9121851585004719025, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4184796451977295427}
+    - targetCorrespondingSourceObject: {fileID: 8151410467544744473, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2598589441375768534}
+    - targetCorrespondingSourceObject: {fileID: 6211453475662789427, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1865026140779674266}
   m_SourcePrefab: {fileID: 100100000, guid: 6d04235bcbbde8349a6a46d46d8f8ae8, type: 3}
+--- !u!1 &175045574941465682 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6211453475662789427, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+    type: 3}
+  m_PrefabInstance: {fileID: 6079409810155841377}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1865026140779674266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175045574941465682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ab66b87bc8207640826c46b6b2f4419, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::KillOnWorldStart
+--- !u!1 &2684646355686319480 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8151410467544744473, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+    type: 3}
+  m_PrefabInstance: {fileID: 6079409810155841377}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2598589441375768534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2684646355686319480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ab66b87bc8207640826c46b6b2f4419, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::KillOnWorldStart
+--- !u!1 &3083053337417313488 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9121851585004719025, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
+    type: 3}
+  m_PrefabInstance: {fileID: 6079409810155841377}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4184796451977295427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3083053337417313488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ab66b87bc8207640826c46b6b2f4419, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::KillOnWorldStart
 --- !u!1 &3084513279336921590 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9119793089647943319, guid: 6d04235bcbbde8349a6a46d46d8f8ae8,
@@ -182,5 +248,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   maintGenerator: {fileID: 0}
-  roomSize: {x: 5, y: 5}
-  possibleRooms: []
+  roomWidth: 5
+  roomHeight: 5
+  possibleRoomsWeighted: []

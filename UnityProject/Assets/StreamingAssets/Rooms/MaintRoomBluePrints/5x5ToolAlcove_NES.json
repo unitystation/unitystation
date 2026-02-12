@@ -1,0 +1,373 @@
+{
+  "Ver": "1.0.0",
+  "MapName": "5x5ToolAlcove",
+  "ContainedMatrices": [
+    {
+      "Ver": "1.1.1",
+      "Location": "0┼0┼0┼",
+      "MatrixName": "5x5ToolAlcove",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X0Y0",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y1",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y2",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y3",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y4",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y0",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y1",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y2",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y3",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y4",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y0",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y1",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y2",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y3",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y4",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y0",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y1",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y2",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y3",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y4",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y0",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y1",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y2",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y3",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y4",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.5.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "c937e0abe85aca9499d09951de736ec6_1┼0┼0┼",
+            "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "Name": "LightBulbFixture (2)",
+            "LocalPRS": "1┼0┼0┼0ø0ø270ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "isWithoutSwitch",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "032e150131f53a64fbf6048aca6a879a_1┼2┼0┼",
+            "PrefabID": "032e150131f53a64fbf6048aca6a879a",
+            "Name": "RandomToolSpawner (2)",
+            "LocalPRS": "1┼2┼0┼"
+          },
+          {
+            "GitID": "1d35052f4fc2cad4d8226d1a63e4a1b3_1┼2┼0┼",
+            "PrefabID": "1d35052f4fc2cad4d8226d1a63e4a1b3",
+            "Name": "CrateBase (1)",
+            "LocalPRS": "1┼2┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "c937e0abe85aca9499d09951de736ec6_1┼4┼0┼",
+            "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "Name": "LightBulbFixture (1)",
+            "LocalPRS": "1┼4┼0┼0ø0ø270ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "isWithoutSwitch",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "032e150131f53a64fbf6048aca6a879a_1.12┼2.12┼0┼",
+            "PrefabID": "032e150131f53a64fbf6048aca6a879a",
+            "Name": "RandomToolSpawner (3)",
+            "LocalPRS": "1.12┼2.12┼0┼"
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "2,2,0",
+          "Size": "4,4,0"
+        }
+      ]
+    }
+  ]
+}

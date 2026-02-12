@@ -64,6 +64,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7402688f994588a41a1288011f405560,
         type: 2}
+    - target: {fileID: 7507905339166825279, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: initialName
+      value: identification card
+      objectReference: {fileID: 0}
+    - target: {fileID: 7507905339166825279, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: initialDescription
+      value: A card used to provide identification and access to secure electronics.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7578181041766054938, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: initialJobTitle
+      value: L2
+      objectReference: {fileID: 0}
     - target: {fileID: 7794920650562651905, guid: 2ead1535ea74c758192243c3a1d6a9ef,
         type: 3}
       propertyPath: m_Sprite
