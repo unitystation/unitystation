@@ -5,7 +5,9 @@ using Mirror;
 using Shared.Managers;
 using UnityEngine;
 using US13.Core.Lifecycle;
+using US13.Objects.Machines.ServerMachines.Communications;
 using US13.ScriptableObjects.Telecomms;
+using US13.Systems.InGameEvents.InGameEventScripts;
 using Util;
 using Random = System.Random;
 
@@ -117,12 +119,21 @@ namespace US13.Managers
 			}
 			if (strength == SignalStrength.WEAK)
 			{
-				Random chance = new Random();
-				if (DMMath.Prob(chance.Next(0, 100)))
+				if (signalMessage is not CommsServer.RadioMessageData c)
 				{
-					StartCoroutine(DelayedSignalRecevie(receiver.DelayTime, receiver, emitter, strength, signalMessage));
+					Random chance = new Random();
+					if (DMMath.Prob(chance.Next(0, 100)))
+					{
+						StartCoroutine(DelayedSignalRecevie(receiver.DelayTime, receiver, emitter, strength, signalMessage));
+					}
+					emitter.SignalFailed();
 				}
-				emitter.SignalFailed();
+				else
+				{
+					c.ChatEvent.message = EventProcessorOverload.ProcessMessage(c.ChatEvent.message);
+					StartCoroutine(DelayedSignalRecevie(receiver.DelayTime, receiver, emitter, strength, c));
+					emitter.SignalFailed();
+				}
 			}
 		}
 
@@ -144,6 +155,11 @@ namespace US13.Managers
 		/// <returns>SignalStrength</returns>
 		public SignalStrength GetStrength(SignalReceiver receiver, SignalEmitter emitter, int range)
 		{
+			if (EventCommsBlackout.CommsDown)
+			{
+				return SignalStrength.WEAK;
+			}
+
 			int distance = (int)Vector3.Distance(receiver.gameObject.AssumedWorldPosServer(), emitter.gameObject.AssumedWorldPosServer());
 			if (range / 4 <= distance)
 			{
