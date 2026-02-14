@@ -35,6 +35,8 @@ namespace US13.Objects.Engineering
 		[SerializeField]
 		private float fuelConsumptionRate = 0.02f;
 
+		public float Maxcurrent = 0.08f;
+
 		[Tooltip("The types of fuel this generator can consume (traits).")]
 		[SerializeField]
 		private List<ItemTrait> fuelTypes = null;
@@ -239,7 +241,7 @@ namespace US13.Objects.Engineering
 			var Voltage = NormalVoltage - (VoltageFluctuationPercentage * NormalVoltage * GetNormalizedSin());
 			ModuleSupplyingDevice.SupplyingVoltage = Voltage;
 
-			ModuleSupplyingDevice.Maxcurrent = 0.06f;
+			ModuleSupplyingDevice.Maxcurrent = Maxcurrent;
 			if (fuelAmount <= 0)
 			{
 				ConsumeSheet();

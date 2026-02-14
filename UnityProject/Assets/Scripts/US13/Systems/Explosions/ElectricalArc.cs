@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Logs;
 using Standard_Assets.LightningBolt;
 using UnityEngine;
 using US13.Core.Lighting;
@@ -107,6 +108,14 @@ namespace US13.Systems.Explosions
 			if (Settings.endObject != null)
 			{
 				endPos += Settings.endObject.transform.position;
+			}
+
+			if ((startPos - endPos).magnitude > 30)
+			{
+				Loggy.Error("Magnitude too big for arc > " + startPos + "  end  > " + endPos +
+				            " Transform Settings.startObject > " + Settings.startObject.name +
+				            " Settings.endObject >  " + endPos);
+				return false;
 			}
 
 			var linecast = MatrixManager.Linecast(

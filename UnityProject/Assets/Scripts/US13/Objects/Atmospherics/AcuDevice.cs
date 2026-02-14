@@ -16,7 +16,7 @@ namespace US13.Objects.Atmospherics
 		/// The operating mode the controlling <see cref="AirController"/> has indicated the device should operate with.
 		/// <para>Each device type is responsible for interpreting their own behaviour from the <c>ACU</c>'s operating mode.</para>
 		/// </summary>
-		void SetOperatingMode(AcuMode mode);
+		void SetOperatingMode(AcuMode mode, bool SetBypower);
 	}
 
 	/// <summary>
