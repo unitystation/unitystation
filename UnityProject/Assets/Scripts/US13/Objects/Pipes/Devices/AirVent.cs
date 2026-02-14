@@ -105,7 +105,7 @@ namespace US13.Objects.Pipes.Devices
 			{
 				if (TryGetComponent<AcuDevice>(out var device) && device.Controller != null)
 				{
-					SetOperatingMode(device.Controller.DesiredMode);
+					SetOperatingMode(device.Controller.DesiredMode, false);
 				}
 
 			}
@@ -388,19 +388,22 @@ namespace US13.Objects.Pipes.Devices
 			}
 		}
 
-		public void SetOperatingMode(AcuMode mode)
+		public void SetOperatingMode(AcuMode mode, bool SetBypower)
 		{
-			OperatingMode = Mode.Out;
-			InternalEnabled = false;
-			ExternalEnabled = true;
-			InternalTarget = 0;
-			ExternalTarget = AtmosConstants.ONE_ATMOSPHERE;
 
-			if (mode == AcuMode.Refill)
+			if (SetBypower == false)
 			{
-				ExternalTarget *= 3;
-			}
+				OperatingMode = Mode.Out;
+				InternalEnabled = false;
+				ExternalEnabled = true;
+				InternalTarget = 0;
+				ExternalTarget = AtmosConstants.ONE_ATMOSPHERE;
 
+				if (mode == AcuMode.Refill)
+				{
+					ExternalTarget *= 3;
+				}
+			}
 			SetTurnedOn(mode == AcuMode.Filtering || mode == AcuMode.Contaminated || mode == AcuMode.Draught || mode == AcuMode.Refill);
 		}
 

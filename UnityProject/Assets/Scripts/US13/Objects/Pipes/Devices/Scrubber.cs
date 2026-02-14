@@ -119,7 +119,7 @@ namespace US13.Objects.Pipes.Devices
 
 			if (TryGetComponent<AcuDevice>(out var device) && device.Controller != null)
 			{
-				SetOperatingMode(device.Controller.DesiredMode);
+				SetOperatingMode(device.Controller.DesiredMode, false);
 			}
 
 			base.OnSpawnServer(info);
@@ -431,7 +431,7 @@ namespace US13.Objects.Pipes.Devices
 			}
 		}
 
-		public void SetOperatingMode(AcuMode mode)
+		public void SetOperatingMode(AcuMode mode, bool SetBypower)
 		{
 			// Override all custom changes if the operating mode changes.
 
