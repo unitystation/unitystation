@@ -64,6 +64,8 @@ namespace US13.Systems.MaintRooms
 
 		private async void RunMaintGenerators()
 		{
+			MaintRoomSO.ResetRoomCounters();
+
 			foreach (MaintGenerator maintGenerator in maintGenerators)
 			{
 				if (maintGenerator == null) continue;
