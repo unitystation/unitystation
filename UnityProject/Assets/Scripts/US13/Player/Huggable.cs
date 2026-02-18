@@ -130,7 +130,7 @@ namespace US13.Player
     		if (DMMath.Prob(tailPullJudgementChance))
     		{
     			Chat.AddExamineMsg(puller.gameObject, $"<color=red><size=+24>You have been judged for your lust..</size></color>");
-    			puller.OnGib();
+    			puller.OnGib( $" By Too much tail pulling of {this.name} " );
     		}
     	}
 

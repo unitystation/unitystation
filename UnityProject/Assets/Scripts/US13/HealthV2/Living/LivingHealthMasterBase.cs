@@ -1707,9 +1707,9 @@ namespace US13.HealthV2.Living
 
 
 		[Server]
-		public void OnGib()
+		public void OnGib(string WhatBy)
 		{
-			AdminLogsManager.AddNewLog(null, $"{gameObject.ExpensiveName()} is getting Gibbed!!", LogCategory.MobDamage, Severity.IMMEDIATE_ATTENTION);
+			AdminLogsManager.AddNewLog(null, $"{gameObject.ExpensiveName()} is getting Gibbed!! was Gibbed By {WhatBy} ", LogCategory.MobDamage, Severity.IMMEDIATE_ATTENTION);
 			gibBehavior.OnGib();
 		}
 

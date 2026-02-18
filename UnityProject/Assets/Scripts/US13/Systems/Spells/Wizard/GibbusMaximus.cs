@@ -25,7 +25,7 @@ namespace US13.Systems.Spells.Wizard
 				{
 					if (creature.IsDead)
 					{
-						creature.OnGib();
+						creature.OnGib(   " a Wizard.. well GibbusMaximus Spell " );
 					}
 				}
 				Chat.AddChatMsgToChatServer(caster, "..GIBBUSS, MAXIMUS!!", ChatChannel.Local, Loudness.MEGAPHONE);

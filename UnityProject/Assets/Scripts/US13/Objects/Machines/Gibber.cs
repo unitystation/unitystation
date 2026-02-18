@@ -34,6 +34,8 @@ namespace US13.Objects.Machines
 		[SerializeField] private SpriteDataSO lightsoff;
 		[SerializeField] private SpriteDataSO lightson;
 
+		public string MachineStartedBy = "";
+
 		private bool isRunning = false;
 		private int damageNumber = 0;
 
@@ -75,6 +77,7 @@ namespace US13.Objects.Machines
 			isRunning = !isRunning;
 			if (isRunning)
 			{
+				MachineStartedBy = interaction.PerformerAccountID;
 				StartGibbing();
 			}
 			else
@@ -135,7 +138,10 @@ namespace US13.Objects.Machines
 					var meatToProduce = gib.MeatProduce.OrNull() ?? defaultProduce;
 					var skinToProduce = gib.SkinProduce.OrNull() ?? defaultProduce;
 					AddItemsThatWillBeSpawned(meatToProduce, skinToProduce);
-					storage.RetrieveObject(slot ,null, gib.OnGib);
+					storage.RetrieveObject(slot ,null, () =>
+					{
+						gib.OnGib(" gibber Turned on by " + MachineStartedBy);
+					});
 					continue;
 				}
 

@@ -70,7 +70,7 @@ namespace US13.Items.Others
 						$"You reach for the {gameObject.ExpensiveName()} with your hands. That was dumb.",
 						$"{player.visibleName} touches {gameObject.ExpensiveName()} with bare hands. His body bursts into flames and flashes to dust after few moments.");
 
-					player.playerHealth.OnGib();
+					player.playerHealth.OnGib(   " Super matter Sliver  "  );
 				}
 			}
 		}
@@ -84,7 +84,7 @@ namespace US13.Items.Others
 		{
 			yield return WaitFor.FixedUpdate;
 			Chat.AddActionMsgToChat(gameObject, $"{performer.ExpensiveName()} mistook the {gameObject.ExpensiveName()} for a tasty snack. Yumm..");
-			gameObject.Player().Script.playerHealth.OnGib();
+			gameObject.Player().Script.playerHealth.OnGib( " Suicide by Super matter Sliver  " );
 		}
 	}
 }

@@ -47,7 +47,7 @@ namespace US13.Messages.Client.DevSpawner
 				Vector2Int worldPos = NetworkObject.transform.position.RoundTo2Int();
 				if (NetworkObject.TryGetComponent<PlayerScript>(out var victim))
 				{
-					victim.playerHealth.OnGib();
+					victim.playerHealth.OnGib( " Admin destroy by " +  SentByPlayer.AccountId );
 					AdminLogsManager.AddNewLog(SentByPlayer.GameObject,
 						$"{SentByPlayer.Username} gibbed {victim.playerName} at {worldPos} using the dev destroyer tool.", LogCategory.Admin);
 					return;

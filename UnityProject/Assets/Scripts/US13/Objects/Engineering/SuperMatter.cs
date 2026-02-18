@@ -1168,7 +1168,7 @@ namespace US13.Objects.Engineering
 					$"You slam into the {gameObject.ExpensiveName()} as your ears are filled with unearthly ringing. Your last thought is 'Oh, fuck.'",
 					$"The {(job != null ? job.JobType.JobString() : "person")} slams into the {gameObject.ExpensiveName()} inducing a resonance... {bumpedBy.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
 
-				playerHealth.OnGib();
+				playerHealth.OnGib( " Bumped into super matter " );
 				matterPower += 100;
 			}
 			else if (bumpedBy.TryGetComponent<LivingHealthMasterBase>(out var health))
@@ -1177,7 +1177,7 @@ namespace US13.Objects.Engineering
 				Chat.AddActionMsgToChat(bumpedBy, $"The {bumpedBy.ExpensiveName()} slams into the {gameObject.ExpensiveName()} inducing a resonance... " +
 													"its body starts to glow and burst into flames before flashing into dust!");
 
-				health.OnGib();
+				health.OnGib( " Bumped into super matter "  );
 			}
 			else if (bumpedBy.TryGetComponent<Integrity>(out var integrity))
 			{
@@ -1237,7 +1237,7 @@ namespace US13.Objects.Engineering
 					$"You reach out and touch {gameObject.ExpensiveName()}. Everything starts burning and all you can hear is ringing. Your last thought is 'That was not a wise decision'",
 					$"{interaction.Performer.ExpensiveName()} reaches out and touches {gameObject.ExpensiveName()}, inducing a resonance... {interaction.Performer.ExpensiveName()} body starts to glow and burst into flames before flashing into dust!");
 
-				interaction.Performer.GetComponent<PlayerHealthV2>().OnGib();
+				interaction.Performer.GetComponent<PlayerHealthV2>().OnGib( " Decided to touch Super matter " );
 				matterPower += 200;
 				return;
 			}
