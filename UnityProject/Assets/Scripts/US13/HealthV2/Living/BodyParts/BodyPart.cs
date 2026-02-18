@@ -391,7 +391,7 @@ namespace US13.HealthV2.Living.BodyParts
 
 				if (beingGibbed)
 				{
-					HealthMaster.OnGib();
+					HealthMaster.OnGib(  " I think this is unreachable but keeping it just in case it isn't, being gibbed by Body part remove " );
 				}
 			}
 

@@ -111,7 +111,7 @@ namespace US13.Systems.Ai
 
 		private IEnumerator CoolDown()
 		{
-			yield return WaitFor.Seconds(.3f);
+			yield return WaitFor.Seconds(.05f);
 			moveCoolDown = false;
 		}
 	}

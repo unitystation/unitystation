@@ -97,6 +97,15 @@ namespace US13.Core.Camera
 		public List<IBumpableObject> Bumps = new List<IBumpableObject>();
 
 
+		public void OnDestroy()
+		{
+			base.OnDestroy();
+			if (CustomNetworkManager.IsHeadless == false)
+			{
+				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			}
+		}
+
 		public void UpdateMe()
 		{
 			if (PlayerManager.LocalPlayerObject == null) return;
@@ -107,12 +116,13 @@ namespace US13.Core.Camera
 			var Localpos = position.ToLocal(matrix);
 			Bumps.Clear();
 
+
 			bool HasFovMOd = Camera2DFollow.followControl.FOVtarget != null;
 
 			var wall = matrix.MetaTileMap.GetTile(Localpos.RoundToInt(), LayerType.Walls);
 
 			var  door = matrix.Matrix.Get<RegisterDoor>( Localpos.RoundToInt(),
-				isServer: CustomNetworkManager.IsServer).Any(x => x.gameObject.layer  == Layer);
+				isServer: CustomNetworkManager.IsServer).Any(x => x != null && x.gameObject.layer  == Layer);
 			if (((wall != null && wall.name != "false_open") || (door)) && HasFovMOd == false)
 			{
 				if (Xray.HasPosition(this.gameObject) == false)

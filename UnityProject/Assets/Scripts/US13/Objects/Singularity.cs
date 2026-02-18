@@ -443,12 +443,14 @@ namespace US13.Objects
 					{
 						if (health.RegisterPlayer.PlayerScript.Mind?.occupation == OccupationList.Instance.Get(JobType.CLOWN))
 						{
-							health.OnGib();
-							ChangePoints(DMMath.Prob(50) ? -1000 : 1000);
+							var added = DMMath.Prob(50) ? -1000 : 1000;
+
+							health.OnGib( " by singularity tho was a clown so Honk Honk added > " + added );
+							ChangePoints(added);
 							return;
 						}
 
-						health.OnGib();
+						health.OnGib( " by singularity " );
 						ChangePoints(100);
 						return;
 					}

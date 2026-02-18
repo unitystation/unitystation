@@ -6,6 +6,7 @@ using UnityEngine;
 using US13.Core.Chat;
 using US13.Core.Input_System.InteractionV2;
 using US13.Core.Input_System.InteractionV2.Interactions;
+using US13.Core.Input_System.InteractionV2.Interactions.Internal;
 using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Core.Lifecycle;
 using US13.Core.Sprite_Handler;
@@ -74,7 +75,7 @@ namespace US13.Items.Storage
 			}
 			if (PizzaGui != null) PizzaGui.StartCoroutine(PizzaGui.UpdateTimer());
 			yield return WaitFor.Seconds(timeToDetonate);
-			Detonate();
+			Detonate( " Pizza box was detonated by countdown " );
 		}
 
 		private void UpdatePizzaSprites()
@@ -88,7 +89,7 @@ namespace US13.Items.Storage
 			}
 		}
 
-		private void OpenBox()
+		private void OpenBox( Interaction Interaction)
 		{
 			isOpen = true;
 			pizzaSprites.SetActive(true);
@@ -97,7 +98,7 @@ namespace US13.Items.Storage
 
 			if (isArmed && detonateByTimer == false)
 			{
-				Detonate();
+				Detonate( " Pizza box was opened by " + Interaction.PerformerAccountID );
 				return;
 			}
 
@@ -139,10 +140,10 @@ namespace US13.Items.Storage
 			}
 		}
 
-		protected override void Detonate()
+		protected override void Detonate( string DetonatorReason )
 		{
 			Chat.AddCombatMsgToChat(gameObject, "<size=+6>The pizza bomb violently explodes!</size>", "<size=+6>The pizza bomb violently explodes!</size>");
-			base.Detonate();
+			base.Detonate(DetonatorReason);
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -156,7 +157,7 @@ namespace US13.Items.Storage
 		{
 			if (isOpen == false)
 			{
-				OpenBox();
+				OpenBox(interaction);
 				return;
 			}
 			if (interaction.UsedObject != null)
@@ -185,7 +186,7 @@ namespace US13.Items.Storage
 		{
 			if (isOpen == false)
 			{
-				OpenBox();
+				OpenBox(interaction);
 				return;
 			}
 			if (isOpen && interaction.TargetObject != null && interaction.TargetObject != gameObject)
@@ -222,7 +223,7 @@ namespace US13.Items.Storage
 				StartCoroutine(Countdown());
 				return;
 			}
-			Detonate();
+			Detonate( " received signal" );
 		}
 
 		public override void OnSpawnServer(SpawnInfo info)
@@ -241,7 +242,7 @@ namespace US13.Items.Storage
 		}
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			Detonate();
+			Detonate( "Performed by manual action " + interaction.PerformerAccountID);
 		}
 
 		protected override void OnArmStateChange(bool oldState, bool newState)

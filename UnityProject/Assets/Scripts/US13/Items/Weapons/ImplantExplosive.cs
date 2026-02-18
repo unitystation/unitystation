@@ -22,7 +22,7 @@ namespace US13.Items.Weapons
 	{
 		[SerializeField] BodyPart bodyPart;
 
-		protected override void Detonate()
+		protected override void Detonate(string DetonationReason)
 		{
 			if (bodyPart.ContainedIn != null)
 			{
@@ -38,7 +38,7 @@ namespace US13.Items.Weapons
 						Inventory.ServerDropAll(master.playerScript.DynamicItemStorage);
 
 						//Macrobombs and microbombs will gib their victim
-						master.OnGib();
+						master.OnGib("ImplantExplosive > " + DetonationReason );
 					}
 				}
 				else if (bodyPart.ContainedIn.BodyPartType != BodyPartType.Chest)
@@ -54,7 +54,7 @@ namespace US13.Items.Weapons
 
 			}
 
-			base.Detonate();
+			base.Detonate(DetonationReason);
 		}
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
@@ -93,7 +93,7 @@ namespace US13.Items.Weapons
 				yield return delay;
 			}
 
-			this.Detonate();
+			this.Detonate( "Reached end of countdown" );
 		}
 
 		async Task PlayBeepAtPos() //async so doesn't effect how long countdown takes

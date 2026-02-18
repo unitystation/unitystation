@@ -142,7 +142,7 @@ namespace US13.UI.Systems.AdminTools
 
 		public void ServerGetMessageRound(string playerId, NetworkConnection requestee)
 		{
-			if (AccessFile.Exists(Path.Combine(ChatLogsFolder, playerId)))
+			if (AccessFile.Exists(Path.Combine(ChatLogsFolder, playerId),  false, FolderType.Logs))
 			{
 				var Rounds = AccessFile.DirectoriesOrFilesIn(Path.Combine(ChatLogsFolder, playerId), FolderType.Logs);
 
@@ -156,7 +156,7 @@ namespace US13.UI.Systems.AdminTools
 			if (RoundID == -1)
 			{
 				ForceShow = true;
-				if ( AccessFile.Exists(Path.Combine(ChatLogsFolder, playerId)) == false) return;
+				if ( AccessFile.Exists(Path.Combine(ChatLogsFolder, playerId),  false, FolderType.Logs) == false) return;
 
 				var Rounds = AccessFile.DirectoriesOrFilesIn(Path.Combine(ChatLogsFolder, playerId), FolderType.Logs).OrderByDescending(x => x);
 				var data = Rounds.First().Replace(".txt", "");
@@ -257,15 +257,12 @@ namespace US13.UI.Systems.AdminTools
 
 			if ((selectedPlayer != null
 			     && selectedPlayer.uid == playerId
-			     &&  (int.Parse(RoundIDsDropDown.options[RoundIDsDropDown.value].text.Replace(".txt", "")) == RoundID)
+			     &&  (RoundIDsDropDown.options.Count == 0 || (int.Parse(RoundIDsDropDown.options[RoundIDsDropDown.value].text.Replace(".txt", "")) == RoundID))
 			     )
 				|| ForceShow)
 			{
-				if (RoundIDsDropDown.options[RoundIDsDropDown.value].text == "Option A")
-				{
-					return;
-				}
-				if (ForceShow && int.Parse(RoundIDsDropDown.options[RoundIDsDropDown.value].text.Replace(".txt", "")) !=
+
+				if (RoundIDsDropDown.options.Count > 0 && ForceShow && int.Parse(RoundIDsDropDown.options[RoundIDsDropDown.value].text.Replace(".txt", "")) !=
 				    RoundID)
 				{
 					var match = RoundIDsDropDown.options

@@ -143,6 +143,8 @@ namespace US13.Player
 
 		public PlayerStats PlayerStats { get; private set; }
 
+		public string CurrentlyControllingAccountIDServer => Mind?.ControlledBy?.AccountId;
+
 		/// <summary>
 		/// Serverside world position.
 		/// Outputs correct world position even if you're hidden (e.g. in a locker)

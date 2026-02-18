@@ -147,7 +147,7 @@ namespace US13.Items.Others
 		{
 			yield return WaitFor.FixedUpdate;
 			Chat.AddActionMsgToChat(performer, $"{performer.ExpensiveName()} farts on the holy book.");
-			performer.Player().Script.playerHealth.OnGib();
+			performer.Player().Script.playerHealth.OnGib( " Suicide by holy book " );
 		}
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)

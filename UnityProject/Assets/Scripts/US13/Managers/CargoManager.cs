@@ -294,7 +294,7 @@ namespace US13.Managers
 			{
 				// No one must survive to tell the secrets of Central Command's cargo handling techniques.
 				Chat.AddExamineMsg(obj, "<color=red> You feel a strong force of energy run through your body before everything goes to black in the blink of the eye. </color>");
-				playerScript.playerHealth.OnGib();
+				playerScript.playerHealth.OnGib(" Gib by Cargo Shuttle being sold ");
 				return;
 			}
 

@@ -260,14 +260,15 @@ namespace US13.Systems.Construction
 				}
 			}
 
-			if (MachineParts == null) return;
-
 			if (canNotBeDeconstructed)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer,
 					"This machine is too well built to be deconstructed.");
 				return;
 			}
+
+
+			if (MachineParts == null) return;
 
 			if (mustBeUnanchored && gameObject.GetComponent<UniversalObjectPhysics>().OrNull()?.IsNotPushable == true)
 			{
