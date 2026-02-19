@@ -1,4 +1,8 @@
-﻿using Mirror;
+﻿
+using Mirror;
+using UnityEngine;
+using US13.Core.Addressables;
+using US13.Messages.Server.SoundMessages;
 using US13.UI.Systems;
 
 namespace US13.Messages.Client.Admin
@@ -12,6 +16,10 @@ namespace US13.Messages.Client.Admin
 
 		public override void Process(NetMessage msg)
 		{
+			PlaySoundMessage.SendToAdmins(CommonSounds.Instance.Prayer, Vector3.zero, false,
+				null,
+				default,
+				new AudioSourceParameters().MakeSoundGlobal().PitchVariation(0.05f));
 			UIManager.Instance.adminChatWindows.playerPrayerWindow.ServerAddChatRecord(msg.Message, SentByPlayer);
 		}
 
