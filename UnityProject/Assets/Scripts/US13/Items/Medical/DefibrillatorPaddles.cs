@@ -13,6 +13,7 @@ using US13.Mobs.Equipment;
 using US13.Systems.Inventory;
 using US13.UI.Core.ProgressBar;
 using Util;
+using Util.Independent.FluentRichText;
 
 namespace US13.Items.Medical
 {
@@ -38,9 +39,7 @@ namespace US13.Items.Medical
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false)
 				return false;
-			var livingHealthMaster = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
-			if (livingHealthMaster == null)
-				return false;
+			if (interaction.TargetObject.TryGetComponent<LivingHealthMasterBase>(out var livingHealthMaster) is false) return false;
 			if (side == NetworkSide.Server && DoesntRequireBackpack == false)
 			{
 
@@ -51,11 +50,11 @@ namespace US13.Items.Medical
 					ObjectInSlot = equipment.GetClothingItem(NamedSlot.belt).ServerGameObjectReference;
 					if (Validations.HasItemTrait(ObjectInSlot, DefibrillatorTrait) == false)
 					{
+						Chat.AddExamineMsg(interaction.Performer, "You need to place the defibrillator unit on your back or belt to use the paddles!".Color(Color.yellow));
 						return false;
 					}
 				}
 			}
-
 
 			if (CanDefibrillate(livingHealthMaster, interaction.Performer) == false && side == NetworkSide.Server)
 			{
