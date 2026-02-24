@@ -66,7 +66,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 		private CancellationToken EvaporationCancellationToken = CancellationToken.None;
 
-		private const float REAGENT_LIMIT_PER_CELL = 10f;
+		private const float REAGENT_LIMIT_PER_CELL = 60f;
 		private const float EVAPORATE_TICK_DURATION = 64f;
 		private const float MINIMUM_TEMPERATURE_TO_EVAPORATE_CELSIUS = 29f;
 
@@ -427,19 +427,21 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 		public Color GetTileColourMix(ReagentMix reagents)
 		{
+			//transparent liquids don't need their alpha bumped when their puddles are full.
+			if (reagents.MajorMixReagent.color.a <= Reagent.MINIMUM_PUDDLE_OPACITY) return reagents.MixColor;
+			float fillRatio = Mathf.Clamp01(reagents.Total / REAGENT_LIMIT_PER_CELL);
 			switch (reagents.MixState)
 			{
 				case ReagentState.Liquid:
 					var liquidColor = reagents.MixColor;
-					liquidColor.a = Mathf.Clamp(liquidColor.a, 0.1f, 0.65f); //makes sure liquids don't completely hide everything behind it.
+					liquidColor.a = Mathf.Lerp(0.35f, 0.95f, fillRatio); //makes sure liquids don't completely hide everything behind it.
 					return liquidColor;
 				case ReagentState.Gas:
 				case ReagentState.Solid:
 					var SolidColor = reagents.MixColor;
-					SolidColor.a = Mathf.Clamp(SolidColor.a, 0.1f, 1f); //makes sure liquids don't completely hide everything behind it.
+					SolidColor.a = Mathf.Clamp(SolidColor.a, 0.25f, 1f); //makes sure solids aren't invisible
 					return SolidColor;
 			}
-
 
 			return Color.white;
 		}
