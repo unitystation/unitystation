@@ -1,6 +1,7 @@
 using Logs;
 using UnityEngine;
 using UnityEngine.UI;
+using US13.Core.Chat;
 using US13.Core.Transform;
 using US13.Tilemaps.Behaviours.Objects;
 
@@ -177,6 +178,16 @@ namespace Util
 			{
 				Object.Destroy(gameObject.transform.GetChild(i).gameObject);
 			}
+		}
+
+		/// <summary>
+		/// Helper function that calls Chat.AddActionMsgToChat with the given message and this gameobject as the originator.
+		/// </summary>
+		/// <param name="originator"></param>
+		/// <param name="everyoneMessage"></param>
+		public static void AddActionMsgToChat(this GameObject originator, string everyoneMessage)
+		{
+			Chat.AddActionMsgToChat(originator, everyoneMessage);
 		}
 	}
 }
