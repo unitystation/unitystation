@@ -66,7 +66,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 		private CancellationToken EvaporationCancellationToken = CancellationToken.None;
 
-		private const float REAGENT_LIMIT_PER_CELL = 10f;
+		private const float REAGENT_LIMIT_PER_CELL = 60f;
 		private const float EVAPORATE_TICK_DURATION = 64f;
 		private const float MINIMUM_TEMPERATURE_TO_EVAPORATE_CELSIUS = 29f;
 
