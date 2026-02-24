@@ -51,7 +51,7 @@ namespace US13.UI.Systems.AdminTools.DevTools
 				var hits = MouseUtils.GetOrderedObjectsUnderMouse(layerMask,
 					go => go.GetComponent<UniversalObjectPhysics>() != null, useMappedItems : DevCameraControls.Instance.MappingItemState).ToArray();
 				if (hits.Any() == false) return;
-				var target = hits.First().GetComponentInParent<UniversalObjectPhysics>().gameObject;
+				var target = hits.First().GetComponentInParent<UniversalObjectPhysics>()?.gameObject;
 				if (target == null) return;
 				if (CustomNetworkManager.IsServer)
 				{
