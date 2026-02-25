@@ -1,0 +1,108 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6346641871972534941
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 21956036543740889, guid: 9f68bba630ca7a8459c3b56476c9e10a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a4c66397b3518fe42be1f195e361a0c2,
+        type: 3}
+    - target: {fileID: 192660116013331953, guid: 9f68bba630ca7a8459c3b56476c9e10a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 192660116013331953, guid: 9f68bba630ca7a8459c3b56476c9e10a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 192660116013331953, guid: 9f68bba630ca7a8459c3b56476c9e10a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 192660116013331953, guid: 9f68bba630ca7a8459c3b56476c9e10a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 192660116013331953, guid: 9f68bba630ca7a8459c3b56476c9e10a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 192660116013331953, guid: 9f68bba630ca7a8459c3b56476c9e10a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 192660116013331953, guid: 9f68bba630ca7a8459c3b56476c9e10a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 192660116013331953, guid: 9f68bba630ca7a8459c3b56476c9e10a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 192660116013331953, guid: 9f68bba630ca7a8459c3b56476c9e10a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 192660116013331953, guid: 9f68bba630ca7a8459c3b56476c9e10a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 198146816443172997, guid: 9f68bba630ca7a8459c3b56476c9e10a,
+        type: 3}
+      propertyPath: m_Name
+      value: P238RevolverLeopard
+      objectReference: {fileID: 0}
+    - target: {fileID: 228488286749226289, guid: 9f68bba630ca7a8459c3b56476c9e10a,
+        type: 3}
+      propertyPath: _assetId
+      value: 2519507487
+      objectReference: {fileID: 0}
+    - target: {fileID: 6339355568756159234, guid: 9f68bba630ca7a8459c3b56476c9e10a,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6367471732975366468}
+    - target: {fileID: 6339355568756159234, guid: 9f68bba630ca7a8459c3b56476c9e10a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6f4befee1d98b9644b11fbcdc6c9262e,
+        type: 2}
+    - target: {fileID: 6486675083763107048, guid: 9f68bba630ca7a8459c3b56476c9e10a,
+        type: 3}
+      propertyPath: parentID
+      value: 9f68bba630ca7a8459c3b56476c9e10a
+      objectReference: {fileID: 0}
+    - target: {fileID: 6486675083763107048, guid: 9f68bba630ca7a8459c3b56476c9e10a,
+        type: 3}
+      propertyPath: foreverID
+      value: 9647a3a3de5128c41aeee40ff7314b27
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9f68bba630ca7a8459c3b56476c9e10a, type: 3}
+--- !u!212 &6367471732975366468 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 21956036543740889, guid: 9f68bba630ca7a8459c3b56476c9e10a,
+    type: 3}
+  m_PrefabInstance: {fileID: 6346641871972534941}
+  m_PrefabAsset: {fileID: 0}
