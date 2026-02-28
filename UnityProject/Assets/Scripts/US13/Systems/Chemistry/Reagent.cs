@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -8,8 +7,6 @@ namespace Chemistry
 	[CreateAssetMenu(fileName = "reagent", menuName = "ScriptableObjects/Chemistry/Reagent")]
 	public class Reagent : SOTracker , IEquatable<Reagent>
 	{
-
-
 		[SerializeField]
 		[Tooltip("This is optional")]
 		string displayName;
@@ -24,6 +21,9 @@ namespace Chemistry
 
 		//Every single reaction this chemical is used in
 		[NonSerialized] public Reaction[] RelatedReactions = Array.Empty<Reaction>();
+
+		// The minimum opacity of a puddle, even if the reagent is very diluted. This is to make sure the puddle is always visible.
+		public const float MINIMUM_PUDDLE_OPACITY = 0.25f;
 
 		/// <summary>
 		/// 	Index in the chemistry reagents' singleton. Used in a client-server communication

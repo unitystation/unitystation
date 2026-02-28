@@ -52,6 +52,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -73,10 +76,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
-  m_SortingOrder: 40
-  m_Sprite: {fileID: 21300000, guid: ad961a50427ff8b47961af3a212c6aad, type: 3}
+  m_SortingOrder: 41
+  m_Sprite: {fileID: 21300000, guid: 96ee61550bfec6f4385d8203737961ae, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -101,12 +105,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: e614a649e8341b44d947f104cdf300a4, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 9c4053b84818db64195a214da6a49044,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 3627543588402867637}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &4518850879140736234
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -117,9 +126,20 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2605031095160245205, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 5559458166027923428}
+    - target: {fileID: 2605031095160245205, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: e833a0fc7fd26244b904218aaf82de19,
+        type: 2}
+    - target: {fileID: 2605031095160245205, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b15d1dcf7aec804bb196c44d02f18cf,
         type: 2}
     - target: {fileID: 3015805540452711487, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
@@ -258,7 +278,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 69df28f5faaac2740b53e3e3c9afeab6,
+      objectReference: {fileID: 21300000, guid: 3abaa408219e63748b38272c00411eff,
         type: 3}
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
@@ -273,7 +293,7 @@ PrefabInstance:
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: initialDescription
-      value: Based on the classic 'Chicago Typewriter'.
+      value: A classic 'Chicago Typewriter'.
       objectReference: {fileID: 0}
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
@@ -287,6 +307,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7bba6409a20d3484aa1b6d42aa8b6e9f,
         type: 2}
+    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d3bcf79707cfe464cb5fe6e93688d04c,
+        type: 2}
+    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d6106fc98fd3b5044adb524bc4cf167c,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -296,6 +328,12 @@ PrefabInstance:
       addedObject: {fileID: 8733653476114495388}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a940a8ef1ee65024fb0a322703040d98, type: 3}
+--- !u!212 &5559458166027923428 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8327445234444665614, guid: a940a8ef1ee65024fb0a322703040d98,
+    type: 3}
+  m_PrefabInstance: {fileID: 4518850879140736234}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5748103870248935884 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8175001912389225766, guid: a940a8ef1ee65024fb0a322703040d98,

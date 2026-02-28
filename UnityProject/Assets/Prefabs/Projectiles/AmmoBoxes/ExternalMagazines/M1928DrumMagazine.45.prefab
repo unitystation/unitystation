@@ -20,9 +20,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 842131404161660333, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2422283756524654206}
+    - target: {fileID: 842131404161660333, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 5106bed076d4dda428e43dbfe28a31e2,
+        type: 2}
+    - target: {fileID: 842131404161660333, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 180c5da222ec08a4ebb9a8536db58642,
         type: 2}
     - target: {fileID: 4111275205169505611, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
@@ -49,7 +60,13 @@ PrefabInstance:
     - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
       propertyPath: initialName
-      value: drum magazine (.45)
+      value: M1928 drum magazine (.45)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: initialDescription
+      value: A drum magazine for an M1928 thompson submachine gun. Holds 50 rounds
+        of .45 ACP.
       objectReference: {fileID: 0}
     - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
@@ -66,7 +83,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: ccfed9fe58fb4a640a127697b48e56e3,
+      objectReference: {fileID: 21300000, guid: ffb50dc495b52b74ea4a3973aa6deb66,
         type: 3}
     - target: {fileID: 6636107547650964854, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
@@ -76,7 +93,7 @@ PrefabInstance:
     - target: {fileID: 6839214368423611946, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
       propertyPath: m_Name
-      value: DrumMagazine.45
+      value: M1928DrumMagazine.45
       objectReference: {fileID: 0}
     - target: {fileID: 6843860766685623134, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
@@ -148,3 +165,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d57fa00554efcec4abd669e2d6b24edc, type: 3}
+--- !u!212 &2422283756524654206 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6636107547650964854, guid: d57fa00554efcec4abd669e2d6b24edc,
+    type: 3}
+  m_PrefabInstance: {fileID: 9044809808923849480}
+  m_PrefabAsset: {fileID: 0}
