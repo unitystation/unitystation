@@ -328,6 +328,16 @@ namespace US13.Core.Physics
 			}
 			else
 			{
+				if (synchLocalTargetPosition.Matrix != -1)
+				{
+					var max = MatrixManager.Get(synchLocalTargetPosition.Matrix);
+					if (max != null)
+					{
+						registerTile.TryChangeMatrix(max.Matrix.NetworkedMatrix);
+					}
+
+				}
+
 				InternalTriggerOnLocalTileReached(synchLocalTargetPosition.Vector3.RoundToInt());
 				SetTransform(synchLocalTargetPosition.Vector3, false);
 
@@ -1052,10 +1062,6 @@ namespace US13.Core.Physics
 			float inSlideTime = Single.NaN, BodyPartType inAim = BodyPartType.Chest, GameObject inThrownBy = null,
 			float spinFactor = 0) //Collision is just naturally part of Newtonian push
 		{
-			Vector3 aaaa = new Vector3();
-
-			aaaa.To2();
-
 			var speed = newtonians / SizeToWeight(GetSize());
 			NewtonianPush(worldDirection, speed, inAirTime, inSlideTime, inAim, inThrownBy, spinFactor);
 		}

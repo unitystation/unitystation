@@ -33,6 +33,7 @@ namespace US13.Managers.SubSceneManager
 
 		public bool IsMaintRooms
 		{
+
 			get { return serverChosenAwaySite == "AwaySites/Backrooms.json"; }
 		}
 

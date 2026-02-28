@@ -262,11 +262,7 @@ namespace US13.Tilemaps.Behaviours.Objects
 			if (isServer)
 				return;
 
-			if (transform.parent == null) //object spawned mid-round
-			{
-				Loggy.Error("OH NO.... Invalid initialisation order, Should have been initialised by syncvar ");
-			}
-			else
+			if (transform.parent != null) //object spawned mid-round
 			{
 				var matrix = transform.parent.GetComponentInParent<Matrix>();
 				if (matrix.Initialized)

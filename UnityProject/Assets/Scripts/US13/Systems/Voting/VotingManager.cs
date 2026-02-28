@@ -10,6 +10,7 @@ using UnityEngine;
 using US13.Core.Admin.Logs;
 using US13.Core.Chat;
 using US13.Managers;
+using US13.Managers.NetworkManagement;
 using US13.Managers.SubSceneManager;
 using US13.Managers.UpdateManager;
 using US13.Messages.Client.Admin;
@@ -90,6 +91,7 @@ namespace US13.Systems.Voting
 
 		private void Start()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
 			MapList = SubSceneManager.Instance.MainStationList.GetMaps();
 			awaySiteList = SubSceneManager.Instance.AwayWorlds.AwayWorlds;
 			GameModeList = GameManager.Instance.GetAvailableGameModeNames();
@@ -335,7 +337,6 @@ namespace US13.Systems.Voting
 						break;
 					case VoteType.NextGameMode:
 						Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Next GameMode has been chosen</color>");
-						//.Select(x => Path.GetFileName(x).Replace(".json", ""))
 						GameManager.Instance.NextGameMode =  winner;
 						GameManager.Instance.SecretGameMode = true;
 						break;
