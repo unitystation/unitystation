@@ -24,24 +24,15 @@ namespace US13.Tilemaps.Behaviours.Layers
 	public class ObjectLayer : Layer
 	{
 		private TileList serverObjects;
-		private TileList clientObjects;
 
 		public TileList ServerObjects => serverObjects ?? (serverObjects = new TileList());
-		public TileList ClientObjects => clientObjects ?? (clientObjects = new TileList());
 
 		private EnterTileBaseList enterTileBaseList;
 		public EnterTileBaseList EnterTileBaseList => enterTileBaseList ?? (enterTileBaseList = new EnterTileBaseList());
 
 		public TileList GetTileList(bool isServer)
 		{
-			if (isServer)
-			{
-				return ServerObjects;
-			}
-			else
-			{
-				return ClientObjects;
-			}
+			return ServerObjects;
 		}
 		public bool HasObject(Vector3Int position, bool isServer)
 		{
@@ -331,7 +322,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 		/// <returns></returns>
 		public bool HasAnyDepartureBlockedByRegisterTile(Vector3Int to, bool isServer, RegisterTile context)
 		{
-			foreach (RegisterTile o in GetTileList(isServer).Get(context.LocalPositionClient))
+			foreach (RegisterTile o in GetTileList(isServer).Get(context.LocalPosition))
 			{
 				if (o.IsPassable(isServer, context.gameObject) == false
 				    && context.IsPassableFromInside(to, isServer, o.gameObject) == false)

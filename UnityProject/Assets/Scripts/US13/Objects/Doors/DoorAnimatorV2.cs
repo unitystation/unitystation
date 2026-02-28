@@ -174,7 +174,10 @@ namespace US13.Objects.Doors
 		public void SyncDoorStatus(DoorUpdateType old, DoorUpdateType newv)
 		{
 			SyncDoorUpdateType = newv;
-			PlayAnimation(newv);
+			if (old != newv)
+			{
+				PlayAnimation(newv);
+			}
 		}
 
 		public void PlayAnimation(DoorUpdateType type, bool skipAnimation = false)

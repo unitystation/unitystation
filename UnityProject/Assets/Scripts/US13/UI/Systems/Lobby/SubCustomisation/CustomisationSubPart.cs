@@ -7,10 +7,11 @@ using US13.Clothing;
 using US13.Core.Sprite_Handler;
 using US13.HealthV2.Living.BodyParts;
 using US13.Systems.Lobby;
+using US13.UI.Systems.Lobby.SubCustomisation.BodyPartCustomisations;
 
 namespace US13.UI.Systems.Lobby.SubCustomisation
 {
-	public class CustomisationSubPart : MonoBehaviour
+	public class CustomisationSubPart : MonoBehaviour, DropDownCustomProvider
 	{
 		public TMP_Text HeadName;
 
@@ -55,6 +56,22 @@ namespace US13.UI.Systems.Lobby.SubCustomisation
 			RelatedSpriteRenderer.gameObject.transform.localPosition = Vector3.zero;
 			Dropdown.onValueChanged.AddListener(ItemChange);
 		}
+
+
+		public void CustomSetup(CustomDropDownItem Content, string dropdownItem)
+		{
+			var data = thisCustomisations.PlayerCustomisations.FirstOrDefault(pcd => pcd.Name == dropdownItem);
+
+			if (data == null)
+			{
+				Loggy.Error($"Unable to find entry for {dropdownItem} ");
+				return;
+			}
+
+			Content.Image.SetSpriteSO(data.SpriteEquipped);
+			Content.Image.SetColor(color);
+		}
+
 
 		public CharacterSheet.CustomisationClass Serialise()
 		{

@@ -200,7 +200,7 @@ namespace US13.Core.Physics
 
 		[HideInInspector] public RegisterTile registerTile;
 
-		protected LayerMask defaultInteractionLayerMask;
+		protected static LayerMask? defaultInteractionLayerMask = null;
 
 		[HideInInspector] public GameObject[] ContextGameObjects = new GameObject[2];
 
@@ -295,17 +295,21 @@ namespace US13.Core.Physics
 
 		public virtual void Awake()
 		{
-			Collider = this.GetComponent<BoxCollider2D>();
-			floorDecal = this.GetComponent<FloorDecal>();
+			Collider = this.GetComponentCustom<BoxCollider2D>();
+			floorDecal = this.GetComponentCustom<FloorDecal>();
 			ContextGameObjects[0] = gameObject;
-			defaultInteractionLayerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines", "Players",
-				"Door Closed",
-				"HiddenWalls", "Objects");
-			attributes.DirectSetComponent(GetComponent<Items.Attributes>());
-			registerTile = GetComponent<RegisterTile>();
-			rotatable = GetComponent<Rotatable>();
-			pickupable.DirectSetComponent(GetComponent<Pickupable>());
-			Scale ??= GetComponent<ScaleSync>();
+			if (defaultInteractionLayerMask == null)
+			{
+				defaultInteractionLayerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines", "Players",
+					"Door Closed",
+					"HiddenWalls", "Objects");
+			}
+
+			attributes.DirectSetComponent(this.GetComponentCustom<Items.Attributes>());
+			registerTile = this.GetComponentCustom<RegisterTile>();
+			rotatable =  this.GetComponentCustom<Rotatable>();
+			pickupable.DirectSetComponent( this.GetComponentCustom<Pickupable>());
+			Scale ??=  this.GetComponentCustom<ScaleSync>();
 			SetRotationTarget();
 		}
 
@@ -324,6 +328,16 @@ namespace US13.Core.Physics
 			}
 			else
 			{
+				if (synchLocalTargetPosition.Matrix != -1)
+				{
+					var max = MatrixManager.Get(synchLocalTargetPosition.Matrix);
+					if (max != null)
+					{
+						registerTile.TryChangeMatrix(max.Matrix.NetworkedMatrix);
+					}
+
+				}
+
 				InternalTriggerOnLocalTileReached(synchLocalTargetPosition.Vector3.RoundToInt());
 				SetTransform(synchLocalTargetPosition.Vector3, false);
 
@@ -930,7 +944,7 @@ namespace US13.Core.Physics
 				registerTile.ServerSetNetworkedMatrixNetID(movetoMatrix.NetworkedMatrix.MatrixSync.netId);
 			}
 
-			registerTile.FinishNetworkedMatrixRegistration(movetoMatrix.NetworkedMatrix);
+			registerTile.TryChangeMatrix(movetoMatrix.NetworkedMatrix);
 			SetTransform(TransformCash, true);
 			LocalDifferenceNeeded = Vector2.zero;
 

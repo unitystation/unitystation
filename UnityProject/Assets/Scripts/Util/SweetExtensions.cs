@@ -315,7 +315,8 @@ namespace Util
 			}
 			else
 			{
-				return null;
+				if (go == null) return null;
+				return go.gameObject.GetComponent<T>();
 			}
 		}
 

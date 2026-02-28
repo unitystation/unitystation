@@ -147,21 +147,44 @@ namespace US13.Tilemaps.Behaviours.Layers
 			if (CustomNetworkManager.IsHeadless) return;
 			if (tile is not SimpleTile c) return; //Not a tile that has the data we need
 			if (c.CanBeHighlightedThroughScanners == false || c.HighlightObject == null) return;
-			var spawnHighlight = Spawn.ClientPrefab(c.HighlightObject, MatrixManager.LocalToWorld(position, Matrix),
+
+			HighlightScanManager.Instance.UninitialisedHighlightScans.Add(
+				new HighlightScanManager.UninitialisedHighlightScan()
+				{
+					LocalPOS = position,
+					Layer = this
+
+				});
+
+		}
+
+		public void AddHighlight(HighlightScanManager.UninitialisedHighlightScan Entry)
+		{
+			var spawnHighlight = Spawn.ClientPrefab(Entry.Tile.HighlightObject, MatrixManager.LocalToWorld(Entry.LocalPOS, Matrix),
 				this.transform); //Spawn highlight object ontop of tile
 			if (spawnHighlight.Successful == false ||
 			    spawnHighlight.GameObject.TryGetComponent<HighlightScan>(out var scan) == false)
 				return; //If this fails for whatever reason, return
-			c.AssoicatedSpawnedObjects.Add(spawnHighlight
-				.GameObject); //Add it to a list that the tile will keep track off for when OnDestroy() happens
-			scan.Setup(c.sprite); //setup the highlight sprite rendere
+
+			scan.Tile = Entry.Tile;
+			scan.LocalPOS = Entry.LocalPOS;
+			scan.Layer = Entry.Layer;
+
+			scan.Setup(Entry.Tile.sprite); //setup the highlight sprite rendere
 		}
 
 		public bool RemoveTile(Vector3Int position)
 		{
-			var tileRemoved = false;
-			tileRemoved = tilemap.HasTile(position);
+			var tileRemoved = tilemap.GetTile(position);
 			tilemap.SetTile(position, null);
+			if (tileRemoved is SimpleTile c)
+			{
+				if (c.CanBeHighlightedThroughScanners && c.HighlightObject)
+				{
+					HighlightScanManager.RemoveHighlight(position, c, this);
+				}
+			}
+
 			onTileMapChanges.Invoke();
 			return tileRemoved;
 		}

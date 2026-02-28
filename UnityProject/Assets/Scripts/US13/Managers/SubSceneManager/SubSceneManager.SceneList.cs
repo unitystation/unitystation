@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using Logs;
 using Mirror;
 using UnityEditor;
@@ -132,7 +133,7 @@ namespace US13.Managers.SubSceneManager
 			//Reset map selector
 			AdminForcedMainStation = "Random";
 
-			loadTimer.IncrementLoadBar($"Loading {serverChosenMainStation}");
+			loadTimer.IncrementLoadBar($"Loading {Path.GetFileName(serverChosenMainStation).Replace(".json", "")}");
 			//load main station
 			yield return StartCoroutine(LoadSubScene(serverChosenMainStation, loadTimer, default, SceneType.MainStation));
 			MainStationLoaded = true;

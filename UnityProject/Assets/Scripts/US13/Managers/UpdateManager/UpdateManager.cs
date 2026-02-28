@@ -157,7 +157,7 @@ namespace US13.Managers.UpdateManager
 			}
 			if (CallbackType == CallbackType.PERIODIC_UPDATE)
 			{
-				foreach (var x in Instance.periodicUpdateActions)
+				foreach (var x in Instance.periodicUpdateActions) //Performance impact but better safe than sorry
 				{
 					if (x.Action == action) return;
 				}
@@ -174,10 +174,6 @@ namespace US13.Managers.UpdateManager
 			}
 			else
 			{
-				foreach (var x in Instance.soundUpdates)
-				{
-					if (x.Action == action) return;
-				}
 				TimedUpdate timedUpdate = Instance.GetTimedUpdates();
 				timedUpdate.SetUp(action, timeInterval, false);
 				if (offsetUpdate)

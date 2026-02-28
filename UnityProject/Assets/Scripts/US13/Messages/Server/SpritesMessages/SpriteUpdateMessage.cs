@@ -47,13 +47,9 @@ namespace US13.Messages.Server.SpritesMessages
 			if (spawned.TryGetValue(spriteUpdateEntry.id, out var networkIdentity) == false) return false;
 			if (networkIdentity == null) return false;
 
-			if (SpriteHandlerManager.PresentSprites.ContainsKey(networkIdentity) == false ||
-			    SpriteHandlerManager.PresentSprites[networkIdentity].ContainsKey(spriteUpdateEntry.name) == false)
-			{
-				return false;
-			}
+			if (SpriteHandlerManager.PresentSprites.TryGetValue(networkIdentity, out var IdentityObject) == false) return false;
+			if (IdentityObject.TryGetValue(spriteUpdateEntry.name, out var spriteHandler) == false) return false;
 
-			var spriteHandler = SpriteHandlerManager.PresentSprites[networkIdentity][spriteUpdateEntry.name];
 			var argumentIndex = 0;
 			foreach (var spriteOperation in spriteUpdateEntry.call)
 			{

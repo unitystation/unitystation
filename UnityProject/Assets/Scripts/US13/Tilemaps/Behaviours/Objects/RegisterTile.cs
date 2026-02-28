@@ -163,15 +163,13 @@ namespace US13.Tilemaps.Behaviours.Objects
 		/// Registered local position of this object. Returns correct value depending on if this is on the
 		/// server or client.
 		/// </summary>
-		public Vector3Int LocalPosition => isServer ? LocalPositionServer : LocalPositionClient;
+		public Vector3Int LocalPosition => LocalPositionServer;
 
 		/// <summary>
 		/// the "registered" local position of this object (which might differ from transform.localPosition).
 		/// It will be set to TransformState.HiddenPos when hiding the object.
 		/// </summary>
 		public Vector3Int LocalPositionServer { get; private set; }
-
-		public Vector3Int LocalPositionClient { get; private set; }
 
 		/// <summary>
 		/// Event invoked on server side when position changes. Passes the new local position in the matrix.
@@ -226,7 +224,6 @@ namespace US13.Tilemaps.Behaviours.Objects
 			ItemStorage = this.GetComponentCustom<ItemStorage>();
 			DynamicItemStorage = this.GetComponentCustom<DynamicItemStorage>();
 			LocalPositionServer = TransformState.HiddenPos;
-			LocalPositionClient = TransformState.HiddenPos;
 			if (transform.parent) //clients dont have this set yet
 			{
 				objectLayer = transform.parent.GetComponent<ObjectLayer>() ??
@@ -254,10 +251,10 @@ namespace US13.Tilemaps.Behaviours.Objects
 		public override void OnStartServer()
 		{
 			var matrix = transform.parent.GetComponentInParent<Matrix>();
-			if (matrix.Initialized)
-			{
-				Initialize(matrix);
-			}
+			// if (matrix.Initialized)
+			// {
+			Initialize(matrix);
+			//}
 		}
 
 		public override void OnStartClient()
@@ -265,11 +262,7 @@ namespace US13.Tilemaps.Behaviours.Objects
 			if (isServer)
 				return;
 
-			if (transform.parent == null) //object spawned mid-round
-			{
-				NetworkedMatrix.InvokeWhenInitialized(networkedMatrixNetId, ClientLoading);
-			}
-			else
+			if (transform.parent != null) //object spawned mid-round
 			{
 				var matrix = transform.parent.GetComponentInParent<Matrix>();
 				if (matrix.Initialized)
@@ -312,10 +305,6 @@ namespace US13.Tilemaps.Behaviours.Objects
 			{
 				ServerSetNetworkedMatrixNetID(networkedMatrix.MatrixSync.netId);
 			}
-			else
-			{
-				FinishNetworkedMatrixRegistration(networkedMatrix);
-			}
 		}
 
 		public virtual void OnDestroy()
@@ -323,7 +312,6 @@ namespace US13.Tilemaps.Behaviours.Objects
 			if (objectLayer)
 			{
 				objectLayer.ServerObjects.Remove(LocalPositionServer, this);
-				objectLayer.ClientObjects.Remove(LocalPositionClient, this);
 			}
 
 			if (Matrix.OrNull()?.MatrixMove.OrNull()?.NetworkedMatrixMove.OrNull() != null)
@@ -396,20 +384,11 @@ namespace US13.Tilemaps.Behaviours.Objects
 		public void ClientSetLocalPosition(Vector3Int value, bool overRideCheck = false)
 		{
 			if (objectPhysics.HasComponent && objectPhysics.Component.MappingIntangible) return;
-			if (LocalPositionClient == value && overRideCheck == false)
+			if (LocalPosition == value && overRideCheck == false)
 				return;
-			bool appeared = LocalPositionClient == TransformState.HiddenPos && value != TransformState.HiddenPos;
-			bool disappeared = LocalPositionClient != TransformState.HiddenPos && value == TransformState.HiddenPos;
-			if (objectLayer)
-			{
-				objectLayer.ClientObjects.Remove(LocalPositionClient, this);
-				if (value != TransformState.HiddenPos)
-				{
-					objectLayer.ClientObjects.Add(value, this);
-				}
-			}
+			bool appeared = LocalPosition == TransformState.HiddenPos && value != TransformState.HiddenPos;
+			bool disappeared = LocalPosition != TransformState.HiddenPos && value == TransformState.HiddenPos;
 
-			LocalPositionClient = value;
 
 			if (appeared)
 			{
@@ -453,7 +432,23 @@ namespace US13.Tilemaps.Behaviours.Objects
 				FinishNetworkedMatrixRegistration); //note: we dont actually wait for init here anymore
 		}
 
-		public void FinishNetworkedMatrixRegistration(NetworkedMatrix networkedMatrix)
+		public void TryChangeMatrix(NetworkedMatrix networkedMatrix)
+		{
+
+			if (networkedMatrix.MatrixSync.matrixID != networkedMatrixNetId)
+			{
+				FinishNetworkedMatrixRegistration(networkedMatrix);
+			}
+			else
+			{
+				if (Matrix == null && networkedMatrixNetId is not NetId.Empty or NetId.Invalid)
+				{
+					Matrix = networkedMatrix.matrix;
+				}
+			}
+		}
+
+		private void FinishNetworkedMatrixRegistration(NetworkedMatrix networkedMatrix)
 		{
 			if (networkedMatrix == null) return;
 			//if we had any spin rotation, preserve it,
@@ -467,7 +462,6 @@ namespace US13.Tilemaps.Behaviours.Objects
 				if (objectLayer)
 				{
 					objectLayer.ServerObjects.Remove(LocalPositionServer, this);
-					objectLayer.ClientObjects.Remove(LocalPositionClient, this);
 				}
 
 				objectLayer = newObjectLayer;
@@ -504,6 +498,8 @@ namespace US13.Tilemaps.Behaviours.Objects
 			UpdatePositionServer();
 
 			OnParentChangeComplete.Invoke();
+
+			ClientLoading(networkedMatrix);
 		}
 
 		private void SetMatrix(Matrix value)
@@ -637,6 +633,7 @@ namespace US13.Tilemaps.Behaviours.Objects
 
 		public void UpdatePositionServer()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
 			var prevPosition = LocalPositionServer;
 			ServerSetLocalPosition(transform.localPosition.RoundToInt(), true);
 			if (prevPosition != LocalPositionServer)
@@ -959,7 +956,6 @@ namespace US13.Tilemaps.Behaviours.Objects
 		{
 			if (objectLayer)
 			{
-				objectLayer.ClientObjects.ReorderObjects(LocalPositionClient);
 				if (CustomNetworkManager.IsServer == false) return;
 				objectLayer.ServerObjects.ReorderObjects(LocalPositionServer);
 			}

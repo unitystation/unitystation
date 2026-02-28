@@ -68,6 +68,14 @@ namespace US13.UI.Systems.Tooltips.HoverTooltips
 			ResetTool();
 		}
 
+		private void OnDestroy()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdatePosition);
+			UpdateManager.Remove(CallbackType.UPDATE, CheckForInput);
+		}
+
+
+
 		private void UpdatePosition()
 		{
 			Vector3 newPosition = new Vector3(

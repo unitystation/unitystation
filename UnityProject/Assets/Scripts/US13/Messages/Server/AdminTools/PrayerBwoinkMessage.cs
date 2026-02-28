@@ -1,6 +1,10 @@
 ﻿using Mirror;
 using UnityEngine;
+using US13.Core.Addressables;
 using US13.Core.Chat;
+using US13.Managers;
+using US13.Messages.Server.SoundMessages;
+using US13.Player;
 
 namespace US13.Messages.Server.AdminTools
 {
@@ -14,6 +18,11 @@ namespace US13.Messages.Server.AdminTools
 
 		public override void Process(NetMessage msg)
 		{
+			_ = SoundManager.PlayAtPosition(CommonSounds.Instance.Prayer, Vector3.zero, PlayerManager.LocalPlayerObject,
+				null,
+				false,
+				true,
+				audioSourceParameters: new AudioSourceParameters().MakeSoundGlobal().PitchVariation(0.05f));
 			Chat.AddPrayerPrivMsg(msg.Message);
 		}
 

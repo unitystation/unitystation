@@ -90,7 +90,7 @@ namespace US13.Managers
 			soundSpawn.AudioSource.outputAudioMixerGroup = AudioManager.Instance.SFXMixer;
 			soundSpawn.SetAudioSource(audioSource);
 			soundSpawn.assetAddress = addressableAudioSource.AssetAddress;
-			if (soundSpawnToken != string.Empty)
+			if (string.IsNullOrEmpty(soundSpawnToken) == false)
 			{
 				soundSpawn.Token = soundSpawnToken;
 				SoundSpawns.Add(soundSpawnToken, soundSpawn);
@@ -114,7 +114,7 @@ namespace US13.Managers
 			{
 				var ToReturn = NonplayingSounds[addressableAudioSource.AssetAddress][0];
 				NonplayingSounds[addressableAudioSource.AssetAddress].RemoveAt(0);
-				if (soundSpawnToken != "") //non addressables dont have a token
+				if (string.IsNullOrEmpty(soundSpawnToken) == false) //non addressables dont have a token
 				{
 					ToReturn.Token = soundSpawnToken;
 					SoundSpawns.Add(soundSpawnToken, ToReturn);

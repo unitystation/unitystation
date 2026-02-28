@@ -117,5 +117,7 @@ namespace US13.Core.Addressables
 		public AddressableAudioSource Bubbles = null;
 
 		public AddressableAudioSource GravHit = null;
+
+		public AddressableAudioSource Prayer = null;
 	}
 }

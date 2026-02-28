@@ -30,7 +30,9 @@ namespace US13.Core.Sprite_Handler
 		[SerializeField] private List<SpriteDataSO> SubCatalogue = new List<SpriteDataSO>();
 
 		private SpriteDataSO PresentSpriteSet;
-		[SerializeField, FormerlySerializedAs("PresentSpriteSet")] private SpriteDataSO InitialPresentSpriteSet;
+
+		[SerializeField, FormerlySerializedAs("PresentSpriteSet")]
+		private SpriteDataSO InitialPresentSpriteSet;
 
 		public SpriteDataSO PresentSpritesSet => PresentSpriteSet;
 
@@ -45,8 +47,13 @@ namespace US13.Core.Sprite_Handler
 
 		[SerializeField] private SpriteRenderer spriteRenderer;
 
+		private bool HasSpriteRenderer = false;
+
 		public SpriteRenderer SpriteRenderer => spriteRenderer;
 		private Image image;
+
+
+		private bool Hasimage = false;
 
 		[SerializeField] private bool doReverseAnimation = false;
 
@@ -91,12 +98,10 @@ namespace US13.Core.Sprite_Handler
 		public List<Color> Palette => palette;
 
 		//TODO Network
-		[SerializeField]
-		private int initialSortingOrder = -1;
+		[SerializeField] private int initialSortingOrder = -1;
 
 		//TODO Network
-		[SerializeField]
-		private string initialSortingLayerName = "";
+		[SerializeField] private string initialSortingLayerName = "";
 
 		/// <summary>
 		/// false if the palette has not been configured for the current spriteSO. true otherwise
@@ -290,6 +295,7 @@ namespace US13.Core.Sprite_Handler
 						InitialColour = color.Value;
 					}
 				}
+
 				// TODO: Network, change to network catalogue message
 				// See https://github.com/unitystation/unitystation/pull/5675#pullrequestreview-540239428
 				cataloguePage = SubCatalogue.FindIndex(SO => SO == newSpriteSO);
@@ -353,6 +359,7 @@ namespace US13.Core.Sprite_Handler
 				{
 					initialVariantIndex = variantIndex;
 				}
+
 				var Frame = PresentSpriteSet.Variance[variantIndex].Frames[animationIndex];
 				SetSprite(Frame);
 				TryToggleAnimationState(PresentSpriteSet.Variance[variantIndex].Frames.Count > 1);
@@ -360,6 +367,7 @@ namespace US13.Core.Sprite_Handler
 				{
 					NetUpdate(newVariantIndex: spriteVariant);
 				}
+
 				OnVariantUpdated?.Invoke();
 			}
 		}
@@ -433,6 +441,7 @@ namespace US13.Core.Sprite_Handler
 			{
 				InitialPresentSpriteSet = null;
 			}
+
 			OnSpriteDataSOChanged?.Invoke(null);
 			OnColorChanged.Clear();
 			OnSpriteChanged.Clear();
@@ -520,7 +529,6 @@ namespace US13.Core.Sprite_Handler
 			PushTexture();
 
 
-
 			if (GetColor(false) == null)
 			{
 				SetColor(InitialColour);
@@ -537,7 +545,6 @@ namespace US13.Core.Sprite_Handler
 			{
 				SetSpriteRendererSortingOrder(initialSortingOrder);
 			}
-
 		}
 
 		//Used to set the sprite of the sprite renderer/Image
@@ -756,7 +763,10 @@ namespace US13.Core.Sprite_Handler
 
 				spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
 				image = this.gameObject.GetComponent<Image>();
-				if (image != null)
+				Hasimage = image != null;
+				HasSpriteRenderer = spriteRenderer != null;
+
+				if (Hasimage)
 				{
 					// unity doesn't support property blocks on ui renderers, so this is a workaround
 					image.material = Instantiate(image.material);
@@ -767,6 +777,7 @@ namespace US13.Core.Sprite_Handler
 					networkIdentity = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(gameObject);
 					SpriteHandlerManager.RegisterHandler(networkIdentity, this);
 				}
+
 				if (randomInitialSprite && CatalogueCount > 0)
 				{
 					SetCatalogueIndexSprite(UnityEngine.Random.Range(0, CatalogueCount), NetworkThis);
@@ -814,6 +825,7 @@ namespace US13.Core.Sprite_Handler
 				SpriteHandlerManager.Instance.QueueChanges.Remove(this);
 				SpriteHandlerManager.Instance.NewClientChanges.Remove(this);
 			}
+			UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMe);
 
 			OnSpriteUpdated = null;
 			OnVariantUpdated = null;
@@ -827,7 +839,7 @@ namespace US13.Core.Sprite_Handler
 		/// <param name="value"></param>
 		protected virtual void SetSpriteRendererSortingLayer(string value)
 		{
-			if (spriteRenderer != null)
+			if (HasSpriteRenderer)
 			{
 				spriteRenderer.sortingLayerName = value;
 			}
@@ -840,7 +852,7 @@ namespace US13.Core.Sprite_Handler
 		/// <param name="value"></param>
 		protected virtual void SetSpriteRendererSortingOrder(int value)
 		{
-			if (spriteRenderer != null)
+			if (HasSpriteRenderer)
 			{
 				spriteRenderer.sortingOrder = value;
 			}
@@ -848,11 +860,11 @@ namespace US13.Core.Sprite_Handler
 
 		protected virtual void SetImageColor(Color value)
 		{
-			if (spriteRenderer != null)
+			if (HasSpriteRenderer)
 			{
 				spriteRenderer.color = value;
 			}
-			else if (image != null)
+			else if (Hasimage)
 			{
 				image.color = value;
 			}
@@ -862,11 +874,11 @@ namespace US13.Core.Sprite_Handler
 
 		protected virtual void UpdateImageColor()
 		{
-			if (spriteRenderer != null)
+			if (HasSpriteRenderer)
 			{
 				setColour = spriteRenderer.color;
 			}
-			else if (image != null)
+			else if (Hasimage)
 			{
 				setColour = image.color;
 			}
@@ -915,7 +927,7 @@ namespace US13.Core.Sprite_Handler
 		protected virtual void SetImageSprite(Sprite value)
 		{
 #if UNITY_EDITOR
-			if (this == null) return;
+			if (!this) return;
 			if (Application.isPlaying == false)
 			{
 				if (spriteRenderer == null)
@@ -930,36 +942,60 @@ namespace US13.Core.Sprite_Handler
 			}
 #endif
 
-			if (spriteRenderer != null)
+			if (HasSpriteRenderer)
 			{
-				if (ParentUniversalObjectPhysics != null && ParentUniversalObjectPhysics.IsVisible)
+				try
+				{
+					spriteRenderer.sprite = value;
+				}
+				catch (Exception e)
+				{
+					HasSpriteRenderer = false;
+					SetImageSprite(value);
+				}
+
+				if (ParentUniversalObjectPhysics?.IsVisible is true)
 				{
 					spriteRenderer.enabled = true;
 				}
-
-				spriteRenderer.sprite = value;
 
 				if (isPaletteSet == false)
 				{
 					SetPaletteOnSpriteRenderer();
 				}
 			}
-			else if (image != null)
+			else if (Hasimage)
 			{
-				image.sprite = value;
+				try
+				{
+					image.sprite = value;
+				}
+				catch (Exception e)
+				{
+					Hasimage = false;
+					SetImageSprite(value);
+				}
 
 				if (isPaletteSet == false)
 				{
 					SetPaletteOnImage();
 				}
 
-				if (value == null)
+				try
 				{
-					image.enabled = false;
+					if (value == null)
+					{
+						image.enabled = false;
+					}
+					else
+					{
+						image.enabled = true;
+					}
 				}
-				else
+				catch (Exception e)
 				{
-					image.enabled = true;
+					Hasimage = false;
+					SetImageSprite(value);
 				}
 			}
 
@@ -1039,6 +1075,7 @@ namespace US13.Core.Sprite_Handler
 
 			return palette;
 		}
+
 
 		public void UpdateMe()
 		{
@@ -1219,7 +1256,8 @@ namespace US13.Core.Sprite_Handler
 			// ValidateLate might be called after this object is already destroyed.
 			if (this == null || Application.isPlaying) return;
 			if (Selection.activeGameObject == null) return;
-			if (Selection.activeGameObject.name != this.gameObject.transform.parent.gameObject.name && Selection.activeGameObject != this.gameObject ) return;
+			if (Selection.activeGameObject.name != this.gameObject.transform.parent.gameObject.name &&
+			    Selection.activeGameObject != this.gameObject) return;
 
 			PresentSpriteSet = InitialPresentSpriteSet;
 			PushTexture();

@@ -8,6 +8,76 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4043889439529480501, guid: 89855ce616f6fac4db5a551a6b8ace28,
+        type: 3}
+      propertyPath: m_Size
+      value: 0.88800013
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043889439799348143, guid: 89855ce616f6fac4db5a551a6b8ace28,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043889439799348143, guid: 89855ce616f6fac4db5a551a6b8ace28,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043889439799348143, guid: 89855ce616f6fac4db5a551a6b8ace28,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 213.1121
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043889439799348143, guid: 89855ce616f6fac4db5a551a6b8ace28,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043889439799348143, guid: 89855ce616f6fac4db5a551a6b8ace28,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043889439799348143, guid: 89855ce616f6fac4db5a551a6b8ace28,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 106.556
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043889439799348143, guid: 89855ce616f6fac4db5a551a6b8ace28,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043889440154592483, guid: 89855ce616f6fac4db5a551a6b8ace28,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043889440154592483, guid: 89855ce616f6fac4db5a551a6b8ace28,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0.88800013
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043889440294994076, guid: 89855ce616f6fac4db5a551a6b8ace28,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 517.5864
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043889440294994076, guid: 89855ce616f6fac4db5a551a6b8ace28,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.15999031
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043889440294994079, guid: 89855ce616f6fac4db5a551a6b8ace28,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043889440529585649, guid: 89855ce616f6fac4db5a551a6b8ace28,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.000009536743
+      objectReference: {fileID: 0}
     - target: {fileID: 4043889440569410898, guid: 89855ce616f6fac4db5a551a6b8ace28,
         type: 3}
       propertyPath: m_Name
@@ -117,6 +187,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043889440998726330, guid: 89855ce616f6fac4db5a551a6b8ace28,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043889440998726330, guid: 89855ce616f6fac4db5a551a6b8ace28,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4043889440998726330, guid: 89855ce616f6fac4db5a551a6b8ace28,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: -17
       objectReference: {fileID: 0}
     - target: {fileID: 7055774701040658935, guid: 89855ce616f6fac4db5a551a6b8ace28,
         type: 3}
@@ -352,5 +437,62 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4043889440294994079, guid: 89855ce616f6fac4db5a551a6b8ace28,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6379241117198788089}
+    - targetCorrespondingSourceObject: {fileID: 8596342800112592496, guid: 89855ce616f6fac4db5a551a6b8ace28,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2669100310879019629}
   m_SourcePrefab: {fileID: 100100000, guid: 89855ce616f6fac4db5a551a6b8ace28, type: 3}
+--- !u!1 &4092206443401577667 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8596342800112592496, guid: 89855ce616f6fac4db5a551a6b8ace28,
+    type: 3}
+  m_PrefabInstance: {fileID: 5730311758585176755}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2669100310879019629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4092206443401577667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Core.Sprite_Handler.SpriteHandler
+  NetworkThis: 0
+  SubCatalogue: []
+  InitialPresentSpriteSet: {fileID: 0}
+  randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
+  doReverseAnimation: 0
+  pushTextureOnStartUp: 1
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
+  palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
+--- !u!1 &8617884358655222316 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4043889440294994079, guid: 89855ce616f6fac4db5a551a6b8ace28,
+    type: 3}
+  m_PrefabInstance: {fileID: 5730311758585176755}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6379241117198788089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8617884358655222316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 618bc8751b080ed4eb207928110c78ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.UI.Systems.HeightSetterRectTransform
+  ToSetHeight: 500
