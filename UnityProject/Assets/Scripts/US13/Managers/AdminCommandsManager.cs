@@ -79,7 +79,7 @@ namespace US13.Managers
 
 		private void Awake()
 		{
-			if (Instance == null)
+			if (instance == null)
 			{
 				Instance = this;
 			}

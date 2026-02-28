@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Logs;
@@ -176,12 +177,14 @@ namespace US13.Systems.Voting
 					RpcOpenVoteWindow("Voting for next Game Mode initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), GameModeList);
 					break;
 				case VoteType.NextMap:
-					possibleVotes.AddRange(MapList);
-					RpcOpenVoteWindow("Voting for next map initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), MapList);
+					var Maps = MapList.Select(x => Path.GetFileName(x).Replace(".json", "")).ToList();
+					possibleVotes.AddRange(Maps);
+					RpcOpenVoteWindow("Voting for next map initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), Maps);
 					break;
 				case VoteType.NextAwaySite:
-					possibleVotes.AddRange(awaySiteList);
-					RpcOpenVoteWindow("Voting for next away site/world initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), awaySiteList);
+					var awaySites = awaySiteList.Select(x => Path.GetFileName(x).Replace(".json", "")).ToList();
+					possibleVotes.AddRange(awaySites);
+					RpcOpenVoteWindow("Voting for next away site/world initiated by", instigator.name, CountAmountString(), (time - prevSecond).ToString(), awaySites);
 					break;
 			}
 
@@ -332,16 +335,17 @@ namespace US13.Systems.Voting
 						break;
 					case VoteType.NextGameMode:
 						Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Next GameMode has been chosen</color>");
-						GameManager.Instance.NextGameMode = winner;
+						//.Select(x => Path.GetFileName(x).Replace(".json", ""))
+						GameManager.Instance.NextGameMode =  winner;
 						GameManager.Instance.SecretGameMode = true;
 						break;
 					case VoteType.NextMap:
 						Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Next map will be {winner}</color>");
-						SubSceneManager.AdminForcedMainStation = winner;
+						SubSceneManager.AdminForcedMainStation = MapList.FirstOrDefault( x=>x.Contains(winner));
 						break;
 					case VoteType.NextAwaySite:
 						Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Next away site will be {winner}</color>");
-						SubSceneManager.AdminForcedAwaySite = winner;
+						SubSceneManager.AdminForcedAwaySite = awaySiteList.FirstOrDefault( x=>x.Contains(winner));
 						break;
 					case VoteType.Custom:
 						//Chat.AddGameWideSystemMsgToChat($"<color=blue>Vote passed! Winner is {winner}</color>"); //TODO Option?? idk

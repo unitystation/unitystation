@@ -41,7 +41,7 @@ namespace US13.Core.Sprite_Handler
 				Destroy(this);
 			}
 
-			if (SpriteCatalogue.ResistantCatalogue.Count == 0)
+			if (SpriteCatalogue.HasGenCatalogue == false)
 			{
 				new Task(SpriteCatalogue.Instance.GenerateResistantCatalogue).Start();
 			}

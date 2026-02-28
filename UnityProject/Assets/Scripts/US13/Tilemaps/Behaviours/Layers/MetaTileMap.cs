@@ -1532,9 +1532,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 				if (layer == LayerType.Objects)
 				{
-					foreach (RegisterTile o in isServer
-						         ? ((ObjectLayer) LayersValues[i]).ServerObjects.Get(position)
-						         : ((ObjectLayer) LayersValues[i]).ClientObjects.Get(position))
+					foreach (RegisterTile o in ((ObjectLayer) LayersValues[i]).ServerObjects.Get(position))
 					{
 						if (o is RegisterObject)
 						{
@@ -1592,9 +1590,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 		public bool IsObjectPresent(GameObject[] context, Vector3Int position, bool isServer, out RegisterTile Object)
 		{
-			foreach (RegisterTile o in isServer
-				         ? ObjectLayer.ServerObjects.Get(position)
-				         : ObjectLayer.ClientObjects.Get(position))
+			foreach (RegisterTile o in ObjectLayer.ServerObjects.Get(position))
 			{
 				if (context.Contains(o.gameObject)) continue;
 				if (o.IsPassable(isServer) == false)
@@ -1620,9 +1616,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 				if (layer == LayerType.Objects)
 				{
-					foreach (RegisterTile o in isServer
-						         ? ((ObjectLayer) LayersValues[i1]).ServerObjects.Get(position)
-						         : ((ObjectLayer) LayersValues[i1]).ClientObjects.Get(position))
+					foreach (RegisterTile o in  ((ObjectLayer) LayersValues[i1]).ServerObjects.Get(position))
 					{
 						if (o.IsPassable(isServer) == false)
 						{

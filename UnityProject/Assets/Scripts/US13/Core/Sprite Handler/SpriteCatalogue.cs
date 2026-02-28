@@ -15,6 +15,8 @@ namespace US13.Core.Sprite_Handler
 
 		private static Dictionary<int,SpriteDataSO > resistantCatalogue = new Dictionary<int, SpriteDataSO>();
 
+		public static bool HasGenCatalogue => resistantCatalogue.Count > 0;
+
 		public static Dictionary<int,SpriteDataSO> ResistantCatalogue
 		{
 			get

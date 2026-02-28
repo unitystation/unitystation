@@ -200,7 +200,7 @@ namespace US13.Core.Physics
 
 		[HideInInspector] public RegisterTile registerTile;
 
-		protected LayerMask defaultInteractionLayerMask;
+		protected static LayerMask? defaultInteractionLayerMask = null;
 
 		[HideInInspector] public GameObject[] ContextGameObjects = new GameObject[2];
 
@@ -295,17 +295,21 @@ namespace US13.Core.Physics
 
 		public virtual void Awake()
 		{
-			Collider = this.GetComponent<BoxCollider2D>();
-			floorDecal = this.GetComponent<FloorDecal>();
+			Collider = this.GetComponentCustom<BoxCollider2D>();
+			floorDecal = this.GetComponentCustom<FloorDecal>();
 			ContextGameObjects[0] = gameObject;
-			defaultInteractionLayerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines", "Players",
-				"Door Closed",
-				"HiddenWalls", "Objects");
-			attributes.DirectSetComponent(GetComponent<Items.Attributes>());
-			registerTile = GetComponent<RegisterTile>();
-			rotatable = GetComponent<Rotatable>();
-			pickupable.DirectSetComponent(GetComponent<Pickupable>());
-			Scale ??= GetComponent<ScaleSync>();
+			if (defaultInteractionLayerMask == null)
+			{
+				defaultInteractionLayerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines", "Players",
+					"Door Closed",
+					"HiddenWalls", "Objects");
+			}
+
+			attributes.DirectSetComponent(this.GetComponentCustom<Items.Attributes>());
+			registerTile = this.GetComponentCustom<RegisterTile>();
+			rotatable =  this.GetComponentCustom<Rotatable>();
+			pickupable.DirectSetComponent( this.GetComponentCustom<Pickupable>());
+			Scale ??=  this.GetComponentCustom<ScaleSync>();
 			SetRotationTarget();
 		}
 
@@ -930,7 +934,7 @@ namespace US13.Core.Physics
 				registerTile.ServerSetNetworkedMatrixNetID(movetoMatrix.NetworkedMatrix.MatrixSync.netId);
 			}
 
-			registerTile.FinishNetworkedMatrixRegistration(movetoMatrix.NetworkedMatrix);
+			registerTile.TryChangeMatrix(movetoMatrix.NetworkedMatrix);
 			SetTransform(TransformCash, true);
 			LocalDifferenceNeeded = Vector2.zero;
 
@@ -1048,6 +1052,10 @@ namespace US13.Core.Physics
 			float inSlideTime = Single.NaN, BodyPartType inAim = BodyPartType.Chest, GameObject inThrownBy = null,
 			float spinFactor = 0) //Collision is just naturally part of Newtonian push
 		{
+			Vector3 aaaa = new Vector3();
+
+			aaaa.To2();
+
 			var speed = newtonians / SizeToWeight(GetSize());
 			NewtonianPush(worldDirection, speed, inAirTime, inSlideTime, inAim, inThrownBy, spinFactor);
 		}

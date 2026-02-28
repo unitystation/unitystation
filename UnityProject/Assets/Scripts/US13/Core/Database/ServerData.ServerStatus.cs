@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -144,7 +145,7 @@ namespace US13.Core.Database
 				GoodFileVersion = buildInfo.GoodFileVersion,
 				CurrentMap = SubSceneManager.Instance.OrNull() is null
 					? "Loading"
-					: SubSceneManager.ServerChosenMainStation,
+					:  Path.GetFileName(SubSceneManager.ServerChosenMainStation).Replace(".json", ""),
 				Passworded = !string.IsNullOrEmpty(config.ConnectionPassword),
 				RoundTime = GameManager.Instance.RoundTimeInMinutes.ToString(),
 				PlayerCountMax = GameManager.Instance.PlayerLimit,

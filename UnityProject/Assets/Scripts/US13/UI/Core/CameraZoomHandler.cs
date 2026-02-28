@@ -13,16 +13,16 @@ namespace US13.UI.Core
 {
 	public class CameraZoomHandler : MonoBehaviour
 	{
-		public float ZoomLevel => displaySettings.ZoomLevel;
+		public float ZoomLevel => DisplaySettings.Instance.ZoomLevel;
 
-		public bool ScrollWheelZoom => displaySettings.ScrollWheelZoom;
+		public bool ScrollWheelZoom => DisplaySettings.Instance.ScrollWheelZoom;
 
-		private DisplaySettings displaySettings = null;
+
 		private PixelPerfectCamera pixelPerfectCamera;
 
 		void OnEnable()
 		{
-			displaySettings.SettingsChanged += DisplaySettings_SettingsChanged;
+			DisplaySettings.Instance.SettingsChanged += DisplaySettings_SettingsChanged;
 			SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
 			UpdatePixelPerfectCamera();
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
@@ -30,7 +30,7 @@ namespace US13.UI.Core
 
 		private void OnDisable()
 		{
-			displaySettings.SettingsChanged -= DisplaySettings_SettingsChanged;
+			DisplaySettings.Instance.SettingsChanged -= DisplaySettings_SettingsChanged;
 			SceneManager.activeSceneChanged -= SceneManager_activeSceneChanged;
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
@@ -62,10 +62,6 @@ namespace US13.UI.Core
 			}
 		}
 
-		void Awake()
-		{
-			displaySettings = FindObjectOfType<DisplaySettings>();
-		}
 
 		/// <summary>
 		/// Increment at which zoom changes when using Increase / DecreaseZoomLevel().
@@ -75,7 +71,7 @@ namespace US13.UI.Core
 		void UpdateMe()
 		{
 			//Process any scroll wheel zooming:
-			if (displaySettings.ScrollWheelZoom && !EventSystem.current.IsPointerOverGameObject())
+			if (DisplaySettings.Instance.ScrollWheelZoom && !EventSystem.current.IsPointerOverGameObject())
 			{
 				if (Input.mouseScrollDelta.y > 0f)
 				{
@@ -103,7 +99,7 @@ namespace US13.UI.Core
 				return; //probably in the lobby
 			}
 
-			pixelPerfectCamera.assetsPPU = displaySettings.ZoomLevel;
+			pixelPerfectCamera.assetsPPU = DisplaySettings.Instance.ZoomLevel;
 
 			if (Camera2DFollow.followControl != null)
 			{
@@ -123,7 +119,7 @@ namespace US13.UI.Core
 
 		public void SetZoomLevel(int _zoomLevel)
 		{
-			displaySettings.ZoomLevel = _zoomLevel;
+			DisplaySettings.Instance.ZoomLevel = _zoomLevel;
 		}
 
 		/// <summary>
@@ -131,7 +127,7 @@ namespace US13.UI.Core
 		/// <summary>
 		public void IncreaseZoomLevel()
 		{
-			displaySettings.ZoomLevel += zoomIncrement;
+			DisplaySettings.Instance.ZoomLevel += zoomIncrement;
 		}
 
 		/// <summary>
@@ -140,12 +136,12 @@ namespace US13.UI.Core
 		/// <summary>
 		public void DecreaseZoomLevel()
 		{
-			displaySettings.ZoomLevel -= zoomIncrement;
+			DisplaySettings.Instance.ZoomLevel -= zoomIncrement;
 		}
 
 		public void SetScrollWheelZoom(bool activeState)
 		{
-			displaySettings.ScrollWheelZoom = activeState;
+			DisplaySettings.Instance.ScrollWheelZoom = activeState;
 		}
 	}
 }

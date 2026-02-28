@@ -45,8 +45,13 @@ namespace US13.Core.Sprite_Handler
 
 		[SerializeField] private SpriteRenderer spriteRenderer;
 
+		private bool HasSpriteRenderer = false;
+
 		public SpriteRenderer SpriteRenderer => spriteRenderer;
 		private Image image;
+
+
+		private bool Hasimage = false;
 
 		[SerializeField] private bool doReverseAnimation = false;
 
@@ -756,7 +761,10 @@ namespace US13.Core.Sprite_Handler
 
 				spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
 				image = this.gameObject.GetComponent<Image>();
-				if (image != null)
+				Hasimage = image != null;
+				HasSpriteRenderer = spriteRenderer != null;
+
+				if (Hasimage)
 				{
 					// unity doesn't support property blocks on ui renderers, so this is a workaround
 					image.material = Instantiate(image.material);
@@ -827,7 +835,7 @@ namespace US13.Core.Sprite_Handler
 		/// <param name="value"></param>
 		protected virtual void SetSpriteRendererSortingLayer(string value)
 		{
-			if (spriteRenderer != null)
+			if (HasSpriteRenderer)
 			{
 				spriteRenderer.sortingLayerName = value;
 			}
@@ -840,7 +848,7 @@ namespace US13.Core.Sprite_Handler
 		/// <param name="value"></param>
 		protected virtual void SetSpriteRendererSortingOrder(int value)
 		{
-			if (spriteRenderer != null)
+			if (HasSpriteRenderer)
 			{
 				spriteRenderer.sortingOrder = value;
 			}
@@ -848,11 +856,11 @@ namespace US13.Core.Sprite_Handler
 
 		protected virtual void SetImageColor(Color value)
 		{
-			if (spriteRenderer != null)
+			if (HasSpriteRenderer)
 			{
 				spriteRenderer.color = value;
 			}
-			else if (image != null)
+			else if (Hasimage)
 			{
 				image.color = value;
 			}
@@ -862,11 +870,11 @@ namespace US13.Core.Sprite_Handler
 
 		protected virtual void UpdateImageColor()
 		{
-			if (spriteRenderer != null)
+			if (HasSpriteRenderer)
 			{
 				setColour = spriteRenderer.color;
 			}
-			else if (image != null)
+			else if (Hasimage)
 			{
 				setColour = image.color;
 			}
@@ -915,7 +923,7 @@ namespace US13.Core.Sprite_Handler
 		protected virtual void SetImageSprite(Sprite value)
 		{
 #if UNITY_EDITOR
-			if (this == null) return;
+			if (!this) return;
 			if (Application.isPlaying == false)
 			{
 				if (spriteRenderer == null)
@@ -930,23 +938,39 @@ namespace US13.Core.Sprite_Handler
 			}
 #endif
 
-			if (spriteRenderer != null)
+			if (HasSpriteRenderer)
 			{
-				if (ParentUniversalObjectPhysics != null && ParentUniversalObjectPhysics.IsVisible)
+				try
+				{
+					spriteRenderer.sprite = value;
+				}
+				catch (Exception e)
+				{
+					HasSpriteRenderer = false;
+					SetImageSprite(value);
+				}
+
+				if (ParentUniversalObjectPhysics?.IsVisible is true)
 				{
 					spriteRenderer.enabled = true;
 				}
-
-				spriteRenderer.sprite = value;
 
 				if (isPaletteSet == false)
 				{
 					SetPaletteOnSpriteRenderer();
 				}
 			}
-			else if (image != null)
+			else if (Hasimage)
 			{
-				image.sprite = value;
+				try
+				{
+					image.sprite = value;
+				}
+				catch (Exception e)
+				{
+					Hasimage = false;
+					SetImageSprite(value);
+				}
 
 				if (isPaletteSet == false)
 				{

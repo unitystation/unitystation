@@ -94,11 +94,11 @@ namespace US13.Tilemaps.Behaviours.Objects
 				if (context != null && context.GetComponent<RegisterPlayer>() != null &&
 				    context.GetComponent<RegisterPlayer>().IsLayingDown)
 				{
-					return CrawlPassable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos);
+					return CrawlPassable || (LocalPosition == TransformState.HiddenPos);
 				}
 			}
 
-			return Passable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos);
+			return Passable || (LocalPosition == TransformState.HiddenPos);
 		}
 
 		public override bool IsPassable(bool isServer, GameObject context = null)
@@ -115,10 +115,10 @@ namespace US13.Tilemaps.Behaviours.Objects
 				if (context != null && context.GetComponent<RegisterPlayer>() != null &&
 				    context.GetComponent<RegisterPlayer>().IsLayingDown)
 				{
-					return CrawlPassable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos);
+					return CrawlPassable || (LocalPosition == TransformState.HiddenPos);
 				}
 			}
-			return Passable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos );
+			return Passable || ( LocalPosition == TransformState.HiddenPos);
 		}
 
 		public override bool IsAtmosPassable(Vector3Int enteringFrom, bool isServer)
@@ -126,12 +126,12 @@ namespace US13.Tilemaps.Behaviours.Objects
 			//If despawning then always be atmos passable
 			if (Active == false) return true;
 
-			return AtmosPassable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos );
+			return AtmosPassable || (LocalPosition == TransformState.HiddenPos);
 		}
 
 		public override bool IsReachableThrough(Vector3Int reachingFrom, bool isServer, GameObject context = null)
 		{
-			return ReachableThrough || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos);
+			return ReachableThrough || (LocalPosition == TransformState.HiddenPos);
 		}
 
 		private bool CheckPassableExclusions(GameObject context)

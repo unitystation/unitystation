@@ -4,6 +4,7 @@ using SecureStuff;
 using UnityEngine;
 using US13.Core.Initialisation;
 using US13.Managers;
+using US13.Managers.NetworkManagement;
 using US13.Systems.Research.Data;
 using US13.UI.Core;
 using Random = UnityEngine.Random;
@@ -32,17 +33,19 @@ namespace US13.Systems.Research
 
 		public void Awake()
 		{
-			int Round = GameManager.RoundID;
-			if (Round != RoundID)
+			if (CustomNetworkManager.IsServer)
 			{
-				ItemResearchRandomisedData.Clear();
-				RoundID = Round;
+				int Round = GameManager.RoundID;
+				if (Round != RoundID)
+				{
+					ItemResearchRandomisedData.Clear();
+					RoundID = Round;
+				}
+
+				LoadManager.RegisterAction(InitialiseData);
+
+
 			}
-
-			LoadManager.RegisterAction(InitialiseData);
-
-
-
 		}
 
 

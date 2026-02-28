@@ -654,13 +654,13 @@ namespace US13.MapSaver
 			foreach (var MetaTileMap in MetaTileMaps)
 			{
 				OutMapData.ContainedMatrices.Add(SaveMatrix(Compact, MetaTileMap, false,
-					ReadjustCentre : ReadjustCentre,
-					LocalArea : LocalArea,
-					NonmappedItems : NonmappedItems,
+					ReadjustCentre: ReadjustCentre,
+					LocalArea: LocalArea,
+					NonmappedItems: NonmappedItems,
 					LayersToProcess: LayersToProcess,
-					DoSaveObjects : DoSaveObjects,
-					Cut : Cut,
-					PreviewGizmos : PreviewGizmos));
+					DoSaveObjects: DoSaveObjects,
+					Cut: Cut,
+					PreviewGizmos: PreviewGizmos));
 			}
 
 
@@ -742,7 +742,8 @@ namespace US13.MapSaver
 
 		public static MatrixData SaveMatrix(bool Compact, MetaTileMap MetaTileMap, bool SingleSave = true,
 			List<BetterBounds> LocalArea = null, bool NonmappedItems = false, HashSet<LayerType> LayersToProcess = null,
-			bool DoSaveObjects = true, bool Cut = false, List<GameGizmoModel> PreviewGizmos = null, bool ReadjustCentre = false)
+			bool DoSaveObjects = true, bool Cut = false, List<GameGizmoModel> PreviewGizmos = null,
+			bool ReadjustCentre = false)
 		{
 			VariableViewerManager VariableViewerManager = null;
 #if UNITY_EDITOR
@@ -786,7 +787,7 @@ namespace US13.MapSaver
 				GetBound(Compact, MetaTileMap, ref LocalGizmoBound, AllowedPoints, LayersToProcess,
 					NonmappedItems);
 
-				OffsetToRemove =  LocalGizmoBound.center.RoundToInt();
+				OffsetToRemove = LocalGizmoBound.center.RoundToInt();
 			}
 
 
@@ -799,14 +800,17 @@ namespace US13.MapSaver
 			}
 
 
-			SaveTileMap(OffsetToRemove, Compact, matrixData, MetaTileMap, ref LocalGizmoBound, AllowedPoints, LayersToProcess);
+			SaveTileMap(OffsetToRemove, Compact, matrixData, MetaTileMap, ref LocalGizmoBound, AllowedPoints,
+				LayersToProcess);
 
 			//matrixData.MatrixName = MetaTileMap.matrix.NetworkedMatrix.gameObject.name;
 			matrixData.MatrixName = MetaTileMap.matrix.transform.parent.name;
 
-			MetaTileMap.matrix.transform.parent.gameObject.transform.position =MetaTileMap.matrix.transform.parent.gameObject.transform.position +  OffsetToRemove;
+			MetaTileMap.matrix.transform.parent.gameObject.transform.position =
+				MetaTileMap.matrix.transform.parent.gameObject.transform.position + OffsetToRemove;
 			matrixData.Location = PRSToString(MetaTileMap.matrix.transform.parent.gameObject);
-			MetaTileMap.matrix.transform.parent.gameObject.transform.position = MetaTileMap.matrix.transform.parent.gameObject.transform.position - OffsetToRemove;
+			MetaTileMap.matrix.transform.parent.gameObject.transform.position =
+				MetaTileMap.matrix.transform.parent.gameObject.transform.position - OffsetToRemove;
 
 
 			if (SingleSave)
@@ -1067,7 +1071,8 @@ namespace US13.MapSaver
 			}
 			else
 			{
-				GitFriendlyTileMapSave(OffsetToRemove, ToSaveTo, metaTileMap, ref Bounds, AllowedPoints, LayersToProcess,
+				GitFriendlyTileMapSave(OffsetToRemove, ToSaveTo, metaTileMap, ref Bounds, AllowedPoints,
+					LayersToProcess,
 					NonmappedItems: NonmappedItems);
 			}
 		}
@@ -1994,7 +1999,8 @@ namespace US13.MapSaver
 
 			if (Prefab.GitID.Contains("@"))
 			{
-				Loggy.Error(Prefab.Name + " Prefab Has a bad forever ID please remove the @ From Forever ID of " + Prefab.GitID);
+				Loggy.Error(Prefab.Name + " Prefab Has a bad forever ID please remove the @ From Forever ID of " +
+				            Prefab.GitID);
 			}
 
 			Prefab.Object = new IndividualObject();
@@ -2415,6 +2421,7 @@ namespace US13.MapSaver
 			{
 				NeededToProcess.Clear();
 				Objects.Clear();
+				IDToReferencesAndData.Clear();
 			}
 
 			public void FlagSaveKey(string RootID, Component Object, FieldData FieldData)
@@ -2426,10 +2433,13 @@ namespace US13.MapSaver
 					ID = RootID
 				};
 
-				if (NeededToProcess.ContainsKey(RootID) == false)
+
+				if (NeededToProcess.TryGetValue(RootID, out var referencesAndData) == false)
 				{
-					NeededToProcess[RootID] = new ReferencesAndData();
+					referencesAndData = new ReferencesAndData();
+					NeededToProcess[RootID] = referencesAndData;
 				}
+
 
 				//note [UnprocessedEntry] = new List<string>(); Can overwrite?
 
@@ -2437,10 +2447,17 @@ namespace US13.MapSaver
 				var NeededID = GetID(FieldData.Data);
 				if (string.IsNullOrEmpty(NeededID) == false)
 				{
-					NeededToProcess[RootID].ReferencesNeeded.Add(NeededID);
+					if (IDToReferencesAndData.TryGetValue(NeededID, out var ListToDdd) == false)
+					{
+						ListToDdd = new List<ReferencesAndData>();
+						IDToReferencesAndData[NeededID] = ListToDdd;
+					}
+
+					referencesAndData.ReferencesNeeded.Add(NeededID);
+					ListToDdd.Add(referencesAndData);
 				}
 
-				NeededToProcess[RootID].FieldsToPopulate.Add(UnprocessedEntry);
+				referencesAndData.FieldsToPopulate.Add(UnprocessedEntry);
 			}
 
 			public bool FinishLoading(string GitiD, SpawnResult SpawnResult, GameObject Object)
@@ -2456,18 +2473,17 @@ namespace US13.MapSaver
 					}
 				}
 
-				foreach (var Waiting in NeededToProcess) //TODO Probably a bit slow
+				if (IDToReferencesAndData.Remove(GitiD, out var referencesNeeded))
 				{
-					if (Waiting.Value.ReferencesNeeded.Contains(GitiD))
+					foreach (var Waiting in referencesNeeded)
 					{
-						Waiting.Value.ReferencesNeeded.Remove(GitiD);
-
-						if (Waiting.Value.ReferencesNeeded.Count == 0)
+						Waiting.ReferencesNeeded.Remove(GitiD);
+						if (Waiting.ReferencesNeeded.Count == 0)
 						{
 							try
 							{
 								foreach (var Unprocessed in
-								         Waiting.Value.FieldsToPopulate) //TODO Could potentially error? list modified
+								         Waiting.FieldsToPopulate) //TODO Could potentially error? list modified
 								{
 									ReuseSEt.Add(Unprocessed.FieldData);
 									SecureMapsSaver.LoadData(Unprocessed.ID, Unprocessed.Object, ReuseSEt,
@@ -2481,14 +2497,14 @@ namespace US13.MapSaver
 								throw e;
 							}
 
-							if (Waiting.Value.ReferencesNeeded.Count == 0)
+							if (Waiting.ReferencesNeeded.Count == 0) //Since this could reveal a field that also needs to wait for something
 							{
-								if (Waiting.Value.SpawnResult != null)
+								if (Waiting.SpawnResult != null)
 								{
 									try
 									{
-										Spawn._ServerFireClientServerSpawnHooks(Waiting.Value.SpawnResult,
-											SpawnInfo.IsJsonMapped(Waiting.Value.SpawnResult.GameObject));
+										Spawn._ServerFireClientServerSpawnHooks(Waiting.SpawnResult,
+											SpawnInfo.IsJsonMapped(Waiting.SpawnResult.GameObject));
 									}
 									catch (Exception e)
 									{
@@ -2497,7 +2513,7 @@ namespace US13.MapSaver
 
 									try
 									{
-										var Spawns = Waiting.Value.SpawnResult.GameObject
+										var Spawns = Waiting.SpawnResult.GameObject
 											.GetComponentsInChildren<INewMappedOnSpawn>();
 										foreach (var Spawn in Spawns)
 										{
@@ -2509,10 +2525,11 @@ namespace US13.MapSaver
 										Loggy.Error(e.ToString());
 									}
 
-									Waiting.Value.SpawnResult = null;
+									Waiting.SpawnResult = null;
 								}
 							}
 						}
+
 					}
 				}
 
@@ -2539,6 +2556,9 @@ namespace US13.MapSaver
 
 			public Dictionary<string, ReferencesAndData> NeededToProcess =
 				new Dictionary<string, ReferencesAndData>();
+
+			public Dictionary<string, List<ReferencesAndData>> IDToReferencesAndData =
+				new Dictionary<string, List<ReferencesAndData>>();
 
 			public class ReferencesAndData
 			{

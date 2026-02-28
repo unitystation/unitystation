@@ -78,10 +78,6 @@ namespace US13.Core.Highlight
 			{
 				instance = this;
 			}
-			else
-			{
-				Destroy(gameObject);
-			}
 		}
 
 		public static void UpdateCurrentHighlight()

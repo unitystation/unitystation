@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -54,6 +55,11 @@ namespace US13.Core.Chat
 
 		private static Collider2D[] nonAllocPhysicsSphereResult = new Collider2D[75];
 		private static float searchRadiusForSphereResult = 20f;
+
+		public void Awake()
+		{
+			chat = this;
+		}
 
 		public static void InvokeChatEvent(ChatEvent chatEvent)
 		{
