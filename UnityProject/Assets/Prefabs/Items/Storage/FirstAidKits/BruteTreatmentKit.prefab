@@ -18,7 +18,7 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialPresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: acfc6dc4fe1cfdb4d98dfc8b05cfd026,
+      objectReference: {fileID: 11400000, guid: d091d4eafca2adb4ca19ff6a5108e1ce,
         type: 2}
     - target: {fileID: 3417345767468294455, guid: d0eb5dacbdcd4844e8c76aabde50434f,
         type: 3}
@@ -52,11 +52,23 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A first aid kit for when you get toolboxed.
       objectReference: {fileID: 0}
+    - target: {fileID: 8159390639885615672, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 2b6f007c75f4a6f4d85fb7f62cf7e683,
+        type: 2}
+    - target: {fileID: 8159390639885615672, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: edc1270ced66e4b4aada1156286a4d96,
+        type: 2}
     - target: {fileID: 8441880568126201350, guid: d0eb5dacbdcd4844e8c76aabde50434f,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 222895874b3de504f979ffa7009af5b3,
+      objectReference: {fileID: 21300000, guid: 38589914297befd4b8edba560fbe71b3,
         type: 3}
     - target: {fileID: 8521429791524850886, guid: d0eb5dacbdcd4844e8c76aabde50434f,
         type: 3}
