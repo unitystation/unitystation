@@ -12,7 +12,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 12fe0711916d9c14faad9a8b5dec2820,
+      objectReference: {fileID: 21300000, guid: 5c77c8df5aa7c154a89b9298ff76dce9,
         type: 3}
     - target: {fileID: 2519885190743113878, guid: 9505db5c84437ce4692422e1ef11cef2,
         type: 3}
@@ -81,6 +81,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2702653555754472000, guid: 9505db5c84437ce4692422e1ef11cef2,
         type: 3}
+      propertyPath: initialSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2702653555754472000, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
       propertyPath: initialDescription
       value: A stick magazine for an M1928 thompson submachine gun. Holds 20 rounds
         of .45 ACP.
@@ -93,6 +98,23 @@ PrefabInstance:
     - target: {fileID: 8514693453691373221, guid: 9505db5c84437ce4692422e1ef11cef2,
         type: 3}
       propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 89a630e2337aac64ca2fe9576b9eea47,
+        type: 2}
+    - target: {fileID: 8514693453691373221, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8514693453691373221, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 89a630e2337aac64ca2fe9576b9eea47,
+        type: 2}
+    - target: {fileID: 8514693453691373221, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: db998f354da4d994d9fdc09dad6f60fa,
         type: 2}
@@ -109,5 +131,33 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2552515844273667362, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2951345190735524513}
   m_SourcePrefab: {fileID: 100100000, guid: 9505db5c84437ce4692422e1ef11cef2, type: 3}
+--- !u!1 &3074491135624242611 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2552515844273667362, guid: 9505db5c84437ce4692422e1ef11cef2,
+    type: 3}
+  m_PrefabInstance: {fileID: 704411766377191569}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-2951345190735524513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3074491135624242611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503137a9c2df915449ef2c006742d816, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::DynamicMagazineSprite
+  spriteHandlerObject: {fileID: 0}
+  thresholds:
+  - AmmoCount: 20
+    CatalogueIndex: 0
+  - AmmoCount: 0
+    CatalogueIndex: 1

@@ -101,9 +101,61 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4706445082373976820, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1239148311257619961}
+    - target: {fileID: 4706445082373976820, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 96d9512d635dee045bc7210d2913e66f,
+        type: 2}
+    - target: {fileID: 4706445082373976820, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 96d9512d635dee045bc7210d2913e66f,
+        type: 2}
+    - target: {fileID: 4706445082373976820, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4706445082373976820, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 54099a65650d06b418c4f515bb9c113b,
+        type: 2}
+    - target: {fileID: 4706445082373976820, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: c99635960c401d048b3bed1fd9c55c8d,
+        type: 2}
+    - target: {fileID: 4706445082373976820, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9d27e21dd64e9384eaaacc97ab32ee69,
+        type: 2}
+    - target: {fileID: 4706445082373976820, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: e20654d7b57fce749b6ba80f3cb6da43,
+        type: 2}
+    - target: {fileID: 4706445082373976820, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 353981ce8e754844b920b2e3a15971f7,
+        type: 2}
+    - target: {fileID: 4706445082373976820, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[5]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6b1e6df4ad993ad428c9737e3ff192ff,
         type: 2}
     - target: {fileID: 5524790904487003422, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
@@ -145,5 +197,47 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1447548746969270643, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -1243149944495280822}
   m_SourcePrefab: {fileID: 100100000, guid: 3fae459459df71d4999b6618dc06f219, type: 3}
+--- !u!212 &1239148311257619961 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1650371861022734895, guid: 3fae459459df71d4999b6618dc06f219,
+    type: 3}
+  m_PrefabInstance: {fileID: 564386621307643862}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1424161463474073253 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1447548746969270643, guid: 3fae459459df71d4999b6618dc06f219,
+    type: 3}
+  m_PrefabInstance: {fileID: 564386621307643862}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-1243149944495280822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1424161463474073253}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503137a9c2df915449ef2c006742d816, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::DynamicMagazineSprite
+  spriteHandler: {fileID: 0}
+  thresholds:
+  - AmmoCount: 5
+    CatalogueIndex: 0
+  - AmmoCount: 4
+    CatalogueIndex: 1
+  - AmmoCount: 3
+    CatalogueIndex: 2
+  - AmmoCount: 2
+    CatalogueIndex: 3
+  - AmmoCount: 1
+    CatalogueIndex: 4
+  - AmmoCount: 0
+    CatalogueIndex: 5

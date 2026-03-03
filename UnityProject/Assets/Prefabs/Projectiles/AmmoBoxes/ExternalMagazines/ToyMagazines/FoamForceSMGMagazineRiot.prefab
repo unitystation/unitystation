@@ -8,6 +8,12 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2369807099268339695, guid: 622826a49d3855f40be742325988c4de,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 743ce39fe91622940bd721b3155ee885,
+        type: 3}
     - target: {fileID: 2450319646932851143, guid: 622826a49d3855f40be742325988c4de,
         type: 3}
       propertyPath: m_RootOrder
@@ -78,6 +84,24 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 48614d28a76e7cf49b57a3fcd97d31a8
       objectReference: {fileID: 0}
+    - target: {fileID: 8598732519783866164, guid: 622826a49d3855f40be742325988c4de,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 005dfd23bfd11cf44a1e3b294a457558,
+        type: 2}
+    - target: {fileID: 8598732519783866164, guid: 622826a49d3855f40be742325988c4de,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 005dfd23bfd11cf44a1e3b294a457558,
+        type: 2}
+    - target: {fileID: 8598732519783866164, guid: 622826a49d3855f40be742325988c4de,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 1f40f401db984f44e80c0a1ff0fa2a26,
+        type: 2}
     - target: {fileID: 8838441230931601630, guid: 622826a49d3855f40be742325988c4de,
         type: 3}
       propertyPath: parentID
