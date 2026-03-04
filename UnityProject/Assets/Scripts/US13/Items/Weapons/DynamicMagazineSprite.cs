@@ -26,37 +26,21 @@ public class DynamicMagazineSprite : MonoBehaviour
 	private SpriteHandler spriteHandler;
 
 	[Header("Ammo-Sprite Catalogue Map")]
-	[Tooltip("This will display the sprite listed in the SpriteHandler's subcatalogue at the index you pick here based on the highest Ammo Count number that is less than or equal to the current ammo in the magazine.")]
+	[Tooltip("This will display the sprite listed in the SpriteHandler's subcatalogue at the index you pick here based on the highest Ammo Count number that is more than or equal to the current ammo in the magazine.")]
 	[SerializeField]
 	private List<MagSpritePerAmmoCount> thresholds = new List<MagSpritePerAmmoCount>();
-
-	private int? lastKnownAmmo = null;
 
 	private void OnEnable()
 	{
 		ResolveReferences();
+		SubscribeToMagazine();
 		// set sprite correctly on spawn.
-		if (magazine != null)
-		{
-			lastKnownAmmo = magazine.ServerAmmoRemains;
-			EvaluateAndApplySprite(forceApply: true);
-		}
-		else
-		{
-			EvaluateAndApplySprite(forceApply: true);
-		}
+		EvaluateAndApplySprite(forceApply: true);
 	}
 
-	private void Update()
+	private void OnDisable()
 	{
-		if (magazine == null || spriteHandler == null) return;
-
-		int currentAmmo = magazine.ServerAmmoRemains;
-		if (!lastKnownAmmo.HasValue || currentAmmo != lastKnownAmmo.Value)
-		{
-			lastKnownAmmo = currentAmmo;
-			EvaluateAndApplySprite();
-		}
+		UnsubscribeFromMagazine();
 	}
 
 	private void ResolveReferences()
@@ -82,6 +66,24 @@ public class DynamicMagazineSprite : MonoBehaviour
 		}
 	}
 
+	private void SubscribeToMagazine()
+	{
+		if (magazine == null) return;
+		magazine.OnServerAmmoChanged -= OnMagazineAmmoChanged;
+		magazine.OnServerAmmoChanged += OnMagazineAmmoChanged;
+	}
+
+	private void UnsubscribeFromMagazine()
+	{
+		if (magazine == null) return;
+		magazine.OnServerAmmoChanged -= OnMagazineAmmoChanged;
+	}
+
+	private void OnMagazineAmmoChanged(int oldAmmo, int newAmmo)
+	{
+		EvaluateAndApplySprite();
+	}
+
 	private void EvaluateAndApplySprite(bool forceApply = false)
 	{
 		if (spriteHandler == null) return;
@@ -96,7 +98,8 @@ public class DynamicMagazineSprite : MonoBehaviour
 		int currentAmmo = magazine.ServerAmmoRemains;
 
 		MagSpritePerAmmoCount chosenSprite = null;
-		foreach (var t in thresholds)
+		// ensure thresholds are evaluated such that higher AmmoCount numbers take precedence:
+		foreach (var t in thresholds.OrderByDescending(t => t.AmmoCount))
 		{
 			if (currentAmmo >= t.AmmoCount)
 			{
@@ -112,6 +115,7 @@ public class DynamicMagazineSprite : MonoBehaviour
 			{
 				if (chosenSprite.CatalogueIndex >= 0)
 				{
+					// protect against out-of-range inside SpriteHandler (it will log if invalid)
 					spriteHandler.SetCatalogueIndexSprite(chosenSprite.CatalogueIndex);
 				}
 			}
@@ -125,5 +129,4 @@ public class DynamicMagazineSprite : MonoBehaviour
 			}
 		}
 	}
-
 }
