@@ -38,6 +38,9 @@ namespace US13.Managers
 		/// </summary>
 		private void InitEscapeStuff()
 		{
+			shuttleSent = false;
+			beenToStation = false;
+
 			// Primary escape shuttle lookup
 			if (PrimaryEscapeShuttle == null)
 			{
@@ -66,9 +69,8 @@ namespace US13.Managers
 				if (primaryEscapeShuttle.MatrixInfo.IsMovable == false) return;
 			}
 
-			Vector3 newPos;
 
-			beenToStation = false;
+
 		}
 
 		public void OnShuttleUpdate(EscapeShuttleStatus status)

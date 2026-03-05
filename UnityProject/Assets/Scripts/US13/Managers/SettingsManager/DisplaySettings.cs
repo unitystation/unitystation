@@ -10,7 +10,7 @@ using Util;
 
 namespace US13.Managers.SettingsManager
 {
-	public class DisplaySettings : SingletonManager<DisplaySettings>
+	public class DisplaySettings : MonoBehaviour
 	{
 		public class DisplaySettingsChangedEventArgs : EventArgs
 		{
@@ -130,6 +130,21 @@ namespace US13.Managers.SettingsManager
 
 
 		private DisplaySettingsChangedEventArgs dsEventArgs = new DisplaySettingsChangedEventArgs();
+
+		public static DisplaySettings Instance
+		{
+			get
+			{
+				if (instance == null)
+				{
+					instance = FindAnyObjectByType<DisplaySettings>();
+				}
+
+				return instance;
+			}
+		}
+
+		private static DisplaySettings instance;
 
 		/// <summary>
 		/// We are in fullscreen mode, or currently changing to fullscreen
@@ -412,9 +427,14 @@ namespace US13.Managers.SettingsManager
 			handler?.Invoke(this, e);
 		}
 
-		public override void Awake()
+		public void Start()
 		{
-			base.Awake();
+			instance = this;
+		}
+
+		public void Awake()
+		{
+			instance = this;
 			IsFullScreen = Screen.fullScreen;
 			Vector2 savedScale = new Vector2(
 				UnityEngine.PlayerPrefs.GetInt(UISCALE_KEY + "x", (int)UISCALE_DEFAULT.x),

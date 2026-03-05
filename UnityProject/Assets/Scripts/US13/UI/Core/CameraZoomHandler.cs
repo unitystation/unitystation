@@ -13,26 +13,24 @@ namespace US13.UI.Core
 {
 	public class CameraZoomHandler : MonoBehaviour
 	{
-		public float ZoomLevel => DisplaySettings.Instance.ZoomLevel;
-
-		public bool ScrollWheelZoom => DisplaySettings.Instance.ScrollWheelZoom;
-
 
 		private PixelPerfectCamera pixelPerfectCamera;
 
 		void OnEnable()
 		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			DisplaySettings.Instance.SettingsChanged += DisplaySettings_SettingsChanged;
 			SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
 			UpdatePixelPerfectCamera();
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+
 		}
 
 		private void OnDisable()
 		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			DisplaySettings.Instance.SettingsChanged -= DisplaySettings_SettingsChanged;
 			SceneManager.activeSceneChanged -= SceneManager_activeSceneChanged;
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+
 		}
 
 		private void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
