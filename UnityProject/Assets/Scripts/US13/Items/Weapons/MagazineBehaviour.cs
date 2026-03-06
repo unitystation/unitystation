@@ -33,6 +33,7 @@ namespace US13.Items.Weapons
 
 		/// <summary>
 		/// Subscribers can listen to this to be notified when server ammo is updated.
+		/// Parameters: (oldAmmo, newAmmo).
 		/// </summary>
 		public event Action<int, int> OnServerAmmoChanged;
 
