@@ -32,6 +32,12 @@ namespace US13.Items.Weapons
 		private int clientAmmoRemains;
 
 		/// <summary>
+		/// Subscribers can listen to this to be notified when server ammo is updated.
+		/// Parameters: (oldAmmo, newAmmo).
+		/// </summary>
+		public event Action<int, int> OnServerAmmoChanged;
+
+		/// <summary>
 		/// Remaining ammo, latest value synced from server. There will be lag in this while shooting a burst.
 		/// </summary>
 		public int ServerAmmoRemains => serverAmmoRemains;
@@ -110,6 +116,7 @@ namespace US13.Items.Weapons
 		{
 			serverAmmoRemains = newAmmo;
 			clientAmmoRemains = serverAmmoRemains;
+			OnServerAmmoChanged?.Invoke(oldAmmo, newAmmo);
 		}
 
 		/// <summary>
@@ -286,9 +293,6 @@ namespace US13.Items.Weapons
 				string message = clip.LoadBullet(bul);
 				Chat.AddExamineMsg(interaction.Performer, message);
 				Destroy(bul.gameObject);
-
-
-
 			}
 		}
 

@@ -53,6 +53,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -74,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
@@ -101,11 +104,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetworkThis: 1
-  SubCatalogue: []
+  SubCatalogue:
+  - {fileID: 11400000, guid: af0eeeea4b8992e4dabb8c197a719922, type: 2}
+  - {fileID: 11400000, guid: 5424545257bea084cbc2e96509818b00, type: 2}
+  - {fileID: 11400000, guid: 8dc30e78de12faa41b1b365b89fdfb38, type: 2}
+  - {fileID: 11400000, guid: efcbb2b4406a73746a83f6c462455a5f, type: 2}
+  - {fileID: 11400000, guid: 17fa71927af2186458701951432b2843, type: 2}
+  - {fileID: 11400000, guid: 7d2de9c440cedfa4a855277fac47f8d0, type: 2}
   InitialPresentSpriteSet: {fileID: 11400000, guid: af0eeeea4b8992e4dabb8c197a719922,
     type: 2}
   randomInitialSprite: 0
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 5939591838835975123}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -131,6 +140,11 @@ PrefabInstance:
       propertyPath: foreverID
       value: 215fd0235adde3345a8b9d0f1082535d
       objectReference: {fileID: 0}
+    - target: {fileID: 842131404161660333, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6153538979878164180}
     - target: {fileID: 842131404161660333, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -269,11 +283,66 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7903272110827571257}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6839214368423611946, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1498760000499962807}
   m_SourcePrefab: {fileID: 100100000, guid: d57fa00554efcec4abd669e2d6b24edc, type: 3}
+--- !u!114 &3491376829775843049 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4111275205169505611, guid: d57fa00554efcec4abd669e2d6b24edc,
+    type: 3}
+  m_PrefabInstance: {fileID: 683970719057341346}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6310728925908395400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!212 &6153538979878164180 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6636107547650964854, guid: d57fa00554efcec4abd669e2d6b24edc,
+    type: 3}
+  m_PrefabInstance: {fileID: 683970719057341346}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6307208426613709052 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6843860766685623134, guid: d57fa00554efcec4abd669e2d6b24edc,
     type: 3}
   m_PrefabInstance: {fileID: 683970719057341346}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &6310728925908395400 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6839214368423611946, guid: d57fa00554efcec4abd669e2d6b24edc,
+    type: 3}
+  m_PrefabInstance: {fileID: 683970719057341346}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1498760000499962807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6310728925908395400}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503137a9c2df915449ef2c006742d816, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::DynamicMagazineSprite
+  magazine: {fileID: 3491376829775843049}
+  spriteHandler: {fileID: 9048682915716849248}
+  thresholds:
+  - AmmoCount: 20
+    CatalogueIndex: 0
+  - AmmoCount: 16
+    CatalogueIndex: 1
+  - AmmoCount: 12
+    CatalogueIndex: 2
+  - AmmoCount: 8
+    CatalogueIndex: 3
+  - AmmoCount: 4
+    CatalogueIndex: 4
+  - AmmoCount: 0
+    CatalogueIndex: 5
