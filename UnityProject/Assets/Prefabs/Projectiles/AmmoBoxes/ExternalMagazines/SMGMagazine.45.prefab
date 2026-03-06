@@ -246,6 +246,30 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 2058191506714159254}
   m_SourcePrefab: {fileID: 100100000, guid: d57fa00554efcec4abd669e2d6b24edc, type: 3}
+--- !u!114 &1140896056196872632 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4111275205169505611, guid: d57fa00554efcec4abd669e2d6b24edc,
+    type: 3}
+  m_PrefabInstance: {fileID: 3952869574688234739}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7508253555952636633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4428362123398900062 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 842131404161660333, guid: d57fa00554efcec4abd669e2d6b24edc,
+    type: 3}
+  m_PrefabInstance: {fileID: 3952869574688234739}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7508253555952636633 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6839214368423611946, guid: d57fa00554efcec4abd669e2d6b24edc,
@@ -264,7 +288,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 503137a9c2df915449ef2c006742d816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assets::DynamicMagazineSprite
-  spriteHandlerObject: {fileID: 0}
+  magazine: {fileID: 1140896056196872632}
+  spriteHandler: {fileID: 4428362123398900062}
   thresholds:
   - AmmoCount: 24
     CatalogueIndex: 0

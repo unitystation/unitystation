@@ -155,9 +155,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 503137a9c2df915449ef2c006742d816, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assets::DynamicMagazineSprite
-  spriteHandlerObject: {fileID: 0}
+  magazine: {fileID: 5570147180337204946}
+  spriteHandler: {fileID: 9217978183387373108}
   thresholds:
   - AmmoCount: 20
     CatalogueIndex: 0
   - AmmoCount: 0
     CatalogueIndex: 1
+--- !u!114 &5570147180337204946 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4939236707567408707, guid: 9505db5c84437ce4692422e1ef11cef2,
+    type: 3}
+  m_PrefabInstance: {fileID: 704411766377191569}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3074491135624242611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9217978183387373108 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8514693453691373221, guid: 9505db5c84437ce4692422e1ef11cef2,
+    type: 3}
+  m_PrefabInstance: {fileID: 704411766377191569}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

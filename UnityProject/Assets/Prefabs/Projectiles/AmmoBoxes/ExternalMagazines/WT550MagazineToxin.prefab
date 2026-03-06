@@ -24,6 +24,16 @@ PrefabInstance:
       propertyPath: foreverID
       value: 42a6a98c55f1d004eab4a8ed7d6f43ba
       objectReference: {fileID: 0}
+    - target: {fileID: 1498760000499962807, guid: 215fd0235adde3345a8b9d0f1082535d,
+        type: 3}
+      propertyPath: magazine
+      value: 
+      objectReference: {fileID: 8995528547416321832}
+    - target: {fileID: 1498760000499962807, guid: 215fd0235adde3345a8b9d0f1082535d,
+        type: 3}
+      propertyPath: spriteHandler
+      value: 
+      objectReference: {fileID: 3546079052739772321}
     - target: {fileID: 3491376829775843049, guid: 215fd0235adde3345a8b9d0f1082535d,
         type: 3}
       propertyPath: initalProjectile
@@ -101,3 +111,27 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 215fd0235adde3345a8b9d0f1082535d, type: 3}
+--- !u!114 &3546079052739772321 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9048682915716849248, guid: 215fd0235adde3345a8b9d0f1082535d,
+    type: 3}
+  m_PrefabInstance: {fileID: 5522914213564195265}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8995528547416321832 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3491376829775843049, guid: 215fd0235adde3345a8b9d0f1082535d,
+    type: 3}
+  m_PrefabInstance: {fileID: 5522914213564195265}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
