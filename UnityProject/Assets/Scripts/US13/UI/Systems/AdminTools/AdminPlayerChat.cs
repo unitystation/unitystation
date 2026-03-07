@@ -11,6 +11,7 @@ using TMPro;
 using UnityEngine;
 using US13.Core.Chat;
 using US13.Core.Chat.ChatScrollRect;
+using US13.Core.Database;
 using US13.Managers;
 using US13.Messages.Client.Admin;
 using US13.Messages.Server.AdminTools;
@@ -21,10 +22,7 @@ namespace US13.UI.Systems.AdminTools
 	{
 		[SerializeField] protected ChatScroll chatScroll = null;
 		protected AdminPlayerEntryData selectedPlayer;
-		public AdminPlayerEntryData SelectedPlayer
-		{
-			get { return selectedPlayer; }
-		}
+		public AdminPlayerEntryData SelectedPlayer => selectedPlayer;
 
 
 		public TMP_Dropdown RoundIDsDropDown;
@@ -48,7 +46,7 @@ namespace US13.UI.Systems.AdminTools
 
 		public void ClearLogs()
 		{
-
+			clientAdminPlayerChatLogs.Clear();
 		}
 
 		public virtual void ServerAddChatRecord(string message, PlayerInfo player, PlayerInfo admin = default)
@@ -85,8 +83,6 @@ namespace US13.UI.Systems.AdminTools
 
 		public void ServerMessageRecording(string playerId, AdminChatMessage entry)
 		{
-
-
 			var filePath = GetFilePath(GameManager.RoundID, playerId);
 
 			if (AccessFile.Exists(filePath, true, FolderType.Logs) == false)
@@ -115,55 +111,70 @@ namespace US13.UI.Systems.AdminTools
 				entryName = "[A] " + adminPlayer.Name;
 			}
 
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminURL, entry.Message, entryName);
+			string mentionID = null;
+			var discordMessage = entry.Message;
+
+			bool isPlayerMessage = entry.wasFromAdmin == false;
+			bool noAdminsOnline = PlayerList.Instance.AnyWithTAG(TAG.ADMIN_CHAT) == false;
+
+			if (isPlayerMessage && noAdminsOnline)
+			{
+				mentionID = ServerData.ServerConfig.DiscordWebhookOOCMentionsID;
+				discordMessage = $"@ServerAdmin someone needs help in game and there are no admins online!\n{entry.Message}";
+			}
+
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminURL, discordMessage, entryName, mentionID);
 
 			AccessFile.AppendAllText(filePath, JsonConvert.SerializeObject(entry) + "\n", FolderType.Logs);
 		}
 
-		public string GetFilePath(int RoundID, string playerId)
+		public string GetFilePath(int roundID, string playerId)
 		{
-			return Path.Combine(ChatLogsFolder, playerId, $"{RoundID}.txt");
+			return Path.Combine(ChatLogsFolder, playerId, $"{roundID}.txt");
+		}
+
+		private static string ParseRoundId(string fileName)
+		{
+			return fileName.Replace(".txt", "");
 		}
 
 		public string LoadData(string filePath)
 		{
-			var data = "";
 			try
 			{
-				data = AccessFile.Load(filePath, FolderType.Logs, false);
+				return AccessFile.Load(filePath, FolderType.Logs, false);
 			}
 			catch (Exception e)
 			{
 				Loggy.Error($"Exception during file read: {e}");
+				return string.Empty;
 			}
-
-			return data;
 		}
 
 		public void ServerGetMessageRound(string playerId, NetworkConnection requestee)
 		{
-			if (AccessFile.Exists(Path.Combine(ChatLogsFolder, playerId),  false, FolderType.Logs))
+			var playerLogPath = Path.Combine(ChatLogsFolder, playerId);
+			if (AccessFile.Exists(playerLogPath, false, FolderType.Logs))
 			{
-				var Rounds = AccessFile.DirectoriesOrFilesIn(Path.Combine(ChatLogsFolder, playerId), FolderType.Logs);
-
-				AdminPlayerChatRoundsMessage.SendAvailableRoundsToAdmin(requestee, playerId, Rounds);
+				var rounds = AccessFile.DirectoriesOrFilesIn(playerLogPath, FolderType.Logs);
+				AdminPlayerChatRoundsMessage.SendAvailableRoundsToAdmin(requestee, playerId, rounds);
 			}
 		}
 
-		public void ServerGetUnreadMessages(string playerId, int currentCount, int RoundID, NetworkConnection requestee)
+		public void ServerGetUnreadMessages(string playerId, int currentCount, int roundID, NetworkConnection requestee)
 		{
-			bool ForceShow = false;
-			if (RoundID == -1)
+			bool forceShow = false;
+			if (roundID == -1)
 			{
-				ForceShow = true;
-				if ( AccessFile.Exists(Path.Combine(ChatLogsFolder, playerId),  false, FolderType.Logs) == false) return;
+				forceShow = true;
+				if (AccessFile.Exists(Path.Combine(ChatLogsFolder, playerId), false, FolderType.Logs) == false) return;
 
-				var Rounds = AccessFile.DirectoriesOrFilesIn(Path.Combine(ChatLogsFolder, playerId), FolderType.Logs).OrderByDescending(x => x);
-				var data = Rounds.First().Replace(".txt", "");
-				RoundID = int.Parse( data, NumberStyles.Integer);
+				var rounds = AccessFile.DirectoriesOrFilesIn(Path.Combine(ChatLogsFolder, playerId), FolderType.Logs).OrderByDescending(x => x);
+				var data = ParseRoundId(rounds.First());
+				roundID = int.Parse(data, NumberStyles.Integer);
 			}
 
-			var filePath = GetFilePath(RoundID, playerId);
+			var filePath = GetFilePath(roundID, playerId);
 			if (AccessFile.Exists(filePath, true, FolderType.Logs, false) == false)
 			{
 				return;
@@ -180,32 +191,23 @@ namespace US13.UI.Systems.AdminTools
 					logLines.Length - currentCount).Select(JsonConvert.DeserializeObject<AdminChatMessage>).ToList()
 			};
 
-			AdminPlayerChatUpdateMessage.SendLogUpdateToAdmin(requestee, update, playerId, RoundID, ForceShow);
+			AdminPlayerChatUpdateMessage.SendLogUpdateToAdmin(requestee, update, playerId, roundID, forceShow);
 		}
 
-		protected void ClientGetUnreadAdminPlayerMessages(string playerId, int CurrentCount, int RoundID)
+		protected void ClientGetUnreadAdminPlayerMessages(string playerId, int currentCount, int roundID)
 		{
-			if (clientAdminPlayerChatLogs.ContainsKey(playerId) == false)
-			{
-				clientAdminPlayerChatLogs.Add(playerId, new Dictionary<int, List<AdminChatMessage>>( ));
-			}
+			clientAdminPlayerChatLogs.TryAdd(playerId, new Dictionary<int, List<AdminChatMessage>>());
 
 			AdminChatRequestRounds.Send(playerId);
-			AdminCheckMessages.Send(playerId,CurrentCount, RoundID);
+			AdminCheckMessages.Send(playerId, currentCount, roundID);
 		}
 
 		public void getMessagesForRound()
 		{
-			if (clientAdminPlayerChatLogs.ContainsKey(selectedPlayer.uid) == false)
-			{
-				clientAdminPlayerChatLogs[selectedPlayer.uid] = new Dictionary<int, List<AdminChatMessage>>();
-			}
+			clientAdminPlayerChatLogs.TryAdd(selectedPlayer.uid, new Dictionary<int, List<AdminChatMessage>>());
 
-			int roundID = int.Parse(RoundIDsDropDown.options[RoundIDsDropDown.value].text.Replace(".txt", ""));
-			if (clientAdminPlayerChatLogs[selectedPlayer.uid].ContainsKey(roundID) == false)
-			{
-				clientAdminPlayerChatLogs[selectedPlayer.uid][roundID] = new List<AdminChatMessage>();
-			}
+			int roundID = int.Parse(ParseRoundId(RoundIDsDropDown.options[RoundIDsDropDown.value].text));
+			clientAdminPlayerChatLogs[selectedPlayer.uid].TryAdd(roundID, new List<AdminChatMessage>());
 
 
 			AdminCheckMessages.Send(selectedPlayer.uid,
@@ -215,17 +217,17 @@ namespace US13.UI.Systems.AdminTools
 			chatScroll.LoadChatEntries(clientAdminPlayerChatLogs[selectedPlayer.uid][roundID].Cast<ChatEntryData>().ToList());
 		}
 
-		public void ClientUpdateAvailableRounds( string playerId, string[] RoundIDs)
+		public void ClientUpdateAvailableRounds(string playerId, string[] roundIDs)
 		{
 			if (selectedPlayer.uid == playerId)
 			{
-				RoundIDs = RoundIDs.OrderByDescending(x => x).ToArray();
+				roundIDs = roundIDs.OrderByDescending(x => x).ToArray();
 				List<TMP_Dropdown.OptionData> optionDatas = new List<TMP_Dropdown.OptionData>();
-				foreach (var RoundID in RoundIDs)
+				foreach (var roundID in roundIDs)
 				{
 					optionDatas.Add(new TMP_Dropdown.OptionData
 					{
-						text = RoundID
+						text = roundID
 					});
 
 
@@ -237,39 +239,30 @@ namespace US13.UI.Systems.AdminTools
 		}
 
 
-		public void ClientUpdateChatLog(string unreadMessagesJson, string playerId, int RoundID, bool ForceShow)
+		public void ClientUpdateChatLog(string unreadMessagesJson, string playerId, int roundID, bool forceShow)
 		{
-
 			if (string.IsNullOrEmpty(unreadMessagesJson)) return;
 
-			if (clientAdminPlayerChatLogs.ContainsKey(playerId) == false)
-			{
-				clientAdminPlayerChatLogs.Add(playerId, new Dictionary<int, List<AdminChatMessage>>());
-			}
-
-			if (clientAdminPlayerChatLogs[playerId].ContainsKey(RoundID) == false)
-			{
-				clientAdminPlayerChatLogs[playerId].Add(RoundID, new List<AdminChatMessage>());
-			}
+			clientAdminPlayerChatLogs.TryAdd(playerId, new Dictionary<int, List<AdminChatMessage>>());
+			clientAdminPlayerChatLogs[playerId].TryAdd(roundID, new List<AdminChatMessage>());
 
 			var update = JsonConvert.DeserializeObject<AdminChatUpdate>(unreadMessagesJson);
-			clientAdminPlayerChatLogs[playerId][RoundID].AddRange(update.messages);
+			clientAdminPlayerChatLogs[playerId][roundID].AddRange(update.messages);
 
 			if ((selectedPlayer != null
 			     && selectedPlayer.uid == playerId
-			     &&  (RoundIDsDropDown.options.Count == 0 || (int.Parse(RoundIDsDropDown.options[RoundIDsDropDown.value].text.Replace(".txt", "")) == RoundID))
+			     && (RoundIDsDropDown.options.Count == 0 || (int.Parse(ParseRoundId(RoundIDsDropDown.options[RoundIDsDropDown.value].text)) == roundID))
 			     )
-				|| ForceShow)
+				|| forceShow)
 			{
-
-				if (RoundIDsDropDown.options.Count > 0 && ForceShow && int.Parse(RoundIDsDropDown.options[RoundIDsDropDown.value].text.Replace(".txt", "")) !=
-				    RoundID)
+				if (RoundIDsDropDown.options.Count > 0 && forceShow && int.Parse(ParseRoundId(RoundIDsDropDown.options[RoundIDsDropDown.value].text)) !=
+				    roundID)
 				{
 					var match = RoundIDsDropDown.options
-						.Select((Option, index) => (Option, index))
-						.FirstOrDefault(x => x.Option.text.Replace(".txt", "") == RoundID.ToString());
+						.Select((option, index) => (option, index))
+						.FirstOrDefault(x => ParseRoundId(x.option.text) == roundID.ToString());
 
-					if (match.Option != null) // Check if a match was found
+					if (match.option != null)
 					{
 						RoundIDsDropDown.value = match.index;
 					}
@@ -290,10 +283,7 @@ namespace US13.UI.Systems.AdminTools
 		{
 			selectedPlayer = playerData;
 
-			if (clientAdminPlayerChatLogs.ContainsKey(playerData.uid) == false)
-			{
-				clientAdminPlayerChatLogs.Add(playerData.uid, new Dictionary<int, List<AdminChatMessage>>( ));
-			}
+			clientAdminPlayerChatLogs.TryAdd(playerData.uid, new Dictionary<int, List<AdminChatMessage>>());
 
 			var firstOrDefault = clientAdminPlayerChatLogs[playerData.uid].OrderByDescending(x => x.Key).FirstOrDefault();
 
@@ -308,7 +298,7 @@ namespace US13.UI.Systems.AdminTools
 				ClientGetUnreadAdminPlayerMessages(playerData.uid, firstOrDefault.Value.Count, firstOrDefault.Key);
 			}
 
- 			chatScroll.LoadChatEntries(firstOrDefault.Value.Cast<ChatEntryData>().ToList());
+			chatScroll.LoadChatEntries(firstOrDefault.Value.Cast<ChatEntryData>().ToList());
 		}
 
 		protected void OnEnable()
