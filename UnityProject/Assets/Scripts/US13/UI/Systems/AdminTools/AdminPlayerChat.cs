@@ -202,7 +202,7 @@ namespace US13.UI.Systems.AdminTools
 			AdminCheckMessages.Send(playerId, currentCount, roundID);
 		}
 
-		public void getMessagesForRound()
+		public void GetMessagesForRound()
 		{
 			clientAdminPlayerChatLogs.TryAdd(selectedPlayer.uid, new Dictionary<int, List<AdminChatMessage>>());
 
@@ -249,33 +249,41 @@ namespace US13.UI.Systems.AdminTools
 			var update = JsonConvert.DeserializeObject<AdminChatUpdate>(unreadMessagesJson);
 			clientAdminPlayerChatLogs[playerId][roundID].AddRange(update.messages);
 
-			if ((selectedPlayer != null
-			     && selectedPlayer.uid == playerId
-			     && (RoundIDsDropDown.options.Count == 0 || (int.Parse(ParseRoundId(RoundIDsDropDown.options[RoundIDsDropDown.value].text)) == roundID))
-			     )
-				|| forceShow)
-			{
-				if (RoundIDsDropDown.options.Count > 0 && forceShow && int.Parse(ParseRoundId(RoundIDsDropDown.options[RoundIDsDropDown.value].text)) !=
-				    roundID)
-				{
-					var match = RoundIDsDropDown.options
-						.Select((option, index) => (option, index))
-						.FirstOrDefault(x => ParseRoundId(x.option.text) == roundID.ToString());
+			bool isViewingThisPlayer = selectedPlayer != null && selectedPlayer.uid == playerId;
+			int selectedRoundID = GetSelectedDropdownRoundID();
+			bool isViewingThisRound = RoundIDsDropDown.options.Count == 0 || selectedRoundID == roundID;
 
-					if (match.option != null)
-					{
-						RoundIDsDropDown.value = match.index;
-					}
-					else
-					{
-						AdminChatRequestRounds.Send(playerId);
-						chatScroll.LoadChatEntries(update.messages.Cast<ChatEntryData>().ToList());
-					}
-				}
-				else
-				{
-					chatScroll.AppendChatEntries(update.messages.Cast<ChatEntryData>().ToList());
-				}
+			if (forceShow == false && (isViewingThisPlayer == false || isViewingThisRound == false)) return;
+
+			if (forceShow && RoundIDsDropDown.options.Count > 0 && selectedRoundID != roundID)
+			{
+				SwitchToRound(playerId, roundID, update);
+				return;
+			}
+
+			chatScroll.AppendChatEntries(update.messages.Cast<ChatEntryData>().ToList());
+		}
+
+		private int GetSelectedDropdownRoundID()
+		{
+			if (RoundIDsDropDown.options.Count == 0) return -1;
+			return int.Parse(ParseRoundId(RoundIDsDropDown.options[RoundIDsDropDown.value].text));
+		}
+
+		private void SwitchToRound(string playerId, int roundID, AdminChatUpdate update)
+		{
+			var match = RoundIDsDropDown.options
+				.Select((option, index) => (option, index))
+				.FirstOrDefault(x => ParseRoundId(x.option.text) == roundID.ToString());
+
+			if (match.option != null)
+			{
+				RoundIDsDropDown.value = match.index;
+			}
+			else
+			{
+				AdminChatRequestRounds.Send(playerId);
+				chatScroll.LoadChatEntries(update.messages.Cast<ChatEntryData>().ToList());
 			}
 		}
 
