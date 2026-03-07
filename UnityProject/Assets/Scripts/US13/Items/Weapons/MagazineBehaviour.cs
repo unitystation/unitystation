@@ -53,6 +53,9 @@ namespace US13.Items.Weapons
 		/// </summary>
 		public MagType magType;
 
+		[Tooltip("If true, a clip type magazine despawns when its ammo reaches zero. For keeping empty speedloaders but deleting stripper clips.")]
+		public bool clipDespawnWhenEmpty = true;
+
 		[SerializeField, FormerlySerializedAs("Projectile")]
 		public GameObject initalProjectile;
 		public int ProjectilesFired = 1;
@@ -117,6 +120,12 @@ namespace US13.Items.Weapons
 			serverAmmoRemains = newAmmo;
 			clientAmmoRemains = serverAmmoRemains;
 			OnServerAmmoChanged?.Invoke(oldAmmo, newAmmo);
+
+			// If a clip becomes empty on the server and the clip type is configured to despawn,
+			if (isServer && magType == MagType.Clip && serverAmmoRemains == 0 && clipDespawnWhenEmpty)
+			{
+				_ = Despawn.ServerSingle(gameObject);
+			}
 		}
 
 		/// <summary>
@@ -127,7 +136,7 @@ namespace US13.Items.Weapons
 		{
 			if (amount < 0)
 			{
-				Loggy.Warning("Attempted to expend a negitive amount of ammo", Category.Firearms); // dont use this method to replenish ammo
+				Loggy.Warning("Attempted to expend a negative amount of ammo", Category.Firearms); // dont use this method to replenish ammo
 			}
 
 			if (ClientAmmoRemains < amount)
@@ -158,10 +167,6 @@ namespace US13.Items.Weapons
 							containedBullets.RemoveAt(0); //remove shot projectile
 							containedProjectilesFired.RemoveAt(0);
 						}
-					}
-					if (magType == MagType.Clip && serverAmmoRemains == 0)
-					{
-						_ = Despawn.ServerSingle(gameObject);
 					}
 				}
 
