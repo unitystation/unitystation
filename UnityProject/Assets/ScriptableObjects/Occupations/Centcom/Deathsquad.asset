@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Deathsquad
   m_EditorClassIdentifier: 
   jobType: 40
+  jobCategory: 0
   isCrewmember: 0
   lateSpawnIsArrivals: 0
   inventoryPopulator: {fileID: 11400000, guid: d3fa80a1a5cc14a0b86b26aaddff5a7d, type: 2}
@@ -28,7 +29,7 @@ MonoBehaviour:
   choiceColor: {r: 0.8, g: 0.8, b: 1, a: 1}
   previewSprite: {fileID: 21300000, guid: b28046094f565534fb33fd7c050a3f22, type: 3}
   displayName: Death Squad
-  difficulty: 4
+  difficulty: 2
   descriptionShort: "\u2022 Manage the station\n\u2022 Manage your staff\n\u2022
     Keep the crew alive"
   descriptionLong: 'You are the top of the Chain of Command. It is your duty to ensure
