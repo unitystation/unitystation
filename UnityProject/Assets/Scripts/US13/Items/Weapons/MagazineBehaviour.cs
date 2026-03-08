@@ -92,16 +92,13 @@ namespace US13.Items.Weapons
 
 		public virtual void InitLists()
 		{
-			containedProjectilesFired  = new List<int>(magazineSize);
-			containedBullets  = new List<GameObject>(magazineSize);
-			for (int i = magazineSize; i != 0; i--)
+			containedProjectilesFired = new List<int>(magazineSize);
+			containedBullets = new List<GameObject>(magazineSize);
+			for (int i = 0; i < magazineSize; i++)
 			{
-				containedBullets.Add(initalProjectile);
-				containedProjectilesFired.Add(ProjectilesFired);
+				LoadProjectile(initalProjectile, ProjectilesFired);
 			}
 		}
-
-
 
 		/// <summary>
 		/// Syncs server and client ammo.
@@ -127,7 +124,8 @@ namespace US13.Items.Weapons
 		{
 			if (amount < 0)
 			{
-				Loggy.Warning("Attempted to expend a negative amount of ammo", Category.Firearms); // dont use this method to replenish ammo
+				Loggy.Warning("Attempted to expend a negative amount of ammo", Category.Firearms);
+				return;
 			}
 
 			if (ClientAmmoRemains < amount)
@@ -140,29 +138,28 @@ namespace US13.Items.Weapons
 				clientAmmoRemains -= amount;
 			}
 
-			if (isServer)
-			{
-				if (ServerAmmoRemains < amount)
-				{
-					Loggy.Warning("Server ammo count is too low, cannot expend that much ammo. Make sure" +
-					              " to check ammo count before expending it.", Category.Firearms);
-				}
-				else
-				{
-					var remaining = serverAmmoRemains - amount;
-					SyncServerAmmo(remaining, remaining);
-					if (magType == MagType.Standard)
-					{
-						for (int i = amount;i != 0;i--)
-						{
-							containedBullets.RemoveAt(0); //remove shot projectile
-							containedProjectilesFired.RemoveAt(0);
-						}
-					}
-				}
+			if (!isServer) return;
 
-				Loggy.Trace().Format("Expended {0} shots, now serverAmmo {1} clientAmmo {2}", Category.Firearms, amount, serverAmmoRemains, clientAmmoRemains);
+			if (ServerAmmoRemains < amount)
+			{
+				Loggy.Warning("Server ammo count is too low, cannot expend that much ammo. Make sure" +
+				              " to check ammo count before expending it.", Category.Firearms);
+				return;
 			}
+
+			var remaining = serverAmmoRemains - amount;
+			SyncServerAmmo(serverAmmoRemains, remaining);
+
+			if (magType == MagType.Standard)
+			{
+				for (int i = 0; i < amount; i++)
+				{
+					containedBullets.RemoveAt(0);
+					containedProjectilesFired.RemoveAt(0);
+				}
+			}
+
+			Loggy.Trace().Format("Expended {0} shots, now serverAmmo {1} clientAmmo {2}", Category.Firearms, amount, serverAmmoRemains, clientAmmoRemains);
 		}
 
 		/// <summary>
@@ -172,13 +169,13 @@ namespace US13.Items.Weapons
 		[Server]
 		public void ServerSetAmmoRemains(int remaining)
 		{
-			SyncServerAmmo(remaining, remaining);
+			SyncServerAmmo(serverAmmoRemains, remaining);
 		}
 
 		/// <summary>
 		/// Loads as much ammo as possible from the given clip. Returns reloading message.
 		/// </summary>
-		public String LoadFromClip(MagazineBehaviour clip)
+		public string LoadFromClip(MagazineBehaviour clip)
 		{
 			if (clip == null) return "";
 
@@ -188,7 +185,7 @@ namespace US13.Items.Weapons
 			{
 				return $"{clip.gameObject.ExpensiveName()} is empty!";
 			}
-			else if (toTransfer == 0)
+			if (toTransfer == 0)
 			{
 				return $"{gameObject.ExpensiveName()} is full";
 			}
@@ -197,10 +194,9 @@ namespace US13.Items.Weapons
 
 			if (magType == MagType.Standard)
 			{
-				for (int i = toTransfer;i != 0;i--)
+				for (int i = 0; i < toTransfer; i++)
 				{
-					containedBullets.Add(clip.initalProjectile);
-					containedProjectilesFired.Add(clip.ProjectilesFired);
+					LoadProjectile(clip.initalProjectile, clip.ProjectilesFired);
 				}
 			}
 
@@ -213,25 +209,20 @@ namespace US13.Items.Weapons
 		//I need more bullets!
 		public string LoadBullet(BulletAmmo bullet)
 		{
+			if (serverAmmoRemains >= magazineSize)
+			{
+				return $"{gameObject.ExpensiveName()} is full";
+			}
+
 			if (magType == MagType.Standard)
 			{
-				if (bullet.initalProjectile == null)
-				{
-					containedBullets.Add(initalProjectile);
-					containedProjectilesFired.Add(ProjectilesFired);
-				}
-				else
-				{
-					containedBullets.Add(bullet.initalProjectile);
-					containedProjectilesFired.Add(bullet.ProjectilesFired);
-				}
-
+				var projectile = bullet.initalProjectile != null ? bullet.initalProjectile : initalProjectile;
+				var projFired = bullet.initalProjectile != null ? bullet.ProjectilesFired : ProjectilesFired;
+				LoadProjectile(projectile, projFired);
 			}
 
 			ServerSetAmmoRemains(serverAmmoRemains + 1);
-
-
-			return $"Loaded 1 round";
+			return "Loaded 1 round";
 		}
 
 		/// <summary>
@@ -301,7 +292,7 @@ namespace US13.Items.Weapons
 			}
 		}
 
-		public virtual String Examine(Vector3 pos)
+		public virtual string Examine(Vector3 pos)
 		{
 			return $"Accepts {ammoType}\nIt has {ServerAmmoRemains} out of {magazineSize} rounds within";
 		}
