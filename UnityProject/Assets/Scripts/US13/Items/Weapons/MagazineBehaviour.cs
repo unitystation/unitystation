@@ -9,6 +9,7 @@ using US13.Core.Input_System.InteractionV2;
 using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Core.Lifecycle;
+using US13.Systems.Inventory;
 using Util;
 
 namespace US13.Items.Weapons
@@ -142,7 +143,7 @@ namespace US13.Items.Weapons
 			if (ClientAmmoRemains < amount)
 			{
 				Loggy.Warning("Client ammo count is too low, cannot expend that much ammo. Make sure" +
-								  " to check ammo count before expending it.", Category.Firearms);
+				              " to check ammo count before expending it.", Category.Firearms);
 			}
 			else
 			{
@@ -154,7 +155,7 @@ namespace US13.Items.Weapons
 				if (ServerAmmoRemains < amount)
 				{
 					Loggy.Warning("Server ammo count is too low, cannot expend that much ammo. Make sure" +
-									  " to check ammo count before expending it.", Category.Firearms);
+					              " to check ammo count before expending it.", Category.Firearms);
 				}
 				else
 				{
@@ -220,19 +221,19 @@ namespace US13.Items.Weapons
 		}
 
 		//I need more bullets!
-		public string LoadBullet(BulletAmmo Bullet)
+		public string LoadBullet(BulletAmmo bullet)
 		{
 			if (magType == MagType.Standard)
 			{
-				if (Bullet.initalProjectile == null)
+				if (bullet.initalProjectile == null)
 				{
 					containedBullets.Add(initalProjectile);
 					containedProjectilesFired.Add(ProjectilesFired);
 				}
 				else
 				{
-					containedBullets.Add(Bullet.initalProjectile);
-					containedProjectilesFired.Add(Bullet.ProjectilesFired);
+					containedBullets.Add(bullet.initalProjectile);
+					containedProjectilesFired.Add(bullet.ProjectilesFired);
 				}
 
 			}
@@ -261,43 +262,52 @@ namespace US13.Items.Weapons
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (interaction.UsedObject == null) return false;
-			MagazineBehaviour mag = interaction.TargetObject.GetComponent<MagazineBehaviour>();
 
-			if (mag != null)
+			// Check for bullet loading (bullet can be in either hand)
+			BulletAmmo bul = interaction.TargetObject.GetComponent<BulletAmmo>();
+			if (bul == null) bul = interaction.UsedObject.GetComponent<BulletAmmo>();
+			if (bul != null)
 			{
-				if (mag == null) return false;
-				if (mag.ammoType != ammoType || magType != MagType.Clip) return false;
-
+				if (bul.ammoType != ammoType) return false;
 				return true;
 			}
 
-			BulletAmmo bul = interaction.TargetObject.GetComponent<BulletAmmo>();
-			if (bul == null) return false;
-			if (bul.ammoType != ammoType) return false;
+			// Check for clip/mag-to-mag loading
+			MagazineBehaviour mag = interaction.TargetObject.GetComponent<MagazineBehaviour>();
+			if (mag != null)
+			{
+				if (mag.ammoType != ammoType || magType != MagType.Clip) return false;
+				return true;
+			}
 
-			return true;
+			return false;
 		}
 
 		public void ServerPerformInteraction(InventoryApply interaction)
 		{
 			if (interaction.UsedObject == null || interaction.Performer == null) return;
 
-			MagazineBehaviour mag = interaction.TargetObject.GetComponent<MagazineBehaviour>();
+			// Check for bullet loading first (bullet can be in either hand)
+			BulletAmmo bul = interaction.TargetObject.GetComponent<BulletAmmo>();
+			GameObject bulletObj = interaction.TargetObject;
+			if (bul == null)
+			{
+				bul = interaction.UsedObject.GetComponent<BulletAmmo>();
+				bulletObj = interaction.UsedObject;
+			}
 
-			if (mag != null)
+			if (bul != null)
+			{
+				string message = LoadBullet(bul);
+				Chat.AddExamineMsg(interaction.Performer, message);
+				_ = Inventory.ServerDespawn(bulletObj);
+			}
+			else
 			{
 				MagazineBehaviour clip = interaction.UsedObject.GetComponent<MagazineBehaviour>();
 				MagazineBehaviour usedclip = interaction.TargetObject.GetComponent<MagazineBehaviour>();
 				string message = usedclip.LoadFromClip(clip);
 				Chat.AddExamineMsg(interaction.Performer, message);
-			}
-			else
-			{
-				BulletAmmo bul = interaction.TargetObject.GetComponent<BulletAmmo>();
-				MagazineBehaviour clip = interaction.UsedObject.GetComponent<MagazineBehaviour>();
-				string message = clip.LoadBullet(bul);
-				Chat.AddExamineMsg(interaction.Performer, message);
-				Destroy(bul.gameObject);
 			}
 		}
 
