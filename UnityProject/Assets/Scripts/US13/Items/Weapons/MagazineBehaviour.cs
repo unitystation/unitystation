@@ -101,17 +101,7 @@ namespace US13.Items.Weapons
 			}
 		}
 
-		/// <summary>
-		/// Changes size of magazine and reloads it. Be sure to call this on every client and the server if you do, or face the consequences.
-		/// Also sets the contained ammunition to full.
-		/// </summary>
-		/// <param name="newSize"></param>
-		public void ChangeSize(int newSize)
-		{
-			magazineSize = newSize;
-			clientAmmoRemains = -1;
-			SyncServerAmmo(newSize, newSize);
-		}
+
 
 		/// <summary>
 		/// Syncs server and client ammo.
