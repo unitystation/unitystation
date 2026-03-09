@@ -140,6 +140,28 @@ namespace US13.Managers
 		}
 
 		[Server]
+		public bool AnyWithTAG(string tag)
+		{
+			if (LoggedInWithTag.ContainsKey(tag))
+			{
+				foreach (var a in LoggedInWithTag[tag])
+				{
+					if (TryGetOnlineByUserID(a, out _)) return true;
+				}
+			}
+
+			if (LoggedInWithTag.ContainsKey("*"))
+			{
+				foreach (var a in LoggedInWithTag["*"])
+				{
+					if (TryGetOnlineByUserID(a, out _)) return true;
+				}
+			}
+
+			return false;
+		}
+
+		[Server]
 		public List<PlayerInfo> GetAllWithTAG(string tag)
 		{
 			var admins = new List<PlayerInfo>();
