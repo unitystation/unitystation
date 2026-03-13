@@ -355,6 +355,7 @@ namespace US13.Core.Sprite_Handler
 			public Color? SetColour = null;
 			public List<Color> Palette = null;
 			public bool AnimateOnce = false;
+			public bool AnimateNext = false;
 
 			public void Clean()
 			{
@@ -368,6 +369,7 @@ namespace US13.Core.Sprite_Handler
 				SetColour = null;
 				Palette = null;
 				AnimateOnce = false;
+				AnimateNext = false;
 			}
 
 
@@ -418,6 +420,7 @@ namespace US13.Core.Sprite_Handler
 				{
 					if (AnimateOnce) AnimateOnce = false;
 					AnimateOnce = spriteChange.AnimateOnce;
+					AnimateNext = spriteChange.AnimateNext;
 				}
 
 				if (spriteChange.SetColour != null)

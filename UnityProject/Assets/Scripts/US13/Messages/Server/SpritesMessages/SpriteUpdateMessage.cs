@@ -75,7 +75,9 @@ namespace US13.Messages.Server.SpritesMessages
 				{
 					var argument = spriteUpdateEntry.arg[argumentIndex];
 					argumentIndex++;
-					spriteHandler.AnimateOnce(argument, false);
+					var animateNextArg = spriteUpdateEntry.arg[argumentIndex];
+					argumentIndex++;
+					spriteHandler.AnimateOnce(argument, networked: false, inAnimateNext: animateNextArg == 1);
 				}
 				else if (spriteOperation == SpriteOperation.PushTexture)
 				{
@@ -370,11 +372,12 @@ namespace US13.Messages.Server.SpritesMessages
 					if (Operation == (byte) SpriteOperation.AnimateOnce)
 					{
 						int SpriteAnimate = reader.ReadInt();
+						bool animateNext = reader.ReadBool();
 						if (ProcessSection)
 						{
 							try
 							{
-								SP.AnimateOnce(SpriteAnimate, false);
+								SP.AnimateOnce(SpriteAnimate, networked: false, inAnimateNext: animateNext);
 							}
 							catch (Exception e)
 							{
@@ -385,6 +388,7 @@ namespace US13.Messages.Server.SpritesMessages
 						{
 							UnprocessedData.call.Add(SpriteUpdateMessage.SpriteOperation.AnimateOnce);
 							UnprocessedData.arg.Add(SpriteAnimate);
+							UnprocessedData.arg.Add(animateNext ? 1 : 0);
 						}
 					}
 
@@ -593,6 +597,7 @@ namespace US13.Messages.Server.SpritesMessages
 			{
 				writer.WriteByte((byte) SpriteOperation.AnimateOnce);
 				writer.WriteInt(spriteChange.CataloguePage);
+				writer.WriteBool(spriteChange.AnimateNext);
 			}
 
 			if (spriteChange.PushTexture)
