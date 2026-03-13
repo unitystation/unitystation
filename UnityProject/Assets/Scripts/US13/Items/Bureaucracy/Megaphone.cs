@@ -8,6 +8,7 @@ using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Items.Cards;
 using US13.Managers;
+using US13.Messages.Server.SoundMessages;
 using US13.Systems.Communications;
 using US13.Systems.Inventory;
 using Util;
@@ -61,7 +62,7 @@ namespace US13.Items.Bureaucracy
 			var modifiedMsg = chatToManipulate;
 			modifiedMsg.VoiceLevel = isEmagged ? Loudness.EARRAPE : Loudness.MEGAPHONE;
 			StartCoroutine(Cooldown());
-			_ = SoundManager.PlayNetworkedAtPosAsync(megaphoneSound, gameObject.AssumedWorldPosServer());
+			_ = SoundManager.PlayNetworkedAtPosAsync(megaphoneSound, gameObject.AssumedWorldPosServer(), new AudioSourceParameters(spatialBlend:2));
 			return modifiedMsg;
 		}
 
