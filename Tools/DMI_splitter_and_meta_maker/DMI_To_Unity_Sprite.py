@@ -1,12 +1,19 @@
+#!/usr/bin/env -S uv run
+# /// script
+# requires-python = ">=3.9"
+# dependencies = [
+#     "pillow",
+#     "simplejson",
+# ]
+# ///
+
 import os
-from PIL import Image #Requires pillow
+from PIL import Image
 import time
-#import json
-import shutil #Requires shutil
+import shutil
 import simplejson
 import to_filename
 from decimal import Decimal
-#python 3 
 
 StandardInsert = '''
     - serializedVersion: 2

@@ -49,8 +49,7 @@ namespace US13.Items.Food
 
 		private float RandomPitch => Random.Range(0.7f, 1.3f);
 
-		private static readonly StandardProgressActionConfig ProgressConfig
-			= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
+		private static readonly StandardProgressActionConfig progressConfig = new(StandardProgressActionType.Restrain);
 
 		protected ItemAttributesV2 itemAttributes;
 		private Stackable stackable;
@@ -93,7 +92,7 @@ namespace US13.Items.Food
 			maxBites = newMaxBites;
 			if (resetCurrentBites == false) return;
 			currentBites = maxBites;
-			if (stackable.Amount > 1)
+			if (stackable != null && stackable.Amount > 1)
 			{
 				stackable.ServerSetAmount(newMaxBites);
 			}
@@ -114,71 +113,93 @@ namespace US13.Items.Food
 			TryConsume(interaction.PerformerPlayerScript.gameObject);
 		}
 
-		public override void TryConsume(GameObject feederGO, GameObject eaterGO, bool projectileFed = false)
+		public override void TryConsume(GameObject feederGo, GameObject eaterGo, bool projectileFed = false)
 		{
-			var eater = eaterGO.GetComponent<PlayerScript>();
+			var eater = eaterGo.GetComponent<PlayerScript>();
 			if (eater == null)
 			{
-				// todo: implement non-player eating
-				AudioSourceParameters eatSoundParameters = new AudioSourceParameters(pitch: RandomPitch);
-				SoundManager.PlayNetworkedAtPos(sound, item.WorldPosition, eatSoundParameters);
-				if (leavings != null)
-				{
-					var LeavingSpawned = Spawn.ServerPrefab(leavings, item.WorldPosition, transform.parent).GameObject;
-					var Pickupable = this.GetComponent<Pickupable>();
-					if (Pickupable != null && Pickupable.ItemSlot != null)
-					{
-						Inventory.ServerAdd(LeavingSpawned.GetComponent<Pickupable>(), Pickupable.ItemSlot,
-							ReplacementStrategy.DropOther);
-					}
-				}
-
-				_ = Despawn.ServerSingle(gameObject);
+				ConsumeAsNonPlayer();
 				return;
 			}
 
-			// Check if player is wearing clothing that prevents eating or drinking
+			if (CanPlayerConsume(eater) == false) return;
+
+			PlayerScript feeder = null;
+			if (feederGo != null) feederGo.TryGetComponent(out feeder);
+
+			if (projectileFed)
+			{
+				Eat(eater, feeder, projectileFed);
+			}
+			else if (feeder != eater)
+			{
+				StartForceFeed(feeder, eater);
+			}
+			else
+			{
+				StartSelfFeed(eater);
+			}
+		}
+
+		private void ConsumeAsNonPlayer()
+		{
+			// todo: implement non-player eating
+			AudioSourceParameters eatSoundParameters = new AudioSourceParameters(pitch: RandomPitch);
+			SoundManager.PlayNetworkedAtPos(sound, item.WorldPosition, eatSoundParameters);
+			if (leavings != null)
+			{
+				var LeavingSpawned = Spawn.ServerPrefab(leavings, item.WorldPosition, transform.parent).GameObject;
+				var Pickupable = this.GetComponent<Pickupable>();
+				if (Pickupable != null && Pickupable.ItemSlot != null)
+				{
+					Inventory.ServerAdd(LeavingSpawned.GetComponent<Pickupable>(), Pickupable.ItemSlot,
+						ReplacementStrategy.DropOther);
+				}
+			}
+
+			_ = Despawn.ServerSingle(gameObject);
+		}
+
+		private bool CanPlayerConsume(PlayerScript eater)
+		{
 			if (eater.Equipment.OrNull()?.CanConsume() == false)
 			{
 				Chat.AddExamineMsgFromServer(eater.gameObject, $"Remove items that cover your mouth first!");
-				return;
+				return false;
 			}
 
-			// Show eater message
+			return true;
+		}
 
+		private HungerState GetHungerState(PlayerScript eater)
+		{
 			var sys = eater.playerHealth.GetSystem<HungerSystem>();
-			HungerState eaterHungerState = HungerState.Normal;
-
 			if (sys != null)
 			{
-				eaterHungerState = sys.CashedHungerState;
+				return sys.CashedHungerState;
 			}
 
-			bool hasFeeder = false;
-			PlayerScript feeder = null;
+			return HungerState.Normal;
+		}
 
-			if(feederGO != null) feederGO.TryGetComponent<PlayerScript>(out feeder);
-
-			if(hasFeeder == true) ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
-			if (projectileFed == false && feeder != eater) //If you're feeding it to someone else.
+		private void StartForceFeed(PlayerScript feeder, PlayerScript eater)
+		{
+			var eaterHungerState = GetHungerState(eater);
+			StandardProgressAction.Create(progressConfig, () =>
 			{
-				StandardProgressAction.Create(ProgressConfig, () =>
-				{
-					ConsumableTextUtils.SendGenericForceFeedMessage(feeder, eater, eaterHungerState, Name, "eat");
-					Eat(eater, feeder, projectileFed);
-				}).ServerStartProgress(eater.RegisterPlayer, forceFeedTime, feeder.gameObject);
-				return;
-			}
-			else if (projectileFed == true)
-			{
-				Eat(eater, feeder, projectileFed);
-				return;
-			}
+				ConsumableTextUtils.SendGenericForceFeedMessage(feeder, eater, eaterHungerState, Name, "eat");
+				Eat(eater, feeder);
+			}).ServerStartProgress(eater.RegisterPlayer, forceFeedTime, feeder.gameObject);
+		}
 
-			StandardProgressAction.Create(ProgressConfig, () =>
-				{
-					Eat(eater, feeder, projectileFed);
-				}).ServerStartProgress(eater.RegisterPlayer, consumeTime, feeder.gameObject);
+		private void StartSelfFeed(PlayerScript eater)
+		{
+			var eaterHungerState = GetHungerState(eater);
+			ConsumableTextUtils.SendGenericConsumeMessage(eater, eater, eaterHungerState, Name, "eat");
+			StandardProgressAction.Create(progressConfig, () =>
+			{
+				Eat(eater, eater);
+			}).ServerStartProgress(eater.RegisterPlayer, consumeTime, eater.gameObject);
 		}
 
 		protected virtual void Eat(PlayerScript eater, PlayerScript feeder, bool projectileFed = false)
@@ -253,41 +274,13 @@ namespace US13.Items.Food
 		public ReagentMix FullConsume(PlayerScript feeder)
 		{
 			ReagentMix incomingFood = FoodContents.CurrentReagentMix.Clone();
-
-			if (leavings != null)
-			{
-				var leavingsInstance = Spawn.ServerPrefab(leavings).GameObject;
-				var pickupable = leavingsInstance.GetComponent<Pickupable>();
-				bool added = false;
-				var ToDropOn = gameObject;
-
-				if (feeder != null)
-				{
-					var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
-
-					ToDropOn = feeder.gameObject;
-					added = Inventory.ServerAdd(pickupable, feederSlot, ReplacementStrategy.DropOther);
-				}
-
-				if (added == false)
-				{
-					//If stackable has leavings and they couldn't go in the same slot, they should be dropped
-					pickupable.UniversalObjectPhysics.DropAtAndInheritMomentum(
-						ToDropOn.GetComponent<UniversalObjectPhysics>());
-				}
-			}
-			_ = Inventory.ServerDespawn(gameObject);
-
+			SpawnLeavingsAndDespawn(feeder);
 			return incomingFood;
 		}
 
 		public ReagentMix GetMixForBite(PlayerScript feeder)
 		{
 			ReagentMix incomingFood = FoodContents.CurrentReagentMix.Clone();
-			if (stackable == null) //Since it just consumes one
-			{
-				incomingFood.Divide(maxBites);
-			}
 
 			if (stackable != null)
 			{
@@ -295,39 +288,42 @@ namespace US13.Items.Food
 			}
 			else
 			{
-
+				incomingFood.Divide(maxBites);
 				currentBites--;
-
 
 				if (currentBites <= 0)
 				{
-					if (leavings != null)
-					{
-						var leavingsInstance = Spawn.ServerPrefab(leavings).GameObject;
-						var pickupable = leavingsInstance.GetComponent<Pickupable>();
-						bool added = false;
-						var ToDropOn = gameObject;
-
-						if (feeder != null)
-						{
-							var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
-
-							ToDropOn = feeder.gameObject;
-							added = Inventory.ServerAdd(pickupable, feederSlot, ReplacementStrategy.DropOther);
-						}
-
-						if (added == false)
-						{
-							//If stackable has leavings and they couldn't go in the same slot, they should be dropped
-							pickupable.UniversalObjectPhysics.DropAtAndInheritMomentum(
-								ToDropOn.GetComponent<UniversalObjectPhysics>());
-						}
-					}
-					_ = Inventory.ServerDespawn(gameObject);
+					SpawnLeavingsAndDespawn(feeder);
 				}
 			}
 
 			return incomingFood;
+		}
+
+		private void SpawnLeavingsAndDespawn(PlayerScript feeder)
+		{
+			if (leavings != null)
+			{
+				var leavingsInstance = Spawn.ServerPrefab(leavings).GameObject;
+				var pickupable = leavingsInstance.GetComponent<Pickupable>();
+				bool added = false;
+				var dropOn = gameObject;
+
+				if (feeder != null)
+				{
+					var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
+					dropOn = feeder.gameObject;
+					added = Inventory.ServerAdd(pickupable, feederSlot, ReplacementStrategy.DropOther);
+				}
+
+				if (added == false)
+				{
+					pickupable.UniversalObjectPhysics.DropAtAndInheritMomentum(
+						dropOn.GetComponent<UniversalObjectPhysics>());
+				}
+			}
+
+			_ = Inventory.ServerDespawn(gameObject);
 		}
 
 

@@ -116,39 +116,41 @@ Shader "Stencil/Unlit background masked"
                     // === TINT: single flat color per step, covers entire sprite ===
                     float3 tint_color;
                     float tint_opacity;
-                    if (_FryIntensity < 0.375)
+                    // Thresholds match FriedLevelToIntensity in DeepFryable.cs:
+                    // LightlyFried = 0.25, Fried = 0.5, DeepFried = 0.75, TheVeryConcept = 1.0
+                    if (_FryIntensity <= 0.25)
                     {
-                        // Lightly fried
-                        tint_color = float3(0.431, 0.302, 0.157);
-                        tint_opacity = 0.78;
+                        // LightlyFried
+                        tint_color = float3(0.55, 0.40, 0.22);
+                        tint_opacity = 0.6;
                     }
-                    else if (_FryIntensity < 0.625)
+                    else if (_FryIntensity <= 0.5)
                     {
-                        // Deep fried
-                        tint_color = float3(0.220, 0.157, 0.082);
-                        tint_opacity = 0.88;
+                        // Fried
+                        tint_color = float3(0.40, 0.28, 0.14);
+                        tint_opacity = 0.72;
                     }
-                    else if (_FryIntensity < 0.875)
+                    else if (_FryIntensity <= 0.75)
                     {
-                        // Well fried
-                        tint_color = float3(0.110, 0.078, 0.039);
-                        tint_opacity = 1;
+                        // DeepFried
+                        tint_color = float3(0.25, 0.17, 0.08);
+                        tint_opacity = 0.85;
                     }
                     else
                     {
-                        // Manifestation: blackish-brown
+                        // TheVeryConcept
                         tint_color = float3(0.025, 0.015, 0.008);
                         tint_opacity = 1;
                     }
 
-                    // Tint: keep sprite's original luminance, replace color with tint
+                    // Tint: scale tint by sprite luminance to preserve detail without
+                    // normalising away darkness differences between fry levels.
                     float luma = dot(final.rgb, float3(0.299, 0.587, 0.114));
-                    float tint_luma = dot(tint_color, float3(0.299, 0.587, 0.114));
-                    float3 tinted = tint_color * (luma / max(tint_luma, 0.01));
+                    float3 tinted = tint_color * (1.0 + luma);
                     tinted = min(tinted, 1.0);
                     final.rgb = lerp(final.rgb, tinted, tint_opacity);
 
-                    // === NOISE TEXTURE: sits on top of the tint, never replaces it ===
+                    // === NOISE TEXTURE ===
                     float2 block_uv = floor(i.texcoord * 8.0);
                     // Per-block random: determines visibility and brightness
                     float block_rand = frac(sin(dot(block_uv, float2(41.231, 67.892))) * 28461.137);
