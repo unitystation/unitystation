@@ -2,13 +2,15 @@
 using UnityEngine;
 using US13.Core.Admin.Logs;
 using US13.Core.Chat;
+using US13.Core.Input_System.InteractionV2.Interactions;
+using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Player;
 using US13.UI.Core.RightClick;
 using Util;
 
 namespace US13.Objects.ExecutionDevices
 {
-	public class ExecutionDeviceController : MonoBehaviour, IRightClickable
+	public class ExecutionDeviceController : MonoBehaviour
 	{
 		private IExecutionDevice device;
 		public GameObject Victim { get; set; }
@@ -53,12 +55,5 @@ namespace US13.Objects.ExecutionDevices
 				$"attempted to execute {Victim.ExpensiveName()} at {Victim.AssumedWorldPosServer()}.", LogCategory.MobDamage, Severity.DEATH);
 		}
 
-		public RightClickableResult GenerateRightClickOptions()
-		{
-			var newList = new RightClickableResult();
-			newList.AddElement("Execute", () => Execute(PlayerManager.LocalPlayerObject));
-			newList.AddElement("Release Victim", ReleaseVictim);
-			return newList;
-		}
 	}
 }

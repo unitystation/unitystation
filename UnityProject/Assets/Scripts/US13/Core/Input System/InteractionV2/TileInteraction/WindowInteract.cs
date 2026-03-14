@@ -3,6 +3,7 @@ using US13.Core.Addressables;
 using US13.Items.Tool;
 using US13.Items.Traits;
 using US13.Managers;
+using US13.Messages.Server.SoundMessages;
 using US13.Tilemaps.Behaviours;
 using US13.Tilemaps.Behaviours.Layers;
 using US13.Tilemaps.Utils;
@@ -40,7 +41,7 @@ namespace US13.Core.Input_System.InteractionV2.TileInteraction
 				Chat.Chat.AddActionMsgToChat(interaction.Performer,
 					$"You knock on the {interaction.BasicTile.DisplayName}.", $"{interaction.Performer.ExpensiveName()} knocks on the {interaction.BasicTile.DisplayName}.");
 
-				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GlassKnock, interaction.WorldPositionTarget, sourceObj: interaction.Performer);
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.GlassKnock, interaction.WorldPositionTarget, sourceObj: interaction.Performer, audioSourceParameters: new AudioSourceParameters(spatialBlend: 2));
 			}
 			else
 			{

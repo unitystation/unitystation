@@ -8,8 +8,10 @@ using UnityEngine.Events;
 using US13.Core.Input_System;
 using US13.Core.Lifecycle;
 using US13.Core.Lifecycle.Spawnable;
+using US13.Managers.NetworkManagement;
 using US13.Messages.Server;
 using US13.Systems.Inventory;
+using US13.Systems.Inventory.Populators;
 using US13.Tilemaps.Behaviours.Objects;
 using Util;
 using UniversalObjectPhysics = US13.Core.Physics.UniversalObjectPhysics;
@@ -34,7 +36,7 @@ namespace US13.Objects
 	/// <summary>
 	/// Allows an object to contain other objects. For example, closets.
 	/// </summary>
-	public class ObjectContainer : MonoBehaviour, IServerLifecycle, IUniversalInventoryAPI
+	public class ObjectContainer : MonoBehaviour, IServerLifecycle, IUniversalInventoryAPI, IStoreThings
 	{
 		[Header("Initial contents")]
 		[SerializeField]
@@ -53,6 +55,14 @@ namespace US13.Objects
 
 		[HideInInspector]
 		public List<IEscapable> IEscapables;
+
+		[SerializeField]
+		[Tooltip("Defines how the storage should be populated when the object spawns. You can also" +
+		         " invoke Populate to manually / dynamically populate this storage using a supplied populator." +
+		         " This will only run server side.")]
+		private ItemStoragePopulator itemStoragePopulator = null;
+
+		public ItemStoragePopulator ItemStoragePopulator => itemStoragePopulator;
 
 		/// <summary>
 		/// Experimental. Top owner object
@@ -100,6 +110,8 @@ namespace US13.Objects
 		/// </summary>
 		public UnityEvent<GameObject> OnObjectRetrieved;
 
+		private SpawnInfo spawnInfo;
+
 		#region Lifecycle
 
 		private void Awake()
@@ -116,6 +128,7 @@ namespace US13.Objects
 
 		public virtual void OnSpawnServer(SpawnInfo info)
 		{
+			spawnInfo = info;
 			if (spawnContentsAtRoundstart)
 			{
 				TrySpawnInitialContents(true);
@@ -133,13 +146,18 @@ namespace US13.Objects
 		}
 
 		/// <summary>Spawns the initial contents when needed, not always on game start so that there's less game objects
-		public void TrySpawnInitialContents(bool hideContents = false)
+		public void TrySpawnInitialContents( bool hideContents = false)
 		{
 			if (initialContentsSpawned) return;
 			initialContentsSpawned = true;
 
+			ServerPopulate(itemStoragePopulator, PopulationContext.AfterSpawn(spawnInfo), spawnInfo);
 			// Null check after setting true so we only do the null check once not every opening
-			if (initialContents == null) return;
+			if (initialContents == null)
+			{
+				return;
+			}
+
 
 			// populate initial contents
 			var result = initialContents.SpawnAt(SpawnDestination.At(gameObject));
@@ -150,27 +168,67 @@ namespace US13.Objects
 			StoreObjects(result.GameObjects);
 		}
 
+		public void ServerPopulate(IItemStoragePopulator populator, PopulationContext context, SpawnInfo info)
+		{
+			if (populator == null) return;
+			if (CustomNetworkManager.IsServer == false) return;
+			if (context.SpawnInfo.SpawnItems == false) return;
+			populator.PopulateItemStorage(this, this , context, info);
+		}
+
 		#endregion
+
+		public bool ServerTryAdd(GameObject inGameObject, bool IgnoreRestraints = false)
+		{
+			return	StoreObject(inGameObject, IgnoreRestraints: IgnoreRestraints);
+		}
+
+		public bool CanFit(GameObject inGameObject)
+		{
+			// Don't add the container to itself...
+			if (inGameObject.gameObject == gameObject) return false;
+			// Can't store secured objects (exclude this check on mobs as e.g. magboots set pushable false)
+			if (inGameObject.GetUniversalObjectPhysics().IsNotPushable) return false;
+
+			//No Nested ObjectContainer shenanigans
+			if (inGameObject.GetComponent<ObjectContainer>()) return false;
+			return true;
+		}
 
 		/// <summary>
 		/// Stores the given object. Remembers the offset, if provided.
 		/// </summary>
 		/// <param name="obj"></param>
 		/// <param name="offset"></param>
-		public void StoreObject(GameObject obj, Vector3 offset = new Vector3())
+		public bool StoreObject(GameObject obj, Vector3 offset = new Vector3(),bool IgnoreRestraints = false)
 		{
+			// Don't add the container to itself...
+			if (obj.gameObject == gameObject) return false;
+
+			if (IgnoreRestraints == false)
+			{
+				// Can't store secured objects (exclude this check on mobs as e.g. magboots set pushable false)
+				if (obj.GetUniversalObjectPhysics().IsNotPushable) return false;
+
+				//No Nested ObjectContainer shenanigans
+				if (obj.GetComponent<ObjectContainer>()) return false;
+			}
+
+
 			if (obj == null)
 			{
 				Loggy.Error("[ObjectContainer/StoreObject] - HEY SHITASS, DON'T TRY ADDING NULL OBJECTS.");
-				return;
+				return false;
 			}
 			if (obj.TryGetComponent<UniversalObjectPhysics>(out var objectPhysics))
 			{
-				if (objectPhysics.Intangible) return;
+				if (objectPhysics.Intangible) return false;
 				storedObjects.Add(obj, offset);
 				OnObjectStored?.Invoke(obj);
 				objectPhysics.StoreTo(this);
+				return true;
 			}
+			return  false;
 		}
 
 		/// <summary>

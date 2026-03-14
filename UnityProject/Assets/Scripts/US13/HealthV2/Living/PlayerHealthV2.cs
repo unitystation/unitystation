@@ -254,7 +254,7 @@ namespace US13.HealthV2.Living
 			Inventory.ServerDrop(dynamicItemStorage.GetActiveHandSlot());
 
 			// Slip is essentially a yelp SFX.
-			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.4f, 1.2f));
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.4f, 1.2f), spatialBlend: 2);
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Slip, registerPlayer.WorldPosition,
 					audioSourceParameters, sourceObj: gameObject);
 

@@ -24,7 +24,7 @@ namespace US13.Items
 	public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 	{
 		[NonSerialized]
-		public LayerTypeSelection layerTypeSelection = LayerTypeSelection.AllUnderFloor | LayerTypeSelection.Effects;
+		public LayerTypeSelection layerTypeExcludeSelection = LayerTypeSelection.AllUnderFloor | LayerTypeSelection.Effects | LayerTypeSelection.UnderObjectsEffects;
 
 		[FormerlySerializedAs("entries")]
 		[Tooltip("Defines each possible way this item can be placed as a tile.")]
@@ -48,7 +48,7 @@ namespace US13.Items
 
 			//check if we are clicking a spot we can place a tile on
 			var interactableTiles = InteractableTiles.GetAt(interaction.WorldPositionTarget, side);
-			var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget, layerTypeSelection);
+			var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget, layerTypeExcludeSelection);
 
 			foreach (var entry in waysToPlace)
 			{
@@ -88,7 +88,7 @@ namespace US13.Items
 			var interactableTiles = matrix.TileChangeManager.InteractableTiles;
 
 			Vector3Int cellPos = interactableTiles.WorldToCell(interaction.WorldPositionTarget);
-			var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget, layerTypeSelection);
+			var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget, layerTypeExcludeSelection);
 
 			PlaceableTileEntry placeableTileEntry = null;
 

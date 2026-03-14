@@ -279,6 +279,12 @@ namespace US13.Items.Weapons
 
 			if (bul != null)
 			{
+				if (ServerAmmoRemains >= magazineSize)
+				{
+					Chat.AddExamineMsg(interaction.Performer, $"Unable to fit any more {bul.gameObject.ExpensiveName()} in to {this.gameObject.ExpensiveName()}");
+					return;
+				}
+
 				string message = LoadBullet(bul);
 				Chat.AddExamineMsg(interaction.Performer, message);
 				_ = Inventory.ServerDespawn(bulletObj);

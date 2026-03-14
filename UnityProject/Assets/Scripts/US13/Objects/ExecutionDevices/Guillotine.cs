@@ -11,6 +11,7 @@ using US13.HealthV2.Living;
 using US13.Player;
 using US13.Tilemaps.Behaviours.Objects;
 using US13.UI.Core.ProgressBar;
+using US13.UI.Systems.MainHUD.UI_Bottom;
 using Util;
 
 namespace US13.Objects.ExecutionDevices
@@ -151,10 +152,20 @@ namespace US13.Objects.ExecutionDevices
 			}
 			else
 			{
-				//here
-				StandardProgressAction.Create(injectProgressBar,
-				 		() => ((IExecutionDevice)this).Controller.Execute())
-					.ServerStartProgress(interaction.Performer.GetComponent<RegisterTile>(), ExecuteTime, interaction.Performer.gameObject);
+				if (interaction.Intent == Intent.Help)
+				{
+					//here
+					((IExecutionDevice) this).Controller.ReleaseVictim();
+				}
+				else if (interaction.Intent == Intent.Harm)
+				{
+					//here
+					StandardProgressAction.Create(injectProgressBar,
+							() => ((IExecutionDevice)this).Controller.Execute())
+						.ServerStartProgress(interaction.Performer.GetComponent<RegisterTile>(), ExecuteTime, interaction.Performer.gameObject);
+				}
+
+
 			}
 		}
 	}
