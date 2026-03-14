@@ -52,6 +52,12 @@ namespace US13.UI.Items.PDA
 		[SerializeField, Tooltip("Restricted to certain job types")]
 		private JobType jobType = JobType.NULL;
 
+		[SerializeField, Tooltip("Exclude from being randomly picked")]
+		private bool excludedRandomPick = false;
+
+
+		public bool ExcludedRandomPick => excludedRandomPick;
+
 		public JobType JobType => jobType;
 
 		public bool IsNukeOps => isNukeOps;

@@ -15,11 +15,11 @@ namespace US13.Systems.Inventory.Populators.Storage
 		         " the first one will take precedence.")]
 		private ItemStoragePopulator[] Populators = null;
 
-		public override void PopulateItemStorage(ItemStorage toPopulate, PopulationContext context, SpawnInfo info)
+		public override void PopulateItemStorage(IStoreThings toPopulate,MonoBehaviour component, PopulationContext context, SpawnInfo info)
 		{
 			foreach (var populator in Populators)
 			{
-				populator.PopulateItemStorage(toPopulate, context, info);
+				populator.PopulateItemStorage(toPopulate, component ,context, info);
 			}
 		}
 	}

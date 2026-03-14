@@ -1,3 +1,5 @@
+using System.ComponentModel;
+using UnityEngine;
 using US13.Core.Lifecycle;
 
 namespace US13.Systems.Inventory
@@ -12,6 +14,6 @@ namespace US13.Systems.Inventory
 		/// </summary>
 		/// <param name="toPopulate">storage to populate</param>
 		/// <param name="populationContext">details / context of the population being performed.</param>
-		void PopulateItemStorage(ItemStorage toPopulate, PopulationContext populationContext, SpawnInfo info);
+		void PopulateItemStorage(IStoreThings toPopulate,MonoBehaviour component, PopulationContext populationContext, SpawnInfo info);
 	}
 }

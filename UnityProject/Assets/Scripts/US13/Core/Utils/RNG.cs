@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace US13.Core.Utils
@@ -106,6 +108,18 @@ namespace US13.Core.Utils
 			float y = (float)Mathf.Sin((float)angle);
 
 			return new Vector2(x, y);
+		}
+
+		public static T RemoveRandom<T>(this IList<T> list)
+		{
+			int index = Random.Next(list.Count);
+			T value = list[index];
+
+			int last = list.Count - 1;
+			list[index] = list[last];
+			list.RemoveAt(last);
+
+			return value;
 		}
 
 	}
