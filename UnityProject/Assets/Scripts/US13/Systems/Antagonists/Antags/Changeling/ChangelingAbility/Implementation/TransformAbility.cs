@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
+using Logs;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -92,7 +94,7 @@ namespace US13.Systems.Antagonists.Antags.Changeling.ChangelingAbility.Implement
 			body.playerHealth.UpdateBloodPool(true);
 			var bodyParts = GetBodyParts(body);
 			SetUpItems(itemsBeforeTransform, bodyParts);
-			SetUpFakeItems(dna, changeling, body.playerHealth);
+			_ = SetUpFakeItems(dna, changeling, body.playerHealth);
 			yield return WaitFor.SecondsRealtime(2f);
 			UpdateSprites(body.playerHealth.playerSprites, characterSheet);
 			body.playerHealth.UpdateMeatAndSkinProduce();
@@ -251,11 +253,22 @@ namespace US13.Systems.Antagonists.Antags.Changeling.ChangelingAbility.Implement
 			}
 		}
 
-		private void SetUpFakeItems(ChangelingDna dna, ChangelingMain changeling, LivingHealthMasterBase health)
+		private async UniTask SetUpFakeItems(ChangelingDna dna, ChangelingMain changeling, LivingHealthMasterBase health)
 		{
 			if (dna != null && changeling != null)
 			{
 				var storage = changeling.ChangelingMind.CurrentPlayScript.DynamicItemStorage;
+				var tries = 0;
+				while (tries < 10)
+				{
+					await UniTask.WaitForEndOfFrame();
+					tries += 1;
+					if (tries == 10)
+					{
+						Loggy.Error($"Failed to find storage for fake items after 10 tries for {changeling.ChangelingMind.CurrentPlayScript.visibleName}", Category.Changeling);
+						return;
+					}
+				}
 				// need to firstly create fake uniform for placing id card into fake slot
 				foreach (var id in dna.BodyClothesPrefabID)
 				{

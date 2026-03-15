@@ -75,7 +75,7 @@ namespace US13.HealthV2.Living
 		{
 			var result = new List<TextColor>();
 
-			var hands = PlayerManager.LocalPlayerScript.Equipment.ItemStorage.GetActiveHandSlot();
+			var hands = PlayerManager.LocalPlayerScript?.Equipment?.ItemStorage?.GetActiveHandSlot();
 			if (_canBeEmagged && hands != null && hands.ItemAttributes != null && hands.ItemAttributes.GetTraits().Contains(CommonTraits.Instance.Emag) == false)
 			{
 				result.Add(new TextColor() {Text = "Left click while holding an EMAG to sabotage this bot.", Color = Color.red});

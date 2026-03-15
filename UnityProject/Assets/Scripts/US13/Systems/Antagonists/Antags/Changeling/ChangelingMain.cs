@@ -9,6 +9,9 @@ using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
 using US13.Actions;
+using US13.Actions.V2;
+using US13.Core.Chat;
+using US13.Core.Cooldowns;
 using US13.Managers.NetworkManagement;
 using US13.Managers.UpdateManager;
 using US13.Player;
@@ -367,7 +370,7 @@ namespace US13.Systems.Antagonists.Antags.Changeling
 			{
 				if (x.DnaID == dna.DnaID)
 				{
-					RemoveDna(new List<ChangelingDna>() {x});
+					RemoveDna(new List<ChangelingDna>() { x });
 					break;
 				}
 			}
@@ -587,31 +590,6 @@ namespace US13.Systems.Antagonists.Antags.Changeling
 
 			if (!CustomNetworkManager.IsServer) return;
 
-			changelingAbilities.CollectionChanged += (_, e) =>
-			{
-				if (e == null)
-				{
-					return;
-				}
-
-				if (e.NewItems != null)
-				{
-					foreach (ChangelingAbility.ChangelingAbility x in e.NewItems)
-					{
-						if (x.AbilityData.ShowInActions)
-							UIActionManager.ToggleServer(changelingMind.gameObject, x, true);
-					}
-				}
-
-				if (e.OldItems != null)
-				{
-					foreach (ChangelingAbility.ChangelingAbility y in e.OldItems)
-					{
-						UIActionManager.ToggleServer(changelingMind.gameObject, y, false);
-					}
-				}
-			};
-
 			if (changelingByMindID.ContainsKey(changelingMind.netId))
 			{
 				changelingByMindID.Remove(changelingMind.netId);
@@ -659,8 +637,7 @@ namespace US13.Systems.Antagonists.Antags.Changeling
 
 		public void AddAbility(ChangelingAbility.ChangelingBaseAbility ability)
 		{
-			if (evolutionPoints - ability.AbilityEPCost < 0)
-				return;
+			if (evolutionPoints - ability.AbilityEPCost < 0) return;
 
 			var abilityInst = ability.AddToPlayer(changelingMind);
 			if (changelingAbilities.Contains(abilityInst))
@@ -671,6 +648,30 @@ namespace US13.Systems.Antagonists.Antags.Changeling
 			abilitesIDSNow += $"\n{ability.Index}";
 
 			changelingAbilities.Add(abilityInst);
+
+			if (changelingMind?.CurrentPlayScript?.PlayerButtonedActions != null && ability.ShowInActions)
+			{
+				var actionManager = changelingMind.CurrentPlayScript.PlayerButtonedActions;
+				var buttonData = ability.ToActionButtonData();
+				buttonData.ID = GetChangelingAbilityActionId(ability);
+				buttonData.TriggerType = ActionTriggerType.ServerOnly;
+				buttonData.CooldownTime = abilityInst.CooldownTime;
+				actionManager.RegisterNewAction(buttonData, mousePos =>
+				{
+					var playerScript = changelingMind?.CurrentPlayScript;
+					var info = playerScript?.PlayerInfo;
+					if (info == null) return;
+
+					var clickPos = new Vector3(mousePos.x, mousePos.y, 0f);
+					if (ability.IsLocal)
+					{
+						UseLocalAbilityServer(playerScript, ability, clickPos);
+						return;
+					}
+
+					abilityInst.CallActionServer(info, clickPos);
+				});
+			}
 		}
 
 		public void RemoveAbility(ChangelingAbility.ChangelingBaseAbility ability)
@@ -686,9 +687,70 @@ namespace US13.Systems.Antagonists.Antags.Changeling
 			}
 			changelingAbilities.Remove(abilityInst);
 
+			if (CustomNetworkManager.IsServer && changelingMind?.CurrentPlayScript?.PlayerButtonedActions != null && ability.ShowInActions)
+			{
+				changelingMind.CurrentPlayScript.PlayerButtonedActions.ServerRemoveAction(GetChangelingAbilityActionId(ability));
+			}
+
 			foreach (var x in AbilitiesNow)
 			{
 				abilitesIDSNow = $"\n{x.AbilityData.Index}";
+			}
+		}
+
+		private string GetChangelingAbilityActionId(ChangelingAbility.ChangelingBaseAbility ability)
+		{
+			return $"changeling_{changelingMindID}_{ability.Index}";
+		}
+
+		[Server]
+		private void UseLocalAbilityServer(PlayerScript playerScript, ChangelingAbility.ChangelingBaseAbility ability, Vector3 clickPosition)
+		{
+			if (playerScript == null) return;
+			if (playerScript.IsDeadOrGhost || (playerScript.playerHealth != null && playerScript.playerHealth.IsCrit && !ability.CanBeUsedWhileInCrit))
+			{
+				return;
+			}
+
+			if (Chem - ability.AbilityChemCost < 0)
+			{
+				Chat.AddExamineMsg(gameObject, "Not enough chemicals for ability!");
+				return;
+			}
+
+			if (Cooldowns.IsOnServer(playerScript, ability))
+			{
+				Chat.AddExamineMsg(gameObject, $"Ability {ability.Name} is recharging!");
+				return;
+			}
+
+			if (HasAbility(ability) == false) return;
+
+			Cooldowns.TryStartServer(playerScript, ability, ability.DefaultTime);
+			TargetUseLocalAbility(playerScript.connectionToClient, ability.Index, clickPosition);
+		}
+
+		[TargetRpc]
+		private void TargetUseLocalAbility(NetworkConnectionToClient target, short abilityIndex, Vector3 clickPosition)
+		{
+			var ability = ChangelingAbilityList.Instance.FromIndex(abilityIndex);
+			if (ability == null) return;
+
+			// Local abilities are intended to run purely clientside (e.g. opening UI).
+			_ = ability.UseAbilityClient(this);
+		}
+
+		/// <summary>
+		/// Runs the client-side toggle effect for an ability (e.g. AugmentedEyesight camera effect).
+		/// Called from server after UseAbilityToggleServer so the owning client gets the visual/audio.
+		/// </summary>
+		[TargetRpc]
+		public void TargetRunAbilityToggleClient(NetworkConnectionToClient target, short abilityIndex, bool isToggled)
+		{
+			var abilityInst = changelingAbilities.FirstOrDefault(a => a.AbilityData.Index == abilityIndex);
+			if (abilityInst?.AbilityData is ChangelingAbility.ChangelingToggleAbility toggleAbility)
+			{
+				toggleAbility.UseAbilityToggleClient(this, isToggled, fromServer: true);
 			}
 		}
 

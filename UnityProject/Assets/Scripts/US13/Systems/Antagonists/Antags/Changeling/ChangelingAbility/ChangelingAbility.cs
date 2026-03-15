@@ -27,8 +27,23 @@ namespace US13.Systems.Antagonists.Antags.Changeling.ChangelingAbility
 		private bool isToggled = false;
 		public bool IsToggled => isToggled;
 
+		private bool HasV1ActionUIRegistered()
+		{
+			var mgr = UIActionManager.Instance;
+			if (mgr == null) return false;
+			if (mgr.DicIActionGUI == null) return false;
+			return mgr.DicIActionGUI.ContainsKey(this);
+		}
+
 		public virtual void CallActionClient()
 		{
+			if (HasV1ActionUIRegistered() == false)
+			{
+				// If this ability is triggered via Action V2, it won't exist in the V1 UIAction dictionary.
+				// V2 buttons should call serverside directly; local abilities can still be invoked via their UI paths.
+				return;
+			}
+
 			var action = UIActionManager.Instance.DicIActionGUI[this][0];
 
 			if (UIManager.Instance.displayControl.hudChangeling.ChangelingMain == null)
@@ -66,8 +81,7 @@ namespace US13.Systems.Antagonists.Antags.Changeling.ChangelingAbility
 				return;
 			}
 
-			if (ValidateAbility(SentByPlayer) == false)
-				return;
+			if (ValidateAbility(SentByPlayer) == false) return;
 			if (CastAbilityServer(SentByPlayer, clickPosition))
 			{
 				AfterAbility(SentByPlayer);
@@ -94,6 +108,11 @@ namespace US13.Systems.Antagonists.Antags.Changeling.ChangelingAbility
 				{
 					isToggled = toggle;
 					toggleAbility.UseAbilityToggleServer(changeling, isToggled);
+					// Run client-side toggle effect (e.g. AugmentedEyesight camera) for the owning player.
+					if (sentByPlayer.Script != null && sentByPlayer.Script.connectionToClient != null)
+					{
+						changeling.TargetRunAbilityToggleClient(sentByPlayer.Script.connectionToClient, AbilityData.Index, isToggled);
+					}
 				}
 				catch (Exception ex)
 				{
@@ -102,6 +121,8 @@ namespace US13.Systems.Antagonists.Antags.Changeling.ChangelingAbility
 				}
 			}
 			if (ActionData.Sprites.Count != 2)
+				return;
+			if (HasV1ActionUIRegistered() == false)
 				return;
 			if (isToggled)
 			{
@@ -117,6 +138,8 @@ namespace US13.Systems.Antagonists.Antags.Changeling.ChangelingAbility
 		{
 			isToggled = toggle;
 			if (ActionData.Sprites.Count != 2)
+				return;
+			if (HasV1ActionUIRegistered() == false)
 				return;
 			if (isToggled)
 			{
@@ -191,7 +214,10 @@ namespace US13.Systems.Antagonists.Antags.Changeling.ChangelingAbility
 				return;
 			Cooldowns.TryStartServer(sentByPlayer.Script, AbilityData, CooldownTime);
 
-			UIActionManager.SetCooldown(this, CooldownTime, sentByPlayer.GameObject);
+			if (HasV1ActionUIRegistered())
+			{
+				UIActionManager.SetCooldown(this, CooldownTime, sentByPlayer.GameObject);
+			}
 		}
 
 		private void AfterAbilityClient(PlayerScript sentByPlayer)
@@ -200,7 +226,10 @@ namespace US13.Systems.Antagonists.Antags.Changeling.ChangelingAbility
 				return;
 			Cooldowns.TryStartClient(sentByPlayer, AbilityData, CooldownTime);
 
-			UIActionManager.SetCooldown(this, CooldownTime, sentByPlayer.GameObject);
+			if (HasV1ActionUIRegistered())
+			{
+				UIActionManager.SetCooldown(this, CooldownTime, sentByPlayer.GameObject);
+			}
 		}
 
 		private bool ValidateAbility(PlayerInfo sentByPlayer)
