@@ -512,6 +512,7 @@ GameObject:
   - component: {fileID: 8218340658487575790}
   - component: {fileID: 7498047547275951016}
   - component: {fileID: 3913575896194237634}
+  - component: {fileID: 2951782550490073926}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -2151,6 +2152,18 @@ MonoBehaviour:
   PlayerSprites: {fileID: 114285118255153820}
   Cdirection: 0
   SynchroniseCurrentDirection: 0
+--- !u!114 &2951782550490073926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e98afcdfaa04611887e2a3052e6513e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Items.Food.Feedable
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
