@@ -16,7 +16,7 @@ namespace US13.Items.Food
 	/// Item that can be drinked or eaten by player
 	/// Also supports force feeding other player
 	/// </summary>
-	public abstract class Consumable : NetworkBehaviour, ICheckedInteractable<HandApply>, IConsumable
+	public abstract class Consumable : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		[SerializeField] protected float consumeTime = 0.1f;
 
