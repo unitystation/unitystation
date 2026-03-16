@@ -124,8 +124,11 @@ namespace US13.Items.Food
 
 			if (CanPlayerConsume(eater) == false) return;
 
-			PlayerScript feeder = null;
-			if (feederGo != null) feederGo.TryGetComponent(out feeder);
+			if (feederGo.TryGetComponentCustom(out PlayerScript feeder) == false)
+			{
+				StartSelfFeed(eater);
+				return;
+			}
 
 			if (projectileFed)
 			{
@@ -134,10 +137,6 @@ namespace US13.Items.Food
 			else if (feeder != eater)
 			{
 				StartForceFeed(feeder, eater);
-			}
-			else
-			{
-				StartSelfFeed(eater);
 			}
 		}
 
