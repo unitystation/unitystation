@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using US13.Core.Chat;
 using US13.Core.Input_System;
@@ -6,14 +7,16 @@ using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Health.Objects;
 using US13.Objects.Machines;
+using US13.Player;
 using US13.UI.Core.RightClick;
+using US13.UI.Systems.Tooltips.HoverTooltips;
 using Util;
 
 namespace US13.Objects.Kitchen
 {
 	[RequireComponent(typeof(DeepFryer))]
 	public class InteractableDeepFryer : MonoBehaviour, IExaminable, IFirstInteractable<PositionalHandApply>,
-		IRightClickable, ICheckedInteractable<ContextMenuApply>
+		IRightClickable, ICheckedInteractable<ContextMenuApply>, IHoverTooltip
 	{
 		[SerializeField]
 		[Tooltip("Click region for basket 0 (left basket).")]
@@ -83,12 +86,32 @@ namespace US13.Objects.Kitchen
 
 			var basket0Interaction = ContextMenuApply.ByLocalPlayer(gameObject, "Basket0");
 			if (WillInteract(basket0Interaction, NetworkSide.Client) == false) return result;
-			result.AddElement("Basket 1", () => ContextMenuOptionClicked(basket0Interaction));
 
-			var basket1Interaction = ContextMenuApply.ByLocalPlayer(gameObject, "Basket1");
-			result.AddElement("Basket 2", () => ContextMenuOptionClicked(basket1Interaction));
+			if (IsBasketInteractable(0))
+			{
+				result.AddElement("Basket 1", () => ContextMenuOptionClicked(basket0Interaction));
+			}
+
+			if (IsBasketInteractable(1))
+			{
+				var basket1Interaction = ContextMenuApply.ByLocalPlayer(gameObject, "Basket1");
+				result.AddElement("Basket 2", () => ContextMenuOptionClicked(basket1Interaction));
+			}
 
 			return result;
+		}
+
+		private bool IsBasketInteractable(int index)
+		{
+			if (deepFryer.IsPowered == false) return false;
+
+			var basket = deepFryer.GetBasket(index);
+
+			// Can raise a lowered basket.
+			if (basket.IsDown) return true;
+
+			// Can place an item in a raised empty basket.
+			return basket.IsUp && basket.HasItem == false;
 		}
 
 		private void ContextMenuOptionClicked(ContextMenuApply interaction)
@@ -123,6 +146,67 @@ namespace US13.Objects.Kitchen
 			if (basket1Region.Contains(worldPosition)) return 1;
 			return -1;
 		}
+
+		#region IHoverTooltip
+
+		public string HoverTip()
+		{
+			if (deepFryer.IsPowered == false)
+			{
+				return "The machine is dead, no power.";
+			}
+
+			if (deepFryer.HasEnoughOil() == false)
+			{
+				return "A red LED blinks, not enough oil.";
+			}
+
+			return "A green LED blinks, ready to use!";
+		}
+
+		public string CustomTitle() => null;
+
+		public Sprite CustomIcon() => null;
+
+		public List<Sprite> IconIndicators() => null;
+
+		public List<TextColor> InteractionsStrings()
+		{
+			var activeHand = PlayerManager.Equipment?.ItemStorage?.GetActiveHandSlot();
+			bool handIsEmpty = activeHand == null || activeHand.IsOccupied == false;
+			var interactions = new List<TextColor>();
+
+			if (deepFryer.IsPowered == false || deepFryer.HasEnoughOil() == false)
+			{
+				return interactions;
+			}
+
+			for (int i = 0; i < 2; i++)
+			{
+				var basket = deepFryer.GetBasket(i);
+
+				if (basket.IsUp && basket.HasItem == false && handIsEmpty == false)
+				{
+					interactions.Add(new TextColor
+					{
+						Color = IntentColors.Help,
+						Text = $"Click basket {i + 1} to fry held item."
+					});
+				}
+				else if (basket.IsDown && handIsEmpty)
+				{
+					interactions.Add(new TextColor
+					{
+						Color = IntentColors.Help,
+						Text = $"Click basket {i + 1} to raise it."
+					});
+				}
+			}
+
+			return interactions;
+		}
+
+		#endregion
 
 		private void InteractWithBasket(int basketIndex, PositionalHandApply interaction)
 		{
