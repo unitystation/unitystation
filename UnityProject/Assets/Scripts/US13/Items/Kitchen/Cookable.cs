@@ -124,11 +124,11 @@ namespace US13.Items.Kitchen
 			}
 			else
 			{
-				_ = Despawn.ServerSingle(this.gameObject);
+				_ = Despawn.ServerSingle(gameObject);
 			}
 		}
 
-		public string Examine(Vector3 worldPos = default(Vector3))
+		public string Examine(Vector3 worldPos = default)
 		{
 			var exanimeInfo = $"This item can be cooked under heat. {CookTime} seconds.";
 			if (timeSpentCooking > 0.1f)
@@ -149,6 +149,7 @@ namespace US13.Items.Kitchen
 		Microwave = 1 << 1,
 		Griddle = 1 << 2,
 		Oven = 1 << 3,
+		DeepFrier = 1 << 4,
 		All = ~0,
 	}
 }

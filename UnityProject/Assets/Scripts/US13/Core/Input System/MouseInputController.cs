@@ -456,25 +456,44 @@ namespace US13.Core.Input_System
 			var handApply = HandApply.ByLocalPlayer(target);
 			var posHandApply = PositionalHandApply.ByLocalPlayer(target);
 
+			//check target object for IFirstInteractable components before hand item interactions
+			var priorityComponents = target.GetComponents<MonoBehaviour>();
+			for (int i = priorityComponents.Length - 1; i >= 0; i--)
+			{
+				var c = priorityComponents[i];
+				if (c == null || c.enabled == false) continue;
+
+				if (c is IFirstInteractable<HandApply> firstHap)
+				{
+					if (firstHap.ClientCheckAndTrigger(handApply)) return true;
+				}
+
+				if (c is IFirstInteractable<PositionalHandApply> firstPosHap)
+				{
+					if (firstPosHap.ClientCheckAndTrigger(posHandApply)) return true;
+				}
+			}
+
 			//if handobj is null, then its an empty hand apply so we only need to check the receiving object
 			if (handApply.HandObject != null)
 			{
 				//get all components that can handapply or PositionalHandApply
-				var handAppliables = handApply.HandObject.GetComponents<MonoBehaviour>()
-					.Where(c => c != null && c.enabled &&
-					            (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
+				var handComponents = handApply.HandObject.GetComponents<MonoBehaviour>();
 				Loggy.Trace().Format("Checking HandApply / PositionalHandApply interactions from {0} targeting {1}",
 					Category.Interaction, handApply.HandObject.name, target.name);
 
-				foreach (var handAppliable in handAppliables.Reverse())
+				for (int i = handComponents.Length - 1; i >= 0; i--)
 				{
-					if (handAppliable is IBaseInteractable<HandApply> hap)
+					var c = handComponents[i];
+					if (c == null || c.enabled == false) continue;
+
+					if (c is IBaseInteractable<HandApply> hap)
 						//Technically PositionalHandApply Inherits from HandApply So it should work But it doesn't For some reason I don't know why, if it breaks Check this probably
 					{
 						if (hap.ClientCheckAndTrigger(handApply)) return true;
 					}
 
-					if (handAppliable is IBaseInteractable<PositionalHandApply> appliable)
+					if (c is IBaseInteractable<PositionalHandApply> appliable)
 					{
 						if (appliable.ClientCheckAndTrigger(posHandApply)) return true;
 					}
@@ -482,20 +501,21 @@ namespace US13.Core.Input_System
 			}
 
 			//call the hand apply interaction methods on the target object if it has any
-			var targetHandAppliables = handApply.TargetObject.GetComponents<MonoBehaviour>()
-				.Where(c => c != null && c.enabled &&
-				            (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
-			foreach (var targetHandAppliable in targetHandAppliables.Reverse())
+			var targetComponents = handApply.TargetObject.GetComponents<MonoBehaviour>();
+			for (int i = targetComponents.Length - 1; i >= 0; i--)
 			{
-				if (targetHandAppliable is IBaseInteractable<HandApply>)
+				var c = targetComponents[i];
+				if (c == null || c.enabled == false) continue;
+				if (c is IBaseInteractable<HandApply> == false &&
+				    c is IBaseInteractable<PositionalHandApply> == false) continue;
+
+				if (c is IBaseInteractable<HandApply> targetHap)
 				{
-					var hap = targetHandAppliable as IBaseInteractable<HandApply>;
-					if (hap.ClientCheckAndTrigger(handApply)) return true;
+					if (targetHap.ClientCheckAndTrigger(handApply)) return true;
 				}
-				else
+				else if (c is IBaseInteractable<PositionalHandApply> targetPosHap)
 				{
-					var hap = targetHandAppliable as IBaseInteractable<PositionalHandApply>;
-					if (hap.ClientCheckAndTrigger(posHandApply)) return true;
+					if (targetPosHap.ClientCheckAndTrigger(posHandApply)) return true;
 				}
 			}
 
