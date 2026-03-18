@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using US13.Core.Lifecycle;
 using US13.Core.Sprite_Handler;
+using US13.Managers.NetworkManagement;
 
 namespace US13.Items.Weapons
 {
@@ -16,7 +18,7 @@ namespace US13.Items.Weapons
 	}
 
 	[RequireComponent(typeof(MagazineBehaviour))]
-	public class DynamicMagazineSprite : MonoBehaviour
+	public class DynamicMagazineSprite : MonoBehaviour, IServerLifecycle
 	{
 		[SerializeField]
 		[Tooltip("Reference to the magazine behaviour on this prefab")]
@@ -39,18 +41,6 @@ namespace US13.Items.Weapons
 			if (spriteHandler == null) Debug.LogError($"{nameof(spriteHandler)} is not assigned on {gameObject.name}", this);
 		}
 
-		private void OnEnable()
-		{
-			thresholds.Sort((a, b) => b.AmmoCount.CompareTo(a.AmmoCount));
-			magazine.OnServerAmmoChanged += OnMagazineAmmoChanged;
-			EvaluateAndApplySprite(forceApply: true);
-		}
-
-		private void OnDisable()
-		{
-			magazine.OnServerAmmoChanged -= OnMagazineAmmoChanged;
-		}
-
 		private void OnMagazineAmmoChanged(int oldAmmo, int newAmmo)
 		{
 			EvaluateAndApplySprite();
@@ -58,12 +48,12 @@ namespace US13.Items.Weapons
 
 		private void EvaluateAndApplySprite(bool forceApply = false)
 		{
-			// thresholds are pre-sorted descending in OnEnable, so first match is the highest qualifying threshold.
-			int currentAmmo = magazine.ServerAmmoRemains;
+			if (CustomNetworkManager.IsServer == false) return;
+			// thresholds are pre-sorted descending in OnSpawnServer, so first match is the highest qualifying threshold.
 			MagSpritePerAmmoCount chosenSprite = null;
 			foreach (var t in thresholds)
 			{
-				if (currentAmmo >= t.AmmoCount)
+				if (magazine.ServerAmmoRemains >= t.AmmoCount)
 				{
 					chosenSprite = t;
 					break;
@@ -83,6 +73,18 @@ namespace US13.Items.Weapons
 			{
 				spriteHandler.SetCatalogueIndexSprite(chosenSprite.CatalogueIndex);
 			}
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			thresholds.Sort((a, b) => b.AmmoCount.CompareTo(a.AmmoCount));
+			magazine.OnServerAmmoChanged += OnMagazineAmmoChanged;
+			EvaluateAndApplySprite(forceApply: true);
+		}
+
+		public void OnDespawnServer(DespawnInfo info)
+		{
+			magazine.OnServerAmmoChanged -= OnMagazineAmmoChanged;
 		}
 	}
 }
