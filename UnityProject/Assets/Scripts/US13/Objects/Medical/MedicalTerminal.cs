@@ -9,6 +9,7 @@ using US13.Items;
 using US13.Managers;
 using US13.Managers.NetworkManagement;
 using US13.Managers.UpdateManager;
+using US13.Messages.Server.SoundMessages;
 using US13.Player;
 using US13.UI.Core.RightClick;
 using Util;
@@ -50,7 +51,7 @@ namespace US13.Objects.Medical
 		private void Warn()
 		{
 			if (muteWarn) return;
-			_ = SoundManager.PlayNetworkedAtPosAsync(warnSound, gameObject.AssumedWorldPosServer());
+			_ = SoundManager.PlayNetworkedAtPosAsync(warnSound, gameObject.AssumedWorldPosServer(), new AudioSourceParameters(spatialBlend: 2));
 		}
 
 		public HashSet<SuitSensor> SensorsWarning = new HashSet<SuitSensor>();

@@ -16,6 +16,7 @@ using US13.Items;
 using US13.Managers;
 using US13.Managers.NetworkManagement;
 using US13.Messages.Server;
+using US13.Objects;
 using US13.Player;
 using US13.Systems.Inventory;
 using US13.Systems.Occupations;
@@ -62,6 +63,42 @@ namespace Util
 		public static bool HasComponent<T>(this GameObject go) where T : Component
 		{
 			return go.TryGetComponent<T>(out _);
+		}
+
+		public static bool ContainsAndHasComponentInStorage<T>(this GameObject go) where T : Component
+		{
+			if (go.GetComponentCustom<T>())
+			{
+				return true;
+			}
+
+			var obj = go.GetComponentCustom<ItemStorage>();
+			if (obj == null)
+			{
+				var OBC = go.GetComponentCustom<ObjectContainer>();
+				if (OBC == null)
+				{
+					return false;
+				}
+
+				foreach (var KVP in OBC.StoredObjects)
+				{
+					return KVP.Key.ContainsAndHasComponentInStorage<T>();
+				}
+
+				return false;
+			}
+
+			foreach (var itemSlot in obj.GetItemSlotTree())
+			{
+				if (itemSlot.IsEmpty) continue;
+				if (itemSlot.Item.GetComponentCustom<T>())
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		/// <summary>

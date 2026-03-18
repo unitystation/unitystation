@@ -99,11 +99,6 @@ namespace US13.Objects.Botany
 			weedNotifier.PushClear();
 			nutrimentNotifier.PushClear();
 			harvestNotifier.PushClear();
-
-
-
-
-
 		}
 
 		public override void OnStartServer()
@@ -232,7 +227,7 @@ namespace US13.Objects.Botany
 				//Weeds checks
 				if (weedLevel < 10)
 				{
-					weedLevel = weedLevel + ((0.225f) * (plantData.WeedGrowthRate / 10f));
+					weedLevel = weedLevel + ((0.19125f) * (plantData.WeedGrowthRate / 10f));
 					if (weedLevel > 10)
 					{
 						weedLevel = 10;
@@ -262,7 +257,7 @@ namespace US13.Objects.Botany
 				//Water Checks
 				if (reagentContainer[water] > 0)
 				{
-					reagentContainer.Subtract(new ReagentMix(water, .015f / GetMachineMultiplier()));
+					reagentContainer.Subtract(new ReagentMix(water, 0.01275f / GetMachineMultiplier()));
 				}
 				else if (plantData.PlantTrays.Contains(PlantTrays.Fungal_Vitality) == false)
 				{

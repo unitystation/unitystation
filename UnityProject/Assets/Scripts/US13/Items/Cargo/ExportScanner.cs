@@ -66,7 +66,7 @@ namespace US13.Items.Cargo
 
 			if (pricedObject.TryGetComponent<ObjectContainer>(out var container))
 			{
-				container.TrySpawnInitialContents(true);
+				container.TrySpawnInitialContents( true);
 				foreach (var obj in container.GetStoredObjects())
 				{
 					containedContents = true;

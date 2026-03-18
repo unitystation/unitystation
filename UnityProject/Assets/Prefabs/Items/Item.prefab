@@ -26,6 +26,9 @@ GameObject:
   - component: {fileID: 4611852482270871784}
   - component: {fileID: 3652986707257552662}
   - component: {fileID: 8552236617046534393}
+  - component: {fileID: 6471482627474267981}
+  - component: {fileID: 2624415363774066147}
+  - component: {fileID: 6578957487127773165}
   m_Layer: 10
   m_Name: Item
   m_TagString: Abstract
@@ -406,6 +409,7 @@ MonoBehaviour:
   ObjectBouncyness: 0.75
   tileMoveSpeed: 1
   HasOwnGravity: 0
+  isVisible: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
@@ -415,6 +419,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
+  OnHit:
+    target: {fileID: 0}
+    methodName: 
+    parameterType: 
   Hits: []
   isFlyingSliding: 0
   IsMoving: 0
@@ -504,6 +512,105 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   scaleTransform: {x: 1, y: 1, z: 1}
+--- !u!114 &6471482627474267981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011433845357754}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  ReactionSounds: 1
+  maxCapacity: 50
+  DEBUGReagent: {fileID: 0}
+  DEBUGAmount: 0
+  StopReactions: 0
+  reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
+  AdditionalReactions: []
+  initialReagentMix:
+    temperature: 273.15
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []
+  destroyOnEmpty: 0
+  ContentsSet: 0
+  menuOptions: 0
+  currentReagentMix:
+    temperature: 0
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []
+  spriteHandler: {fileID: 0}
+  UseStandardExamine: 0
+  ExamineAmount: 0
+  ExamineContent: 0
+  traitWhitelist: []
+  reagentWhitelist: []
+  transferMode: 3
+  onlyAllowSyringeFilling: 1
+  SyringePulling: 0
+  possibleTransferAmounts:
+  - 1
+  - 5
+  transferAmount: 5
+  transferSound: []
+--- !u!114 &2624415363774066147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011433845357754}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e06ddb12acf47158b8cccf9289fd75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  consumeTime: 0.5
+  leavings: {fileID: 0}
+  currentBites: 0
+  maxBites: 5
+  forceFeedTime: 3
+  setCurrentBitesToMaxBitesOnServerSpawn: 1
+  sound:
+    AssetAddress: Assets/Prefabs/Effects/EatFood.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+--- !u!114 &6578957487127773165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011433845357754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88123d6c859140508971eccd8c572a10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Items.Kitchen.DeepFryable
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  itemAttributes: {fileID: 499351249353511896}
+  spriteHandler: {fileID: 6144467708197095229}
+  friedNutrimentReagent: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
+    type: 2}
 --- !u!1 &1344926539164060
 GameObject:
   m_ObjectHideFlags: 0
@@ -557,6 +664,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -578,6 +687,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 40

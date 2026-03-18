@@ -447,46 +447,26 @@ namespace US13.Systems.Construction
 		}
 
 
-		public void PartFrameTransfer(Pickupable prevPart, Pickupable NewPart)
+		public void PartFrameTransfer(Pickupable prevPart, Pickupable newPart)
 		{
-			if (NewPart)
+			if (MachineParts == null) return;
+
+			if (newPart)
 			{
-				MachineParts.MachinePartList MachinePartList = null;
-				// For all the list of data(itemtraits, amounts needed) in machine parts
-				for (int i = 0; i < MachineParts.machineParts.Length; i++)
+				var attributes = newPart.GetComponent<ItemAttributesV2>();
+				// TODO: Refactor to support items with multiple item traits contributing to the machine building process.
+				var machinePartList = MachineParts.machineParts
+					.FirstOrDefault(p => attributes.HasTrait(p.itemTrait));
+
+				if (machinePartList != null)
 				{
-					// If the interaction object has an itemtrait thats in the list, set the list machinePartsList variable as the list from the machineParts data from the circuit board.
-					if (NewPart.GetComponent<ItemAttributesV2>().HasTrait(MachineParts.machineParts[i].itemTrait))
-					{
-						MachinePartList = MachineParts.machineParts[i];
-						break;
-
-						// IF YOU WANT AN ITEM TO HAVE TWO ITEMTTRAITS WHICH CONTRIBUTE TO THE MACHINE BUILIDNG PROCESS, THIS NEEDS TO BE REFACTORED
-						// all the stuff below needs to go into its own method which gets called here, replace the break;
-					}
-				}
-
-				if (MachinePartList != null)
-				{
-					// Itemtrait currently being looked at.
-					var itemTrait = MachinePartList.itemTrait;
-
-
-					var StockTier = NewPart.GetComponent<StockTier>();
-
-					int Tier = 1;
-
-					if (StockTier != null)
-					{
-						Tier = StockTier.Tier;
-					}
-
+					var stockTier = newPart.GetComponent<StockTier>();
 					ObjectpartsInFrame.Add(new PartReference()
 					{
-						itemObject = NewPart.gameObject,
-						Slot = NewPart.ItemSlot,
-						itemTrait = itemTrait,
-						tier = Tier
+						itemObject = newPart.gameObject,
+						Slot = newPart.ItemSlot,
+						itemTrait = machinePartList.itemTrait,
+						tier = stockTier != null ? stockTier.Tier : 1
 					});
 				}
 			}
@@ -494,6 +474,7 @@ namespace US13.Systems.Construction
 			{
 				ObjectpartsInFrame.RemoveAll(x => x.itemObject == prevPart.gameObject);
 			}
+
 			UpdateBatteries();
 			foreach (var refresh in IRefreshParts)
 			{

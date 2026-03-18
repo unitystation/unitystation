@@ -10,6 +10,8 @@ namespace Util
 {
 	public static class ListExtensions
 	{
+
+
 		public static void RemoveEndsOfList<T>(List<T> list, int NumberElements)
 		{
 			list.RemoveRange((list.Count - 1) - NumberElements, NumberElements);

@@ -16,6 +16,9 @@ Shader "Stencil/Unlit background masked"
         _ShadowAlpha("Shadow Strength", Range(0,1)) = 0.5
 
         [Toggle(USE_SHADOW)] _UseShadow ("Enable Shadow", Float) = 0
+
+        // Deep fry effect, set per-instance via MaterialPropertyBlock
+        [PerRendererData] _FryIntensity("Fry Intensity", Range(0,1)) = 0
     }
 
     SubShader
@@ -74,6 +77,8 @@ Shader "Stencil/Unlit background masked"
 
             float4 _MainTex_TexelSize;
 
+            float _FryIntensity;
+
 
             v2f vert(appdata_t v)
             {
@@ -103,6 +108,67 @@ Shader "Stencil/Unlit background masked"
                 else
                 {
                     final = textureSample * i.color;
+                }
+
+                // --- Deep fry effect (per-instance, controlled via MaterialPropertyBlock) ---
+                if (_FryIntensity > 0 && textureSample.a >= 0.5)
+                {
+                    // === TINT: single flat color per step, covers entire sprite ===
+                    float3 tint_color;
+                    float tint_opacity;
+                    // Thresholds match FriedLevelToIntensity in DeepFryable.cs:
+                    // LightlyFried = 0.25, Fried = 0.5, DeepFried = 0.75, TheVeryConcept = 1.0
+                    if (_FryIntensity <= 0.25)
+                    {
+                        // LightlyFried
+                        tint_color = float3(0.55, 0.40, 0.22);
+                        tint_opacity = 0.6;
+                    }
+                    else if (_FryIntensity <= 0.5)
+                    {
+                        // Fried
+                        tint_color = float3(0.40, 0.28, 0.14);
+                        tint_opacity = 0.72;
+                    }
+                    else if (_FryIntensity <= 0.75)
+                    {
+                        // DeepFried
+                        tint_color = float3(0.25, 0.17, 0.08);
+                        tint_opacity = 0.85;
+                    }
+                    else
+                    {
+                        // TheVeryConcept
+                        tint_color = float3(0.025, 0.015, 0.008);
+                        tint_opacity = 1;
+                    }
+
+                    // Tint: scale tint by sprite luminance to preserve detail without
+                    // normalising away darkness differences between fry levels.
+                    float luma = dot(final.rgb, float3(0.299, 0.587, 0.114));
+                    float3 tinted = tint_color * (1.0 + luma);
+                    tinted = min(tinted, 1.0);
+                    final.rgb = lerp(final.rgb, tinted, tint_opacity);
+
+                    // === NOISE TEXTURE ===
+                    float2 block_uv = floor(i.texcoord * 8.0);
+                    // Per-block random: determines visibility and brightness
+                    float block_rand = frac(sin(dot(block_uv, float2(41.231, 67.892))) * 28461.137);
+                    float block_bright = frac(sin(dot(block_uv, float2(73.156, 12.843))) * 53182.947);
+
+                    // Sparsity: fewer blocks at low intensity, more at high, never fully uniform
+                    float noise_threshold = max(0.15, 1.0 - _FryIntensity * 1.8);
+                    if (block_rand > noise_threshold)
+                    {
+                        // Block color: brighter or darker variant of the tint
+                        float3 noise_bright = tint_color * 1.5;
+                        float3 noise_dark = tint_color * 0.4;
+                        float3 noise_color = lerp(noise_dark, noise_bright, block_bright);
+
+                        // Additive overlay on top of the tinted result, strength scales with intensity
+                        float noise_strength = _FryIntensity * 0.5;
+                        final.rgb = lerp(final.rgb, noise_color, noise_strength);
+                    }
                 }
 
                 float maskChannel = maskSample.g + maskSample.r;

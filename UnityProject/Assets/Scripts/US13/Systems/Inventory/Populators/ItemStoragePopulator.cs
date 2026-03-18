@@ -14,6 +14,6 @@ namespace US13.Systems.Inventory.Populators
 		/// Populate the specified storage.
 		/// </summary>
 		/// <param name="toPopulate">storage to populate</param>
-		public abstract void PopulateItemStorage(ItemStorage toPopulate, PopulationContext context, SpawnInfo info);
+		public abstract void PopulateItemStorage(IStoreThings toPopulate,MonoBehaviour component, PopulationContext context, SpawnInfo info);
 	}
 }

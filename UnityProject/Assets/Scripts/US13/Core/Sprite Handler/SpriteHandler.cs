@@ -86,6 +86,8 @@ namespace US13.Core.Sprite_Handler
 		private bool isAnimation = false;
 
 		private bool animateOnce;
+		private bool animateNext;
+		private Action onAnimateOnceComplete;
 
 		public Color InitialColour = Color.white;
 
@@ -238,10 +240,13 @@ namespace US13.Core.Sprite_Handler
 		/// When the animation for the given SO is complete,
 		/// the current SO index is incremented (looping to 0 if needed) instead of looping the SO's animation.
 		/// </summary>
-		public void AnimateOnce(int cataloguePage, bool networked = true)
+		public void AnimateOnce(int cataloguePage, bool networked = true, Action onComplete = null,
+			bool inAnimateNext = false)
 		{
 			Init();
 			SpriteHasBeenCodeSet = true;
+			onAnimateOnceComplete = onComplete;
+			animateNext = inAnimateNext;
 			InternalChangeSprite(cataloguePage, networked, true);
 		}
 
@@ -270,7 +275,7 @@ namespace US13.Core.Sprite_Handler
 				SetSpriteSO(SubCatalogue[cataloguePage], networked: false);
 				if (networked)
 				{
-					NetUpdate(newCataloguePage: cataloguePage, newAnimateOnce: animateOnce);
+					NetUpdate(newCataloguePage: cataloguePage, newAnimateOnce: animateOnce, newAnimateNext: animateNext);
 				}
 			}
 
@@ -613,7 +618,8 @@ namespace US13.Core.Sprite_Handler
 			bool newClearPalette = false,
 			Color? newSetColor = null,
 			List<Color> newPalette = null,
-			bool newAnimateOnce = false)
+			bool newAnimateOnce = false,
+			bool newAnimateNext = false)
 		{
 			if (NetworkThis == false) return;
 			if (SpriteHandlerManager.Instance == null) return;
@@ -699,6 +705,7 @@ namespace US13.Core.Sprite_Handler
 			{
 				if (spriteChange.AnimateOnce) spriteChange.AnimateOnce = false;
 				spriteChange.AnimateOnce = newAnimateOnce;
+				spriteChange.AnimateNext = newAnimateNext;
 			}
 
 			if (newClearPalette)
@@ -1138,12 +1145,20 @@ namespace US13.Core.Sprite_Handler
 
 		private void InternalStopAnimation()
 		{
-			InternalChangeSprite(CataloguePage + 1 < SubCatalogue.Count ? CataloguePage + 1 : 0, false);
-			isAnimation = false;
-			if (CustomNetworkManager.IsHeadless == false)
+			var callback = onAnimateOnceComplete;
+			onAnimateOnceComplete = null;
+			bool keepAnimating = animateNext;
+			animateNext = false;
+			InternalChangeSprite(CataloguePage + 1 < SubCatalogue.Count ? CataloguePage + 1 : 0, keepAnimating);
+			if (keepAnimating == false)
 			{
-				UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMe);
+				isAnimation = false;
+				if (CustomNetworkManager.IsHeadless == false)
+				{
+					UpdateManager.Remove(CallbackType.LATE_UPDATE, UpdateMe);
+				}
 			}
+			callback?.Invoke();
 		}
 
 		private void SetSprite(SpriteDataSO.Frame frame)
