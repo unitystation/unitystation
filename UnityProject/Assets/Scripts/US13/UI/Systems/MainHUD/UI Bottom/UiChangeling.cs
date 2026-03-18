@@ -28,8 +28,7 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 
 		private void Awake()
 		{
-			if (ChangelingMain == null)
-				TurnOff();
+			if (ChangelingMain == null) TurnOff();
 		}
 
 		public void OnDisable()
@@ -67,12 +66,9 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 
 		public void TurnOff()
 		{
-			if (chems != null)
-				chems.SetActive(false);
-			if (storeGameObject != null)
-				storeGameObject.SetActive(false);
-			if (memoriesGameObject != null)
-				memoriesGameObject.SetActive(false);
+			if (chems != null) chems.SetActive(false);
+			if (storeGameObject != null) storeGameObject.SetActive(false);
+			if (memoriesGameObject != null) memoriesGameObject.SetActive(false);
 			gameObject.SetActive(false);
 		}
 

@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   actionType: 0
   activeSpriteIndex: 1
-  callOnClient: 0
-  callOnServer: 0
+  callOnClient: 1
+  callOnServer: 1
   actionName: Augmented Eyesight
   description: Enables x-ray and night vision.
   Sprites:
@@ -29,6 +29,7 @@ MonoBehaviour:
   cursorTexture: {fileID: 0}
   cursorOffsetType: 0
   cursorOffset: {x: 0, y: 0}
+  RequireLivingHealth: 0
   cooldown: 1
   abilityEPCost: 2
   abilityChemCost: 0
@@ -41,7 +42,7 @@ MonoBehaviour:
     welders. This cannot be detected by normal means. While active slows chemical
     regeneration.
   canBeUsedWhileInCrit: 0
-  isLocal: 1
+  isLocal: 0
   startAbility: 0
   showInStore: 1
   showInActions: 1

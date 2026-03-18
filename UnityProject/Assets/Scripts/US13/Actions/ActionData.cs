@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Logs;
 using NaughtyAttributes;
 using UnityEngine;
@@ -9,8 +10,8 @@ using Event = US13.Managers.Event;
 
 namespace US13.Actions
 {
-	[System.Serializable]
-
+	[Obsolete("ActionData is deprecated, please use ActionButtonData instead. ActionsV2 are the standard now, and older V1 actions can be ported quickly to V2 using ToActionButtonData().")]
+	[Serializable]
 	[CreateAssetMenu(fileName = "ActionData", menuName = "ScriptableObjects/ActionData")]
 	public class ActionData : ScriptableObject
 	{

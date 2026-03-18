@@ -20,7 +20,7 @@ namespace US13.Systems.Antagonists.Antags.Changeling.ChangelingAbility.Implement
 		[SerializeField] private float revertvisibilityAnimationSpeed = 0.2f;
 		public float RevertvisibilityAnimationSpeed => revertvisibilityAnimationSpeed;
 
-		public override bool UseAbilityToggleClient(ChangelingMain changeling, bool toggle)
+		public override bool UseAbilityToggleClient(ChangelingMain changeling, bool toggle, bool fromServer = false)
 		{
 			if (Camera.main == null ||
 				Camera.main.TryGetComponent<CameraEffectControlScript>(out var effects) == false) return true;
@@ -28,10 +28,12 @@ namespace US13.Systems.Antagonists.Antags.Changeling.ChangelingAbility.Implement
 			effects.AdjustPlayerVisibility(
 				toggle ? ExpandedNightVisionVisibility : effects.MinimalVisibilityScale,
 				toggle ? DefaultvisibilityAnimationSpeed : RevertvisibilityAnimationSpeed);
-			effects.ToggleNightVisionEffectState(toggle, new Color(255,26,26));
 			effects.NvgHasMaxedLensRadius(true);
 
-			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestChangelingAbilitesToggle(Index, toggle);
+			if (fromServer == false)
+			{
+				PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestChangelingAbilitesToggle(Index, toggle);
+			}
 			return true;
 		}
 
