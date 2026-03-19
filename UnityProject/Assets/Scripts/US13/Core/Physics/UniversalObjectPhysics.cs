@@ -9,6 +9,7 @@ using UnityEngine.Events;
 using US13.Core.Addressables;
 using US13.Core.Input_System.InteractionV2;
 using US13.Core.Transform;
+using US13.Core.Utils;
 using US13.Health.Objects;
 using US13.HealthV2;
 using US13.HealthV2.Living;
@@ -815,7 +816,7 @@ namespace US13.Core.Physics
 			int matrixID, float rotation,
 			int resetID, uint ignoreForClient)
 		{
-			if (isServer) return;
+			if (isServer) return;//hEEEREEEEEEEEEEEEEEEEEEEEEEEEEEE
 			if (ignoreForClient is not NetId.Empty or NetId.Invalid
 			    && CustomNetworkManager.Spawned.TryGetValue(ignoreForClient, out var local)
 			    && local.gameObject == PlayerManager.LocalPlayerObject) return;
@@ -840,6 +841,8 @@ namespace US13.Core.Physics
 			{
 				NullLocalTarget = null;
 			}
+
+			Loggy.Error("saaa");
 
 			ForceSetLocalPosition(resetToLocal, momentum, smooth, matrixID, false, rotation, resetID: resetID,
 				localTarget: NullLocalTarget);
@@ -1059,7 +1062,7 @@ namespace US13.Core.Physics
 
 		public void NewtonianNewtonPush(Vector2 worldDirection, float newtonians = Single.NaN,
 			float inAirTime = Single.NaN,
-			float inSlideTime = Single.NaN, BodyPartType inAim = BodyPartType.Chest, GameObject inThrownBy = null,
+			float inSlideTime = Single.NaN, BodyPartType? inAim = BodyPartType.Chest, GameObject inThrownBy = null,
 			float spinFactor = 0) //Collision is just naturally part of Newtonian push
 		{
 			var speed = newtonians / SizeToWeight(GetSize());
@@ -1067,7 +1070,7 @@ namespace US13.Core.Physics
 		}
 
 		public void NewtonianPush(Vector2 worldDirection, float speed, float nairTime = Single.NaN,
-			float inSlideTime = Single.NaN, BodyPartType inAim = BodyPartType.Chest, GameObject inThrownBy = null,
+			float inSlideTime = Single.NaN, BodyPartType? inAim = BodyPartType.Chest, GameObject inThrownBy = null,
 			float spinFactor = 0,
 			bool ignoreSticky = false, GameObject ByClient = null) //Collision is just naturally part of Newtonian push
 		{
@@ -1086,7 +1089,12 @@ namespace US13.Core.Physics
 
 			speed = Mathf.Clamp(speed, 0, MAX_SPEED);
 
-			currentAim = inAim;
+			if (inAim == null)
+			{
+				inAim = BodyPartType.Custom.BetterRandomValue();
+			}
+
+			currentAim = inAim.Value;
 			thrownBy = inThrownBy.NetWorkIdentity();
 			thrownProtection = thrownBy;
 			if (Random.Range(0, 2) == 1)
@@ -1134,7 +1142,7 @@ namespace US13.Core.Physics
 			if (isServer)
 			{
 				LastUpdateClientFlying = NetworkTime.time;
-				UpdateClientMomentum(transform.localPosition, NewtonianMovement, airTime, this.slideTime, inAim,
+				UpdateClientMomentum(transform.localPosition, NewtonianMovement, airTime, this.slideTime, currentAim,
 					registerTile.Matrix.Id, spinFactor, true, ByClient.NetId(), TimeSpentFlying);
 			}
 		}
@@ -1526,6 +1534,7 @@ namespace US13.Core.Physics
 			Vector3 position = transform.position;
 			Vector3 newPosition = position + (NewtonianMovement.To3() * Time.deltaTime);
 
+
 			if (newPosition.magnitude > 100000)
 			{
 				NewtonianMovement *= 0;
@@ -1539,10 +1548,12 @@ namespace US13.Core.Physics
 			var intPosition = position.RoundToInt();
 			var intNewPosition = newPosition.RoundToInt();
 			rotationTarget.Rotate(new Vector3(0, 0, spinMagnitude * NewtonianMovement.magnitude * Time.deltaTime));
-			var movetoMatrix = MatrixManager.AtPoint(newPosition.RoundToInt(), isServer).Matrix;
+			var movetoMatrix = MatrixManager.AtPoint(newPosition, isServer).Matrix;
 			LocalTargetPosition = transform.localPosition;
 
-			if (intPosition != intNewPosition)
+
+
+			if (transform.localPosition.RoundToInt() != newPosition.ToLocalInt(movetoMatrix))
 			{
 				Hits.Clear();
 				if ((position - newPosition).magnitude > 0.90f)
@@ -1557,8 +1568,8 @@ namespace US13.Core.Physics
 						Pushing.Clear();
 						Bumps.Clear();
 						Hits.Clear();
-						if (MatrixManager.IsPassableAtAllMatricesV2(intPosition,
-							    intNewPosition, SetMatrixCache, this,
+						if (MatrixManager.IsPassableAtAllMatricesV2(position,
+							    newPosition, SetMatrixCache, this,
 							    Pushing, Bumps, Hits, ICustomTilePassable : ICustomTilePassable) == false)
 						{
 							foreach (var bump in Bumps) //Bump Whatever we Bumped into

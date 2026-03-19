@@ -45,7 +45,7 @@ namespace US13.NPC.AI.Friendly
 
 		private void SingleBark(GameObject barked = null)
 		{
-			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.8F, 1.3F));
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(.8F, 1.3F), spatialBlend: 2);
 			SoundManager.PlayNetworkedAtPos(barkSound, gameObject.transform.position, audioSourceParameters);
 
 			if (barked != null)

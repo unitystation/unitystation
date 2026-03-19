@@ -582,7 +582,7 @@ namespace US13.Objects.Doors
 
 			doorAnimator.LightsWork = !byForce;
 			doorAnimator.PanelOpen = ConstructibleDoor != null && ConstructibleDoor.Panelopen;
-			doorAnimator.SyncDoorStatus(doorAnimator.SyncDoorUpdateType, DoorAnimatorV2.DoorUpdateType.Open);
+			doorAnimator.SyncDoorStatus(DoorAnimatorV2.DoorUpdateType.Close, DoorAnimatorV2.DoorUpdateType.Open);
 
 			//Play sound based on whether the door was forced or not
 			if (byForce)

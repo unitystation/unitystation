@@ -384,7 +384,7 @@ namespace US13.Clothing.BackPack
 			if (allowedToInteract == false) return false;
 			// Use default interaction checks
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-
+			if (interaction.Intent != Intent.Help) return false;
 			if (interaction.IsHighlight == false && Cooldowns.IsOn(interaction, cooldown, side)) return false;
 
 			if (IsFull(interaction.UsedObject, interaction.Performer, interaction.IsHighlight))
