@@ -93,7 +93,7 @@ namespace US13.Core.Utils
 			public static readonly T[] Values = (T[])Enum.GetValues(typeof(T));
 		}
 
-		public static T BetterRandomValue<T>(this T _) where T : struct, Enum
+		public static T CachedRanomValue<T>(this T _) where T : struct, Enum
 		{
 			var values = Cache<T>.Values;
 			return values[Random.Next(values.Length)];

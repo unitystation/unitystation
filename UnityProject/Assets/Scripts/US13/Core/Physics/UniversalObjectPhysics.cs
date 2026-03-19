@@ -1089,7 +1089,7 @@ namespace US13.Core.Physics
 
 			if (inAim == null)
 			{
-				inAim = BodyPartType.Custom.BetterRandomValue();
+				inAim = BodyPartType.Custom.CachedRanomValue();
 			}
 
 			currentAim = inAim.Value;
