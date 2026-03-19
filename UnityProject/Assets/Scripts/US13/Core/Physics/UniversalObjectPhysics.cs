@@ -816,7 +816,7 @@ namespace US13.Core.Physics
 			int matrixID, float rotation,
 			int resetID, uint ignoreForClient)
 		{
-			if (isServer) return;//hEEEREEEEEEEEEEEEEEEEEEEEEEEEEEE
+			if (isServer) return;
 			if (ignoreForClient is not NetId.Empty or NetId.Invalid
 			    && CustomNetworkManager.Spawned.TryGetValue(ignoreForClient, out var local)
 			    && local.gameObject == PlayerManager.LocalPlayerObject) return;
@@ -841,8 +841,6 @@ namespace US13.Core.Physics
 			{
 				NullLocalTarget = null;
 			}
-
-			Loggy.Error("saaa");
 
 			ForceSetLocalPosition(resetToLocal, momentum, smooth, matrixID, false, rotation, resetID: resetID,
 				localTarget: NullLocalTarget);
