@@ -48,10 +48,7 @@ namespace US13.Items.Food
 			}
 
 			PlayerScript eater = targetPlayer;
-			var bar = StandardProgressAction.Create(
-				new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false),
-				() => TryConsume(feeder.gameObject, eater.gameObject));
-			bar.ServerStartProgress(interaction.Performer.RegisterTile(), consumeTime, interaction.Performer);
+			TryConsume(feeder.gameObject, eater.gameObject);
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
