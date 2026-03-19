@@ -373,7 +373,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 			{
 				//Note GetComponent GC's in editor but not in build
 				T c = t.GetComponent<T>();
-				if (c != null)
+				if (c != null && c.enabled)
 				{
 					return c;
 				}
