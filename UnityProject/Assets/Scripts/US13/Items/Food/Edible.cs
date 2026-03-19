@@ -124,20 +124,25 @@ namespace US13.Items.Food
 
 			if (CanPlayerConsume(eater) == false) return;
 
-			if (feederGo.TryGetComponentCustom(out PlayerScript feeder) == false)
+			if (feederGo == null || feederGo.TryGetComponentCustom(out PlayerScript feeder) == false)
 			{
-				StartSelfFeed(eater);
+				if (projectileFed == false)
+				{
+					Loggy.Error("Unexpected branching in TryConsume. Feeder is null and the food was not shot! Doing nothing...");
+					return;
+				}
+
+				Eat(eater, null, true);
 				return;
 			}
 
-			if (projectileFed)
-			{
-				Eat(eater, feeder, projectileFed);
-			}
-			else if (feeder != eater)
+			if (feeder != eater)
 			{
 				StartForceFeed(feeder, eater);
+				return;
 			}
+
+			StartSelfFeed(eater);
 		}
 
 		private void ConsumeAsNonPlayer()
@@ -219,41 +224,13 @@ namespace US13.Items.Food
 
 			if (SpareSpace < 0.5f)
 			{
-				if (feeder != null && eater == feeder)
-				{
-					Chat.AddActionMsgToChat(feeder.gameObject,
-						"you try the stuff The food into your mouth but your stomach has no more room",
-						$"{feeder.gameObject.ExpensiveName()} Tries to stuff food into the mouth but is unable to");
-				}
-				else if(feeder == null)
-				{
-					Chat.AddActionMsgToChat(feeder.gameObject,
-						"You try and stuff more food into your targets mouth but no more seems to go in",
-						$"{feeder.gameObject.ExpensiveName()} Tries to stuff food into Their targets mouth but no more food is going in");
-				}
-				else
-				{
-					Chat.AddActionMsgToChat(this.gameObject,
-						$"You fly into {eater}'s mouth!",
-						$"The {gameObject.ExpensiveName()} flies into {eater}'s mouth"); //maybe at some point a player might be the burger?
-				}
-
+				LogEatWithFullStomach(eater, feeder);
 				return;
 			}
 
 			if (SpareSpace < FoodContents.CurrentReagentMix.Total)
 			{
-				if(feeder == null)
-				{
-					Chat.AddActionMsgToChat(this.gameObject, $"You unwillingly get eaten by {eater}",
-					$"{eater.gameObject.ExpensiveName()} Unwillingly force themselves to eat the food");
-
-				}
-				else
-				{
-					Chat.AddActionMsgToChat(feeder.gameObject, "You unwillingly eat the food",
-					$"{eater.gameObject.ExpensiveName()} Unwillingly force themselves to eat the food");
-				}
+				LogUnwillingEat(eater, feeder);
 			}
 
 			ReagentMix incomingFood;
@@ -268,6 +245,43 @@ namespace US13.Items.Food
 			AudioSourceParameters eatSoundParameters = new AudioSourceParameters(pitch: RandomPitch);
 			SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, eatSoundParameters, sourceObj: eater.gameObject);
 			ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_FOODEATEN);
+		}
+
+		private void LogUnwillingEat(PlayerScript eater, PlayerScript feeder)
+		{
+			if(feeder == null)
+			{
+				Chat.AddActionMsgToChat(this.gameObject, $"You unwillingly get eaten by {eater}",
+					$"{eater.gameObject.ExpensiveName()} Unwillingly force themselves to eat the food");
+				return;
+
+			}
+
+			Chat.AddActionMsgToChat(feeder.gameObject, "You unwillingly eat the food",
+				$"{eater.gameObject.ExpensiveName()} Unwillingly force themselves to eat the food");
+		}
+
+		private void LogEatWithFullStomach(PlayerScript eater, PlayerScript feeder)
+		{
+			if (feeder != null && eater == feeder)
+			{
+				Chat.AddActionMsgToChat(feeder.gameObject,
+					"you try the stuff The food into your mouth but your stomach has no more room",
+					$"{feeder.gameObject.ExpensiveName()} Tries to stuff food into the mouth but is unable to");
+				return;
+			}
+
+			if(feeder == null)
+			{
+				Chat.AddActionMsgToChat(eater.gameObject,
+					$"The {gameObject.ExpensiveName()} flies into your mouth but your stomach has no more room!",
+					$"The {gameObject.ExpensiveName()} flies into {eater.gameObject.ExpensiveName()}'s mouth but won't go down");
+				return;
+			}
+
+			Chat.AddActionMsgToChat(feeder.gameObject,
+				"You try to stuff more food into your target's mouth but no more seems to go in.",
+				$"{feeder.gameObject.ExpensiveName()} tries to stuff food into {eater.gameObject.ExpensiveName()}'s mouth but no more food is going in");
 		}
 
 		public ReagentMix FullConsume(PlayerScript feeder)
@@ -344,7 +358,8 @@ namespace US13.Items.Food
 			var list = new List<TextColor>();
 			list.Add(new TextColor { Color = Color.green, Text = "Click on target to feed." });
 			list.Add(new TextColor { Color = Color.green,
-				Text = $"Press {KeybindManager.Instance.userKeybinds[KeyAction.HandActivate].PrimaryCombo} to feed yourself." });
+				Text = $"Press {KeybindManager.Instance.userKeybinds[KeyAction.HandActivate].PrimaryCombo} to feed yourself."
+			});
 			return list;
 		}
 	}
