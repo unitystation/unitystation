@@ -18,6 +18,7 @@ namespace US13.Core.Lighting
 
 		public static void RemoveHighlight(Vector3Int LocalPOS,SimpleTile Tile, Layer Layer)
 		{
+			if (CustomNetworkManager.IsHeadless) return;
 			Instance.HighlightScans.RemoveWhere(x=> x.LocalPOS == LocalPOS && x.Tile == Tile  && x.Layer == Layer );
 			Instance.UninitialisedHighlightScans.RemoveAll(x=> x.LocalPOS == LocalPOS && x.Tile == Tile  && x.Layer == Layer );
 		}

@@ -88,6 +88,17 @@ namespace US13.Core.Utils
 			return Random.NextDouble() >= 0.5f;
 		}
 
+		private static class Cache<T> where T : struct, Enum
+		{
+			public static readonly T[] Values = (T[])Enum.GetValues(typeof(T));
+		}
+
+		public static T CachedRandomValue<T>(this T _) where T : struct, Enum
+		{
+			var values = Cache<T>.Values;
+			return values[Random.Next(values.Length)];
+		}
+
 		/// <summary>
 		/// 0 to 1
 		/// </summary>

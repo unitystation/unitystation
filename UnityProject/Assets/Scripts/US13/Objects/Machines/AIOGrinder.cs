@@ -8,6 +8,7 @@ using US13.Items;
 using US13.Items.Kitchen;
 using US13.Items.Traits;
 using US13.Managers;
+using US13.Messages.Server.SoundMessages;
 using US13.Systems.Inventory;
 using US13.Tilemaps.Behaviours.Objects;
 
@@ -94,7 +95,7 @@ namespace US13.Objects.Machines
 
 		public void Activate()
 		{
-			SoundManager.PlayNetworkedAtPos(grindSound, WorldPosition, sourceObj: gameObject);
+			SoundManager.PlayNetworkedAtPos(grindSound, WorldPosition, audioSourceParameters: new AudioSourceParameters(spatialBlend: 2) , sourceObj: gameObject);
 			foreach (var slot in itemStorage.GetItemSlots())
 			{
 				if (slot == itemSlot) continue;
