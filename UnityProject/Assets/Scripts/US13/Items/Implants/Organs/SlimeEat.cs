@@ -70,7 +70,7 @@ namespace US13.Items.Implants.Organs
 			if ( RelatedPart.HealthMaster.ObjectBehaviour.BuckledToObject != null || RelatedPart.HealthMaster.ObjectBehaviour.ObjectIsBuckling != null ) return;
 
 
-			var Edible = ToEat.GetComponent<Edible>();
+			var Edible = ToEat.GetEnabledComponent<Edible>();
 
 			if (Edible != null)
 			{
@@ -130,9 +130,9 @@ namespace US13.Items.Implants.Organs
 			//TODO check buckling instead of this!!!
 			//Problem is determining intent, Since you can be riding something without eating it, So you have to set here
 			//Also the get component for edible and Living health , Could be fixed by common component reference in universal object physics
-			if (EdibleCurrentlyEating != null && EdibleCurrentlyEating.GetComponent<Edible>() != null)
+			if (EdibleCurrentlyEating != null && EdibleCurrentlyEating.GetEnabledComponent<Edible>() != null)
 			{
-				var food = EdibleCurrentlyEating.GetComponent<Edible>().GetMixForBite(null);
+				var food = EdibleCurrentlyEating.GetEnabledComponent<Edible>().GetMixForBite(null);
 				var Nutriments =  food[Nutriment];
 				food.Remove(Nutriment, Nutriments);
 				food.Add(SlimeJelly,Nutriments);
