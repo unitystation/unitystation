@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
@@ -9,6 +8,7 @@ using US13.Core.Chat;
 using US13.Core.Addressables.Types;
 using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Core.Sprite_Handler;
+using US13.Items.Tool;
 using US13.Managers;
 using US13.Managers.UpdateManager;
 using US13.Messages.Server.SoundMessages;
@@ -21,7 +21,7 @@ using Util;
 
 namespace US13.Objects.Machines
 {
-	public class DeepFryer: NetworkBehaviour, IAPCPowerable, IRefreshParts, IExaminable
+	public class DeepFryer: NetworkBehaviour, IAPCPowerable, IRefreshParts, IExaminable, ICleanable
 	{
 		[SerializeField] private float oilPerSecond = 0.075f;
 		[SerializeField] private float idleWattsConsumption = 5f;
@@ -259,7 +259,7 @@ namespace US13.Objects.Machines
 		}
 
 		[Server]
-		public void CleanFryer()
+		public void Clean(ICleaner _)
 		{
 			greaseLevel = 0;
 			isGreasy = false;
