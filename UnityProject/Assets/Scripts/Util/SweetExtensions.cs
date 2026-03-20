@@ -386,14 +386,20 @@ namespace Util
 		/// <param name="go"></param>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public static T GetCachedComponent<T>(this Component go)  where T : Component
+		public static T GetCachedComponent<T>(this Component go, bool includeDisabled = true)  where T : Component
 		{
+			T component;
 			if (ComponentManager.TryGetCommonComponent(go.gameObject, out  var commonComponent))
 			{
-				return commonComponent.SafeGetComponent<T>();
+				component = commonComponent.SafeGetComponent<T>();
+			}
+			else
+			{
+				component = go == null ? null : go.gameObject.GetComponent<T>();
 			}
 
-			return go == null ? null : go.gameObject.GetComponent<T>();
+			if (includeDisabled == false && component is Behaviour behaviour && behaviour.enabled == false) return null;
+			return component;
 		}
 
 		/// <summary>
@@ -402,83 +408,70 @@ namespace Util
 		/// <param name="go"></param>
 		/// <typeparam name="T"></typeparam>
 		/// <returns></returns>
-		public static T GetCachedComponent<T>(this GameObject go)  where T : Component
+		public static T GetCachedComponent<T>(this GameObject go, bool includeDisabled = true)  where T : Component
 		{
+			T component;
 			if (ComponentManager.TryGetCommonComponent(go, out  var commonComponent))
 			{
-				return commonComponent.SafeGetComponent<T>();
+				component = commonComponent.SafeGetComponent<T>();
+			}
+			else
+			{
+				component = go == null ? null : go.GetComponent<T>();
 			}
 
-			return go == null ? null : go.GetComponent<T>();
+			if (includeDisabled == false && component is Behaviour behaviour && behaviour.enabled == false) return null;
+			return component;
 		}
 
 		/// <summary>
 		/// Try-pattern version of <see cref="GetCachedComponent{T}(GameObject)"/>.
 		/// Returns true if the component was found, with the result in <paramref name="component"/>.
 		/// </summary>
-		public static bool TryGetCachedComponent<T>(this Component go, out T component) where T : Component
+		public static bool TryGetCachedComponent<T>(this Component go, out T component, bool includeDisabled = true) where T : Component
 		{
 			if (ComponentManager.TryGetCommonComponent(go.gameObject, out  var commonComponent))
 			{
-				return commonComponent.TrySafeGetComponent<T>(out component);
+				if (commonComponent.TrySafeGetComponent<T>(out component) == false) return false;
 			}
 			else
 			{
 				component = null;
 				return false;
 			}
+
+			if (includeDisabled == false && component is Behaviour behaviour && behaviour.enabled == false)
+			{
+				component = null;
+				return false;
+			}
+
+			return true;
 		}
 
 		/// <summary>
 		/// Try-pattern version of <see cref="GetCachedComponent{T}(GameObject)"/>.
 		/// Returns true if the component was found, with the result in <paramref name="component"/>.
 		/// </summary>
-		public static bool TryGetCachedComponent<T>(this GameObject go, out T component)  where T : Component
+		public static bool TryGetCachedComponent<T>(this GameObject go, out T component, bool includeDisabled = true)  where T : Component
 		{
 			if (ComponentManager.TryGetCommonComponent(go, out  var commonComponent))
 			{
-				return commonComponent.TrySafeGetComponent<T>(out component);
+				if (commonComponent.TrySafeGetComponent<T>(out component) == false) return false;
 			}
 			else
 			{
 				component = null;
 				return false;
 			}
-		}
 
-
-		/// <summary>
-		/// Like <see cref="TryGetCachedComponent{T}(GameObject, out T)"/>, but only returns the component if it is enabled.
-		/// </summary>
-		public static bool TryGetEnabledComponent<T>(this GameObject go, out T component) where T : Behaviour
-		{
-			if (go.TryGetCachedComponent(out component) && component.enabled)
+			if (includeDisabled == false && component is Behaviour behaviour && behaviour.enabled == false)
 			{
-				return true;
+				component = null;
+				return false;
 			}
 
-			component = null;
-			return false;
-		}
-
-		/// <summary>
-		/// Like <see cref="GetCachedComponent{T}(GameObject)"/>, but only returns the component if it is enabled.
-		/// </summary>
-		public static T GetEnabledComponent<T>(this GameObject go) where T : Behaviour
-		{
-			var component = go.GetCachedComponent<T>();
-			if (component != null && component.enabled) return component;
-			return null;
-		}
-
-		/// <summary>
-		/// Like <see cref="GetCachedComponent{T}(GameObject)"/>, but only returns the component if it is enabled.
-		/// </summary>
-		public static T GetEnabledComponent<T>(this Component go) where T : Behaviour
-		{
-			var component = go.GetCachedComponent<T>();
-			if (component != null && component.enabled) return component;
-			return null;
+			return true;
 		}
 
 		/// <summary>
