@@ -18,12 +18,12 @@ namespace US13.Items.Food
 			if (interaction.TargetBodyPart != BodyPartType.Mouth) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.HandObject == null) return false;
-			return interaction.HandObject.TryGetEnabledComponent<Edible>(out _);
+			return interaction.HandObject.TryGetCachedComponent<Edible>(out _, includeDisabled: false);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			var edible = interaction.HandObject.GetEnabledComponent<Edible>();
+			var edible = interaction.HandObject.GetCachedComponent<Edible>(includeDisabled: false);
 			edible.TryConsume(interaction.Performer, interaction.TargetObject);
 		}
 	}

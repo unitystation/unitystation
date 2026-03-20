@@ -154,7 +154,7 @@ namespace US13.NPC.AI
 		{
 			if (hasFoodPrefereces == false)
 			{
-				return food.gameObject.GetEnabledComponent<Edible>() != null;
+				return food.gameObject.GetCachedComponent<Edible>(includeDisabled: false) != null;
 			}
 
 			return foodPreferences.Any(food.HasTrait);
