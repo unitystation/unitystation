@@ -30,7 +30,7 @@ namespace US13.Items.Implants.Organs
 		public override void Awake()
 		{
 			base.Awake();
-			ReagentCirculatedComponent = this.GetComponentCustom<ReagentCirculatedComponent>();
+			ReagentCirculatedComponent = this.GetCachedComponent<ReagentCirculatedComponent>();
 		}
 
 		[NaughtyAttributes.Button()]

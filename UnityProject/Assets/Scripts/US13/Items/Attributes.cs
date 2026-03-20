@@ -219,7 +219,7 @@ namespace US13.Items
 		public void SyncIsMapped(bool oldIsMapped, bool NewIsMapped)
 		{
 			IsMapped = NewIsMapped;
-			bool hasRuntimeSpawned = this.TryGetComponentCustom<RuntimeSpawned>(out var RuntimeSpawned);
+			bool hasRuntimeSpawned = this.TryGetCachedComponent<RuntimeSpawned>(out var RuntimeSpawned);
 			if (NewIsMapped && hasRuntimeSpawned)
 			{
 				Destroy(RuntimeSpawned);

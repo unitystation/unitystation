@@ -219,12 +219,12 @@ namespace US13.Systems.Inventory
 		//True equals successful false equals unsuccessful
 		public bool ServerTryAdd(GameObject inGameObject, bool IgnoreRestraints = false)
 		{
-			var item = inGameObject.GetComponentCustom<ItemAttributesV2>();
+			var item = inGameObject.GetCachedComponent<ItemAttributesV2>();
 			if (item == null) return false;
 			var slot = GetBestSlotFor(inGameObject);
 			if (slot == null) return false;
 
-			var CurrentlyInSlot = inGameObject.GetComponentCustom<Pickupable>().ItemSlot;
+			var CurrentlyInSlot = inGameObject.GetCachedComponent<Pickupable>().ItemSlot;
 
 			if (CurrentlyInSlot == null)
 			{
@@ -238,7 +238,7 @@ namespace US13.Systems.Inventory
 
 		public bool ServerTransferGameObjectToItemSlot(GameObject outGameObject, ItemSlot Slot)
 		{
-			var item = outGameObject.GetComponentCustom<ItemAttributesV2>();
+			var item = outGameObject.GetCachedComponent<ItemAttributesV2>();
 			if (item == null) return false;
 			var slot = GetSlotFromItem(outGameObject);
 			if (slot == null) return false;
@@ -714,7 +714,7 @@ namespace US13.Systems.Inventory
 		public ItemSlot GetBestSlotFor(GameObject toCheck)
 		{
 			if (toCheck == null) return null;
-			return GetBestSlotFor(toCheck.GetComponentCustom<Pickupable>());
+			return GetBestSlotFor(toCheck.GetCachedComponent<Pickupable>());
 		}
 
 		/// <summary>

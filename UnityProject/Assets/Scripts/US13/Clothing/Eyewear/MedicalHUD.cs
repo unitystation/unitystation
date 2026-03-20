@@ -37,9 +37,9 @@ namespace US13.Clothing.Eyewear
 
 		public void Awake()
 		{
-			PlayerScript =  this.GetComponentCustom<PlayerScript>();
-			HealthStateController = this.GetComponentCustom<HealthStateController>();
-			HUDHandler = this.GetComponentCustom<HUDHandler>();
+			PlayerScript =  this.GetCachedComponent<PlayerScript>();
+			HealthStateController = this.GetCachedComponent<HealthStateController>();
+			HUDHandler = this.GetCachedComponent<HUDHandler>();
 			if (CustomNetworkManager.IsServer)
 			{
 				HealthStateController.ServerOverallHealthChange += SetNewHealthServer;

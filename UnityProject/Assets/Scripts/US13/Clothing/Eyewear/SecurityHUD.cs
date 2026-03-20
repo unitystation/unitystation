@@ -55,8 +55,8 @@ namespace US13.Clothing.Eyewear
 
 		public void Awake()
 		{
-			PlayerScript = this.GetComponentCustom<PlayerScript>();
-			HUDHandler = this.GetComponentCustom<HUDHandler>();
+			PlayerScript = this.GetCachedComponent<PlayerScript>();
+			HUDHandler = this.GetCachedComponent<HUDHandler>();
 
 
 			if (CustomNetworkManager.IsServer)

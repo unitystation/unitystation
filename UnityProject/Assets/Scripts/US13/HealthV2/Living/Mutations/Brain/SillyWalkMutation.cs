@@ -28,7 +28,7 @@ namespace US13.HealthV2.Living.Mutations.Brain
 
 			public override void SetUp()
 			{
-				Brain = SweetExtensions.GetComponentCustom<Items.Implants.Organs.Brain>((Component)BodyPart);
+				Brain = SweetExtensions.GetCachedComponent<Items.Implants.Organs.Brain>((Component)BodyPart);
 				Brain.SetSillyWalk(true);
 
 			}

@@ -81,7 +81,7 @@ namespace US13.Items.Others.Magical.SpellBooks.potions
 
 				foreach (var BodyPart in core.BodyPartList)
 				{
-					if (SweetExtensions.TryGetComponentCustom<Tongue>((Component)BodyPart, out var Tongue))
+					if (SweetExtensions.TryGetCachedComponent<Tongue>((Component)BodyPart, out var Tongue))
 					{
 						Voice = Tongue.Voice;
 						if (Voice.Contains("Male"))

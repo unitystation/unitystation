@@ -12,7 +12,7 @@ namespace US13.Player
 
 		public void Awake()
 		{
-			PlayerScript ??= this.GetComponentCustom<PlayerScript>();
+			PlayerScript ??= this.GetCachedComponent<PlayerScript>();
 		}
 
 		/// <summary>

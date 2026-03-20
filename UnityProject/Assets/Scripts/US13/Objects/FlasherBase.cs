@@ -80,7 +80,7 @@ namespace US13.Objects
 		[Server]
 		private void PerformFlash(GameObject target, float time, float stunnedTime, bool checkForProtectiveGear = true)
 		{
-			if (target.gameObject.TryGetComponentCustom<LivingHealthMasterBase>(out var livingHealthMasterBase) == false) return;
+			if (target.gameObject.TryGetCachedComponent<LivingHealthMasterBase>(out var livingHealthMasterBase) == false) return;
 			if (stunnedTime > 0 && livingHealthMasterBase.TryFlash(time, checkForProtectiveGear))
 			{
 				livingHealthMasterBase.GetComponent<RegisterPlayer>()?.ServerStun(stunnedTime);

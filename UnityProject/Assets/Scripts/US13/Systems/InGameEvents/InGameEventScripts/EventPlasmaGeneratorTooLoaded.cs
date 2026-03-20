@@ -20,7 +20,7 @@ namespace US13.Systems.InGameEvents.InGameEventScripts
 
 			var Power = Powers.PickRandom();
 
-			var metaDataNode = Power.GetComponentCustom<RegisterTile>().Matrix.GetMetaDataNode(Power.transform.localPosition.RoundToInt());
+			var metaDataNode = Power.GetCachedComponent<RegisterTile>().Matrix.GetMetaDataNode(Power.transform.localPosition.RoundToInt());
 			foreach (var ElectricalData in metaDataNode.ElectricalData)
 			{
 				if (ElectricalData.InData.WireEndA == Connection.Overlap || ElectricalData.InData.WireEndB == Connection.Overlap) continue;

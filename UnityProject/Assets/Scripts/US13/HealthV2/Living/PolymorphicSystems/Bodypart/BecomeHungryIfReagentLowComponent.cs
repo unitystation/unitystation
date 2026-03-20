@@ -17,7 +17,7 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
 		public override void Awake()
 		{
 			base.Awake();
-			HungerComponent = this.GetComponentCustom<HungerComponent>();
+			HungerComponent = this.GetCachedComponent<HungerComponent>();
 		}
 
 

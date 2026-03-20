@@ -167,7 +167,7 @@ namespace US13.UI.Systems.Lobby.SubCustomisation.BodyPartCustomisations
 					Body_Part.BodyPartItemSprite.SetSpriteSO(OptionalSprites[Selected - 1]);
 				}
 
-				var Clothing = SweetExtensions.GetComponentCustom<ClothingV2>((Component)Body_Part);
+				var Clothing = SweetExtensions.GetCachedComponent<ClothingV2>((Component)Body_Part);
 				if (Clothing != null)
 				{
 					Clothing.SpriteDataSO.Clear();

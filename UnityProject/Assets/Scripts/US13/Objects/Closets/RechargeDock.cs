@@ -25,7 +25,7 @@ namespace US13.Objects.Closets
 		public override void Awake()
 		{
 			base.Awake();
-			APCPoweredDevice = this.GetComponentCustom<APCPoweredDevice>();
+			APCPoweredDevice = this.GetCachedComponent<APCPoweredDevice>();
 			APCPoweredDevice.Wattusage = IdleWattage;
 			SetDoor(Door.Opened);
 		}

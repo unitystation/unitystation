@@ -10,7 +10,7 @@ namespace US13.Systems.Inventory
 		// Start is called before the first frame update
 		void Start()
 		{
-			var IA2 = this.GetComponentCustom<ItemAttributesV2>();
+			var IA2 = this.GetCachedComponent<ItemAttributesV2>();
 			var Sprite = this.GetComponentInChildren<SpriteHandler>();
 			Sprite.OnSpriteDataSOChanged += UpdateSprites;
 
@@ -20,7 +20,7 @@ namespace US13.Systems.Inventory
 
 		public void UpdateSprites(SpriteDataSO SpriteDataSO)
 		{
-			var IA2 = this.GetComponentCustom<ItemAttributesV2>();
+			var IA2 = this.GetCachedComponent<ItemAttributesV2>();
 			IA2.ItemSprites.SpriteLeftHand = SpriteDataSO;
 			IA2.ItemSprites.SpriteRightHand = SpriteDataSO;
 		}

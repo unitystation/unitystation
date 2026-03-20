@@ -296,8 +296,8 @@ namespace US13.Core.Physics
 
 		public virtual void Awake()
 		{
-			Collider = this.GetComponentCustom<BoxCollider2D>();
-			floorDecal = this.GetComponentCustom<FloorDecal>();
+			Collider = this.GetCachedComponent<BoxCollider2D>();
+			floorDecal = this.GetCachedComponent<FloorDecal>();
 			ContextGameObjects[0] = gameObject;
 			if (defaultInteractionLayerMask == null)
 			{
@@ -306,11 +306,11 @@ namespace US13.Core.Physics
 					"HiddenWalls", "Objects");
 			}
 
-			attributes.DirectSetComponent(this.GetComponentCustom<Items.Attributes>());
-			registerTile = this.GetComponentCustom<RegisterTile>();
-			rotatable =  this.GetComponentCustom<Rotatable>();
-			pickupable.DirectSetComponent( this.GetComponentCustom<Pickupable>());
-			Scale ??=  this.GetComponentCustom<ScaleSync>();
+			attributes.DirectSetComponent(this.GetCachedComponent<Items.Attributes>());
+			registerTile = this.GetCachedComponent<RegisterTile>();
+			rotatable =  this.GetCachedComponent<Rotatable>();
+			pickupable.DirectSetComponent( this.GetCachedComponent<Pickupable>());
+			Scale ??=  this.GetCachedComponent<ScaleSync>();
 			SetRotationTarget();
 		}
 
@@ -1459,7 +1459,7 @@ namespace US13.Core.Physics
 					}
 
 					livingHealthMasterBase.ApplyDamageToBodyPart(ddamagedBy, damage, AttackType.Melee, DamageType.Brute, currentAim);
-					if (currentAim == BodyPartType.Mouth && TryGetComponent<Edible>(out var edible)) edible.TryConsume(null, hit.gameObject, true);
+					if (currentAim == BodyPartType.Mouth && gameObject.TryGetEnabledComponent(out Edible edible)) edible.TryConsume(null, hit.gameObject, true);
 
 					LastHitContext.perpetrator = ddamagedBy;
 					LastHitContext.target = hit.gameObject;

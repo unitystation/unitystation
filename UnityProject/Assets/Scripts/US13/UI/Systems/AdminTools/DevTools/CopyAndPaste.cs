@@ -1087,7 +1087,7 @@ namespace US13.UI.Systems.AdminTools.DevTools
 					{
 						if (Boxes.BetterBounds.Contains(EtherealThing.transform.position))
 						{
-							var Attribute = EtherealThing.GetComponentCustom<Attributes>();
+							var Attribute = EtherealThing.GetCachedComponent<Attributes>();
 							if (Attribute != null)
 							{
 								if (Attribute.IsMapped == false)
@@ -1111,7 +1111,7 @@ namespace US13.UI.Systems.AdminTools.DevTools
 					{
 						if (Boxes.BetterBounds.Contains(Object.transform.position))
 						{
-							var Attribute = Object.GetComponentCustom<Attributes>();
+							var Attribute = Object.GetCachedComponent<Attributes>();
 							if (Attribute != null)
 							{
 								if (Attribute.IsMapped == false)

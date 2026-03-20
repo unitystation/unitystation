@@ -124,7 +124,7 @@ namespace US13.Items.Food
 
 			if (CanPlayerConsume(eater) == false) return;
 
-			if (feederGo == null || feederGo.TryGetComponentCustom(out PlayerScript feeder) == false)
+			if (feederGo == null || feederGo.TryGetCachedComponent(out PlayerScript feeder) == false)
 			{
 				if (projectileFed == false)
 				{

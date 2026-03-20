@@ -40,16 +40,16 @@ namespace US13.Player
 			if (NewPart)
 			{
 
-				if (NewPart.TryGetComponentCustom<SaturationComponent>(out var component))
+				if (NewPart.TryGetCachedComponent<SaturationComponent>(out var component))
 				{
 					component.enabled = false;
 				}
 
-				if (NewPart.TryGetComponentCustom<HungerComponent>(out var component1))
+				if (NewPart.TryGetCachedComponent<HungerComponent>(out var component1))
 				{
 					component.enabled = false;
 				}
-				if (NewPart.TryGetComponentCustom<NaturalChemicalReleaseComponent>(out var component2))
+				if (NewPart.TryGetCachedComponent<NaturalChemicalReleaseComponent>(out var component2))
 				{
 					component.enabled = false;
 				}
@@ -60,16 +60,16 @@ namespace US13.Player
 			else if (prevPart)
 			{
 
-				if (NewPart.TryGetComponentCustom<SaturationComponent>(out var component))
+				if (NewPart.TryGetCachedComponent<SaturationComponent>(out var component))
 				{
 					component.enabled = true;
 				}
 
-				if (NewPart.TryGetComponentCustom<HungerComponent>(out var component1))
+				if (NewPart.TryGetCachedComponent<HungerComponent>(out var component1))
 				{
 					component.enabled = true;
 				}
-				if (NewPart.TryGetComponentCustom<NaturalChemicalReleaseComponent>(out var component2))
+				if (NewPart.TryGetCachedComponent<NaturalChemicalReleaseComponent>(out var component2))
 				{
 					component.enabled = true;
 				}

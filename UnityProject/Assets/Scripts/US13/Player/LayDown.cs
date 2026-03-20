@@ -32,7 +32,7 @@ namespace US13.Player
 
 		private void Awake()
 		{
-			UprightSprites = this.GetComponentCustom<UprightSprites>();
+			UprightSprites = this.GetCachedComponent<UprightSprites>();
 			playerScript ??= GetComponent<PlayerScript>();
 			playerDirectional ??= GetComponent<Rotatable>();
 			health ??= GetComponent<LivingHealthMasterBase>();

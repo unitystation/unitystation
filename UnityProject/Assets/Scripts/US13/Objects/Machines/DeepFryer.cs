@@ -84,9 +84,9 @@ namespace US13.Objects.Machines
 
 		private void Awake()
 		{
-			container = this.GetComponentCustom<ReagentContainer>();
-			poweredDevice = this.GetComponentCustom<APCPoweredDevice>();
-			registerTile = this.GetComponentCustom<RegisterTile>();
+			container = this.GetCachedComponent<ReagentContainer>();
+			poweredDevice = this.GetCachedComponent<APCPoweredDevice>();
+			registerTile = this.GetCachedComponent<RegisterTile>();
 			oilUse = oilUsePerTick;
 
 			greaseOverlay.SetCatalogueIndexSprite(0);

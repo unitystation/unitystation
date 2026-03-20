@@ -247,7 +247,7 @@ namespace US13.Core.Chat
 				if (string.IsNullOrWhiteSpace(processedMessage.message)) return;
 			}
 
-			var Health = sentByPlayer.GameObject.GetComponentCustom<LivingHealthMasterBase>();
+			var Health = sentByPlayer.GameObject.GetCachedComponent<LivingHealthMasterBase>();
 
 			var speaker = (player == null) ? sentByPlayer.Username : sentByPlayer.Mind.name;
 

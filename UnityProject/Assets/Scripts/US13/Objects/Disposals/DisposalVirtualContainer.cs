@@ -57,7 +57,7 @@ namespace US13.Objects.Disposals
 
 		public void ObjectStored(GameObject ObjectStored)
 		{
-			RegisterPlayer newPlayer = ObjectStored.GetComponentCustom<RegisterPlayer>();
+			RegisterPlayer newPlayer = ObjectStored.GetCachedComponent<RegisterPlayer>();
 			if (newPlayer == null) return;;
 			DoRpc(newPlayer, true);
 		}

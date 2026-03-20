@@ -408,14 +408,14 @@ namespace US13.Core.Lifecycle
 
 			try
 			{
-				var Health = body.GetComponentCustom<LivingHealthMasterBase>();
+				var Health = body.GetCachedComponent<LivingHealthMasterBase>();
 				if (requestedOccupation != null)
 				{
 					foreach (var Mutation in requestedOccupation.StartingMutations)
 					{
 						foreach (var Bodypart in Health.BodyPartList)
 						{
-							var BodyPartMutations = SweetExtensions.GetComponentCustom<BodyPartMutations>((Component)Bodypart);
+							var BodyPartMutations = SweetExtensions.GetCachedComponent<BodyPartMutations>((Component)Bodypart);
 							if (BodyPartMutations.CapableMutations.Contains(Mutation))
 							{
 								BodyPartMutations.AddMutation(Mutation);

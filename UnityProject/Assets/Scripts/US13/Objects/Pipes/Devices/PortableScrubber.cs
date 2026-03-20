@@ -87,7 +87,7 @@ namespace US13.Objects.Pipes.Devices
 
 		public void Awake()
 		{
-			UniversalObjectPhysics = this.GetComponentCustom<UniversalObjectPhysics>();
+			UniversalObjectPhysics = this.GetCachedComponent<UniversalObjectPhysics>();
 
 
 			Canister.ServerOnConnectionStatusChange.AddListener(SetValve);
