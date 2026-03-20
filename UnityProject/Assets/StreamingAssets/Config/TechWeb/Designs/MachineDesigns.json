@@ -169,6 +169,25 @@
         "Item_ID": "sizzlesticks"
     },
     {
+        "Internal_ID": "board_deep_fryer",
+        "Description": "A circuit board used in the construction of the deep-fryer for the kitchen.",
+        "Category": [
+          "Misc. Machinery"
+        ],
+        "Materials": {
+          "Glass": 1000
+        },
+        "Machinery_type": [
+          "CircuitImprinter"
+        ],
+        "Compatible_machinery": [
+          "Engineering",
+          "Science"
+        ],
+        "name": "Deep Fryer Board",
+        "Item_ID": "aacfbeae58c121b45b5cfcff503a0955"
+    },
+    {
         "Internal_ID": "board_jukebox",
         "Description": "A circuit board used in the construction of certain machines.",
         "Category": [
