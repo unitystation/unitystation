@@ -52,6 +52,7 @@ namespace US13.Items.Food
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
+			if (enabled == false) return false;
 			if (interaction.Intent != Intent.Help) return false;
 			if (interaction.HandObject == null && interaction.Performer.GetCachedComponent<ConsumeFromFloor>() != null)
 			{
