@@ -100,6 +100,7 @@ namespace US13.Items.Food
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
 		{
+			if (enabled == false) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			if (interaction.Intent != Intent.Help) return false;
 			return true;
@@ -124,7 +125,7 @@ namespace US13.Items.Food
 
 			if (CanPlayerConsume(eater) == false) return;
 
-			if (feederGo == null || feederGo.TryGetComponentCustom(out PlayerScript feeder) == false)
+			if (feederGo == null || feederGo.TryGetCachedComponent(out PlayerScript feeder) == false)
 			{
 				if (projectileFed == false)
 				{

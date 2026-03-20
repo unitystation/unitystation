@@ -17,12 +17,12 @@ namespace US13.Systems.InGameEvents.InGameEventScripts
 			if (FakeEvent) return;
 
 			var AIs = MatrixManager.MainStationMatrix.Matrix.PresentPlayers.Where(x =>
-				x.GetComponentCustom<AiPlayer>() != null);
+				x.GetCachedComponent<AiPlayer>() != null);
 
 			if (AIs.Any()) return;
 			var AI = AIs.PickRandom();
 
-			var AIPlayer = AI.GetComponentCustom<AiPlayer>();
+			var AIPlayer = AI.GetCachedComponent<AiPlayer>();
 
 			var law = AIPotentiallaws.PickRandom();
 

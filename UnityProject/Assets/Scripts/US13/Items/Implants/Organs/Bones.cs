@@ -20,8 +20,8 @@ namespace US13.Items.Implants.Organs
 		public override void Awake()
 		{
 			base.Awake();
-			HungerComponent = this.GetComponentCustom<HungerComponent>();
-			ReagentCirculatedComponent = this.GetComponentCustom<ReagentCirculatedComponent>();
+			HungerComponent = this.GetCachedComponent<HungerComponent>();
+			ReagentCirculatedComponent = this.GetCachedComponent<ReagentCirculatedComponent>();
 		}
 
 		public override void SetUpSystems()

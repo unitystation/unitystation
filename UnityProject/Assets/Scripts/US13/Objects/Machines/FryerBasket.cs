@@ -61,7 +61,7 @@ namespace US13.Objects.Machines
 		/// <summary>
 		/// Called by DeepFryer each tick while the machine is powered and this basket is down.
 		/// </summary>
-		public void Tick(float deltaTime, float voltageModifier)
+		public void Tick(float secondsPerTick, float voltageModifier)
 		{
 			if (State != BasketState.Down) return;
 			if (StorageSlot.IsEmpty) return;
@@ -72,8 +72,8 @@ namespace US13.Objects.Machines
 				return;
 			}
 
-			float scaledTime = deltaTime * voltageModifier;
-			owner.TransferOilTo(cachedReagentContainer, deltaTime);
+			float scaledTime = secondsPerTick * voltageModifier;
+			owner.TransferOilTo(cachedReagentContainer);
 
 			if (IsCookableByFryer)
 			{
@@ -145,10 +145,10 @@ namespace US13.Objects.Machines
 			if (StorageSlot.IsOccupied) return;
 
 			// If the item is stackable, split one off to fry individually.
-			if (handSlot.ItemObject.TryGetComponentCustom(out Stackable stackable) && stackable.Amount > 1 )
+			if (handSlot.ItemObject.TryGetCachedComponent(out Stackable stackable) && stackable.Amount > 1 )
 			{
 				GameObject singleItem = stackable.ServerTake(1);
-				if (Inventory.ServerAdd(singleItem.GetComponentCustom<Pickupable>(), StorageSlot) == false) return;
+				if (Inventory.ServerAdd(singleItem.GetCachedComponent<Pickupable>(), StorageSlot) == false) return;
 			}
 			else
 			{
@@ -193,14 +193,14 @@ namespace US13.Objects.Machines
 		private void CacheComponents()
 		{
 			GameObject item = StorageSlot.ItemObject;
-			item.TryGetComponentCustom(out cachedCookable);
+			item.TryGetCachedComponent(out cachedCookable);
 			if (cachedCookable != null && cachedCookable.CookableBy.HasFlag(CookSource.DeepFrier) == false)
 			{
 				cachedCookable = null;
 			}
 
-			item.TryGetComponentCustom(out cachedDeepFryable);
-			item.TryGetComponentCustom(out cachedReagentContainer);
+			item.TryGetCachedComponent(out cachedDeepFryable);
+			item.TryGetCachedComponent(out cachedReagentContainer);
 
 			if (cachedCookable != null)
 			{

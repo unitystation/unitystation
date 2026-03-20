@@ -113,11 +113,11 @@ namespace US13.Items.Kitchen
 		private void ActivateDormantComponents()
 		{
 			// If this item already has an active Edible, don't touch it
-			var existingEdible = this.GetComponentCustom<Edible>();
+			var existingEdible = this.GetCachedComponent<Edible>();
 			if (existingEdible != null && existingEdible.enabled) return;
 
 			// Enable dormant ReagentContainer first (Edible depends on it)
-			var reagentContainer = this.GetComponentCustom<ReagentContainer>();
+			var reagentContainer = this.GetCachedComponent<ReagentContainer>();
 			if (reagentContainer != null && reagentContainer.enabled == false)
 			{
 				reagentContainer.enabled = true;
@@ -135,7 +135,7 @@ namespace US13.Items.Kitchen
 		[Server]
 		private void UpdateNutriment(FriedLevel newLevel)
 		{
-			var reagentContainer = this.GetComponentCustom<ReagentContainer>();
+			var reagentContainer = this.GetCachedComponent<ReagentContainer>();
 			if (reagentContainer == null) return;
 
 			float nutriment = NutrientForLevel(newLevel);

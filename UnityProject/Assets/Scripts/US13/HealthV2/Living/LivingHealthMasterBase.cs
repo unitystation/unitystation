@@ -1435,7 +1435,7 @@ namespace US13.HealthV2.Living
 			var eyes = GetBodyPartsInArea(BodyPartType.Eyes, false);
 			foreach (var eye in eyes)
 			{
-				var eyeFlash = SweetExtensions.GetComponentCustom<EyeFlash>((Component)eye);
+				var eyeFlash = SweetExtensions.GetCachedComponent<EyeFlash>((Component)eye);
 				if (eyeFlash != null && eyeFlash.TryFlash(flashDuration, checkForProtectiveCloth))
 				{
 					didFlash = true;
@@ -1453,7 +1453,7 @@ namespace US13.HealthV2.Living
 			var ears = GetBodyPartsInArea(BodyPartType.Ears, false);
 			foreach (var ear in ears)
 			{
-				var earDeafen = SweetExtensions.GetComponentCustom<Ears>((Component)ear);
+				var earDeafen = SweetExtensions.GetCachedComponent<Ears>((Component)ear);
 				if (earDeafen != null && earDeafen.TryDeafen(sender, deafenDuration, checkForProtectiveCloth))
 				{
 					didDeafen = true;

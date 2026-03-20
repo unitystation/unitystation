@@ -485,7 +485,7 @@ namespace US13.Systems.Construction
 		public void UpdateBatteries()
 		{
 			Batterys = getObjectpartsInFrame.Where(x => x.itemTrait == CommonTraits.Instance.PowerCell)
-				.Select(x => x.itemObject.GetComponentCustom<Battery>()).ToArray();
+				.Select(x => x.itemObject.GetCachedComponent<Battery>()).ToArray();
 		}
 	}
 

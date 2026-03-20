@@ -43,7 +43,7 @@ namespace US13.Systems.Research.LaserPuzzle
 
 		public void Awake()
 		{
-			itemStorage = this.GetComponentCustom<ItemStorage>();
+			itemStorage = this.GetCachedComponent<ItemStorage>();
 			OnItemChange += UpdateItemDisplay;
 
 			if (CustomNetworkManager.IsServer == false) return;

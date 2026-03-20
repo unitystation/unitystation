@@ -221,8 +221,8 @@ namespace US13.Tilemaps.Behaviours.Objects
 
 		protected virtual void Awake()
 		{
-			ItemStorage = this.GetComponentCustom<ItemStorage>();
-			DynamicItemStorage = this.GetComponentCustom<DynamicItemStorage>();
+			ItemStorage = this.GetCachedComponent<ItemStorage>();
+			DynamicItemStorage = this.GetCachedComponent<DynamicItemStorage>();
 			LocalPositionServer = TransformState.HiddenPos;
 			if (transform.parent) //clients dont have this set yet
 			{

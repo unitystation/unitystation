@@ -52,8 +52,8 @@ namespace US13.Items.Implants.Organs
 		public override void Awake()
 		{
 			base.Awake();
-			HungerComponent = this.GetComponentCustom<HungerComponent>();
-			_ReagentCirculatedComponent = this.GetComponentCustom<ReagentCirculatedComponent>();
+			HungerComponent = this.GetCachedComponent<HungerComponent>();
+			_ReagentCirculatedComponent = this.GetCachedComponent<ReagentCirculatedComponent>();
 		}
 
 		public override void OnEmp(int strength)

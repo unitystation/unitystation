@@ -143,7 +143,7 @@ namespace US13.Player
 
 
 			PossessingMind.OrNull()?.HandleOwnershipChangeMulti(losing, gaining);
-			SyncPossessingID(PossessingID, obj ? obj.GetComponentCustom<NetworkIdentity>().netId : NetId.Empty);
+			SyncPossessingID(PossessingID, obj ? obj.GetCachedComponent<NetworkIdentity>().netId : NetId.Empty);
 
 			if (inPossessing != null)
 			{

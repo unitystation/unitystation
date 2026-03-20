@@ -103,7 +103,7 @@ namespace US13.Systems.ChemistryEffects
 				duration = result.Distance < afflictionRadius * 0.65f ? duration : duration / 2;
 
 				if (duration <= 0) continue;
-				if (target.gameObject.TryGetComponentCustom<LivingHealthMasterBase>(out var livingHealthMasterBase) == false) continue;
+				if (target.gameObject.TryGetCachedComponent<LivingHealthMasterBase>(out var livingHealthMasterBase) == false) continue;
 
 				bool successfulTrigger = flashPlayers == true && livingHealthMasterBase.TryFlash(duration) && stunPlayers == true;
 

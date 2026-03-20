@@ -30,7 +30,7 @@ namespace US13.Objects.Kitchen
 
 		private void Start()
 		{
-			deepFryer = this.GetComponentCustom<DeepFryer>();
+			deepFryer = this.GetCachedComponent<DeepFryer>();
 		}
 
 		public string Examine(Vector3 worldPos = default)
@@ -55,7 +55,7 @@ namespace US13.Objects.Kitchen
 
 			// Indestructible items can't be deep-fried.
 			if (handIsNotEmpty
-			    && interaction.HandObject.TryGetComponentCustom(out Integrity integrity)
+			    && interaction.HandObject.TryGetCachedComponent(out Integrity integrity)
 			    && integrity.Resistances.Indestructable)
 			{
 				return false;

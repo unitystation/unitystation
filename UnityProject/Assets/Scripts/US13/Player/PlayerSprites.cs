@@ -534,7 +534,7 @@ namespace US13.Player
 			{
 				foreach (var Bodypart in livingHealthMasterBase.BodyPartList)
 				{
-					var BodyPartMutations = SweetExtensions.GetComponentCustom<BodyPartMutations>((Component)Bodypart);
+					var BodyPartMutations = SweetExtensions.GetCachedComponent<BodyPartMutations>((Component)Bodypart);
 					if (BodyPartMutations.CapableMutations.Contains(Mutation))
 					{
 						BodyPartMutations.AddMutation(Mutation);

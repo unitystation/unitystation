@@ -96,7 +96,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			var targetCount = Physics2D.OverlapCircle(currentPosition.ToWorld(targetMatrixLocal), searchRadius, contactFilter, possiblePlayers);
 			for (int i = 0; i < targetCount; i++)
 			{
-				var health = possiblePlayers[i].GetComponentCustom<LivingHealthMasterBase>();
+				var health = possiblePlayers[i].GetCachedComponent<LivingHealthMasterBase>();
 
 				if (health == false || health.mobID == LivingHealthMaster.mobID) continue;
 				if (blackListedSpecies.Contains(health.InitialSpecies)) continue;

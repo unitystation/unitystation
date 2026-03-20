@@ -88,12 +88,14 @@ namespace US13.ChemistryComponents
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
+			if (enabled == false) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			return WillInteractHelp(interaction.UsedObject, interaction.TargetObject, side, null);
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
+			if (enabled == false) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			var playerScript = interaction.Performer.GetComponent<PlayerScript>();

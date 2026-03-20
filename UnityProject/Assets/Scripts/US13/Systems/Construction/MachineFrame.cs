@@ -540,7 +540,7 @@ namespace US13.Systems.Construction
 
 				var ExistingStacking=  ObjectpartsInFrame.FirstOrDefault(
 					x => x.itemTrait == itemTrait
-					     && x.itemObject.GetComponentCustom<Stackable>().StacksWith(Stacking));
+					     && x.itemObject.GetCachedComponent<Stackable>().StacksWith(Stacking));
 
 				if (ExistingStacking?.itemTrait  != null)
 				{
@@ -734,7 +734,7 @@ namespace US13.Systems.Construction
 		{
 			foreach(var part in ObjectpartsInFrame)
 			{
-				var restock = part.itemObject.GetComponentCustom<VendingRestock>();
+				var restock = part.itemObject.GetCachedComponent<VendingRestock>();
 				if (restock != null)
 				{
 					restock.SetPreviousVendorContent(previousVendorContent);
@@ -748,7 +748,7 @@ namespace US13.Systems.Construction
 		{
 			foreach(var part in ObjectpartsInFrame)
 			{
-				var restock = part.itemObject.GetComponentCustom<VendingRestock>();
+				var restock = part.itemObject.GetCachedComponent<VendingRestock>();
 				if (restock != null && restock.PreviousVendorContent != null)
 					return restock.PreviousVendorContent;
 			}
