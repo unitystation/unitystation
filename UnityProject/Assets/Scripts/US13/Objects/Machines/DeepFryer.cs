@@ -23,7 +23,12 @@ namespace US13.Objects.Machines
 {
 	public class DeepFryer: NetworkBehaviour, IAPCPowerable, IRefreshParts, IExaminable, ICleanable
 	{
-		[SerializeField] private float oilPerSecond = 0.075f;
+		/// <summary>
+		/// Matches TG's SSmachines wait = 2 SECONDS.
+		/// </summary>
+		private const float SECONDS_PER_TICK = 2f;
+
+		[SerializeField] private float oilUsePerTick = 0.025f;
 		[SerializeField] private float idleWattsConsumption = 5f;
 		[SerializeField] private float activeWatsConsumption = 1000f;
 
@@ -52,13 +57,11 @@ namespace US13.Objects.Machines
 		/// </summary>
 		private byte loopingBaskets;
 
-		[SyncVar(hook = nameof(OnSyncGreasy))]
-		private bool isGreasy;
+		[SyncVar(hook = nameof(OnSyncGreaseLevel))]
+		private float greaseLevel;
 
 		private string[] basketLoopGUIDs;
 		private CancellationTokenSource[] basketLoopCts;
-
-		private float greaseLevel;
 
 		private FryerBasket[] baskets;
 
@@ -66,7 +69,7 @@ namespace US13.Objects.Machines
 		private float oilUse;
 
 		/// <summary>
-		/// Fry speed multiplier from the micro-laser tier. Tier 1 = 1x, tier 2 = 2x, etc.
+		/// Fry speed multiplier from the micro-laser tier. Matches TG's fry_speed = oil_efficiency.
 		/// </summary>
 		public float FrySpeed => laserTier;
 
@@ -77,14 +80,14 @@ namespace US13.Objects.Machines
 
 		public FryerBasket GetBasket(int index) => baskets[index];
 
-		public bool HasEnoughOil() => container.ReagentMixTotal >= oilPerSecond;
+		public bool HasEnoughOil() => container.ReagentMixTotal >= oilUse;
 
 		private void Awake()
 		{
 			container = this.GetComponentCustom<ReagentContainer>();
 			poweredDevice = this.GetComponentCustom<APCPoweredDevice>();
 			registerTile = this.GetComponentCustom<RegisterTile>();
-			oilUse = oilPerSecond;
+			oilUse = oilUsePerTick;
 
 			greaseOverlay.SetCatalogueIndexSprite(0);
 
@@ -101,7 +104,7 @@ namespace US13.Objects.Machines
 
 		private void OnDisable()
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 			StopAllBasketLoops();
 		}
 
@@ -109,7 +112,6 @@ namespace US13.Objects.Machines
 		{
 			if (IsPowered == false || baskets == null) return;
 
-			float delta = Time.deltaTime;
 			bool anyBasketDown = false;
 
 			for (int i = 0; i < baskets.Length; i++)
@@ -117,7 +119,7 @@ namespace US13.Objects.Machines
 				if (baskets[i].State == BasketState.Down)
 				{
 					anyBasketDown = true;
-					baskets[i].Tick(delta, VoltageModifier * FrySpeed);
+					baskets[i].Tick(SECONDS_PER_TICK, VoltageModifier * FrySpeed);
 				}
 			}
 
@@ -128,12 +130,12 @@ namespace US13.Objects.Machines
 		}
 
 		/// <summary>
-		/// Transfers oil from the fryer into the target container (for cookable items that become edible).
+		/// Transfers oil from the fryer into the target container.
 		/// </summary>
 		[Server]
-		public void TransferOilTo(ReagentContainer target, float deltaTime)
+		public void TransferOilTo(ReagentContainer target)
 		{
-			container.TransferTo(oilUse * deltaTime, target);
+			container.TransferTo(oilUse * SECONDS_PER_TICK, target);
 		}
 
 		public void PowerNetworkUpdate(float voltage) => VoltageModifier = voltage / 240f;
@@ -148,12 +150,12 @@ namespace US13.Objects.Machines
 
 			if (justGainedPower)
 			{
-				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+				UpdateManager.Add(UpdateMe, SECONDS_PER_TICK);
 				poweredDevice.Wattusage = idleWattsConsumption;
 			}
 			else if (justLostPower)
 			{
-				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 				UpdateLoopStates(0);
 				RaiseAllBaskets();
 			}
@@ -169,8 +171,8 @@ namespace US13.Objects.Machines
 				}
 			}
 
-			// Higher tier laser -> less oil consumed. Matches TG formula.
-			oilUse = oilPerSecond - (laserTier * 0.00475f);
+			// TG: oil_use = initial(oil_use) - (oil_efficiency * 0.00475)
+			oilUse = oilUsePerTick - (laserTier * 0.00475f);
 		}
 
 		private void RaiseAllBaskets()
@@ -248,26 +250,20 @@ namespace US13.Objects.Machines
 		[Server]
 		private void AccumulateGrease()
 		{
-			if (isGreasy) return;
-			if (DMMath.Prob(greaseChancePerTick) == false) return;
-
-			greaseLevel += greaseAmountPerTick;
-			if (greaseLevel >= 1f)
-			{
-				isGreasy = true;
-			}
+			if (greaseLevel >= 1f) return;
+			// TG: grease_level += prob(grease_increase_chance) * grease_Increase_amount
+			greaseLevel += DMMath.Prob(greaseChancePerTick) ? greaseAmountPerTick : 0f;
 		}
 
 		[Server]
 		public void Clean(ICleaner _)
 		{
 			greaseLevel = 0;
-			isGreasy = false;
 		}
 
-		private void OnSyncGreasy(bool _, bool newState)
+		private void OnSyncGreaseLevel(float _, float newLevel)
 		{
-			greaseOverlay.SetCatalogueIndexSprite(newState ? 1 : 0);
+			greaseOverlay.SetCatalogueIndexSprite(newLevel >= 1f ? 1 : 0);
 		}
 
 		#endregion

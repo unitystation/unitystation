@@ -61,7 +61,7 @@ namespace US13.Objects.Machines
 		/// <summary>
 		/// Called by DeepFryer each tick while the machine is powered and this basket is down.
 		/// </summary>
-		public void Tick(float deltaTime, float voltageModifier)
+		public void Tick(float secondsPerTick, float voltageModifier)
 		{
 			if (State != BasketState.Down) return;
 			if (StorageSlot.IsEmpty) return;
@@ -72,8 +72,8 @@ namespace US13.Objects.Machines
 				return;
 			}
 
-			float scaledTime = deltaTime * voltageModifier;
-			owner.TransferOilTo(cachedReagentContainer, deltaTime);
+			float scaledTime = secondsPerTick * voltageModifier;
+			owner.TransferOilTo(cachedReagentContainer);
 
 			if (IsCookableByFryer)
 			{
