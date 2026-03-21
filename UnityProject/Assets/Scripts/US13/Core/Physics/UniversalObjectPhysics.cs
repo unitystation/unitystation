@@ -1459,7 +1459,10 @@ namespace US13.Core.Physics
 					}
 
 					livingHealthMasterBase.ApplyDamageToBodyPart(ddamagedBy, damage, AttackType.Melee, DamageType.Brute, currentAim);
-					if (currentAim == BodyPartType.Mouth && gameObject.TryGetEnabledComponent(out Edible edible)) edible.TryConsume(null, hit.gameObject, true);
+					if (currentAim == BodyPartType.Mouth && gameObject.TryGetCachedComponent(out Edible edible, includeDisabled: false))
+					{
+						edible.TryConsume(null, hit.gameObject, true);
+					}
 
 					LastHitContext.perpetrator = ddamagedBy;
 					LastHitContext.target = hit.gameObject;

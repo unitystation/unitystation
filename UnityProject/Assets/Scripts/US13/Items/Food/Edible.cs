@@ -343,6 +343,7 @@ namespace US13.Items.Food
 
 		public string HoverTip()
 		{
+			if (enabled == false) return "";
 			var biteStatus = "";
 			if (currentBites == maxBites) biteStatus = "it is untouched.";
 			if (currentBites < maxBites) biteStatus = "someone took a bite out of it.";
@@ -356,6 +357,7 @@ namespace US13.Items.Food
 
 		public List<TextColor> InteractionsStrings()
 		{
+			if (enabled == false) return null;
 			var list = new List<TextColor>();
 			list.Add(new TextColor { Color = Color.green, Text = "Click on target to feed." });
 			list.Add(new TextColor { Color = Color.green,

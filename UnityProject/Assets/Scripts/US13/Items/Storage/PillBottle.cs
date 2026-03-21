@@ -36,7 +36,7 @@ namespace US13.Items.Storage
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			var pill = ItemStorage.GetFirstOccupiedSlot();
-			var PillEdible = pill.Item.GetEnabledComponent<Edible>();
+			var PillEdible = pill.Item.GetCachedComponent<Edible>(includeDisabled: false);
 			PillEdible.ServerPerformInteraction(interaction);
 		}
 
