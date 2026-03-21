@@ -11,7 +11,6 @@ using US13.Core.Sprite_Handler;
 using US13.Items.Tool;
 using US13.Managers;
 using US13.Managers.UpdateManager;
-using US13.Messages.Server.SoundMessages;
 using US13.Objects.Engineering;
 using US13.Systems.Construction;
 using US13.Systems.Electricity.Interfaces;
@@ -40,7 +39,7 @@ namespace US13.Objects.Machines
 		[SerializeField] private AddressableAudioSource dingSfx;
 
 		[Tooltip("How long the frying loop takes to fade in from silence.")]
-		[SerializeField] private float crossfadeDuration = 0.75f;
+		[SerializeField] private float fadeInDuration = 0.75f;
 
 		[SerializeField] private SpriteHandler greaseOverlay;
 		[SerializeField] private SpriteHandler leftBasketSprite;
@@ -231,22 +230,6 @@ namespace US13.Objects.Machines
 			loopingBaskets = newLoopState;
 		}
 
-		#region Play sounds!
-
-		public void PlayEmerge()
-		{
-			SoundManager.PlayNetworkedAtPos(emergeSfx, registerTile.WorldPosition, sourceObj: gameObject);
-		}
-
-		public void PlayDing()
-		{
-			SoundManager.PlayNetworkedAtPos(dingSfx, registerTile.WorldPosition, sourceObj: gameObject);
-		}
-
-		#endregion
-
-		#region Grease
-
 		[Server]
 		private void AccumulateGrease()
 		{
@@ -266,42 +249,37 @@ namespace US13.Objects.Machines
 			greaseOverlay.SetCatalogueIndexSprite(newLevel >= 1f ? 1 : 0);
 		}
 
-		#endregion
+		#region Play sounds!
 
-		#region Audio
+		public void PlayEmerge()
+		{
+			Sound.At(emergeSfx, gameObject).PlayNetworked();
+		}
+
+		public void PlayDing()
+		{
+			Sound.At(dingSfx, gameObject).PlayNetworked();
+		}
 
 		/// <summary>
 		/// Starts the frying loop muted and fades it in over crossfadeDuration.
 		/// </summary>
 		private async UniTaskVoid StartLoopWithFadeIn(int basketIndex, CancellationToken ct)
 		{
-			var loopSfx = UnityEngine.Random.value > 0.5f ? fryingLoopSfx1 : fryingLoopSfx2;
-			basketLoopGUIDs[basketIndex] = await SoundManager.PlayNetworkedAtPosAsync(loopSfx,
-				registerTile.WorldPosition,
-				audioSourceParameters: new AudioSourceParameters(pitch: VoltageModifier, isMute: true, loops: true),
-				sourceObj: gameObject);
-
-			if (ct.IsCancellationRequested) return;
-
-			// Fade in with discrete volume steps sent to all clients.
-			const int steps = 5;
-			float stepDuration = crossfadeDuration / steps;
-			for (int step = 1; step <= steps; step++)
-			{
-				if (ct.IsCancellationRequested) return;
-				await UniTask.WaitForSeconds(stepDuration, cancellationToken: ct);
-
-				float volume = (float)step / steps;
-				ChangeAudioSourceParametersMessage.SendToAll(basketLoopGUIDs[basketIndex],
-					new AudioSourceParameters(volume: volume, pitch: VoltageModifier, loops: true));
-			}
+			List<AddressableAudioSource> sounds = new() {fryingLoopSfx1, fryingLoopSfx2};
+			basketLoopGUIDs[basketIndex] = await Sound.At(sounds, gameObject)
+				.WithPitch(VoltageModifier)
+				.WithVolume(0.3f) // original sound is loud af
+				.WithLooping()
+				.WithFadeIn(fadeInDuration)
+				.PlayNetworkedAsync();
 		}
 
 		private void StopBasketLoop(int basketIndex)
 		{
 			if (string.IsNullOrEmpty(basketLoopGUIDs[basketIndex]) == false)
 			{
-				SoundManager.StopNetworked(basketLoopGUIDs[basketIndex]);
+				Sound.Stop(basketLoopGUIDs[basketIndex]);
 				basketLoopGUIDs[basketIndex] = "";
 			}
 		}
