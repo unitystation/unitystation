@@ -6,12 +6,14 @@ using System.Text;
 using Logs;
 using Mirror;
 using UnityEngine;
+using US13.Core;
 using US13.Core.Camera;
 using US13.Core.Chat;
 using US13.Core.Cooldowns;
 using US13.Core.Input_System.InteractionV2;
 using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Lifecycle;
+using US13.Core.Lighting;
 using US13.Health.Objects;
 using US13.HealthV2;
 using US13.Items.Implants.Organs;
@@ -116,6 +118,7 @@ namespace US13.Systems.Ai
 		[SyncVar(hook = nameof(SyncFOVRoot))]
 		private NetworkIdentity FOVFollowCamera;
 
+		public NetworkIdentity fovFollowCamera => FOVFollowCamera;
 
 		//Client and server accurate
 		private bool isCarded;
@@ -192,6 +195,8 @@ namespace US13.Systems.Ai
 
 			cooldowns = GetComponent<HasCooldowns>();
 			lineRenderer = GetComponentInChildren<LineRenderer>();
+			ComponentsTracker<AiPlayer>.RegisterInstance(this);
+
 		}
 
 		private void Start()
