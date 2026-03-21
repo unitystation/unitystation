@@ -31,12 +31,12 @@ namespace US13.Systems.Construction
 		public string HoverTip()
 		{
 			if (machineParts == null) return null;
-			var ingrediants = "Ingridents:\n";
+			var ingredients = "Ingredients:\n";
 			foreach (var machinePart in machineParts.machineParts)
 			{
-				ingrediants += $"{machinePart.itemTrait.Name} (x{machinePart.amountOfThisPart})\n".Color(Color.magenta);
+				ingredients += $"{machinePart.itemTrait.Name} (x{machinePart.amountOfThisPart})\n".Color(Color.magenta);
 			}
-			return ingrediants;
+			return ingredients;
 		}
 
 		public string CustomTitle()
