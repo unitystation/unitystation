@@ -2475,7 +2475,7 @@
                     "void Quit()",
                     "void remove_logMessageReceived(UnityEngine.Application/LogCallback)",
                     "void add_logMessageReceived(UnityEngine.Application/LogCallback)",
-                    "UnityEngine.SystemLanguage get_systemLanguage()",
+                    "UnityEngine.SystemLanguage get_systemLanguage()"
                 ],
                 "NestedTypes": {
                     "LogCallback": {
@@ -2810,7 +2810,7 @@
             },
             "TileAnimationFlags": {
                 "All": true
-            },
+            }
         },
         "UnityEngine.Video": {
             "VideoPlayer": {
@@ -3218,7 +3218,7 @@
             }
         },
         "Mirror.Transports": {
-            "PubKeyInfo": {},
+            "PubKeyInfo": {}
         },
         "Mirror.Transports.Encryption": {
             "EncryptionTransport": {
@@ -3657,6 +3657,60 @@
                 "All": true
             },
             "SwitchToMainThread": {
+                "All": true
+            },
+            "YieldAwaitable": {
+                "All": true
+            },
+            "UniTaskCompletionSource": {
+                "All": true
+            },
+            "UniTaskCompletionSource`1": {
+                "All": true
+            },
+            "AutoResetUniTaskCompletionSource": {
+                "All": true
+            },
+            "AutoResetUniTaskCompletionSource`1": {
+                "All": true
+            },
+            "IUniTaskSource": {
+                "All": true
+            },
+            "IUniTaskSource`1": {
+                "All": true
+            },
+            "UniTaskStatus": {
+                "All": true
+            },
+            "UniTaskScheduler": {
+                "All": true
+            },
+            "DelayType": {
+                "All": true
+            },
+            "AsyncLazy": {
+                "All": true
+            },
+            "AsyncLazy`1": {
+                "All": true
+            },
+            "Channel`1": {
+                "All": true
+            },
+            "TimeoutController": {
+                "All": true
+            },
+            "CancellationTokenExtensions": {
+                "All": true
+            },
+            "AsyncReactiveProperty`1": {
+                "All": true
+            },
+            "ReadOnlyAsyncReactiveProperty`1": {
+                "All": true
+            },
+            "ReturnToMainThread": {
                 "All": true
             }
         },
