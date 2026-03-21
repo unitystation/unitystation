@@ -95,7 +95,7 @@ namespace US13.Objects.Machines
 
 		public void Activate()
 		{
-			SoundManager.PlayNetworkedAtPos(grindSound, WorldPosition, audioSourceParameters: new AudioSourceParameters(spatialBlend: 2) , sourceObj: gameObject);
+			Sound.At(grindSound, gameObject).PlayNetworked();
 			foreach (var slot in itemStorage.GetItemSlots())
 			{
 				if (slot == itemSlot) continue;
