@@ -10,7 +10,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1118906625084876128}
+    - target: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 75e4e21a59e92ff4c9452b83d77c3243,
+        type: 2}
+    - target: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 75e4e21a59e92ff4c9452b83d77c3243,
         type: 2}
@@ -95,9 +106,21 @@ PrefabInstance:
       objectReference: {fileID: 2800000, guid: 63a5a5de281f17d45b502834972dfce7, type: 3}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 67903ff4fa972224aaef3d4d1c500202,
+        type: 2}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
       propertyPath: itemSprites.LeftHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 93a55e30b31bf9746a62ec5906ead57a, type: 3}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 36ebd20906ad646459bdf9f83f7c53a5,
+        type: 2}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: itemSprites.RightHand.EquippedData
@@ -269,3 +292,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8712bb5401fd7704693d37c2064e361d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!212 &1118906625084876128 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8470250495983453963, guid: c9c58a9243d494537abcb4ee470efab0,
+    type: 3}
+  m_PrefabInstance: {fileID: 8794255013882389099}
+  m_PrefabAsset: {fileID: 0}

@@ -729,7 +729,7 @@ namespace US13.Managers.UpdateManager
 		UPDATE,
 		FIXED_UPDATE,
 		LATE_UPDATE,
-		PERIODIC_UPDATE,
+		PERIODIC_UPDATE, //The one with the custom time range
 		SOUND_UPDATE,
 		EARLY_UPDATE,
 		THINK,
