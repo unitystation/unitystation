@@ -12,6 +12,7 @@ using US13.Player;
 using US13.Systems.Inventory;
 using US13.Tilemaps.Behaviours.Objects;
 using US13.UI.Core.ProgressBar;
+using Util;
 
 namespace US13.Items.Food
 {
@@ -47,7 +48,7 @@ namespace US13.Items.Food
 
 		private void Awake()
 		{
-			FoodContents = GetComponent<ReagentContainer>();
+			FoodContents = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 			item = GetComponent<RegisterItem>();
 			itemAttributes = GetComponent<ItemAttributesV2>();
 			stackable = GetComponent<Stackable>();

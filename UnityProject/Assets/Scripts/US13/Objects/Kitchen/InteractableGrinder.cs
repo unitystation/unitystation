@@ -25,7 +25,7 @@ namespace US13.Objects.Kitchen
 
 		private void Start()
 		{
-			grinderStorage = GetComponent<ReagentContainer>();
+			grinderStorage = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 			grinder = GetComponent<AIOGrinder>();
 		}
 		public string Examine(Vector3 worldPos = default)

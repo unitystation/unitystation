@@ -41,7 +41,7 @@ namespace US13.Items.Food
 
 		private void Awake()
 		{
-			container = GetComponent<ReagentContainer>();
+			container = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 			itemAttributes = GetComponent<ItemAttributesV2>();
 			item = GetComponent<RegisterItem>();
 		}

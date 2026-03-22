@@ -3,6 +3,7 @@ using UnityEngine;
 using US13.ChemistryComponents;
 using US13.Core.Sprite_Handler;
 using US13.Core.Transform;
+using Util;
 
 namespace US13.Effects.FloorEffect
 {
@@ -17,7 +18,7 @@ namespace US13.Effects.FloorEffect
 
 		public void Awake()
 		{
-			ReagentMix = this.GetComponent<ReagentContainer>();
+			ReagentMix = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 		}
 
 

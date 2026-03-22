@@ -15,6 +15,7 @@ using US13.UI.Core.Net;
 using US13.UI.Core.Net.Elements;
 using US13.UI.Core.Net.Page;
 using US13.UI.Systems;
+using Util;
 
 namespace US13.UI.Objects.Medical
 {
@@ -195,7 +196,7 @@ namespace US13.UI.Objects.Medical
 			productChoice = choice;
 
 			productTypeChoice.MasterSetValue($"{choice.GetComponent<ItemAttributesV2>().ArticleName}s");
-			productMaxAmount.MasterSetValue($"Max {choice.GetComponent<ReagentContainer>().MaxCapacity}u");
+			productMaxAmount.MasterSetValue($"Max {choice.GetCachedComponent<ReagentContainer>(includeDisabled: false).MaxCapacity}u");
 			foreach(var entry in productList.Entries)
 			{
 				if (entry.transform.GetSiblingIndex() == ChoiceIndex)

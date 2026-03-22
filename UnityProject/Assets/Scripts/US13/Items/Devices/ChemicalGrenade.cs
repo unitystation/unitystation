@@ -40,10 +40,10 @@ namespace US13.Items.Devices
 		protected const int EMPTY_VARIANT = 0;
 
 		public ReagentContainer ReagentContainer1 =>
-			containerStorage.GetIndexedItemSlot(0)?.Item.OrNull()?.GetComponent<ReagentContainer>();
+			containerStorage.GetIndexedItemSlot(0)?.Item.OrNull()?.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 
 		public ReagentContainer ReagentContainer2 =>
-			containerStorage.GetIndexedItemSlot(1)?.Item.OrNull()?.GetComponent<ReagentContainer>();
+			containerStorage.GetIndexedItemSlot(1)?.Item.OrNull()?.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 
 
 		protected ReagentContainer mixedReagentContainer;
@@ -92,7 +92,7 @@ namespace US13.Items.Devices
 		private void Start()
 		{
 			objectPhysics = GetComponent<UniversalObjectPhysics>();
-			mixedReagentContainer = GetComponent<ReagentContainer>();
+			mixedReagentContainer = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 			containerStorage = GetComponent<ItemStorage>();
 			pickupable = GetComponent<Pickupable>();
 

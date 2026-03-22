@@ -11,6 +11,7 @@ using US13.Managers;
 using US13.Messages.Server.SoundMessages;
 using US13.Systems.Inventory;
 using US13.Tilemaps.Behaviours.Objects;
+using Util;
 
 namespace US13.Objects.Machines
 {
@@ -21,7 +22,7 @@ namespace US13.Objects.Machines
 	public class AIOGrinder : MonoBehaviour
 	{
 		public ReagentContainer Container => itemSlot != null && itemSlot.ItemObject != null
-			? itemSlot.ItemObject.GetComponent<ReagentContainer>()
+			? itemSlot.ItemObject.GetCachedComponent<ReagentContainer>(includeDisabled: false)
 			: null;
 		[SerializeField] private AddressableAudioSource grindSound = null;
 		private ItemSlot itemSlot;
@@ -62,7 +63,7 @@ namespace US13.Objects.Machines
 
 			if (itemSlot.IsEmpty)
 			{
-				if (fromSlot.Item.GetComponent<ReagentContainer>().TransferMode == TransferMode.Normal) // put beaker to slot
+				if (fromSlot.Item.GetCachedComponent<ReagentContainer>(includeDisabled: false).TransferMode == TransferMode.Normal) // put beaker to slot
 				{
 
 					Inventory.ServerTransfer(fromSlot, itemStorage.GetIndexedItemSlot(0));

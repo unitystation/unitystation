@@ -9,6 +9,7 @@ using US13.Items.Tool;
 using US13.Objects.Chemistry;
 using US13.Systems.Explosions;
 using US13.Tilemaps.Behaviours.Objects;
+using Util;
 using UniversalObjectPhysics = US13.Core.Physics.UniversalObjectPhysics;
 
 namespace US13.Objects
@@ -31,7 +32,7 @@ namespace US13.Objects
 			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			registerObject = GetComponent<RegisterObject>();
 			integrity = GetComponent<Integrity>();
-			reagentContainerScript = GetComponent<ReagentContainer>();
+			reagentContainerScript = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 			reagentContainerObjectInteractionScript = GetComponent<ReagentContainerObjectInteractionScript>();
 			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
 		}

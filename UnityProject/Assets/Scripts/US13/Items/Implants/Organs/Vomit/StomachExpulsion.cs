@@ -38,7 +38,7 @@ namespace US13.Items.Implants.Organs.Vomit
 			var vomitSplat = Spawn.ServerPrefab(
 				vomitReagentPrefab,
 				LivingHealthMaster.gameObject.AssumedWorldPosServer());
-			var vomitReagent = vomitSplat.GameObject.GetComponent<ReagentContainer>();
+			var vomitReagent = vomitSplat.GameObject.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 			if (vomitReagent == null)
 			{
 				Loggy.Error($"Vomit prefab does not have a reagent container!!!");

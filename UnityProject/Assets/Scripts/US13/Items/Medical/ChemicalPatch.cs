@@ -23,7 +23,7 @@ namespace US13.Items.Medical
 
 		public void Awake()
 		{
-			AssociatedMix = this.GetComponent<ReagentContainer>();
+			AssociatedMix = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 		}
 
 		public virtual bool WillInteract(HandApply interaction, NetworkSide side)
