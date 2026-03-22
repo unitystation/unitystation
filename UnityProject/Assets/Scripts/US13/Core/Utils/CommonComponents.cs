@@ -27,7 +27,7 @@ namespace US13.Core.Utils
 
 		public IPlayerPossessable IPlayerPossessable;
 
-		public Dictionary<Type, Component> dictionary = new Dictionary<Type, Component>();
+		public Dictionary<Type, Component[]> dictionary = new Dictionary<Type, Component[]>();
 
 		[SerializeField] private List<Component> commonComponentsToRegister = new List<Component>();
 
@@ -40,7 +40,8 @@ namespace US13.Core.Utils
 			{
 				if (c == null) continue;
 				var type = c.GetType();
-				dictionary.TryAdd(type, c);
+				if (dictionary.ContainsKey(type)) continue;
+				dictionary[type] = this.GetComponents(type);
 			}
 		}
 
@@ -49,25 +50,51 @@ namespace US13.Core.Utils
 			ComponentsTracker<CommonComponents>.UnregisterInstance(this);
 		}
 
-		public bool TrySafeGetComponent<T>(out T component) where T : Component
+		public bool TrySafeGetComponent<T>(out T component, bool includeDisabled = true) where T : Component
 		{
 			if (dictionary.ContainsKey(typeof(T)) == false)
 			{
-				dictionary[typeof(T)] = this.GetComponent<T>();
+				dictionary[typeof(T)] = GetComponents(typeof(T));
 			}
 
-			component = dictionary[typeof(T)] as T;
-			return component != null;
+			var arr = dictionary[typeof(T)];
+			if (includeDisabled)
+			{
+				component = arr.Length > 0 ? arr[0] as T : null;
+				return component != null;
+			}
+
+			foreach (var c in arr)
+			{
+				if (c is Behaviour b && b.enabled == false) continue;
+				component = c as T;
+				return component != null;
+			}
+
+			component = null;
+			return false;
 		}
 
-		public T SafeGetComponent<T>() where T : Component
+		public T SafeGetComponent<T>(bool includeDisabled = true) where T : Component
 		{
 			if (dictionary.ContainsKey(typeof(T)) == false)
 			{
-				dictionary[typeof(T)] = this.GetComponent<T>();
+				dictionary[typeof(T)] = GetComponents(typeof(T));
 			}
 
-			return dictionary[typeof(T)] as T;
+			var arr = dictionary[typeof(T)];
+			if (includeDisabled)
+			{
+				return arr.Length > 0 ? arr[0] as T : null;
+			}
+
+			foreach (var c in arr)
+			{
+				if (c is Behaviour b && b.enabled == false) continue;
+				return c as T;
+			}
+
+			return null;
 		}
 
 	}
