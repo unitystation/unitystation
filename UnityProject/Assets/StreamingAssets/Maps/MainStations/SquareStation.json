@@ -173626,6 +173626,78 @@
             "LocalPRS": "81┼147┼0┼"
           },
           {
+            "GitID": "b5e5d6463b96de0458a195cebc18a3e2_81┼148┼0┼",
+            "PrefabID": "b5e5d6463b96de0458a195cebc18a3e2",
+            "Name": "SecurityRecordsConsole (1)",
+            "LocalPRS": "81┼148┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_89┼149┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "38246cd9491b4c248abb2e296cc6c76f_82┼54┼0┼",
             "PrefabID": "38246cd9491b4c248abb2e296cc6c76f",
             "NameMatches": true,
@@ -173878,25 +173950,6 @@
             "NameMatches": true,
             "Name": "SuitStorageUnitSecurity",
             "LocalPRS": "82┼144┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_89┼149┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "b5e5d6463b96de0458a195cebc18a3e2_82┼148┼0┼",
-            "PrefabID": "b5e5d6463b96de0458a195cebc18a3e2",
-            "Name": "SecurityRecordsConsole (1)",
-            "LocalPRS": "82┼148┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -179247,7 +179300,7 @@
                   "Data": [
                     {
                       "Name": "connectedDevices#86",
-                      "Data": "b5e5d6463b96de0458a195cebc18a3e2_82┼148┼0┼@0@APCPoweredDevice@0"
+                      "Data": "b5e5d6463b96de0458a195cebc18a3e2_81┼148┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#85",
@@ -189303,6 +189356,10 @@
                   "ClassID": "APC@0",
                   "Data": [
                     {
+                      "Name": "connectedDevices#29",
+                      "Data": "cb0f8eeade0559b4eab161558c5c1645_102┼112┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
                       "Name": "connectedDevices#28",
                       "Data": "f2432d244a6b7774ea00ff013beb7dcb_97┼106┼0┼@0@APCPoweredDevice@0"
                     },
@@ -191421,10 +191478,24 @@
             }
           },
           {
-            "GitID": "DeepFryerour GPs_102┼112┼0┼",
-            "PrefabID": "DeepFryerour GPs",
-            "Name": "New DeepFryer",
-            "LocalPRS": "102┼112┼0┼"
+            "GitID": "cb0f8eeade0559b4eab161558c5c1645_102┼112┼0┼",
+            "PrefabID": "cb0f8eeade0559b4eab161558c5c1645",
+            "NameMatches": true,
+            "Name": "DeepFryer",
+            "LocalPRS": "102┼112┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_100┼108┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "sizzlegrizzle_102┼115┼0┼",
