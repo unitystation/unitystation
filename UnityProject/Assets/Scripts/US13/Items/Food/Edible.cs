@@ -54,13 +54,17 @@ namespace US13.Items.Food
 		protected ItemAttributesV2 itemAttributes;
 		private Stackable stackable;
 		private RegisterItem item;
-		protected ReagentContainer FoodContents;
+		private ReagentContainer foodContents;
+		protected ReagentContainer FoodContents =>
+			foodContents != null
+				? foodContents
+				: foodContents = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 
 		private string Name => itemAttributes.ArticleName;
 
 		private void Awake()
 		{
-			FoodContents = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
+			foodContents = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 			item = GetComponent<RegisterItem>();
 			itemAttributes = GetComponent<ItemAttributesV2>();
 			stackable = GetComponent<Stackable>();
