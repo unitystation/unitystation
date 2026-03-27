@@ -6,6 +6,7 @@ using US13.HealthV2;
 using US13.HealthV2.Living;
 using US13.Items.Weapons;
 using US13.Managers.MatrixManager;
+using Util;
 
 namespace US13.Projectiles.Behaviours
 {
@@ -16,7 +17,7 @@ namespace US13.Projectiles.Behaviours
 		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone = BodyPartType.Chest)
 		{
 
-			var Container = MagazineBehaviour.GetComponent<ReagentContainer>();
+			var Container = MagazineBehaviour.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 			if (Container != null)
 			{
 				ReagentMix = Container.CurrentReagentMix.Clone();

@@ -3,6 +3,7 @@ using UnityEngine;
 using System.IO;
 using UnityEditor;
 using Newtonsoft.Json;
+using Util;
 
 public class GeneratePlantSOs : EditorWindow
 {
@@ -286,7 +287,7 @@ public class GeneratePlantSOs : EditorWindow
 				//Set plant data for food
 				newFood.plantData = plantdata;
 
-				var newReagents = prefabVariant.GetComponent<ReagentContainer>();
+				var newReagents = prefabVariant.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 
 				//add reagents to food
 				if (plat.ContainsKey("reagents_add"))

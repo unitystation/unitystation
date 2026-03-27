@@ -174,7 +174,7 @@ namespace US13.Objects.Chemistry
 		{
 			ReagentMix temp = GetBufferMix();
 			//Do Math
-			float maxProductAmount = productId.GetComponent<ReagentContainer>().MaxCapacity;
+			float maxProductAmount = productId.GetCachedComponent<ReagentContainer>(includeDisabled: false).MaxCapacity;
 			float maxTotalAllProducts = maxProductAmount * numberOfProduct;
 			float amountPerProduct = ((maxTotalAllProducts > temp.Total) ? temp.Total : maxTotalAllProducts)
 			                         / numberOfProduct;
@@ -191,7 +191,7 @@ namespace US13.Objects.Chemistry
 				}
 
 				//Fill Product
-				ReagentContainer productContainer = product.GetComponent<ReagentContainer>();
+				ReagentContainer productContainer = product.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 				if (amountPerProduct <= productContainer.MaxCapacity)
 				{
 					temp.TransferTo(productContainer.CurrentReagentMix, amountPerProduct);
@@ -219,15 +219,15 @@ namespace US13.Objects.Chemistry
 		#region Internal Contents
 
 		public ReagentContainer Container => containerSlot != null && containerSlot.ItemObject != null
-			? containerSlot.ItemObject.GetComponent<ReagentContainer>()
+			? containerSlot.ItemObject.GetCachedComponent<ReagentContainer>(includeDisabled: false)
 			: null;
 
 		public ReagentContainer BufferslotOne => bufferItemOne != null && bufferItemOne.ItemObject != null
-			? bufferItemOne.ItemObject.GetComponent<ReagentContainer>()
+			? bufferItemOne.ItemObject.GetCachedComponent<ReagentContainer>(includeDisabled: false)
 			: null;
 
 		public ReagentContainer BufferslotTwo => bufferItemTwo != null && bufferItemTwo.ItemObject != null
-			? bufferItemTwo.ItemObject.GetComponent<ReagentContainer>()
+			? bufferItemTwo.ItemObject.GetCachedComponent<ReagentContainer>(includeDisabled: false)
 			: null;
 
 		public ItemSlot ItemSlot { get; }
@@ -299,7 +299,7 @@ namespace US13.Objects.Chemistry
 		/// <param name="subject"></param>
 		public void EjectContainer(PlayerInfo subject)
 		{
-			containerSlot.Item.GetComponent<ReagentContainer>().OnReagentMixChanged.Invoke();
+			containerSlot.Item.GetCachedComponent<ReagentContainer>(includeDisabled: false).OnReagentMixChanged.Invoke();
 			var bestSlot = GetBestSlot(containerSlot.ItemObject, subject);
 			if (!Inventory.ServerTransfer(containerSlot, bestSlot))
 			{

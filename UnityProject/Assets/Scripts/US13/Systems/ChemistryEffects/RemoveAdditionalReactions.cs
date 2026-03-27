@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Chemistry;
 using UnityEngine;
 using US13.ChemistryComponents;
+using Util;
 
 namespace US13.Systems.ChemistryEffects
 {
@@ -15,7 +16,7 @@ namespace US13.Systems.ChemistryEffects
 		public override void Apply(MonoBehaviour sender,ReagentMix ReagentMix,Vector3 WorldPosition, float amount)
 		{
 			if (sender == null) return;
-			var ReagentContainer = sender.GetComponent<ReagentContainer>();
+			var ReagentContainer = sender.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 
 			foreach (var ReactionToRemove in ReactionsToRemove)
 			{

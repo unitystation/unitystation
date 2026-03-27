@@ -88,14 +88,12 @@ namespace US13.ChemistryComponents
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
-			if (enabled == false) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			return WillInteractHelp(interaction.UsedObject, interaction.TargetObject, side, null);
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			if (enabled == false) return false;
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
 			var playerScript = interaction.Performer.GetComponent<PlayerScript>();
@@ -120,7 +118,7 @@ namespace US13.ChemistryComponents
 		{
 			if (srcObject == null || dstObject == null) return false;
 
-			var srcContainer = srcObject.GetComponent<ReagentContainer>();
+			var srcContainer = srcObject.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 
 			if (srcContainer == null) return false;
 
@@ -135,8 +133,8 @@ namespace US13.ChemistryComponents
 		{
 			if (srcObject == null || dstObject == null) return false;
 
-			var objectInHands = srcObject.GetComponent<ReagentContainer>();
-			var target = dstObject.GetComponent<ReagentContainer>();
+			var objectInHands = srcObject.GetCachedComponent<ReagentContainer>(includeDisabled: false);
+			var target = dstObject.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 
 			if (target == null || objectInHands == null) return false;
 
@@ -237,8 +235,8 @@ namespace US13.ChemistryComponents
 
 		public void ServerPerformInteraction(InventoryApply interaction)
 		{
-			var one = interaction.UsedObject.GetComponent<ReagentContainer>();
-			var two = interaction.TargetObject.GetComponent<ReagentContainer>();
+			var one = interaction.UsedObject.GetCachedComponent<ReagentContainer>(includeDisabled: false);
+			var two = interaction.TargetObject.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 
 			ServerTransferInteraction(one, two, interaction.Performer);
 		}
@@ -249,8 +247,8 @@ namespace US13.ChemistryComponents
 
 			if (interaction.Intent == Intent.Help)
 			{
-				var one = interaction.HandObject.GetComponent<ReagentContainer>();
-				var two = interaction.TargetObject.GetComponent<ReagentContainer>();
+				var one = interaction.HandObject.GetCachedComponent<ReagentContainer>(includeDisabled: false);
+				var two = interaction.TargetObject.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 
 				var reagentContainerObjectInteractionScript =
 					interaction.TargetObject.GetComponent<ReagentContainerObjectInteractionScript>();

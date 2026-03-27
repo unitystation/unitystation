@@ -4,6 +4,7 @@ using Chemistry;
 using UnityEngine;
 using US13.ChemistryComponents;
 using US13.Items.Implants.Organs;
+using Util;
 
 namespace US13.Systems.ChemistryEffects
 {
@@ -26,7 +27,7 @@ namespace US13.Systems.ChemistryEffects
 			{
 				if (core.EnhancedUsedUp)
 				{
-					var ReagentContainer = sender.GetComponent<ReagentContainer>();
+					var ReagentContainer = sender.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 
 					foreach (var ReactionToRemove in ReactionsToRemove)
 					{
@@ -41,7 +42,7 @@ namespace US13.Systems.ChemistryEffects
 			}
 			else
 			{
-				var ReagentContainer = sender.GetComponent<ReagentContainer>();
+				var ReagentContainer = sender.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 
 				foreach (var ReactionToRemove in ReactionsToRemove)
 				{

@@ -8,6 +8,7 @@ using US13.HealthV2.Living;
 using US13.Items.Traits;
 using US13.Managers.UpdateManager;
 using US13.Systems.Inventory;
+using Util;
 
 namespace US13.Objects.Medical
 {
@@ -85,7 +86,7 @@ namespace US13.Objects.Medical
 				if (Validations.HasItemTrait(interaction.HandObject, BloodBag) == false) return;
 
 				Inventory.ServerTransfer(interaction.HandSlot, bagSlot);
-				bagSlot.Item.GetComponent<ReagentContainer>().OnReagentMixChanged.AddListener(UpdateBagLevel);
+				bagSlot.Item.GetCachedComponent<ReagentContainer>(includeDisabled: false).OnReagentMixChanged.AddListener(UpdateBagLevel);
 				UpdateBagSprite();
 				UpdateBagLevel();
 				return;
@@ -94,7 +95,7 @@ namespace US13.Objects.Medical
 			{
 				if (interaction.HandObject == null && interaction.IsAltClick == false)
 				{
-					bagSlot.Item.GetComponent<ReagentContainer>().OnReagentMixChanged.RemoveListener(UpdateBagLevel);
+					bagSlot.Item.GetCachedComponent<ReagentContainer>(includeDisabled: false).OnReagentMixChanged.RemoveListener(UpdateBagLevel);
 					Inventory.ServerTransfer(bagSlot, interaction.HandSlot);
 
 					currentStemState = StemState.Idle;
@@ -152,7 +153,7 @@ namespace US13.Objects.Medical
 
 		public void UpdateBagLevel()
 		{
-			var Container = bagSlot?.Item?.GetComponent<ReagentContainer>();
+			var Container = bagSlot?.Item?.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 
 			if (Container == null)
 			{
@@ -248,7 +249,7 @@ namespace US13.Objects.Medical
 				return;
 			}
 
-			var ReagentContainer = bagSlot.Item.GetComponent<ReagentContainer>();
+			var ReagentContainer = bagSlot.Item.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 
 
 			switch (currentStemState)

@@ -9,6 +9,7 @@ using US13.Managers;
 using US13.Objects.Engineering;
 using US13.Systems.Electricity.Interfaces;
 using US13.Systems.Inventory;
+using Util;
 
 namespace US13.Objects.Chemistry
 {
@@ -18,7 +19,7 @@ namespace US13.Objects.Chemistry
 	public class BoozeDispenser : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPowerable
 	{
 		public ReagentContainer Container => itemSlot != null && itemSlot.ItemObject != null
-			? itemSlot.ItemObject.GetComponent<ReagentContainer>()
+			? itemSlot.ItemObject.GetCachedComponent<ReagentContainer>(includeDisabled: false)
 			: null;
 
 		public delegate void ChangeEvent();
