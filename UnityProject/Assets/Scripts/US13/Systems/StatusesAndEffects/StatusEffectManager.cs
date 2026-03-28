@@ -52,7 +52,7 @@ namespace US13.Systems.StatusesAndEffects
 
 		public void RemoveStatus(StatusEffect status)
 		{
-			if (status == null) return;
+			if (!status) return;
 			status.OnRemoved();
 			Statuses.Remove(status);
 		}

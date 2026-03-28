@@ -7,6 +7,7 @@ using US13.ScriptableObjects;
 namespace US13.UI.Core.Alerts
 {
 	[CreateAssetMenu(fileName = "Alert", menuName = "ScriptableObjects/UIAlerts")]
+	[Serializable]
 	public class AlertSO : ScriptableObject
 	{
 

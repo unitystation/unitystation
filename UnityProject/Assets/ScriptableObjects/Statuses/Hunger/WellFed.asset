@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 57ba74246e3a41e2b0a713c2ba3d28d8, type: 3}
-  m_Name: Hungry
-  m_EditorClassIdentifier: Assets::Systems.StatusesAndEffects.Implementations.Hunger.BaseHungerStatusEffect
-  StatusAlert: {fileID: 11400000, guid: 3803e6aed03ceaf4190e5fdbd1e27dbb, type: 2}
-  MessageOnEnteringStatus: You could go for a bite.
+  m_Name: WellFed
+  m_EditorClassIdentifier: Assets::US13.Systems.StatusesAndEffects.Implementations.Hunger.BaseHungerStatusEffect
+  StatusAlert: {fileID: 11400000, guid: 736bf1c84a056584c99884337fe16d86, type: 2}
+  MessageOnEnteringStatus: You don't feel hungry anymore.

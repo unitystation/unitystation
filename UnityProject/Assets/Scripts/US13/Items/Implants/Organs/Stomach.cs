@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using US13.ChemistryComponents;
+using US13.Core.Chat;
 using US13.Core.Lifecycle;
 using US13.HealthV2.Living;
 using US13.HealthV2.Living.Metabolism;
@@ -14,6 +15,8 @@ namespace US13.Items.Implants.Organs
 		public ReagentContainer StomachContents;
 
 		public float DigesterAmountPerSecond = 1;
+
+		public float StomachIsConsideredFullWhenSpareCapacityIsLessThan = 15f;
 
 		public List<BodyFat> BodyFats = new List<BodyFat>();
 
@@ -48,8 +51,12 @@ namespace US13.Items.Implants.Organs
 
 				_ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(Digesting);
 			}
+			else
+			{
+				HungerComponent.HungerState = HungerState.Starving;
+			}
 
-			if (StomachContents.SpareCapacity < 15f) //Magic number
+			if (StomachContents.SpareCapacity < StomachIsConsideredFullWhenSpareCapacityIsLessThan)
 			{
 				HungerComponent.HungerState = HungerState.Full;
 			}
@@ -71,11 +78,11 @@ namespace US13.Items.Implants.Organs
 
 			if (AllFat)
 			{
-				var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject, spawnManualContents: true).GameObject.GetComponent<BodyFat>();
-				Added.SetAbsorbedAmount(0);
-				Added.RelatedStomach = this;
-				BodyFats.Add(Added);
-				RelatedPart.OrganStorage.ServerTryAdd(Added.gameObject);
+				AddFat(false);
+				if (RelatedPart.HealthMaster.gameObject)
+				{
+					Chat.AddExamineMsg(RelatedPart.HealthMaster.gameObject, "You feel like you've gained a little weight.");
+				}
 			}
 		}
 
@@ -84,13 +91,17 @@ namespace US13.Items.Implants.Organs
 			AddFat();
 		}
 
-		public void AddFat()
+		public void AddFat(bool initalSpawnCheck = true)
 		{
-			if (InitialFatSpawned) return;
-			InitialFatSpawned = true;
-			var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
+			if (initalSpawnCheck)
+			{
+				if (InitialFatSpawned) return;
+				InitialFatSpawned = true;
+			}
+			var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject, spawnManualContents: true).GameObject.GetComponent<BodyFat>();
 			BodyFats.Add(Added);
 			Added.RelatedStomach = this;
+			Added.SetAbsorbedAmount(0);
 			RelatedPart.ContainedIn.OrganStorage.ServerTryAdd(Added.gameObject);
 		}
 

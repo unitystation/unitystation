@@ -63,7 +63,8 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 5920833068371804161
-      type: {class: ReagentPoolSystem, ns: US13.HealthV2.Living.PolymorphicSystems, asm: Assets}
+      type: {class: ReagentPoolSystem, ns: US13.HealthV2.Living.PolymorphicSystems,
+        asm: Assets}
       data:
         Base: {fileID: 0}
         BloodPool:
@@ -95,7 +96,8 @@ MonoBehaviour:
         ALLMetabolismReactions: []
         MetabolismComponents: []
     - rid: 5920833068371804164
-      type: {class: HungerSystem, ns: US13.HealthV2.Living.PolymorphicSystems, asm: Assets}
+      type: {class: HungerSystem, ns: US13.HealthV2.Living.PolymorphicSystems.Hunger,
+        asm: Assets}
       data:
         Base: {fileID: 0}
         BodyParts: []
@@ -104,7 +106,7 @@ MonoBehaviour:
           type: 2}
         CashedHungerState: 1
         HungerStatusEffects:
-          NotHungryStatusEffect: {fileID: 11400000, guid: 8a92c094201a758498a79523323565eb,
+          NotHungryStatusEffect: {fileID: 11400000, guid: a2cf78c09e3073c44bfbe12e9789cd05,
             type: 2}
           StravingStatusEffect: {fileID: 11400000, guid: 8526c1e024fdd1e4d8bc35595159d8a4,
             type: 2}
@@ -112,6 +114,8 @@ MonoBehaviour:
             type: 2}
           FatStatusEffect: {fileID: 11400000, guid: 8a92c094201a758498a79523323565eb,
             type: 2}
+        HungerCalculationMethod:
+          rid: 9030449072068624455
     - rid: 5920833068371804166
       type: {class: NaturalChemicalReleaseSystem, ns: US13.HealthV2.Living.PolymorphicSystems,
         asm: Assets}
@@ -121,3 +125,7 @@ MonoBehaviour:
         TotalToxinGenerationPerSecond: 0.1
         BodyNaturalToxinReagent: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
           type: 2}
+    - rid: 9030449072068624455
+      type: {class: DefaultUnityStationHungerCalculation, ns: US13.HealthV2.Living.PolymorphicSystems.Hunger.HungerCalculationMethods,
+        asm: Assets}
+      data: 

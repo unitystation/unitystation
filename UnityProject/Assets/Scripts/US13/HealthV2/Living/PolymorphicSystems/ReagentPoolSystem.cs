@@ -8,6 +8,7 @@ using UnityEngine.Serialization;
 using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 using US13.HealthV2.Living.CirculatorySystem.BloodTypes;
+using US13.HealthV2.Living.PolymorphicSystems.Hunger;
 using US13.Items.Implants.Organs;
 using US13.Managers.MatrixManager;
 using Util;
