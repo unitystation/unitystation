@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "0┼0┼0┼",
+      "Location": "26┼-31┼0┼",
       "MatrixName": "9x9CenterTurret",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -755,6 +755,15 @@
                     {
                       "Name": "isStun",
                       "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ClearanceRestricted@0",
+                  "Data": [
+                    {
+                      "Name": "requiredClearance#0",
+                      "Data": "AwayGeneric2"
                     }
                   ]
                 }

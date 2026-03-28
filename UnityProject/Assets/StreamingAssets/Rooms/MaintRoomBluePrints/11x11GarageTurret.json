@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "0┼0┼0┼",
+      "Location": "110┼-33┼0┼",
       "MatrixName": "11x11GarageTurret",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -1719,6 +1719,10 @@
                     {
                       "Name": "turrets#0",
                       "Data": "f10c70de452d8b84ba9d9fd4c169f205_5┼5┼0┼@0@Turret@0"
+                    },
+                    {
+                      "Name": "isStun",
+                      "Data": "False"
                     }
                   ]
                 },

@@ -585,6 +585,15 @@
                       "Data": "Left_By90"
                     }
                   ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "isWithoutSwitch",
+                      "Data": "True"
+                    }
+                  ]
                 }
               ],
               "Children": [
@@ -695,6 +704,15 @@
                       "Data": "Down_By180"
                     }
                   ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "isWithoutSwitch",
+                      "Data": "True"
+                    }
+                  ]
                 }
               ],
               "Children": [
@@ -749,6 +767,15 @@
                   "Data": [
                     {
                       "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "isWithoutSwitch",
                       "Data": "True"
                     }
                   ]
@@ -859,6 +886,15 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "isWithoutSwitch",
+                      "Data": "True"
                     }
                   ]
                 }

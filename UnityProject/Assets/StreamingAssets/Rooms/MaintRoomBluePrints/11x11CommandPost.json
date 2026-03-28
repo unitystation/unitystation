@@ -1987,6 +1987,15 @@
                       "Data": "Down_By180"
                     }
                   ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_6┼5┼0┼@0@LightSwitchV2@0"
+                    }
+                  ]
                 }
               ],
               "Children": [
@@ -2039,6 +2048,15 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Up_By0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSwitchV2@0",
+                  "Data": [
+                    {
+                      "Name": "listOfLights#0",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_5┼8┼0┼@0@LightSource@0"
                     }
                   ]
                 }

@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "0┼0┼0┼",
+      "Location": "158┼-35┼0┼",
       "MatrixName": "13x13AI",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -2013,6 +2013,12 @@
             "LocalPRS": "3┼5┼0┼"
           },
           {
+            "GitID": "d589c17f6fd91da4190edfdd2cb5aa53_3┼5.12┼0┼",
+            "PrefabID": "d589c17f6fd91da4190edfdd2cb5aa53",
+            "Name": "EnergyCarbine (1)",
+            "LocalPRS": "3┼5.12┼0┼"
+          },
+          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_3┼8┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "Name": "LightTubeFixture (2)",
@@ -2129,6 +2135,10 @@
                   "ClassID": "Turret@0",
                   "Data": [
                     {
+                      "Name": "turretType",
+                      "Data": "Normal"
+                    },
+                    {
                       "Name": "CheckUnauthorisedPersonnel",
                       "Data": "True"
                     },
@@ -2170,7 +2180,7 @@
                         },
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "AwayGeneric4"
+                          "Data": "AwayGeneric2"
                         }
                       ]
                     }
@@ -2192,7 +2202,7 @@
                         },
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "AwayGeneric4"
+                          "Data": "AwayGeneric2"
                         }
                       ]
                     }
@@ -2575,10 +2585,18 @@
             }
           },
           {
-            "GitID": "d589c17f6fd91da4190edfdd2cb5aa53_7┼9┼0┼",
-            "PrefabID": "d589c17f6fd91da4190edfdd2cb5aa53",
-            "Name": "EnergyCarbine (1)",
-            "LocalPRS": "7┼9┼0┼"
+            "GitID": "099753319aafb7f35abe4f20e6c286b1_6.88┼8.88┼0┼",
+            "PrefabID": "099753319aafb7f35abe4f20e6c286b1",
+            "NameMatches": true,
+            "Name": "BackroomsLv2ID25%",
+            "LocalPRS": "6.88┼8.88┼0┼"
+          },
+          {
+            "GitID": "7eefe29e3c650b31c86fb8df2ef906bf_7┼9.25┼0┼",
+            "PrefabID": "7eefe29e3c650b31c86fb8df2ef906bf",
+            "NameMatches": true,
+            "Name": "BackroomsLv1ID25%",
+            "LocalPRS": "7┼9.25┼0┼"
           },
           {
             "GitID": "366fb594c17e76346bbb29ad4ce021ad_7┼11.12┼0┼",
@@ -2674,7 +2692,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "AwayGeneric4"
+                      "Data": "AwayGeneric2"
                     }
                   ]
                 }
@@ -2731,7 +2749,7 @@
                   "Data": [
                     {
                       "Name": "initialName",
-                      "Data": "AI Core"
+                      "Data": "AI core"
                     },
                     {
                       "Name": "initialDescription",
@@ -2902,6 +2920,10 @@
                   "ClassID": "Turret@0",
                   "Data": [
                     {
+                      "Name": "turretType",
+                      "Data": "Normal"
+                    },
+                    {
                       "Name": "CheckUnauthorisedPersonnel",
                       "Data": "True"
                     },
@@ -2943,7 +2965,7 @@
                         },
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "AwayGeneric4"
+                          "Data": "AwayGeneric2"
                         }
                       ]
                     }
@@ -2965,7 +2987,7 @@
                         },
                         {
                           "Name": "requiredClearance#0",
-                          "Data": "AwayGeneric4"
+                          "Data": "AwayGeneric2"
                         }
                       ]
                     }
