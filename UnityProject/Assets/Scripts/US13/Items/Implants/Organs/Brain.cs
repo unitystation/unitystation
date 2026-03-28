@@ -103,8 +103,8 @@ namespace US13.Items.Implants.Organs
 		public override void Awake()
 		{
 			base.Awake();
-			RelatedPart = this.GetComponentCustom<BodyPart>();
-			ReagentCirculatedComponent = this.GetComponentCustom<ReagentCirculatedComponent>();
+			RelatedPart = this.GetCachedComponent<BodyPart>();
+			ReagentCirculatedComponent = this.GetCachedComponent<ReagentCirculatedComponent>();
 		}
 
 		public void Start()

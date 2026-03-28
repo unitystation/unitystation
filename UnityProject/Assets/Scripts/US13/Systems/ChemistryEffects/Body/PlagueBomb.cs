@@ -59,7 +59,7 @@ namespace US13.Systems.ChemistryEffects.Body
 			}
 
 			//Gib the victim
-			healthMaster.OnGib();
+			healthMaster.OnGib( " By Plague bomb " );
 		}
 
 		private void AttemptToAfflictPlayer(Vector3 actorPosition, PlayerInfo victim)

@@ -21,7 +21,7 @@ namespace US13.Messages.Server
 			{
 				if (LightID is NetId.Invalid or NetId.Empty ) continue;
 
-				CustomNetworkManager.Spawned[LightID].GetComponentCustom<LightSource>().BrightnessCalculation(msg.Voltage);
+				CustomNetworkManager.Spawned[LightID].GetCachedComponent<LightSource>().BrightnessCalculation(msg.Voltage);
 			}
 
 		}

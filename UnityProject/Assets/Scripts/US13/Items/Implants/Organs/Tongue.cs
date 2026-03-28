@@ -34,7 +34,7 @@ namespace US13.Items.Implants.Organs
 			if(CustomNetworkManager.IsServer == false) return;
 
 			//Get voice name from character sheet
-			var Sheet = livingHealth?.GetComponentCustom<PlayerSprites>()?.ThisCharacter;
+			var Sheet = livingHealth?.GetCachedComponent<PlayerSprites>()?.ThisCharacter;
 
 			if (Sheet == null)
 			{

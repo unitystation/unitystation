@@ -16,7 +16,7 @@ namespace US13.Items.Storage
 
 		private void Awake()
 		{
-			ItemStorage = this.GetComponentCustom<ItemStorage>();
+			ItemStorage = this.GetCachedComponent<ItemStorage>();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -36,7 +36,7 @@ namespace US13.Items.Storage
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			var pill = ItemStorage.GetFirstOccupiedSlot();
-			var PillEdible = pill.Item.GetComponentCustom<Edible>();
+			var PillEdible = pill.Item.GetCachedComponent<Edible>(includeDisabled: false);
 			PillEdible.ServerPerformInteraction(interaction);
 		}
 

@@ -1,4 +1,4 @@
-﻿using Mirror;
+using Mirror;
 using UnityEngine;
 using US13.Core.Chat;
 using US13.Core.Input_System.InteractionV2;
@@ -6,7 +6,6 @@ using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.HealthV2.Living.Surgery;
 using US13.Player;
-using US13.UI.Core.ProgressBar;
 using US13.UI.Systems.MainHUD.UI_Bottom;
 using Util;
 
@@ -22,7 +21,7 @@ namespace US13.Items.Food
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (interaction.HandObject == null && interaction.Performer.GetComponent<ConsumeFromFloor>() != null)
+			if (interaction.HandObject == null && interaction.Performer.GetCachedComponent<ConsumeFromFloor>() != null)
 			{
 				//If consume from floor just try to consume
 				TryConsume(interaction.Performer);
@@ -37,7 +36,7 @@ namespace US13.Items.Food
 					return;
 				}
 			}
-			var targetPlayer = interaction.TargetObject.GetComponent<PlayerScript>();
+			var targetPlayer = interaction.TargetObject.GetCachedComponent<PlayerScript>();
 			if (targetPlayer == null) return;
 
 			PlayerScript feeder = interaction.PerformerPlayerScript;
@@ -48,16 +47,14 @@ namespace US13.Items.Food
 			}
 
 			PlayerScript eater = targetPlayer;
-			var bar = StandardProgressAction.Create(
-				new StandardProgressActionConfig(StandardProgressActionType.CPR, false, false),
-				() => TryConsume(feeder.gameObject, eater.gameObject));
-			bar.ServerStartProgress(interaction.Performer.RegisterTile(), consumeTime, interaction.Performer);
+			TryConsume(feeder.gameObject, eater.gameObject);
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
+			if (enabled == false) return false;
 			if (interaction.Intent != Intent.Help) return false;
-			if (interaction.HandObject == null && interaction.Performer.GetComponent<ConsumeFromFloor>() != null)
+			if (interaction.HandObject == null && interaction.Performer.GetCachedComponent<ConsumeFromFloor>() != null)
 			{
 				//Default check and allow any player if they have this script to do this
 				if (DefaultWillInteract.Default(interaction, side, interaction.PerformerPlayerScript.PlayerType)) return true;
@@ -87,7 +84,7 @@ namespace US13.Items.Food
 		public virtual bool CanBeConsumedBy(GameObject eater)
 		{
 			//todo: support npc force feeding
-			var targetPlayer = eater.GetComponent<PlayerScript>();
+			var targetPlayer = eater.GetCachedComponent<PlayerScript>();
 			if (targetPlayer == null || targetPlayer.IsDeadOrGhost || targetPlayer.IsNormal == false)
 			{
 				return false;

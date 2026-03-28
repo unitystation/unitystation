@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using Chemistry;
 using Logs;
 using SecureStuff;
 using UnityEngine;
@@ -1067,7 +1068,15 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 				tileLocation.layerTile = tile;
 				tileLocation.transformMatrix = matrixTransform.GetValueOrDefault(Matrix4x4.identity);
-				tileLocation.Colour = color.GetValueOrDefault(Color.white);
+
+				// If a colour was provided, apply it. If the colour is translucent and the tile is an overlay/effects
+				// type, average its alpha with the average alpha of its immediate 4-neighbour tiles to produce a blended opacity.
+				Color assignedColor = color.GetValueOrDefault(Color.white);
+
+				// Only blend alpha for overlay/effects-type layers where transparency makes visual sense
+				assignedColor = MixLocalOverlayColors(position, assignedColor, tileLocation);
+
+				tileLocation.Colour = assignedColor;
 
 				if (preExistingTile != null)
 				{
@@ -1108,6 +1117,33 @@ namespace US13.Tilemaps.Behaviours.Layers
 			}
 
 			return position;
+		}
+
+		private Color MixLocalOverlayColors(Vector3Int position, Color assignedColor, TileLocation tileLocation)
+		{
+			if (tileLocation.layer.LayerType is not LayerType.Effects or LayerType.UnderObjectsEffects) return assignedColor;
+			if (assignedColor.a is >= 1f or < Reagent.MINIMUM_PUDDLE_OPACITY) return assignedColor;
+			float neighborAlphaSum = 0f;
+			int neighborCount = 0;
+			var neighborDirs = new[] { new Vector3Int(1, 0, 0), new Vector3Int(-1, 0, 0), new Vector3Int(0, 1, 0), new Vector3Int(0, -1, 0) };
+			foreach (var d in neighborDirs)
+			{
+				var nPos = position + d;
+				var neighborCol = GetColour(nPos, tileLocation.layer.LayerType, useExactForMultilayer: false);
+				if (neighborCol != null)
+				{
+					neighborAlphaSum += neighborCol.Value.a;
+					neighborCount++;
+				}
+			}
+
+			if (neighborCount > 0)
+			{
+				float neighborAvg = neighborAlphaSum / neighborCount;
+				assignedColor.a = (assignedColor.a + neighborAvg) * 0.5f;
+			}
+
+			return assignedColor;
 		}
 
 		private void HandleBoundChange(TileLocation tileLocation)
@@ -1532,9 +1568,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 				if (layer == LayerType.Objects)
 				{
-					foreach (RegisterTile o in isServer
-						         ? ((ObjectLayer) LayersValues[i]).ServerObjects.Get(position)
-						         : ((ObjectLayer) LayersValues[i]).ClientObjects.Get(position))
+					foreach (RegisterTile o in ((ObjectLayer) LayersValues[i]).ServerObjects.Get(position))
 					{
 						if (o is RegisterObject)
 						{
@@ -1592,9 +1626,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 		public bool IsObjectPresent(GameObject[] context, Vector3Int position, bool isServer, out RegisterTile Object)
 		{
-			foreach (RegisterTile o in isServer
-				         ? ObjectLayer.ServerObjects.Get(position)
-				         : ObjectLayer.ClientObjects.Get(position))
+			foreach (RegisterTile o in ObjectLayer.ServerObjects.Get(position))
 			{
 				if (context.Contains(o.gameObject)) continue;
 				if (o.IsPassable(isServer) == false)
@@ -1620,9 +1652,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 				if (layer == LayerType.Objects)
 				{
-					foreach (RegisterTile o in isServer
-						         ? ((ObjectLayer) LayersValues[i1]).ServerObjects.Get(position)
-						         : ((ObjectLayer) LayersValues[i1]).ClientObjects.Get(position))
+					foreach (RegisterTile o in  ((ObjectLayer) LayersValues[i1]).ServerObjects.Get(position))
 					{
 						if (o.IsPassable(isServer) == false)
 						{
@@ -2197,7 +2227,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
 				if (Multilayer)
-				{
+					{
 					lock (MultilayerPresentTiles)
 					{
 						MultilayerPresentTiles[(int) layer.LayerType].TryGetValue(position, out tileLocations, true);
@@ -3133,3 +3163,4 @@ namespace US13.Tilemaps.Behaviours.Layers
 		Reagents
 	}
 }
+

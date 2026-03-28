@@ -185,7 +185,7 @@ namespace US13.Shuttles
 		void Start()
 		{
 			ReregisterThruster();
-			Rotatable = this.GetComponentCustom<Rotatable>();
+			Rotatable = this.GetCachedComponent<Rotatable>();
 			RegisterTile = this.GetComponent<RegisterTile>();
 
 			lightSprite = GetComponentInChildren<LightSpriteHandler>();

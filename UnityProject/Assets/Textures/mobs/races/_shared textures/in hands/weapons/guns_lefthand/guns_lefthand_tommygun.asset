@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: guns_lefthand_tommygun
+  m_EditorClassIdentifier: RootSillys::SpriteDataSO
+  foreverID: d3bcf79707cfe464cb5fe6e93688d04c
+  Variance:
+  - Frames:
+    - sprite: {fileID: 7012498781674184288, guid: 42d938235e95d754cab661e50f55978b,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 5105016421521478961, guid: 42d938235e95d754cab661e50f55978b,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 4214393434531142866, guid: 42d938235e95d754cab661e50f55978b,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 477156136, guid: 42d938235e95d754cab661e50f55978b, type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 

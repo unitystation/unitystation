@@ -1,0 +1,188 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &704411766377191569
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2422283756524654206, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5c77c8df5aa7c154a89b9298ff76dce9,
+        type: 3}
+    - target: {fileID: 2519885190743113878, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: _assetId
+      value: 2382704546
+      objectReference: {fileID: 0}
+    - target: {fileID: 2552515844273667362, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: m_Name
+      value: M1928StickMagazine.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 2558002269687152726, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2558002269687152726, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2558002269687152726, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2558002269687152726, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2558002269687152726, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2558002269687152726, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2558002269687152726, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2558002269687152726, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2558002269687152726, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2558002269687152726, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2702653555754472000, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: initialName
+      value: M1928 stick magazine (.45)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2702653555754472000, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: initialSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2702653555754472000, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: initialDescription
+      value: A stick magazine for an M1928 thompson submachine gun. Holds 20 rounds
+        of .45 ACP.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4939236707567408707, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: magazineSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8514693453691373221, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 89a630e2337aac64ca2fe9576b9eea47,
+        type: 2}
+    - target: {fileID: 8514693453691373221, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8514693453691373221, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 89a630e2337aac64ca2fe9576b9eea47,
+        type: 2}
+    - target: {fileID: 8514693453691373221, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: db998f354da4d994d9fdc09dad6f60fa,
+        type: 2}
+    - target: {fileID: 8923568505565442383, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: parentID
+      value: 9505db5c84437ce4692422e1ef11cef2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8923568505565442383, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      propertyPath: foreverID
+      value: 836e24712260f484f902d35a4a2b3ca3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2552515844273667362, guid: 9505db5c84437ce4692422e1ef11cef2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -2951345190735524513}
+  m_SourcePrefab: {fileID: 100100000, guid: 9505db5c84437ce4692422e1ef11cef2, type: 3}
+--- !u!1 &3074491135624242611 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2552515844273667362, guid: 9505db5c84437ce4692422e1ef11cef2,
+    type: 3}
+  m_PrefabInstance: {fileID: 704411766377191569}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-2951345190735524513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3074491135624242611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503137a9c2df915449ef2c006742d816, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::DynamicMagazineSprite
+  magazine: {fileID: 5570147180337204946}
+  spriteHandler: {fileID: 9217978183387373108}
+  thresholds:
+  - AmmoCount: 20
+    CatalogueIndex: 0
+  - AmmoCount: 0
+    CatalogueIndex: 1
+--- !u!114 &5570147180337204946 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4939236707567408707, guid: 9505db5c84437ce4692422e1ef11cef2,
+    type: 3}
+  m_PrefabInstance: {fileID: 704411766377191569}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3074491135624242611}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9217978183387373108 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8514693453691373221, guid: 9505db5c84437ce4692422e1ef11cef2,
+    type: 3}
+  m_PrefabInstance: {fileID: 704411766377191569}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

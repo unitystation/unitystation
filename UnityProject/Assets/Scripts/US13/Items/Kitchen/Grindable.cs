@@ -40,7 +40,7 @@ namespace US13.Items.Kitchen
 
 		private void Awake()
 		{
-			ReagentContainer = this.GetComponentCustom<ReagentContainer>();
+			ReagentContainer = this.GetCachedComponent<ReagentContainer>();
 		}
 	}
 }

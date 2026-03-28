@@ -8,7 +8,7 @@ namespace US13.Systems.Antagonists.Antags.Changeling.ChangelingAbility.Implement
 	[CreateAssetMenu(menuName = "ScriptableObjects/Systems/ChangelingAbilities/RevivingStasis")]
 	public class RevivingStasis: ChangelingToggleAbility
 	{
-		public override bool UseAbilityToggleClient(ChangelingMain changeling, bool toggle)
+		public override bool UseAbilityToggleClient(ChangelingMain changeling, bool toggle, bool fromServer = false)
 		{
 			return false;
 		}

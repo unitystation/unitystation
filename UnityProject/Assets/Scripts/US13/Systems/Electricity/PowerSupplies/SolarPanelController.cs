@@ -28,12 +28,14 @@ namespace US13.Systems.Electricity.PowerSupplies
 		private void Start()
 		{
 			ModuleSupply ??= GetComponent<ModuleSupplyingDevice>();
+			if (isServer == false) return;
 			UpdateManager.Add(UpdateMe, UpdateRate);
 		}
 
 		private void OnDestroy()
 		{
 			ComponentsTracker<SolarPanelController>.UnregisterInstance(this);
+			if (isServer == false) return;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 		}
 

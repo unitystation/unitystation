@@ -13,11 +13,34 @@ PrefabInstance:
       propertyPath: magazineSize
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 688870553631510869, guid: b207c10b72e178346bee8cf182f264eb,
+        type: 3}
+      propertyPath: thresholds.Array.data[0].AmmoCount
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4011383383968898653, guid: b207c10b72e178346bee8cf182f264eb,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 513bbd14db5465d4a930f43cfd050a71,
+        type: 2}
+    - target: {fileID: 4011383383968898653, guid: b207c10b72e178346bee8cf182f264eb,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 513bbd14db5465d4a930f43cfd050a71,
+        type: 2}
+    - target: {fileID: 4011383383968898653, guid: b207c10b72e178346bee8cf182f264eb,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 513bbd14db5465d4a930f43cfd050a71,
+        type: 2}
+    - target: {fileID: 4011383383968898653, guid: b207c10b72e178346bee8cf182f264eb,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: e043fce0592f99641844b4fd788aa47c,
         type: 2}
     - target: {fileID: 4204089622262180279, guid: b207c10b72e178346bee8cf182f264eb,
         type: 3}

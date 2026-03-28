@@ -16,6 +16,7 @@ using US13.Items;
 using US13.Managers;
 using US13.Managers.NetworkManagement;
 using US13.Messages.Server;
+using US13.Objects;
 using US13.Player;
 using US13.Systems.Inventory;
 using US13.Systems.Occupations;
@@ -46,22 +47,58 @@ namespace Util
 		}
 		public static ItemAttributesV2 Item(this GameObject go)
 		{
-			return go.OrNull()?.GetComponentCustom<ItemAttributesV2>();
+			return go.OrNull()?.GetCachedComponent<ItemAttributesV2>();
 		}
 
 		public static ObjectAttributes Object(this GameObject go)
 		{
-			return go.OrNull()?.GetComponentCustom<ObjectAttributes>();
+			return go.OrNull()?.GetCachedComponent<ObjectAttributes>();
 		}
 
 		public static Attributes AttributesOrNull(this GameObject go)
 		{
-			return go.OrNull()?.GetComponentCustom<Attributes>();
+			return go.OrNull()?.GetCachedComponent<Attributes>();
 		}
 
 		public static bool HasComponent<T>(this GameObject go) where T : Component
 		{
 			return go.TryGetComponent<T>(out _);
+		}
+
+		public static bool ContainsAndHasComponentInStorage<T>(this GameObject go) where T : Component
+		{
+			if (go.GetCachedComponent<T>())
+			{
+				return true;
+			}
+
+			var obj = go.GetCachedComponent<ItemStorage>();
+			if (obj == null)
+			{
+				var OBC = go.GetCachedComponent<ObjectContainer>();
+				if (OBC == null)
+				{
+					return false;
+				}
+
+				foreach (var KVP in OBC.StoredObjects)
+				{
+					return KVP.Key.ContainsAndHasComponentInStorage<T>();
+				}
+
+				return false;
+			}
+
+			foreach (var itemSlot in obj.GetItemSlotTree())
+			{
+				if (itemSlot.IsEmpty) continue;
+				if (itemSlot.Item.GetCachedComponent<T>())
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		/// <summary>
@@ -99,7 +136,7 @@ namespace Util
 				}
 			}
 
-			var Script = go.GetComponentCustom<PlayerScript>();
+			var Script = go.GetCachedComponent<PlayerScript>();
 
 			if (Script != null && string.IsNullOrWhiteSpace(Script.visibleName) == false)
 			{
@@ -176,7 +213,7 @@ namespace Util
 
 		public static uint NetIdCommonComponents(this GameObject go)
 		{
-			var net = go.GetComponentCustom<NetworkIdentity>();
+			var net = go.GetCachedComponent<NetworkIdentity>();
 			if (net)
 			{
 				return net.netId;
@@ -305,21 +342,6 @@ namespace Util
 			return go.TryGetComponent<CommonComponents>(out var slowGet) ? slowGet : null;
 		}
 
-
-		//New better system for Get component That caches results
-		public static T GetComponentCustom<T>(this Component go)  where T : Component
-		{
-			if (ComponentManager.TryGetCommonComponent(go.gameObject, out  var commonComponent))
-			{
-				return commonComponent.SafeGetComponent<T>();
-			}
-			else
-			{
-				return null;
-			}
-		}
-
-
 		//New better system for Get component That cashs results
 		public static UniversalObjectPhysics GetUniversalObjectPhysics(this GameObject go)
 		{
@@ -358,47 +380,71 @@ namespace Util
 		}
 
 
-		//New better system for Get component That cashs results
-		public static T GetComponentCustom<T>(this GameObject go)  where T : Component
-		{
-			if (ComponentManager.TryGetCommonComponent(go, out  var commonComponent))
-			{
-				return commonComponent.SafeGetComponent<T>();
-			}
-			else
-			{
-				if (go == null) return null;
-				return go.GetComponent<T>();
-			}
-		}
-
-
-		public static bool TryGetComponentCustom<T>(this Component go, out T component) where T : Component
+		/// <summary>
+		/// Improved version of GetComponent that chaches results. Please avoid using GetComponent if you can use this.
+		/// </summary>
+		/// <param name="go"></param>
+		/// <typeparam name="T"></typeparam>
+		/// <returns></returns>
+		public static T GetCachedComponent<T>(this Component go, bool includeDisabled = true)  where T : Component
 		{
 			if (ComponentManager.TryGetCommonComponent(go.gameObject, out  var commonComponent))
 			{
-				return commonComponent.TrySafeGetComponent<T>(out component);
+				return commonComponent.SafeGetComponent<T>(includeDisabled);
 			}
-			else
-			{
-				component = null;
-				return false;
-			}
+
+			var component = go == null ? null : go.gameObject.GetComponent<T>();
+			if (includeDisabled == false && component is Behaviour behaviour && behaviour.enabled == false) return null;
+			return component;
 		}
 
-		public static bool TryGetComponentCustom<T>(this GameObject go, out T component)  where T : Component
+		/// <summary>
+		/// Improved version of GetComponent that chaches results. Please avoid using GetComponent if you can use this.
+		/// </summary>
+		/// <param name="go"></param>
+		/// <typeparam name="T"></typeparam>
+		/// <returns></returns>
+		public static T GetCachedComponent<T>(this GameObject go, bool includeDisabled = true)  where T : Component
 		{
 			if (ComponentManager.TryGetCommonComponent(go, out  var commonComponent))
 			{
-				return commonComponent.TrySafeGetComponent<T>(out component);
+				return commonComponent.SafeGetComponent<T>(includeDisabled);
 			}
-			else
-			{
-				component = null;
-				return false;
-			}
+
+			var component = go == null ? null : go.GetComponent<T>();
+			if (includeDisabled == false && component is Behaviour behaviour && behaviour.enabled == false) return null;
+			return component;
 		}
 
+		/// <summary>
+		/// Try-pattern version of <see cref="GetCachedComponent{T}(GameObject)"/>.
+		/// Returns true if the component was found, with the result in <paramref name="component"/>.
+		/// </summary>
+		public static bool TryGetCachedComponent<T>(this Component go, out T component, bool includeDisabled = true) where T : Component
+		{
+			if (ComponentManager.TryGetCommonComponent(go.gameObject, out  var commonComponent))
+			{
+				return commonComponent.TrySafeGetComponent<T>(out component, includeDisabled);
+			}
+
+			component = null;
+			return false;
+		}
+
+		/// <summary>
+		/// Try-pattern version of <see cref="GetCachedComponent{T}(GameObject)"/>.
+		/// Returns true if the component was found, with the result in <paramref name="component"/>.
+		/// </summary>
+		public static bool TryGetCachedComponent<T>(this GameObject go, out T component, bool includeDisabled = true)  where T : Component
+		{
+			if (ComponentManager.TryGetCommonComponent(go, out  var commonComponent))
+			{
+				return commonComponent.TrySafeGetComponent<T>(out component, includeDisabled);
+			}
+
+			component = null;
+			return false;
+		}
 
 		/// <summary>
 		/// Returns true for adjacent coordinates

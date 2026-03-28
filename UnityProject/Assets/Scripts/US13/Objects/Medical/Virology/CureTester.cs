@@ -106,7 +106,7 @@ namespace US13.Objects.Medical.Virology
 				return;
 			}
 
-			if (itemStorage.GetIndexedItemSlot(0).ItemObject?.TryGetComponent<ReagentContainer>(out var container) == true)
+			if (itemStorage.GetIndexedItemSlot(0).ItemObject?.TryGetCachedComponent<ReagentContainer>(out var container, includeDisabled: false) == true)
 			{
 				StringBuilder machineDialogue = new StringBuilder();
 				machineDialogue.AppendLine($"Test results of cure against sickness {connectedSequenceAnalyzer.ActiveSickness.Name}: ");

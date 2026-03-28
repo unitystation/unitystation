@@ -110,7 +110,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			int decalCount = Physics2D.OverlapCircle(currentPosition.ToWorld(targetMatrixLocal), searchRadius, contactFilter, possibleDecals);
 			for(int i = 0; i < decalCount; i++)
 			{
-				FloorDecal decal = possibleDecals[i].GetComponentCustom<FloorDecal>();
+				FloorDecal decal = possibleDecals[i].GetCachedComponent<FloorDecal>();
 				if (decal == false || decal.Cleanable == false) continue;
 
 

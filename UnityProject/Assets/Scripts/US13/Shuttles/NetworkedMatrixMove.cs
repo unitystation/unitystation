@@ -649,6 +649,22 @@ namespace US13.Shuttles
 
 		public void UpdateMe()
 		{
+			//Updates needed for
+			//humm, active thrusters, MatrixMove.ConnectedThrusters
+			//Current momentum -> WorldCurrentVelocity and CurrentTorque
+			//has AI -> HasMoveToTarget
+			//if Shuttle connectors then find the biggest one and update that, Connected skip this test? yeah
+
+			UpdateSyncVars();
+
+			if (ConnectedShuttleConnectors.Count > 0)
+			{
+				UpdateLoop();
+				return;
+			}
+
+			if (ConnectedThrusters.Count == 0 && WorldCurrentVelocity.magnitude == 0 && CurrentTorque == 0 && HasMoveToTarget == false && ServerSyncDoesntMatch() == false) return;
+
 			UpdateLoop();
 		}
 
@@ -1163,6 +1179,19 @@ namespace US13.Shuttles
 		{
 			MetaTileMap.UpdateTransformMatrix();
 		}
+
+		public bool ServerSyncDoesntMatch()
+		{
+			if (isServer == false) return false;
+			if (SynchronisedSpin != CurrentTorque) return true;
+			if (SynchronisedMass != Mass) return true;
+			if (SynchronisedVelocity != WorldCurrentVelocity) return true;
+			if (SynchronisedPivotPoint != currentLocalPivot) return true;
+			if (SynchronisedPosition != TargetTransform.position) return true;
+			if (SynchronisedRotation != TargetTransform.rotation.eulerAngles) return true;
+			return false;
+		}
+
 
 
 		public void UpdateSyncVars()

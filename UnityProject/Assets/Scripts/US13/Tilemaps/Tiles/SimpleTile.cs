@@ -12,17 +12,10 @@ namespace US13.Tilemaps.Tiles
 
 		public bool CanBeHighlightedThroughScanners = false;
 
-		[NonSerialized] public List<GameObject> AssoicatedSpawnedObjects = new List<GameObject>();
+
 
 		[ShowIf(nameof(CanBeHighlightedThroughScanners))]
 		public GameObject HighlightObject;
 
-		private void OnDestroy()
-		{
-			foreach (var obj in AssoicatedSpawnedObjects)
-			{
-				Despawn.ClientSingle(obj);
-			}
-		}
 	}
 }

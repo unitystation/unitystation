@@ -9,6 +9,7 @@ using US13.Core.Chat;
 using US13.Core.Lifecycle;
 using US13.Items;
 using US13.Items.Cargo.Wrapping;
+using US13.Items.Implants.Organs;
 using US13.Items.Others;
 using US13.Items.Traits;
 using US13.Managers.NetworkManagement;
@@ -106,6 +107,11 @@ namespace US13.Managers
 			Transform ObjectHolder = AutopilotShipCargo.Instance.SearchForObjectsOnShuttle();
 			foreach (Transform child in ObjectHolder)
 			{
+				if (child.gameObject.ContainsAndHasComponentInStorage<Brain>())
+				{
+					return true;
+				}
+
 				if (((1 << child.gameObject.layer) & layersToCheck) == 0)
 				{
 					continue;
@@ -294,7 +300,7 @@ namespace US13.Managers
 			{
 				// No one must survive to tell the secrets of Central Command's cargo handling techniques.
 				Chat.AddExamineMsg(obj, "<color=red> You feel a strong force of energy run through your body before everything goes to black in the blink of the eye. </color>");
-				playerScript.playerHealth.OnGib();
+				playerScript.playerHealth.OnGib(" Gib by Cargo Shuttle being sold ");
 				return;
 			}
 

@@ -17,6 +17,7 @@ using US13.Objects.Construction.FloorDecals;
 using US13.Player;
 using US13.Tilemaps.Behaviours;
 using US13.Tilemaps.Utils;
+using Util;
 using Random = System.Random;
 
 namespace US13.NPC.AI
@@ -153,7 +154,7 @@ namespace US13.NPC.AI
 		{
 			if (hasFoodPrefereces == false)
 			{
-				return food.gameObject.GetComponent<Edible>() != null;
+				return food.gameObject.GetCachedComponent<Edible>(includeDisabled: false) != null;
 			}
 
 			return foodPreferences.Any(food.HasTrait);

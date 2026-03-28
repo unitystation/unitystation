@@ -55,7 +55,7 @@ namespace US13.Objects.Consoles
 		private void Start()
 		{
 			registerTile = GetComponent<RegisterTile>();
-			Rotatable = this.GetComponentCustom<Rotatable>();
+			Rotatable = this.GetCachedComponent<Rotatable>();
 			ShuttleMatrixMove = GetComponentInParent<MatrixMove>();
 
 			if (ShuttleMatrixMove.NetworkedMatrixMove.ShuttleConsuls.Contains(this) == false)

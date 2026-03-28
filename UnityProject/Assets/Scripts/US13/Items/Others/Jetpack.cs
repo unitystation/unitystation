@@ -33,7 +33,7 @@ namespace US13.Items.Others
 
 		private OrientationEnum lastRotation = OrientationEnum.Default;
 		private GasContainer gasContainer;
-		private PlayerScript player => gameObject.GetRootGameObject().GetComponentCustom<PlayerScript>();
+		private PlayerScript player => gameObject.GetRootGameObject().GetCachedComponent<PlayerScript>();
 
 		private const string PARTICLE_ID = "JetpackTrail";
 		private const float MINIMUM_FLIGHT_BUILDUP_SPEED = 0.1f;

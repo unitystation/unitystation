@@ -79,7 +79,7 @@ namespace US13.Player
 			if (matrixID != registerTile.Matrix.Id)
 			{
 				var position = transform.position;
-				registerTile.FinishNetworkedMatrixRegistration(MatrixManager.Get(matrixID).Matrix.NetworkedMatrix);
+				registerTile.TryChangeMatrix(MatrixManager.Get(matrixID).Matrix.NetworkedMatrix);
 				transform.position = position;
 			}
 
@@ -127,7 +127,7 @@ namespace US13.Player
 			if (matrixID != registerTile.Matrix.OrNull()?.Id)
 			{
 				var position = transform.position;
-				registerTile.FinishNetworkedMatrixRegistration(MatrixManager.Get(matrixID).Matrix.NetworkedMatrix);
+				registerTile.TryChangeMatrix(MatrixManager.Get(matrixID).Matrix.NetworkedMatrix);
 				transform.position = position;
 			}
 
@@ -171,7 +171,7 @@ namespace US13.Player
 				if (registerTile.Matrix != movetoMatrix)
 				{
 					var position = transform.position;
-					registerTile.FinishNetworkedMatrixRegistration(MatrixManager.Get(movetoMatrix).Matrix.NetworkedMatrix);
+					registerTile.TryChangeMatrix(MatrixManager.Get(movetoMatrix).Matrix.NetworkedMatrix);
 					transform.position = position;
 				}
 

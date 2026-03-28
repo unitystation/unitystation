@@ -143,7 +143,7 @@ namespace US13.Systems.Electricity.NodeModules
 			{
 				if (MachinePart.itemTrait == CommonTraits.Instance.PowerCell)
 				{
-					Capacity += MachinePart.itemObject.GetComponentCustom<Battery>().MaxWatts;
+					Capacity += MachinePart.itemObject.GetCachedComponent<Battery>().MaxWatts;
 				}
 			}
 

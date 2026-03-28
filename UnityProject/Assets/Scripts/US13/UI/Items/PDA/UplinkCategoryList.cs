@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using US13.ScriptableObjects;
+using US13.Systems.Occupations;
 
 namespace US13.UI.Items.PDA
 {
@@ -47,6 +48,18 @@ namespace US13.UI.Items.PDA
 
 		[SerializeField] [Tooltip("Determins if this item is displayed to nuke ops")]
 		private bool isNukeOps = false;
+
+		[SerializeField, Tooltip("Restricted to certain job types")]
+		private JobType jobType = JobType.NULL;
+
+		[SerializeField, Tooltip("Exclude from being randomly picked")]
+		private bool excludedRandomPick = false;
+
+
+		public bool ExcludedRandomPick => excludedRandomPick;
+
+		public JobType JobType => jobType;
+
 		public bool IsNukeOps => isNukeOps;
 
 		public string Name => name;

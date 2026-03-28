@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace US13.Core.Utils
@@ -86,6 +88,17 @@ namespace US13.Core.Utils
 			return Random.NextDouble() >= 0.5f;
 		}
 
+		private static class Cache<T> where T : struct, Enum
+		{
+			public static readonly T[] Values = (T[])Enum.GetValues(typeof(T));
+		}
+
+		public static T CachedRandomValue<T>(this T _) where T : struct, Enum
+		{
+			var values = Cache<T>.Values;
+			return values[Random.Next(values.Length)];
+		}
+
 		/// <summary>
 		/// 0 to 1
 		/// </summary>
@@ -106,6 +119,18 @@ namespace US13.Core.Utils
 			float y = (float)Mathf.Sin((float)angle);
 
 			return new Vector2(x, y);
+		}
+
+		public static T RemoveRandom<T>(this IList<T> list)
+		{
+			int index = Random.Next(list.Count);
+			T value = list[index];
+
+			int last = list.Count - 1;
+			list[index] = list[last];
+			list.RemoveAt(last);
+
+			return value;
 		}
 
 	}

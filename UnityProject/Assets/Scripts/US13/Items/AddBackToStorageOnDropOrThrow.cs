@@ -7,7 +7,7 @@ using Util;
 namespace US13.Items
 {
 	/// <summary>
-	/// Component that houses functionality for the OnDrop and OnThrow events too hook onto via the unity inspector,
+	/// Component that houses functionality for the OnDrop and OnThrow events to hook onto via the unity inspector,
 	/// or dynamically. Does not do anything on its own and requires the OnDropOrThrow function to be subscribed to an event.
 	/// Re-adds this item back to an item storage when dropped, mainly used for things like the Defib Paddles.
 	/// </summary>
@@ -18,24 +18,42 @@ namespace US13.Items
 
 		private void Start()
 		{
-			if (storage == null) storage = gameObject.PickupableOrNull().ItemSlot.ItemStorage;
+			if (storage == null) Setup();
+		}
+
+		private void Setup()
+		{
+			var itemSlot = gameObject.PickupableOrNull()?.ItemSlot;
+			if (itemSlot == null)
+			{
+				Loggy.Error($"No ItemSlot defined on {gameObject.name} for AddBackToStorageOnDropOrThrow");
+				return;
+			}
+			storage = itemSlot.ItemStorage;
+			if (storage == null)
+			{
+				Loggy.Error($"No ItemStorage defined on {gameObject.name} for AddBackToStorageOnDropOrThrow.");
+			}
 		}
 
 		void IServerInventoryMove.OnInventoryMoveServer(InventoryMove info)
 		{
-			//TODO forever loop?!?!
-			if (storage == null) return;
-			if (info?.MovedObject.OrNull()?.gameObject == this.gameObject && info?.ToSlot?.ItemStorage != storage)
+			if (storage == null)
 			{
-				if ((info?.ToSlot?.NamedSlot is NamedSlot.leftHand or NamedSlot.rightHand) == false)
-				{
-					if (storage.ServerTryAdd(gameObject))
-					{
-						Chat.AddActionMsgToChat(gameObject, OnAddBackMessage);
-						return;
-					}
+				Setup();
+				return;
+			}
 
-					Loggy.Error($"[{gameObject.name}/AddBackToStorageOnDropOrThrow] - Something went wrong while trying to re-add this item back to their item storage.");
+			if (info?.MovedObject.OrNull()?.gameObject != this.gameObject || info?.ToSlot?.ItemStorage == storage) return;
+			if (info?.ToSlot?.NamedSlot is not (NamedSlot.leftHand or NamedSlot.rightHand))
+			{
+				if (storage.ServerTryAdd(gameObject))
+				{
+					Chat.AddActionMsgToChat(gameObject, OnAddBackMessage);
+				}
+				else
+				{
+					Loggy.Error($"Something went wrong while trying to re-add this item back to their item storage on {gameObject.name}.\n {InventoryMove.ToString(info)}");
 				}
 			}
 		}

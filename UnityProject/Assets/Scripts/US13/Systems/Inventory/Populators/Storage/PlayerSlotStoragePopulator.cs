@@ -29,7 +29,7 @@ namespace US13.Systems.Inventory.Populators.Storage
 		public GameObject duffelVariant;
 		public GameObject satchelVariant;
 
-		public override void PopulateItemStorage(ItemStorage toPopulate, PopulationContext context, SpawnInfo info)
+		public override void PopulateItemStorage(IStoreThings toPopulate,MonoBehaviour component, PopulationContext context, SpawnInfo info)
 		{
 			Loggy.Error("This shouldn't be used but  is required for inheritance", Category.EntitySpawn);
 		}

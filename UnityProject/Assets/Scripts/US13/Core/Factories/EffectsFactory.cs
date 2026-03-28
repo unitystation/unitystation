@@ -7,6 +7,7 @@ using US13.Managers;
 using US13.Managers.MatrixManager;
 using US13.Managers.NetworkManagement;
 using US13.Objects.Construction.FloorDecals;
+using Util;
 
 namespace US13.Core.Factories
 {
@@ -90,7 +91,7 @@ namespace US13.Core.Factories
 				bloodTileInst.GameObject.name = $"{colorDesc} blood {sizeDesc}";
 
 				var bloodTileGO = bloodTileInst.GameObject;
-				var tileReagents = bloodTileGO.GetComponent<ReagentContainer>();
+				var tileReagents = bloodTileGO.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 				if (bloodTileGO)
 				{
 					var decal = bloodTileGO.GetComponent<FloorDecal>();
@@ -133,7 +134,7 @@ namespace US13.Core.Factories
 			if (chemTileInst.Successful)
 			{
 				var chemTileGO = chemTileInst.GameObject;
-				var tileReagents = chemTileGO.GetComponent<ReagentContainer>();
+				var tileReagents = chemTileGO.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 
 				var colorDesc = TextUtils.ColorToString(reagents.MixColor);
 				var stateDesc = ChemistryUtils.GetMixStateDescription(reagents);
@@ -162,7 +163,7 @@ namespace US13.Core.Factories
 			if (powderTileInst.Successful)
 			{
 				var powderTileGO = powderTileInst.GameObject;
-				var tileReagents = powderTileGO.GetComponent<ReagentContainer>();
+				var tileReagents = powderTileGO.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 
 				var colorDesc = TextUtils.ColorToString(reagents.MixColor);
 				var stateDesc = ChemistryUtils.GetMixStateDescription(reagents);

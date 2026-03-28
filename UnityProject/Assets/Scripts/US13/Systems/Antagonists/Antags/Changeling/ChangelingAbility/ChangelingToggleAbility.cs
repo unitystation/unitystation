@@ -22,7 +22,8 @@ namespace US13.Systems.Antagonists.Antags.Changeling.ChangelingAbility
 		public bool IsStopingChemRegeneration => isStopingChemRegeneration;
 
 
-		public virtual bool UseAbilityToggleClient(ChangelingMain changeling, bool toggle)
+		/// <param name="fromServer">When true, server already applied the toggle; only run client visuals, do not send CmdRequestChangelingAbilitesToggle.</param>
+		public virtual bool UseAbilityToggleClient(ChangelingMain changeling, bool toggle, bool fromServer = false)
 		{
 			return true;
 		}

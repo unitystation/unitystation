@@ -5,6 +5,7 @@ using Logs;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
+using US13.Core.Input_System.InteractionV2;
 using US13.Core.Lifecycle;
 using US13.Items;
 using US13.Items.Traits;
@@ -30,7 +31,7 @@ namespace US13.Systems.Inventory
 	/// in a player's inventory)!
 	/// </summary>
 	public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove, IClientInventoryMove,
-		IUniversalInventoryAPI
+		IUniversalInventoryAPI, IStoreThings
 	{
 		[SerializeField]
 		[FormerlySerializedAs("ItemStorageStructure")]
@@ -207,29 +208,37 @@ namespace US13.Systems.Inventory
 			return Overall;
 		}
 
-		//True equals successful false equals unsuccessful
-		public bool ServerTryAdd(GameObject inGameObject)
+		public bool CanFit(GameObject inGameObject)
 		{
-			var item = inGameObject.GetComponentCustom<ItemAttributesV2>();
+			var ItemSlot = this.GetNextFreeIndexedSlot();
+
+			return Validations.CanFit(ItemSlot, inGameObject, NetworkSide.Server);
+
+		}
+
+		//True equals successful false equals unsuccessful
+		public bool ServerTryAdd(GameObject inGameObject, bool IgnoreRestraints = false)
+		{
+			var item = inGameObject.GetCachedComponent<ItemAttributesV2>();
 			if (item == null) return false;
 			var slot = GetBestSlotFor(inGameObject);
 			if (slot == null) return false;
 
-			var CurrentlyInSlot = inGameObject.GetComponentCustom<Pickupable>().ItemSlot;
+			var CurrentlyInSlot = inGameObject.GetCachedComponent<Pickupable>().ItemSlot;
 
 			if (CurrentlyInSlot == null)
 			{
-				return Inventory.ServerAdd(inGameObject, slot);
+				return Inventory.ServerAdd(inGameObject, slot, IgnoreRestraints : IgnoreRestraints);
 			}
 			else
 			{
-				return Inventory.ServerTransfer(CurrentlyInSlot, slot);
+				return Inventory.ServerTransfer(CurrentlyInSlot, slot, IgnoreRestraints : IgnoreRestraints);
 			}
 		}
 
 		public bool ServerTransferGameObjectToItemSlot(GameObject outGameObject, ItemSlot Slot)
 		{
-			var item = outGameObject.GetComponentCustom<ItemAttributesV2>();
+			var item = outGameObject.GetCachedComponent<ItemAttributesV2>();
 			if (item == null) return false;
 			var slot = GetSlotFromItem(outGameObject);
 			if (slot == null) return false;
@@ -498,7 +507,7 @@ namespace US13.Systems.Inventory
 			if (populator == null) return;
 			if (!CustomNetworkManager.IsServer) return;
 			if (!context.SpawnInfo.SpawnItems) return;
-			populator.PopulateItemStorage(this, context, info);
+			populator.PopulateItemStorage(this, this , context, info);
 		}
 
 		/// <summary>
@@ -705,7 +714,7 @@ namespace US13.Systems.Inventory
 		public ItemSlot GetBestSlotFor(GameObject toCheck)
 		{
 			if (toCheck == null) return null;
-			return GetBestSlotFor(toCheck.GetComponentCustom<Pickupable>());
+			return GetBestSlotFor(toCheck.GetCachedComponent<Pickupable>());
 		}
 
 		/// <summary>

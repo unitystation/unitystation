@@ -276,11 +276,11 @@ namespace US13.Objects.Atmospherics
 			OnStateChanged?.Invoke();
 		}
 
-		public void SetDevicesOperatingMode(AcuMode mode)
+		public void SetDevicesOperatingMode(AcuMode mode, bool SetBypower = false)
 		{
 			foreach (var device in ConnectedDevices)
 			{
-				device.SetOperatingMode(mode);
+				device.SetOperatingMode(mode, SetBypower);
 			}
 
 		}
@@ -380,7 +380,7 @@ namespace US13.Objects.Atmospherics
 						spriteHandler.SetCatalogueIndexSprite((int) AcuStatus.Nominal);
 						UpdateManager.Add(PeriodicUpdate, 3);
 						PeriodicUpdate();
-						SetDevicesOperatingMode(DesiredMode);
+						SetDevicesOperatingMode(DesiredMode, true);
 					}
 					break;
 				case PowerState.Off:
@@ -388,7 +388,7 @@ namespace US13.Objects.Atmospherics
 					IsPowered = false;
 					UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 					spriteHandler.SetCatalogueIndexSprite((int) AcuStatus.Off);
-					SetDevicesOperatingMode(AcuMode.Off);
+					SetDevicesOperatingMode(AcuMode.Off, true);
 					break;
 			}
 
@@ -408,7 +408,7 @@ namespace US13.Objects.Atmospherics
 		{
 			if (ConnectedDevices.Contains(device)) return;
 			ConnectedDevices.Add(device);
-			device.SetOperatingMode(DesiredMode);
+			device.SetOperatingMode(DesiredMode, false);
 
 			OnStateChanged?.Invoke();
 		}

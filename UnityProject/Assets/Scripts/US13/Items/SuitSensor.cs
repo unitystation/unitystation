@@ -167,10 +167,10 @@ namespace US13.Items
 			var slotsOccupied = itemStorage.GetOccupiedSlots();
 			foreach (var slotOccupied in slotsOccupied)
 			{
-				var idCard = slotOccupied.Item.GetComponentCustom<IDCard>();
+				var idCard = slotOccupied.Item.GetCachedComponent<IDCard>();
 				if (idCard == null)
 				{
-					var PDA = slotOccupied.Item.GetComponentCustom<PDALogic>();
+					var PDA = slotOccupied.Item.GetCachedComponent<PDALogic>();
 					if (PDA != null)
 					{
 						idCard = PDA.GetIDCard();

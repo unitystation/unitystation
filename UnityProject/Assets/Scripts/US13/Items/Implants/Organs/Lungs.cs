@@ -89,10 +89,10 @@ namespace US13.Items.Implants.Organs
 		public override void Awake()
 		{
 			base.Awake();
-			ReagentCirculatedComponent = this.GetComponentCustom<ReagentCirculatedComponent>();
-			SaturationComponent = this.GetComponentCustom<SaturationComponent>();
-			HungerComponent = this.GetComponentCustom<HungerComponent>();
-			BodyPartAlerts = this.GetComponentCustom<BodyPartAlerts>();
+			ReagentCirculatedComponent = this.GetCachedComponent<ReagentCirculatedComponent>();
+			SaturationComponent = this.GetCachedComponent<SaturationComponent>();
+			HungerComponent = this.GetCachedComponent<HungerComponent>();
+			BodyPartAlerts = this.GetCachedComponent<BodyPartAlerts>();
 		}
 
 		public override void ImplantPeriodicUpdate()

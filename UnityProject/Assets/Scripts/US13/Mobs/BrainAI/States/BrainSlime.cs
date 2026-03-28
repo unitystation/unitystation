@@ -179,7 +179,7 @@ namespace US13.Mobs.BrainAI.States
 
 		public bool IsInFoodPreferences(ItemAttributesV2 food)
 		{
-			return food.gameObject.GetComponent<Edible>() != null;
+			return food.gameObject.GetCachedComponent<Edible>(includeDisabled: false) != null;
 		}
 
 

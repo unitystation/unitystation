@@ -40,7 +40,7 @@ namespace US13.Items.Weapons
 				yield return WaitFor.Seconds(1f);
 			}
 			countDownActive = false;
-			Detonate();
+			Detonate( "Reached end of countdown" );
 		}
 
 		private IEnumerator BeepBeep()

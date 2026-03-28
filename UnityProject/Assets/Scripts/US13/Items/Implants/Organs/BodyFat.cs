@@ -47,8 +47,8 @@ namespace US13.Items.Implants.Organs
 
 		public void Awake()
 		{
-			HungerComponent = this.GetComponentCustom<HungerComponent>();
-			ReagentCirculatedComponent = this.GetComponentCustom<ReagentCirculatedComponent>();
+			HungerComponent = this.GetCachedComponent<HungerComponent>();
+			ReagentCirculatedComponent = this.GetCachedComponent<ReagentCirculatedComponent>();
 
 
 			AbsorbedAmount = StartAbsorbedAmount; //TODO Probably should be moved somewhere else?

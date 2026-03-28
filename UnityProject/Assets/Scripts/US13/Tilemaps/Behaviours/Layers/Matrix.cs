@@ -51,13 +51,6 @@ namespace US13.Tilemaps.Behaviours.Layers
 		                                 (serverObjects = ((ObjectLayer) MetaTileMap.Layers[LayerType.Objects])
 			                                 .ServerObjects);
 
-		private TileList clientObjects;
-
-		private TileList ClientObjects => clientObjects ??
-		                                  (clientObjects = ((ObjectLayer) MetaTileMap.Layers[LayerType.Objects])
-			                                  .ClientObjects);
-
-
 		public int Id { get; set; } = 0;
 		public Vector3Int InitialOffset { get; set; }
 		public ReactionManager ReactionManager { get; private set; }
@@ -296,14 +289,14 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 		public List<RegisterTile> GetRegisterTile(Vector3Int localPosition, bool isServer)
 		{
-			return (isServer ? ServerObjects : ClientObjects).Get(localPosition);
+			return (ServerObjects).Get(localPosition);
 		}
 
 		//Has to inherit from register tile
 		public IEnumerable<T> GetAs<T>(Vector3Int localPosition, bool isServer) where T : RegisterTile
 		{
 
-			var objects = (isServer ? ServerObjects : ClientObjects).Get(localPosition);
+			var objects = (ServerObjects).Get(localPosition);
 			if (objects.Count == 0)
 			{
 				return Enumerable.Empty<T>(); //Enumerable.Empty<T>() Does not GC while new List<T> does
@@ -324,7 +317,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 		public IEnumerable<RegisterTile> Get(Vector3Int localPosition, bool isServer)
 		{
-			var objects = (isServer ? ServerObjects : ClientObjects).Get(localPosition);
+			var objects = ( ServerObjects ).Get(localPosition);
 
 			if (objects.Count == 0)
 			{
@@ -339,7 +332,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 		public IEnumerable<T> Get<T>(Vector3Int localPosition, bool isServer)
 		{
-			var objects = (isServer ? ServerObjects : ClientObjects).Get(localPosition);
+			var objects = ( ServerObjects ).Get(localPosition);
 			if (objects.Count == 0)
 			{
 				return Enumerable.Empty<T>(); //Enumerable.Empty<T>() Does not GC while new List<T> does
@@ -357,7 +350,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 		public List<T> GetNoGC<T>(Vector3Int localPosition, bool isServer, List<T> ToUseList)
 		{
-			var objects = (isServer ? ServerObjects : ClientObjects).Get(localPosition);
+			var objects = (ServerObjects).Get(localPosition);
 			if (objects.Count == 0)
 			{
 				return ToUseList;
@@ -376,11 +369,11 @@ namespace US13.Tilemaps.Behaviours.Layers
 		public T GetFirst<T>(Vector3Int position, bool isServer) where T : MonoBehaviour
 		{
 			//This has been checked in the profiler. 0% CPU and 0kb garbage, so should be fine
-			foreach (RegisterTile t in (isServer ? ServerObjects : ClientObjects).Get(position))
+			foreach (RegisterTile t in ( ServerObjects ).Get(position))
 			{
 				//Note GetComponent GC's in editor but not in build
 				T c = t.GetComponent<T>();
-				if (c != null)
+				if (c != null && c.enabled)
 				{
 					return c;
 				}
@@ -390,7 +383,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 		}
 		public IEnumerable<T> Get<T>(Vector3Int localPosition, ObjectType type, bool isServer) where T : MonoBehaviour
 		{
-			var objects = (isServer ? ServerObjects : ClientObjects).Get(localPosition, type);
+			var objects = (ServerObjects ).Get(localPosition, type);
 
 			if (objects.Count == 0)
 			{

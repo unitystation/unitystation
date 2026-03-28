@@ -9,6 +9,7 @@ using US13.Core.Input_System.InteractionV2;
 using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Core.Lifecycle;
+using US13.Systems.Inventory;
 using Util;
 
 namespace US13.Items.Weapons
@@ -32,6 +33,12 @@ namespace US13.Items.Weapons
 		private int clientAmmoRemains;
 
 		/// <summary>
+		/// Subscribers can listen to this to be notified when server ammo is updated.
+		/// Parameters: (oldAmmo, newAmmo).
+		/// </summary>
+		public event Action<int, int> OnServerAmmoChanged;
+
+		/// <summary>
 		/// Remaining ammo, latest value synced from server. There will be lag in this while shooting a burst.
 		/// </summary>
 		public int ServerAmmoRemains => serverAmmoRemains;
@@ -46,6 +53,9 @@ namespace US13.Items.Weapons
 		///	The type of magazine. This effects various behaviours depending on its setting
 		/// </summary>
 		public MagType magType;
+
+		[Tooltip("If true, a clip type magazine despawns when its ammo reaches zero. For keeping empty speedloaders but deleting stripper clips.")]
+		public bool clipDespawnWhenEmpty = true;
 
 		[SerializeField, FormerlySerializedAs("Projectile")]
 		public GameObject initalProjectile;
@@ -82,25 +92,12 @@ namespace US13.Items.Weapons
 
 		public virtual void InitLists()
 		{
-			containedProjectilesFired  = new List<int>(magazineSize);
-			containedBullets  = new List<GameObject>(magazineSize);
-			for (int i = magazineSize; i != 0; i--)
+			containedProjectilesFired = new List<int>(magazineSize);
+			containedBullets = new List<GameObject>(magazineSize);
+			for (int i = 0; i < magazineSize; i++)
 			{
-				containedBullets.Add(initalProjectile);
-				containedProjectilesFired.Add(ProjectilesFired);
+				LoadProjectile(initalProjectile, ProjectilesFired);
 			}
-		}
-
-		/// <summary>
-		/// Changes size of magazine and reloads it. Be sure to call this on every client and the server if you do, or face the consequences.
-		/// Also sets the contained ammunition to full.
-		/// </summary>
-		/// <param name="newSize"></param>
-		public void ChangeSize(int newSize)
-		{
-			magazineSize = newSize;
-			clientAmmoRemains = -1;
-			SyncServerAmmo(newSize, newSize);
 		}
 
 		/// <summary>
@@ -110,6 +107,13 @@ namespace US13.Items.Weapons
 		{
 			serverAmmoRemains = newAmmo;
 			clientAmmoRemains = serverAmmoRemains;
+			OnServerAmmoChanged?.Invoke(oldAmmo, newAmmo);
+
+			// If a clip becomes empty on the server and the clip type is configured to despawn,
+			if (isServer && magType == MagType.Clip && serverAmmoRemains == 0 && clipDespawnWhenEmpty)
+			{
+				_ = Despawn.ServerSingle(gameObject);
+			}
 		}
 
 		/// <summary>
@@ -120,46 +124,42 @@ namespace US13.Items.Weapons
 		{
 			if (amount < 0)
 			{
-				Loggy.Warning("Attempted to expend a negitive amount of ammo", Category.Firearms); // dont use this method to replenish ammo
+				Loggy.Warning("Attempted to expend a negative amount of ammo", Category.Firearms);
+				return;
 			}
 
 			if (ClientAmmoRemains < amount)
 			{
 				Loggy.Warning("Client ammo count is too low, cannot expend that much ammo. Make sure" +
-								  " to check ammo count before expending it.", Category.Firearms);
+				              " to check ammo count before expending it.", Category.Firearms);
 			}
 			else
 			{
 				clientAmmoRemains -= amount;
 			}
 
-			if (isServer)
-			{
-				if (ServerAmmoRemains < amount)
-				{
-					Loggy.Warning("Server ammo count is too low, cannot expend that much ammo. Make sure" +
-									  " to check ammo count before expending it.", Category.Firearms);
-				}
-				else
-				{
-					var remaining = serverAmmoRemains - amount;
-					SyncServerAmmo(remaining, remaining);
-					if (magType == MagType.Standard)
-					{
-						for (int i = amount;i != 0;i--)
-						{
-							containedBullets.RemoveAt(0); //remove shot projectile
-							containedProjectilesFired.RemoveAt(0);
-						}
-					}
-					if (magType == MagType.Clip && serverAmmoRemains == 0)
-					{
-						_ = Despawn.ServerSingle(gameObject);
-					}
-				}
+			if (!isServer) return;
 
-				Loggy.Trace().Format("Expended {0} shots, now serverAmmo {1} clientAmmo {2}", Category.Firearms, amount, serverAmmoRemains, clientAmmoRemains);
+			if (ServerAmmoRemains < amount)
+			{
+				Loggy.Warning("Server ammo count is too low, cannot expend that much ammo. Make sure" +
+				              " to check ammo count before expending it.", Category.Firearms);
+				return;
 			}
+
+			var remaining = serverAmmoRemains - amount;
+			SyncServerAmmo(serverAmmoRemains, remaining);
+
+			if (magType == MagType.Standard)
+			{
+				for (int i = 0; i < amount; i++)
+				{
+					containedBullets.RemoveAt(0);
+					containedProjectilesFired.RemoveAt(0);
+				}
+			}
+
+			Loggy.Trace().Format("Expended {0} shots, now serverAmmo {1} clientAmmo {2}", Category.Firearms, amount, serverAmmoRemains, clientAmmoRemains);
 		}
 
 		/// <summary>
@@ -169,13 +169,13 @@ namespace US13.Items.Weapons
 		[Server]
 		public void ServerSetAmmoRemains(int remaining)
 		{
-			SyncServerAmmo(remaining, remaining);
+			SyncServerAmmo(serverAmmoRemains, remaining);
 		}
 
 		/// <summary>
 		/// Loads as much ammo as possible from the given clip. Returns reloading message.
 		/// </summary>
-		public String LoadFromClip(MagazineBehaviour clip)
+		public string LoadFromClip(MagazineBehaviour clip)
 		{
 			if (clip == null) return "";
 
@@ -185,7 +185,7 @@ namespace US13.Items.Weapons
 			{
 				return $"{clip.gameObject.ExpensiveName()} is empty!";
 			}
-			else if (toTransfer == 0)
+			if (toTransfer == 0)
 			{
 				return $"{gameObject.ExpensiveName()} is full";
 			}
@@ -194,10 +194,9 @@ namespace US13.Items.Weapons
 
 			if (magType == MagType.Standard)
 			{
-				for (int i = toTransfer;i != 0;i--)
+				for (int i = 0; i < toTransfer; i++)
 				{
-					containedBullets.Add(clip.initalProjectile);
-					containedProjectilesFired.Add(clip.ProjectilesFired);
+					LoadProjectile(clip.initalProjectile, clip.ProjectilesFired);
 				}
 			}
 
@@ -208,27 +207,22 @@ namespace US13.Items.Weapons
 		}
 
 		//I need more bullets!
-		public string LoadBullet(BulletAmmo Bullet)
+		public string LoadBullet(BulletAmmo bullet)
 		{
+			if (serverAmmoRemains >= magazineSize)
+			{
+				return $"{gameObject.ExpensiveName()} is full";
+			}
+
 			if (magType == MagType.Standard)
 			{
-				if (Bullet.initalProjectile == null)
-				{
-					containedBullets.Add(initalProjectile);
-					containedProjectilesFired.Add(ProjectilesFired);
-				}
-				else
-				{
-					containedBullets.Add(Bullet.initalProjectile);
-					containedProjectilesFired.Add(Bullet.ProjectilesFired);
-				}
-
+				var projectile = bullet.initalProjectile != null ? bullet.initalProjectile : initalProjectile;
+				var projFired = bullet.initalProjectile != null ? bullet.ProjectilesFired : ProjectilesFired;
+				LoadProjectile(projectile, projFired);
 			}
 
 			ServerSetAmmoRemains(serverAmmoRemains + 1);
-
-
-			return $"Loaded 1 round";
+			return "Loaded 1 round";
 		}
 
 		/// <summary>
@@ -249,50 +243,62 @@ namespace US13.Items.Weapons
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (interaction.UsedObject == null) return false;
-			MagazineBehaviour mag = interaction.TargetObject.GetComponent<MagazineBehaviour>();
 
-			if (mag != null)
+			// Check for bullet loading (bullet can be in either hand)
+			BulletAmmo bul = interaction.TargetObject.GetComponent<BulletAmmo>();
+			if (bul == null) bul = interaction.UsedObject.GetComponent<BulletAmmo>();
+			if (bul != null)
 			{
-				if (mag == null) return false;
-				if (mag.ammoType != ammoType || magType != MagType.Clip) return false;
-
+				if (bul.ammoType != ammoType) return false;
 				return true;
 			}
 
-			BulletAmmo bul = interaction.TargetObject.GetComponent<BulletAmmo>();
-			if (bul == null) return false;
-			if (bul.ammoType != ammoType) return false;
+			// Check for clip/mag-to-mag loading
+			MagazineBehaviour mag = interaction.TargetObject.GetComponent<MagazineBehaviour>();
+			if (mag != null)
+			{
+				if (mag.ammoType != ammoType || magType != MagType.Clip) return false;
+				return true;
+			}
 
-			return true;
+			return false;
 		}
 
 		public void ServerPerformInteraction(InventoryApply interaction)
 		{
 			if (interaction.UsedObject == null || interaction.Performer == null) return;
 
-			MagazineBehaviour mag = interaction.TargetObject.GetComponent<MagazineBehaviour>();
+			// Check for bullet loading first (bullet can be in either hand)
+			BulletAmmo bul = interaction.TargetObject.GetComponent<BulletAmmo>();
+			GameObject bulletObj = interaction.TargetObject;
+			if (bul == null)
+			{
+				bul = interaction.UsedObject.GetComponent<BulletAmmo>();
+				bulletObj = interaction.UsedObject;
+			}
 
-			if (mag != null)
+			if (bul != null)
+			{
+				if (ServerAmmoRemains >= magazineSize)
+				{
+					Chat.AddExamineMsg(interaction.Performer, $"Unable to fit any more {bul.gameObject.ExpensiveName()} in to {this.gameObject.ExpensiveName()}");
+					return;
+				}
+
+				string message = LoadBullet(bul);
+				Chat.AddExamineMsg(interaction.Performer, message);
+				_ = Inventory.ServerDespawn(bulletObj);
+			}
+			else
 			{
 				MagazineBehaviour clip = interaction.UsedObject.GetComponent<MagazineBehaviour>();
 				MagazineBehaviour usedclip = interaction.TargetObject.GetComponent<MagazineBehaviour>();
 				string message = usedclip.LoadFromClip(clip);
 				Chat.AddExamineMsg(interaction.Performer, message);
 			}
-			else
-			{
-				BulletAmmo bul = interaction.TargetObject.GetComponent<BulletAmmo>();
-				MagazineBehaviour clip = interaction.UsedObject.GetComponent<MagazineBehaviour>();
-				string message = clip.LoadBullet(bul);
-				Chat.AddExamineMsg(interaction.Performer, message);
-				Destroy(bul.gameObject);
-
-
-
-			}
 		}
 
-		public virtual String Examine(Vector3 pos)
+		public virtual string Examine(Vector3 pos)
 		{
 			return $"Accepts {ammoType}\nIt has {ServerAmmoRemains} out of {magazineSize} rounds within";
 		}

@@ -340,14 +340,14 @@ namespace US13.HealthV2.Living.BodyParts
 
 		public void RemoveInventoryAndBody(Vector3 AppearAtWorld)
 		{
-			var slot = this.GetComponentCustom<Pickupable>().ItemSlot;
+			var slot = this.GetCachedComponent<Pickupable>().ItemSlot;
 			if (slot != null)
 			{
 				Inventory.ServerDrop(slot);
 			}
 
 			TryRemoveFromBody();
-			this.GetComponentCustom<UniversalObjectPhysics>().AppearAtWorldPositionServer(AppearAtWorld);
+			this.GetCachedComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(AppearAtWorld);
 		}
 
 
@@ -391,7 +391,7 @@ namespace US13.HealthV2.Living.BodyParts
 
 				if (beingGibbed)
 				{
-					HealthMaster.OnGib();
+					HealthMaster.OnGib(  " I think this is unreachable but keeping it just in case it isn't, being gibbed by Body part remove " );
 				}
 			}
 

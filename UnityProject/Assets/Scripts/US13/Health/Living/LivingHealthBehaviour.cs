@@ -484,7 +484,7 @@ namespace US13.Health.Living
 				//gradually deplete fire stacks
 				SyncFireStacks(fireStacks, fireStacks - 0.1f);
 				//instantly stop burning if there's no oxygen at this location
-				MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
+				MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPosition);
 				if (node.GasMixLocal.GetMoles(Gas.Oxygen) < 1)
 				{
 					SyncFireStacks(fireStacks, 0);
@@ -645,7 +645,7 @@ namespace US13.Health.Living
 			//Don't produce miasma until 2 minutes after death
 			if (GameManager.Instance.RoundTime.Subtract(timeOfDeath).TotalMinutes < 2) return;
 
-			MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
+			MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPosition);
 
 			//Space or below -10 degrees celsius is safe from miasma creation
 			if (node.IsSpace || node.GasMixLocal.Temperature <= Reactions.KOffsetC - 10) return;

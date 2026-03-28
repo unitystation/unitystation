@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Logs;
 using NaughtyAttributes;
 using Shaders.GlitchEffect;
@@ -12,6 +13,7 @@ using US13.Managers.NetworkManagement;
 using US13.Managers.UpdateManager;
 using US13.Objects;
 using US13.Player;
+using US13.Tilemaps.Behaviours.Objects;
 using US13.Tilemaps.Utils;
 using Util;
 using Event = US13.Managers.Event;
@@ -68,12 +70,14 @@ namespace US13.Core.Camera
 		private SubCameraEffectControl _backgroundEffects;
 		private SubCameraEffectControl _lightMaskEffects;
 
+		private int Layer = -1;
+
 
 		public void Awake()
 		{
 			lightingSystem = this.GetComponent<LightingSystem>();
 			lightingSystem.OnLightingSystemEnabled += InitialiseSubCameraEffects;
-
+			Layer = LayerMask.NameToLayer("Door Closed");
 			_blindness.OnBoolChange.AddListener(BlindnessValue);
 			_Xray.OnBoolChange.AddListener(XrayValue);
 			if (CustomNetworkManager.IsHeadless == false)
@@ -93,6 +97,15 @@ namespace US13.Core.Camera
 		public List<IBumpableObject> Bumps = new List<IBumpableObject>();
 
 
+		public void OnDestroy()
+		{
+			base.OnDestroy();
+			if (CustomNetworkManager.IsHeadless == false)
+			{
+				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			}
+		}
+
 		public void UpdateMe()
 		{
 			if (PlayerManager.LocalPlayerObject == null) return;
@@ -103,9 +116,14 @@ namespace US13.Core.Camera
 			var Localpos = position.ToLocal(matrix);
 			Bumps.Clear();
 
+
 			bool HasFovMOd = Camera2DFollow.followControl.FOVtarget != null;
 
-			if (matrix.MetaTileMap.GetTile(Localpos.RoundToInt(), LayerType.Walls) != null && HasFovMOd == false)
+			var wall = matrix.MetaTileMap.GetTile(Localpos.RoundToInt(), LayerType.Walls);
+
+			var  door = matrix.Matrix.Get<RegisterDoor>( Localpos.RoundToInt(),
+				isServer: CustomNetworkManager.IsServer).Any(x => x != null && x.gameObject.layer  == Layer);
+			if (((wall != null && wall.name != "false_open") || (door)) && HasFovMOd == false)
 			{
 				if (Xray.HasPosition(this.gameObject) == false)
 				{

@@ -88,7 +88,7 @@ namespace US13.Objects.Medical.Virology
 			}
 
 
-			if(dishItemStorage.GetIndexedItemSlot(0).Item.TryGetComponent<ReagentContainer>(out var container) == false) return;
+			if(dishItemStorage.GetIndexedItemSlot(0).Item.TryGetCachedComponent<ReagentContainer>(out var container, includeDisabled: false) == false) return;
 
 			StringBuilder machineDialogue = new StringBuilder();
 			foreach (KeyValuePair<Reagent, CureManager.Cure> curePair in CureManager.InitialisedSicknesses)

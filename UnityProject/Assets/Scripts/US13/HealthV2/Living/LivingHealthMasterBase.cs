@@ -968,7 +968,7 @@ namespace US13.HealthV2.Living
 			//instantly stop burning if there's no oxygen at this location
 			MetaDataNode
 				node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile
-					.LocalPositionClient); //TODO Account for containers
+					.LocalPosition); //TODO Account for containers
 			if (node.GasMixLocal.GetMoles(Gas.Oxygen) < 1)
 			{
 				fireStacks = 0;
@@ -1435,7 +1435,7 @@ namespace US13.HealthV2.Living
 			var eyes = GetBodyPartsInArea(BodyPartType.Eyes, false);
 			foreach (var eye in eyes)
 			{
-				var eyeFlash = SweetExtensions.GetComponentCustom<EyeFlash>((Component)eye);
+				var eyeFlash = SweetExtensions.GetCachedComponent<EyeFlash>((Component)eye);
 				if (eyeFlash != null && eyeFlash.TryFlash(flashDuration, checkForProtectiveCloth))
 				{
 					didFlash = true;
@@ -1453,7 +1453,7 @@ namespace US13.HealthV2.Living
 			var ears = GetBodyPartsInArea(BodyPartType.Ears, false);
 			foreach (var ear in ears)
 			{
-				var earDeafen = SweetExtensions.GetComponentCustom<Ears>((Component)ear);
+				var earDeafen = SweetExtensions.GetCachedComponent<Ears>((Component)ear);
 				if (earDeafen != null && earDeafen.TryDeafen(sender, deafenDuration, checkForProtectiveCloth))
 				{
 					didDeafen = true;
@@ -1707,9 +1707,9 @@ namespace US13.HealthV2.Living
 
 
 		[Server]
-		public void OnGib()
+		public void OnGib(string WhatBy)
 		{
-			AdminLogsManager.AddNewLog(null, $"{gameObject.ExpensiveName()} is getting Gibbed!!", LogCategory.MobDamage, Severity.IMMEDIATE_ATTENTION);
+			AdminLogsManager.AddNewLog(null, $"{gameObject.ExpensiveName()} is getting Gibbed!! was Gibbed By {WhatBy} ", LogCategory.MobDamage, Severity.IMMEDIATE_ATTENTION);
 			gibBehavior.OnGib();
 		}
 
@@ -1835,7 +1835,7 @@ namespace US13.HealthV2.Living
 			//Don't produce miasma until 2 minutes after death
 			if (GameManager.Instance.RoundTime.Subtract(timeOfDeath).TotalMinutes < 2) return;
 
-			MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPositionClient);
+			MetaDataNode node = RegisterTile.Matrix.MetaDataLayer.Get(RegisterTile.LocalPosition);
 
 			//Space or below -10 degrees celsius is safe from miasma creation
 			if (node.IsSpace || node.GasMixLocal.Temperature <= Reactions.KOffsetC - 10) return;

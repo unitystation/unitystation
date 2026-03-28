@@ -260,8 +260,8 @@ namespace US13.Objects.Machines
 
 		private void HandleAudioOnTeleport()
 		{
-			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.StealthOff, connectedPad.registerTile.LocalPosition, new AudioSourceParameters(maxDistance: 4f));
-			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.StealthOff, registerTile.LocalPosition, new AudioSourceParameters(maxDistance: 4f));
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.StealthOff, connectedPad.registerTile.LocalPosition, new AudioSourceParameters(maxDistance: 4f, spatialBlend:2));
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.StealthOff, registerTile.LocalPosition, new AudioSourceParameters(maxDistance: 4f, spatialBlend:2));
 		}
 
 		private void HandleTeleportation(CommonComponents reg)

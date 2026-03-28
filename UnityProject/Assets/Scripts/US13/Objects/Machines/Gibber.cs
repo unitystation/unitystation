@@ -34,14 +34,16 @@ namespace US13.Objects.Machines
 		[SerializeField] private SpriteDataSO lightsoff;
 		[SerializeField] private SpriteDataSO lightson;
 
+		public string MachineStartedBy = "";
+
 		private bool isRunning = false;
+		private bool hasAlertedHeavyCrush = false;
 		private int damageNumber = 0;
 
 		private Dictionary<GameObject, int> gibbed = new Dictionary<GameObject, int>();
 
-		private const float DAMAGE_TIME = 1.8f;
+		private const float DAMAGE_TIME = 2f;
 		private const int HALF = 2;
-		private const float LOW_HEALTH = -75f;
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
@@ -75,6 +77,7 @@ namespace US13.Objects.Machines
 			isRunning = !isRunning;
 			if (isRunning)
 			{
+				MachineStartedBy = interaction.PerformerAccountID;
 				StartGibbing();
 			}
 			else
@@ -117,8 +120,8 @@ namespace US13.Objects.Machines
 			}
 			gibbed.Clear();
 			isRunning = false;
-			numberOfTimesToDamage = 0;
 			damageNumber = 0;
+			hasAlertedHeavyCrush = false;
 		}
 
 		private void CheckContentAndHarm()
@@ -130,12 +133,15 @@ namespace US13.Objects.Machines
 				{
 					gib.ApplyDamageAll(gameObject, gib.PainScreamDamage + damagePerFrame,
 						AttackType.Melee, DamageType.Brute, true);
-					if (numberOfTimesToDamage / 2 > damageNumber) gib.Death();
+					if (numberOfTimesToDamage > damageNumber) gib.Death();
 					if (gib.IsDead == false) continue;
 					var meatToProduce = gib.MeatProduce.OrNull() ?? defaultProduce;
 					var skinToProduce = gib.SkinProduce.OrNull() ?? defaultProduce;
 					AddItemsThatWillBeSpawned(meatToProduce, skinToProduce);
-					storage.RetrieveObject(slot ,null, gib.OnGib);
+					storage.RetrieveObject(slot ,null, () =>
+					{
+						gib.OnGib(" gibber Turned on by " + MachineStartedBy);
+					});
 					continue;
 				}
 
@@ -146,14 +152,26 @@ namespace US13.Objects.Machines
 					_ = Despawn.ServerSingle(oldMob.gameObject);
 					continue;
 				}
-				if (slot.TryGetComponent<Integrity>(out var integrity) == false) continue;
-				if (integrity.gameObject.Item() != null) continue;
-				//Non-meaty items shall be damaged.. in exchange of damaging the machine itself.
-				machineIntegrity.ApplyDamage(damagePerFrame / HALF, AttackType.Melee, DamageType.Brute,
-					false, false, false, true);
-				integrity.ApplyDamage(damagePerFrame, AttackType.Melee, DamageType.Brute);
+
+				if (slot.TryGetComponent<Integrity>(out var integrity))
+				{
+					DamageNonMeatyItem(integrity);
+				}
 			}
 			if (damageNumber > numberOfTimesToDamage) StopGibbing();
+		}
+
+		private void DamageNonMeatyItem(Integrity integrity)
+		{
+			if (hasAlertedHeavyCrush is false)
+			{
+				gameObject.AddActionMsgToChat("You hear loud mechanical noises struggling to crush something hard coming from the gibber.");
+				hasAlertedHeavyCrush = true;
+			}
+			// Damaging items that are not meat-based results the gibber damaging itself as well.
+			machineIntegrity.ApplyDamage(damagePerFrame / HALF, AttackType.Melee, DamageType.Brute,
+				false, false, false, true);
+			integrity.ApplyDamage(damagePerFrame, AttackType.Melee, DamageType.Brute);
 		}
 
 		private void AddItemsThatWillBeSpawned(GameObject meat, GameObject skin = null)

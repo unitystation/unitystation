@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Chemistry;
 using Mirror;
 using UnityEngine;
@@ -19,7 +20,7 @@ using Effect = US13.Effects.Effect;
 namespace US13.Items.Tool
 {
 	[RequireComponent(typeof(Pickupable))]
-	public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
+	public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>, ICleaner
 	{
 		public int travelDistance = 6;
 		[SerializeField] private AddressableAudioSource Spray2 = null;
@@ -32,7 +33,7 @@ namespace US13.Items.Tool
 
 		private void Awake()
 		{
-			reagentContainer = GetComponent<ReagentContainer>();
+			reagentContainer = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 		}
 
 		public bool WillInteract(AimApply interaction, NetworkSide side)
@@ -92,14 +93,24 @@ namespace US13.Items.Tool
 			if (reagentContainer.MajorMixReagent?.name == "SpaceCleaner")
 			{
 				matrixInfo.MetaDataLayer.Clean(worldPos, localPos, false);
+				CleanObjectsAt(worldPos);
 			}
 			else if (reagentContainer.MajorMixReagent?.name == "Water")
 			{
 				matrixInfo.MetaDataLayer.Clean(worldPos, localPos, true);
+				CleanObjectsAt(worldPos);
 			}
 			else
 			{
 				MatrixManager.ReagentReact(ToReact, worldPos, bodyPartAim : bodyPartAim);
+			}
+		}
+
+		private void CleanObjectsAt(Vector3Int worldPos)
+		{
+			foreach (var cleanable in MatrixManager.GetAt<ICleanable>(worldPos, true).ToList())
+			{
+				cleanable.Clean(this);
 			}
 		}
 

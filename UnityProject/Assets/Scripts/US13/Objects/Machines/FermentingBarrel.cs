@@ -13,6 +13,7 @@ using US13.Managers.UpdateManager;
 using US13.Systems.Botany;
 using US13.Systems.Inventory;
 using US13.Tilemaps.Behaviours.Objects;
+using Util;
 
 namespace US13.Objects.Machines
 {
@@ -42,7 +43,7 @@ namespace US13.Objects.Machines
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-			container = GetComponent<ReagentContainer>();
+			container = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 			itemStorage = GetComponent<ItemStorage>();
 		}
 		private void OnDisable()

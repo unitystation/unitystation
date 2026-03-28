@@ -104,12 +104,12 @@ namespace US13.Systems.Botany
 
 		public void Awake()
 		{
-			ItemAttributesV2 = this.GetComponentCustom<ItemAttributesV2>();
+			ItemAttributesV2 = this.GetCachedComponent<ItemAttributesV2>();
 
-			UniversalObjectPhysics = this.GetComponentCustom<UniversalObjectPhysics>();
+			UniversalObjectPhysics = this.GetCachedComponent<UniversalObjectPhysics>();
 
-			Integrity = this.GetComponentCustom<Integrity>();
-			ScaleSync = this.GetComponentCustom<ScaleSync>();
+			Integrity = this.GetCachedComponent<Integrity>();
+			ScaleSync = this.GetCachedComponent<ScaleSync>();
 		}
 
 		public void Start()

@@ -12,7 +12,7 @@ namespace US13.Systems.InGameEvents.InGameEventScripts
 		public override void OnEventStart()
 		{
 			var Spawners = MatrixManager.MainStationMatrix.Matrix.MetaDataLayer.EtherealThings.Where(x =>
-				x.GetComponentCustom<RandomItemSpot>());
+				x.GetCachedComponent<RandomItemSpot>());
 
 			if (Spawners.Any() == false) return;
 
@@ -22,7 +22,7 @@ namespace US13.Systems.InGameEvents.InGameEventScripts
 
 			foreach (var Spawner in Spawners)
 			{
-				Spawner.GetComponentCustom<RandomItemSpot>().RollRandomPool(true, true);
+				Spawner.GetCachedComponent<RandomItemSpot>().RollRandomPool(true, true);
 			}
 		}
 	}

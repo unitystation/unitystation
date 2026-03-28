@@ -409,6 +409,17 @@ namespace US13.Messages.Client.Interaction
 				// client wasn't sure which component of which object should be triggered, check them in the proper order
 				// and trigger the first one that should happen, rolling back any that shouldn't happen.
 
+				//check target for IFirstInteractable components before hand item interactions
+				if (interaction is TargetedInteraction firstTargetedInteraction && firstTargetedInteraction.TargetObject != null)
+				{
+					var priorityInteractables = firstTargetedInteraction.TargetObject.GetComponents<IInteractable<T>>()
+						.Where(c => c != null && (c as MonoBehaviour)?.enabled == true && c is IFirstInteractable<T>);
+					if (ServerCheckAndTrigger(interaction, priorityInteractables))
+					{
+						return;
+					}
+				}
+
 				//always check used object first
 				if (interaction.UsedObject)
 				{

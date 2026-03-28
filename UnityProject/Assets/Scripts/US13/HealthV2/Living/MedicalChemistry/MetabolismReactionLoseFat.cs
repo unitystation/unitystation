@@ -22,7 +22,7 @@ namespace US13.HealthV2.Living.MedicalChemistry
 			var Toloop = senders;
 			foreach (var bodyPart in Toloop)
 			{
-				var BodyPart = bodyPart.GetComponentCustom<BodyFat>();
+				var BodyPart = bodyPart.GetCachedComponent<BodyFat>();
 				if (BodyPart != null)
 				{
 					if (BodyPart.AbsorbedAmount > 0.4)
@@ -51,7 +51,7 @@ namespace US13.HealthV2.Living.MedicalChemistry
 					processDamageCalculation(overdose, bodyPart, TotalChemicalsProcessedByBodyPart);
 				}
 
-				var BodyPart = bodyPart.GetComponentCustom<BodyFat>();
+				var BodyPart = bodyPart.GetCachedComponent<BodyFat>();
 				if (BodyPart != null)
 				{
 					var Total = BodyPart.AbsorbedAmount;

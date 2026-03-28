@@ -1,3 +1,4 @@
+using System;
 using Logs;
 using Mirror;
 using UnityEngine;
@@ -8,6 +9,10 @@ using US13.UI.Systems.MainHUD;
 
 namespace US13.Systems.Antagonists.Antags.Changeling.ChangelingAbility
 {
+	/// <summary>
+	/// Base class for all changeling abilities.
+	/// MARKED FOR DEPRECATION: The older version of Changeling is too messy and hard to maintain. It is considered for a future refactor.
+	/// </summary>
 	public class ChangelingBaseAbility: ActionData, ICooldown
 	{
 		public short Index => (short)ChangelingAbilityList.Instance.Abilites.IndexOf(this);

@@ -308,7 +308,7 @@ namespace US13.Tilemaps.Behaviours.Objects
 			}
 
 			ServerSlip();
-			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f));
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: Random.Range(0.9f, 1.1f), spatialBlend: 2);
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Slip, WorldPositionServer, audioSourceParameters, sourceObj: gameObject);
 			// Let go of pulled items.
 			playerScript.ObjectPhysics.StopPulling(false);

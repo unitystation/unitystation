@@ -148,7 +148,7 @@ namespace US13.Tilemaps.Behaviours.Objects
 		public bool DirectionCheck(Vector3Int from, bool isServer)
 		{
 			//Returns false if player is bumping door from the restricted direction
-			var position = isServer ? LocalPositionServer : LocalPositionClient;
+			var position =LocalPositionServer;
 			var direction = from - position;
 
 			//Use Directional component if it exists

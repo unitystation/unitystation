@@ -80,12 +80,12 @@ namespace US13.Core.Sound
 
 		private void OnDisable()
 		{
+			UpdateManager.Remove(CallbackType.SOUND_UPDATE, UpdateMe);
 			if (SoundManager.Instance == null) return;
 			if (Token != string.Empty)
 			{
 				SoundManager.Instance.SoundSpawns.Remove(Token);
 			}
-			UpdateManager.Remove(CallbackType.SOUND_UPDATE, UpdateMe);
 		}
 
 		void UpdateMe()

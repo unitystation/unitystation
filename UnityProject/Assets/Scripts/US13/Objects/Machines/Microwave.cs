@@ -11,6 +11,7 @@ using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Sprite_Handler;
 using US13.Items;
 using US13.Items.Kitchen;
+using US13.Items.Tool;
 using US13.Managers;
 using US13.Managers.UpdateManager;
 using US13.Messages.Server.SoundMessages;
@@ -29,7 +30,7 @@ namespace US13.Objects.Machines
 	/// A machine into which players can insert items for cooking. If the item has the Cookable component,
 	/// the item will be cooked once enough time has lapsed as determined in that component.
 	/// </summary>
-	public class Microwave : NetworkBehaviour, IAPCPowerable, IRefreshParts
+	public class Microwave : NetworkBehaviour, IAPCPowerable, IRefreshParts, ICleanable
 	{
 		private const int MAX_TIMER_TIME = 60; // Seconds
 		private const float DIRTY_CHANCE_PER_FINISH = 3; // Percent
@@ -349,7 +350,7 @@ namespace US13.Objects.Machines
 			spriteHandler.SetSpriteVariant(1);
 		}
 
-		public void CleanMicrowave()
+		public void Clean(ICleaner _)
 		{
 			spriteHandler.SetSpriteVariant(0);
 		}

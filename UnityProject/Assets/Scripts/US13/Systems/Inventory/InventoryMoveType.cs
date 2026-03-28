@@ -1,3 +1,4 @@
+using System.Text;
 using Logs;
 using UnityEngine;
 using US13.HealthV2;
@@ -193,6 +194,13 @@ namespace US13.Systems.Inventory
 		public static InventoryMove Throw(ItemSlot fromSlot, Vector2 worldTargetVector, BodyPartType aim = BodyPartType.Chest)
 		{
 			return new InventoryMove(InventoryMoveType.Remove, fromSlot.Item, fromSlot, null, InventoryRemoveType.Throw, aim, worldTargetVector);
+		}
+
+		public static string ToString(InventoryMove move)
+		{
+			StringBuilder sb = new StringBuilder();
+			sb.AppendFormat("InventoryMove of type {0} for object {1} from slot {2} to slot {3}. ", move.InventoryMoveType, move.MovedObject, move.FromSlot, move.ToSlot);
+			return sb.ToString();
 		}
 	}
 

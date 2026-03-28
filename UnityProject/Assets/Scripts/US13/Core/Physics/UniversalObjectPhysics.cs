@@ -9,6 +9,7 @@ using UnityEngine.Events;
 using US13.Core.Addressables;
 using US13.Core.Input_System.InteractionV2;
 using US13.Core.Transform;
+using US13.Core.Utils;
 using US13.Health.Objects;
 using US13.HealthV2;
 using US13.HealthV2.Living;
@@ -200,7 +201,7 @@ namespace US13.Core.Physics
 
 		[HideInInspector] public RegisterTile registerTile;
 
-		protected LayerMask defaultInteractionLayerMask;
+		protected static LayerMask? defaultInteractionLayerMask = null;
 
 		[HideInInspector] public GameObject[] ContextGameObjects = new GameObject[2];
 
@@ -295,17 +296,21 @@ namespace US13.Core.Physics
 
 		public virtual void Awake()
 		{
-			Collider = this.GetComponent<BoxCollider2D>();
-			floorDecal = this.GetComponent<FloorDecal>();
+			Collider = this.GetCachedComponent<BoxCollider2D>();
+			floorDecal = this.GetCachedComponent<FloorDecal>();
 			ContextGameObjects[0] = gameObject;
-			defaultInteractionLayerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines", "Players",
-				"Door Closed",
-				"HiddenWalls", "Objects");
-			attributes.DirectSetComponent(GetComponent<Items.Attributes>());
-			registerTile = GetComponent<RegisterTile>();
-			rotatable = GetComponent<Rotatable>();
-			pickupable.DirectSetComponent(GetComponent<Pickupable>());
-			Scale ??= GetComponent<ScaleSync>();
+			if (defaultInteractionLayerMask == null)
+			{
+				defaultInteractionLayerMask = LayerMask.GetMask("Furniture", "Walls", "Windows", "Machines", "Players",
+					"Door Closed",
+					"HiddenWalls", "Objects");
+			}
+
+			attributes.DirectSetComponent(this.GetCachedComponent<Items.Attributes>());
+			registerTile = this.GetCachedComponent<RegisterTile>();
+			rotatable =  this.GetCachedComponent<Rotatable>();
+			pickupable.DirectSetComponent( this.GetCachedComponent<Pickupable>());
+			Scale ??=  this.GetCachedComponent<ScaleSync>();
 			SetRotationTarget();
 		}
 
@@ -324,6 +329,16 @@ namespace US13.Core.Physics
 			}
 			else
 			{
+				if (synchLocalTargetPosition.Matrix != -1)
+				{
+					var max = MatrixManager.Get(synchLocalTargetPosition.Matrix);
+					if (max != null)
+					{
+						registerTile.TryChangeMatrix(max.Matrix.NetworkedMatrix);
+					}
+
+				}
+
 				InternalTriggerOnLocalTileReached(synchLocalTargetPosition.Vector3.RoundToInt());
 				SetTransform(synchLocalTargetPosition.Vector3, false);
 
@@ -930,7 +945,7 @@ namespace US13.Core.Physics
 				registerTile.ServerSetNetworkedMatrixNetID(movetoMatrix.NetworkedMatrix.MatrixSync.netId);
 			}
 
-			registerTile.FinishNetworkedMatrixRegistration(movetoMatrix.NetworkedMatrix);
+			registerTile.TryChangeMatrix(movetoMatrix.NetworkedMatrix);
 			SetTransform(TransformCash, true);
 			LocalDifferenceNeeded = Vector2.zero;
 
@@ -1045,7 +1060,7 @@ namespace US13.Core.Physics
 
 		public void NewtonianNewtonPush(Vector2 worldDirection, float newtonians = Single.NaN,
 			float inAirTime = Single.NaN,
-			float inSlideTime = Single.NaN, BodyPartType inAim = BodyPartType.Chest, GameObject inThrownBy = null,
+			float inSlideTime = Single.NaN, BodyPartType? inAim = BodyPartType.Chest, GameObject inThrownBy = null,
 			float spinFactor = 0) //Collision is just naturally part of Newtonian push
 		{
 			var speed = newtonians / SizeToWeight(GetSize());
@@ -1053,7 +1068,7 @@ namespace US13.Core.Physics
 		}
 
 		public void NewtonianPush(Vector2 worldDirection, float speed, float nairTime = Single.NaN,
-			float inSlideTime = Single.NaN, BodyPartType inAim = BodyPartType.Chest, GameObject inThrownBy = null,
+			float inSlideTime = Single.NaN, BodyPartType? inAim = BodyPartType.Chest, GameObject inThrownBy = null,
 			float spinFactor = 0,
 			bool ignoreSticky = false, GameObject ByClient = null) //Collision is just naturally part of Newtonian push
 		{
@@ -1072,7 +1087,12 @@ namespace US13.Core.Physics
 
 			speed = Mathf.Clamp(speed, 0, MAX_SPEED);
 
-			currentAim = inAim;
+			if (inAim == null)
+			{
+				inAim = BodyPartType.Custom.CachedRandomValue();
+			}
+
+			currentAim = inAim.Value;
 			thrownBy = inThrownBy.NetWorkIdentity();
 			thrownProtection = thrownBy;
 			if (Random.Range(0, 2) == 1)
@@ -1120,7 +1140,7 @@ namespace US13.Core.Physics
 			if (isServer)
 			{
 				LastUpdateClientFlying = NetworkTime.time;
-				UpdateClientMomentum(transform.localPosition, NewtonianMovement, airTime, this.slideTime, inAim,
+				UpdateClientMomentum(transform.localPosition, NewtonianMovement, airTime, this.slideTime, currentAim,
 					registerTile.Matrix.Id, spinFactor, true, ByClient.NetId(), TimeSpentFlying);
 			}
 		}
@@ -1439,7 +1459,10 @@ namespace US13.Core.Physics
 					}
 
 					livingHealthMasterBase.ApplyDamageToBodyPart(ddamagedBy, damage, AttackType.Melee, DamageType.Brute, currentAim);
-					if (currentAim == BodyPartType.Mouth && TryGetComponent<Edible>(out var edible)) edible.TryConsume(null, hit.gameObject, true);
+					if (currentAim == BodyPartType.Mouth && gameObject.TryGetCachedComponent(out Edible edible, includeDisabled: false))
+					{
+						edible.TryConsume(null, hit.gameObject, true);
+					}
 
 					LastHitContext.perpetrator = ddamagedBy;
 					LastHitContext.target = hit.gameObject;
@@ -1512,6 +1535,7 @@ namespace US13.Core.Physics
 			Vector3 position = transform.position;
 			Vector3 newPosition = position + (NewtonianMovement.To3() * Time.deltaTime);
 
+
 			if (newPosition.magnitude > 100000)
 			{
 				NewtonianMovement *= 0;
@@ -1525,10 +1549,12 @@ namespace US13.Core.Physics
 			var intPosition = position.RoundToInt();
 			var intNewPosition = newPosition.RoundToInt();
 			rotationTarget.Rotate(new Vector3(0, 0, spinMagnitude * NewtonianMovement.magnitude * Time.deltaTime));
-			var movetoMatrix = MatrixManager.AtPoint(newPosition.RoundToInt(), isServer).Matrix;
+			var movetoMatrix = MatrixManager.AtPoint(newPosition, isServer).Matrix;
 			LocalTargetPosition = transform.localPosition;
 
-			if (intPosition != intNewPosition)
+
+
+			if (transform.localPosition.RoundToInt() != newPosition.ToLocalInt(movetoMatrix))
 			{
 				Hits.Clear();
 				if ((position - newPosition).magnitude > 0.90f)
@@ -1543,8 +1569,8 @@ namespace US13.Core.Physics
 						Pushing.Clear();
 						Bumps.Clear();
 						Hits.Clear();
-						if (MatrixManager.IsPassableAtAllMatricesV2(intPosition,
-							    intNewPosition, SetMatrixCache, this,
+						if (MatrixManager.IsPassableAtAllMatricesV2(position,
+							    newPosition, SetMatrixCache, this,
 							    Pushing, Bumps, Hits, ICustomTilePassable : ICustomTilePassable) == false)
 						{
 							foreach (var bump in Bumps) //Bump Whatever we Bumped into

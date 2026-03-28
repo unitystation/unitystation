@@ -79,7 +79,7 @@ namespace US13.Managers
 
 		private void Awake()
 		{
-			if (Instance == null)
+			if (instance == null)
 			{
 				Instance = this;
 			}
@@ -634,7 +634,10 @@ namespace US13.Managers
 			if (HasPermission(sender, out var admin, TAG.ADMIN_ADDRESSABLE_MUSIC) == false) return;
 			AddressableAudioSource sound = new AddressableAudioSource();
 			sound.AssetAddress = addressableAudioSource;
-			MusicManager.PlayNetworked(sound);
+			MusicManager.PlayNetworked(sound, new AudioSourceParameters()
+			{
+				MixerType = MixerType.Music
+			});
 		}
 
 		#endregion

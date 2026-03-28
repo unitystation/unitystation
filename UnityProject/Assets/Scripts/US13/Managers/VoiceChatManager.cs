@@ -100,6 +100,7 @@ namespace US13.Managers
 
 		public void SetUp()
 		{
+			UpdateManager.UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 			UniVoiceMirrorNetwork = new UniVoiceMirrorNetwork();
 			SetUpUniVoiceMirrorNetwork();
 			UniVoiceUniMicInput = new UniVoiceUniMicInput(0, 8000, 27);
@@ -109,7 +110,7 @@ namespace US13.Managers
 				UniVoiceUniMicInput,
 				new UniVoiceAudioSourceOutput.Factory(AudioPrefab)
 			);
-			UpdateManager.UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+
 
 			chatroomAgent.MuteSelf = ClientPushToTalk || ClientEnabled;
 

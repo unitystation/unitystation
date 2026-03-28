@@ -8,6 +8,33 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 898374790672748595, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 898374790672748595, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 898374790672748595, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: b4a0dab98ad8f97dcb9efa0a3a7bee6b,
+        type: 2}
+    - target: {fileID: 898374790672748595, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c,
+        type: 2}
+    - target: {fileID: 898374790672748595, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[1]'
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
       propertyPath: initialName
@@ -43,9 +70,21 @@ PrefabInstance:
       objectReference: {fileID: 2800000, guid: 06b537a0fb67270478169cfc5480b75d, type: 3}
     - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 95d3aaaefeebee749adb13f5308c47db,
+        type: 2}
+    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
       propertyPath: itemSprites.LeftHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 00bf885ebdb7e8941a48fcc1e309073d, type: 3}
+    - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 2c3f6cc09afe6d047ac5f19ddfd904be,
+        type: 2}
     - target: {fileID: 1995158850307864569, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
       propertyPath: itemSprites.RightHand.EquippedData
@@ -188,6 +227,12 @@ PrefabInstance:
     - target: {fileID: 5195957585038861084, guid: 6445f714f221b6743aa6d70ac4b73c87,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 7b4c5338108ad22479642bf9694bf392,
+        type: 2}
+    - target: {fileID: 5195957585038861084, guid: 6445f714f221b6743aa6d70ac4b73c87,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 7b4c5338108ad22479642bf9694bf392,
         type: 2}

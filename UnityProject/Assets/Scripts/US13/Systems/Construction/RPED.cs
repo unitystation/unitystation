@@ -70,10 +70,10 @@ namespace US13.Systems.Construction
 				var betterPartSlot = rpedSlots.FirstOrDefault(slot =>
 				{
 					if (slot.Item == null) return false;
-					var attr = slot.Item.GetComponentCustom<ItemAttributesV2>();
+					var attr = slot.Item.GetCachedComponent<ItemAttributesV2>();
 					if (attr.HasTrait(oldTrait) == false) return false;
 
-					var stock = slot.Item.GetComponentCustom<StockTier>();
+					var stock = slot.Item.GetCachedComponent<StockTier>();
 					return stock != null && stock.Tier > oldTier;
 				});
 
@@ -112,10 +112,10 @@ namespace US13.Systems.Construction
 						var PartSlot = rpedSlots.FirstOrDefault(slot =>
 						{
 							if (slot.Item == null) return false;
-							var attr = slot.Item.GetComponentCustom<ItemAttributesV2>();
+							var attr = slot.Item.GetCachedComponent<ItemAttributesV2>();
 							if (attr.HasTrait(missingPart.itemTrait) == false) return false;
 
-							var stock = slot.Item.GetComponentCustom<StockTier>();
+							var stock = slot.Item.GetCachedComponent<StockTier>();
 							return stock != null;
 						});
 						if (PartSlot == null) continue;

@@ -1,18 +1,27 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using Newtonsoft.Json;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using US13.Clothing;
+using US13.Core.Sprite_Handler;
 using US13.HealthV2.Living;
 using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 using Util;
+using Random = UnityEngine.Random;
 
 namespace US13.UI.Systems.Lobby.SubCustomisation.BodyPartCustomisations
 {
-	public class BodyPartSpriteAndColour : BodyPartCustomisationBase
+
+
+
+
+	public class BodyPartSpriteAndColour : BodyPartCustomisationBase, DropDownCustomProvider
 	{
 		public Color BodyPartColour = Color.white;
 		public Image SelectionColourImage;
@@ -43,6 +52,20 @@ namespace US13.UI.Systems.Lobby.SubCustomisation.BodyPartCustomisations
 			{
 				SelectionColourImage.gameObject.SetActive(true);
 			}
+		}
+
+		public void CustomSetup(CustomDropDownItem Content, string dropdownItemName)
+		{
+			var data =  OptionalSprites.FirstOrDefault(pcd => pcd.DisplayName == dropdownItemName || pcd.name == dropdownItemName);
+
+			if (data == null)
+			{
+				Loggy.Error($"Unable to find entry for {dropdownItemName} ");
+				return;
+			}
+
+			Content.Image.SetSpriteSO(data.Sprite);
+			Content.Image.SetColor(BodyPartColour);
 		}
 
 		public override void Deserialise(string InData)
@@ -89,7 +112,6 @@ namespace US13.UI.Systems.Lobby.SubCustomisation.BodyPartCustomisations
 			Dropdown.AddOptions(itemOptions);
 			Dropdown.onValueChanged.AddListener(ItemChange);
 		}
-
 
 
 		public override void RandomizeInBody(BodyPart Body_Part, LivingHealthMasterBase livingHealth)
@@ -145,7 +167,7 @@ namespace US13.UI.Systems.Lobby.SubCustomisation.BodyPartCustomisations
 					Body_Part.BodyPartItemSprite.SetSpriteSO(OptionalSprites[Selected - 1]);
 				}
 
-				var Clothing = SweetExtensions.GetComponentCustom<ClothingV2>((Component)Body_Part);
+				var Clothing = SweetExtensions.GetCachedComponent<ClothingV2>((Component)Body_Part);
 				if (Clothing != null)
 				{
 					Clothing.SpriteDataSO.Clear();

@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: fryer_left_start
+  m_EditorClassIdentifier: RootSillys::SpriteDataSO
+  foreverID: CuCL_NZDzLTEQda3VJZS
+  Variance:
+  - Frames:
+    - sprite: {fileID: 21300000, guid: d4cfcf14c3bc89f42822f52523376993, type: 3}
+      secondDelay: 0.09
+    - sprite: {fileID: 21300000, guid: 22c384f3da34577429428113288009ab, type: 3}
+      secondDelay: 0.09
+    - sprite: {fileID: 21300000, guid: 0c4c27099a866be458ba7a6832a819cf, type: 3}
+      secondDelay: 0.09
+    - sprite: {fileID: 21300000, guid: f8c99b79bfdc9b043b4ccad8ecfdc603, type: 3}
+      secondDelay: 0.09
+  IsPalette: 0
+  DisplayName: 

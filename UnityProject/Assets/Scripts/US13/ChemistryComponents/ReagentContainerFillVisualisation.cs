@@ -3,6 +3,7 @@ using Mirror;
 using UnityEngine;
 using US13.Core.Lifecycle;
 using US13.Core.Sprite_Handler;
+using Util;
 
 namespace US13.ChemistryComponents
 {
@@ -42,7 +43,7 @@ namespace US13.ChemistryComponents
 				return;
 			fillSpriteHandler = fillSpriteRender.GetComponent<SpriteHandler>();
 
-			serverContainer = GetComponent<ReagentContainer>();
+			serverContainer = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 			if (serverContainer)
 			{
 				serverContainer.OnReagentMixChanged.AddListener(ServerUpdateFillState);

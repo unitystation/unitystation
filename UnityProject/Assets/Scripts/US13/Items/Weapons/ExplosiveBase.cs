@@ -87,12 +87,12 @@ namespace US13.Items.Weapons
 			spriteHandler.SetSpriteSO(activeSpriteSO);
 			if (GUI != null) GUI.StartCoroutine(GUI.UpdateTimer());
 			yield return WaitFor.Seconds(timeToDetonate); //Delay is in milliseconds
-			Detonate();
+			Detonate( "Reached end of countdown" );
 		}
 
 		public static UnityEvent<Vector3Int, BlastData> ExplosionEvent { get; set; } = new UnityEvent<Vector3Int, BlastData>();
 
-		protected virtual void Detonate()
+		protected virtual void Detonate(string DetonationReason)
 		{
 			if(gameObject == null) return;
 
@@ -124,7 +124,7 @@ namespace US13.Items.Weapons
 			if(ValidSignal(responsibleEmitter) == false) return;
 			if (detonateImmediatelyOnSignal)
 			{
-				Detonate();
+				Detonate( " Received signal " );
 				return;
 			}
 			StartCoroutine(Countdown());

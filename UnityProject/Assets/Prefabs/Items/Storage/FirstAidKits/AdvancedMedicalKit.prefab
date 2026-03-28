@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5961949544444433393
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2490630288303511261, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 808cc773886df124d996d02aa25ffe1c,
+        type: 2}
+    - target: {fileID: 3417345767468294455, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: parentID
+      value: d0eb5dacbdcd4844e8c76aabde50434f
+      objectReference: {fileID: 0}
+    - target: {fileID: 3417345767468294455, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: foreverID
+      value: e317e1e40db0d5e41b18caa32c64cffa
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159390639885615672, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: initialName
+      value: advanced medical kit
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159390639885615672, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: initialDescription
+      value: an advanced medical kit for serious medical situations.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8159390639885615672, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: be91da9c17772b24b927eda94b2bdbf6,
+        type: 2}
+    - target: {fileID: 8159390639885615672, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f512f47834a43824cb0aa049980dd57c,
+        type: 2}
+    - target: {fileID: 8441880568126201350, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d34f92270090d0f46a249045d0e0f035,
+        type: 3}
+    - target: {fileID: 8521467601672753390, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: _assetId
+      value: 1878429795
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8630552864855298094, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8635195139948178778, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: m_Name
+      value: AdvancedMedicalKit
+      objectReference: {fileID: 0}
+    - target: {fileID: 8654565269348869248, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: itemStoragePopulator
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f00dc46acc501c4dae8ded3ad7a06cc,
+        type: 2}
+    - target: {fileID: 8654565269348869248, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: 0480160aa55493d42b53c8d08da3be7c,
+        type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d0eb5dacbdcd4844e8c76aabde50434f, type: 3}

@@ -47,13 +47,9 @@ namespace US13.Messages.Server.SpritesMessages
 			if (spawned.TryGetValue(spriteUpdateEntry.id, out var networkIdentity) == false) return false;
 			if (networkIdentity == null) return false;
 
-			if (SpriteHandlerManager.PresentSprites.ContainsKey(networkIdentity) == false ||
-			    SpriteHandlerManager.PresentSprites[networkIdentity].ContainsKey(spriteUpdateEntry.name) == false)
-			{
-				return false;
-			}
+			if (SpriteHandlerManager.PresentSprites.TryGetValue(networkIdentity, out var IdentityObject) == false) return false;
+			if (IdentityObject.TryGetValue(spriteUpdateEntry.name, out var spriteHandler) == false) return false;
 
-			var spriteHandler = SpriteHandlerManager.PresentSprites[networkIdentity][spriteUpdateEntry.name];
 			var argumentIndex = 0;
 			foreach (var spriteOperation in spriteUpdateEntry.call)
 			{
@@ -79,7 +75,9 @@ namespace US13.Messages.Server.SpritesMessages
 				{
 					var argument = spriteUpdateEntry.arg[argumentIndex];
 					argumentIndex++;
-					spriteHandler.AnimateOnce(argument, false);
+					var animateNextArg = spriteUpdateEntry.arg[argumentIndex];
+					argumentIndex++;
+					spriteHandler.AnimateOnce(argument, networked: false, inAnimateNext: animateNextArg == 1);
 				}
 				else if (spriteOperation == SpriteOperation.PushTexture)
 				{
@@ -374,11 +372,12 @@ namespace US13.Messages.Server.SpritesMessages
 					if (Operation == (byte) SpriteOperation.AnimateOnce)
 					{
 						int SpriteAnimate = reader.ReadInt();
+						bool animateNext = reader.ReadBool();
 						if (ProcessSection)
 						{
 							try
 							{
-								SP.AnimateOnce(SpriteAnimate, false);
+								SP.AnimateOnce(SpriteAnimate, networked: false, inAnimateNext: animateNext);
 							}
 							catch (Exception e)
 							{
@@ -389,6 +388,7 @@ namespace US13.Messages.Server.SpritesMessages
 						{
 							UnprocessedData.call.Add(SpriteUpdateMessage.SpriteOperation.AnimateOnce);
 							UnprocessedData.arg.Add(SpriteAnimate);
+							UnprocessedData.arg.Add(animateNext ? 1 : 0);
 						}
 					}
 
@@ -597,6 +597,7 @@ namespace US13.Messages.Server.SpritesMessages
 			{
 				writer.WriteByte((byte) SpriteOperation.AnimateOnce);
 				writer.WriteInt(spriteChange.CataloguePage);
+				writer.WriteBool(spriteChange.AnimateNext);
 			}
 
 			if (spriteChange.PushTexture)

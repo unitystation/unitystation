@@ -3,6 +3,7 @@ using Mirror;
 using UnityEngine;
 using US13.Core.Sprite_Handler;
 using US13.Items;
+using Util;
 
 namespace US13.ChemistryComponents
 {
@@ -36,7 +37,7 @@ namespace US13.ChemistryComponents
 			mainSpriteHandler = mainSpriteRender.GetComponent<SpriteHandler>();
 
 			fillVisual = GetComponent<ReagentContainerFillVisualisation>();
-			serverContainer = GetComponent<ReagentContainer>();
+			serverContainer = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 			item = GetComponent<ItemAttributesV2>();
 
 			// save default data

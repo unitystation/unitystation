@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using Logs;
 using UnityEngine;
 using UnityEngine.Profiling;
+using US13.Core.Utils;
 using US13.Health;
+using US13.HealthV2;
 using US13.Managers.MatrixManager;
 using US13.Managers.NetworkManagement;
 using US13.Managers.UpdateManager;
@@ -227,7 +229,7 @@ namespace US13.Tilemaps.Behaviours.Meta.Atmospherics
 
 					if (pushable.CanBeWindPushed)
 					{
-						pushable.NewtonianPush( (Vector2)windyNode.WindDirection, Random.Range((float)(correctedForce * 0.8), correctedForce),  spinFactor: Random.Range(1, 150));
+						pushable.NewtonianPush( (Vector2)windyNode.WindDirection, Random.Range((float)(correctedForce * 0.8), correctedForce),  spinFactor: Random.Range(1, 150), inAim:null);
 					}
 
 
@@ -236,7 +238,7 @@ namespace US13.Tilemaps.Behaviours.Meta.Atmospherics
 						if (windyNode.WindForce * 0.15f > 0.25f)
 						{
 							pushable.NewtonianPush(windyNode.WindDirection, windyNode.WindForce * 0.15f,
-								windyNode.WindForce * 0.05f, spinFactor: Random.Range(20, 150));
+								windyNode.WindForce * 0.05f, spinFactor: Random.Range(20, 150), inAim:null);
 						}
 					}
 				}

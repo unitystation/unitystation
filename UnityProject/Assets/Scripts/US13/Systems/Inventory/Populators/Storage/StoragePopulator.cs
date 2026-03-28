@@ -25,24 +25,27 @@ namespace US13.Systems.Inventory.Populators.Storage
 				 " to slot index that it will populate). **Deprecated**")]
 		private List<GameObject> DeprecatedContents = new List<GameObject>();
 
-		public override void PopulateItemStorage(ItemStorage ItemStorage, PopulationContext context, SpawnInfo info)
+		public override void PopulateItemStorage(IStoreThings ItemStorage, MonoBehaviour component, PopulationContext context, SpawnInfo info)
 		{
 			//Uses the old contents for now
 			foreach (var gameObject in DeprecatedContents)
 			{
-				var ItemSlot = ItemStorage.GetNextFreeIndexedSlot();
-
 				var spawn = Spawn.ServerPrefab(gameObject, PrePickRandom: true, spawnManualContents: info?.SpawnManualContents ?? false);
 
-				if (Validations.CanFit(ItemSlot, spawn.GameObject, NetworkSide.Server) == false)
+
+				if (ItemStorage.CanFit(spawn.GameObject)== false)
 				{
-					Loggy.Error($"Your initial contents spawn for Storage {ItemStorage.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
+					Loggy.Error($"Your initial contents spawn for Storage {component.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
 				}
 
-				Inventory.ServerAdd(spawn.GameObject, ItemSlot, IgnoreRestraints: true);
+				ItemStorage.ServerTryAdd(spawn.GameObject, IgnoreRestraints: true);
+
 			}
 
-			Inventory.PopulateSubInventory(ItemStorage, SlotContents, info);
+			if (component is ItemStorage storage)
+			{
+				Inventory.PopulateSubInventory(storage, SlotContents, info);
+			}
 		}
 	}
 
@@ -72,24 +75,28 @@ namespace US13.Systems.Inventory.Populators.Storage
 			return Returning;
 		}
 
-		public void PopulateItemStorage(ItemStorage ItemStorage, PopulationContext context, SpawnInfo info)
+		public void PopulateItemStorage(IStoreThings ItemStorage, MonoBehaviour component, PopulationContext context, SpawnInfo info)
 		{
 			foreach (var gameObject in DeprecatedContents)
 			{
 				if (gameObject == null) continue;
-				var ItemSlot = ItemStorage.GetNextFreeIndexedSlot();
 				var spawn = Spawn.ServerPrefab(gameObject, PrePickRandom: true, spawnManualContents: info?.SpawnManualContents ?? false);
 
-				if (Validations.CanFit(ItemSlot, spawn.GameObject, NetworkSide.Server) == false)
+				if (ItemStorage.CanFit(spawn.GameObject)== false)
 				{
-					Loggy.Error($"Your initial contents spawn for ItemStorage {ItemStorage.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
+					Loggy.Error($"Your initial contents spawn for ItemStorage {component.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
 				}
 
+				ItemStorage.ServerTryAdd(spawn.GameObject, IgnoreRestraints: true);
 
-				Inventory.ServerAdd(spawn.GameObject, ItemSlot, IgnoreRestraints: true);
 			}
 
-			Inventory.PopulateSubInventory(ItemStorage, SlotContents, info);
+			if (component is ItemStorage storage)
+			{
+				Inventory.PopulateSubInventory(storage, SlotContents, info);
+			}
+
+
 		}
 	}
 }

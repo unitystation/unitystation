@@ -37,7 +37,7 @@ namespace US13.Core.Admin.Logs
 			PlayerInfo WasControlledByPlayer = null;
 			if (StoredIn != null)
 			{
-				WasControlledByPlayer = StoredIn.GetComponentCustom<PlayerScript>()?.PlayerInfo;
+				WasControlledByPlayer = StoredIn.GetCachedComponent<PlayerScript>()?.PlayerInfo;
 			}
 			else
 			{

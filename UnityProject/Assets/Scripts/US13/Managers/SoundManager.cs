@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Logs;
 using Mirror;
 using Shared.Util;
@@ -90,7 +91,7 @@ namespace US13.Managers
 			soundSpawn.AudioSource.outputAudioMixerGroup = AudioManager.Instance.SFXMixer;
 			soundSpawn.SetAudioSource(audioSource);
 			soundSpawn.assetAddress = addressableAudioSource.AssetAddress;
-			if (soundSpawnToken != string.Empty)
+			if (string.IsNullOrEmpty(soundSpawnToken) == false)
 			{
 				soundSpawn.Token = soundSpawnToken;
 				SoundSpawns.Add(soundSpawnToken, soundSpawn);
@@ -114,7 +115,7 @@ namespace US13.Managers
 			{
 				var ToReturn = NonplayingSounds[addressableAudioSource.AssetAddress][0];
 				NonplayingSounds[addressableAudioSource.AssetAddress].RemoveAt(0);
-				if (soundSpawnToken != "") //non addressables dont have a token
+				if (string.IsNullOrEmpty(soundSpawnToken) == false) //non addressables dont have a token
 				{
 					ToReturn.Token = soundSpawnToken;
 					SoundSpawns.Add(soundSpawnToken, ToReturn);
@@ -729,6 +730,45 @@ namespace US13.Managers
 						Sound.AudioSource.Stop();
 					}
 				}
+			}
+		}
+
+		/// <summary>
+		/// Fades a sound's volume locally over the given duration.
+		/// If stopOnComplete is true, the sound is stopped and pooled after the fade.
+		/// </summary>
+		public static void ClientFade(string soundSpawnToken, float targetVolume, float duration, bool stopOnComplete)
+		{
+			if (Instance.SoundSpawns.TryGetValue(soundSpawnToken, out var spawn) == false) return;
+
+			RunClientFade(spawn, targetVolume, duration, stopOnComplete, soundSpawnToken).Forget();
+		}
+
+		private static async UniTaskVoid RunClientFade(SoundSpawn spawn, float target, float duration, bool stopOnComplete, string token)
+		{
+			var audioSource = spawn.AudioSource;
+			if (audioSource == null) return;
+
+			float start = audioSource.volume;
+			audioSource.mute = false;
+			float elapsed = 0f;
+
+			while (elapsed < duration)
+			{
+				if (audioSource == null) return;
+
+				elapsed += Time.deltaTime;
+				float t = Mathf.Clamp01(elapsed / duration);
+				audioSource.volume = Mathf.Lerp(start, target, t);
+				await UniTask.Yield();
+			}
+
+			if (audioSource == null) return;
+			audioSource.volume = target;
+
+			if (stopOnComplete)
+			{
+				ClientStop(token, true);
 			}
 		}
 

@@ -38,6 +38,8 @@ namespace US13.Core.Input_System.InteractionV2.Interactions.Internal
 		//The character that is Performing this operation
 		public Mind PerformerMind  { get; protected set; }
 
+		public string PerformerAccountID => PerformerMind.ControlledBy.AccountId;
+
 		/// <param name="performer">The gameobject of the player performing the interaction</param>
 		/// <param name="usedObject">Object that is being used by the player to perform the interaction.
 		///  For example...

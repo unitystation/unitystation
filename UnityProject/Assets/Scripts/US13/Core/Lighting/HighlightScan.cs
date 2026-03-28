@@ -3,6 +3,8 @@ using Logs;
 using UnityEngine;
 using US13.Core.Lifecycle;
 using US13.Managers.NetworkManagement;
+using US13.Tilemaps.Behaviours.Layers;
+using US13.Tilemaps.Tiles;
 using Util;
 
 namespace US13.Core.Lighting
@@ -11,6 +13,12 @@ namespace US13.Core.Lighting
 	{
 		private SpriteRenderer spriteRenderer;
 		[SerializeField] private GameObject noHighlightSpriteObj;
+
+
+		public Vector3Int LocalPOS;
+		public Layer Layer;
+		public SimpleTile Tile;
+
 
 		private void Awake()
 		{

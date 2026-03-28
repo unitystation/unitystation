@@ -53,7 +53,7 @@ namespace US13.Items.Tool
 		{
 			itemAttributes = GetComponent<ItemAttributesV2>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
-			ClothingV2 = this.GetComponentCustom<ClothingV2>();
+			ClothingV2 = this.GetCachedComponent<ClothingV2>();
 		}
 
 		private void Start()

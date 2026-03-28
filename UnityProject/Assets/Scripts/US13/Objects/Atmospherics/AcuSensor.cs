@@ -28,6 +28,6 @@ namespace US13.Objects.Atmospherics
 		}
 
 		// Don't care about the ACU operating mode.
-		public void SetOperatingMode(AcuMode mode) { }
+		public void SetOperatingMode(AcuMode mode, bool SetBypower) { }
 	}
 }

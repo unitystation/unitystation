@@ -5,6 +5,7 @@ using System.Linq;
 using Logs;
 using UnityEngine;
 using US13.Core.Chat;
+using US13.Managers.NetworkManagement;
 
 namespace US13.Tilemaps.Behaviours.Meta
 {
@@ -70,6 +71,8 @@ namespace US13.Tilemaps.Behaviours.Meta
 
 		public void UpdateAt(Vector3Int localPosition, SystemType ToUpDate = SystemType.All)
 		{
+			if (CustomNetworkManager.IsServer == false) return;
+
 			if (!initialized)
 			{
 				return;

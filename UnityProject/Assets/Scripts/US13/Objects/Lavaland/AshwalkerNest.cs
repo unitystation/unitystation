@@ -187,11 +187,11 @@ namespace US13.Objects.Lavaland
 
 				//If dead ashwalker in body respawn without cost
 				SpawnAshwalker(healthMasterBase.playerScript.PlayerInfo, false);
-				healthMasterBase.OnGib();
+				healthMasterBase.OnGib( " Ash Walker nest " );
 				return;
 			}
 
-			healthMasterBase.OnGib();
+			healthMasterBase.OnGib( " Ash Walker nest " );
 			Chat.AddActionMsgToChat(gameObject, $"Serrated tendrils eagerly pull {healthMasterBase.gameObject.ExpensiveName()} to " +
 												$"the {gameObject.ExpensiveName()}, tearing the body apart as its blood seeps over the eggs.");
 

@@ -87,14 +87,9 @@ namespace US13.HealthV2.Living
 			var RNG = Random.Range(0, 1000);
 			if ((data.DamageAmount >= RNG) == false) return;
 
-			var available = new List<MutationSO>(CapableMutations);
-			foreach (var active in ActiveMutations)
-			{
-				available.Remove(active.RelatedMutationSO);
-			}
+			AddRandomMutation();
 
-			AddMutation(available.PickRandomNonNull());
-			//Maybe under undo mutations??
+
 		}
 
 
@@ -155,6 +150,18 @@ namespace US13.HealthV2.Living
 			CalculateStability();
 
 			GameObjectExtensions.OrNull<LivingHealthMasterBase>(RelatedPart.HealthMaster)?.BodyPartsChangeMutation();
+		}
+
+		public void AddRandomMutation()
+		{
+			var available = new List<MutationSO>(CapableMutations);
+			foreach (var active in ActiveMutations)
+			{
+				available.Remove(active.RelatedMutationSO);
+			}
+
+			AddMutation(available.PickRandomNonNull());
+			//Maybe under undo mutations??
 		}
 
 		public void RemoveMutation(MutationSO Mutation)

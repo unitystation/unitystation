@@ -16,7 +16,7 @@ namespace US13.Items.Tool
 	/// Main component for soap. Allows cleaning of tiles and gradual degradation of the soap as it is used.
 	/// </summary>
 	[RequireComponent(typeof(Pickupable))]
-	public class Soap : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IExaminable, IServerSpawn
+	public class Soap : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<HandApply>, IExaminable, IServerSpawn, ICleaner
 	{
 		private static readonly StandardProgressActionConfig ProgressConfig =
 			new StandardProgressActionConfig(StandardProgressActionType.Mop, true, false);
@@ -43,9 +43,7 @@ namespace US13.Items.Tool
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 			//can only scrub tiles, for now
-			if (!Validations.HasComponent<InteractableTiles>(interaction.TargetObject)) return false;
-
-            return true;
+			return Validations.HasComponent<InteractableTiles>(interaction.TargetObject);
 		}
 
 		public void ServerPerformInteraction(PositionalHandApply interaction)
@@ -69,6 +67,35 @@ namespace US13.Items.Tool
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"You begin to scrub the {(isWall ? "wall" : "floor")} with the {gameObject.ExpensiveName()}...",
 					$"{interaction.Performer.name} begins to scrub the {(isWall ? "wall" : "floor")} with the {gameObject.ExpensiveName()}.");
+			}
+		}
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (interaction.TargetObject == null) return false;
+			return interaction.TargetObject.GetComponent<ICleanable>() != null;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			var cleanable = interaction.TargetObject.GetComponent<ICleanable>();
+			if (cleanable == null) return;
+
+			void CompleteProgress()
+			{
+				cleanable.Clean(this);
+				UseUpSoap();
+				Chat.AddExamineMsg(interaction.Performer, $"You finish scrubbing the {interaction.TargetObject.ExpensiveName()}.");
+			}
+
+			var bar = StandardProgressAction.Create(ProgressConfig, CompleteProgress)
+				.ServerStartProgress(interaction.Performer.RegisterTile(), useTime, interaction.Performer);
+			if (bar)
+			{
+				Chat.AddActionMsgToChat(interaction.Performer,
+					$"You begin to scrub the {interaction.TargetObject.ExpensiveName()} with the {gameObject.ExpensiveName()}...",
+					$"{interaction.Performer.name} begins to scrub the {interaction.TargetObject.ExpensiveName()} with the {gameObject.ExpensiveName()}.");
 			}
 		}
 
