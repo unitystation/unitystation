@@ -40,6 +40,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 92755c25016ee144bbe198cbf2edf6ab,
         type: 2}
+    - target: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 92755c25016ee144bbe198cbf2edf6ab,
+        type: 2}
     - target: {fileID: 4848496751115757459, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: parentID
@@ -155,7 +161,11 @@ MonoBehaviour:
     type: 3}
   FalseReinforcedWall: {fileID: 2057434539693897599, guid: ad3ad861919b88a479eacc3d06e05fd5,
     type: 3}
+  ShuttleFalseWall: {fileID: 7646425637968768788, guid: 90282ed3568679921a607d86a1641b0f,
+    type: 3}
   reinforcedGirder: {fileID: 5202598923472150623, guid: a41ce5ac5b947cc4482cd3c92ea67410,
     type: 3}
   wallTile: {fileID: 11400000, guid: 2c5573a92f4b03d4c809a9a90ac4ddac, type: 2}
   falseTile: {fileID: 11400000, guid: 8a5d7b8cc9d261442bd185a31ad88e67, type: 2}
+  shuttleWallTile: {fileID: 11400000, guid: dc013ef1aa2df4ecfb06d53ae1c7d22d, type: 2}
+  shuttleFalseTile: {fileID: 11400000, guid: 8a5d7b8cc9d261442bd185a31ad88e67, type: 2}
