@@ -13,7 +13,7 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 {
 	public enum Intent
 	{
-		None,
+		None = -1,
 		Help = 0,
 		Disarm,
 		Grab,

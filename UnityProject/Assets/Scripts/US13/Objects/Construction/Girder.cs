@@ -1,4 +1,4 @@
-﻿using Mirror;
+using Mirror;
 using UnityEngine;
 using US13.Core.Chat;
 using US13.Core.Input_System.InteractionV2;
@@ -33,6 +33,7 @@ namespace US13.Objects.Construction
 
 		public GameObject FalseWall;
 		public GameObject FalseReinforcedWall;
+		public GameObject ShuttleFalseWall;
 
 		[Tooltip("Reinforced girder prefab.")]
 		[SerializeField]
@@ -46,6 +47,13 @@ namespace US13.Objects.Construction
 		[SerializeField]
 		private BasicTile falseTile = null;
 
+		[Tooltip("Tile to spawn when titanium wall is constructed.")]
+		[SerializeField]
+		private BasicTile shuttleWallTile = null;
+
+		[Tooltip("Tile to spawn when false titanium wall is constructed.")]
+		[SerializeField]
+		private BasicTile shuttleFalseTile = null;
 		#region Lifecycle
 
 		private void Start()
@@ -71,9 +79,10 @@ namespace US13.Objects.Construction
 
 			//only care about interactions targeting us
 			if (interaction.TargetObject != gameObject) return false;
-			//only try to interact if the user has a wrench, screwdriver, metal, or plasteel in their hand
+			//only try to interact if the user has a wrench, screwdriver, metal, plasteel, or titanium in their hand
 			if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.MetalSheet) &&
 				!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.PlasteelSheet) &&
+				!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.TitaniumSheet) &&
 				!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench) &&
 				!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver)) return false;
 			return true;
@@ -93,8 +102,8 @@ namespace US13.Objects.Construction
 						return;
 					}
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
-						"You start adding plating...",
-						$"{interaction.Performer.ExpensiveName()} begins adding plating...",
+						"You start adding plating to the unsecured girder...",
+						$"{interaction.Performer.ExpensiveName()} begins adding plating to the unsecured girder...",
 						"You create a false wall.",
 						$"{interaction.Performer.ExpensiveName()} creates a false wall.",
 						() => ConstructFalseWall(interaction));
@@ -124,8 +133,8 @@ namespace US13.Objects.Construction
 						return;
 					}
 					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
-						"You start adding plating...",
-						$"{interaction.Performer.ExpensiveName()} begins adding plating...",
+						"You start adding plating to the unsecured girder...",
+						$"{interaction.Performer.ExpensiveName()} begins adding plating to the unsecured girder...",
 						"You add the plating.",
 						$"{interaction.Performer.ExpensiveName()} adds the plating.",
 						() => ConstructReinforcedFalseWall(interaction));
@@ -141,6 +150,37 @@ namespace US13.Objects.Construction
 						() => ReinforceGirder(interaction));
 				}
 			}
+			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.TitaniumSheet))
+			{
+				if (objectBehaviour.IsNotPushable == false)
+				{
+					if (Validations.HasAtLeast(interaction.HandObject, 2) == false)
+					{
+						Chat.AddExamineMsg(interaction.Performer, "You need two sheets of titanium to finish a false shuttle wall!");
+						return;
+					}
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
+						"You start adding titanium plating to the unsecured girder...",
+						$"{interaction.Performer.ExpensiveName()} begins adding titanium plating to the unsecured girder...",
+						"You create a false shuttle wall.",
+						$"{interaction.Performer.ExpensiveName()} creates a false shuttle wall.",
+						() => ConstructShuttleFalseWall(interaction));
+				}
+				else
+				{
+					if (Validations.HasAtLeast(interaction.HandObject, 2) == false)
+					{
+						Chat.AddExamineMsg(interaction.Performer, "You need two sheets of titanium to finish a shuttle wall!");
+						return;
+					}
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
+						"You start adding titanium plating...",
+						$"{interaction.Performer.ExpensiveName()} begins adding titanium plating...",
+						"You create a shuttle wall.",
+						$"{interaction.Performer.ExpensiveName()} creates a shuttle wall.",
+						() => ConstructShuttleWall(interaction));
+				}
+            }
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 			{
 				if (objectBehaviour.IsNotPushable == false)
@@ -239,6 +279,25 @@ namespace US13.Objects.Construction
 			GameObject theWall = Spawn.ServerPrefab(FalseReinforcedWall, SpawnDestination.At(gameObject)).GameObject;
 			DoorMasterController doorController = theWall.GetComponent<DoorMasterController>();
 			tileChangeManager.MetaTileMap.SetTile(registerObject.LocalPositionServer, falseTile);
+			interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
+			doorController.Close();
+			_ = Despawn.ServerSingle(gameObject);
+		}
+
+        [Server]
+		private void ConstructShuttleWall(HandApply interaction)
+		{
+		    tileChangeManager.MetaTileMap.SetTile(Vector3Int.RoundToInt(transform.localPosition), shuttleWallTile);
+		    interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
+		    _ = Despawn.ServerSingle(gameObject);
+		}
+
+		[Server]
+		private void ConstructShuttleFalseWall(HandApply interaction)
+		{
+			GameObject theWall = Spawn.ServerPrefab(ShuttleFalseWall, SpawnDestination.At(gameObject)).GameObject;
+			DoorMasterController doorController = theWall.GetComponent<DoorMasterController>();
+			tileChangeManager.MetaTileMap.SetTile(registerObject.LocalPositionServer, shuttleFalseTile);
 			interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 			doorController.Close();
 			_ = Despawn.ServerSingle(gameObject);
