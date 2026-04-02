@@ -22,16 +22,9 @@ namespace US13.Core.Input_System.InteractionV2.TileInteraction
 		[SerializeField]
 		private ItemTrait requiredTrait = null;
 
-		//First implemented for allowing players to both repair and unsecure reinforced windows using welders depending on intent.
-		[Tooltip("Do you need to be on harm intent to perform this interaction?")]
+		[Tooltip("What intent is required to perform this interaction? None means any intent works.")]
 		[SerializeField]
-		private bool harmIntentRequired = false;
-
-		//First implemented for allowing players to both repair and unsecure reinforced windows using welders depending on intent.
-		[Tooltip("Do you need to be on harm intent to perform this interaction?")]
-		[SerializeField]
-		private Intent RequiredIntent = Intent.None;
-
+		private Intent requiredIntent = Intent.Disarm;
 
 		[Tooltip("Action message to performer when they begin this interaction.")]
 		[SerializeField]
@@ -65,15 +58,7 @@ namespace US13.Core.Input_System.InteractionV2.TileInteraction
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-			if (harmIntentRequired == true && RequiredIntent == Intent.None)
-			{
-				if (interaction.Intent != Intent.Harm) return false;
-			}
-
-			if (RequiredIntent != Intent.None)
-			{
-				if (interaction.Intent != RequiredIntent) return false;
-			}
+			if (requiredIntent != Intent.None && interaction.Intent != requiredIntent) return false;
 
 			if (requiredTrait == CommonTraits.Instance.Welder)
 			{
