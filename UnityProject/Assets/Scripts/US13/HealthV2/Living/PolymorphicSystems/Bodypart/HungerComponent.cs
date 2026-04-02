@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.Metabolism;
+using US13.HealthV2.Living.PolymorphicSystems.Hunger;
 
 namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
 {

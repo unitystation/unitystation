@@ -4,6 +4,7 @@ using US13.Core.Lifecycle;
 using US13.HealthV2.Living;
 using US13.HealthV2.Living.Metabolism;
 using US13.HealthV2.Living.PolymorphicSystems;
+using US13.HealthV2.Living.PolymorphicSystems.Hunger;
 using US13.Player;
 using US13.Systems.Inventory;
 using US13.Tilemaps.Behaviours.Objects;

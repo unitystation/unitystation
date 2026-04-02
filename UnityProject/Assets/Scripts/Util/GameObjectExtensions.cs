@@ -189,5 +189,13 @@ namespace Util
 		{
 			Chat.AddActionMsgToChat(originator, everyoneMessage);
 		}
+
+		/// <summary>
+		/// Helper function that calls Chat.AddExamineMsg to whisper a text that only the owner of the gameobject can see.
+		/// </summary>
+		public static void AddExamineMsgToChat(this GameObject originator, string examineMessage)
+		{
+			Chat.AddExamineMsg(originator, examineMessage);
+		}
 	}
 }
