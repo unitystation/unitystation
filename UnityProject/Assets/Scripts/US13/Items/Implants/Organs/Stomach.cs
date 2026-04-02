@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using US13.ChemistryComponents;
 using US13.Core.Chat;
@@ -65,20 +66,9 @@ namespace US13.Items.Implants.Organs
 				HungerComponent.HungerState = HungerState.Normal;
 			}
 
-			bool AllFat = true;
-			foreach (var Fat in BodyFats)
+			if (CanAddFat())
 			{
-
-				if (Fat.IsFull == false)
-				{
-					AllFat = false;
-					break;
-				}
-			}
-
-			if (AllFat)
-			{
-				AddFat(false);
+				AddFat();
 				if (RelatedPart.HealthMaster.gameObject)
 				{
 					Chat.AddExamineMsg(RelatedPart.HealthMaster.gameObject, "You feel like you've gained a little weight.");
@@ -86,23 +76,33 @@ namespace US13.Items.Implants.Organs
 			}
 		}
 
-		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
+		public bool CanAddFat()
 		{
-			AddFat();
+			if (BodyFats.Count == 0) return true;
+			//var allFatFull = BodyFats.All(x => x.IsFull); //linq bad
+			bool allFatFull = true;
+			foreach (var fat in BodyFats)
+			{
+				if (fat.IsFull) continue;
+				allFatFull = false;
+				break;
+			}
+
+			return allFatFull && StomachContents.ReagentMixTotal > 0;
 		}
 
-		public void AddFat(bool initalSpawnCheck = true)
+		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			if (initalSpawnCheck)
-			{
-				if (InitialFatSpawned) return;
-				InitialFatSpawned = true;
-			}
-			var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject, spawnManualContents: true).GameObject.GetComponent<BodyFat>();
-			BodyFats.Add(Added);
-			Added.RelatedStomach = this;
-			Added.SetAbsorbedAmount(0);
-			RelatedPart.ContainedIn.OrganStorage.ServerTryAdd(Added.gameObject);
+			if (CanAddFat()) AddFat();
+		}
+
+		public void AddFat()
+		{
+			var added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject, spawnManualContents: true).GameObject.GetComponent<BodyFat>();
+			BodyFats.Add(added);
+			added.RelatedStomach = this;
+			added.SetAbsorbedAmount(0);
+			RelatedPart.ContainedIn.OrganStorage.ServerTryAdd(added.gameObject);
 		}
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
