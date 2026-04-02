@@ -83,36 +83,18 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Hunger
         public IHungerCalculation HungerCalculationMethod = null;
 
         /// <summary>
-        /// Returns the AlertSO (HUD alert asset) that corresponds to the given hunger state.
-        /// Returns null for states that have no associated alert (e.g. Normal).
-        /// </summary>
-        public AlertSO GetAlertSOFromHunger(HungerState HungerStates)
-        {
-            switch (HungerStates)
-            {
-                case HungerState.Full:        return CommonAlertSOs.Instance.Full;
-                case HungerState.Starving:    return CommonAlertSOs.Instance.Starving;
-                case HungerState.Malnourished:return CommonAlertSOs.Instance.Malnourished;
-                case HungerState.Hungry:      return CommonAlertSOs.Instance.Hungry;
-                default:                      return null;
-            }
-        }
-
-        /// <summary>
         /// Returns the StatusEffect asset that corresponds to the given hunger state.
         /// Malnourished and unrecognised states fall back to the NotHungry effect.
         /// </summary>
-        public StatusEffect GetStatusEffectFromHunger(HungerState hungerState)
+        public StatusEffect GetStatusEffectFromHunger(HungerState hungerState) => hungerState switch
         {
-            switch (hungerState)
-            {
-                case HungerState.Full:        return HungerStatusEffects.FatStatusEffect;
-                case HungerState.Hungry:      return HungerStatusEffects.HungryStatusEffect;
-                case HungerState.Starving:    return HungerStatusEffects.StravingStatusEffect;
-                case HungerState.Malnourished:
-                default:                      return HungerStatusEffects.NotHungryStatusEffect;
-            }
-        }
+            HungerState.Full => HungerStatusEffects.FatStatusEffect,
+			HungerState.Normal => HungerStatusEffects.NotHungryStatusEffect,
+			HungerState.Hungry => HungerStatusEffects.HungryStatusEffect,
+			HungerState.Malnourished => HungerStatusEffects.MalnourishedStatusEffect,
+			HungerState.Starving => HungerStatusEffects.StravingStatusEffect,
+			_ => HungerStatusEffects.NotHungryStatusEffect
+		};
 
         /// <summary>
         /// Called once when the system is initialised.
@@ -432,6 +414,9 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Hunger
 
             /// <summary>Applied when the creature is hungry but not yet starving.</summary>
             public StatusEffect HungryStatusEffect;
+
+            /// <summary>Applied when the creature is hungry and is about to be starving.</summary>
+            public StatusEffect MalnourishedStatusEffect;
 
             /// <summary>Applied when the creature is overfull / fat.</summary>
             public StatusEffect FatStatusEffect;
