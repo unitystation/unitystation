@@ -1,0 +1,420 @@
+{
+  "Ver": "1.0.0",
+  "MapName": "5x5Lockers",
+  "ContainedMatrices": [
+    {
+      "Ver": "1.1.1",
+      "Location": "-54┼-45┼0┼",
+      "MatrixName": "5x5Lockers",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X0Y0",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y1",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y2",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y3",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y4",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y0",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y1",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y2",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y3",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y4",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y0",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y1",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y2",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y3",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y4",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y0",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y1",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y2",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y3",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y4",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y0",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y1",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y2",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y3",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y4",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.5.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "e1313d20f813d1083be05ad16e3b2224_0┼2┼0┼",
+            "PrefabID": "e1313d20f813d1083be05ad16e3b2224",
+            "Name": "AirlockMaintSurvivorSelfPowered (1)",
+            "LocalPRS": "0┼2┼0┼"
+          },
+          {
+            "GitID": "032e150131f53a64fbf6048aca6a879a_1┼1┼0┼",
+            "PrefabID": "032e150131f53a64fbf6048aca6a879a",
+            "NameMatches": true,
+            "Name": "RandomToolSpawner",
+            "LocalPRS": "1┼1┼0┼"
+          },
+          {
+            "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_1┼1┼0┼",
+            "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
+            "Name": "ClosetBase (4)",
+            "LocalPRS": "1┼1┼0┼"
+          },
+          {
+            "GitID": "07bfe3ca581f72f42ac5ae48b23d91d8_1┼3┼0┼",
+            "PrefabID": "07bfe3ca581f72f42ac5ae48b23d91d8",
+            "NameMatches": true,
+            "Name": "RandomSnack",
+            "LocalPRS": "1┼3┼0┼"
+          },
+          {
+            "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_1┼3┼0┼",
+            "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
+            "Name": "ClosetBase (1)",
+            "LocalPRS": "1┼3┼0┼"
+          },
+          {
+            "GitID": "032e150131f53a64fbf6048aca6a879a_1.12┼1.12┼0┼",
+            "PrefabID": "032e150131f53a64fbf6048aca6a879a",
+            "Name": "RandomToolSpawner (1)",
+            "LocalPRS": "1.12┼1.12┼0┼"
+          },
+          {
+            "GitID": "07bfe3ca581f72f42ac5ae48b23d91d8_1.12┼3.12┼0┼",
+            "PrefabID": "07bfe3ca581f72f42ac5ae48b23d91d8",
+            "Name": "RandomSnack (1)",
+            "LocalPRS": "1.12┼3.12┼0┼"
+          },
+          {
+            "GitID": "032e150131f53a64fbf6048aca6a879a_2┼1┼0┼",
+            "PrefabID": "032e150131f53a64fbf6048aca6a879a",
+            "Name": "RandomToolSpawner (2)",
+            "LocalPRS": "2┼1┼0┼"
+          },
+          {
+            "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_2┼1┼0┼",
+            "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
+            "Name": "ClosetBase (5)",
+            "LocalPRS": "2┼1┼0┼"
+          },
+          {
+            "GitID": "500fc59070199404fb9f20bc8c600044_2┼2┼0┼",
+            "PrefabID": "500fc59070199404fb9f20bc8c600044",
+            "NameMatches": true,
+            "Name": "PlayerSpawnPointMaintRooms",
+            "LocalPRS": "2┼2┼0┼"
+          },
+          {
+            "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_2┼3┼0┼",
+            "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
+            "Name": "ClosetBase (2)",
+            "LocalPRS": "2┼3┼0┼"
+          },
+          {
+            "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_2┼3┼0┼",
+            "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
+            "Name": "MaintLoot (1)",
+            "LocalPRS": "2┼3┼0┼"
+          },
+          {
+            "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_3┼1┼0┼",
+            "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
+            "Name": "ClosetBase (6)",
+            "LocalPRS": "3┼1┼0┼"
+          },
+          {
+            "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_3┼1┼0┼",
+            "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
+            "Name": "MaintLoot (2)",
+            "LocalPRS": "3┼1┼0┼"
+          },
+          {
+            "GitID": "c937e0abe85aca9499d09951de736ec6_3┼2┼0┼",
+            "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "NameMatches": true,
+            "Name": "LightBulbFixture",
+            "LocalPRS": "3┼2┼0┼0ø0ø90ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "isWithoutSwitch",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_3┼3┼0┼",
+            "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
+            "Name": "ClosetBase (3)",
+            "LocalPRS": "3┼3┼0┼"
+          },
+          {
+            "GitID": "708ac04c9ecabe64981f93d3a8a4e2a1_3┼3┼0┼",
+            "PrefabID": "708ac04c9ecabe64981f93d3a8a4e2a1",
+            "NameMatches": true,
+            "Name": "RandomLightsourceSpawner",
+            "LocalPRS": "3┼3┼0┼"
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "2,2,0",
+          "Size": "4,4,0"
+        }
+      ]
+    }
+  ]
+}

@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "0┼0┼0┼",
+      "Location": "-54┼-39┼0┼",
       "MatrixName": "5x5ammodump",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -294,18 +294,6 @@
             "LocalPRS": "0.92┼2.1┼0┼"
           },
           {
-            "GitID": "215fd0235adde3345a8b9d0f1082535d_0.98┼0.92┼0┼",
-            "PrefabID": "215fd0235adde3345a8b9d0f1082535d",
-            "Name": "WT550Magazine (1)",
-            "LocalPRS": "0.98┼0.92┼0┼"
-          },
-          {
-            "GitID": "817c16204fef2b34f812fc1016235e36_0.99┼1.02┼0┼",
-            "PrefabID": "817c16204fef2b34f812fc1016235e36",
-            "Name": "UziMagazine (1)",
-            "LocalPRS": "0.99┼1.02┼0┼"
-          },
-          {
             "GitID": "1d35052f4fc2cad4d8226d1a63e4a1b3_1┼1┼0┼",
             "PrefabID": "1d35052f4fc2cad4d8226d1a63e4a1b3",
             "Name": "CrateBase (1)",
@@ -320,6 +308,13 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "9d29a7a8b88749341ab288f70f9173c5_1┼1┼0┼",
+            "PrefabID": "9d29a7a8b88749341ab288f70f9173c5",
+            "NameMatches": true,
+            "Name": "RandomAmmo",
+            "LocalPRS": "1┼1┼0┼"
           },
           {
             "GitID": "6ecb8b1a0d8d9184fa74bdd3c7ded42d_1┼2┼0┼",
@@ -374,6 +369,19 @@
             "PrefabID": "678d8623073f29f4cb23d4cb26359cd4",
             "Name": "PistolMagazine9mm (2)",
             "LocalPRS": "1.07┼1.98┼0┼"
+          },
+          {
+            "GitID": "9d29a7a8b88749341ab288f70f9173c5_1.12┼0.88┼0┼",
+            "PrefabID": "9d29a7a8b88749341ab288f70f9173c5",
+            "Name": "RandomAmmo (1)",
+            "LocalPRS": "1.12┼0.88┼0┼"
+          },
+          {
+            "GitID": "500fc59070199404fb9f20bc8c600044_2┼2┼0┼",
+            "PrefabID": "500fc59070199404fb9f20bc8c600044",
+            "NameMatches": true,
+            "Name": "PlayerSpawnPointMaintRooms",
+            "LocalPRS": "2┼2┼0┼"
           },
           {
             "GitID": "f7de1f2732fce374492d101a4e8881e8_2┼4┼0┼",

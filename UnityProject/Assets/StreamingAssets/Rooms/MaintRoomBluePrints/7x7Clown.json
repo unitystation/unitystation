@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "0┼0┼0┼",
+      "Location": "-26┼-45┼0┼",
       "MatrixName": "7x7clownroom",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -13,7 +13,7 @@
             "Key": "X0Y0",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -79,7 +79,7 @@
             "Key": "X0Y6",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -487,7 +487,7 @@
             "Key": "X6Y0",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -550,7 +550,7 @@
             "Key": "X6Y6",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -778,12 +778,6 @@
             "LocalPRS": "3┼2.31┼0┼"
           },
           {
-            "GitID": "bf668c0a59e6e5c4e9b1cf6485655d0a_3┼3┼0┼",
-            "PrefabID": "bf668c0a59e6e5c4e9b1cf6485655d0a",
-            "Name": "ExitMarkerMaintRooms (1)",
-            "LocalPRS": "3┼3┼0┼"
-          },
-          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_3┼5┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "Name": "LightTubeFixture (2)",
@@ -873,6 +867,13 @@
             "GitID": "1442b4dd7f8a6714a914b861519721c1_4┼5┼0┼",
             "PrefabID": "1442b4dd7f8a6714a914b861519721c1",
             "Name": "New Empty Bookshelf (1)",
+            "LocalPRS": "4┼5┼0┼"
+          },
+          {
+            "GitID": "bda198be769216d43a47c47bc1c1e193_4┼5┼0┼",
+            "PrefabID": "bda198be769216d43a47c47bc1c1e193",
+            "NameMatches": true,
+            "Name": "ClownFlower",
             "LocalPRS": "4┼5┼0┼"
           },
           {

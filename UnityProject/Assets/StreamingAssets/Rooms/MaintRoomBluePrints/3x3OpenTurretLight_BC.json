@@ -1,0 +1,323 @@
+{
+  "Ver": "1.0.0",
+  "MapName": "3x3OpenTurretLight",
+  "ContainedMatrices": [
+    {
+      "Ver": "1.1.1",
+      "Location": "106┼19┼0┼",
+      "MatrixName": "3x3OpenTurretLight",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X0Y0",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y1",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y2",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y0",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y1",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y2",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y0",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y1",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y2",
+            "Value": [
+              {
+                "Tel": "Plating"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.5.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "24217cb8b2338a3479aaf8d32b727ed1_1┼1┼0┼",
+            "PrefabID": "24217cb8b2338a3479aaf8d32b727ed1",
+            "Name": "LaserTurret (1)",
+            "LocalPRS": "1┼1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Turret@0",
+                  "Data": [
+                    {
+                      "Name": "range",
+                      "Data": "14"
+                    },
+                    {
+                      "Name": "CheckSecurityRecords",
+                      "Data": "False"
+                    },
+                    {
+                      "Name": "CheckForArrest",
+                      "Data": "False"
+                    },
+                    {
+                      "Name": "CheckUnauthorisedPersonnel",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ClearanceRestricted@0",
+                  "Data": [
+                    {
+                      "Name": "requiredClearance#0",
+                      "Data": "AwayGeneric2"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#1",
+                          "Data": "#removed#"
+                        },
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "AwayGeneric2"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#2",
+                          "Data": "#removed#"
+                        },
+                        {
+                          "Name": "requiredClearance#1",
+                          "Data": "#removed#"
+                        },
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "AwayGeneric2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "991d9e2b162f7ef4ca9b4fd2bdba60d2_1┼1┼0┼",
+            "PrefabID": "991d9e2b162f7ef4ca9b4fd2bdba60d2",
+            "Name": "TurretControlPanel (1)",
+            "LocalPRS": "1┼1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "RegisterObject@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentsortingGroup",
+                      "Data": "NULL"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "SortingGroup@0",
+                  "Removed": true
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Removed": true
+                },
+                {
+                  "ClassID": "TurretSwitch@0",
+                  "Data": [
+                    {
+                      "Name": "turrets#0",
+                      "Data": "24217cb8b2338a3479aaf8d32b727ed1_1┼1┼0┼@0@Turret@0"
+                    },
+                    {
+                      "Name": "isStun",
+                      "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "WallmountBehavior@0",
+                  "Removed": true
+                },
+                {
+                  "ClassID": "ClearanceRestricted@0",
+                  "Data": [
+                    {
+                      "Name": "requiredClearance#0",
+                      "Data": "AwayGeneric2"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ObjectLayer": 28,
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "SubCatalogue#3",
+                          "Data": "7d2de9c440cedfa4a855277fac47f8d0"
+                        },
+                        {
+                          "Name": "SubCatalogue#2",
+                          "Data": "7d2de9c440cedfa4a855277fac47f8d0"
+                        },
+                        {
+                          "Name": "SubCatalogue#1",
+                          "Data": "7d2de9c440cedfa4a855277fac47f8d0"
+                        },
+                        {
+                          "Name": "SubCatalogue#0",
+                          "Data": "7d2de9c440cedfa4a855277fac47f8d0"
+                        },
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "7d2de9c440cedfa4a855277fac47f8d0"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "dc519df8726c903b29314063476e399b_1┼1┼0┼",
+            "PrefabID": "dc519df8726c903b29314063476e399b",
+            "Name": "FloorLightFixture (1)",
+            "LocalPRS": "1┼1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "isWithoutSwitch",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "1,1,0",
+          "Size": "2,2,0"
+        }
+      ]
+    }
+  ]
+}
