@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using US13.Core.Chat;
+using US13.HealthV2;
 using US13.HealthV2.Living;
 using US13.Managers;
 using US13.Managers.MatrixManager;
@@ -14,7 +15,7 @@ namespace US13.Systems.Spells.swapper
 
 		public bool PreventJumpingBack = true;
 
-		public override bool CastSpellServer(PlayerInfo caster, Vector3 clickPosition)
+		public override bool CastSpellServer(PlayerInfo caster, Vector3 clickPosition, BodyPartType targetZone)
 		{
 			Vector3Int casterWorldPos = caster.Script.WorldPos;
 			if ((casterWorldPos - clickPosition).magnitude > 2)

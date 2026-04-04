@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using Light2D;
 using Mirror;
+using Traitor;
 using UnityEngine;
 using US13.Core.Chat;
 using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Core.Lifecycle;
 using US13.Core.Sprite_Handler;
 using US13.Core.Transform;
+using US13.Core.Utils;
 using US13.Effects.EffectShape;
 using US13.Health.Objects;
 using US13.HealthV2;
@@ -152,6 +154,8 @@ namespace US13.Objects
 			{ Tuple.Create(2000, 2999) },
 			{ Tuple.Create(3000, 3250) }
 		};
+
+		public float TravelToBeaconPercentage = 0.40f;
 
 		#region LifeCycle
 
@@ -537,7 +541,22 @@ namespace US13.Objects
 			if (DEBUGMoveBlock) return;
 			int radius = GetRadius(CurrentStage);
 
-			var coord = currentFacing.LocalVectorInt.To3Int() + registerTile.WorldPositionServer;
+
+			var move = Vector3Int.zero;
+
+			if (PowerBeacon.ActivePowerBeacons.Count > 0 && RNG.RoleChance(TravelToBeaconPercentage))
+			{
+				var orderedEnumerable = PowerBeacon.ActivePowerBeacons.OrderBy(x =>
+					(x.gameObject.AssumedWorldPosServer() - this.gameObject.AssumedWorldPosServer()).sqrMagnitude);
+
+				move = (orderedEnumerable.First().gameObject.AssumedWorldPosServer() -  this.gameObject.AssumedWorldPosServer()).normalized.RoundToInt();
+			}
+			else
+			{
+				move =currentFacing.LocalVectorInt.To3Int() ;
+			}
+
+			var coord = move + registerTile.WorldPositionServer;
 
 			bool noObstructions = true;
 

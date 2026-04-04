@@ -1,12 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Mirror;
+using Traitor;
 using UnityEngine;
 using US13.Core.Addressables.Types;
 using US13.Core.Chat;
 using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Core.Lifecycle;
 using US13.Core.Sprite_Handler;
+using US13.Core.Utils;
 using US13.Health.Objects;
 using US13.HealthV2;
 using US13.HealthV2.Living;
@@ -83,6 +85,8 @@ namespace US13.Objects
 
 		private int lockTimer;
 		private bool pointLock;
+
+		public float TravelToBeaconPercentage = 0.19f;
 
 		private List<Vector3Int> adjacentCoords = new List<Vector3Int>
 		{
@@ -272,18 +276,18 @@ namespace US13.Objects
 
 				if (doTeslaFirst == false)
 				{
-					return groundingRods.Any() ? groundingRods.PickRandom() : objectsToShoot.PickRandom();
+					return groundingRods.Any() ? EnumerableExt.PickRandom(groundingRods) : EnumerableExt.PickRandom(objectsToShoot);
 				}
 
 				if (random)
 				{
-					return groundingRods.Any() ? groundingRods.PickRandom() : teslaCoils.PickRandom();
+					return groundingRods.Any() ? EnumerableExt.PickRandom(groundingRods) : EnumerableExt.PickRandom(teslaCoils);
 				}
 
 				return groundingRods.Any() ? groundingRods[0] : teslaCoils[0];
 			}
 
-			return random ? objectsToShoot.PickRandom() : objectsToShoot[0];
+			return random ? EnumerableExt.PickRandom(objectsToShoot) : objectsToShoot[0];
 		}
 
 		private void ShootLightning(GameObject targetObject)
@@ -432,8 +436,22 @@ namespace US13.Objects
 
 		private void TryMove()
 		{
+			var move = Vector3Int.zero;
+
+			if (PowerBeacon.ActivePowerBeacons.Count > 0 && RNG.RoleChance(TravelToBeaconPercentage))
+			{
+				var orderedEnumerable = PowerBeacon.ActivePowerBeacons.OrderBy(x =>
+					(x.gameObject.AssumedWorldPosServer() - this.gameObject.AssumedWorldPosServer()).sqrMagnitude);
+
+				move = (orderedEnumerable.First().gameObject.AssumedWorldPosServer() -  this.gameObject.AssumedWorldPosServer()).normalized.RoundToInt();
+			}
+			else
+			{
+				move = adjacentCoords.GetRandom();
+			}
+
 			//Get random coordinate adjacent to current
-			var coord = adjacentCoords.GetRandom() + registerTile.WorldPositionServer;
+			var coord = move + registerTile.WorldPositionServer;
 
 			var matrixInfo = MatrixManager.AtPoint(coord, true);
 

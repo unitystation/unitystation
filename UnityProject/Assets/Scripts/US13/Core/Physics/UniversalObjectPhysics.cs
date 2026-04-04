@@ -207,13 +207,9 @@ namespace US13.Core.Physics
 
 		[PlayModeOnly] public bool IsCurrentlyFloating;
 
-		private bool
-			ResetClientPositionReachTile =
-				false; //this is needed to fix issues with pull getting out of sync for Other players, Properly should fix the root cause, Of sending Delta pushes
+		private bool ResetClientPositionReachTile = false; //this is needed to fix issues with pull getting out of sync for Other players, Properly should fix the root cause, Of sending Delta pushes
 
-		private uint
-			SpecifiedClientPositionReachTile =
-				0; //This is so when the client walks back into its own container it was pulling it doesn't bug out
+		private uint SpecifiedClientPositionReachTile = 0; //This is so when the client walks back into its own container it was pulling it doesn't bug out
 
 		//Pulling.Component.ResetLocationOnClients();
 
@@ -1365,11 +1361,6 @@ namespace US13.Core.Physics
 			if (airTime > 0)
 			{
 				airTime -= Time.deltaTime; //Doesn't matter if it goes under zero
-
-				if (airTime <= 0)
-				{
-					OnImpact?.Invoke(this, NewtonianMovement);
-				}
 			}
 			else if (slideTime > 0)
 			{
@@ -1598,6 +1589,13 @@ namespace US13.Core.Physics
 							{
 								if (push == this) continue;
 								if (push == null) continue;
+								var Bumps = push.GetComponents<IBumpableObject>();
+
+								foreach (var Bump in Bumps)
+								{
+									Bump.OnBump(this.gameObject, null);
+								}
+
 								if (push.gameObject.NetWorkIdentity() == thrownProtection) continue;
 								push.NewtonianNewtonPush(NewtonianMovement, (NewtonianMovement.magnitude * GetWeight()),
 									Single.NaN, Single.NaN, currentAim, thrownBy?.gameObject, spinMagnitude);

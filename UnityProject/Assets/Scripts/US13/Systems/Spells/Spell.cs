@@ -9,6 +9,7 @@ using US13.Core.Chat;
 using US13.Core.Cooldowns;
 using US13.Core.Lifecycle;
 using US13.Core.Transform;
+using US13.HealthV2;
 using US13.Items.Traits;
 using US13.Managers;
 using US13.Managers.MatrixManager;
@@ -16,6 +17,7 @@ using US13.Mobs.Equipment;
 using US13.Objects.Doors;
 using US13.Player;
 using US13.Systems.Inventory;
+using US13.UI.Systems;
 using Util;
 
 namespace US13.Systems.Spells
@@ -57,19 +59,19 @@ namespace US13.Systems.Spells
 		public virtual void CallActionClient()
 		{
 			UIAction action = UIActionManager.Instance.DicIActionGUI[this][0];
-			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestSpell(SpellData.Index, action.LastClickPosition);
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestSpell(SpellData.Index, action.LastClickPosition, UIManager.DamageZone );
 		}
 
-		public void CallActionServer(PlayerInfo SentByPlayer, Vector3 clickPosition)
+		public virtual void CallActionServer(PlayerInfo SentByPlayer, Vector3 clickPosition, BodyPartType targetZone)
 		{
 			if (ValidateCast(SentByPlayer) &&
-				CastSpellServer(SentByPlayer, clickPosition))
+				CastSpellServer(SentByPlayer, clickPosition, targetZone))
 			{
 				AfterCast(SentByPlayer);
 			}
 		}
 
-		private void AfterCast(PlayerInfo sentByPlayer)
+		protected void AfterCast(PlayerInfo sentByPlayer)
 		{
 			Cooldowns.TryStartServer(sentByPlayer.Script, SpellData, CooldownTime);
 
@@ -111,7 +113,7 @@ namespace US13.Systems.Spells
 			}
 		}
 
-		public virtual bool CastSpellServer(PlayerInfo caster, Vector3 clickPosition)
+		public virtual bool CastSpellServer(PlayerInfo caster, Vector3 clickPosition, BodyPartType targetZone)
 		{
 			return CastSpellServer(caster);
 		}

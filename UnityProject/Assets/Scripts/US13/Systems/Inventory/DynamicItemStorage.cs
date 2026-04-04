@@ -18,6 +18,7 @@ using US13.Items.Traits;
 using US13.Managers;
 using US13.Managers.NetworkManagement;
 using US13.Player;
+using US13.Systems.Explosions;
 using US13.Systems.Inventory.Populators.Storage;
 using US13.Systems.Occupations;
 using US13.Tilemaps.Behaviours.Objects;
@@ -27,7 +28,7 @@ using Util;
 
 namespace US13.Systems.Inventory
 {
-	public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlPlayer, IOnPlayerLeaveBody
+	public class DynamicItemStorage : NetworkBehaviour, IOnPlayerRejoin, IOnControlPlayer, IOnPlayerLeaveBody, IEmpAble
 	{
 		public PlayerNetworkActions playerNetworkActions;
 		public RegisterPlayer registerPlayer;
@@ -396,6 +397,20 @@ namespace US13.Systems.Inventory
 			NamedSlot.storage09, NamedSlot.storage10,
 			NamedSlot.suitStorage, NamedSlot.back, NamedSlot.belt
 		};
+
+		public void OnEmp(int EmpStrength)
+		{
+			foreach (var Slot in GetItemSlots())
+			{
+				if (Slot.Item == null) continue;
+
+				var emps = Slot.Item.gameObject.GetComponents<IEmpAble>();
+				foreach (var emp in emps)
+				{
+					emp.OnEmp(EmpStrength);
+				}
+			}
+		}
 
 
 		/// <summary>

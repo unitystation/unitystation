@@ -478,7 +478,6 @@ GameObject:
   - component: {fileID: 8755570904728665727}
   - component: {fileID: -854922976880339718}
   - component: {fileID: 2105882665300898234}
-  - component: {fileID: 1952996692186363365}
   - component: {fileID: 91908198791635565}
   - component: {fileID: 3160124018402396833}
   - component: {fileID: 5123748548063984441}
@@ -513,6 +512,7 @@ GameObject:
   - component: {fileID: 7498047547275951016}
   - component: {fileID: 3913575896194237634}
   - component: {fileID: 2951782550490073926}
+  - component: {fileID: 7322151694171111061}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -723,6 +723,8 @@ MonoBehaviour:
   engulfedBurningPrefab: {fileID: 1558421102126524431, guid: 7a0d54e0877507a4eba1a70784ea9085,
     type: 3}
   electrocutedPrefab: {fileID: 1558421102126524431, guid: 0cea8096a0de31746a1b6ef11b019ab2,
+    type: 3}
+  PiePrefab: {fileID: 1558421102126524431, guid: cc36f2efa2f1a2a4d9514dfa2781922d,
     type: 3}
   infectedSpriteHandler: {fileID: 7962154314580008223}
   muzzleFlash: {fileID: 114824170203619628}
@@ -1386,21 +1388,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passableExclusions: []
---- !u!114 &1952996692186363365
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f2289be7f53edd4a99fd0e94ec456bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 1
-  syncInterval: 0
 --- !u!114 &91908198791635565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2164,6 +2151,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e98afcdfaa04611887e2a3052e6513e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assets::US13.Items.Food.Feedable
+--- !u!114 &7322151694171111061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7026891d4e3fe2a438da80d37b158220, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::Pieable
+  spriteHandler: {fileID: 0}
+  playerScript: {fileID: 114617133355526680}
+  Rotatable: {fileID: 0}
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0

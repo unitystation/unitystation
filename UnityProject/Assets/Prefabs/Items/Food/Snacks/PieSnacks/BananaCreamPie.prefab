@@ -162,8 +162,36 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 00cda2e78a7fa6c448342df23056948c,
         type: 2}
+    - target: {fileID: 9209119082875679654, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 00cda2e78a7fa6c448342df23056948c,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3065616763249084449, guid: 8777e0247dca5ab41a385d81bc5719ab,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5348042210083576872}
   m_SourcePrefab: {fileID: 100100000, guid: 8777e0247dca5ab41a385d81bc5719ab, type: 3}
+--- !u!1 &9010739518231291243 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3065616763249084449, guid: 8777e0247dca5ab41a385d81bc5719ab,
+    type: 3}
+  m_PrefabInstance: {fileID: 6307240623241030986}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5348042210083576872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9010739518231291243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39b8806696484e5419f47e2f3b281726, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::CreamPie
