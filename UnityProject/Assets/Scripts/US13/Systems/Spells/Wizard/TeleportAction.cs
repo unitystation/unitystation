@@ -1,5 +1,6 @@
 using UnityEngine;
 using US13.Core.Chat;
+using US13.HealthV2;
 using US13.Managers;
 using US13.Player;
 using US13.UI.Core.Windows.TeleportWindow;
@@ -34,7 +35,7 @@ namespace US13.Systems.Spells.Wizard
 			TeleportWindow.onTeleportToVectorWorld += ClientTeleportDestinationSelected;
 		}
 
-		public override bool CastSpellServer(PlayerInfo caster, Vector3 destination)
+		public override bool CastSpellServer(PlayerInfo caster, Vector3 destination, BodyPartType targetZone)
 		{
 			// Do the actual teleportation here.
 			if ((caster.Script.WorldPos - destination).magnitude > MAX_TELEPORT_DISTANCE)
@@ -55,7 +56,7 @@ namespace US13.Systems.Spells.Wizard
 			TeleportWindow.gameObject.SetActive(false);
 
 			// We piggyback off aim click instead of using base.CallActionClient();
-			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestSpell(SpellData.Index, position);
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdRequestSpell(SpellData.Index, position, UIManager.DamageZone );
 		}
 
 		private void ClientTeleportDestinationSelected(TeleportInfo info)

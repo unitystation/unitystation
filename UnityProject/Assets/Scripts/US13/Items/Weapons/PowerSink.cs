@@ -14,6 +14,7 @@ using US13.Items.Devices;
 using US13.Items.Traits;
 using US13.Managers;
 using US13.Managers.UpdateManager;
+using US13.Messages.Server.SoundMessages;
 using US13.Systems.Electricity.Electrical_processes;
 using US13.Systems.Electricity.NodeModules;
 using US13.Systems.Explosions;
@@ -193,7 +194,11 @@ namespace US13.Items.Weapons
 		{
 			while (isCharging && gameObject != null)
 			{
-				SoundManager.PlayNetworkedAtPos(beepSound, gameObject.AssumedWorldPosServer());
+				SoundManager.PlayNetworkedAtPos(beepSound, gameObject.AssumedWorldPosServer(), new AudioSourceParameters()
+				{
+					SpatialBlend = 2
+
+				});
 				yield return WaitFor.Seconds(2f);
 			}
 		}

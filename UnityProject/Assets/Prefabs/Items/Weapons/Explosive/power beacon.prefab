@@ -1,0 +1,138 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5033547212197026015
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 179309491932539414, guid: 6cf09f0799c28cf4eb34908ccab8122a,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1157463751928085010}
+    - target: {fileID: 179309491932539414, guid: 6cf09f0799c28cf4eb34908ccab8122a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f11b82f2a57586246b9b15193358e54d,
+        type: 2}
+    - target: {fileID: 1117367541639388668, guid: 6cf09f0799c28cf4eb34908ccab8122a,
+        type: 3}
+      propertyPath: foreverID
+      value: 23642cc5c8cfd9c4d92a9f50f16cd415
+      objectReference: {fileID: 0}
+    - target: {fileID: 6182003728161776333, guid: 6cf09f0799c28cf4eb34908ccab8122a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: df2ea0154aa5f654cb4ff390cc0cac88,
+        type: 3}
+    - target: {fileID: 6246250411991378981, guid: 6cf09f0799c28cf4eb34908ccab8122a,
+        type: 3}
+      propertyPath: _assetId
+      value: 3219890722
+      objectReference: {fileID: 0}
+    - target: {fileID: 6280432544835464421, guid: 6cf09f0799c28cf4eb34908ccab8122a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6280432544835464421, guid: 6cf09f0799c28cf4eb34908ccab8122a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6280432544835464421, guid: 6cf09f0799c28cf4eb34908ccab8122a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6280432544835464421, guid: 6cf09f0799c28cf4eb34908ccab8122a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6280432544835464421, guid: 6cf09f0799c28cf4eb34908ccab8122a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6280432544835464421, guid: 6cf09f0799c28cf4eb34908ccab8122a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6280432544835464421, guid: 6cf09f0799c28cf4eb34908ccab8122a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6280432544835464421, guid: 6cf09f0799c28cf4eb34908ccab8122a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6280432544835464421, guid: 6cf09f0799c28cf4eb34908ccab8122a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6280432544835464421, guid: 6cf09f0799c28cf4eb34908ccab8122a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6285642168130081169, guid: 6cf09f0799c28cf4eb34908ccab8122a,
+        type: 3}
+      propertyPath: m_Name
+      value: power beacon
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 5258672940735803707, guid: 6cf09f0799c28cf4eb34908ccab8122a, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6285642168130081169, guid: 6cf09f0799c28cf4eb34908ccab8122a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4974988247377564842}
+  m_SourcePrefab: {fileID: 100100000, guid: 6cf09f0799c28cf4eb34908ccab8122a, type: 3}
+--- !u!212 &1157463751928085010 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6182003728161776333, guid: 6cf09f0799c28cf4eb34908ccab8122a,
+    type: 3}
+  m_PrefabInstance: {fileID: 5033547212197026015}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1360604659205884238 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6285642168130081169, guid: 6cf09f0799c28cf4eb34908ccab8122a,
+    type: 3}
+  m_PrefabInstance: {fileID: 5033547212197026015}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4974988247377564842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1360604659205884238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d775f667005014a4098a6ef553fc2093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::PowerBeacon
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  SignalTypeToReceive: 0
+  Frequency: 122
+  Emitter: {fileID: 0}
+  DelayTime: 3
+  PassCode: 0
+  ListenToEncryptedData: 0
+  voltageCheckTimeInSeconds: 0.2
+  activeSpriteSO: {fileID: 11400000, guid: 4ea945a4d44445549a7fbac524e3f44e, type: 2}
+  inactiveSpriteSO: {fileID: 11400000, guid: f11b82f2a57586246b9b15193358e54d, type: 2}

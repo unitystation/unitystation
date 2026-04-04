@@ -888,7 +888,7 @@ namespace US13.Player
 		// If we end up needing more information to send to server,
 		// probably best to create a new interaction type and use IF2.
 		[Command]
-		public void CmdRequestSpell(int spellIndex, Vector3 clickPosition)
+		public void CmdRequestSpell(int spellIndex, Vector3 clickPosition, BodyPartType targetZone)
 		{
 			if (playerScript?.Mind?.Spells == null)
 			{
@@ -898,7 +898,7 @@ namespace US13.Player
 			{
 				if (spell.SpellData.Index == spellIndex)
 				{
-					spell.CallActionServer(PlayerList.Instance.GetOnline(gameObject), clickPosition);
+					spell.CallActionServer(PlayerList.Instance.GetOnline(gameObject), clickPosition, targetZone);
 					return;
 				}
 			}

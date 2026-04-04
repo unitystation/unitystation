@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
+using US13.HealthV2;
 using US13.Items.Weapons;
 using US13.Managers;
 using US13.Systems.Explosions;
@@ -31,7 +32,7 @@ namespace US13.Systems.Spells.Wizard
 
 		private readonly List<Vector3Int> usedPositions = new List<Vector3Int>();
 
-		public override bool CastSpellServer(PlayerInfo caster, Vector3 clickPosition)
+		public override bool CastSpellServer(PlayerInfo caster, Vector3 clickPosition, BodyPartType targetZone)
 		{
 			PortalSpawnInfo settings = PortalSpawnInfo.DefaultSettings();
 			settings.EntityRotate = false; // A rotated large rock doesn't look great on landing.

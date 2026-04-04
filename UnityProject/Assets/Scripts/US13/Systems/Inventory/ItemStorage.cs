@@ -11,6 +11,7 @@ using US13.Items;
 using US13.Items.Traits;
 using US13.Managers.NetworkManagement;
 using US13.Player;
+using US13.Systems.Explosions;
 using US13.Systems.Inventory.Populators;
 using US13.Systems.Inventory.Populators.Storage;
 using US13.Systems.Inventory.Structure;
@@ -31,7 +32,7 @@ namespace US13.Systems.Inventory
 	/// in a player's inventory)!
 	/// </summary>
 	public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove, IClientInventoryMove,
-		IUniversalInventoryAPI, IStoreThings
+		IUniversalInventoryAPI, IStoreThings, IEmpAble
 	{
 		[SerializeField]
 		[FormerlySerializedAs("ItemStorageStructure")]
@@ -188,6 +189,20 @@ namespace US13.Systems.Inventory
 			return ServerTryAdd(spawned.GameObject);
 		}
 
+
+		public void OnEmp(int EmpStrength)
+		{
+			foreach (var Slot in GetItemSlots())
+			{
+				if (Slot.Item == null) continue;
+
+				var emps = Slot.Item.gameObject.GetComponents<IEmpAble>();
+				foreach (var emp in emps)
+				{
+					emp.OnEmp(EmpStrength);
+				}
+			}
+		}
 
 
 		//True equals successful false equals unsuccessful

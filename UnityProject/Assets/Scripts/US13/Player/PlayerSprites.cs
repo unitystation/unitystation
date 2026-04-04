@@ -50,6 +50,12 @@ namespace US13.Player
 		[SerializeField]
 		private GameObject electrocutedPrefab = default;
 
+
+		[Tooltip("Assign the prefab responsible for the Pie overlay.")]
+		[SerializeField]
+		private GameObject PiePrefab = default;
+
+
 		[Tooltip("Assign the SpriteHandler responsible for the infected overlay.")]
 		[SerializeField]
 		private SpriteHandler infectedSpriteHandler = default;
@@ -91,6 +97,7 @@ namespace US13.Player
 		private PlayerDirectionalOverlay engulfedBurningOverlay;
 		private PlayerDirectionalOverlay partialBurningOverlay;
 		private PlayerDirectionalOverlay electrocutedOverlay;
+		private PlayerDirectionalOverlay PieOverlay;
 		private PlayerHealthV2 playerHealth;
 
 		/// <summary>
@@ -173,6 +180,15 @@ namespace US13.Player
 				electrocutedOverlay.enabled = true;
 				electrocutedOverlay.StopOverlay();
 			}
+
+			if (PieOverlay == null && OverlaySprites != null)
+			{
+				PieOverlay = Instantiate(PiePrefab, OverlaySprites.transform).GetComponent<PlayerDirectionalOverlay>();
+				PieOverlay.enabled = true;
+				PieOverlay.StopOverlay();
+			}
+
+
 		}
 
 
@@ -440,6 +456,7 @@ namespace US13.Player
 			//TODO: Reimplement player fire sprites.
 			UpdateBurningOverlays(playerHealth.FireStacks, direction);
 			UpdateElectrocutionOverlay(direction);
+			UpdatePieOverlay(direction);
 		}
 
 		/// <summary>
@@ -474,6 +491,24 @@ namespace US13.Player
 			else
 			{
 				electrocutedOverlay.StopOverlay();
+			}
+		}
+
+
+		public void TurnOnPieOverlay()
+		{
+			PieOverlay.StartOverlay(directional.CurrentDirection);
+		}
+
+		private void UpdatePieOverlay(OrientationEnum currentFacing)
+		{
+			if (PieOverlay.OverlayActive)
+			{
+				PieOverlay.StartOverlay(currentFacing);
+			}
+			else
+			{
+				PieOverlay.StopOverlay();
 			}
 		}
 

@@ -35,7 +35,7 @@ namespace US13.Systems.Spells.Wizard
 
 		private PlayerInfo caster;
 
-		public override bool CastSpellServer(PlayerInfo caster, Vector3 clickPosition)
+		public override bool CastSpellServer(PlayerInfo caster, Vector3 clickPosition, BodyPartType targetZone)
 		{
 			this.caster = caster;
 

@@ -84,6 +84,11 @@ namespace US13.Core.Input_System
 			return null;
 		}
 
+		public static bool CheckKeyAction(KeyAction keyAction, KeyboardInputManager.KeyEventType keyEventType = KeyboardInputManager.KeyEventType.Down)
+		{
+			return KeyboardInputManager.Instance.CheckKeyAction(keyAction, keyEventType);
+		}
+
 		public static bool GetMouseButtonDown( int buttonNumber ) //todo special case for rightclick: emulate it if touch is Still for 700ms
 		{
 #if UNITY_IOS || UNITY_ANDROID

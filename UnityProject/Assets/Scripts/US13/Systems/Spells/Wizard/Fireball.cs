@@ -13,13 +13,13 @@ namespace US13.Systems.Spells.Wizard
 		[SerializeField]
 		private GameObject projectilePrefab = default;
 
-		public override bool CastSpellServer(PlayerInfo caster, Vector3 clickPosition)
+		public override bool CastSpellServer(PlayerInfo caster, Vector3 clickPosition, BodyPartType targetZone)
 		{
 			Vector3Int casterWorldPos = caster.Script.WorldPos;
 			Vector2 castVector = clickPosition - casterWorldPos;
 
 			ProjectileManager.InstantiateAndShoot(projectilePrefab, castVector, caster.GameObject,
-				null, BodyPartType.None);
+				null, targetZone);
 			return true;
 		}
 	}
