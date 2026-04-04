@@ -216,8 +216,14 @@ PrefabInstance:
       propertyPath: foreverID
       value: '@jeONyn@2hZuuxGVjfZK'
       objectReference: {fileID: 0}
+    - target: {fileID: 6578957487127773165, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: dormantReagentContainer
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1373280397285383934, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+    - {fileID: 6471482627474267981, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -363,10 +369,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fed226d36f0fdcd40a51a7bfbf8fb6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   ReactionSounds: 1
   maxCapacity: 30
   DEBUGReagent: {fileID: 0}
   DEBUGAmount: 0
+  StopReactions: 0
   reactionSet: {fileID: 11400000, guid: 9635f48a9fe17f742aee13832a4ed6c2, type: 2}
   AdditionalReactions: []
   initialReagentMix:
@@ -378,6 +388,12 @@ MonoBehaviour:
   destroyOnEmpty: 0
   ContentsSet: 0
   menuOptions: -1
+  currentReagentMix:
+    temperature: 0
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []
   spriteHandler: {fileID: 0}
   UseStandardExamine: 1
   ExamineAmount: 0
@@ -385,6 +401,7 @@ MonoBehaviour:
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 0
+  onlyAllowSyringeFilling: 0
   SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 20
@@ -418,11 +435,11 @@ MonoBehaviour:
   explosiveRadius: 1
   activeSpriteSO: {fileID: 11400000, guid: 3781008d5eea1004b9b74ccf9cb8bf4d, type: 2}
   beepSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/Beep.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   progressTime: 1
@@ -455,6 +472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCybernetic: 0
   OrganStorage: {fileID: 2959315849646831725}
   isOpenAir: 0
   CommonComponents: {fileID: 0}
@@ -482,9 +500,6 @@ MonoBehaviour:
   optionalOrgans: []
   OptionalReplacementOrgan: []
   IsSurface: 0
-  TotalModified: 1
-  SurgeryProcedureBase:
-  - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}
   CanNotBeHealedByExternalHealingPack: 0
   SelfArmor:
     Melee: 0
@@ -522,6 +537,9 @@ MonoBehaviour:
   DamageContributesToOverallHealth: 0
   maxHealth: 100
   Severity: 50
+  TotalModified: 1
+  SurgeryProcedureBase:
+  - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}
 --- !u!114 &8880035226631236047 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,

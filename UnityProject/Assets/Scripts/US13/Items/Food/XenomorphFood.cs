@@ -3,7 +3,6 @@ using US13.Core.Chat;
 using US13.Core.Lifecycle;
 using US13.HealthV2.Living;
 using US13.HealthV2.Living.Metabolism;
-using US13.HealthV2.Living.PolymorphicSystems;
 using US13.HealthV2.Living.PolymorphicSystems.Hunger;
 using US13.Player;
 using US13.Systems.Inventory;
@@ -14,7 +13,6 @@ namespace US13.Items.Food
 {
 	[RequireComponent(typeof(RegisterItem))]
 	[RequireComponent(typeof(ItemAttributesV2))]
-	[RequireComponent(typeof(Edible))]
 	public class XenomorphFood : Edible
 	{
 		[SerializeField]
