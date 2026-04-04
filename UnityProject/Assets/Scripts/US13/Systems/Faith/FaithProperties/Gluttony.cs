@@ -4,6 +4,7 @@ using US13.Core.Chat;
 using US13.HealthV2.Living.MedicalChemistry;
 using US13.HealthV2.Living.Metabolism;
 using US13.HealthV2.Living.PolymorphicSystems;
+using US13.HealthV2.Living.PolymorphicSystems.Hunger;
 using US13.Player;
 using Util;
 

@@ -44,7 +44,7 @@ namespace US13.Items.Tool
 		{
 			if (LocalContainer == null)
 			{
-				LocalContainer = this.GetComponent<ReagentContainer>();
+				LocalContainer = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 			}
 
 			if (SpriteHandler == null)

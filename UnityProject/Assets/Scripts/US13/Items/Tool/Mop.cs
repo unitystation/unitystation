@@ -36,7 +36,7 @@ namespace US13.Items.Tool
 		{
 			if (!reagentContainer)
 			{
-				reagentContainer = GetComponent<ReagentContainer>();
+				reagentContainer = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 			}
 		}
 

@@ -12,6 +12,7 @@ using US13.HealthV2;
 using US13.Systems.Fire;
 using US13.Systems.Inventory;
 using US13.Tilemaps.Behaviours.Objects;
+using Util;
 
 namespace US13.Items.Tool
 {
@@ -107,7 +108,7 @@ namespace US13.Items.Tool
 			registerTile = GetComponent<RegisterTile>();
 			fireSource = GetComponent<FireSource>();
 
-			reagentContainer = GetComponent<ReagentContainer>();
+			reagentContainer = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 			if (reagentContainer != null)
 			{
 				reagentContainer.OnSpillAllContents.AddListener(ServerEmptyWelder);

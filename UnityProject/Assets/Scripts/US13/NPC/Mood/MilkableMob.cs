@@ -169,12 +169,12 @@ namespace US13.NPC.Mood
 			return DefaultWillInteract.Default(interaction, side) &&
 			       interaction.TargetObject == gameObject &&
 			       interaction.HandObject != null &&
-			       interaction.HandObject.TryGetComponent<ReagentContainer>(out _);
+			       interaction.HandObject.TryGetCachedComponent<ReagentContainer>(out _, includeDisabled: false);
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			Milk(interaction.Performer, interaction.HandObject.GetComponent<ReagentContainer>());
+			Milk(interaction.Performer, interaction.HandObject.GetCachedComponent<ReagentContainer>(includeDisabled: false));
 		}
 		#endregion
 	}

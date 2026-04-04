@@ -75,7 +75,7 @@ namespace US13.Systems.InGameEvents.InGameEventScripts
 
 		public override void OnEventStartTimed()
 		{
-			ReagentContainer container = Instantiate(reagentContainer).GetComponent<ReagentContainer>();
+			ReagentContainer container = Instantiate(reagentContainer).GetCachedComponent<ReagentContainer>(includeDisabled: false);
 
 			foreach (var scrubber in MatrixManager.MainStationMatrix.GameObject.GetComponentsInChildren<Scrubber>())
 			{

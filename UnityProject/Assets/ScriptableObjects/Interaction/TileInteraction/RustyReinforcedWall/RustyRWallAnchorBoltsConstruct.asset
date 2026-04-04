@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: RustyRWallAnchorBoltsConstruct
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
-  harmIntentRequired: 0
-  RequiredIntent: 1
+  requiredIntent: 1
   performerStartActionMessage: You start to pry the cover back into place...
   othersStartActionMessage: '{performer} starts to pry the cover back into place...'
   seconds: 2

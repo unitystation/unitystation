@@ -8,12 +8,10 @@ using US13.Core.Chat;
 using US13.HealthV2.Living.Metabolism;
 using US13.Items.Implants.Organs;
 using US13.Managers;
-using US13.Messages.Server.SoundMessages;
 using US13.Player;
 using US13.Tilemaps.Behaviours.Objects;
 using US13.UI.Core.ProgressBar;
 using Util;
-using Random = UnityEngine.Random;
 
 namespace US13.Items.Food
 {
@@ -26,8 +24,6 @@ namespace US13.Items.Food
 		/// </summary>
 		[Tooltip("The name of the sound the player makes when drinking (must be in soundmanager")]
 		[SerializeField] private AddressableAudioSource drinkSound = null;
-
-		private float RandomPitch => Random.Range( 0.7f, 1.3f );
 
 		private ReagentContainer container;
 		private ItemAttributesV2 itemAttributes;
@@ -45,7 +41,7 @@ namespace US13.Items.Food
 
 		private void Awake()
 		{
-			container = GetComponent<ReagentContainer>();
+			container = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 			itemAttributes = GetComponent<ItemAttributesV2>();
 			item = GetComponent<RegisterItem>();
 		}
@@ -141,8 +137,9 @@ namespace US13.Items.Food
 			// Play sound
 			if (item && drinkSound != null)
 			{
-				AudioSourceParameters audioSourceParameters = new AudioSourceParameters(RandomPitch, spatialBlend: 2f);
-				SoundManager.PlayNetworkedAtPos(drinkSound, eater.WorldPos, audioSourceParameters, sourceObj: eater.gameObject);
+				Sound.At(drinkSound, eater.gameObject)
+					.WithRandomPitch(0.7f, 1.3f)
+					.PlayNetworked();
 			}
 		}
 	}

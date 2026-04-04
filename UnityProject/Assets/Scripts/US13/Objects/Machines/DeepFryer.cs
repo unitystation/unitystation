@@ -7,11 +7,11 @@ using US13.ChemistryComponents;
 using US13.Core.Chat;
 using US13.Core.Addressables.Types;
 using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Core.Lifecycle;
 using US13.Core.Sprite_Handler;
 using US13.Items.Tool;
 using US13.Managers;
 using US13.Managers.UpdateManager;
-using US13.Messages.Server.SoundMessages;
 using US13.Objects.Engineering;
 using US13.Systems.Construction;
 using US13.Systems.Electricity.Interfaces;
@@ -21,7 +21,7 @@ using Util;
 
 namespace US13.Objects.Machines
 {
-	public class DeepFryer: NetworkBehaviour, IAPCPowerable, IRefreshParts, IExaminable, ICleanable
+	public class DeepFryer: NetworkBehaviour, IAPCPowerable, IRefreshParts, IExaminable, ICleanable, IServerLifecycle
 	{
 		/// <summary>
 		/// Matches TG's SSmachines wait = 2 SECONDS.
@@ -40,7 +40,7 @@ namespace US13.Objects.Machines
 		[SerializeField] private AddressableAudioSource dingSfx;
 
 		[Tooltip("How long the frying loop takes to fade in from silence.")]
-		[SerializeField] private float crossfadeDuration = 0.75f;
+		[SerializeField] private float fadeInDuration = 0.75f;
 
 		[SerializeField] private SpriteHandler greaseOverlay;
 		[SerializeField] private SpriteHandler leftBasketSprite;
@@ -71,16 +71,24 @@ namespace US13.Objects.Machines
 		/// <summary>
 		/// Fry speed multiplier from the micro-laser tier. Matches TG's fry_speed = oil_efficiency.
 		/// </summary>
-		public float FrySpeed => laserTier;
+		private float FrySpeed => laserTier;
 
 		[field: SyncVar]
 		public bool IsPowered { get; private set; }
 
-		public float VoltageModifier { get; private set; } = 1f;
+		[SyncVar] private bool hasOil;
+
+		private float VoltageModifier { get; set; } = 1f;
 
 		public FryerBasket GetBasket(int index) => baskets[index];
 
-		public bool HasEnoughOil() => container.ReagentMixTotal >= oilUse;
+		public bool HasEnoughOil() => isServer ? container.ReagentMixTotal >= oilUse : hasOil;
+
+		[Server]
+		private void RefreshHasOil()
+		{
+			hasOil = container.ReagentMixTotal >= oilUse;
+		}
 
 		private void Awake()
 		{
@@ -88,8 +96,6 @@ namespace US13.Objects.Machines
 			poweredDevice = this.GetCachedComponent<APCPoweredDevice>();
 			registerTile = this.GetCachedComponent<RegisterTile>();
 			oilUse = oilUsePerTick;
-
-			greaseOverlay.SetCatalogueIndexSprite(0);
 
 			var basketSprites = new[] { leftBasketSprite, rightBasketSprite };
 			baskets = new FryerBasket[2];
@@ -100,12 +106,6 @@ namespace US13.Objects.Machines
 				baskets[i] = new FryerBasket(storage.GetIndexedItemSlot(i), this, basketSprites[i]);
 				basketLoopGUIDs[i] = "";
 			}
-		}
-
-		private void OnDisable()
-		{
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
-			StopAllBasketLoops();
 		}
 
 		private void UpdateMe()
@@ -173,6 +173,7 @@ namespace US13.Objects.Machines
 
 			// TG: oil_use = initial(oil_use) - (oil_efficiency * 0.00475)
 			oilUse = oilUsePerTick - (laserTier * 0.00475f);
+			RefreshHasOil();
 		}
 
 		private void RaiseAllBaskets()
@@ -214,38 +215,15 @@ namespace US13.Objects.Machines
 
 				if (wasLooping == isLooping) continue;
 
-				if (isLooping)
-				{
-					CancelBasketAudio(i);
-					StopBasketLoop(i);
-					basketLoopCts[i] = new CancellationTokenSource();
-					StartLoopWithFadeIn(i, basketLoopCts[i].Token).Forget();
-				}
-				else
-				{
-					CancelBasketAudio(i);
-					StopBasketLoop(i);
-				}
+				CancelBasketAudio(i);
+				StopBasketLoop(i);
+				if (!isLooping) continue;
+				basketLoopCts[i] = new CancellationTokenSource();
+				StartLoopWithFadeIn(i, basketLoopCts[i].Token).Forget();
 			}
 
 			loopingBaskets = newLoopState;
 		}
-
-		#region Play sounds!
-
-		public void PlayEmerge()
-		{
-			SoundManager.PlayNetworkedAtPos(emergeSfx, registerTile.WorldPosition, sourceObj: gameObject);
-		}
-
-		public void PlayDing()
-		{
-			SoundManager.PlayNetworkedAtPos(dingSfx, registerTile.WorldPosition, sourceObj: gameObject);
-		}
-
-		#endregion
-
-		#region Grease
 
 		[Server]
 		private void AccumulateGrease()
@@ -266,42 +244,37 @@ namespace US13.Objects.Machines
 			greaseOverlay.SetCatalogueIndexSprite(newLevel >= 1f ? 1 : 0);
 		}
 
-		#endregion
+		#region Play sounds!
 
-		#region Audio
+		public void PlayEmerge()
+		{
+			Sound.At(emergeSfx, gameObject).PlayNetworked();
+		}
+
+		public void PlayDing()
+		{
+			Sound.At(dingSfx, gameObject).PlayNetworked();
+		}
 
 		/// <summary>
 		/// Starts the frying loop muted and fades it in over crossfadeDuration.
 		/// </summary>
 		private async UniTaskVoid StartLoopWithFadeIn(int basketIndex, CancellationToken ct)
 		{
-			var loopSfx = UnityEngine.Random.value > 0.5f ? fryingLoopSfx1 : fryingLoopSfx2;
-			basketLoopGUIDs[basketIndex] = await SoundManager.PlayNetworkedAtPosAsync(loopSfx,
-				registerTile.WorldPosition,
-				audioSourceParameters: new AudioSourceParameters(pitch: VoltageModifier, isMute: true, loops: true),
-				sourceObj: gameObject);
-
-			if (ct.IsCancellationRequested) return;
-
-			// Fade in with discrete volume steps sent to all clients.
-			const int steps = 5;
-			float stepDuration = crossfadeDuration / steps;
-			for (int step = 1; step <= steps; step++)
-			{
-				if (ct.IsCancellationRequested) return;
-				await UniTask.WaitForSeconds(stepDuration, cancellationToken: ct);
-
-				float volume = (float)step / steps;
-				ChangeAudioSourceParametersMessage.SendToAll(basketLoopGUIDs[basketIndex],
-					new AudioSourceParameters(volume: volume, pitch: VoltageModifier, loops: true));
-			}
+			List<AddressableAudioSource> sounds = new() {fryingLoopSfx1, fryingLoopSfx2};
+			basketLoopGUIDs[basketIndex] = await Sound.At(sounds, gameObject)
+				.WithPitch(VoltageModifier)
+				.WithVolume(0.3f) // original sound is loud af
+				.WithLooping()
+				.WithFadeIn(fadeInDuration)
+				.PlayNetworkedAsync();
 		}
 
 		private void StopBasketLoop(int basketIndex)
 		{
 			if (string.IsNullOrEmpty(basketLoopGUIDs[basketIndex]) == false)
 			{
-				SoundManager.StopNetworked(basketLoopGUIDs[basketIndex]);
+				Sound.Stop(basketLoopGUIDs[basketIndex]);
 				basketLoopGUIDs[basketIndex] = "";
 			}
 		}
@@ -334,6 +307,21 @@ namespace US13.Objects.Machines
 			return IsPowered
 				? "A green lead blinks indicating the machine is powered."
 				: "The machine seems to be dead, no power";
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			container.OnReagentMixChanged.AddListener(RefreshHasOil);
+			RefreshHasOil();
+
+			greaseOverlay.SetCatalogueIndexSprite(0);
+		}
+
+		public void OnDespawnServer(DespawnInfo info)
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+			StopAllBasketLoops();
+			container.OnReagentMixChanged.RemoveListener(RefreshHasOil);
 		}
 	}
 }

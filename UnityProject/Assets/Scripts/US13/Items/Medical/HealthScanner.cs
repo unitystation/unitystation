@@ -11,6 +11,7 @@ using US13.HealthV2.Living;
 using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.BodyParts.Damage.Trauma;
 using US13.HealthV2.Living.PolymorphicSystems;
+using US13.HealthV2.Living.PolymorphicSystems.Hunger;
 using Util;
 using Util.Independent.FluentRichText;
 using Color = UnityEngine.Color;
@@ -175,6 +176,7 @@ namespace US13.Items.Medical
 			{
 				foreach (TraumaLogic traumaLogic in part.TraumaTypesOnBodyPart)
 				{
+					if (traumaLogic == null) continue;
 					if (traumaLogic.StageDescriptor() != null) traumaText.AppendLine(traumaLogic.StageDescriptor());
 				}
 			}

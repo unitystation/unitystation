@@ -6,7 +6,6 @@ using US13.ChemistryComponents;
 using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Core.Sprite_Handler;
 using US13.Items.Food;
-using Util;
 
 namespace US13.Items.Kitchen
 {
@@ -21,6 +20,13 @@ namespace US13.Items.Kitchen
 		[SerializeField] private ItemAttributesV2 itemAttributes;
 		[SerializeField] private SpriteHandler spriteHandler;
 		[SerializeField] private Reagent friedNutrimentReagent;
+		[SerializeField] private ReagentContainer dormantReagentContainer;
+		[SerializeField] private Edible dormantEdible;
+
+		/// <summary>
+		/// The resolved active ReagentContainer (set during dormant component activation).
+		/// </summary>
+		private ReagentContainer activeReagentContainer;
 
 		/// <summary>
 		/// Name of the item when the current fry session started.
@@ -110,43 +116,61 @@ namespace US13.Items.Kitchen
 
 		#region Dormant Component Activation
 
-		private void ActivateDormantComponents()
+		private void ResolveActiveComponents()
 		{
-			// If this item already has an active Edible, don't touch it
-			var existingEdible = this.GetCachedComponent<Edible>();
-			if (existingEdible != null && existingEdible.enabled) return;
+			ResolveReagentContainerComponent();
+			ResolveEdibleComponent();
+		}
 
-			// Enable dormant ReagentContainer first (Edible depends on it)
-			var reagentContainer = this.GetCachedComponent<ReagentContainer>();
-			if (reagentContainer != null && reagentContainer.enabled == false)
+		private void ResolveEdibleComponent()
+		{
+			Edible edible = null;
+			foreach (var e in GetComponents<Edible>())
 			{
-				reagentContainer.enabled = true;
+				if (!e.enabled || e == dormantEdible) continue;
+				edible = e;
+				break;
 			}
 
-			// Enable dormant Edible and configure it for fried food
-			if (existingEdible != null && existingEdible.enabled == false)
+			if (edible != null || dormantEdible == null) return;
+			dormantEdible.enabled = true;
+			int bites = Mathf.Max(1, (int)itemAttributes.Size);
+			dormantEdible.SetMaxBites(bites, resetCurrentBites: true);
+		}
+
+		private void ResolveReagentContainerComponent()
+		{
+			ReagentContainer container = null;
+			foreach (var rc in GetComponents<ReagentContainer>())
 			{
-				existingEdible.enabled = true;
-				int bites = Mathf.Max(1, (int)itemAttributes.Size);
-				existingEdible.SetMaxBites(bites, resetCurrentBites: true);
+				if (!rc.enabled || rc == dormantReagentContainer) continue;
+				container = rc;
+				break;
 			}
+
+			if (container == null && dormantReagentContainer != null)
+			{
+				dormantReagentContainer.enabled = true;
+				container = dormantReagentContainer;
+			}
+
+			activeReagentContainer = container;
 		}
 
 		[Server]
 		private void UpdateNutriment(FriedLevel newLevel)
 		{
-			var reagentContainer = this.GetCachedComponent<ReagentContainer>();
-			if (reagentContainer == null) return;
+			if (activeReagentContainer == null) return;
 
 			float nutriment = NutrientForLevel(newLevel);
 
 			// Remove any existing fried nutriment, then add the new amount
 			if (friedNutrimentReagent != null)
 			{
-				reagentContainer.CurrentReagentMix.Remove(friedNutrimentReagent, reagentContainer.CurrentReagentMix[friedNutrimentReagent]);
+				activeReagentContainer.CurrentReagentMix.Remove(friedNutrimentReagent, activeReagentContainer.CurrentReagentMix[friedNutrimentReagent]);
 				if (nutriment > 0f)
 				{
-					reagentContainer.CurrentReagentMix.Add(friedNutrimentReagent, nutriment);
+					activeReagentContainer.CurrentReagentMix.Add(friedNutrimentReagent, nutriment);
 				}
 			}
 		}
@@ -171,7 +195,7 @@ namespace US13.Items.Kitchen
 			// Try enabling the dormant components. This call is done in both server and client.
 			if (oldLevel == FriedLevel.NotFried && newLevel > FriedLevel.NotFried)
 			{
-				ActivateDormantComponents();
+				ResolveActiveComponents();
 			}
 
 			if (spriteHandler == null) return;

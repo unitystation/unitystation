@@ -15,6 +15,7 @@ using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Core.Lifecycle;
 using US13.HealthV2.Living.Metabolism;
 using US13.HealthV2.Living.PolymorphicSystems;
+using US13.HealthV2.Living.PolymorphicSystems.Hunger;
 using US13.Items.Traits;
 using US13.Managers;
 using US13.Messages.Server.SoundMessages;
@@ -54,13 +55,17 @@ namespace US13.Items.Food
 		protected ItemAttributesV2 itemAttributes;
 		private Stackable stackable;
 		private RegisterItem item;
-		protected ReagentContainer FoodContents;
+		private ReagentContainer foodContents;
+		protected ReagentContainer FoodContents =>
+			foodContents != null
+				? foodContents
+				: foodContents = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 
 		private string Name => itemAttributes.ArticleName;
 
 		private void Awake()
 		{
-			FoodContents = GetComponent<ReagentContainer>();
+			foodContents = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 			item = GetComponent<RegisterItem>();
 			itemAttributes = GetComponent<ItemAttributesV2>();
 			stackable = GetComponent<Stackable>();
@@ -217,13 +222,15 @@ namespace US13.Items.Food
 				return;
 			}
 			float SpareSpace = 0;
+			float maximumStorage = 0;
 
 			foreach (var stomach in stomachs)
 			{
 				SpareSpace += stomach.StomachContents.SpareCapacity;
+				maximumStorage += stomach.StomachIsConsideredFullWhenSpareCapacityIsLessThan;
 			}
 
-			if (SpareSpace < 0.5f)
+			if (SpareSpace < (maximumStorage / 2))
 			{
 				LogEatWithFullStomach(eater, feeder);
 				return;

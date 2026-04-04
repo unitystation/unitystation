@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: RustyRWallSheathConstruct
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: aaed69546e98a47d8b488a046d00ebe7, type: 2}
-  harmIntentRequired: 0
-  RequiredIntent: 1
+  requiredIntent: 1
   performerStartActionMessage: You begin welding the support rods back together...
   othersStartActionMessage: '{performer} begins welding the support rods back together...'
   seconds: 10

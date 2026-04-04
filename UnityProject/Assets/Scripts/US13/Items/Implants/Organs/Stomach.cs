@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using US13.ChemistryComponents;
+using US13.Core.Chat;
 using US13.Core.Lifecycle;
 using US13.HealthV2.Living;
 using US13.HealthV2.Living.Metabolism;
@@ -14,6 +15,8 @@ namespace US13.Items.Implants.Organs
 		public ReagentContainer StomachContents;
 
 		public float DigesterAmountPerSecond = 1;
+
+		public float StomachIsConsideredFullWhenSpareCapacityIsLessThan = 15f;
 
 		public List<BodyFat> BodyFats = new List<BodyFat>();
 
@@ -48,8 +51,12 @@ namespace US13.Items.Implants.Organs
 
 				_ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(Digesting);
 			}
+			else
+			{
+				HungerComponent.HungerState = HungerState.Starving;
+			}
 
-			if (StomachContents.SpareCapacity < 15f) //Magic number
+			if (StomachContents.SpareCapacity < StomachIsConsideredFullWhenSpareCapacityIsLessThan)
 			{
 				HungerComponent.HungerState = HungerState.Full;
 			}
@@ -58,40 +65,43 @@ namespace US13.Items.Implants.Organs
 				HungerComponent.HungerState = HungerState.Normal;
 			}
 
-			bool AllFat = true;
-			foreach (var Fat in BodyFats)
+			if (CanAddFat())
 			{
-
-				if (Fat.IsFull == false)
+				AddFat();
+				if (RelatedPart.HealthMaster.gameObject)
 				{
-					AllFat = false;
-					break;
+					Chat.AddExamineMsg(RelatedPart.HealthMaster.gameObject, "You feel like you've gained a little weight.");
 				}
 			}
+		}
 
-			if (AllFat)
+		public bool CanAddFat()
+		{
+			if (BodyFats.Count == 0) return true;
+			//var allFatFull = BodyFats.All(x => x.IsFull); //linq bad
+			bool allFatFull = true;
+			foreach (var fat in BodyFats)
 			{
-				var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject, spawnManualContents: true).GameObject.GetComponent<BodyFat>();
-				Added.SetAbsorbedAmount(0);
-				Added.RelatedStomach = this;
-				BodyFats.Add(Added);
-				RelatedPart.OrganStorage.ServerTryAdd(Added.gameObject);
+				if (fat.IsFull) continue;
+				allFatFull = false;
+				break;
 			}
+
+			return allFatFull && StomachContents.ReagentMixTotal > 0;
 		}
 
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			AddFat();
+			if (CanAddFat()) AddFat();
 		}
 
 		public void AddFat()
 		{
-			if (InitialFatSpawned) return;
-			InitialFatSpawned = true;
-			var Added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject).GameObject.GetComponent<BodyFat>();
-			BodyFats.Add(Added);
-			Added.RelatedStomach = this;
-			RelatedPart.ContainedIn.OrganStorage.ServerTryAdd(Added.gameObject);
+			var added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject, spawnManualContents: true).GameObject.GetComponent<BodyFat>();
+			BodyFats.Add(added);
+			added.RelatedStomach = this;
+			added.SetAbsorbedAmount(0);
+			RelatedPart.ContainedIn.OrganStorage.ServerTryAdd(added.gameObject);
 		}
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
