@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Light2D;
 using Mirror;
+using Traitor;
 using UnityEngine;
 using US13.Core.Chat;
 using US13.Core.Input_System.InteractionV2.Interfaces;

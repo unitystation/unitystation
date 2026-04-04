@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Mirror;
+using Traitor;
 using UnityEngine;
 using US13.Core.Addressables.Types;
 using US13.Core.Chat;

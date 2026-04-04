@@ -6,25 +6,28 @@ using US13.Objects.Directionals;
 using US13.Player;
 using Util;
 
-public class Pieable : MonoBehaviour, IBumpableObject
+namespace pie
 {
-    public SpriteHandler spriteHandler;
+	public class Pieable : MonoBehaviour, IBumpableObject
+	{
+		public SpriteHandler spriteHandler;
 
-    public PlayerScript playerScript;
+		public PlayerScript playerScript;
 
-    public void Pie()
-    {
-	    playerScript.RegisterPlayer.ServerStun(2, true, false);
-	    playerScript.playerSprites.TurnOnPieOverlay();
-    }
+		public void Pie()
+		{
+			playerScript.RegisterPlayer.ServerStun(2, true, false);
+			playerScript.playerSprites.TurnOnPieOverlay();
+		}
 
-    public void OnBump(GameObject bumpedBy, GameObject client)
-    {
-	    var creamPie = bumpedBy.GetCachedComponent<CreamPie>();
-	    if (creamPie != null)
-	    {
-		    Pie();
-		    _ = Despawn.ServerSingle(creamPie.gameObject);
-	    }
-    }
+		public void OnBump(GameObject bumpedBy, GameObject client)
+		{
+			var creamPie = bumpedBy.GetCachedComponent<CreamPie>();
+			if (creamPie != null)
+			{
+				Pie();
+				_ = Despawn.ServerSingle(creamPie.gameObject);
+			}
+		}
+	}
 }

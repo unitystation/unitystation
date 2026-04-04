@@ -17,135 +17,143 @@ using US13.Systems.Electricity.NodeModules;
 using US13.Systems.Inventory;
 using Util;
 
-public class PowerBeacon : SignalReceiver
+namespace Traitor
 {
-	[SerializeField] private float voltageCheckTimeInSeconds = 0.2f;
-
-	private SpriteHandler spriteHandler;
-	private UniversalObjectPhysics objectBehaviour;
-	private Pickupable pickupable;
-
-	private ResistanceSourceModule RR;
-
-	[SerializeField] private SpriteDataSO activeSpriteSO;
-	[SerializeField] private SpriteDataSO inactiveSpriteSO;
-
-	[SyncVar] private bool isAnchored;
-	[SyncVar] private bool isActive;
-
-
-	public static List<PowerBeacon> ActivePowerBeacons = new  List<PowerBeacon>();
-
-
-
-
-	private void Awake()
+	public class PowerBeacon : SignalReceiver
 	{
-		objectBehaviour = GetComponent<UniversalObjectPhysics>();
-		spriteHandler = GetComponentInChildren<SpriteHandler>();
-		pickupable = GetComponentInChildren<Pickupable>();
-		RR = GetComponent<ResistanceSourceModule>();
-		ActivePowerBeacons.Add(this);
-	}
+		[SerializeField] private float voltageCheckTimeInSeconds = 0.2f;
 
-	public void ServerPerformInteraction(HandApply interaction)
-	{
-		if (interaction.UsedObject == null)
+		private SpriteHandler spriteHandler;
+		private UniversalObjectPhysics objectBehaviour;
+		private Pickupable pickupable;
+
+		private ResistanceSourceModule RR;
+
+		[SerializeField] private SpriteDataSO activeSpriteSO;
+		[SerializeField] private SpriteDataSO inactiveSpriteSO;
+
+		[SyncVar] private bool isAnchored;
+		[SyncVar] private bool isActive;
+
+
+		public static List<PowerBeacon> ActivePowerBeacons = new List<PowerBeacon>();
+
+
+		private void Awake()
 		{
-			ToggleActivity();
-			return;
+			objectBehaviour = GetComponent<UniversalObjectPhysics>();
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
+			pickupable = GetComponentInChildren<Pickupable>();
+			RR = GetComponent<ResistanceSourceModule>();
+			ActivePowerBeacons.Add(this);
 		}
 
-		if (interaction.UsedObject.Item().HasTrait(CommonTraits.Instance.Screwdriver))
+		public void ServerPerformInteraction(HandApply interaction)
 		{
-			// TODO check that the plating is exposed and no objects in the way, via MatrixManager.IsConstructable() or something
-
-			var pos = objectBehaviour.registerTile.LocalPositionServer;
-			var electricalConnections = objectBehaviour.registerTile.Matrix.GetElectricalConnections(pos);
-			if (electricalConnections?.List.Count == 0)
+			if (interaction.UsedObject == null)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, "You screw the power sink down, but there are no cables to tap into!");
+				ToggleActivity();
+				return;
 			}
 
-			if (isAnchored)
+			if (interaction.UsedObject.Item().HasTrait(CommonTraits.Instance.Screwdriver))
 			{
-				UnAnchor();
+				// TODO check that the plating is exposed and no objects in the way, via MatrixManager.IsConstructable() or something
+
+				var pos = objectBehaviour.registerTile.LocalPositionServer;
+				var electricalConnections = objectBehaviour.registerTile.Matrix.GetElectricalConnections(pos);
+				if (electricalConnections?.List.Count == 0)
+				{
+					Chat.AddExamineMsgFromServer(interaction.Performer,
+						"You screw the power sink down, but there are no cables to tap into!");
+				}
+
+				if (isAnchored)
+				{
+					UnAnchor();
+				}
+				else
+				{
+					Anchor();
+				}
+
+				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver, gameObject.AssumedWorldPosServer());
+				return;
+			}
+
+			if (interaction.UsedObject.TryGetComponent<RemoteSignaller>(out var signaller))
+			{
+				Emitter = signaller;
+				Frequency = signaller.Frequency;
+				Chat.AddExamineMsg(interaction.Performer,
+					$"You pair the {interaction.UsedObject.ExpensiveName()} to this device.");
+			}
+		}
+
+		private void Anchor()
+		{
+			isAnchored = true;
+			pickupable.ServerSetCanPickup(false);
+			objectBehaviour.SetIsNotPushable(true);
+			ElectricalManager.Instance.electricalSync.StructureChange = true;
+			Chat.AddActionMsgToChat(gameObject,
+				$"The {gameObject.ExpensiveName()} makes a clicking sound as it <b>anchors</b> to the ground.");
+		}
+
+		public void OnDestroy()
+		{
+			ActivePowerBeacons.Remove(this);
+		}
+
+
+		private void ToggleActivity()
+		{
+			if (isAnchored == false) return;
+			if (isAnchored && isActive == false)
+			{
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckForVoltage);
+				spriteHandler.SetSpriteSO(inactiveSpriteSO);
+				RR.Resistance = 10000f;
+				ActivePowerBeacons.Remove(this);
 			}
 			else
 			{
-				Anchor();
+				UpdateManager.Add(CheckForVoltage, voltageCheckTimeInSeconds);
+				spriteHandler.SetSpriteSO(activeSpriteSO);
+				RR.Resistance = 100f;
+				ActivePowerBeacons.Add(this);
 			}
-			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver, gameObject.AssumedWorldPosServer());
-			return;
+
+			isActive = !isActive;
 		}
 
-		if (interaction.UsedObject.TryGetComponent<RemoteSignaller>(out var signaller))
+		public void CheckForVoltage()
 		{
-			Emitter = signaller;
-			Frequency = signaller.Frequency;
-			Chat.AddExamineMsg(interaction.Performer, $"You pair the {interaction.UsedObject.ExpensiveName()} to this device.");
+			var electricalData = gameObject.RegisterTile().Matrix.MetaDataLayer
+				.Get(gameObject.RegisterTile().LocalPosition)?.ElectricalData;
+			if (isAnchored == false || RR == null || RR.ControllingNode == null || electricalData == null)
+			{
+				if (isActive) ToggleActivity();
+				UnAnchor();
+				return;
+			}
 		}
-	}
 
-	private void Anchor()
-	{
-		isAnchored = true;
-		pickupable.ServerSetCanPickup(false);
-		objectBehaviour.SetIsNotPushable(true);
-		ElectricalManager.Instance.electricalSync.StructureChange = true;
-		Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} makes a clicking sound as it <b>anchors</b> to the ground.");
-	}
-
-	public void OnDestroy()
-	{
-		ActivePowerBeacons.Remove(this);
-	}
-
-
-	private void ToggleActivity()
-	{
-		if (isAnchored == false) return;
-		if (isAnchored && isActive == false)
+		public override void ReceiveSignal(SignalStrength strength, SignalEmitter responsibleEmitter,
+			ISignalMessage message = null)
 		{
+			ToggleActivity();
+		}
+
+		private void UnAnchor()
+		{
+			isAnchored = false;
+			pickupable.ServerSetCanPickup(true);
+			objectBehaviour.SetIsNotPushable(false);
+			ElectricalManager.Instance.electricalSync.StructureChange = true;
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckForVoltage);
-			spriteHandler.SetSpriteSO(inactiveSpriteSO);
-			RR.Resistance = 10000f;
-			ActivePowerBeacons.Remove(this);
+			Chat.AddActionMsgToChat(gameObject,
+				$"The {gameObject.ExpensiveName()} makes a clicking sound as it <b>unanchors</b> from the ground.");
 		}
-		else
-		{
-
-			UpdateManager.Add(CheckForVoltage, voltageCheckTimeInSeconds);
-			spriteHandler.SetSpriteSO(activeSpriteSO);
-			RR.Resistance = 100f;
-			ActivePowerBeacons.Add(this);
-		}
-		isActive = !isActive;
-	}
-
-	public void CheckForVoltage()
-	{
-		var electricalData = gameObject.RegisterTile().Matrix.MetaDataLayer.Get(gameObject.RegisterTile().LocalPosition)?.ElectricalData;
-		if (isAnchored == false || RR == null || RR.ControllingNode == null || electricalData == null)
-		{
-			if(isActive) ToggleActivity();
-			UnAnchor();
-			return;
-		}
-	}
-
-	public override void ReceiveSignal(SignalStrength strength, SignalEmitter responsibleEmitter, ISignalMessage message = null)
-	{
-		ToggleActivity();
-	}
-
-	private void UnAnchor()
-	{
-		isAnchored = false;
-		pickupable.ServerSetCanPickup(true);
-		objectBehaviour.SetIsNotPushable(false);
-		ElectricalManager.Instance.electricalSync.StructureChange = true;
-		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckForVoltage);
-		Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} makes a clicking sound as it <b>unanchors</b> from the ground.");
 	}
 }
