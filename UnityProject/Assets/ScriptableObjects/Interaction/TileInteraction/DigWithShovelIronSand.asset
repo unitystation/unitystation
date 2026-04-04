@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DigWithShovelIronSand
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: b336a4abd9d45924cb48b49a49fdea2b, type: 2}
-  harmIntentRequired: 0
+  requiredIntent: -1
   performerStartActionMessage: You start digging...
   othersStartActionMessage: '{performer} starts digging..'
   seconds: 4

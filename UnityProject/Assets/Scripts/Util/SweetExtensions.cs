@@ -388,16 +388,12 @@ namespace Util
 		/// <returns></returns>
 		public static T GetCachedComponent<T>(this Component go, bool includeDisabled = true)  where T : Component
 		{
-			T component;
 			if (ComponentManager.TryGetCommonComponent(go.gameObject, out  var commonComponent))
 			{
-				component = commonComponent.SafeGetComponent<T>();
-			}
-			else
-			{
-				component = go == null ? null : go.gameObject.GetComponent<T>();
+				return commonComponent.SafeGetComponent<T>(includeDisabled);
 			}
 
+			var component = go == null ? null : go.gameObject.GetComponent<T>();
 			if (includeDisabled == false && component is Behaviour behaviour && behaviour.enabled == false) return null;
 			return component;
 		}
@@ -410,16 +406,12 @@ namespace Util
 		/// <returns></returns>
 		public static T GetCachedComponent<T>(this GameObject go, bool includeDisabled = true)  where T : Component
 		{
-			T component;
 			if (ComponentManager.TryGetCommonComponent(go, out  var commonComponent))
 			{
-				component = commonComponent.SafeGetComponent<T>();
-			}
-			else
-			{
-				component = go == null ? null : go.GetComponent<T>();
+				return commonComponent.SafeGetComponent<T>(includeDisabled);
 			}
 
+			var component = go == null ? null : go.GetComponent<T>();
 			if (includeDisabled == false && component is Behaviour behaviour && behaviour.enabled == false) return null;
 			return component;
 		}
@@ -432,21 +424,11 @@ namespace Util
 		{
 			if (ComponentManager.TryGetCommonComponent(go.gameObject, out  var commonComponent))
 			{
-				if (commonComponent.TrySafeGetComponent<T>(out component) == false) return false;
-			}
-			else
-			{
-				component = null;
-				return false;
+				return commonComponent.TrySafeGetComponent<T>(out component, includeDisabled);
 			}
 
-			if (includeDisabled == false && component is Behaviour behaviour && behaviour.enabled == false)
-			{
-				component = null;
-				return false;
-			}
-
-			return true;
+			component = null;
+			return false;
 		}
 
 		/// <summary>
@@ -457,21 +439,11 @@ namespace Util
 		{
 			if (ComponentManager.TryGetCommonComponent(go, out  var commonComponent))
 			{
-				if (commonComponent.TrySafeGetComponent<T>(out component) == false) return false;
-			}
-			else
-			{
-				component = null;
-				return false;
+				return commonComponent.TrySafeGetComponent<T>(out component, includeDisabled);
 			}
 
-			if (includeDisabled == false && component is Behaviour behaviour && behaviour.enabled == false)
-			{
-				component = null;
-				return false;
-			}
-
-			return true;
+			component = null;
+			return false;
 		}
 
 		/// <summary>

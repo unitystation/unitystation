@@ -29,6 +29,7 @@ using US13.HealthV2.Living.MedicalChemistry;
 using US13.HealthV2.Living.Metabolism;
 using US13.HealthV2.Living.PolymorphicSystems;
 using US13.HealthV2.Living.PolymorphicSystems.Bodypart;
+using US13.HealthV2.Living.PolymorphicSystems.Hunger;
 using US13.HealthV2.Living.Respiration;
 using US13.Items.Implants.Organs;
 using US13.Items.Implants.Organs.Functionality;

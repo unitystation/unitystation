@@ -61,7 +61,7 @@ namespace US13.Objects.Construction.FloorDecals
 
 		private void EnsureInit()
 		{
-			reagentContainer ??= GetComponent<ReagentContainer>();
+			reagentContainer ??= this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 			if (spriteRenderer != null) return;
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		}

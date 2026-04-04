@@ -44,7 +44,7 @@ namespace US13.Items.Medical
 					$"You scan the {targetName}.",
 					$"{performerName} scans the {targetName}.");
 
-			var reagents = TargetObject.GetComponent<ReagentContainer>().CurrentReagentMix;
+			var reagents = TargetObject.GetCachedComponent<ReagentContainer>(includeDisabled: false).CurrentReagentMix;
 			StringBuilder scanMessage;
 			if (reagents.Total > 0f)
 			{

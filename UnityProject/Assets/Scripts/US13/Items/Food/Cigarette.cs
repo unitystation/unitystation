@@ -55,7 +55,7 @@ namespace US13.Items.Food
 		{
 			pickupable = GetComponent<Pickupable>();
 			fireSource = GetComponent<FireSource>();
-			reagentContainer ??= GetComponent<ReagentContainer>();
+			reagentContainer ??= this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 			clothing = GetComponent<ClothingV2>();
 		}
 

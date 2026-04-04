@@ -33,7 +33,7 @@ namespace US13.Items.Tool
 
 		private void Awake()
 		{
-			reagentContainer = GetComponent<ReagentContainer>();
+			reagentContainer = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
 		}
 
 		public bool WillInteract(AimApply interaction, NetworkSide side)

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Logs;
 using TMPro;
 using UnityEngine;
 using US13.Core.Transform;
@@ -27,6 +28,11 @@ namespace Util
 
 		public static Vector3 DirectionLocalToWorld(this Vector3 localDirection, Matrix matrix)
 		{
+			if (matrix == null)
+			{
+				Loggy.Error("Passed a null reference. Returning back self.", methodName: "DirectionLocalToWorld");
+				return localDirection;
+			}
 			return MatrixManager.DirectionLocalToWorld(localDirection, matrix.MatrixInfo);
 		}
 
