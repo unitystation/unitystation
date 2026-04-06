@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Logs;
+using SecureStuff;
 using UnityEditor;
 using UnityEngine;
 using US13.Core.Chat;
@@ -10,6 +11,7 @@ using US13.Core.Lifecycle;
 using US13.Health.Objects;
 using US13.HealthV2;
 using US13.HealthV2.Living;
+using US13.HealthV2.Living.PolymorphicSystems.Hunger;
 using US13.Items.Implants.Organs;
 using US13.Learning;
 using US13.Managers;
@@ -783,5 +785,44 @@ namespace IngameDebugConsole.Scripts
 			}
 			Loggy.Info($"{sb}", Category.DebugConsole);
 		}
+
+		[ConsoleMethod("starve", "Sets stomach contests, blood contents, and fat contents to 0.")]
+		public static void MakeLocalPlayerStarving()
+		{
+			var health = PlayerManager.LocalPlayerScript?.playerHealth;
+			if (health == null)
+			{
+				Loggy.Error("Cannot execute this command due to null health component.", Category.DebugConsole);
+				return;
+			}
+			if (health.ActiveSystems.Find(x => x is HungerSystem) is HungerSystem hunger)
+			{
+				hunger.MakeStarving();
+			}
+		}
+#if UNITY_EDITOR
+		[ConsoleMethod("replace-hunger-calc", "Replaces the hunger calculation method with a new one.")]
+		public static void ReplaceHungerSystem(string newHungerSystem)
+		{
+			var health = PlayerManager.LocalPlayerScript?.playerHealth;
+			if (health == null)
+			{
+				Loggy.Error("Cannot execute this command due to null health component.", Category.DebugConsole);
+				return;
+			}
+
+			if (health.ActiveSystems.Find(x => x is HungerSystem) is HungerSystem hunger)
+			{
+				hunger.HungerCalculationMethod = null;
+				var newMethod = Type.GetType(newHungerSystem);
+				if (newMethod == null)
+				{
+					Loggy.Error($"Could not find type {newHungerSystem}. Make sure you include the namespace and assembly if it's not in the default assembly.", Category.DebugConsole);
+					return;
+				}
+				hunger.HungerCalculationMethod = newMethod as IHungerCalculation;
+			}
+		}
+#endif
 	}
 }

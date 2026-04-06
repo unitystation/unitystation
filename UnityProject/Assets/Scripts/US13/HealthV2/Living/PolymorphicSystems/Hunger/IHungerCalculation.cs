@@ -6,5 +6,6 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Hunger
 	public interface IHungerCalculation
 	{
 		public HungerState CalculateHungerState(LivingHealthMasterBase creatureHealth, HungerSystem hungerSystem);
+		public void Initialize(LivingHealthMasterBase creatureHealth, HungerSystem hungerSystem);
 	}
 }

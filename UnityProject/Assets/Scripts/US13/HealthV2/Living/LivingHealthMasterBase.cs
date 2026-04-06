@@ -1519,6 +1519,19 @@ namespace US13.HealthV2.Living
 			return Stomachs;
 		}
 
+		public HungerSystem GetHungerSystem()
+		{
+			foreach (var system in ActiveSystems)
+			{
+				if (system is HungerSystem hungerSystem)
+				{
+					return hungerSystem;
+				}
+			}
+
+			return null;
+		}
+
 		/// <summary>
 		/// Resets all damage values of all body parts to 0
 		/// </summary>

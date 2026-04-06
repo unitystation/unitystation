@@ -3,6 +3,7 @@ using UnityEngine;
 using US13.HealthV2.Living;
 using US13.HealthV2.Living.Metabolism;
 using US13.HealthV2.Living.PolymorphicSystems.Bodypart;
+using US13.HealthV2.Living.PolymorphicSystems.Hunger.HungerCalculationMethods;
 using US13.Player.Movement;
 using Util;
 
@@ -28,9 +29,7 @@ namespace US13.Items.Implants.Organs
 
 		public float ReleaseAmount = 2f;
 
-		public float MinuteStoreMaxAmount =  60; //Last for 60 minutes
-
-		[NonSerialized] public const float StartAbsorbedAmount = 30;
+		public float MinuteStoreMaxAmount = 60; //Last for 60 minutes
 
 		[NonSerialized]	public float AbsorbedAmount = 0;
 
@@ -49,9 +48,6 @@ namespace US13.Items.Implants.Organs
 		{
 			HungerComponent = this.GetCachedComponent<HungerComponent>();
 			ReagentCirculatedComponent = this.GetCachedComponent<ReagentCirculatedComponent>();
-
-
-			AbsorbedAmount = StartAbsorbedAmount; //TODO Probably should be moved somewhere else?
 		}
 
 		public void SetAbsorbedAmount(float newAbsorbedAmount)
@@ -65,9 +61,9 @@ namespace US13.Items.Implants.Organs
 			isFreshBlood = true;
 			base.ImplantPeriodicUpdate();
 			// Loggy.Log("Absorbing >" + Absorbing);
-			float NutrimentPercentage = (ReagentCirculatedComponent.AssociatedSystem.BloodPool[HungerComponent.Nutriment] / ReagentCirculatedComponent.AssociatedSystem.BloodPool.Total);
+			float nutrimentPercentage = (ReagentCirculatedComponent.AssociatedSystem.BloodPool[HungerComponent.Nutriment] / ReagentCirculatedComponent.AssociatedSystem.BloodPool.Total);
 			//Loggy.Log("NutrimentPercentage >" + NutrimentPercentage);
-			if (NutrimentPercentage < ReleaseNutrimentPercentage)
+			if (nutrimentPercentage < ReleaseNutrimentPercentage)
 			{
 				float ToRelease = ReleaseAmount;
 				if (ToRelease > AbsorbedAmount)
@@ -80,16 +76,28 @@ namespace US13.Items.Implants.Organs
 				isFreshBlood = false;
 				// Loggy.Log("ToRelease >" + ToRelease);
 			}
-			else if (isFreshBlood && NutrimentPercentage > AbsorbNutrimentPercentage && AbsorbedAmount < MinuteStoreMaxAmount)
+			else if (isFreshBlood && nutrimentPercentage > AbsorbNutrimentPercentage && AbsorbedAmount < MinuteStoreMaxAmount)
 			{
-				float ToAbsorb = ReagentCirculatedComponent.AssociatedSystem.BloodPool[HungerComponent.Nutriment];
-				if (AbsorbedAmount + ToAbsorb > MinuteStoreMaxAmount)
+				var hungerSystem = LivingHealthMaster.GetHungerSystem();
+				if (hungerSystem.HungerCalculationMethod is NutrimentInBlood c)
 				{
-					ToAbsorb = ToAbsorb - ((AbsorbedAmount + ToAbsorb) - MinuteStoreMaxAmount);
+					if (c.NutrimentThresholdForNormal >= NoticeableDebuffInPoint)
+					{
+						float absorbing = ReagentCirculatedComponent.AssociatedSystem.BloodPool.Remove(HungerComponent.Nutriment, 1f);
+						AbsorbedAmount += absorbing;
+					}
 				}
+				else
+				{
+					float ToAbsorb = ReagentCirculatedComponent.AssociatedSystem.BloodPool[HungerComponent.Nutriment];
+					if (AbsorbedAmount + ToAbsorb > MinuteStoreMaxAmount)
+					{
+						ToAbsorb -= ((AbsorbedAmount + ToAbsorb) - MinuteStoreMaxAmount);
+					}
 
-				float Absorbing = ReagentCirculatedComponent.AssociatedSystem.BloodPool.Remove(HungerComponent.Nutriment, ToAbsorb);
-				AbsorbedAmount += Absorbing;
+					float Absorbing = ReagentCirculatedComponent.AssociatedSystem.BloodPool.Remove(HungerComponent.Nutriment, ToAbsorb);
+					AbsorbedAmount += Absorbing;
+				}
 				// Loggy.Log("Absorbing >" + Absorbing);
 			}
 

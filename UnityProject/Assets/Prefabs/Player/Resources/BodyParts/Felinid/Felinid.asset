@@ -85,6 +85,25 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
+    - rid: 4619251886771667012
+      type: {class: NutrimentInBlood, ns: US13.HealthV2.Living.PolymorphicSystems.Hunger.HungerCalculationMethods,
+        asm: Assets}
+      data:
+        NutrimentThresholdForStarving: 10
+        NutrimentThresholdForMalnourished: 15
+        NutrimentThresholdForHunger: 20
+        NutrimentThresholdForNormal: 40
+        NutrimentConsumedPerTick: 0.01
+        healingPerTick: 0.0085
+        StartingNutritionAmountInBlood: 30
+        StartingNutrimentInStomachs:
+          temperature: 294.15
+          reagents:
+            m_keys:
+            - {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
+            m_values:
+            - 5
+          reagentKeys: []
     - rid: 5920833068371804161
       type: {class: ReagentPoolSystem, ns: US13.HealthV2.Living.PolymorphicSystems,
         asm: Assets}
@@ -140,7 +159,7 @@ MonoBehaviour:
           FatStatusEffect: {fileID: 11400000, guid: 8a92c094201a758498a79523323565eb,
             type: 2}
         HungerCalculationMethod:
-          rid: 9030449072068624452
+          rid: 4619251886771667012
     - rid: 5920833068371804166
       type: {class: NaturalChemicalReleaseSystem, ns: US13.HealthV2.Living.PolymorphicSystems,
         asm: Assets}
@@ -150,7 +169,3 @@ MonoBehaviour:
         TotalToxinGenerationPerSecond: 0.1
         BodyNaturalToxinReagent: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
           type: 2}
-    - rid: 9030449072068624452
-      type: {class: DefaultUnityStationHungerCalculation, ns: US13.HealthV2.Living.PolymorphicSystems.Hunger.HungerCalculationMethods,
-        asm: Assets}
-      data: 
