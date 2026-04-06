@@ -47,8 +47,6 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Hunger.HungerCalculationMethod
 				}
 			}
 
-			Loggy.Info($"{creatureHealth.gameObject}: Current Nutriment in Blood: {currentNutriment} - {creatureHealth.GetStomachs()[0].StomachContents.ReagentMixTotal} in stomach\n {creatureHealth.GetStomachs()[0].BodyFats.Count}");
-
 			foreach (var stomach in creatureHealth.GetStomachs())
 			{
 				if (stomach.StomachContents.SpareCapacity <= stomach.StomachIsConsideredFullWhenSpareCapacityIsLessThan)
