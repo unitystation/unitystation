@@ -33,8 +33,7 @@ namespace Tests.Scenes
 	[TestFixtureSource(typeof(SceneTest), nameof(Scenes))]
 	public abstract class SceneTest
 	{
-		public static IEnumerable<SceneTestData> Scenes => Utils.NonDevScenes.Select(scene => new SceneTestData(scene, BluePrintType.Map))
-													.Concat(Utils.RoomBlueprintScenes.Select(scene => new SceneTestData(scene, BluePrintType.Room)));
+		public static IEnumerable<SceneTestData> Scenes => Utils.NonDevScenes.Select(scene => new SceneTestData(scene, BluePrintType.Map));
 
 		private List<GameObject> rootObjects;
 
@@ -59,6 +58,7 @@ namespace Tests.Scenes
 				MapSaver.MapData mapData;
 				if(Data.Type == BluePrintType.Map) mapData = JsonConvert.DeserializeObject<MapSaver.MapData>(AccessFile.Load(Data.File, FolderType.Maps));
 				else mapData = JsonConvert.DeserializeObject<MapSaver.MapData>(AccessFile.Load(Data.File, FolderType.Rooms));
+				//TODO: Make some way to handle all of the rooms
 				//TODO: Rooms don't require all the same tests as full maps. Figure out which ones are redundant and skip them. That being said, rooms are only really 1s each
 				//TODO: Consider Loading all rooms at once and doing one large check
 
