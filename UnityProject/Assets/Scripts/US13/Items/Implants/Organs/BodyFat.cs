@@ -83,6 +83,7 @@ namespace US13.Items.Implants.Organs
 				{
 					if (c.NutrimentThresholdForNormal >= NoticeableDebuffInPoint)
 					{
+						//TODO: (Max) this is temporary until I find a better way to handle this.
 						float absorbing = ReagentCirculatedComponent.AssociatedSystem.BloodPool.Remove(HungerComponent.Nutriment, 1f);
 						AbsorbedAmount += absorbing;
 					}
