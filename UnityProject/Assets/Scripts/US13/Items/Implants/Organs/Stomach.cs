@@ -22,8 +22,6 @@ namespace US13.Items.Implants.Organs
 
 		public BodyFat BodyFatToInstantiate;
 
-		public bool InitialFatSpawned = false;
-
 		public ReagentCirculatedComponent _ReagentCirculatedComponent;
 		public HungerComponent HungerComponent;
 
@@ -88,11 +86,6 @@ namespace US13.Items.Implants.Organs
 			}
 
 			return allFatFull && StomachContents.ReagentMixTotal > 0;
-		}
-
-		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
-		{
-			if (CanAddFat()) AddFat();
 		}
 
 		public void AddFat()

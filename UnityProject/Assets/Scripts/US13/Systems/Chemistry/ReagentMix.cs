@@ -696,6 +696,20 @@ namespace Chemistry
 			return 0;
 		}
 
+		public float GetAmountOfReagent(Reagent reagent)
+		{
+			var amount = 0f;
+			if (reagent)
+			{
+				amount = reagents.m_dict[reagent];
+			}
+			else
+			{
+				Loggy.Error("Trying to get amount of null reagent", Category.Chemistry);
+			}
+			return amount;
+		}
+
 
 		public void Clear()
 		{

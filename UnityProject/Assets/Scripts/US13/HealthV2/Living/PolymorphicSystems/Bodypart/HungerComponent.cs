@@ -55,7 +55,12 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
 			for (int i = 0; i < RelatedPart.Damages.Length; i++)
 			{
 				if ((int) DamageType.Oxy == i) continue;
-				RelatedPart.HealDamage(null, (float) (RelatedPart.Damages[i] / DamageMultiplier) * ActualHealingNutrimentMultiplier, i);
+				var healAmount = (float) (RelatedPart.Damages[i] / DamageMultiplier) * ActualHealingNutrimentMultiplier;
+				if (healAmount is Single.NaN or <= 0)
+				{
+					continue;
+				}
+				RelatedPart.HealDamage(null, healAmount, i);
 			}
 		}
 

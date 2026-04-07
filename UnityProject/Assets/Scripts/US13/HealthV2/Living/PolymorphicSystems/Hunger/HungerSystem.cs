@@ -7,7 +7,7 @@ using US13.Core.Attributes;
 using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.Metabolism;
 using US13.HealthV2.Living.PolymorphicSystems.Bodypart;
-using US13.ScriptableObjects;
+using US13.HealthV2.Living.PolymorphicSystems.Hunger.HungerCalculationMethods;
 using US13.Systems.StatusesAndEffects;
 using US13.UI.Core.Alerts;
 
@@ -145,65 +145,18 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Hunger
         }
 
         /// <summary>
-        /// Scales the stored body-fat amounts across all stomachs so that the creature
-        /// will begin starving after approximately <paramref name="numberOfMinutesBeforeHunger"/> minutes.
-        /// Also distributes per-body-part passive nutriment consumption rates proportionally
-        /// to each part's blood throughput.
-        ///
-        /// Steps:
-        ///  1. Sum total blood throughput across all body parts.
-        ///  2. Derive a per-flow-unit consumption rate so 1 unit is depleted per minute.
-        ///  3. Assign that rate to every body part scaled by its individual throughput.
-        ///  4. Sum currently stored body fat across all stomachs.
-        ///  5. Calculate the multiplier needed to make that fat last the desired number of minutes.
-        ///  6. Apply a ±25% random variation to avoid all creatures starving at the same time.
-        ///  7. Scale each stomach's body-fat stores by the multiplier.
         /// </summary>
         public void InitialiseHunger(float numberOfMinutesBeforeHunger)
         {
-            // Step 1: Total blood throughput across all hunger-participating body parts.
-            var TotalBloodThroughput = 0f;
-            foreach (var bodyPart in BodyParts)
-            {
-                TotalBloodThroughput += bodyPart.BloodThroughput;
-            }
-
-            // Step 2: Consumption per flow unit per second so that the total across all
-            // body parts equals 1 unit of nutriment consumed per minute.
-            var ConsumptionPerFlowSecond = (1f / 60f) / TotalBloodThroughput;
-
-            // Step 3: Assign the base consumption rate to each body part.
-            foreach (var bodyPart in BodyParts)
-            {
-                bodyPart.PassiveConsumptionNutriment = ConsumptionPerFlowSecond;
-            }
-
-            // Step 4: Sum currently stored body fat across all stomachs.
-            var Stomachs = Base.GetStomachs();
-            var MinutesAvailable = 0f;
-            foreach (var Stomach in Stomachs)
-            {
-                foreach (var bodyFat in Stomach.BodyFats)
-                {
-                    MinutesAvailable += bodyFat.AbsorbedAmount;
-                }
-            }
-
-            // Step 5: Multiplier to stretch stored fat to last the desired number of minutes.
-            var Bymultiply = numberOfMinutesBeforeHunger / MinutesAvailable;
-
-            // Step 6: Apply ±25% random variance so starvation timing differs between creatures.
-            Bymultiply *= (1 + UnityEngine.Random.Range(-0.25f, 0.25f));
-
-            // Step 7: Scale each body-fat store by the multiplier.
-            foreach (var Stomach in Stomachs)
-            {
-                foreach (var bodyFat in Stomach.BodyFats)
-                {
-                    bodyFat.AbsorbedAmount *= Bymultiply;
-                }
-            }
-
+	        if (HungerCalculationMethod != null)
+	        {
+		        HungerCalculationMethod.Initialize(Base, this);
+	        }
+	        else
+	        {
+		        Loggy.Warning($"No hunger calculation method assigned to HungerSystem on {Base.gameObject}. Hunger will not be initialised.");
+		        return;
+	        }
             BodyPartListChange();
             UpdateStatusEffects(HungerState.Starving, HungerState.Normal);
         }
@@ -316,10 +269,10 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Hunger
                 reagentPoolSystem.BloodPool.Remove(KVP.Key, 9999);
             }
 
-            var Stomachs = Base.GetStomachs();
-            foreach (var Stomach in Stomachs)
+            var stomachs = Base.GetStomachs();
+            foreach (var stomach in stomachs)
             {
-                foreach (var bodyFat in Stomach.BodyFats)
+                foreach (var bodyFat in stomach.BodyFats)
                 {
                     bodyFat.AbsorbedAmount = 0;
                 }
