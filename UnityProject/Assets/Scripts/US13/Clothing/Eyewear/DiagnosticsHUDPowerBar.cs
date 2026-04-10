@@ -20,15 +20,14 @@ namespace US13.Clothing.Eyewear
 
 		[SerializeField] private HUDHandler hudHandler = null;
 		[SerializeField] private BatterySupplyingModule batterySupplyingModule = null;
-		[SerializeField] private Machine machine = null;
 		[SyncVar(hook = nameof(SyncCurrentChargeLevel))]private float currentCharge = 0;
 
 		public void SyncCurrentChargeLevel(float oldCharge, float newCharge)
 		{
 			if (newCharge.Approx(oldCharge)) return;
-			if (batterySupplyingModule != null && batterySupplyingModule.CapacityMax != 0)
+			if (batterySupplyingModule && batterySupplyingModule.CapacityMax != 0)
 			{
-				diagnosticsHUDHandler.UpdateBar(machine.CurrentBatteryCapacity / batterySupplyingModule.CapacityMax);
+				diagnosticsHUDHandler.UpdateBar(batterySupplyingModule.GetSetCurrentCapacity / batterySupplyingModule.CapacityMax);
 			}
 		}
 
@@ -41,7 +40,7 @@ namespace US13.Clothing.Eyewear
 
 			if (CustomNetworkManager.IsServer)
 			{
-				machine.OnCapacityChangedEvent += UpdateCharge;
+				batterySupplyingModule.OnCapacityChangedEvent += UpdateCharge;
 			}
 			hudHandler.AddNewHud(this);
 		}
@@ -50,7 +49,7 @@ namespace US13.Clothing.Eyewear
 		{
 			if (CustomNetworkManager.IsServer)
 			{
-				SyncCurrentChargeLevel(oldCharge, newCharge);
+				SyncCurrentChargeLevel(currentCharge, newCharge);
 			}
 			currentCharge = newCharge;
 		}
@@ -93,7 +92,7 @@ namespace US13.Clothing.Eyewear
 		public void OnDestroy()
 		{
 			hudHandler.RemoveHud(this);
-			machine.OnCapacityChangedEvent -= UpdateCharge;
+			batterySupplyingModule.OnCapacityChangedEvent -= UpdateCharge;
 		}
 	}
 }

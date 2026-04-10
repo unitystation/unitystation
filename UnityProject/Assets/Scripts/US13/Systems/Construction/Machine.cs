@@ -130,12 +130,8 @@ namespace US13.Systems.Construction
 					scaled = Mathf.RoundToInt(Batterys[i].MaxWatts * percentage);
 					Batterys[i].Watts = scaled;
 				}
-
-				OnCapacityChangedEvent?.Invoke(CurrentBatteryCapacity, value);
 			}
 		}
-
-		public Action<float, float> OnCapacityChangedEvent;
 
 		private void Awake()
 		{

@@ -41,6 +41,7 @@ namespace US13.Systems.Electricity.NodeModules
 			get => Machine.CurrentBatteryCapacity;
 			set => Machine.CurrentBatteryCapacity = value;
 		}
+		public Action<float, float> OnCapacityChangedEvent;
 
 		[FormerlySerializedAs("ExtraChargeCutOff")]
 		public float InitialExtraChargeCutOff; // If the voltage is less than this it will decrease the charge steps until either A) it is not or B) it reaches zero then stops charging
@@ -504,6 +505,7 @@ namespace US13.Systems.Electricity.NodeModules
 
 				ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(ControllingNode);
 			}
+			OnCapacityChangedEvent?.Invoke(GetSetCurrentCapacity, GetSetCurrentCapacity);
 		}
 
 		public override VIRCurrent ModifyElectricityOutput(VIRCurrent current, ElectricalOIinheritance sourceInstance)
