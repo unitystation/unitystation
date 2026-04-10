@@ -46,6 +46,10 @@ namespace US13.Clothing.Eyewear
 
 		private void UpdateCharge(float oldCharge, float newCharge)
 		{
+			if (CustomNetworkManager.IsServer)
+			{
+				SyncCurrentChargeLevel(oldCharge, newCharge);
+			}
 			currentCharge = newCharge;
 		}
 

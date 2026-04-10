@@ -20,10 +20,19 @@ namespace US13.Player.HUDData
 			showPower = 1 << 1,
 		}
 
+		private void Awake()
+		{
+			SetVisible(false, HUDOptions.showPower | HUDOptions.showState);
+		}
+
 		public void SetVisible(bool Visible, HUDOptions options)
 		{
 			if((options & HUDOptions.showState) != 0) stateIcon?.SetActive(Visible);
-			if((options & HUDOptions.showPower) != 0) progressBar?.SetActive(Visible);
+			if ((options & HUDOptions.showPower) != 0)
+			{
+				progressBar?.SetActive(Visible);
+				if(Visible) progressBar?.SetVisible(Visible);
+			}
 		}
 
 		public void UpdateBar(float value)

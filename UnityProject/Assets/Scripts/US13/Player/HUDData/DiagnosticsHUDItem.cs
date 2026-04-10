@@ -26,16 +26,13 @@ namespace US13.Player.HUDData
 
 		public override void ApplyEffects(bool State)
 		{
-			Loggy.Info("Apply Effects successfully called");
 			//Power Bar and Power state huds are seperate as machine can have one or the other or both
 			var stateHUD = typeof(DiagnosticsHUDPowerState);
 			if (HUDHandler.Categorys.ContainsKey(stateHUD))
 			{
-				Loggy.Info("Category has Power HUDS");
 				var allStateHUDs = HUDHandler.Categorys[stateHUD];
 				foreach (var HUD in allStateHUDs)
 				{
-					Loggy.Info($"Setting power states to: {State}");
 					HUD.SetVisible(State);
 				}
 			}
@@ -47,7 +44,6 @@ namespace US13.Player.HUDData
 				var allBarHUDs = HUDHandler.Categorys[barHUD];
 				foreach (var HUD in allBarHUDs)
 				{
-					Loggy.Info($"Setting power bars to: {State}");
 					HUD.SetVisible(State);
 				}
 			}

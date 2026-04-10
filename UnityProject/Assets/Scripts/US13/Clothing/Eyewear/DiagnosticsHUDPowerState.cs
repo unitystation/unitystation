@@ -34,7 +34,6 @@ namespace US13.Clothing.Eyewear
 			if (CustomNetworkManager.IsServer)
 			{
 				apcPoweredDevice.OnStateChangeEvent += SetNewPowerStateServer;
-
 			}
 			hudHandler.AddNewHud(this);
 		}
@@ -62,7 +61,7 @@ namespace US13.Clothing.Eyewear
 			if (gameObject.GetUniversalObjectPhysics().Intangible)
 			{
 				Visible = false;
-			};
+			}
 			diagnosticsHUDHandler.SetVisible(Visible, DiagnosticsHUDHandler.HUDOptions.showState);
 			if (Visible == false) return;
 			diagnosticsHUDHandler.UpdateState(currentPowerState);
