@@ -39,14 +39,8 @@ namespace US13.Systems.Electricity.NodeModules
 		public float GetSetCurrentCapacity
 		{
 			get => Machine.CurrentBatteryCapacity;
-			set
-			{
-				OnCapacityChangedEvent?.Invoke(Machine.CurrentBatteryCapacity, value);
-				Machine.CurrentBatteryCapacity = value;
-			}
+			set => Machine.CurrentBatteryCapacity = value;
 		}
-
-		public Action<float, float> OnCapacityChangedEvent;
 
 		[FormerlySerializedAs("ExtraChargeCutOff")]
 		public float InitialExtraChargeCutOff; // If the voltage is less than this it will decrease the charge steps until either A) it is not or B) it reaches zero then stops charging

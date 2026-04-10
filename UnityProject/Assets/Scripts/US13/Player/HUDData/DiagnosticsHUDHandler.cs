@@ -31,7 +31,7 @@ namespace US13.Player.HUDData
 			if ((options & HUDOptions.showPower) != 0)
 			{
 				progressBar?.SetActive(Visible);
-				if(Visible) progressBar?.SetVisible(Visible);
+				progressBar?.SetVisible(Visible);
 			}
 		}
 

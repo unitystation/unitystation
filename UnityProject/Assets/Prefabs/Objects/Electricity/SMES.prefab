@@ -775,6 +775,7 @@ MonoBehaviour:
     type: 3}
   hudHandler: {fileID: 8741203671147828299}
   batterySupplyingModule: {fileID: 5631655566716459771}
+  machine: {fileID: 1485937080871086339}
 --- !u!4 &629293756892171096 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2456943875737660155, guid: f9025da3beb40304cb15babfc0a6cafa,
@@ -787,6 +788,18 @@ SpriteRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 3072407288100151715}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1485937080871086339 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4484593196699027616, guid: f9025da3beb40304cb15babfc0a6cafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 3072407288100151715}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 625444666216811906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2337692622946000636 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 779761725270966111, guid: f9025da3beb40304cb15babfc0a6cafa,

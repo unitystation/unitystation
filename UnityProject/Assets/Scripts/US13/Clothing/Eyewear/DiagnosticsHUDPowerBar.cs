@@ -3,11 +3,13 @@ using Mirror;
 using UnityEngine;
 using US13.Managers.NetworkManagement;
 using US13.Player.HUDData;
+using US13.Systems.Construction;
 using US13.Systems.Electricity.NodeModules;
 using Util;
 
 namespace US13.Clothing.Eyewear
 {
+	[RequireComponent(typeof(Machine))]
 	public class DiagnosticsHUDPowerBar : NetworkBehaviour, IHUD
 	{
 		[field:SerializeField]
@@ -18,7 +20,7 @@ namespace US13.Clothing.Eyewear
 
 		[SerializeField] private HUDHandler hudHandler = null;
 		[SerializeField] private BatterySupplyingModule batterySupplyingModule = null;
-
+		[SerializeField] private Machine machine = null;
 		[SyncVar(hook = nameof(SyncCurrentChargeLevel))]private float currentCharge = 0;
 
 		public void SyncCurrentChargeLevel(float oldCharge, float newCharge)
@@ -26,7 +28,7 @@ namespace US13.Clothing.Eyewear
 			if (newCharge.Approx(oldCharge)) return;
 			if (batterySupplyingModule != null && batterySupplyingModule.CapacityMax != 0)
 			{
-				diagnosticsHUDHandler.UpdateBar(newCharge / batterySupplyingModule.CapacityMax);
+				diagnosticsHUDHandler.UpdateBar(machine.CurrentBatteryCapacity / batterySupplyingModule.CapacityMax);
 			}
 		}
 
@@ -39,7 +41,7 @@ namespace US13.Clothing.Eyewear
 
 			if (CustomNetworkManager.IsServer)
 			{
-				batterySupplyingModule.OnCapacityChangedEvent += UpdateCharge;
+				machine.OnCapacityChangedEvent += UpdateCharge;
 			}
 			hudHandler.AddNewHud(this);
 		}
@@ -91,7 +93,7 @@ namespace US13.Clothing.Eyewear
 		public void OnDestroy()
 		{
 			hudHandler.RemoveHud(this);
-			batterySupplyingModule.OnCapacityChangedEvent -= UpdateCharge;
+			machine.OnCapacityChangedEvent -= UpdateCharge;
 		}
 	}
 }
