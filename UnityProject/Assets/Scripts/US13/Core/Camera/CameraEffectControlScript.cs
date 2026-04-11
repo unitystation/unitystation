@@ -27,6 +27,7 @@ namespace US13.Core.Camera
 		public GreyscaleCamera greyscaleCamera;
 		public GlitchEffect glitchEffect;
 		public NightVisionCamera nightVisionCamera;
+		public NoirCamera noirCamera;
 
 		public BlurryVision blurryVisionEffect;
 		public ColourblindEmulation colourblindEmulationEffect;
@@ -182,6 +183,7 @@ namespace US13.Core.Camera
 		{
 			drunkCameraTime = 0;
 			ToggleNightVisionEffectState(false, Color.white);
+			ToggleNoirEffectState(false);
 			ToggleGlitchEffectState(false);
 
 			_backgroundEffects?.OnGhostSpawn();
@@ -264,6 +266,12 @@ namespace US13.Core.Camera
 			_backgroundEffects?.ToggleNightVisionEffectState(state, nightVisionColour);
 		}
 
+		public void ToggleNoirEffectState(bool state)
+		{
+			noirCamera.enabled = state;
+			_backgroundEffects?.ToggleNoirEffectState(state);
+		}
+
 		public void NvgHasMaxedLensRadius(bool set)
 		{
 			nightVisionCamera.HasMaxedLensRadius(set);
@@ -301,6 +309,7 @@ namespace US13.Core.Camera
 			drunkCamera.enabled = false;
 			glitchEffect.enabled = false;
 			nightVisionCamera.enabled = false;
+			noirCamera.enabled = false;
 			greyscaleCamera.enabled = false;
 			FlashbangCamera.enabled = false;
 			colourblindEmulationEffect.SetColourMode(ColourBlindMode.None);
