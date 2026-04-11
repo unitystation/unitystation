@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "11┼-15┼0┼",
+      "Location": "11┼-18┼0┼",
       "MatrixName": "2x2DisposalRightDown2",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -35,6 +35,9 @@
             "Key": "X1Y0",
             "Value": [
               {
+                "Tel": "AdminWall"
+              },
+              {
                 "Tel": "Plating"
               },
               {
@@ -46,6 +49,9 @@
           {
             "Key": "X1Y1",
             "Value": [
+              {
+                "Tel": "AdminWall"
+              },
               {
                 "Tel": "Plating"
               },

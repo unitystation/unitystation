@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "0┼0┼0┼",
+      "Location": "86┼-129┼0┼",
       "MatrixName": "11x11TwoHalls2",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -1224,6 +1224,20 @@
             "LocalPRS": "6┼4┼0┼"
           },
           {
+            "GitID": "032e150131f53a64fbf6048aca6a879a_6┼6┼0┼",
+            "PrefabID": "032e150131f53a64fbf6048aca6a879a",
+            "NameMatches": true,
+            "Name": "RandomToolSpawner",
+            "LocalPRS": "6┼6┼0┼"
+          },
+          {
+            "GitID": "12e1c77d42c790b45b786193dea1e6e7_6┼6┼0┼",
+            "PrefabID": "12e1c77d42c790b45b786193dea1e6e7",
+            "NameMatches": true,
+            "Name": "Randomtoolboxspawner",
+            "LocalPRS": "6┼6┼0┼"
+          },
+          {
             "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_6┼6┼0┼",
             "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
             "NameMatches": true,
@@ -1235,6 +1249,12 @@
             "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
             "Name": "MaintLoot (1)",
             "LocalPRS": "6┼6┼0┼"
+          },
+          {
+            "GitID": "032e150131f53a64fbf6048aca6a879a_6.001┼6┼0┼",
+            "PrefabID": "032e150131f53a64fbf6048aca6a879a",
+            "Name": "RandomToolSpawner (1)",
+            "LocalPRS": "6.001┼6┼0┼"
           },
           {
             "GitID": "38246cd9491b4c248abb2e296cc6c76f_7┼2┼0┼",
@@ -1272,9 +1292,10 @@
             }
           },
           {
-            "GitID": "38246cd9491b4c248abb2e296cc6c76f_7┼5┼0┼",
-            "PrefabID": "38246cd9491b4c248abb2e296cc6c76f",
-            "Name": "AirlockMaintenanceOpaque (5)",
+            "GitID": "5fd9d8acdd4f02849884dcddff5db286_7┼5┼0┼",
+            "PrefabID": "5fd9d8acdd4f02849884dcddff5db286",
+            "NameMatches": true,
+            "Name": "AirlockStandardOpaque",
             "LocalPRS": "7┼5┼0┼",
             "Object": {
               "ClassDatas": [
@@ -1284,22 +1305,6 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "AwayGeneric1"
-                        }
-                      ]
                     }
                   ]
                 }

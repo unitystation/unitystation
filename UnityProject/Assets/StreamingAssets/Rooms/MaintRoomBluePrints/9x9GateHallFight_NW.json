@@ -812,8 +812,58 @@
           {
             "GitID": "ea7280b49083dfa469fb176f6a7e4772_0┼6┼0┼",
             "PrefabID": "ea7280b49083dfa469fb176f6a7e4772",
-            "Name": "ButtonDoor (2)",
+            "NameMatches": true,
+            "Name": "ButtonDoor",
             "LocalPRS": "0┼6┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "DoorSwitch@0",
+                  "Data": [
+                    {
+                      "Name": "NewdoorControllers#3",
+                      "Data": "e0f5d6ccb46435b4b95b586b0419df56_4┼8┼0┼@0@DoorMasterController@0"
+                    },
+                    {
+                      "Name": "NewdoorControllers#2",
+                      "Data": "e0f5d6ccb46435b4b95b586b0419df56_3┼8┼0┼@0@DoorMasterController@0"
+                    },
+                    {
+                      "Name": "NewdoorControllers#1",
+                      "Data": "e0f5d6ccb46435b4b95b586b0419df56_0┼3┼0┼@0@DoorMasterController@0"
+                    },
+                    {
+                      "Name": "NewdoorControllers#0",
+                      "Data": "e0f5d6ccb46435b4b95b586b0419df56_0┼4┼0┼@0@DoorMasterController@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "ea7280b49083dfa469fb176f6a7e4772_0┼7┼0┼",
+            "PrefabID": "ea7280b49083dfa469fb176f6a7e4772",
+            "Name": "ButtonDoor (2)",
+            "LocalPRS": "0┼7┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -1014,8 +1064,40 @@
                   "ClassID": "EventRouter@0",
                   "Data": [
                     {
+                      "Name": "EventLinks#3@TargetComponent",
+                      "Data": "ea7280b49083dfa469fb176f6a7e4772_1┼0┼0┼@0@DoorSwitch@0"
+                    },
+                    {
+                      "Name": "EventLinks#3@TargetFunction",
+                      "Data": "CloseDoors"
+                    },
+                    {
+                      "Name": "EventLinks#3@SourceComponent",
+                      "Data": "691781456e2e39c429a197375cc4ba76_7┼5┼0┼@0@PressurePlate@0"
+                    },
+                    {
+                      "Name": "EventLinks#3@SourceEvent",
+                      "Data": "OnPlayerStepEvent"
+                    },
+                    {
+                      "Name": "EventLinks#2@TargetComponent",
+                      "Data": "ea7280b49083dfa469fb176f6a7e4772_0┼7┼0┼@0@DoorSwitch@0"
+                    },
+                    {
+                      "Name": "EventLinks#2@TargetFunction",
+                      "Data": "OpenDoors"
+                    },
+                    {
+                      "Name": "EventLinks#2@SourceComponent",
+                      "Data": "691781456e2e39c429a197375cc4ba76_6┼5┼0┼@0@PressurePlate@0"
+                    },
+                    {
+                      "Name": "EventLinks#2@SourceEvent",
+                      "Data": "OnPlayerStepEvent"
+                    },
+                    {
                       "Name": "EventLinks#1@TargetComponent",
-                      "Data": "ea7280b49083dfa469fb176f6a7e4772_0┼6┼0┼@0@DoorSwitch@0"
+                      "Data": "ea7280b49083dfa469fb176f6a7e4772_0┼7┼0┼@0@DoorSwitch@0"
                     },
                     {
                       "Name": "EventLinks#1@TargetFunction",

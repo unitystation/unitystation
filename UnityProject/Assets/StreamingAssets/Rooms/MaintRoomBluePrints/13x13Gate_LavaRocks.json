@@ -526,9 +526,6 @@
             "Key": "X4Y5",
             "Value": [
               {
-                "Tel": "Igneous_Rock_wall"
-              },
-              {
                 "Tel": "Plating"
               }
             ]
@@ -537,7 +534,7 @@
             "Key": "X4Y6",
             "Value": [
               {
-                "Tel": "Igneous_Rock_wall"
+                "Tel": "Loose_Rock_wall"
               },
               {
                 "Tel": "Plating"
@@ -570,7 +567,7 @@
                 "Tel": "podfloor_light"
               },
               {
-                "Tel": "Lava1"
+                "Tel": "Plating"
               }
             ]
           },
@@ -581,7 +578,7 @@
                 "Tel": "podfloor_light"
               },
               {
-                "Tel": "Lava1"
+                "Tel": "Plating"
               }
             ]
           },
@@ -592,7 +589,7 @@
                 "Tel": "podfloor_light"
               },
               {
-                "Tel": "Lava1"
+                "Tel": "Plating"
               }
             ]
           },
@@ -619,6 +616,9 @@
             "Key": "X5Y1",
             "Value": [
               {
+                "Tel": "Loose_Rock_wall"
+              },
+              {
                 "Tel": "Plating"
               }
             ]
@@ -643,9 +643,6 @@
             "Key": "X5Y4",
             "Value": [
               {
-                "Tel": "Loose_Rock_wall"
-              },
-              {
                 "Tel": "Plating"
               }
             ]
@@ -653,9 +650,6 @@
           {
             "Key": "X5Y5",
             "Value": [
-              {
-                "Tel": "Igneous_Rock_wall"
-              },
               {
                 "Tel": "Plating"
               }
@@ -676,7 +670,7 @@
             "Key": "X5Y7",
             "Value": [
               {
-                "Tel": "Igneous_Rock_wall"
+                "Tel": "Loose_Rock_wall"
               },
               {
                 "Tel": "Plating"
@@ -687,7 +681,7 @@
             "Key": "X5Y8",
             "Value": [
               {
-                "Tel": "Igneous_Rock_wall"
+                "Tel": "Loose_Rock_wall"
               },
               {
                 "Tel": "Plating"
@@ -1171,7 +1165,7 @@
                 "Tel": "podfloor_light"
               },
               {
-                "Tel": "Lava1"
+                "Tel": "Plating"
               }
             ]
           },
@@ -1287,7 +1281,7 @@
                 "Tel": "podfloor_light"
               },
               {
-                "Tel": "Lava1"
+                "Tel": "Plating"
               }
             ]
           },
@@ -1403,7 +1397,7 @@
                 "Tel": "podfloor_light"
               },
               {
-                "Tel": "Lava1"
+                "Tel": "Plating"
               }
             ]
           },
@@ -1620,15 +1614,6 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "AwayGeneric1"
                     }
                   ]
                 },

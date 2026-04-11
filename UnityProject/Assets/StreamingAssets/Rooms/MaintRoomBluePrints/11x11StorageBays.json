@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "0┼0┼0┼",
+      "Location": "86┼-141┼0┼",
       "MatrixName": "11x11StorageBays",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -1128,6 +1128,13 @@
         "CommonPrefabs": [],
         "PrefabData": [
           {
+            "GitID": "12e1c77d42c790b45b786193dea1e6e7_3┼3┼0┼",
+            "PrefabID": "12e1c77d42c790b45b786193dea1e6e7",
+            "NameMatches": true,
+            "Name": "Randomtoolboxspawner",
+            "LocalPRS": "3┼3┼0┼"
+          },
+          {
             "GitID": "38246cd9491b4c248abb2e296cc6c76f_3┼4┼0┼",
             "PrefabID": "38246cd9491b4c248abb2e296cc6c76f",
             "Name": "AirlockMaintenanceOpaque (4)",
@@ -1140,6 +1147,22 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "AwayGeneric1"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1163,13 +1186,47 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "AwayGeneric1"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
           {
-            "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_3┼7┼0┼",
-            "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
-            "Name": "MaintLoot (1)",
+            "GitID": "1d35052f4fc2cad4d8226d1a63e4a1b3_3┼7┼0┼",
+            "PrefabID": "1d35052f4fc2cad4d8226d1a63e4a1b3",
+            "NameMatches": true,
+            "Name": "CrateBase",
+            "LocalPRS": "3┼7┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "299fa5508e9efa327a000e7d5945bedc_3┼7┼0┼",
+            "PrefabID": "299fa5508e9efa327a000e7d5945bedc",
+            "NameMatches": true,
+            "Name": "DebrisFieldLoot",
             "LocalPRS": "3┼7┼0┼"
           },
           {
@@ -1185,6 +1242,22 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "AwayGeneric1"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -1207,20 +1280,81 @@
                     }
                   ]
                 }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "AwayGeneric1"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           },
           {
-            "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_7┼3┼0┼",
-            "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
-            "Name": "MaintLoot (2)",
+            "GitID": "1d35052f4fc2cad4d8226d1a63e4a1b3_7┼3┼0┼",
+            "PrefabID": "1d35052f4fc2cad4d8226d1a63e4a1b3",
+            "Name": "CrateBase (2)",
+            "LocalPRS": "7┼3┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "299fa5508e9efa327a000e7d5945bedc_7┼3┼0┼",
+            "PrefabID": "299fa5508e9efa327a000e7d5945bedc",
+            "Name": "DebrisFieldLoot (1)",
             "LocalPRS": "7┼3┼0┼"
+          },
+          {
+            "GitID": "032e150131f53a64fbf6048aca6a879a_7┼7┼0┼",
+            "PrefabID": "032e150131f53a64fbf6048aca6a879a",
+            "NameMatches": true,
+            "Name": "RandomToolSpawner",
+            "LocalPRS": "7┼7┼0┼"
+          },
+          {
+            "GitID": "1d35052f4fc2cad4d8226d1a63e4a1b3_7┼7┼0┼",
+            "PrefabID": "1d35052f4fc2cad4d8226d1a63e4a1b3",
+            "Name": "CrateBase (1)",
+            "LocalPRS": "7┼7┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_7┼7┼0┼",
             "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
             "Name": "MaintLoot (3)",
             "LocalPRS": "7┼7┼0┼"
+          },
+          {
+            "GitID": "032e150131f53a64fbf6048aca6a879a_7.001┼7┼0┼",
+            "PrefabID": "032e150131f53a64fbf6048aca6a879a",
+            "Name": "RandomToolSpawner (1)",
+            "LocalPRS": "7.001┼7┼0┼"
           }
         ],
         "IDToNetIDClient": {}
