@@ -457,6 +457,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8342472905829387893}
+    - targetCorrespondingSourceObject: {fileID: 2453728123087481889, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2323981158416549393}
     - targetCorrespondingSourceObject: {fileID: 5946781879348633115, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       insertIndex: -1
@@ -585,6 +589,9 @@ MonoBehaviour:
   powerMachinery: 1
   powerLights: 1
   powerEnvironment: 1
+  lowVoltageThreshold: 100
+  overVoltageThreshold: 270
+  nominalVoltageThreshold: 219
   NoPowerSound:
     AssetAddress: Assets/Prefabs/Machines/APCPowerOff.prefab
     AssetReference:
@@ -624,6 +631,27 @@ MonoBehaviour:
   APCFrameObj: {fileID: 260239628808517242, guid: 7cd3db9e6e27eb8448654d61b83c960a,
     type: 3}
   multiMaster: 1
+--- !u!114 &2323981158416549393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238849902553559639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9f3d7ab1c0b4cc4ba891fe740e0c79f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Clothing.Eyewear.DiagnosticsHUDPowerState
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  <Prefab>k__BackingField: {fileID: 3773905765040299103, guid: 012264fb418c6fe43ae4558b434e6ac9,
+    type: 3}
+  hudHandler: {fileID: 6976567979192626078}
+  powerSource: 1
+  apcPoweredDevice: {fileID: 0}
+  powerNodeMono: {fileID: 8342472905829387893}
 --- !u!212 &1319971976938477120 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 2408678487295248438, guid: f9025da3beb40304cb15babfc0a6cafa,
@@ -648,6 +676,18 @@ SortingGroup:
     type: 3}
   m_PrefabInstance: {fileID: 3691865198508416630}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6976567979192626078 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6047661722252916200, guid: f9025da3beb40304cb15babfc0a6cafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 3691865198508416630}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238849902553559639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b52d3a61bf76e84c8b41c9b93981876, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Player.HUDData.HUDHandler
 --- !u!1 &7042245853401481325 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5946781879348633115, guid: f9025da3beb40304cb15babfc0a6cafa,

@@ -144,5 +144,31 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2579088290442746468, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7065308909044874993}
   m_SourcePrefab: {fileID: 100100000, guid: 5668f8777ce1a794980fbd35aa58f56b, type: 3}
+--- !u!1 &760333464667521457 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2579088290442746468, guid: 5668f8777ce1a794980fbd35aa58f56b,
+    type: 3}
+  m_PrefabInstance: {fileID: 2974623582315617237}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7065308909044874993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760333464667521457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d292dd5a3c9548b45aaa01c2eca4584d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Player.HUDData.DiagnosticsHUDItem
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  OnBodyID: 0

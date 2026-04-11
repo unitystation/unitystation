@@ -1833,15 +1833,44 @@
             }
           },
           {
-            "GitID": "74425ae81613a44b78b24737fd383d2f_4┼8┼0┼",
-            "PrefabID": "74425ae81613a44b78b24737fd383d2f",
-            "Name": "FalseWall (3)",
-            "LocalPRS": "4┼8┼0┼"
+            "GitID": "38246cd9491b4c248abb2e296cc6c76f_4┼8┼0┼",
+            "PrefabID": "38246cd9491b4c248abb2e296cc6c76f",
+            "Name": "AirlockMaintenanceOpaque (6)",
+            "LocalPRS": "4┼8┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "AwayGeneric1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "991d9e2b162f7ef4ca9b4fd2bdba60d2_4┼10┼0┼",
             "PrefabID": "991d9e2b162f7ef4ca9b4fd2bdba60d2",
-            "Name": "TurretControlPanel (2)",
+            "Name": "TurretControlPanel L1",
             "LocalPRS": "4┼10┼0┼",
             "Object": {
               "ClassDatas": [
@@ -1881,7 +1910,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "AwayGeneric2"
+                      "Data": "AwayGeneric1"
                     }
                   ]
                 }
@@ -1922,6 +1951,15 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ClearanceRestricted@0",
+                  "Data": [
+                    {
+                      "Name": "requiredClearance#0",
+                      "Data": "AwayGeneric1"
                     }
                   ]
                 }
@@ -2013,12 +2051,6 @@
                 }
               ]
             }
-          },
-          {
-            "GitID": "74425ae81613a44b78b24737fd383d2f_8┼1┼0┼",
-            "PrefabID": "74425ae81613a44b78b24737fd383d2f",
-            "Name": "FalseWall (4)",
-            "LocalPRS": "8┼1┼0┼"
           },
           {
             "GitID": "ea7280b49083dfa469fb176f6a7e4772_8┼3┼0┼",

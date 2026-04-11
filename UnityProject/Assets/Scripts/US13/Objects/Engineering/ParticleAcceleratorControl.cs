@@ -71,6 +71,9 @@ namespace US13.Objects.Engineering
 		private ParticleAcceleratorState currentState = ParticleAcceleratorState.Off;
 		public ParticleAcceleratorState CurrentState => currentState;
 
+		public event Action<PowerState, PowerState> OnStateChangeEvent;
+		private PowerState currentPowerState = PowerState.Off;
+
 		//Based on Particle Accelerator pointing right, these vectors will be rotated 90 degrees anti-clockwise to find other directions
 		private Dictionary<Vector2Int, ParticleAcceleratorType> machineBluePrint = new Dictionary<Vector2Int, ParticleAcceleratorType>()
 		{
@@ -398,6 +401,21 @@ namespace US13.Objects.Engineering
 		public void PowerNetworkUpdate()
 		{
 			voltage = electricalNodeControl.GetVoltage();
+			SetPowerStateFromVoltage();
+		}
+
+		public void SetPowerStateFromVoltage()
+		{
+			PowerState newState = currentPowerState;
+			var powerNeeded = voltageIncreasePerPowerLevel * ((int) CurrentState - 3);
+
+			if (isOn == false) newState = PowerState.Off;
+			else if (voltage < powerNeeded) newState = PowerState.LowVoltage;
+			else newState = PowerState.On;
+
+			if (newState == currentPowerState) return;
+			OnStateChangeEvent?.Invoke(currentPowerState, newState);
+			currentPowerState = newState;
 		}
 	}
 }

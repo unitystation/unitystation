@@ -61,7 +61,9 @@ namespace US13.Objects.Engineering
 		private bool batteryCharging;
 
 		public float Voltage => voltageSync;
-
+		[SerializeField] private float lowVoltageThreshold = 100.0f;
+		[SerializeField] private float overVoltageThreshold = 440.0f;
+		[SerializeField] private float nominalVoltageThreshold = 219.0f;
 		public float Current { get; private set; }
 
 		private ElectricalNodeControl electricalNodeControl;
@@ -83,6 +85,10 @@ namespace US13.Objects.Engineering
 		private List<DepartmentBattery> departmentBatteries = new List<DepartmentBattery>();
 		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
+
+		public event Action<PowerState, PowerState> OnStateChangeEvent;
+		private PowerState currentState = PowerState.Off;
+
 		/// <summary>
 		/// Function for setting the voltage via the property. Used for the voltage SyncVar hook.
 		/// </summary>
@@ -184,15 +190,32 @@ namespace US13.Objects.Engineering
 			HandleDevices();
 
 			OnPowerNetworkUpdate.Invoke(this);
+			SetPowerStateFromVoltage();
 		}
+
+		public void SetPowerStateFromVoltage()
+		{
+			PowerState newState = currentState;
+
+			if (DepartmentBatteries.Count == 0) newState = PowerState.Disconnected;
+			else if (Voltage <= 1) newState = PowerState.Off;
+			else if (Voltage < lowVoltageThreshold) newState = PowerState.LowVoltage;
+			else if (Voltage > overVoltageThreshold) newState = PowerState.OverVoltage;
+			else newState = PowerState.On;
+
+			if (newState == currentState) return;
+			OnStateChangeEvent?.Invoke(currentState, newState);
+			currentState = newState;
+		}
+
 
 		private void UpdateDisplay()
 		{
-			if (Voltage > 270)
+			if (Voltage > overVoltageThreshold)
 			{
 				State = APCState.Critical;
 			}
-			else if (Voltage > 219f)
+			else if (Voltage > nominalVoltageThreshold)
 			{
 				State = APCState.Full;
 			}
@@ -254,7 +277,7 @@ namespace US13.Objects.Engineering
 		{
 			float voltages = Voltage;
 
-			if (voltages > 270) //TODO change
+			if (voltages > overVoltageThreshold) //TODO change
 			{
 				voltages = 0.001f;
 			}

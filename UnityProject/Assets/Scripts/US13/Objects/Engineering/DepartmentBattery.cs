@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
@@ -45,6 +46,9 @@ namespace US13.Objects.Engineering
 
 		public ElectricalNodeControl ElectricalNodeControl;
 		public BatterySupplyingModule BatterySupplyingModule;
+
+		public event Action<PowerState, PowerState> OnStateChangeEvent;
+		private PowerState currentState = PowerState.Off;
 
 		[SyncVar(hook = nameof(UpdateState))]
 		public bool isOn = true;
@@ -125,6 +129,22 @@ namespace US13.Objects.Engineering
 			{
 				UpdateBattery(CurrentState, newState);
 			}
+			SetPowerStateFromVoltage();
+		}
+
+		public void SetPowerStateFromVoltage()
+		{
+			PowerState newState = currentState;
+			float chargeFraction = BatterySupplyingModule.GetSetCurrentCapacity / BatterySupplyingModule.CapacityMax;
+
+			if (chargeFraction <= 0.01f) newState = PowerState.Off;
+			else if (chargeFraction <= 0.1f) newState = PowerState.LowVoltage;
+			else if (chargeFraction >= 1.05f) newState = PowerState.LowVoltage;
+			else newState = PowerState.On;
+
+			if (newState == currentState) return;
+			OnStateChangeEvent?.Invoke(currentState, newState);
+			currentState = newState;
 		}
 
 		private void UpdateBattery(BatteryStateSprite oldState, BatteryStateSprite State)

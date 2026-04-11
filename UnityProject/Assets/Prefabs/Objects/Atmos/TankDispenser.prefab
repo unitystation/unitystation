@@ -52,6 +52,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -73,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 10
@@ -102,12 +106,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: e3f2283cc42927009820c42b97f84e42, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: e3f2283cc42927009820c42b97f84e42,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 5
+  initialVariantIndex: 5
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &1039171504495978944
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,6 +217,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -229,6 +241,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 10
@@ -258,12 +271,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 219b5d159519027b2b63a2f5f9dd6fed, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 219b5d159519027b2b63a2f5f9dd6fed,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 5
+  initialVariantIndex: 5
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &4997716477410550233
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,6 +344,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d1269a37050058248a568dcc36ab0c6e,
         type: 2}
+    - target: {fileID: 774114496202381458, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d1269a37050058248a568dcc36ab0c6e,
+        type: 2}
     - target: {fileID: 3191706476142505336, guid: 8e4c205a853b5d44bb1b793530feaefe,
         type: 3}
       propertyPath: initialName
@@ -340,6 +364,16 @@ PrefabInstance:
         type: 3}
       propertyPath: _assetId
       value: 1112735246
+      objectReference: {fileID: 0}
+    - target: {fileID: 4988406958183288643, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: hudHandler
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4988406958183288643, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: apcPoweredDevice
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5255355345183453768, guid: 8e4c205a853b5d44bb1b793530feaefe,
         type: 3}
@@ -415,6 +449,8 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 6115845058236176073, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
     - {fileID: 8771971882506116196, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
+    - {fileID: 4111290745443543937, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
+    - {fileID: 4988406958183288643, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5258920263574484114, guid: 8e4c205a853b5d44bb1b793530feaefe,
@@ -474,6 +510,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  objectBehaviour: {fileID: 0}
   isSecuredStateExaminable: 1
   isExposedFloorPlatingRequired: 0
   secondsToSecure: 2
@@ -507,7 +544,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
-  ignoreRoundstartGrabObjects: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &7813132623465146131

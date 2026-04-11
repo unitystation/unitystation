@@ -702,7 +702,17 @@
             "Name": "SecureCrateBase (1)",
             "LocalPRS": "5┼3┼0┼",
             "Object": {
-              "ClassDatas": [],
+              "ClassDatas": [
+                {
+                  "ClassID": "ClearanceRestricted@0",
+                  "Data": [
+                    {
+                      "Name": "requiredClearance#0",
+                      "Data": "AwayGeneral"
+                    }
+                  ]
+                }
+              ],
               "Children": [
                 {
                   "ID": "0,2",

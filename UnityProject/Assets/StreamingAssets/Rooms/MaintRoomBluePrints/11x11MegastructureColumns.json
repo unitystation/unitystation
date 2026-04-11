@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "0┼0┼0┼",
+      "Location": "86┼-45┼0┼",
       "MatrixName": "11x11MegastructureColumns",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -1042,7 +1042,21 @@
       "CompactObjectMapData": {
         "Ver": "1.5.0",
         "CommonPrefabs": [],
-        "PrefabData": [],
+        "PrefabData": [
+          {
+            "GitID": "bf668c0a59e6e5c4e9b1cf6485655d0a_5┼4┼0┼",
+            "PrefabID": "bf668c0a59e6e5c4e9b1cf6485655d0a",
+            "NameMatches": true,
+            "Name": "ExitMarkerMaintRooms",
+            "LocalPRS": "5┼4┼0┼"
+          },
+          {
+            "GitID": "bf668c0a59e6e5c4e9b1cf6485655d0a_5.001┼4┼0┼",
+            "PrefabID": "bf668c0a59e6e5c4e9b1cf6485655d0a",
+            "Name": "ExitMarkerMaintRooms (1)",
+            "LocalPRS": "5.001┼4┼0┼"
+          }
+        ],
         "IDToNetIDClient": {}
       },
       "PreviewGizmos": [

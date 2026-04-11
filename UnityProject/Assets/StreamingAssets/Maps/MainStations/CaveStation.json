@@ -146038,6 +146038,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -146098,6 +146102,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -146125,12 +146133,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -146224,7 +146232,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -146304,12 +146312,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -146344,7 +146352,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -146379,7 +146387,6 @@
           {
             "GitID": "170e72b76e0da9645995a9bac3f49cb2_-28┼17┼0┼",
             "PrefabID": "170e72b76e0da9645995a9bac3f49cb2",
-            "NameMatches": true,
             "Name": "New SMES",
             "LocalPRS": "-28┼17┼0┼"
           },
@@ -146504,7 +146511,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -146652,7 +146659,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -146709,6 +146716,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Engine"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -146721,8 +146732,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "2"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -146970,6 +147013,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -147005,6 +147052,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -147074,12 +147125,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -147141,6 +147192,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Captain"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -147174,12 +147229,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -147361,12 +147416,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -147562,6 +147617,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Captain"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -147671,6 +147730,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Hos"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -147707,7 +147770,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -147751,7 +147814,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -147874,6 +147937,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Rd"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -147886,8 +147953,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "3"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -148035,6 +148134,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Ce"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -148047,8 +148150,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "3"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -148196,6 +148331,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Hop"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -148208,8 +148347,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "3"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -148316,7 +148487,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -148366,7 +148537,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -148610,12 +148781,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -148907,8 +149078,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "1"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -148987,7 +149190,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -149061,12 +149264,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -149100,6 +149303,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Hos"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -149209,12 +149416,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -149309,6 +149516,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Armory"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -149321,8 +149532,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "3"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -149449,8 +149692,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "2"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -149556,6 +149831,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Armory"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -149744,8 +150023,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "1"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -149844,12 +150155,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -150385,7 +150696,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -150471,8 +150782,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "3"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -150522,6 +150865,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Hos"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -150567,7 +150914,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -150668,7 +151015,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -150855,8 +151202,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "1"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -150956,7 +151335,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -151156,12 +151535,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -151245,6 +151624,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "SecDoors"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -151280,6 +151663,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "SecDoors"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -151325,7 +151712,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -151555,6 +151942,14 @@
                   "Removed": true
                 },
                 {
+                  "ClassID": "HUDHandler@0",
+                  "Removed": true
+                },
+                {
+                  "ClassID": "DiagnosticsHUDPowerState@0",
+                  "Removed": true
+                },
+                {
                   "ClassID": "CanvasRenderer@0",
                   "Removed": true
                 },
@@ -151641,8 +152036,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "1"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -151772,7 +152199,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -151806,6 +152233,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "SecDoors"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -151841,6 +152272,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "SecDoors"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -151930,7 +152365,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -152332,6 +152767,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Hop"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -152344,8 +152783,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "3"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -152472,8 +152943,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "2"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -152716,7 +153219,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -152799,12 +153302,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -152954,7 +153457,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -152988,6 +153491,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -153046,6 +153553,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Security"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -153058,8 +153569,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "1"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -153305,6 +153848,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Engine"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -153317,8 +153864,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "3"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -153454,12 +154033,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -153493,6 +154072,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -153549,8 +154132,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "3"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -153622,7 +154237,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -153677,12 +154292,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -153731,12 +154346,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -153771,7 +154386,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -153812,7 +154427,7 @@
               "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -154030,12 +154645,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -154113,6 +154728,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -154154,6 +154773,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -154201,11 +154824,11 @@
                   "ClassID": "ItemSlotActionTracker@0",
                   "Data": [
                     {
-                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
                       "Data": "SecureStuff.SerializedAction"
                     },
                     {
-                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
                       "Data": "#removed#"
                     }
                   ]
@@ -154224,11 +154847,11 @@
                   "ClassID": "ItemSlotActionTracker@0",
                   "Data": [
                     {
-                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
                       "Data": "SecureStuff.SerializedAction"
                     },
                     {
-                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
                       "Data": "#removed#"
                     }
                   ]
@@ -154247,11 +154870,11 @@
                   "ClassID": "ItemSlotActionTracker@0",
                   "Data": [
                     {
-                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
                       "Data": "SecureStuff.SerializedAction"
                     },
                     {
-                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
                       "Data": "#removed#"
                     }
                   ]
@@ -154396,11 +155019,11 @@
                   "ClassID": "ItemSlotActionTracker@0",
                   "Data": [
                     {
-                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
                       "Data": "SecureStuff.SerializedAction"
                     },
                     {
-                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
                       "Data": "#removed#"
                     }
                   ]
@@ -154419,11 +155042,11 @@
                   "ClassID": "ItemSlotActionTracker@0",
                   "Data": [
                     {
-                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
                       "Data": "SecureStuff.SerializedAction"
                     },
                     {
-                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
                       "Data": "#removed#"
                     }
                   ]
@@ -154442,11 +155065,11 @@
                   "ClassID": "ItemSlotActionTracker@0",
                   "Data": [
                     {
-                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
                       "Data": "SecureStuff.SerializedAction"
                     },
                     {
-                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
                       "Data": "#removed#"
                     }
                   ]
@@ -154473,12 +155096,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -154782,7 +155405,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -154875,12 +155498,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -155315,12 +155938,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -155898,7 +156521,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -155942,7 +156565,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -156010,12 +156633,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -156164,7 +156787,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -156872,12 +157495,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -156991,12 +157614,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -157083,12 +157706,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -157535,7 +158158,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -157576,7 +158199,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -157784,12 +158407,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -158277,7 +158900,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -158344,7 +158967,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -159191,7 +159814,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -159377,7 +160000,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -159426,12 +160049,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -159494,12 +160117,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -159855,7 +160478,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -159987,7 +160610,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -160119,7 +160742,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -160145,12 +160768,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -160195,7 +160818,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -160387,7 +161010,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -160480,12 +161103,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -160590,7 +161213,6 @@
           {
             "GitID": "6fc615b0b89148345a9b4754ec96d13f_-6┼56┼0┼",
             "PrefabID": "6fc615b0b89148345a9b4754ec96d13f",
-            "NameMatches": true,
             "Name": "New SolarPanel",
             "LocalPRS": "-6┼56┼0┼"
           },
@@ -160795,7 +161417,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -160900,7 +161522,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -161181,7 +161803,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -161444,12 +162066,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -161521,7 +162143,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -161723,12 +162345,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -161777,12 +162399,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -161852,12 +162474,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -161896,7 +162518,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -161949,7 +162571,7 @@
               "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -162026,12 +162648,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -162079,7 +162701,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -162277,6 +162899,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -162322,7 +162948,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -162356,6 +162982,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -162410,6 +163040,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -162498,6 +163132,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -162632,7 +163270,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -162829,12 +163467,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -162883,12 +163521,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -162958,6 +163596,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -163021,6 +163663,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -163056,6 +163702,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -163101,7 +163751,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -163141,6 +163791,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -163228,7 +163882,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -163307,7 +163961,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -163380,7 +164034,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -164141,12 +164795,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -164206,7 +164860,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -164502,7 +165156,7 @@
               "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -164551,12 +165205,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -164631,7 +165285,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -164696,6 +165350,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Cmo"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -164886,7 +165544,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -164951,7 +165609,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -165026,7 +165684,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -165092,7 +165750,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -165120,7 +165778,7 @@
               "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -165231,12 +165889,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -165327,7 +165985,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -165337,7 +165995,6 @@
           {
             "GitID": "170e72b76e0da9645995a9bac3f49cb2_3┼-27┼0┼",
             "PrefabID": "170e72b76e0da9645995a9bac3f49cb2",
-            "NameMatches": true,
             "Name": "New SMES",
             "LocalPRS": "3┼-27┼0┼"
           },
@@ -165433,12 +166090,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -165769,6 +166426,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Heads"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -165865,12 +166526,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -165896,12 +166557,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -165966,7 +166627,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -166007,7 +166668,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -166062,12 +166723,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -166101,6 +166762,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Qm"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -166165,7 +166830,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -166200,7 +166865,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -166239,7 +166904,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -166716,8 +167381,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "1"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -166874,6 +167571,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Qm"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -166923,7 +167624,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -166978,8 +167679,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "1"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -167107,7 +167840,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -167203,8 +167936,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "3"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -167455,12 +168220,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -167495,7 +168260,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -167521,12 +168286,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -167575,12 +168340,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -167606,12 +168371,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -167699,7 +168464,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -167792,12 +168557,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -167879,7 +168644,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -167928,12 +168693,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -168282,12 +169047,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -168326,7 +169091,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -168405,12 +169170,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -168458,7 +169223,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -168765,12 +169530,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -168877,7 +169642,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -168903,12 +169668,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -169022,12 +169787,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -169138,7 +169903,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -169312,12 +170077,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -169365,7 +170130,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -169443,7 +170208,7 @@
               "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -169643,12 +170408,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -169696,7 +170461,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -170141,7 +170906,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -170574,12 +171339,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -170627,7 +171392,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -170735,7 +171500,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -170873,7 +171638,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -171513,7 +172278,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -171738,12 +172503,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -171791,7 +172556,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -171980,7 +172745,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -172028,7 +172793,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -172096,12 +172861,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -172183,12 +172948,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -172461,12 +173226,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -172505,7 +173270,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -172688,12 +173453,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -172741,7 +173506,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -173133,12 +173898,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -173462,7 +174227,7 @@
               "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -173638,12 +174403,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -173807,7 +174572,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -173985,12 +174750,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -174090,7 +174855,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -174129,7 +174894,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -174499,12 +175264,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -174626,12 +175391,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -174699,12 +175464,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -174726,7 +175491,7 @@
               "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -174875,7 +175640,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -175076,12 +175841,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -175130,12 +175895,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -175174,7 +175939,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -175306,12 +176071,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -175350,7 +176115,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -175694,12 +176459,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -175768,12 +176533,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -175998,12 +176763,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -176052,12 +176817,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -176207,12 +176972,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -176257,12 +177022,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -176317,12 +177082,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -176485,12 +177250,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -176539,12 +177304,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -178904,12 +179669,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -334613,12 +335378,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -334667,12 +335432,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -334721,12 +335486,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -334775,12 +335540,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -334806,12 +335571,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -334860,12 +335625,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -334914,12 +335679,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -334968,12 +335733,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -335022,12 +335787,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -335095,12 +335860,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -335149,12 +335914,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -335209,12 +335974,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -335240,12 +336005,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -335294,12 +336059,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -335405,12 +336170,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -335436,12 +336201,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -335490,12 +336255,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -335544,12 +336309,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -335575,12 +336340,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -335629,12 +336394,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -335720,12 +336485,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -335774,12 +336539,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -335805,12 +336570,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -335859,12 +336624,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -335913,12 +336678,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -335967,12 +336732,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -335998,12 +336763,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -336070,12 +336835,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -336142,12 +336907,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -336173,12 +336938,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -336245,12 +337010,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -336305,12 +337070,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -336359,12 +337124,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -336563,12 +337328,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -336594,12 +337359,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -336708,12 +337473,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -336846,12 +337611,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -336883,12 +337648,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -336937,12 +337702,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -336991,12 +337756,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -337045,12 +337810,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -337076,12 +337841,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -367016,12 +367781,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -367070,12 +367835,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -367405,12 +368170,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -367459,12 +368224,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -367666,7 +368431,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -367704,12 +368469,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -367885,7 +368650,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -367949,7 +368714,7 @@
               "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -368123,7 +368888,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -368178,8 +368943,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "2"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -368250,8 +369047,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "2"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -368322,8 +369151,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "2"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -368383,7 +369244,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -368505,7 +369366,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -368598,12 +369459,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -368653,7 +369514,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -369202,12 +370063,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -369252,12 +370113,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -369359,6 +370220,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "AIUpload"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -369371,8 +370236,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "2"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -369575,12 +370472,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -369615,7 +370512,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -369854,12 +370751,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -369922,7 +370819,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -369956,6 +370853,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Tcomsat"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -370011,7 +370912,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -370106,12 +371007,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -370155,7 +371056,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -370233,6 +371134,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "AIUpload"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -370433,6 +371338,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "AIUpload"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -370469,6 +371378,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Tcomsat"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -370697,12 +371610,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -370774,7 +371687,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -370828,12 +371741,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -370868,7 +371781,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -371045,7 +371958,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -371089,7 +372002,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -371133,7 +372046,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -371232,6 +372145,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Tcomsat"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -371431,6 +372348,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -371466,6 +372387,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -371539,7 +372464,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -371609,7 +372534,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -371653,7 +372578,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -371720,7 +372645,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -371746,12 +372671,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -371800,12 +372725,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -371854,12 +372779,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -371908,12 +372833,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -372028,12 +372953,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -372095,6 +373020,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -372175,6 +373104,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -372360,7 +373293,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -372523,7 +373456,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -372572,12 +373505,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -372621,7 +373554,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -372726,6 +373659,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -372795,12 +373732,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -372849,12 +373786,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -372933,6 +373870,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "AIUpload"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -373019,12 +373960,12 @@
               ],
               "Children": [
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -373123,7 +374064,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -373245,7 +374186,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -373346,12 +374287,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -373449,8 +374390,40 @@
                       "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
+                          "Name": "NetworkThis",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "randomInitialSprite",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "spriteRenderer",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "doReverseAnimation",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "pushTextureOnStartUp",
+                          "Data": "True"
+                        },
+                        {
                           "Name": "initialVariantIndex",
                           "Data": "3"
+                        },
+                        {
+                          "Name": "InitialColour",
+                          "Data": "ÿÿÿÿ"
+                        },
+                        {
+                          "Name": "initialSortingOrder",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "initialSortingLayerName",
+                          "Data": ""
                         }
                       ]
                     }
@@ -373515,12 +374488,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -373564,7 +374537,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -373612,6 +374585,14 @@
                 },
                 {
                   "ClassID": "APCPoweredDevice@0",
+                  "Removed": true
+                },
+                {
+                  "ClassID": "HUDHandler@0",
+                  "Removed": true
+                },
+                {
+                  "ClassID": "DiagnosticsHUDPowerState@0",
                   "Removed": true
                 },
                 {
@@ -373689,12 +374670,12 @@
                   ]
                 },
                 {
-                  "ID": "0,1",
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 },
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -374059,7 +375040,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -375413,6 +376394,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -375454,6 +376439,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -375667,7 +376656,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -375780,6 +376769,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Heads"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -375963,6 +376956,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Heads"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -376090,7 +377087,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -376289,7 +377286,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -376670,6 +377667,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Heads"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -376921,7 +377922,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -377034,6 +378035,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "Heads"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -377119,6 +378124,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -377160,6 +378169,10 @@
                         {
                           "Name": "requiredClearance#0",
                           "Data": "ExternalAirlocks"
+                        },
+                        {
+                          "Name": "type",
+                          "Data": "Any"
                         }
                       ]
                     }
@@ -377175,6 +378188,15 @@
             "LocalPRS": "2┼0┼0┼",
             "Object": {
               "ClassDatas": [
+                {
+                  "ClassID": "RegisterObject@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentsortingGroup",
+                      "Data": "NULL"
+                    }
+                  ]
+                },
                 {
                   "ClassID": "SortingGroup@0",
                   "Removed": true
