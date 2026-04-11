@@ -199,32 +199,32 @@ PrefabInstance:
     - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
         type: 3}
       propertyPath: possibleRoomsWeighted.Array.data[0].weight
-      value: 63
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
         type: 3}
       propertyPath: possibleRoomsWeighted.Array.data[1].weight
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
         type: 3}
       propertyPath: possibleRoomsWeighted.Array.data[2].weight
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
-        type: 3}
-      propertyPath: possibleRoomsWeighted.Array.data[3].weight
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
         type: 3}
-      propertyPath: possibleRoomsWeighted.Array.data[4].weight
+      propertyPath: possibleRoomsWeighted.Array.data[3].weight
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
         type: 3}
+      propertyPath: possibleRoomsWeighted.Array.data[4].weight
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
+        type: 3}
       propertyPath: possibleRoomsWeighted.Array.data[5].weight
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
         type: 3}
@@ -241,25 +241,25 @@ PrefabInstance:
         type: 3}
       propertyPath: possibleRoomsWeighted.Array.data[1].roomToSpawn
       value: 
-      objectReference: {fileID: 11400000, guid: 3ce06c6719ffceb44abe2d8f7f3e0fe5,
+      objectReference: {fileID: 11400000, guid: 611d77708f165f7ad9f27014587060c7,
         type: 2}
     - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
         type: 3}
       propertyPath: possibleRoomsWeighted.Array.data[2].roomToSpawn
       value: 
-      objectReference: {fileID: 11400000, guid: 63f20ddd489327c31b1a738bd5f8b6b8,
+      objectReference: {fileID: 11400000, guid: b35d13cc1ce301b2e919aba0cad17c02,
         type: 2}
     - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
         type: 3}
       propertyPath: possibleRoomsWeighted.Array.data[3].roomToSpawn
       value: 
-      objectReference: {fileID: 11400000, guid: 0078458598a6c6c1296642b240169d51,
+      objectReference: {fileID: 11400000, guid: 63f20ddd489327c31b1a738bd5f8b6b8,
         type: 2}
     - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
         type: 3}
       propertyPath: possibleRoomsWeighted.Array.data[4].roomToSpawn
       value: 
-      objectReference: {fileID: 11400000, guid: 35a5ed9d6cd3f90f7a0a92e4a8a3127d,
+      objectReference: {fileID: 11400000, guid: c3d3d918004f4637683c28e63ee3a475,
         type: 2}
     - target: {fileID: 6420373241124541042, guid: 13a3b216aba358f428f0c638c923594b,
         type: 3}
@@ -271,7 +271,7 @@ PrefabInstance:
         type: 3}
       propertyPath: possibleRoomsWeighted.Array.data[6].roomToSpawn
       value: 
-      objectReference: {fileID: 11400000, guid: fb55589bda389a7bb9561bc0adca1ea2,
+      objectReference: {fileID: 11400000, guid: 970c02485773efb469e5412f05180751,
         type: 2}
     - target: {fileID: 7737857334335561240, guid: 13a3b216aba358f428f0c638c923594b,
         type: 3}

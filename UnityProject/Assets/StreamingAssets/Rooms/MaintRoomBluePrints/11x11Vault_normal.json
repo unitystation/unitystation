@@ -1316,7 +1316,8 @@
           {
             "GitID": "74425ae81613a44b78b24737fd383d2f_0┼9┼0┼",
             "PrefabID": "74425ae81613a44b78b24737fd383d2f",
-            "Name": "FalseWall (1)",
+            "NameMatches": true,
+            "Name": "FalseWallClosed",
             "LocalPRS": "0┼9┼0┼"
           },
           {
@@ -1440,6 +1441,13 @@
             }
           },
           {
+            "GitID": "ea93abd90d27864189aedcdfb5f605e5_4┼5┼0┼",
+            "PrefabID": "ea93abd90d27864189aedcdfb5f605e5",
+            "NameMatches": true,
+            "Name": "DebrisFieldLootGood",
+            "LocalPRS": "4┼5┼0┼"
+          },
+          {
             "GitID": "1d35052f4fc2cad4d8226d1a63e4a1b3_4┼6┼0┼",
             "PrefabID": "1d35052f4fc2cad4d8226d1a63e4a1b3",
             "Name": "CrateBase (1)",
@@ -1504,6 +1512,12 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "ea93abd90d27864189aedcdfb5f605e5_4.88┼7┼0┼",
+            "PrefabID": "ea93abd90d27864189aedcdfb5f605e5",
+            "Name": "DebrisFieldLootGood (1)",
+            "LocalPRS": "4.88┼7┼0┼"
           },
           {
             "GitID": "5fd9d8acdd4f02849884dcddff5db286_5┼0┼0┼",
@@ -1576,45 +1590,6 @@
             }
           },
           {
-            "GitID": "abff3ae0227731244b0814b2055fa6f0_5┼7┼0┼",
-            "PrefabID": "abff3ae0227731244b0814b2055fa6f0",
-            "Name": "_RandomItemSpawnerBase (1)",
-            "LocalPRS": "5┼7┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "RandomItemSpot@0",
-                  "Data": [
-                    {
-                      "Name": "lootCount",
-                      "Data": "3"
-                    },
-                    {
-                      "Name": "fanOut",
-                      "Data": "True"
-                    },
-                    {
-                      "Name": "poolList#1@probability",
-                      "Data": "16"
-                    },
-                    {
-                      "Name": "poolList#1@randomItemPool",
-                      "Data": "ad637d0b54eea204e9e157b9db6e021e"
-                    },
-                    {
-                      "Name": "poolList#0@probability",
-                      "Data": "16"
-                    },
-                    {
-                      "Name": "poolList#0@randomItemPool",
-                      "Data": "e6cf430be6c79c741b31a401292072ad"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
             "GitID": "c937e0abe85aca9499d09951de736ec6_5┼7┼0┼",
             "PrefabID": "c937e0abe85aca9499d09951de736ec6",
             "Name": "LightBulbFixture (1)",
@@ -1657,6 +1632,13 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "299fa5508e9efa327a000e7d5945bedc_5.12┼6.88┼0┼",
+            "PrefabID": "299fa5508e9efa327a000e7d5945bedc",
+            "NameMatches": true,
+            "Name": "DebrisFieldLoot",
+            "LocalPRS": "5.12┼6.88┼0┼"
           },
           {
             "GitID": "e0aa44d3a83b00c4ebbd4cb25b853acc_5.88┼4.99┼0┼",
@@ -1786,7 +1768,8 @@
           {
             "GitID": "74425ae81613a44b78b24737fd383d2f_10┼9┼0┼",
             "PrefabID": "74425ae81613a44b78b24737fd383d2f",
-            "Name": "FalseWall (2)",
+            "NameMatches": true,
+            "Name": "FalseWallClosed",
             "LocalPRS": "10┼9┼0┼"
           }
         ],

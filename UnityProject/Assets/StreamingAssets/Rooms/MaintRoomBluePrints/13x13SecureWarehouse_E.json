@@ -1831,39 +1831,11 @@
             }
           },
           {
-            "GitID": "38246cd9491b4c248abb2e296cc6c76f_1┼9┼0┼",
-            "PrefabID": "38246cd9491b4c248abb2e296cc6c76f",
-            "Name": "AirlockMaintenanceOpaque (2)",
-            "LocalPRS": "1┼9┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "AwayGeneric1"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "GitID": "BEt4PW1nh5Un7$GW4-qW_1┼9┼0┼",
+            "PrefabID": "BEt4PW1nh5Un7$GW4-qW",
+            "NameMatches": true,
+            "Name": "AirlockHatchMaintenanceSelfPowered",
+            "LocalPRS": "1┼9┼0┼"
           },
           {
             "GitID": "c937e0abe85aca9499d09951de736ec6_1┼11┼0┼",
@@ -1926,15 +1898,6 @@
                   ]
                 },
                 {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "AwayGeneric1"
-                    }
-                  ]
-                },
-                {
                   "ClassID": "DoorSwitch@0",
                   "Data": [
                     {
@@ -1979,15 +1942,6 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "AwayGeneric1"
                     }
                   ]
                 },
@@ -2133,7 +2087,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "AwayGeneric2"
+                      "Data": "AwayGeneric1"
                     }
                   ]
                 }
@@ -2165,7 +2119,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "AwayGeneric2"
+                      "Data": "AwayGeneric1"
                     }
                   ]
                 }
@@ -2222,7 +2176,7 @@
                   "Data": [
                     {
                       "Name": "requiredClearance#0",
-                      "Data": "AwayGeneric2"
+                      "Data": "AwayGeneric1"
                     }
                   ]
                 },
@@ -2911,6 +2865,12 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "7eefe29e3c650b31c86fb8df2ef906bf_10.75┼1.75┼0┼",
+            "PrefabID": "7eefe29e3c650b31c86fb8df2ef906bf",
+            "Name": "BackroomsLv1ID25% (2)",
+            "LocalPRS": "10.75┼1.75┼0┼"
           },
           {
             "GitID": "d6495a017b1b4634697738270d87d354_10.88┼0.88┼0┼",

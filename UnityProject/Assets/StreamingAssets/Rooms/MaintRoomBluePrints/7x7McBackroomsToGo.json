@@ -815,6 +815,15 @@
                   ]
                 },
                 {
+                  "ClassID": "ClearanceRestricted@0",
+                  "Data": [
+                    {
+                      "Name": "requiredClearance#0",
+                      "Data": "#removed#"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Vendor@0",
                   "Data": [
                     {
@@ -988,6 +997,14 @@
                     {
                       "Name": "HullColor",
                       "Data": "îæ*ÿ"
+                    },
+                    {
+                      "Name": "EjectObjects",
+                      "Data": "True"
+                    },
+                    {
+                      "Name": "EjectDirection",
+                      "Data": "Down"
                     }
                   ]
                 }

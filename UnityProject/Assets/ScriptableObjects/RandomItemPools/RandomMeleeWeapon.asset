@@ -1,0 +1,95 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
+  m_Name: RandomMeleeWeapon
+  m_EditorClassIdentifier: Assets::US13.Items.Others.RandomItemPool
+  foreverID: d5f4e60e6075b41c5a7c7c225cd23392
+  pool:
+  - prefab: {fileID: 2872780430489198970, guid: 59b20c240c1616747aeb0a3fd1680f7b,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 5528209918886331922, guid: 6d093d86932670348bbbc367f3c19267,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 5528209918886331922, guid: 6d093d86932670348bbbc367f3c19267,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 5962528074002448085, guid: 12e1c77d42c790b45b786193dea1e6e7,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 7781396554342910705, guid: 229f1c93e0e4ada439cfe4b781f65997,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 6087898919312582106, guid: d9a6aa0f6a1f0084ca828c317a6d4948,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 364282667061268931, guid: 3376d687f8df917468c5a74d4c569cc8, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4908574526498763258, guid: 80bdfbc6ac7f8614abbfa237f98bf72d,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 552981298856828130, guid: 608b5e561b3d5574bb09085bf618e463, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 5542859664017978807, guid: 26a8b018cf8f8e444850eea5715bc58e,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 7781396554342910705, guid: 6ec2cf5e4acf23543ba1612545d2fca4,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 7781396554342910705, guid: fd2b975bb2d60fb429c193f9ef1d31b0,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 7066787445908356662, guid: dae967f10ee14d84bb699350ef4f5cb7,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 5342827640032731570, guid: 3d477b1c0afb59948946555ab346ea9a,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 2654136094092541073, guid: 82cb1c39112974a498a9756981eb07d0,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8372925721980851238, guid: 8006bc6403c01e24a82a02b5baa441ba,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 7781396554342910705, guid: 81995251e2a2eca4f90a7feadcc62b49,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 7781396554342910705, guid: bb89e4eb0756de04b8ab904221c23296,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8585800665280577052, guid: 1e72418a8de460a14b3edfc3ad0c27f7,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8127442588295923452, guid: 93ac7841b892b2e4c8dabfab3f234692,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  RequiredTrait: {fileID: 0}

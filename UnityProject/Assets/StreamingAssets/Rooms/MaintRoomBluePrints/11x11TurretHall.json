@@ -1359,43 +1359,11 @@
         "CommonPrefabs": [],
         "PrefabData": [
           {
-            "GitID": "1172c577b92e17940afd7e1729f184f6_0┼3┼0┼",
-            "PrefabID": "1172c577b92e17940afd7e1729f184f6",
-            "Name": "AirlockHatchGrunge (2)",
-            "LocalPRS": "0┼3┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#1",
-                          "Data": "AwayGeneric4"
-                        },
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "AwayGeneric2"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "GitID": "BEt4PW1nh5Un7$GW4-qW_0┼3┼0┼",
+            "PrefabID": "BEt4PW1nh5Un7$GW4-qW",
+            "NameMatches": true,
+            "Name": "AirlockHatchMaintenanceSelfPowered",
+            "LocalPRS": "0┼3┼0┼"
           },
           {
             "GitID": "74425ae81613a44b78b24737fd383d2f_0┼7┼0┼",
@@ -1559,7 +1527,7 @@
           {
             "GitID": "991d9e2b162f7ef4ca9b4fd2bdba60d2_5┼8┼0┼",
             "PrefabID": "991d9e2b162f7ef4ca9b4fd2bdba60d2",
-            "Name": "TurretControlPanel (1)",
+            "Name": "TurretControlPanel L2",
             "LocalPRS": "5┼8┼0┼",
             "Object": {
               "ClassDatas": [
@@ -1725,43 +1693,10 @@
             }
           },
           {
-            "GitID": "1172c577b92e17940afd7e1729f184f6_10┼3┼0┼",
-            "PrefabID": "1172c577b92e17940afd7e1729f184f6",
-            "Name": "AirlockHatchGrunge (1)",
-            "LocalPRS": "10┼3┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#1",
-                          "Data": "AwayGeneric4"
-                        },
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "AwayGeneric2"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
+            "GitID": "BEt4PW1nh5Un7$GW4-qW_10┼3┼0┼",
+            "PrefabID": "BEt4PW1nh5Un7$GW4-qW",
+            "Name": "AirlockHatchMaintenanceSelfPowered (1)",
+            "LocalPRS": "10┼3┼0┼"
           },
           {
             "GitID": "74425ae81613a44b78b24737fd383d2f_10┼5┼0┼",

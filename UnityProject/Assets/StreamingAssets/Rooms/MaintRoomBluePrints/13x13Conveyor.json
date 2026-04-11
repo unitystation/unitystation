@@ -1812,9 +1812,9 @@
             }
           },
           {
-            "GitID": "38246cd9491b4c248abb2e296cc6c76f_1┼6┼0┼",
-            "PrefabID": "38246cd9491b4c248abb2e296cc6c76f",
-            "Name": "AirlockMaintenanceOpaque (1)",
+            "GitID": "5fd9d8acdd4f02849884dcddff5db286_1┼6┼0┼",
+            "PrefabID": "5fd9d8acdd4f02849884dcddff5db286",
+            "Name": "AirlockStandardOpaque (1)",
             "LocalPRS": "1┼6┼0┼",
             "Object": {
               "ClassDatas": [
@@ -1824,22 +1824,6 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "AwayGeneric1"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -2548,9 +2532,9 @@
             }
           },
           {
-            "GitID": "af92cf7ad231b37448e7dff02d50f457_6┼7┼0┼",
-            "PrefabID": "af92cf7ad231b37448e7dff02d50f457",
-            "Name": "AirlockMaintenanceWindowed (1)",
+            "GitID": "c04905100b9b3d746ad50b5a62efe998_6┼7┼0┼",
+            "PrefabID": "c04905100b9b3d746ad50b5a62efe998",
+            "Name": "AirlockStandardWindowed (2)",
             "LocalPRS": "6┼7┼0┼",
             "Object": {
               "ClassDatas": [
@@ -2560,22 +2544,6 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "AwayGeneric1"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -2614,15 +2582,6 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "AwayGeneric1"
                     }
                   ]
                 },
