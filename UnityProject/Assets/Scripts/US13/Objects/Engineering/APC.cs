@@ -277,7 +277,7 @@ namespace US13.Objects.Engineering
 		{
 			float voltages = Voltage;
 
-			if (voltages > 270) //TODO change
+			if (voltages > overVoltageThreshold) //TODO change
 			{
 				voltages = 0.001f;
 			}
