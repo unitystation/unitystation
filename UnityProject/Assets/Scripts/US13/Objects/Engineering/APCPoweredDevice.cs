@@ -88,7 +88,7 @@ namespace US13.Objects.Engineering
 
 		[SyncVar(hook = nameof(UpdateSynchronisedState))]
 		[FormerlySerializedAs("State")]
-		private PowerState state = PowerState.Off;
+		private PowerState state = PowerState.Disconnected;
 		public PowerState State => state;
 
 		/// <summary>
@@ -246,6 +246,7 @@ namespace US13.Objects.Engineering
 		{
 			if (RelatedAPC == null) return;
 			RelatedAPC.RemoveDevice(this);
+			UpdateSynchronisedState(state, PowerState.Disconnected);
 		}
 
 		public void PowerNetworkUpdate(float voltage) // Could be optimised to not update when voltage is same as previous voltage
@@ -258,7 +259,11 @@ namespace US13.Objects.Engineering
 			else
 			{
 				var newState = PowerState.On;
-				if (voltage <= 1)
+				if (RelatedAPC == null)
+				{
+					newState = PowerState.Disconnected;
+				}
+				else if (voltage <= 1)
 				{
 					newState = PowerState.Off;
 				}
@@ -440,5 +445,6 @@ namespace US13.Objects.Engineering
 		LowVoltage,
 		On,
 		OverVoltage,
+		Disconnected, //Disconnected state used to relay said state to HUD, does not effect any logic in this class.
 	}
 }

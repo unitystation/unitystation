@@ -54,6 +54,9 @@ namespace US13.Objects.Engineering
 
 		private bool outputEnabled = false;
 
+		public event Action<PowerState, PowerState> OnStateChangeEvent;
+		private PowerState currentState = PowerState.Off;
+
 		private enum SpriteState
 		{
 			Normal = 0,
@@ -260,7 +263,24 @@ namespace US13.Objects.Engineering
 			outputEnabled = false;
 		}
 
-		public void PowerNetworkUpdate() { }
+		public void PowerNetworkUpdate()
+		{
+			SetPowerStateFromVoltage();
+		}
+
+		public void SetPowerStateFromVoltage()
+		{
+			PowerState newState = currentState;
+
+			if (ChargePercent <= 1.0f) newState = PowerState.Off;
+			else if (ChargePercent <= 1.0f) newState = PowerState.LowVoltage;
+			else if (ChargePercent >= 105.0f) newState = PowerState.LowVoltage;
+			else newState = PowerState.On;
+
+			if (newState == currentState) return;
+			OnStateChangeEvent?.Invoke(currentState, newState);
+			currentState = newState;
+		}
 
 		private void TrySpark()
 		{

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using US13.Core.Input_System.InteractionV2;
 using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Input_System.InteractionV2.Interfaces;
@@ -23,6 +24,13 @@ namespace US13.Objects.Engineering.Reactor
 		public ReactorBoiler Boiler;
 		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
+
+		public event Action<PowerState, PowerState> OnStateChangeEvent;
+		private PowerState currentPowerState = PowerState.Off;
+
+		private int lowWattageThreshold = 25000;
+		private int highWattageThreshold = 5000000;
+
 		#region Lifecycle
 
 		private void Start()
@@ -69,7 +77,20 @@ namespace US13.Objects.Engineering.Reactor
 
 		void INodeControl.PowerNetworkUpdate()
 		{
-			//Stuff for the senses to read
+			SetPowerStateFromVoltage();
+		}
+		public void SetPowerStateFromVoltage()
+		{
+			PowerState newState = currentPowerState;
+
+			if (moduleSupplyingDevice.ProducingWatts == 0) newState = PowerState.Off;
+			else if (moduleSupplyingDevice.ProducingWatts <= lowWattageThreshold) newState = PowerState.LowVoltage;
+			else if (moduleSupplyingDevice.ProducingWatts >= highWattageThreshold) newState = PowerState.OverVoltage;
+			else newState = PowerState.On;
+
+			if (newState == currentPowerState) return;
+			OnStateChangeEvent?.Invoke(currentPowerState, newState);
+			currentPowerState = newState;
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)

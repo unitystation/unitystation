@@ -75,6 +75,9 @@ namespace US13.Objects.Engineering
 
 		public bool IsOn => isOn;
 
+		public event Action<PowerState, PowerState> OnStateChangeEvent;
+		private PowerState currentPowerState = PowerState.Off;
+
 		private enum SpriteState
 		{
 			Unsecured = 0,
@@ -119,7 +122,22 @@ namespace US13.Objects.Engineering
 
 		#endregion Lifecycle
 
-		public void PowerNetworkUpdate() { }
+		public void PowerNetworkUpdate()
+		{
+			SetPowerStateFromVoltage();
+		}
+
+		public void SetPowerStateFromVoltage()
+		{
+			PowerState newState = currentPowerState;
+
+			if (isOn == false) newState = PowerState.Off;
+			else newState = PowerState.On;
+
+			if (newState == currentPowerState) return;
+			OnStateChangeEvent?.Invoke(currentPowerState, newState);
+			currentPowerState = newState;
+		}
 
 		private void OnSecuredChanged()
 		{
