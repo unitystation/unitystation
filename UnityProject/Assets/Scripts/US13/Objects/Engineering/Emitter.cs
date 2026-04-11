@@ -1,4 +1,5 @@
-﻿using NaughtyAttributes;
+﻿using System;
+using NaughtyAttributes;
 using UnityEngine;
 using US13.Core.Addressables.Types;
 using US13.Core.Chat;
@@ -33,6 +34,8 @@ namespace US13.Objects.Engineering
 		private SpriteHandler spriteHandler;
 		private ClearanceRestricted clearanceRestricted;
 		private ElectricalNodeControl electricalNodeControl;
+		public event Action<PowerState, PowerState> OnStateChangeEvent;
+		private PowerState currentState = PowerState.Off;
 
 		[SerializeField]
 		private GameObject projectilePrefab = default;
@@ -164,6 +167,21 @@ namespace US13.Objects.Engineering
 		public void PowerNetworkUpdate()
 		{
 			voltage = electricalNodeControl.GetVoltage();
+			SetPowerStateFromVoltage();
+		}
+
+		public void SetPowerStateFromVoltage()
+		{
+			PowerState newState = currentState;
+
+			if (isWelded == false) newState = PowerState.Disconnected;
+			else if (voltage <= 1) newState = PowerState.Off;
+			else if (voltage < minVoltage) newState = PowerState.LowVoltage;
+			else newState = PowerState.On;
+
+			if (newState == currentState) return;
+			OnStateChangeEvent?.Invoke(currentState, newState);
+			currentState = newState;
 		}
 
 		#region Interaction

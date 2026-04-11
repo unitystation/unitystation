@@ -1,6 +1,8 @@
-﻿using Mirror;
+﻿using System;
+using Mirror;
 using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Objects.Engineering;
 using US13.Systems.Electricity.Interfaces;
 using US13.Systems.Electricity.NodeModules;
 
@@ -14,6 +16,9 @@ namespace US13.Systems.Electricity.PowerSupplies
 		[SyncVar(hook = nameof(UpdateState))]
 		public bool isOn = false;
 		public ElectricalNodeControl ElectricalNodeControl;
+
+		public event Action<PowerState, PowerState> OnStateChangeEvent;
+		private PowerState currentPowerState = PowerState.Off;
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
@@ -40,7 +45,21 @@ namespace US13.Systems.Electricity.PowerSupplies
 			}
 		}
 
-		public void PowerNetworkUpdate() { }
+		public void PowerNetworkUpdate()
+		{
+			SetPowerStateFromVoltage();
+		}
+		public void SetPowerStateFromVoltage()
+		{
+			PowerState newState = currentPowerState;
+
+			if (isOn == false) newState = PowerState.Off;
+			else newState = PowerState.On;
+
+			if (newState == currentPowerState) return;
+			OnStateChangeEvent?.Invoke(currentPowerState, newState);
+			currentPowerState = newState;
+		}
 
 		public void UpdateState(bool _wasOn, bool _isOn)
 		{

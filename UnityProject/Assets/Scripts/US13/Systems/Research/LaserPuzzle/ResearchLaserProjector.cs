@@ -16,6 +16,7 @@ using US13.Items.Tool;
 using US13.Items.Traits;
 using US13.Managers.MatrixManager;
 using US13.Objects.Directionals;
+using US13.Objects.Engineering;
 using US13.Objects.Research;
 using US13.Player;
 using US13.Projectiles;
@@ -45,6 +46,9 @@ namespace US13.Systems.Research.LaserPuzzle
 		private SpriteHandler spriteHandler;
 		private RegisterTile registerTile;
 		private UniversalObjectPhysics objectPhysics;
+
+		public event Action<PowerState, PowerState> OnStateChangeEvent;
+		private PowerState currentState = PowerState.Off;
 
 		[Header("Electrical"), SerializeField]
 		[Tooltip("The minimum voltage necessary to shoot")]
@@ -233,6 +237,21 @@ namespace US13.Systems.Research.LaserPuzzle
 				hasPower = currentVoltage >= minVoltage;
 			}
 			spriteHandler.SetCatalogueIndexSprite(hasPower == true ? 0 : 1);
+			SetPowerStateFromVoltage();
+		}
+
+		public void SetPowerStateFromVoltage()
+		{
+			PowerState newState = currentState;
+
+			if (isWelded == false) newState = PowerState.Disconnected;
+			else if (currentVoltage <= 1) newState = PowerState.Off;
+			else if (currentVoltage < minVoltage) newState = PowerState.LowVoltage;
+			else newState = PowerState.On;
+
+			if (newState == currentState) return;
+			OnStateChangeEvent?.Invoke(currentState, newState);
+			currentState = newState;
 		}
 
 		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)

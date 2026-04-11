@@ -20,6 +20,7 @@ namespace US13.Clothing.Eyewear
 
 		[SerializeField] private HUDHandler hudHandler = null;
 		[SerializeField] private BatterySupplyingModule batterySupplyingModule = null;
+		
 		[SyncVar(hook = nameof(SyncCurrentChargeLevel))]private float currentCharge = 0;
 
 		public void SyncCurrentChargeLevel(float oldCharge, float newCharge)
@@ -29,6 +30,7 @@ namespace US13.Clothing.Eyewear
 			{
 				diagnosticsHUDHandler.UpdateBar(batterySupplyingModule.GetSetCurrentCapacity / batterySupplyingModule.CapacityMax);
 			}
+			currentCharge = newCharge;
 		}
 
 		public void Awake()
@@ -51,7 +53,6 @@ namespace US13.Clothing.Eyewear
 			{
 				SyncCurrentChargeLevel(currentCharge, newCharge);
 			}
-			currentCharge = newCharge;
 		}
 
 

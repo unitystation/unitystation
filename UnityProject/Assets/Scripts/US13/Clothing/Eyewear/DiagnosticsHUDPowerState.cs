@@ -1,9 +1,11 @@
 using Logs;
 using Mirror;
+using NaughtyAttributes;
 using UnityEngine;
 using US13.Managers.NetworkManagement;
 using US13.Objects.Engineering;
 using US13.Player.HUDData;
+using US13.Systems.Electricity.Interfaces;
 using Util;
 
 namespace US13.Clothing.Eyewear
@@ -14,6 +16,11 @@ namespace US13.Clothing.Eyewear
 	/// </summary>
 	public class DiagnosticsHUDPowerState : NetworkBehaviour, IHUD
 	{
+		private enum StateController
+		{
+			apcPoweredDevice = 0,
+			powerNode = 1,
+		}
 		[field:SerializeField]
 		public GameObject Prefab { get; set; }
 
@@ -22,19 +29,43 @@ namespace US13.Clothing.Eyewear
 
 		private DiagnosticsHUDHandler diagnosticsHUDHandler;
 		[SerializeField] private HUDHandler hudHandler = null;
-		[SerializeField] private APCPoweredDevice apcPoweredDevice = null;
+
+		public bool IsApcPowered => (powerSource == StateController.apcPoweredDevice);
+		[SerializeField] private StateController powerSource = StateController.apcPoweredDevice;
+
+		[SerializeField, ShowIf(nameof(IsApcPowered))] private APCPoweredDevice apcPoweredDevice = null;
+		[SerializeField, HideIf(nameof(IsApcPowered))] private MonoBehaviour powerNodeMono = null;
+		private INodeControl PowerNode => powerNodeMono as INodeControl;
 
 		private PowerState currentPowerState = PowerState.Off;
 		public void Awake()
 		{
-			if (hudHandler == false || apcPoweredDevice == false)
+			if (hudHandler == false)
 			{
-				Loggy.Error("DiagnosticsHUD on machine without hudHandler or apcPoweredDevice!");
+				Loggy.Error("DiagnosticsHUDPowerState could not find HUDHandler for machine.");
+				return;
 			}
-			if (CustomNetworkManager.IsServer)
+
+			if (IsApcPowered)
 			{
-				apcPoweredDevice.OnStateChangeEvent += SetNewPowerStateServer;
+				if (apcPoweredDevice == null)
+				{
+					Loggy.Error("DiagnosticsHUDPowerState on machine expected an apcPoweredDevice but none was serialized!");
+					return;
+				}
+				if (CustomNetworkManager.IsServer) apcPoweredDevice.OnStateChangeEvent += SetNewPowerStateServer;
 			}
+			else
+			{
+				if (PowerNode == null)
+				{
+					Loggy.Error("DiagnosticsHUDPowerState on machine expected an INodeControl but none was serialized!");
+					return;
+				}
+
+				if (CustomNetworkManager.IsServer) PowerNode.OnStateChangeEvent += SetNewPowerStateServer;
+			}
+
 			hudHandler.AddNewHud(this);
 		}
 
@@ -69,7 +100,7 @@ namespace US13.Clothing.Eyewear
 
 		public void SetNewPowerStateServer(PowerState oldPowerState, PowerState newPowerState)
 		{
-			if (apcPoweredDevice.IsSelfPowered) newPowerState = PowerState.On;
+			if (IsApcPowered && apcPoweredDevice.IsSelfPowered) newPowerState = PowerState.On;
 			currentPowerState = newPowerState;
 
 			if (oldPowerState != newPowerState)
@@ -82,9 +113,15 @@ namespace US13.Clothing.Eyewear
 		public void OnDestroy()
 		{
 			hudHandler.RemoveHud(this);
-			if (CustomNetworkManager.IsServer && apcPoweredDevice == true)
+			if (CustomNetworkManager.IsServer == false) return;
+			if (apcPoweredDevice == true)
 			{
 				apcPoweredDevice.OnStateChangeEvent -= SetNewPowerStateServer;
+			}
+
+			if (PowerNode != null)
+			{
+				PowerNode.OnStateChangeEvent -= SetNewPowerStateServer;
 			}
 		}
 	}
