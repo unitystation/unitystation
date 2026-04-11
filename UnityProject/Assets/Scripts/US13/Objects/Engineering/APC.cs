@@ -62,7 +62,7 @@ namespace US13.Objects.Engineering
 
 		public float Voltage => voltageSync;
 		[SerializeField] private float lowVoltageThreshold = 100.0f;
-		[SerializeField] private float overVoltageThreshold = 270.0f;
+		[SerializeField] private float overVoltageThreshold = 440.0f;
 		[SerializeField] private float nominalVoltageThreshold = 219.0f;
 		public float Current { get; private set; }
 
