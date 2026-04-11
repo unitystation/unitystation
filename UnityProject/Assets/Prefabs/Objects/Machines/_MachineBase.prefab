@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8018471119966720274}
-  - component: {fileID: 4421557497897179847}
   m_Layer: 0
   m_Name: HudHolder
   m_TagString: Untagged
@@ -25,31 +24,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5405962804845818560}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1625533340043428710}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1818360609 &4421557497897179847
-RotationConstraint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5405962804845818560}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Weight: 1
-  m_RotationAtRest: {x: 0, y: 0, z: 0}
-  m_RotationOffset: {x: 0, y: 0, z: 0}
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_Active: 1
-  m_IsLocked: 1
-  m_Sources: []
 --- !u!1001 &3231522615107585013
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72,6 +53,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 90804091474310291, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: ignoreExtraRotation.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 951381747229521920, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -374,4 +360,6 @@ MonoBehaviour:
   <Prefab>k__BackingField: {fileID: 3773905765040299103, guid: 012264fb418c6fe43ae4558b434e6ac9,
     type: 3}
   hudHandler: {fileID: 7456343389544471669}
+  powerSource: 0
   apcPoweredDevice: {fileID: -6356777978426299504}
+  powerNodeMono: {fileID: 0}

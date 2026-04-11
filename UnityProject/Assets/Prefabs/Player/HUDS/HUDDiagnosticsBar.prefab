@@ -191,7 +191,6 @@ GameObject:
   - component: {fileID: 7143236600055908701}
   - component: {fileID: 1603040067248660636}
   - component: {fileID: 4909360160866502902}
-  - component: {fileID: 3051461528246706019}
   m_Layer: 5
   m_Name: StateIcon
   m_TagString: Untagged
@@ -298,24 +297,6 @@ MonoBehaviour:
   palette: []
   initialSortingOrder: -1
   initialSortingLayerName: 
---- !u!1818360609 &3051461528246706019
-RotationConstraint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2359118497797010876}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Weight: 1
-  m_RotationAtRest: {x: 0, y: 0, z: 0}
-  m_RotationOffset: {x: 0, y: 0, z: 0}
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_Active: 1
-  m_IsLocked: 1
-  m_Sources: []
 --- !u!1 &3773905765040299103
 GameObject:
   m_ObjectHideFlags: 0
@@ -326,7 +307,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3950444169679250612}
   - component: {fileID: 6012879286272873821}
-  - component: {fileID: 4237401683465761}
   m_Layer: 5
   m_Name: HUDDiagnosticsBar
   m_TagString: Untagged
@@ -365,24 +345,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assets::US13.Player.HUDData.DiagnosticsHUDHandler
   stateIcon: {fileID: 4909360160866502902}
   progressBar: {fileID: 4489575840061185689}
---- !u!1818360609 &4237401683465761
-RotationConstraint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3773905765040299103}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Weight: 1
-  m_RotationAtRest: {x: 0, y: 0, z: 0}
-  m_RotationOffset: {x: 0, y: 0, z: 0}
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_Active: 1
-  m_IsLocked: 1
-  m_Sources: []
 --- !u!1 &4416052322682717818
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,7 +445,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6096267435971001620}
   - component: {fileID: 4489575840061185689}
-  - component: {fileID: 8406518356454190998}
   m_Layer: 5
   m_Name: ProgressBar
   m_TagString: Untagged
@@ -560,21 +521,3 @@ MonoBehaviour:
     _mixColor: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
   - _spriteRenderer: {fileID: 1732185315993986069}
     _mixColor: {r: 0.6301887, g: 0.6301887, b: 0.6301887, a: 1}
---- !u!1818360609 &8406518356454190998
-RotationConstraint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8341230562780406059}
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Weight: 1
-  m_RotationAtRest: {x: 0, y: 0, z: 0}
-  m_RotationOffset: {x: 0, y: 0, z: 0}
-  m_AffectRotationX: 1
-  m_AffectRotationY: 1
-  m_AffectRotationZ: 1
-  m_Active: 1
-  m_IsLocked: 1
-  m_Sources: []
