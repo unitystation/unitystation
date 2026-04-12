@@ -170,7 +170,7 @@ namespace US13.Objects.Engineering
 			SetPowerStateFromVoltage();
 		}
 
-		public void SetPowerStateFromVoltage()
+		public PowerState SetPowerStateFromVoltage()
 		{
 			PowerState newState = currentState;
 
@@ -179,9 +179,10 @@ namespace US13.Objects.Engineering
 			else if (voltage < minVoltage) newState = PowerState.LowVoltage;
 			else newState = PowerState.On;
 
-			if (newState == currentState) return;
+			if (newState == currentState) return currentState;
 			OnStateChangeEvent?.Invoke(currentState, newState);
 			currentState = newState;
+			return currentState;
 		}
 
 		#region Interaction

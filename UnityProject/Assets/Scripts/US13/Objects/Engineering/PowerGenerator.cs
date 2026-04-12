@@ -127,16 +127,17 @@ namespace US13.Objects.Engineering
 			SetPowerStateFromVoltage();
 		}
 
-		public void SetPowerStateFromVoltage()
+		public PowerState SetPowerStateFromVoltage()
 		{
 			PowerState newState = currentPowerState;
 
 			if (isOn == false) newState = PowerState.Off;
 			else newState = PowerState.On;
 
-			if (newState == currentPowerState) return;
+			if (newState == currentPowerState) return currentPowerState;
 			OnStateChangeEvent?.Invoke(currentPowerState, newState);
 			currentPowerState = newState;
+			return currentPowerState;
 		}
 
 		private void OnSecuredChanged()

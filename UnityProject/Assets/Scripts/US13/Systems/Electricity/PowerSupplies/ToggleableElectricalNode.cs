@@ -49,16 +49,17 @@ namespace US13.Systems.Electricity.PowerSupplies
 		{
 			SetPowerStateFromVoltage();
 		}
-		public void SetPowerStateFromVoltage()
+		public PowerState SetPowerStateFromVoltage()
 		{
 			PowerState newState = currentPowerState;
 
 			if (isOn == false) newState = PowerState.Off;
 			else newState = PowerState.On;
 
-			if (newState == currentPowerState) return;
+			if (newState == currentPowerState) return currentPowerState;
 			OnStateChangeEvent?.Invoke(currentPowerState, newState);
 			currentPowerState = newState;
+			return currentPowerState;
 		}
 
 		public void UpdateState(bool _wasOn, bool _isOn)

@@ -240,7 +240,7 @@ namespace US13.Systems.Research.LaserPuzzle
 			SetPowerStateFromVoltage();
 		}
 
-		public void SetPowerStateFromVoltage()
+		public PowerState SetPowerStateFromVoltage()
 		{
 			PowerState newState = currentState;
 
@@ -249,9 +249,10 @@ namespace US13.Systems.Research.LaserPuzzle
 			else if (currentVoltage < minVoltage) newState = PowerState.LowVoltage;
 			else newState = PowerState.On;
 
-			if (newState == currentState) return;
+			if (newState == currentState) return currentState;
 			OnStateChangeEvent?.Invoke(currentState, newState);
 			currentState = newState;
+			return currentState;
 		}
 
 		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)
