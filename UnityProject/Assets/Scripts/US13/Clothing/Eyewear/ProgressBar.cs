@@ -93,17 +93,15 @@ namespace US13.Clothing.Eyewear
 
 		public void SetVisible(bool isVisible)
 		{
-			if (_isVisible == isVisible) return;
 			_isVisible = isVisible;
 
 			foreach (var additionalBarElement in additionalElementsToColour)
 			{
 				additionalBarElement.SetVisible(isVisible);
 			}
-
 			spriteToModify.gameObject.SetActive(isVisible);
 
-			UpdateValue(value, true);
+			if(_isVisible) UpdateValue(value, true);
 		}
 
 		[Button]
