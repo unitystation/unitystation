@@ -1,6 +1,7 @@
 using Logs;
 using Mirror;
 using UnityEngine;
+using US13.Core.Lifecycle;
 using US13.Managers.NetworkManagement;
 using US13.Player.HUDData;
 using US13.Systems.Construction;
@@ -10,7 +11,7 @@ using Util;
 namespace US13.Clothing.Eyewear
 {
 	[RequireComponent(typeof(Machine))]
-	public class DiagnosticsHUDPowerBar : NetworkBehaviour, IHUD
+	public class DiagnosticsHUDPowerBar : NetworkBehaviour, IHUD, IServerSpawn
 	{
 		[field:SerializeField]
 		public GameObject Prefab { get; set; }
@@ -20,17 +21,37 @@ namespace US13.Clothing.Eyewear
 
 		[SerializeField] private HUDHandler hudHandler = null;
 		[SerializeField] private BatterySupplyingModule batterySupplyingModule = null;
-		
-		[SyncVar(hook = nameof(SyncCurrentChargeLevel))]private float currentCharge = 0;
 
-		public void SyncCurrentChargeLevel(float oldCharge, float newCharge)
+		[SyncVar(hook = nameof(SyncCurrentCharge))]
+		private float currentCharge = 0;
+
+		private void SyncCurrentCharge(float oldCharge, float newCharge)
 		{
 			if (newCharge.Approx(oldCharge)) return;
 			if (batterySupplyingModule && batterySupplyingModule.CapacityMax != 0)
 			{
-				diagnosticsHUDHandler.UpdateBar(batterySupplyingModule.GetSetCurrentCapacity / batterySupplyingModule.CapacityMax);
+				diagnosticsHUDHandler.UpdateBar(newCharge / batterySupplyingModule.CapacityMax);
 			}
 			currentCharge = newCharge;
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			//object starts with editor-configured initial name
+			SyncCurrentCharge(0, batterySupplyingModule.GetSetCurrentCapacity);
+		}
+
+		private void EnsureInit()
+		{
+			if (this.batterySupplyingModule == false) batterySupplyingModule = GetComponent<BatterySupplyingModule>();
+
+		}
+
+		public override void OnStartClient()
+		{
+			EnsureInit();
+			SyncCurrentCharge(0, this.currentCharge);
+			base.OnStartClient();
 		}
 
 		public void Awake()
@@ -51,7 +72,7 @@ namespace US13.Clothing.Eyewear
 		{
 			if (CustomNetworkManager.IsServer)
 			{
-				SyncCurrentChargeLevel(currentCharge, newCharge);
+				SyncCurrentCharge(currentCharge, newCharge);
 			}
 		}
 
@@ -93,7 +114,7 @@ namespace US13.Clothing.Eyewear
 		public void OnDestroy()
 		{
 			hudHandler.RemoveHud(this);
-			batterySupplyingModule.OnCapacityChangedEvent -= UpdateCharge;
+			if (CustomNetworkManager.IsServer) batterySupplyingModule.OnCapacityChangedEvent -= UpdateCharge;
 		}
 	}
 }
