@@ -505,7 +505,8 @@ namespace US13.Systems.Electricity.NodeModules
 
 				ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(ControllingNode);
 			}
-			OnCapacityChangedEvent?.Invoke(GetSetCurrentCapacity, GetSetCurrentCapacity);
+			var percent = GetSetCurrentCapacity / CapacityMax;
+			OnCapacityChangedEvent?.Invoke(percent, percent);
 		}
 
 		public override VIRCurrent ModifyElectricityOutput(VIRCurrent current, ElectricalOIinheritance sourceInstance)

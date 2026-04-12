@@ -64,8 +64,8 @@ namespace US13.Clothing.Eyewear
 		public override void OnStartClient()
 		{
 			EnsureInit();
-			if(IsApcPowered) SyncCurrentPowerState(PowerState.Off, apcPoweredDevice.State);
-			else SyncCurrentPowerState(PowerState.Off, PowerNode.SetPowerStateFromVoltage());
+			if(IsApcPowered) SyncCurrentPowerState(PowerState.Disconnected, apcPoweredDevice.State);
+			else SyncCurrentPowerState(PowerState.Disconnected, PowerNode.SetPowerStateFromVoltage());
 
 			base.OnStartClient();
 		}

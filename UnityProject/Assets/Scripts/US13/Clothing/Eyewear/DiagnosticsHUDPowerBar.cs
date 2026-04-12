@@ -30,17 +30,14 @@ namespace US13.Clothing.Eyewear
 		private void SyncCurrentCharge(float oldCharge, float newCharge)
 		{
 			if (newCharge.Approx(oldCharge)) return;
-			if (batterySupplyingModule && batterySupplyingModule.CapacityMax != 0)
-			{
-				diagnosticsHUDHandler.UpdateBar(newCharge / batterySupplyingModule.CapacityMax);
-			}
+			diagnosticsHUDHandler?.UpdateBar(newCharge);
 			currentCharge = newCharge;
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			//object starts with editor-configured initial name
-			SyncCurrentCharge(0, batterySupplyingModule.GetSetCurrentCapacity);
+			if (batterySupplyingModule.CapacityMax != 0) SyncCurrentCharge(0, batterySupplyingModule.GetSetCurrentCapacity / batterySupplyingModule.CapacityMax);
 		}
 
 		private void EnsureInit()
@@ -51,7 +48,8 @@ namespace US13.Clothing.Eyewear
 		public override void OnStartClient()
 		{
 			EnsureInit();
-			SyncCurrentCharge(0, this.currentCharge);
+
+			if (batterySupplyingModule.CapacityMax != 0) SyncCurrentCharge(0, batterySupplyingModule.GetSetCurrentCapacity / batterySupplyingModule.CapacityMax);
 			base.OnStartClient();
 		}
 
@@ -71,22 +69,13 @@ namespace US13.Clothing.Eyewear
 
 		private void UpdateCharge(float oldCharge, float newCharge)
 		{
-			if (CustomNetworkManager.IsServer)
-			{
-				SyncCurrentCharge(currentCharge, newCharge);
-			}
+			if (CustomNetworkManager.IsServer) SyncCurrentCharge(CurrentCharge, newCharge);
 		}
 
 
 		public void SetUp()
 		{
 			diagnosticsHUDHandler = InstantiatedGameObject.GetComponent<DiagnosticsHUDHandler>();
-			if (batterySupplyingModule != null && batterySupplyingModule.CapacityMax != 0)
-			{
-				diagnosticsHUDHandler.UpdateBar(batterySupplyingModule.GetSetCurrentCapacity /
-				                                batterySupplyingModule.CapacityMax);
-			}
-
 			var visibility = false;
 			var ThisType = typeof(DiagnosticsHUDPowerBar);
 			if (HUDHandler.CategoryEnabled.ContainsKey(ThisType)) //So if you join mid round you still have the HUD showing
@@ -94,7 +83,7 @@ namespace US13.Clothing.Eyewear
 				visibility = HUDHandler.CategoryEnabled[ThisType];
 			}
 
-			diagnosticsHUDHandler.SetVisible(visibility, DiagnosticsHUDHandler.HUDOptions.showPower);
+			diagnosticsHUDHandler?.SetVisible(visibility, DiagnosticsHUDHandler.HUDOptions.showPower);
 		}
 
 
@@ -104,10 +93,7 @@ namespace US13.Clothing.Eyewear
 
 			diagnosticsHUDHandler.SetVisible(newVisible, DiagnosticsHUDHandler.HUDOptions.showPower);
 			if (newVisible == false) return;
-			if (batterySupplyingModule != null && batterySupplyingModule.CapacityMax != 0)
-			{
-				diagnosticsHUDHandler.UpdateBar(CurrentCharge / batterySupplyingModule.CapacityMax);
-			}
+			diagnosticsHUDHandler?.UpdateBar(CurrentCharge);
 		}
 
 		public void OnDestroy()
