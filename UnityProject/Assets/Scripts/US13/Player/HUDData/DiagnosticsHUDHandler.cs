@@ -12,7 +12,6 @@ namespace US13.Player.HUDData
 		[SerializeField] private SpriteHandler stateIcon = null;
 		[SerializeField] private ProgressBar progressBar = null;
 
-
 		[Flags]
 		public enum HUDOptions
 		{
@@ -28,6 +27,7 @@ namespace US13.Player.HUDData
 		public void SetVisible(bool Visible, HUDOptions options)
 		{
 			if((options & HUDOptions.showState) != 0) stateIcon?.SetActive(Visible);
+
 			if ((options & HUDOptions.showPower) != 0)
 			{
 				progressBar?.SetActive(Visible);

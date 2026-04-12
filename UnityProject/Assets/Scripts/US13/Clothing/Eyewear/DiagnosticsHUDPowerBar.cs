@@ -25,6 +25,8 @@ namespace US13.Clothing.Eyewear
 		[SyncVar(hook = nameof(SyncCurrentCharge))]
 		private float currentCharge = 0;
 
+		public float CurrentCharge => currentCharge;
+
 		private void SyncCurrentCharge(float oldCharge, float newCharge)
 		{
 			if (newCharge.Approx(oldCharge)) return;
@@ -44,7 +46,6 @@ namespace US13.Clothing.Eyewear
 		private void EnsureInit()
 		{
 			if (this.batterySupplyingModule == false) batterySupplyingModule = GetComponent<BatterySupplyingModule>();
-
 		}
 
 		public override void OnStartClient()
@@ -99,15 +100,13 @@ namespace US13.Clothing.Eyewear
 
 		public void SetVisible(bool newVisible)
 		{
-			if (gameObject.GetUniversalObjectPhysics().Intangible)
-			{
-				newVisible = false;
-			};
+			if (gameObject.GetUniversalObjectPhysics().Intangible) newVisible = false;
+
 			diagnosticsHUDHandler.SetVisible(newVisible, DiagnosticsHUDHandler.HUDOptions.showPower);
 			if (newVisible == false) return;
 			if (batterySupplyingModule != null && batterySupplyingModule.CapacityMax != 0)
 			{
-				diagnosticsHUDHandler.UpdateBar(currentCharge / batterySupplyingModule.CapacityMax);
+				diagnosticsHUDHandler.UpdateBar(CurrentCharge / batterySupplyingModule.CapacityMax);
 			}
 		}
 
