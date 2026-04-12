@@ -45,8 +45,8 @@ namespace US13.Clothing.Eyewear
 		private void SyncCurrentPowerState(PowerState oldState, PowerState newState)
 		{
 			if (newState == oldState) return;
-			diagnosticsHUDHandler?.UpdateState(newState);
 			currentPowerState = newState;
+			if(diagnosticsHUDHandler?.IsVisible == true) diagnosticsHUDHandler?.UpdateState(newState);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -127,6 +127,7 @@ namespace US13.Clothing.Eyewear
 		public void SetNewPowerStateServer(PowerState oldPowerState, PowerState newPowerState)
 		{
 			if (IsApcPowered && apcPoweredDevice.IsSelfPowered) newPowerState = PowerState.On;
+			if (newPowerState == oldPowerState) return;
 			SyncCurrentPowerState(oldPowerState, newPowerState);
 		}
 

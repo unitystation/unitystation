@@ -27,11 +27,12 @@ namespace US13.Clothing.Eyewear
 
 		public float CurrentCharge => currentCharge;
 
+
 		private void SyncCurrentCharge(float oldCharge, float newCharge)
 		{
 			if (newCharge.Approx(oldCharge)) return;
-			diagnosticsHUDHandler?.UpdateBar(newCharge);
 			currentCharge = newCharge;
+			if(diagnosticsHUDHandler?.IsVisible == true) diagnosticsHUDHandler?.UpdateBar(newCharge);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -69,7 +70,7 @@ namespace US13.Clothing.Eyewear
 
 		private void UpdateCharge(float oldCharge, float newCharge)
 		{
-			if (CustomNetworkManager.IsServer) SyncCurrentCharge(CurrentCharge, newCharge);
+			if (CustomNetworkManager.IsServer && oldCharge.Approx(newCharge) == false) SyncCurrentCharge(CurrentCharge, newCharge);
 		}
 
 
