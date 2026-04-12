@@ -11,9 +11,14 @@ namespace US13.HealthV2.Living.Mutations.Surface
 {
 	public class BodySpritesInvisbility : NetworkBehaviour
 	{
+
+		[SyncVar(hook = nameof(OnIncludeClothesChanged))]
+		public bool IncludeClothes = false;
 		[SyncVar(hook = nameof(OnAlphaChanged))] public float Alpha = 1f;
 		public GameObject bodyPartSprites;
 		public GameObject Customisation;
+		public GameObject CustomisationSprites;
+
 
 		public bool DEBUG = false;
 
@@ -64,10 +69,15 @@ namespace US13.HealthV2.Living.Mutations.Surface
 			if (Customisation == null)return;
 			foreach (SpriteRenderer spriteRenderer in Customisation.GetComponentsInChildren<SpriteRenderer>())
 			{
-				if (spriteRenderer.GetComponent<CustomisationSprite>() == null) continue;
+				if (spriteRenderer.GetComponent<CustomisationSprite>() == null && IncludeClothes == false) continue;
 
 				spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, newAlpha);
 			}
+		}
+
+		public void OnIncludeClothesChanged(bool oldClothes, bool newClothes)
+		{
+			SetAlphaOnSprites(Alpha);
 		}
 
 		public void OnAlphaChanged(float oldAlpha, float newAlpha)
