@@ -79,7 +79,7 @@ namespace US13.Objects.Engineering.Reactor
 		{
 			SetPowerStateFromVoltage();
 		}
-		public void SetPowerStateFromVoltage()
+		public PowerState SetPowerStateFromVoltage()
 		{
 			PowerState newState = currentPowerState;
 
@@ -88,9 +88,10 @@ namespace US13.Objects.Engineering.Reactor
 			else if (moduleSupplyingDevice.ProducingWatts >= highWattageThreshold) newState = PowerState.OverVoltage;
 			else newState = PowerState.On;
 
-			if (newState == currentPowerState) return;
+			if (newState == currentPowerState) return currentPowerState;
 			OnStateChangeEvent?.Invoke(currentPowerState, newState);
 			currentPowerState = newState;
+			return currentPowerState;
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)

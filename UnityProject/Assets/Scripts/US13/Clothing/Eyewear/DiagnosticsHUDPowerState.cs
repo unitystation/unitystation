@@ -2,6 +2,7 @@ using Logs;
 using Mirror;
 using NaughtyAttributes;
 using UnityEngine;
+using US13.Core.Lifecycle;
 using US13.Managers.NetworkManagement;
 using US13.Objects.Engineering;
 using US13.Player.HUDData;
@@ -14,7 +15,7 @@ namespace US13.Clothing.Eyewear
 	// Present on some APCpowered devices to report power state to the HUD
 	// Charge level handled seperately
 	/// </summary>
-	public class DiagnosticsHUDPowerState : NetworkBehaviour, IHUD
+	public class DiagnosticsHUDPowerState : NetworkBehaviour, IHUD, IServerSpawn
 	{
 		private enum StateController
 		{
@@ -37,7 +38,38 @@ namespace US13.Clothing.Eyewear
 		[SerializeField, HideIf(nameof(IsApcPowered))] private MonoBehaviour powerNodeMono = null;
 		private INodeControl PowerNode => powerNodeMono as INodeControl;
 
+		[SyncVar(hook = nameof(SyncCurrentPowerState))]
 		private PowerState currentPowerState = PowerState.Off;
+		public PowerState CurrentPowerState => currentPowerState;
+
+		private void SyncCurrentPowerState(PowerState oldState, PowerState newState)
+		{
+			if (newState == oldState) return;
+			currentPowerState = newState;
+			if(diagnosticsHUDHandler?.IsVisible == true) diagnosticsHUDHandler?.UpdateState(newState);
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			if(IsApcPowered) SyncCurrentPowerState(PowerState.Off, apcPoweredDevice.State);
+			else SyncCurrentPowerState(PowerState.Off, PowerNode.SetPowerStateFromVoltage());
+		}
+
+		private void EnsureInit()
+		{
+			if (IsApcPowered && apcPoweredDevice == false) apcPoweredDevice = GetComponent<APCPoweredDevice>();
+			else if (IsApcPowered == false) powerNodeMono = gameObject.GetComponent<INodeControl>() as MonoBehaviour;
+		}
+
+		public override void OnStartClient()
+		{
+			EnsureInit();
+			if(IsApcPowered) SyncCurrentPowerState(PowerState.Disconnected, apcPoweredDevice.State);
+			else SyncCurrentPowerState(PowerState.Disconnected, PowerNode.SetPowerStateFromVoltage());
+
+			base.OnStartClient();
+		}
+
 		public void Awake()
 		{
 			if (hudHandler == false)
@@ -73,7 +105,6 @@ namespace US13.Clothing.Eyewear
 		public void SetUp()
 		{
 			diagnosticsHUDHandler = InstantiatedGameObject.GetComponent<DiagnosticsHUDHandler>();
-			diagnosticsHUDHandler.UpdateState(currentPowerState);
 
 			var visibility = false;
 			var ThisType = typeof(DiagnosticsHUDPowerState);
@@ -81,32 +112,23 @@ namespace US13.Clothing.Eyewear
 			{
 				visibility = HUDHandler.CategoryEnabled[ThisType];
 			}
-
-
-			diagnosticsHUDHandler.SetVisible(visibility, DiagnosticsHUDHandler.HUDOptions.showState);
+			diagnosticsHUDHandler?.SetVisible(visibility, DiagnosticsHUDHandler.HUDOptions.showState);
 		}
 
 
 		public void SetVisible(bool Visible)
 		{
-			if (gameObject.GetUniversalObjectPhysics().Intangible)
-			{
-				Visible = false;
-			}
-			diagnosticsHUDHandler.SetVisible(Visible, DiagnosticsHUDHandler.HUDOptions.showState);
-			if (Visible == false) return;
-			diagnosticsHUDHandler.UpdateState(currentPowerState);
+			if (gameObject.GetUniversalObjectPhysics().Intangible) Visible = false;
+
+			diagnosticsHUDHandler?.SetVisible(Visible, DiagnosticsHUDHandler.HUDOptions.showState);
+			if (Visible) diagnosticsHUDHandler?.UpdateState(CurrentPowerState);
 		}
 
 		public void SetNewPowerStateServer(PowerState oldPowerState, PowerState newPowerState)
 		{
 			if (IsApcPowered && apcPoweredDevice.IsSelfPowered) newPowerState = PowerState.On;
-			currentPowerState = newPowerState;
-
-			if (oldPowerState != newPowerState)
-			{
-				diagnosticsHUDHandler.UpdateState(currentPowerState);
-			}
+			if (newPowerState == oldPowerState) return;
+			SyncCurrentPowerState(oldPowerState, newPowerState);
 		}
 
 

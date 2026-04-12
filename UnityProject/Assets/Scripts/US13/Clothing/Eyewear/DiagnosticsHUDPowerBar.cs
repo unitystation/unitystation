@@ -1,6 +1,7 @@
 using Logs;
 using Mirror;
 using UnityEngine;
+using US13.Core.Lifecycle;
 using US13.Managers.NetworkManagement;
 using US13.Player.HUDData;
 using US13.Systems.Construction;
@@ -10,7 +11,7 @@ using Util;
 namespace US13.Clothing.Eyewear
 {
 	[RequireComponent(typeof(Machine))]
-	public class DiagnosticsHUDPowerBar : NetworkBehaviour, IHUD
+	public class DiagnosticsHUDPowerBar : NetworkBehaviour, IHUD, IServerSpawn
 	{
 		[field:SerializeField]
 		public GameObject Prefab { get; set; }
@@ -20,17 +21,37 @@ namespace US13.Clothing.Eyewear
 
 		[SerializeField] private HUDHandler hudHandler = null;
 		[SerializeField] private BatterySupplyingModule batterySupplyingModule = null;
-		
-		[SyncVar(hook = nameof(SyncCurrentChargeLevel))]private float currentCharge = 0;
 
-		public void SyncCurrentChargeLevel(float oldCharge, float newCharge)
+		[SyncVar(hook = nameof(SyncCurrentCharge))]
+		private float currentCharge = 0;
+
+		public float CurrentCharge => currentCharge;
+
+
+		private void SyncCurrentCharge(float oldCharge, float newCharge)
 		{
 			if (newCharge.Approx(oldCharge)) return;
-			if (batterySupplyingModule && batterySupplyingModule.CapacityMax != 0)
-			{
-				diagnosticsHUDHandler.UpdateBar(batterySupplyingModule.GetSetCurrentCapacity / batterySupplyingModule.CapacityMax);
-			}
 			currentCharge = newCharge;
+			if(diagnosticsHUDHandler?.IsVisible == true) diagnosticsHUDHandler?.UpdateBar(newCharge);
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			//object starts with editor-configured initial name
+			if (batterySupplyingModule.CapacityMax != 0) SyncCurrentCharge(0, batterySupplyingModule.GetSetCurrentCapacity / batterySupplyingModule.CapacityMax);
+		}
+
+		private void EnsureInit()
+		{
+			if (this.batterySupplyingModule == false) batterySupplyingModule = GetComponent<BatterySupplyingModule>();
+		}
+
+		public override void OnStartClient()
+		{
+			EnsureInit();
+
+			if (batterySupplyingModule.CapacityMax != 0) SyncCurrentCharge(0, batterySupplyingModule.GetSetCurrentCapacity / batterySupplyingModule.CapacityMax);
+			base.OnStartClient();
 		}
 
 		public void Awake()
@@ -49,22 +70,13 @@ namespace US13.Clothing.Eyewear
 
 		private void UpdateCharge(float oldCharge, float newCharge)
 		{
-			if (CustomNetworkManager.IsServer)
-			{
-				SyncCurrentChargeLevel(currentCharge, newCharge);
-			}
+			if (CustomNetworkManager.IsServer && oldCharge.Approx(newCharge) == false) SyncCurrentCharge(CurrentCharge, newCharge);
 		}
 
 
 		public void SetUp()
 		{
 			diagnosticsHUDHandler = InstantiatedGameObject.GetComponent<DiagnosticsHUDHandler>();
-			if (batterySupplyingModule != null && batterySupplyingModule.CapacityMax != 0)
-			{
-				diagnosticsHUDHandler.UpdateBar(batterySupplyingModule.GetSetCurrentCapacity /
-				                                batterySupplyingModule.CapacityMax);
-			}
-
 			var visibility = false;
 			var ThisType = typeof(DiagnosticsHUDPowerBar);
 			if (HUDHandler.CategoryEnabled.ContainsKey(ThisType)) //So if you join mid round you still have the HUD showing
@@ -72,28 +84,23 @@ namespace US13.Clothing.Eyewear
 				visibility = HUDHandler.CategoryEnabled[ThisType];
 			}
 
-			diagnosticsHUDHandler.SetVisible(visibility, DiagnosticsHUDHandler.HUDOptions.showPower);
+			diagnosticsHUDHandler?.SetVisible(visibility, DiagnosticsHUDHandler.HUDOptions.showPower);
 		}
 
 
 		public void SetVisible(bool newVisible)
 		{
-			if (gameObject.GetUniversalObjectPhysics().Intangible)
-			{
-				newVisible = false;
-			};
+			if (gameObject.GetUniversalObjectPhysics().Intangible) newVisible = false;
+
 			diagnosticsHUDHandler.SetVisible(newVisible, DiagnosticsHUDHandler.HUDOptions.showPower);
 			if (newVisible == false) return;
-			if (batterySupplyingModule != null && batterySupplyingModule.CapacityMax != 0)
-			{
-				diagnosticsHUDHandler.UpdateBar(currentCharge / batterySupplyingModule.CapacityMax);
-			}
+			diagnosticsHUDHandler?.UpdateBar(CurrentCharge);
 		}
 
 		public void OnDestroy()
 		{
 			hudHandler.RemoveHud(this);
-			batterySupplyingModule.OnCapacityChangedEvent -= UpdateCharge;
+			if (CustomNetworkManager.IsServer) batterySupplyingModule.OnCapacityChangedEvent -= UpdateCharge;
 		}
 	}
 }

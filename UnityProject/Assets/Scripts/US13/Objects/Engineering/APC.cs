@@ -193,7 +193,7 @@ namespace US13.Objects.Engineering
 			SetPowerStateFromVoltage();
 		}
 
-		public void SetPowerStateFromVoltage()
+		public PowerState SetPowerStateFromVoltage()
 		{
 			PowerState newState = currentState;
 
@@ -203,9 +203,10 @@ namespace US13.Objects.Engineering
 			else if (Voltage > overVoltageThreshold) newState = PowerState.OverVoltage;
 			else newState = PowerState.On;
 
-			if (newState == currentState) return;
+			if (newState == currentState) return currentState;
 			OnStateChangeEvent?.Invoke(currentState, newState);
 			currentState = newState;
+			return currentState;
 		}
 
 

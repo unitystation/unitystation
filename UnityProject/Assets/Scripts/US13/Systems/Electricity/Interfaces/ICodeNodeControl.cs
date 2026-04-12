@@ -7,6 +7,6 @@ namespace US13.Systems.Electricity.Interfaces
 	{
 		public event Action<PowerState, PowerState> OnStateChangeEvent;
 		void PowerNetworkUpdate();
-		void SetPowerStateFromVoltage();
+		PowerState SetPowerStateFromVoltage();
 	}
 }

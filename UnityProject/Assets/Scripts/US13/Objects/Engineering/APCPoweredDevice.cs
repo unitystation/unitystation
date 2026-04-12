@@ -234,6 +234,8 @@ namespace US13.Objects.Engineering
 			{
 				RelatedAPC = apc;
 				RelatedAPC.AddDevice(this);
+				state = PowerState.Off; //Ensure its not disconnected
+				Powered?.StateUpdate(state);
 			}
 		}
 
@@ -441,10 +443,10 @@ namespace US13.Objects.Engineering
 
 	public enum PowerState
 	{
-		Off,
-		LowVoltage,
-		On,
-		OverVoltage,
-		Disconnected, //Disconnected state used to relay said state to HUD, does not effect any logic in this class.
+		Off = 0,
+		LowVoltage = 1,
+		On = 2,
+		OverVoltage = 3,
+		Disconnected = 4, //Disconnected state used to relay said state to HUD, does not effect any logic in this class.
 	}
 }

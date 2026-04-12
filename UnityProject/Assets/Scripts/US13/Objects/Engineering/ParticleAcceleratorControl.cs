@@ -404,7 +404,7 @@ namespace US13.Objects.Engineering
 			SetPowerStateFromVoltage();
 		}
 
-		public void SetPowerStateFromVoltage()
+		public PowerState SetPowerStateFromVoltage()
 		{
 			PowerState newState = currentPowerState;
 			var powerNeeded = voltageIncreasePerPowerLevel * ((int) CurrentState - 3);
@@ -413,9 +413,10 @@ namespace US13.Objects.Engineering
 			else if (voltage < powerNeeded) newState = PowerState.LowVoltage;
 			else newState = PowerState.On;
 
-			if (newState == currentPowerState) return;
+			if (newState == currentPowerState) return currentPowerState;
 			OnStateChangeEvent?.Invoke(currentPowerState, newState);
 			currentPowerState = newState;
+			return currentPowerState;
 		}
 	}
 }
