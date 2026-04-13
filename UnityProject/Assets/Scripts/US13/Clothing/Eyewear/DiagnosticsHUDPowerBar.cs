@@ -70,7 +70,7 @@ namespace US13.Clothing.Eyewear
 
 		private void UpdateCharge(float oldCharge, float newCharge)
 		{
-			if (CustomNetworkManager.IsServer && oldCharge.Approx(newCharge) == false) SyncCurrentCharge(CurrentCharge, newCharge);
+			if (CustomNetworkManager.IsServer && CurrentCharge.Approx(newCharge) == false) SyncCurrentCharge(CurrentCharge, newCharge);
 		}
 
 
@@ -93,8 +93,7 @@ namespace US13.Clothing.Eyewear
 			if (gameObject.GetUniversalObjectPhysics().Intangible) newVisible = false;
 
 			diagnosticsHUDHandler.SetVisible(newVisible, DiagnosticsHUDHandler.HUDOptions.showPower);
-			if (newVisible == false) return;
-			diagnosticsHUDHandler?.UpdateBar(CurrentCharge);
+			if (newVisible) diagnosticsHUDHandler?.UpdateBar(CurrentCharge);
 		}
 
 		public void OnDestroy()
