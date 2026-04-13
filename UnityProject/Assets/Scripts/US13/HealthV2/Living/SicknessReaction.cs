@@ -150,6 +150,16 @@ namespace US13.HealthV2.Living
 			return currentStage;
 		}
 
+
+		public int GetStageIDFromReagentAmount(MetabolismComponent sender, float reagentAmount)
+		{
+			int expectedBloodAmount = sender.AssociatedSystem.Base.reagentPoolSystem.NormalBlood;
+			reagentAmount = Mathf.Clamp(reagentAmount, 0, DiseaseMaxConcentrationPercent * expectedBloodAmount);
+			float concentrationPercent = (reagentAmount / expectedBloodAmount) * 100;
+
+			return GetStageID(concentrationPercent);
+		}
+
 		public int GetStageID(float concentrationPercent)
 		{
 			int currentStage = 0;
