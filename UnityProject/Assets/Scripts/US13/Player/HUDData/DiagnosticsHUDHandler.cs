@@ -30,8 +30,7 @@ namespace US13.Player.HUDData
 		{
 			isVisible = visible;
 			if((options & HUDOptions.showState) != 0) stateIcon?.SetActive(isVisible);
-
-			if ((options & HUDOptions.showPower) != 0)
+			if((options & HUDOptions.showPower) != 0)
 			{
 				progressBar?.SetActive(isVisible);
 				progressBar?.SetVisible(isVisible);
@@ -47,7 +46,7 @@ namespace US13.Player.HUDData
 		public void UpdateState(PowerState state)
 		{
 			if(stateIcon == null) return;
-			stateIcon.SetSpriteVariant((int)state, true);
+			stateIcon.SetSpriteVariant((int)state);
 		}
 
 	}

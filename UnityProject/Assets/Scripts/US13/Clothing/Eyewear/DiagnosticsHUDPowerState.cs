@@ -116,12 +116,12 @@ namespace US13.Clothing.Eyewear
 		}
 
 
-		public void SetVisible(bool Visible)
+		public void SetVisible(bool newVisible)
 		{
-			if (gameObject.GetUniversalObjectPhysics().Intangible) Visible = false;
+			if (gameObject.GetUniversalObjectPhysics().Intangible) newVisible = false;
 
-			diagnosticsHUDHandler?.SetVisible(Visible, DiagnosticsHUDHandler.HUDOptions.showState);
-			if (Visible) diagnosticsHUDHandler?.UpdateState(CurrentPowerState);
+			diagnosticsHUDHandler?.SetVisible(newVisible, DiagnosticsHUDHandler.HUDOptions.showState);
+			if (newVisible) diagnosticsHUDHandler?.UpdateState(CurrentPowerState);
 		}
 
 		public void SetNewPowerStateServer(PowerState oldPowerState, PowerState newPowerState)
