@@ -48,12 +48,15 @@ MonoBehaviour:
     SicknessGrowthRelativeRate: 0
   stages:
   - StageConcentrationThreshold: 0
-    StageEffects: []
+    StageEffects:
+    - {fileID: 11400000, guid: 87420fe83c558c24485c87230185377b, type: 2}
   - StageConcentrationThreshold: 1
     StageEffects:
-    - {fileID: 0}
+    - {fileID: 11400000, guid: 87420fe83c558c24485c87230185377b, type: 2}
   - StageConcentrationThreshold: 10
-    StageEffects: []
+    StageEffects:
+    - {fileID: 11400000, guid: 87420fe83c558c24485c87230185377b, type: 2}
   - StageConcentrationThreshold: 20
-    StageEffects: []
+    StageEffects:
+    - {fileID: 11400000, guid: 87420fe83c558c24485c87230185377b, type: 2}
   DiseaseMaxConcentrationPercent: 25

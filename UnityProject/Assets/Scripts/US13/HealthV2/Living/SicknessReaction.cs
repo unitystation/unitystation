@@ -3,7 +3,9 @@ using System.Linq;
 using Chemistry;
 using UnityEngine;
 using US13.HealthV2.Living.MedicalChemistry;
+using US13.HealthV2.Living.PolymorphicSystems;
 using US13.HealthV2.Living.PolymorphicSystems.Bodypart;
+using US13.Player;
 using Util;
 
 namespace US13.HealthV2.Living
@@ -151,9 +153,9 @@ namespace US13.HealthV2.Living
 		}
 
 
-		public int GetStageIDFromReagentAmount(MetabolismComponent sender, float reagentAmount)
+		public int GetStageIDFromReagentAmount(ReagentPoolSystem pool, float reagentAmount)
 		{
-			int expectedBloodAmount = sender.AssociatedSystem.Base.reagentPoolSystem.NormalBlood;
+			int expectedBloodAmount = pool.NormalBlood;
 			reagentAmount = Mathf.Clamp(reagentAmount, 0, DiseaseMaxConcentrationPercent * expectedBloodAmount);
 			float concentrationPercent = (reagentAmount / expectedBloodAmount) * 100;
 

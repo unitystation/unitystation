@@ -73,6 +73,7 @@ namespace US13.Systems.Occupations
 		CHANGELING = 61,
 		ASHWALKER_PRIEST = 62,
 		MAINT_SURVIVOR = 63,
+		VAMPIRE = 64,
 	}
 
 	public enum JobCategory
