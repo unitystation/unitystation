@@ -1,5 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using US13.Managers.UpdateManager;
+using US13.Player;
 using US13.Systems.StatusesAndEffects.Interfaces;
 
 namespace US13.Systems.StatusesAndEffects
@@ -7,6 +10,24 @@ namespace US13.Systems.StatusesAndEffects
 	public class StatusEffectManager : MonoBehaviour
 	{
 		public HashSet<StatusEffect> Statuses { get; } = new();
+
+		private void Start()
+		{
+			UpdateManager.Add(TickStatusUpdates, 1f);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, TickStatusUpdates);
+		}
+
+		private void TickStatusUpdates()
+		{
+			foreach (var effect in Statuses)
+			{
+				effect?.DoEffectTick(gameObject);
+			}
+		}
 
 		public void AddStatus(StatusEffect status)
 		{
@@ -47,13 +68,13 @@ namespace US13.Systems.StatusesAndEffects
 		private void HandleImmediateStatusAddition(StatusEffect status)
 		{
 			if (status is not IImmediateEffect) return;
-			status.DoEffect();
+			status.DoEffect(gameObject);
 		}
 
 		public void RemoveStatus(StatusEffect status)
 		{
 			if (status == false) return;
-			status.OnRemoved();
+			status.OnRemoved(gameObject);
 			Statuses.Remove(status);
 		}
 

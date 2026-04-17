@@ -21,7 +21,7 @@ namespace US13.Systems.StatusesAndEffects.Implementations
 
 		private PlayerScript PlayerBase { get; set; }
 
-		public override void OnAdded()
+		public override void OnAdded(GameObject target)
 		{
 			DeathTime = DateTime.Now.AddSeconds(Duration);
 			PlayerBase = target.GetComponent<PlayerScript>();
@@ -38,9 +38,9 @@ namespace US13.Systems.StatusesAndEffects.Implementations
 			PlayerBase.BodyAlerts.RegisterAlert(SpeedBuffAlert);
 		}
 
-		public override void OnRemoved()
+		public override void OnRemoved(GameObject target)
 		{
-			base.OnRemoved();
+			base.OnRemoved(target);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckExpiration);
 			PlayerBase?.BodyAlerts.UnRegisterAlert(SpeedBuffAlert);
 			if (PlayerBase == null) return;

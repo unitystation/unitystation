@@ -11,17 +11,17 @@ namespace US13.Systems.StatusesAndEffects.Implementations.Hunger
 		public AlertSO StatusAlert;
 		public string MessageOnEnteringStatus = "";
 
-		public override void OnAdded()
+		public override void OnAdded(GameObject target)
 		{
-			base.OnAdded();
+			base.OnAdded(target);
 			var player = target.GetComponent<PlayerScript>();
 			player.BodyAlerts.RegisterAlert(StatusAlert);
-			MessageWhenEnteringState();
+			MessageWhenEnteringState(target);
 		}
 
-		public override void OnRemoved()
+		public override void OnRemoved(GameObject target)
 		{
-			base.OnRemoved();
+			base.OnRemoved(target);
 			if (target != null)
 			{
 				var player = target.GetComponent<PlayerScript>();
@@ -29,7 +29,7 @@ namespace US13.Systems.StatusesAndEffects.Implementations.Hunger
 			}
 		}
 
-		public virtual void MessageWhenEnteringState()
+		public virtual void MessageWhenEnteringState(GameObject target)
 		{
 			if (MessageOnEnteringStatus == "") return;
 			target.AddExamineMsgToChat(MessageOnEnteringStatus);

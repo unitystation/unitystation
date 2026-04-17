@@ -29,20 +29,19 @@ namespace US13.Systems.StatusesAndEffects.Implementations
 		private DateTime nextTriggerTime;
 		private float Timer => Random.Range(triggerTimeRange.x, triggerTimeRange.y);
 
-		public override void OnAdded()
+		public override void OnAdded(GameObject target)
 		{
 			Stacks = InitialStacks;
 			actualProcChance = BASE_PROC_CHANCE;
 			nextTriggerTime = DateTime.Now.AddSeconds(Timer);
 			DeathTime = DateTime.Now.AddSeconds(duration);
-			UpdateManager.Add(Trigger, 1f);
-			UpdateManager.Add(CheckExpiration, 1f);
 		}
 
-		public override void OnRemoved()
+		public override void DoEffectTick(GameObject target)
 		{
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Trigger);
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckExpiration);
+			base.DoEffectTick(target);
+			Trigger(target);
+			CheckExpiration();
 		}
 
 		public void AddStack(int amount)
@@ -66,23 +65,23 @@ namespace US13.Systems.StatusesAndEffects.Implementations
 				if (item != null)
 				{
 					Chat.AddActionMsgToChat(
-						target,
+						player.gameObject,
 						$"You convulse violently, and you drop {item.gameObject.ExpensiveName()}!",
-						$"{target.ExpensiveName()} convulses, and they drop their {item.gameObject.ExpensiveName()}!");
+						$"{player.gameObject.ExpensiveName()} convulses, and they drop their {item.gameObject.ExpensiveName()}!");
 				}
 				else
 				{
 					Chat.AddActionMsgToChat(
-						target,
+						player.gameObject,
 						$"You convulse violently!",
-						$"{target.ExpensiveName()} convulses!");
+						$"{player.gameObject.ExpensiveName()} convulses!");
 				}
 				Inventory.Inventory.ServerDrop(slot);
 			}
 		}
 
 
-		public override void DoEffect()
+		public override void DoEffect(GameObject target)
 		{
 			if (target.TryGetComponent<PlayerScript>(out var player) == false)
 			{
@@ -105,11 +104,11 @@ namespace US13.Systems.StatusesAndEffects.Implementations
 			EmoteActionManager.DoEmote("twitch", target);
 		}
 
-		private void Trigger()
+		private void Trigger(GameObject target)
 		{
 			if (DateTime.Now < nextTriggerTime) return;
 			nextTriggerTime = DateTime.Now.AddSeconds(Timer);
-			DoEffect();
+			DoEffect(target);
 		}
 
 		public void CheckExpiration()
