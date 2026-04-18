@@ -119,7 +119,7 @@ namespace US13.Systems.Antagonists
 			}
 
 			StringBuilder evolutionMessageBuilder = new StringBuilder();
-			for (int i = currentVampirismStage; i < newStage; ++i)
+			for (int i = currentVampirismStage + 1; i <= newStage; i++)
 			{
 				StageAbilities abilitiesToGain = stageAbilities[i];
 				if(abilitiesToGain.onStageReachedText != null) evolutionMessageBuilder.AppendLine($"<color=red>{abilitiesToGain.onStageReachedText}</color>");
