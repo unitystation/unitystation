@@ -171,7 +171,7 @@ namespace US13.Objects.Other
 
 		private ItemStorage itemStorage;
 		private APCPoweredDevice apcPoweredDevice;
-		private ClearanceRestricted restricted;
+		[SerializeField]  private ClearanceRestricted restricted;
 
 		//Used to debug player searching linecast
 		private LineRenderer lineRenderer;
@@ -194,7 +194,11 @@ namespace US13.Objects.Other
 			itemStorage = GetComponent<ItemStorage>();
 			apcPoweredDevice = GetComponent<APCPoweredDevice>();
 			integrity = GetComponent<Integrity>();
-			restricted = GetComponent<ClearanceRestricted>();
+			if (restricted == null)
+			{
+				restricted = GetComponent<ClearanceRestricted>();
+			}
+
 			lineRenderer = GetComponentInChildren<LineRenderer>();
 		}
 

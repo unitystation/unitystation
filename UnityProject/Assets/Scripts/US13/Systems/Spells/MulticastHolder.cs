@@ -56,7 +56,7 @@ namespace US13.Systems.Spells
 			Vector3Int casterWorldPos = caster.Script.WorldPos;
 			Vector2 castVector = clickPosition - casterWorldPos;
 			ProjectileManager.InstantiateAndShoot(projectilePrefab, castVector,
-				PlayerManager.LocalPlayerScript.GameObject,
+				caster.Script.GameObject,
 				null, targetZone);
 			Used++;
 

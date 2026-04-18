@@ -158,7 +158,7 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 2a0c00d506dfa084b9b82a6290d9fb6d,
     type: 2}
   randomInitialSprite: 0
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 7886027961575958657}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -326,6 +326,11 @@ PrefabInstance:
       propertyPath: variantIndex
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1607310524914379635}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -531,6 +536,7 @@ MonoBehaviour:
   CheckUnauthorisedPersonnel: 0
   authorisedClearance: {fileID: 1159551954190040820}
   CheckUnidentifiedLifeSigns: 1
+  restricted: {fileID: 7670922418104730739}
   <CanRelink>k__BackingField: 1
 --- !u!114 &2506153195070795302
 MonoBehaviour:
@@ -626,6 +632,12 @@ MonoBehaviour:
 --- !u!4 &1530055412931709374 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 2245715690121042660}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &1607310524914379635 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
     type: 3}
   m_PrefabInstance: {fileID: 2245715690121042660}
   m_PrefabAsset: {fileID: 0}

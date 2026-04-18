@@ -92,6 +92,26 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 4725326683171034915}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8575510077908373922}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 396799544946795909}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1645786940187336249}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1289976768712101821}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8465225016739085261}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!212 &3258576590383769511 stripped
 SpriteRenderer:
@@ -119,4 +139,79 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assets::ChameleonProjector
   Targeted: {fileID: 0}
   pickupable: {fileID: 0}
-  active: 0
+  ActivatableWeapon: {fileID: 0}
+--- !u!114 &8575510077908373922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3443353450658616571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63f4ca8961a114575a87fdce0aac206e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Items.Weapons.ActivatableWeapon
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  canActivate:
+    InitialState: 1
+    OnBoolChange:
+      m_PersistentCalls:
+        m_Calls: []
+  canDeactivate:
+    InitialState: 1
+    OnBoolChange:
+      m_PersistentCalls:
+        m_Calls: []
+--- !u!114 &396799544946795909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3443353450658616571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80e2e9fa8c4cc3fad80aa29ba9155151, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Items.Weapons.ActivatableWeaponComponents.Client.PreventHandswapWhileActive
+--- !u!114 &1645786940187336249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3443353450658616571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4c6fcd3e72250b89b6ec316e8e24ede, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Items.Weapons.ActivatableWeaponComponents.Server.DeactivateOnInventoryMove
+--- !u!114 &1289976768712101821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3443353450658616571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0628f0bada35bb90d83723f8bfcae634, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Items.Weapons.ActivatableWeaponComponents.Server.ExamineMessageOnToggle
+  activateMessage: You wield {obj} grabbing it with both hands
+  deactivateMessage: You unwield {obj}
+--- !u!114 &8465225016739085261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3443353450658616571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb601676182dbb612a27f81b474d832a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Items.Weapons.ActivatableWeaponComponents.Server.DropItemSInOtherHandOnActivate

@@ -3,6 +3,7 @@ using Mirror;
 using UnityEngine;
 using US13.Core.Sprite_Handler;
 using US13.Managers.NetworkManagement;
+using US13.Messages.Server.SpritesMessages;
 
 public class SpriteHandlerItemReplicatorNet : NetworkBehaviour
 {
@@ -93,6 +94,8 @@ public class SpriteHandlerItemReplicatorNet : NetworkBehaviour
 			var Handlers = TrackingObject.GetComponentsInChildren<SpriteHandler>();
 			foreach (var Handler in Handlers)
 			{
+				if (Handler.enabled == false || Handler.gameObject.activeInHierarchy == false) continue;
+				if (Handler.CurrentSprite == null) continue;
 				var  Newhandler = OnItemAddedString(Handler.name);
 				SynchronisedHandlers.Add(Handler.name);
 				Newhandler.SetSpriteSO(Handler.PresentSpritesSet);

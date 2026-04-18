@@ -22,9 +22,14 @@ namespace US13.Messages.Server.SpritesMessages
 
 		public override void Process(NetMessage msg)
 		{
+
+			ProcessUnprocessedData();
+		}
+
+		public static void ProcessUnprocessedData()
+		{
 			if (CustomNetworkManager.IsServer)
 				return;
-
 			List<SpriteUpdateEntry> spriteUpdateList = new List<SpriteUpdateEntry>();
 
 			spriteUpdateList.AddRange(UnprocessedData);
@@ -41,7 +46,7 @@ namespace US13.Messages.Server.SpritesMessages
 			UnprocessedData.AddRange(spriteUpdateList);
 		}
 
-		private bool ProcessEntry(SpriteUpdateEntry spriteUpdateEntry)
+		private static bool ProcessEntry(SpriteUpdateEntry spriteUpdateEntry)
 		{
 			var spawned = CustomNetworkManager.Spawned;
 			if (spawned.TryGetValue(spriteUpdateEntry.id, out var networkIdentity) == false) return false;

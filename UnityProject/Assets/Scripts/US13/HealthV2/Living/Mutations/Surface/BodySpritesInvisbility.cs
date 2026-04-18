@@ -17,7 +17,7 @@ namespace US13.HealthV2.Living.Mutations.Surface
 		[SyncVar(hook = nameof(OnAlphaChanged))] public float Alpha = 1f;
 		public GameObject bodyPartSprites;
 		public GameObject Customisation;
-		public GameObject CustomisationSprites;
+		public GameObject Huds;
 
 
 		public bool DEBUG = false;
@@ -61,17 +61,39 @@ namespace US13.HealthV2.Living.Mutations.Surface
 
 		private void SetAlphaOnSprites(float newAlpha)
 		{
-			if (bodyPartSprites == null) return;
-			foreach (SpriteRenderer spriteRenderer in bodyPartSprites.GetComponentsInChildren<SpriteRenderer>())
+			if (bodyPartSprites != null)
 			{
-				spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, newAlpha);
+				foreach (SpriteRenderer spriteRenderer in bodyPartSprites.GetComponentsInChildren<SpriteRenderer>())
+				{
+					spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, newAlpha);
+				}
 			}
-			if (Customisation == null)return;
-			foreach (SpriteRenderer spriteRenderer in Customisation.GetComponentsInChildren<SpriteRenderer>())
-			{
-				if (spriteRenderer.GetComponent<CustomisationSprite>() == null && IncludeClothes == false) continue;
 
-				spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, newAlpha);
+			if (Customisation != null)
+			{
+				foreach (SpriteRenderer spriteRenderer in Customisation.GetComponentsInChildren<SpriteRenderer>())
+				{
+					if (spriteRenderer.GetComponent<CustomisationSprite>() == null)
+					{
+						if (IncludeClothes == false)
+						{
+							if (newAlpha != 1)
+							{
+								continue;
+							}
+						}
+					}
+
+					spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, newAlpha);
+				}
+			}
+
+			if (Huds != null)
+			{
+				foreach (SpriteRenderer spriteRenderer in Huds.GetComponentsInChildren<SpriteRenderer>())
+				{
+					spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, newAlpha);
+				}
 			}
 		}
 
@@ -82,14 +104,6 @@ namespace US13.HealthV2.Living.Mutations.Surface
 
 		public void OnAlphaChanged(float oldAlpha, float newAlpha)
 		{
-			if (newAlpha < 0.05f)
-			{
-				newAlpha = 0.05f;
-			}
-			if (newAlpha > 1f)
-			{
-				newAlpha = 0.99f;
-			}
 			SetAlphaOnSprites(newAlpha);
 		}
 

@@ -7,11 +7,13 @@ using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Core.Utils;
 using US13.HealthV2.Living.Mutations.Surface;
 using US13.Items;
+using US13.Items.Weapons;
+using US13.Managers.NetworkManagement;
 using US13.Systems.Inventory;
 using US13.Tilemaps.Behaviours.Objects;
 using Util;
 
-public class ChameleonProjector : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<HandActivate>,IItemInOutMovedPlayer
+public class ChameleonProjector : MonoBehaviour, ICheckedInteractable<PositionalHandApply>,IItemInOutMovedPlayer
 {
 
 	public GameObject Targeted;
@@ -34,11 +36,14 @@ public class ChameleonProjector : MonoBehaviour, ICheckedInteractable<Positional
 
 	public Pickupable pickupable;
 
-	public bool active = false;
+	public ActivatableWeapon ActivatableWeapon;
 
 	public void Awake()
 	{
 		pickupable  = GetComponent<Pickupable>();
+		ActivatableWeapon = this.GetComponent<ActivatableWeapon>();
+		ActivatableWeapon.ServerOnActivate += CheckState;
+		ActivatableWeapon.ServerOnDeactivate +=  CheckState;
 	}
 
 	public bool IsValidSetup(RegisterPlayer player)
@@ -46,8 +51,9 @@ public class ChameleonProjector : MonoBehaviour, ICheckedInteractable<Positional
 		if (player == null) return false;
 		if (player != null && pickupable.ItemSlot?.Player == player)
 		{
+			return pickupable.ItemSlot.NamedSlot == NamedSlot.rightHand ||
+			       pickupable.ItemSlot.NamedSlot == NamedSlot.rightHand;
 			//Only turn on goggle for client if they are on
-			return true;
 		}
 
 		return false;
@@ -70,47 +76,37 @@ public class ChameleonProjector : MonoBehaviour, ICheckedInteractable<Positional
 		Chat.AddExamineMsgFromServer(interaction.Performer,$"You set {interaction.TargetObject.ExpensiveName()} on the {gameObject.ExpensiveName()}");
 	}
 
-	public bool WillInteract(HandActivate interaction, NetworkSide side)
+	public void CheckState(GameObject GameObject)
 	{
-		if (DefaultWillInteract.Default(interaction, side) == false) return false;
-		return true;
+		if (CurrentlyOn != null)
+		{
+			if (ActivatableWeapon.IsActive == false)
+			{
+				var Visibility = CurrentlyOn.GetCachedComponent<BodySpritesInvisbility>();
+				var Projection = CurrentlyOn.GetComponent<SpriteHandlerItemReplicatorNet>();
+				Visibility.IncludeClothes = true;
+				Visibility.Alpha = 0;
+				Projection.TrackItem(Targeted);
+			}
+			else
+			{
+				var Visibility = CurrentlyOn.GetCachedComponent<BodySpritesInvisbility>();
+				var Projection = CurrentlyOn.GetComponent<SpriteHandlerItemReplicatorNet>();
+				Visibility.Alpha = 1;
+				Visibility.IncludeClothes = false;
+				Projection.TrackItem(null);
+			}
+
+		}
 	}
 
-	public void ServerPerformInteraction(HandActivate interaction)
-	{
-		if (Targeted == null)
-		{
-			Chat.AddExamineMsgFromServer(interaction.Performer,$"The {gameObject.ExpensiveName()} Doesn't have an object to project, choose one");
-			return;
-		}
-
-
-		active = !active;
-		var visibility = CurrentlyOn.GetCachedComponent<BodySpritesInvisbility>();
-
-		var Projection = CurrentlyOn.GetComponent<SpriteHandlerItemReplicatorNet>();
-
-		if (active)
-		{
-			visibility.Alpha = 0;
-			visibility.IncludeClothes = true;
-			Projection.TrackItem(Targeted);
-		}
-		else
-		{
-			visibility.Alpha = 1;
-			visibility.IncludeClothes = false;
-			Projection.TrackItem(null);
-		}
-
-	}
 
 	public void ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
 	{
 		if (HideForPlayer != null)
 		{
 			var Visibility = HideForPlayer.GetCachedComponent<BodySpritesInvisbility>();
-			var Projection = CurrentlyOn.GetComponent<SpriteHandlerItemReplicatorNet>();
+			var Projection = HideForPlayer.GetComponent<SpriteHandlerItemReplicatorNet>();
 			Visibility.Alpha = 1;
 			Visibility.IncludeClothes = false;
 			Projection.TrackItem(null);
@@ -118,12 +114,12 @@ public class ChameleonProjector : MonoBehaviour, ICheckedInteractable<Positional
 
 		if (ShowForPlayer != null)
 		{
-			if (active)
+			if (ActivatableWeapon.IsActive && Targeted != null)
 			{
 				var Visibility = ShowForPlayer.GetCachedComponent<BodySpritesInvisbility>();
-				var Projection = CurrentlyOn.GetComponent<SpriteHandlerItemReplicatorNet>();
-				Visibility.Alpha = 0;
+				var Projection = ShowForPlayer.GetComponent<SpriteHandlerItemReplicatorNet>();
 				Visibility.IncludeClothes = true;
+				Visibility.Alpha = 0;
 				Projection.TrackItem(Targeted);
 			}
 		}
