@@ -240,6 +240,17 @@ namespace US13.Actions.V2
 			cachedNetIdentity.isDirty = true;
 		}
 
+		[Server]
+		public void ServerEndCooldown(string actionId)
+		{
+			var cooldowns = ActionCooldowns.FindAll(x => x.ActionId == actionId);
+			foreach (var cooldown in cooldowns)
+			{
+				ActionCooldowns.Remove(cooldown);
+			}
+			this.cachedNetIdentity.isDirty = true;
+		}
+
 		[Client]
 		public void ClientAddAction(ActionButtonData actionId, Action<Vector2> newAction)
 		{

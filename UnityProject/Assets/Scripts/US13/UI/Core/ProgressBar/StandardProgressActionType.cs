@@ -18,6 +18,7 @@ namespace US13.UI.Core.ProgressBar
 		Escape = 7,
 		Unbuckle = 8,
 		ItemTransfer = 9,
-		Craft = 10
+		Craft = 10,
+		Afflict = 11,
 	}
 }

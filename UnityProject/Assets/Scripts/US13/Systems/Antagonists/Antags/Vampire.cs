@@ -11,9 +11,6 @@ namespace US13.Systems.Antagonists.Antags
 		public override void AfterSpawn(Mind NewMind)
 		{
 			if (NewMind.GetCurrentMob().TryGetComponent<AiPlayer>(out var aiPlayer)) return;
-
-			NewMind.Body.playerHealth.reagentPoolSystem.BloodPool.Add(CommonSicknesses.Instance.VampirismReagent, 5);
-			//Game start vampires should start with ability to blood drain
 		}
 
 	}

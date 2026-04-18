@@ -14,8 +14,12 @@ using US13.Tilemaps.Behaviours.Objects;
 
 namespace US13.Player
 {
+	public interface ILightControl
+	{
+		public LightSprite ObjectLightSprite { get; }
+	}
 	[RequireComponent(typeof(Pickupable))]
-	public class ItemLightControl : BodyPartFunctionality, IItemInOutMovedPlayer
+	public class ItemLightControl : BodyPartFunctionality, IItemInOutMovedPlayer, ILightControl
 	{
 		[Tooltip("Controls the light the player emits if they have this object equipped.")]
 		public LightsHolder LightEmission;

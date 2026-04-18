@@ -29,7 +29,7 @@ namespace US13.HealthV2.Living.MedicalChemistry
 
 
 			if(playerScript.TryGetComponent<VampireStageProgression>(out var vampireStageProgression) == false) return;
-			vampireStageProgression.Apply(reagentMix);
+			vampireStageProgression.Apply();
 		}
 	}
 }

@@ -188,7 +188,7 @@ namespace US13.Systems.Antagonists
 
 				try
 				{
-					objectives.AddRange(team.Data.GenerateObjectives());
+					objectives.AddRange(team.Data.GenerateObjectives(team));
 					team.AddTeamObjectives(objectives);
 				}
 				catch (Exception e)

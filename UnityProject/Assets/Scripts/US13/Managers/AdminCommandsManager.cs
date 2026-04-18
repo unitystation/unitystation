@@ -520,6 +520,10 @@ namespace US13.Managers
 			foreach (var sickness in CureManager.Instance.CureableSicknesses)
 			{
 				playerBlood.Remove(sickness.Sickness, 9999);
+				foreach (var effect in sickness.CureReaction.effectDict)
+				{
+					effect.Key.Apply(playerScript.playerHealth.brain, playerBlood, playerScript.AssumedWorldPos, 99.0f);
+				}
 			}
 			//Log what we did.
 			LogAdminAction($"{admin.Username}: Cured Username: {player.Username} ({player.Name})");
