@@ -36,7 +36,6 @@ namespace US13.Systems.Clearance
 		{
 			get
 			{
-				return clearance;
 				if (ClearanceDisabled)
 				{
 					return Enumerable.Empty<Clearance>();
@@ -49,7 +48,6 @@ namespace US13.Systems.Clearance
 		{
 			get
 			{
-				return lowPopClearance;
 				if (ClearanceDisabled)
 				{
 					return Enumerable.Empty<Clearance>();
