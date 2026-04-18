@@ -14,14 +14,14 @@ namespace US13.Systems.StatusesAndEffects.Implementations
 		public float Duration => duration;
 		public DateTime DeathTime { get; set; }
 
-		public override void OnAdded()
+		public override void OnAdded(GameObject target)
 		{
 			DeathTime = DateTime.Now.AddSeconds(duration);
 			UpdateManager.Add(CheckExpiration, 1f);
 			//TODO: Marked sprite?
 		}
 
-		public override void OnRemoved()
+		public override void OnRemoved(GameObject target)
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckExpiration);
 		}
