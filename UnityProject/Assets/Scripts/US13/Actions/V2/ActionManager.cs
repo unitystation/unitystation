@@ -186,11 +186,11 @@ namespace US13.Actions.V2
 			if (ServerActionRegistry.TryGetValue(actionId, out var found) == false) return;
 			try
 			{
-				found.Action?.Invoke(mouseLocation);
 				if (found.Data.CooldownTime > MINIMUM_COOLDOWN_TIME)
 				{
 					AddCooldown(actionId, found.Data.CooldownTime);
 				}
+				found.Action?.Invoke(mouseLocation);
 			}
 			catch (Exception e)
 			{
@@ -241,20 +241,10 @@ namespace US13.Actions.V2
 		}
 
 		[Server]
-		public void ServerEndCooldown(string actionId)
+		public void ServerPreventEndCooldown(string actionId)
 		{
-			Loggy.Warning("Before");
-			foreach (var cooldown in ActionCooldowns)
-			{
-				Loggy.Warning($"{cooldown.ActionId} : {cooldown.CooldownEnd}");
-			}
 			ActionCooldowns.RemoveAll(x => x.ActionId.Equals(actionId, StringComparison.InvariantCulture));
 			this.cachedNetIdentity.isDirty = true;
-			Loggy.Warning("After");
-			foreach (var cooldown in ActionCooldowns)
-			{
-				Loggy.Warning($"{cooldown.ActionId} : {cooldown.CooldownEnd}");
-			}
 		}
 
 		[Client]
