@@ -85,6 +85,8 @@ namespace US13.Systems.Antagonists
 				connectedPlayer.Mind.RemoveAntag();
 			}
 
+			if (newStage < 3 && cloakEquipped) UnEquipCloak();
+
 			StringBuilder devolutionMessageBuilder = new StringBuilder();
 			for (int i = Math.Max(currentVampirismStage,0); i >= newStage; i--)
 			{

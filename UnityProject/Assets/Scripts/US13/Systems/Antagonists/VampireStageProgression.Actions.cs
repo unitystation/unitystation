@@ -141,8 +141,8 @@ namespace US13.Systems.Antagonists
 
 		private void TryForceEndCooldown(string actionId)
 		{
-			connectedPlayer.Mind?.PlayerButtonedActions?.ServerEndCooldown(actionId);
-			connectedPlayer.Mind?.Body?.PlayerButtonedActions?.ServerEndCooldown(actionId);
+			connectedPlayer.Mind.PlayerButtonedActions.ServerEndCooldown(actionId);
+			connectedPlayer.Mind.Body?.PlayerButtonedActions.ServerEndCooldown(actionId);
 		}
 
 		private bool TryDrainPlayer(Vector2 worldMousePosition, Matrix matrix, PlayerScript firstPlayerOnTile)
