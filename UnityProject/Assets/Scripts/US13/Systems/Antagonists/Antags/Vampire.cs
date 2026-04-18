@@ -8,10 +8,6 @@ namespace US13.Systems.Antagonists.Antags
 	[CreateAssetMenu(menuName="ScriptableObjects/Antagonist/Vampire")]
 	public class Vampire : Antagonist
 	{
-		public override void AfterSpawn(Mind NewMind)
-		{
-			if (NewMind.GetCurrentMob().TryGetComponent<AiPlayer>(out var aiPlayer)) return;
-		}
-
+		public override void AfterSpawn(Mind NewMind) { }
 	}
 }

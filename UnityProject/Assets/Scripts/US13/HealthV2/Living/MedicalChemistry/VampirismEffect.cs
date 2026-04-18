@@ -17,8 +17,11 @@ namespace US13.HealthV2.Living.MedicalChemistry
 		public override void Apply(MonoBehaviour sender, ReagentMix reagentMix, Vector3 worldPosition, float amount)
 		{
 			if (sender == null) return;
-			if (sender.TryGetComponent<ItemAttributesV2>(out var attributes) == false) return;
-			if (requiredTrait == true && attributes.HasTrait(requiredTrait) == false) return;
+			if (amount < 99.0f)
+			{
+				if(sender.TryGetComponent<ItemAttributesV2>(out var attributes) == false) return;
+				if (requiredTrait == true && attributes.HasTrait(requiredTrait) == false) return;
+			}
 
 
 			var metabolismComponent = sender as MetabolismComponent;

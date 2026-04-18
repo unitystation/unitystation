@@ -9,14 +9,18 @@ using Mirror;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
+using US13.Actions.V2.UI;
+using US13.Core;
 using US13.Core.Camera;
 using US13.Core.Chat;
 using US13.Core.Input_System.InteractionV2;
 using US13.Core.Lifecycle;
 using US13.Core.Lighting;
+using US13.Core.Utils;
 using US13.Health.Living.SimpleAnimal;
 using US13.Health.Objects;
 using US13.HealthV2;
+using US13.HealthV2.Living;
 using US13.HealthV2.Living.MedicalChemistry;
 using US13.HealthV2.Living.PolymorphicSystems;
 using US13.Managers.MatrixManager;
@@ -43,7 +47,7 @@ namespace US13.Systems.Antagonists
 		[SerializeField, BoxGroup("Blood Drain"), Range(0,100)] private int bloodDrainAmount = 10;
 		private float BloodDrainAmountFraction => bloodDrainAmount / 100.0f;
 		[SerializeField, BoxGroup("Blood Drain"), Range(0,100)] private int bloodDrainEfficiency = 20;
-		private float bloodDrainEfficiencyFraction => bloodDrainEfficiency / 100.0f;
+		private float BloodDrainEfficiencyFraction => bloodDrainEfficiency / 100.0f;
 
 		[SerializeField, BoxGroup("Corrupt")] private string corruptActionId = "convert";
 		[SerializeField, BoxGroup("Corrupt")] private float corruptRange = 1.5f;
@@ -54,7 +58,6 @@ namespace US13.Systems.Antagonists
 		[SerializeField, BoxGroup("Hypnotic Stare")] private float hypnoticStareDuration = 10.0f;
 		[SerializeField, BoxGroup("Hypnotic Stare")] private float hypnoticStareRange = 4.5f;
 		[SerializeField, BoxGroup("Hypnotic Stare"), Range(0,180)] private int hypnoticStareAngleDegrees = 45;
-		[SerializeField, BoxGroup("Hypnotic Stare")] private ContactFilter2D playerMask;
 		[FormerlySerializedAs("hypnoticStateLightData")] [SerializeField, BoxGroup("Hypnotic Stare")] private LightData hypnoticStareLightData;
 		[SerializeField, BoxGroup("Hypnotic Stare")] private LightsHolder playerLightsHolder;
 		[SerializeField,BoxGroup("Hypnotic Stare")] private LightSprite stareLightSprite;
@@ -76,9 +79,6 @@ namespace US13.Systems.Antagonists
 
 		private static readonly StandardProgressActionConfig progressConfig =
 			new StandardProgressActionConfig(StandardProgressActionType.Afflict, false, false, true, false, true);
-
-		private const int MAX_PLAYER_BUFFER_LENGTH = 10;
-		private Collider2D[] colliderBuffer = new Collider2D[MAX_PLAYER_BUFFER_LENGTH];
 
 		private bool isOn = true;
 		private bool cloakEquipped = false;
@@ -142,7 +142,7 @@ namespace US13.Systems.Antagonists
 		private void TryForceEndCooldown(string actionId)
 		{
 			connectedPlayer.Mind?.PlayerButtonedActions?.ServerEndCooldown(actionId);
-			connectedPlayer?.PlayerButtonedActions?.ServerEndCooldown(actionId);
+			connectedPlayer.Mind?.Body?.PlayerButtonedActions?.ServerEndCooldown(actionId);
 		}
 
 		private bool TryDrainPlayer(Vector2 worldMousePosition, Matrix matrix, PlayerScript firstPlayerOnTile)
@@ -173,7 +173,7 @@ namespace US13.Systems.Antagonists
 					Chat.AddExamineMsg(connectedPlayer.gameObject, $"You successfully to drain {firstPlayerOnTile.visibleName}'s blood.");
 					Chat.AddWarningMsgFromServer(firstPlayerOnTile.gameObject, "You feel a small prick on your neck.");
 					ReagentMix extractedBlood = victimReagentPool.BloodPool.Take(victimReagentPool.NormalBlood * BloodDrainAmountFraction);
-					float gainedBlood = extractedBlood.Total * bloodDrainEfficiencyFraction;
+					float gainedBlood = extractedBlood.Total * BloodDrainEfficiencyFraction;
 					ReagentPool.BloodPool.Add(CommonSicknesses.Instance.VampirismReagent, gainedBlood);
 					connectedPlayer.playerHealth.HealDamageOnAll(connectedPlayer.gameObject, gainedBlood, DamageType.Brute);
 				})
@@ -205,8 +205,8 @@ namespace US13.Systems.Antagonists
 			var bar = StandardProgressAction.Create(progressConfig, () =>
 			{
 				Chat.AddExamineMsg(connectedPlayer.gameObject, $"You successfully to drain {firstMobOnTile.name}'s blood.");
-				ReagentPool.BloodPool.Add(CommonSicknesses.Instance.VampirismReagent, bloodToDrain * bloodDrainEfficiencyFraction * 10); //this times 10 is just to make V1 mobs give some blood despite low health
-				connectedPlayer.playerHealth.HealDamageOnAll(connectedPlayer.gameObject, bloodToDrain * bloodDrainEfficiencyFraction * 10, DamageType.Brute);
+				ReagentPool.BloodPool.Add(CommonSicknesses.Instance.VampirismReagent, bloodToDrain * BloodDrainEfficiencyFraction * 10); //this times 10 is just to make V1 mobs give some blood despite low health
+				connectedPlayer.playerHealth.HealDamageOnAll(connectedPlayer.gameObject, bloodToDrain * BloodDrainEfficiencyFraction * 10, DamageType.Brute);
 				firstMobOnTile.ApplyDamage(connectedPlayer.gameObject, bloodToDrain, AttackType.Internal, DamageType.Brute);
 			})
 				.ServerStartProgress(firstMobOnTile.gameObject.RegisterTile(), bloodDrainTime, connectedPlayer.gameObject);
@@ -218,7 +218,12 @@ namespace US13.Systems.Antagonists
 			return true;
 		}
 
-		public async void HypnoticStare(Vector2 worldMousePosition)
+		public void HypnoticStare(Vector2 worldMousePosition)
+		{
+			_ = HypnoticStareAsync(worldMousePosition);
+		}
+
+		private async UniTaskVoid HypnoticStareAsync(Vector2 worldMousePosition)
 		{
 			if (connectedPlayer == null)
 			{
@@ -232,13 +237,11 @@ namespace US13.Systems.Antagonists
 			Vector3 positionOrigin = gameObject.AssumedWorldPosServer();
 			Vector3 facingVector = connectedPlayer.CurrentDirection.ToLocalVector3();
 
-			var possibleTargets = Physics2D.OverlapCircle(gameObject.AssumedWorldPosServer(), hypnoticStareRange,playerMask, colliderBuffer);
-			for(int i = 0; i < possibleTargets; i++)
+			var nearbyPlayers = ComponentsTracker<LivingHealthMasterBase>.GetAllNearbyTypesToTarget(connectedPlayer.gameObject, hypnoticStareRange, bypassInventories: false);
+			foreach(var player in nearbyPlayers)
 			{
-				Collider2D target = colliderBuffer[i];
-
-				if(gameObject == target.gameObject) continue;
-				Vector3 targetPosition = target.gameObject.AssumedWorldPosServer();
+				if(player.gameObject == gameObject) continue;
+				Vector3 targetPosition = player.gameObject.AssumedWorldPosServer();
 				Vector3 relativeVector = targetPosition - positionOrigin;
 
 				if (relativeVector.sqrMagnitude > hypnoticStareRange * hypnoticStareRange) continue;
@@ -256,8 +259,7 @@ namespace US13.Systems.Antagonists
 					targetPosition, false);
 				if (result.ItHit) continue;
 
-				if (target.TryGetCachedComponent<RegisterPlayer>(out var registerPlayer) == false) continue;
-				registerPlayer.ServerSleep(hypnoticStareDuration);
+				player.playerScript.RegisterPlayer.ServerSleep(hypnoticStareDuration);
 			}
 
 			await UniTask.WaitForSeconds(1.0f);
@@ -363,7 +365,7 @@ namespace US13.Systems.Antagonists
 		{
 			if (cloakSlotTempStorage == false) return;
 			List<ItemSlot> neckSlots = connectedPlayer.DynamicItemStorage.GetNamedItemSlots(NamedSlot.neck);
-			if (neckSlots.Count() != 0) Inventory.Inventory.ServerTransfer(neckSlots[0], cloakSlotTempStorage.GetNextEmptySlot());
+			if (neckSlots.Count() != 0) Inventory.Inventory.ServerTransfer(neckSlots[0], cloakSlotTempStorage.GetIndexedItemSlot(0));
 			GameObject cloakObject = Spawn.ServerPrefab(vampireCloak).GameObject;
 			Inventory.Inventory.ServerAdd(cloakObject, neckSlots[0]);
 			neckSlots[0].ServerSetLock(true);
@@ -374,7 +376,11 @@ namespace US13.Systems.Antagonists
 			if (cloakSlotTempStorage == false) return;
 			List<ItemSlot> neckSlots = connectedPlayer.DynamicItemStorage.GetNamedItemSlots(NamedSlot.neck);
 			neckSlots[0].ServerSetLock(false);
-			Inventory.Inventory.ServerTransfer(cloakSlotTempStorage.GetFirstOccupiedSlot(), neckSlots[0], ReplacementStrategy.DespawnOther);
+			if (Inventory.Inventory.ServerTransfer(cloakSlotTempStorage.GetIndexedItemSlot(0), neckSlots[0],
+				    ReplacementStrategy.DespawnOther) == false)
+			{
+				Inventory.Inventory.ServerDespawn(neckSlots[0]);
+			}
 		}
 	}
 }

@@ -18,7 +18,7 @@ namespace US13.Actions.V2
 		[field: SerializeField] public float ActionButtonRefreshRate { get; private set; } = 0.75f;
 
 		private readonly SyncList<ActionButtonData> ActionButtons = new SyncList<ActionButtonData>();
-		private readonly SyncList<CooldownInfo> ActionCooldowns = new();
+		private readonly SyncList<CooldownInfo> ActionCooldowns = new SyncList<CooldownInfo>();
 		private readonly Dictionary<string, (ActionButtonData Data, Action<Vector2> Action)> ServerActionRegistry = new();
 		private readonly Dictionary<string, (ActionButtonData Data, Action<Vector2> Action)> ClientActionRegistry = new();
 		private NetworkIdentity cachedNetIdentity;
@@ -243,12 +243,18 @@ namespace US13.Actions.V2
 		[Server]
 		public void ServerEndCooldown(string actionId)
 		{
-			var cooldowns = ActionCooldowns.FindAll(x => x.ActionId == actionId);
-			foreach (var cooldown in cooldowns)
+			Loggy.Warning("Before");
+			foreach (var cooldown in ActionCooldowns)
 			{
-				ActionCooldowns.Remove(cooldown);
+				Loggy.Warning($"{cooldown.ActionId} : {cooldown.CooldownEnd}");
 			}
+			ActionCooldowns.RemoveAll(x => x.ActionId.Equals(actionId, StringComparison.InvariantCulture));
 			this.cachedNetIdentity.isDirty = true;
+			Loggy.Warning("After");
+			foreach (var cooldown in ActionCooldowns)
+			{
+				Loggy.Warning($"{cooldown.ActionId} : {cooldown.CooldownEnd}");
+			}
 		}
 
 		[Client]
@@ -315,7 +321,13 @@ namespace US13.Actions.V2
 
 		private bool IsActionOnCooldown(string actionId)
 		{
-			var isUnderCooldown = ActionCooldowns.Find(tuple => tuple.ActionId == actionId);
+			Loggy.Warning("While Checking");
+			foreach (var cooldown in ActionCooldowns)
+			{
+				Loggy.Warning($"{cooldown.ActionId} : {cooldown.CooldownEnd}");
+			}
+			var isUnderCooldown = ActionCooldowns.Find(tuple => tuple.ActionId.Equals(actionId, StringComparison.InvariantCulture));
+			if(isUnderCooldown != null) Loggy.Warning($"Found: {isUnderCooldown.ActionId} : {isUnderCooldown.CooldownEnd}");
 			if (isUnderCooldown == null) return false;
 			if (isUnderCooldown.CooldownEnd <= DateTime.UtcNow)
 			{
@@ -337,6 +349,7 @@ namespace US13.Actions.V2
 			var isUnderCooldown = ActionCooldowns.Find(tuple => tuple.ActionId == actionId);
 			if (isUnderCooldown == null) return 0f;
 			var remaining = (isUnderCooldown.CooldownEnd - DateTime.UtcNow).TotalSeconds;
+			Loggy.Warning($"{actionId} was found to be under cooldown still with {remaining}s left");
 			return remaining > 0 ? (float)remaining : 0f;
 		}
 	}

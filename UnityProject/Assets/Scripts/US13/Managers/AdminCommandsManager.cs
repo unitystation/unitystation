@@ -7,6 +7,7 @@ using Chemistry;
 using IngameDebugConsole.Scripts;
 using Logs;
 using Mirror;
+using NUnit.Framework;
 using SecureStuff;
 using UnityEngine;
 using US13.Core.Addressables.Types;
@@ -18,8 +19,11 @@ using US13.Core.Lighting;
 using US13.Core.Transform;
 using US13.Health.Objects;
 using US13.HealthV2;
+using US13.HealthV2.Living;
 using US13.HealthV2.Living.MedicalChemistry;
+using US13.HealthV2.Living.PolymorphicSystems.Bodypart;
 using US13.Items;
+using US13.Items.Implants.Organs;
 using US13.Items.Traits;
 using US13.Managers.LobbyManager;
 using US13.Managers.MatrixManager;
@@ -517,12 +521,15 @@ namespace US13.Managers
 				return;
 			}
 
+			if (playerScript.playerHealth.BodyOrganLookup.TryGetValue(typeof(Heart), out List<BodyPartFunctionality> hearts) == false) return;
+			if (hearts[0].TryGetComponent<MetabolismComponent>(out var metabolismComponent) == false) return;
+
 			foreach (var sickness in CureManager.Instance.CureableSicknesses)
 			{
 				playerBlood.Remove(sickness.Sickness, 9999);
 				foreach (var effect in sickness.CureReaction.effectDict)
 				{
-					effect.Key.Apply(playerScript.playerHealth.brain, playerBlood, playerScript.AssumedWorldPos, 99.0f);
+					effect.Key.Apply(metabolismComponent, playerBlood, playerScript.AssumedWorldPos, 100.0f);
 				}
 			}
 			//Log what we did.

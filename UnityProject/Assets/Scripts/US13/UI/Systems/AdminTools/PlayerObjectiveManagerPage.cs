@@ -294,17 +294,11 @@ namespace US13.UI.Systems.AdminTools
 				}
 			}
 
-			if (playerMind.AntagPublic.Objectives.Count() == 0 && playerMind.AntagPublic.Antagonist == null)
-			{
-				playerMind.UpdateAntagButtons();
-			}
-
 			playerMind.AntagPublic.IsAntagCanSeeObjectivesStatus = genInfo.IsAntagCanSeeObjectivesStatus;
 			//if objectives updated - why not show them to player?
 			if (updated == true)
 			{
-				playerMind.UpdateAntagButtons();
-				playerMind.ShowObjectives();
+				playerMind.ShowObjectives(Vector2.zero);
 			}
 		}
 

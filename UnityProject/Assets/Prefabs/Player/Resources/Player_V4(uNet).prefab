@@ -2218,20 +2218,6 @@ MonoBehaviour:
   hypnoticStareDuration: 10
   hypnoticStareRange: 4.5
   hypnoticStareAngleDegrees: 90
-  playerMask:
-    useTriggers: 1
-    useLayerMask: 1
-    useDepth: 0
-    useOutsideDepth: 0
-    useNormalAngle: 0
-    useOutsideNormalAngle: 0
-    layerMask:
-      serializedVersion: 2
-      m_Bits: 256
-    minDepth: 0
-    maxDepth: 0
-    minNormalAngle: 0
-    maxNormalAngle: 0
   hypnoticStareLightData:
     Id: 0
     lightColor: {r: 1, g: 0.07352942, b: 0, a: 0.73333335}
@@ -2281,7 +2267,7 @@ MonoBehaviour:
         TrackingObject: {fileID: 0}
         ObjectRelatedToThisAction: {fileID: 0}
       - ID: dark_vision
-        DisplayName: Night Eyes
+        DisplayName: Eyes of the Night
         Description: Track your victims even through the dead of night.
         TriggerType: 0
         Type: 0
@@ -2314,11 +2300,11 @@ MonoBehaviour:
       m_keys:
       - ID: hypnotic_stare
         DisplayName: Hypnotic Stare
-        Description: Cause those not of the corruption\nto fall into a sleep for
+        Description: Cause those not of the corruption to fall into\na sleep for
           a brief period.
         TriggerType: 0
         Type: 1
-        CooldownTime: 5
+        CooldownTime: 420
         CanUseWhileGhosting: 0
         AnimatedIconCatalogue:
         - {fileID: 11400000, guid: 59de24d96dbfbe1448bce7fff9ed1751, type: 2}
@@ -2357,8 +2343,8 @@ MonoBehaviour:
         methodName: Convert
         parameterType: 
     Mutations: []
-    onStageReachedText: The corrupt surges through your veins, invigorating you with
-      new strength.
+    onStageReachedText: The corruption surges through your veins, invigorating you
+      with new strength.
     onStageLostText: Your power leaves you...
   - <ActivatedAbilities>k__BackingField:
       m_keys:

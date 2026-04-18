@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Logs;
 using Mirror;
 using TMPro;
 using UnityEngine;
@@ -38,7 +40,7 @@ namespace US13.Actions.V2.UI
 			ActionData = buttonData;
 			name = ActionData.ID;
 			Owner = owner;
-			if (ActionData.CooldownTime >= 0.085f) UpdateManager.Add(UpdateCooldown, 1.25f);
+			if (ActionData.CooldownTime >= 0.085f) UpdateManager.Add(UpdateCooldown, 1.00f);
 			if (isMindAction)
 			{
 				Background.color = Color.cyan;
@@ -82,7 +84,6 @@ namespace US13.Actions.V2.UI
 			}
 
 			TriggerAction();
-			UpdateCooldown();
 			UpdateCooldown();
 		}
 
@@ -181,7 +182,7 @@ namespace US13.Actions.V2.UI
 			}
 		}
 
-		private void UpdateCooldown()
+		public void UpdateCooldown()
 		{
 			if (ActionData == null || ActionData.CooldownTime <= 0.085f) return;
 
@@ -200,7 +201,8 @@ namespace US13.Actions.V2.UI
 				cooldownOverlay.gameObject.SetActive(true);
 				float fillAmount = remainingTime / ActionData.CooldownTime;
 				if (cooldownOverlay) cooldownOverlay.fillAmount = fillAmount;
-				cooldownText.text = remainingTime.ToString("F1");
+				if(remainingTime < 1.5f) cooldownText.text = remainingTime.ToString("F1");
+				else cooldownText.text = ((int)Math.Ceiling(remainingTime)).ToString(); //Don't show decimals for large cooldowns, just clutters UI
 			}
 			else
 			{

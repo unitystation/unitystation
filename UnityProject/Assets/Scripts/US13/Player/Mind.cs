@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using Logs;
 using Mirror;
+using SecureStuff;
 using UnityEngine;
 using US13.Actions;
 using US13.Actions.V2;
@@ -36,7 +38,7 @@ namespace US13.Player
 	/// IC character information (job role, antag info, real name, etc). A body and their ghost link to the same mind
 	/// SERVER SIDE VALID ONLY, is not sync'd
 	/// </summary>
-	public class Mind : NetworkBehaviour, IActionGUI
+	public class Mind : NetworkBehaviour
 	{
 		[SyncVar(hook = nameof(SyncActiveOn))] private uint IDActivelyControlling;
 
@@ -71,7 +73,7 @@ namespace US13.Player
 		//TODO ondatesiss
 
 		//Antag
-		[SyncVar] private bool NetworkedisAntag;
+		[SyncVar(hook = nameof(SyncIsAntag))] private bool NetworkedisAntag;
 
 		[SyncVar] private bool nonImportantMind = false;
 
@@ -387,15 +389,16 @@ namespace US13.Player
 			this.name = newName;
 		}
 
-		public void UpdateAntagButtons()
+		public void UpdateAntagButtons(bool oldState, bool newState)
 		{
-			if (antagContainer.Objectives.Count() == 0 && antagContainer.Antagonist == null)
-			{
-				ActivateAntagAction(false);
-			} else
-			{
-				ActivateAntagAction(true);
-			}
+			if (newState) PlayerButtonedActions?.RegisterNewAction(antagonistObjectivesButton.ButtonData, antagonistObjectivesButton.ToTrigger.Invoke);
+			else PlayerButtonedActions?.UnregisterAction(antagonistObjectivesButton.ButtonData);
+		}
+
+		public void SyncIsAntag(bool oldState, bool newState)
+		{
+			NetworkedisAntag = newState;
+			UpdateAntagButtons(oldState, newState);
 		}
 
 		/// <summary>
@@ -404,16 +407,9 @@ namespace US13.Player
 		public SpawnedAntag InitAntag(Antagonist antagonist, IEnumerable<Objective> objectives)
 		{
 			antagContainer.Init(antagonist, this, objectives);
-			NetworkedisAntag = antagonist != null;
+			SyncIsAntag(NetworkedisAntag, antagonist != null);
 			NetworkedAntagJob = antagonist.AntagJobType;
-			ActivateAntagAction(NetworkedisAntag);
-
 			return antagContainer;
-		}
-
-		public void ActivateAntagAction(bool state)
-		{
-			UIActionManager.ToggleServer(gameObject, this, state);
 		}
 
 
@@ -500,10 +496,8 @@ namespace US13.Player
 		public void RemoveAntag()
 		{
 			antagContainer.Clear();
-			NetworkedisAntag = antagContainer.Antagonist != null;
+			SyncIsAntag(NetworkedisAntag, antagContainer.Antagonist != null);
 			NetworkedAntagJob = JobType.NULL;
-
-			ActivateAntagAction(NetworkedisAntag);
 		}
 
 		public GameObject GetCurrentMob()
@@ -877,26 +871,21 @@ namespace US13.Player
 			return PlayerList.Instance.Has(connection);
 		}
 
-		[SerializeField] private ActionData actionData = null; //Antagonist show objectives button
-		public ActionData ActionData => actionData;
-
-		public void CallActionClient()
+		[System.Serializable]
+		private struct ActionTriggerPair
 		{
-			CmdAskforAntagObjectives();
+			public ActionButtonData ButtonData;
+			public SerializedAction ToTrigger;
 		}
 
-		[Command]
-		public void CmdAskforAntagObjectives()
-		{
-			ShowObjectives();
-		}
+		[SerializeField] private ActionTriggerPair antagonistObjectivesButton; //Antagonist show objectives button
 
 		/// <summary>
-		/// Show the the player their current objectives if they have any
+		/// Show the player their current objectives if they have any
 		/// </summary>
-		public void ShowObjectives()
+		public void ShowObjectives(Vector2 worldMousePosition)
 		{
-			if (antagContainer.Objectives.Count() == 0 && NetworkedisAntag == false) return;
+			if (IsAntag == false) return;
 			var playerMob = GetCurrentMob();
 
 			//Send Objectives

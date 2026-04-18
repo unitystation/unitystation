@@ -56,18 +56,12 @@
 					float3 outputColour = lerp(luminosity, clampedHue, rMask);
 					float dist = distance(i.uv, float2(0.5, 0.5))/1.1f;
 					outputColour.rgb *= smoothstep(_LensRadius,  _LensRadius - 0.2f, dist);
-					
-					// Generate random noise
-					float2 uv_time = i.uv + frac(_Time.y * _GrainSpeed);
-					
-					//Lots of magic numbers, the first two are two random primes used as the seed for the grain noise.
-					//The hold no value other than being appropriate values I found online
-					//The number 43k, is again just an arbritarily large number used so that pixels next to each other are significantly different
-					//This is then scaled and shifted from the [0 1] range to the [-1 1] range.
-					float noise = (frac(sin(dot(uv_time, float2(12.9898, 78.233))) * 43758.5453) - 0.5) * 2.0;
 
-					// Add noise to the original color
-					outputColour.rgb += (noise * 0.06f);
+					//Grain noise... remove for now
+				
+					//float2 uv_time = i.uv + frac(_Time.y * _GrainSpeed);
+					//float noise = (frac(sin(dot(uv_time, float2(12.9898, 78.233))) * 43758.5453) - 0.5) * 2.0;
+					//outputColour.rgb += (noise * 0.06f);
 					
 					
 					// return col pixel

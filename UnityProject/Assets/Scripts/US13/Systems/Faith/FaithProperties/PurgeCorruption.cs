@@ -32,6 +32,8 @@ namespace US13.Systems.Faith.FaithProperties
 
 		[SerializeField] private Sprite propertyIcon;
 		[SerializeField] private TeamData vampireTeam;
+		[SerializeField] private int livingVampirePunishmentPoints = 10;
+		[SerializeField] private int deadVampireRewardPoints = 10;
 
 		public void Setup(FaithData associatedFaith)
 		{
@@ -46,9 +48,9 @@ namespace US13.Systems.Faith.FaithProperties
 				if (antag.CurTeam.Data != vampireTeam) continue;
 				if (antag.Owner?.Body?.playerHealth?.IsDead == true)
 				{
-					FaithManager.AwardPoints(10, AssociatedFaith.Faith.FaithName);
+					FaithManager.AwardPoints(deadVampireRewardPoints, AssociatedFaith.Faith.FaithName);
 				}
-				else FaithManager.TakePoints(10, AssociatedFaith.Faith.FaithName);
+				else FaithManager.TakePoints(livingVampirePunishmentPoints, AssociatedFaith.Faith.FaithName);
 			}
 		}
 

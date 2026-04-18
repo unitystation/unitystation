@@ -526,13 +526,13 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 					//both are occupied)
 					if (TryIF2InventoryApply()) return;
 
-					if (swapIfEmpty && HandSlot.ItemNotRemovable == false)
+					if (swapIfEmpty && HandSlot.ItemNotRemovable == false && itemSlot.ItemNotRemovable == false)
 						SwapItem(this);
 					return;
 				}
 				else
 				{
-					if (swapIfEmpty && HandSlot.ItemNotRemovable == false)
+					if (swapIfEmpty && HandSlot.ItemNotRemovable == false && itemSlot.ItemNotRemovable == false)
 						SwapItem(this);
 					return;
 				}

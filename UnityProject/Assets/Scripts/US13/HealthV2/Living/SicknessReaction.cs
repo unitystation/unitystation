@@ -62,6 +62,7 @@ namespace US13.HealthV2.Living
 	[CreateAssetMenu(fileName = "NewSicknessReaction", menuName = "ScriptableObjects/Chemistry/SicknessReaction")]
 	public class SicknessReaction : MetabolismReaction
 	{
+		[SerializeField] private float immuneResponseMultiplier = 1.0f;
 		[SerializeField] private SicknessGrowthCharacteristic sicknessGrowthCharacteristic = new SicknessGrowthCharacteristic();
 		[SerializeField] private List<SicknessStage> stages = new List<SicknessStage>();
 
@@ -86,7 +87,7 @@ namespace US13.HealthV2.Living
 			float diseaseAmountPerOrgan = initialAmount / senders.Count;
 			foreach (var metabolisedComponent in senders)
 			{
-				diseaseAmount -= ImmuneResponse(diseaseAmountPerOrgan, metabolisedComponent.componentImmuneResponse); //Apply an immune response on a per organ basis
+				diseaseAmount -= immuneResponseMultiplier * ImmuneResponse(diseaseAmountPerOrgan, metabolisedComponent.componentImmuneResponse); //Apply an immune response on a per organ basis
 			}
 
 			int expectedBloodAmount = senders[0].AssociatedSystem.Base.reagentPoolSystem.NormalBlood;
@@ -95,7 +96,7 @@ namespace US13.HealthV2.Living
 			float concentrationPercent = (diseaseAmount / expectedBloodAmount) * 100;
 
 			diseaseAmount = concentrationPercent > DiseaseMaxConcentrationPercent
-				? diseaseAmount * (DiseaseMaxConcentrationPercent / concentrationPercent)
+				? DiseaseMaxConcentrationPercent * expectedBloodAmount * 0.01f
 				: diseaseAmount; //Ensure disease does not exceed max concentration (Default 16%)
 
 			SicknessStage currentStage = GetSicknessState(concentrationPercent); //Find the symptoms for the given concentration

@@ -1245,9 +1245,21 @@ namespace US13.HealthV2.Living
 		public void SetConsciousStateRespectHealth(ConsciousState newConsciousState)
 		{
 			ConsciousState consciousStateFromHealth = ConsciousState.CONSCIOUS;
-			if (healthStateController.OverallHealth < -50) SetConsciousState(ConsciousState.UNCONSCIOUS);
-			else if (healthStateController.OverallHealth < 0) SetConsciousState(ConsciousState.BARELY_CONSCIOUS);
-			else SetConsciousState(ConsciousState.CONSCIOUS);
+			switch (healthStateController.OverallHealth)
+			{
+				case < -100:
+					SetConsciousState(ConsciousState.DEAD);
+					break;
+				case < -50:
+					SetConsciousState(ConsciousState.UNCONSCIOUS);
+					break;
+				case < 0:
+					SetConsciousState(ConsciousState.BARELY_CONSCIOUS);
+					break;
+				default:
+					SetConsciousState(ConsciousState.CONSCIOUS);
+					break;
+			}
 
 			ConsciousState newState = (ConsciousState)Math.Max((int)consciousStateFromHealth, (int)newConsciousState); //Assume the worst state
 

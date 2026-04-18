@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using Chemistry;
 using Mirror;
 using NaughtyAttributes;
@@ -8,6 +10,7 @@ using UnityEngine;
 using US13.Actions.V2;
 using US13.Core.Chat;
 using US13.HealthV2.Living;
+using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.MedicalChemistry;
 using US13.HealthV2.Living.PolymorphicSystems;
 using US13.Managers;
@@ -49,10 +52,18 @@ namespace US13.Systems.Antagonists
 		{
 			if (ReagentPool == null) return;
 
-			TestForPlayerCountChange();
-			float diseaseAmount = ReagentPool.BloodPool[CommonSicknesses.Instance.VampirismReagent];
+			int vampireStage;
+			if (ReagentPool.BloodPool.reagents.ContainsKey(CommonSicknesses.Instance.VampirismReagent) == false)
+			{
+				vampireStage = -1;
+			}
+			else
+			{
+				TestForPlayerCountChange();
+				float diseaseAmount = ReagentPool.BloodPool[CommonSicknesses.Instance.VampirismReagent];
+				vampireStage = vampirismReaction.GetStageIDFromReagentAmount(ReagentPool, diseaseAmount) - 1;
+			}
 
-			int vampireStage = vampirismReaction.GetStageIDFromReagentAmount(ReagentPool, diseaseAmount) - 1;
 			if(vampireStage == currentVampirismStage) return;
 			if (vampireStage > currentVampirismStage) Evolve(vampireStage);
 			else Devolve(vampireStage);
@@ -60,8 +71,9 @@ namespace US13.Systems.Antagonists
 
 		private void TestForPlayerCountChange()
 		{
-			if (amountVampiresObjective.Team == null || currentInGamePlayers == PlayerList.Instance.InGamePlayers.Count) return;
-			currentInGamePlayers = PlayerList.Instance.InGamePlayers.Count;
+			int joinedPlayersTotal = PlayerList.Instance.AllPlayers.Count(p => p.Mind.occupation == true);
+			if (amountVampiresObjective.Team == null || currentInGamePlayers == joinedPlayersTotal) return;
+			currentInGamePlayers = joinedPlayersTotal;
 			amountVampiresObjective.UpdateObjectiveDescription();
 		}
 
@@ -72,29 +84,24 @@ namespace US13.Systems.Antagonists
 				preventCuredVampires.RemoveVampire(connectedPlayer.Mind);
 				connectedPlayer.Mind.RemoveAntag();
 			}
+
+			StringBuilder devolutionMessageBuilder = new StringBuilder();
 			for (int i = Math.Max(currentVampirismStage,0); i >= newStage; i--)
 			{
-				StageAbilities abilitiesToGain = stageAbilities[i];
-				foreach (var action in abilitiesToGain.ActivatedAbilities.Keys)
+				StageAbilities abilitiesToLose = stageAbilities[i];
+				devolutionMessageBuilder.AppendLine($"<color=red>{abilitiesToLose.onStageReachedText}</color>");
+				foreach (var action in abilitiesToLose.ActivatedAbilities.Keys)
 				{
 					connectedPlayer.Mind.PlayerButtonedActions?.UnregisterAction(action);
 				}
 
-				if (abilitiesToGain.Mutations.Count == 0) continue;
+				if (abilitiesToLose.Mutations.Count == 0) continue;
 				foreach (var bodyPart in connectedPlayer.playerHealth.BodyPartList)
 				{
-					if(bodyPart.CommonComponents.TryGetComponent<BodyPartMutations>(out BodyPartMutations bodyPartMutations) == false) continue;
-					foreach (var mutation in abilitiesToGain.Mutations)
-					{
-						bodyPartMutations.RemoveMutation(mutation);
-					}
-
+					RemoveMutationsFromBodyPart(bodyPart, abilitiesToLose);
 				}
-
-				Chat.AddWarningMsgFromServer(connectedPlayer.gameObject, abilitiesToGain.onStageLostText);
-
 			}
-
+			Chat.AddWarningMsgFromServer(connectedPlayer.gameObject, devolutionMessageBuilder.ToString());
 			currentVampirismStage = newStage;
 		}
 
@@ -108,9 +115,11 @@ namespace US13.Systems.Antagonists
 				AntagManager.Instance.ServerFinishAntag(vampireAntagonist, connectedPlayer.Mind);
 			}
 
+			StringBuilder evolutionMessageBuilder = new StringBuilder();
 			for (int i = Math.Max(currentVampirismStage,0); i <= newStage; i++)
 			{
 				StageAbilities abilitiesToGain = stageAbilities[i];
+				evolutionMessageBuilder.AppendLine($"<color=red>{abilitiesToGain.onStageReachedText}</color>");
 				foreach (var data in abilitiesToGain.ActivatedAbilities.Keys)
 				{
 					connectedPlayer.Mind.PlayerButtonedActions?.RegisterNewAction(data, abilitiesToGain.ActivatedAbilities[data].Invoke);
@@ -118,18 +127,28 @@ namespace US13.Systems.Antagonists
 				if (abilitiesToGain.Mutations.Count == 0) continue;
 				foreach (var bodyPart in connectedPlayer.playerHealth.BodyPartList)
 				{
-					if(bodyPart.CommonComponents.TryGetComponent<BodyPartMutations>(out BodyPartMutations bodyPartMutations) == false) continue;
-					foreach (var mutation in abilitiesToGain.Mutations)
-					{
-						bodyPartMutations.AddMutation(mutation);
-					}
-
+					ApplyMutationsToBodyPart(bodyPart, abilitiesToGain);
 				}
-				Chat.AddWarningMsgFromServer(connectedPlayer.gameObject, abilitiesToGain.onStageReachedText);
 			}
+			Chat.AddExamineMsgFromServer(connectedPlayer.gameObject, evolutionMessageBuilder.ToString());
 			currentVampirismStage = newStage;
 		}
 
-
+		private void ApplyMutationsToBodyPart(BodyPart bodyPart, StageAbilities stage)
+		{
+			if (bodyPart.CommonComponents.TryGetComponent<BodyPartMutations>(out BodyPartMutations bodyPartMutations) == false) return;
+			foreach (var mutation in stage.Mutations)
+			{
+				bodyPartMutations.AddMutation(mutation);
+			}
+		}
+		private void RemoveMutationsFromBodyPart(BodyPart bodyPart, StageAbilities stage)
+		{
+			if (bodyPart.CommonComponents.TryGetComponent<BodyPartMutations>(out BodyPartMutations bodyPartMutations) == false) return;
+			foreach (var mutation in stage.Mutations)
+			{
+				bodyPartMutations.RemoveMutation(mutation);
+			}
+		}
 	}
 }
