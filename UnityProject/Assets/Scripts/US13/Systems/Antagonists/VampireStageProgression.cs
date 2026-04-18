@@ -88,10 +88,10 @@ namespace US13.Systems.Antagonists
 			if (newStage < 3 && cloakEquipped) UnEquipCloak();
 
 			StringBuilder devolutionMessageBuilder = new StringBuilder();
-			for (int i = Math.Max(currentVampirismStage,0); i >= newStage; i--)
+			for (int i = Math.Max(currentVampirismStage,0); i >= Math.Max(newStage, 0); i--)
 			{
 				StageAbilities abilitiesToLose = stageAbilities[i];
-				devolutionMessageBuilder.AppendLine($"<color=red>{abilitiesToLose.onStageReachedText}</color>");
+				if(abilitiesToLose.onStageReachedText != null) devolutionMessageBuilder.AppendLine($"<color=red>{abilitiesToLose.onStageReachedText}</color>");
 				foreach (var action in abilitiesToLose.ActivatedAbilities.Keys)
 				{
 					connectedPlayer.Mind.PlayerButtonedActions?.UnregisterAction(action);
@@ -121,7 +121,7 @@ namespace US13.Systems.Antagonists
 			for (int i = Math.Max(currentVampirismStage,0); i <= newStage; i++)
 			{
 				StageAbilities abilitiesToGain = stageAbilities[i];
-				evolutionMessageBuilder.AppendLine($"<color=red>{abilitiesToGain.onStageReachedText}</color>");
+				if(abilitiesToGain.onStageReachedText != null) evolutionMessageBuilder.AppendLine($"<color=red>{abilitiesToGain.onStageReachedText}</color>");
 				foreach (var data in abilitiesToGain.ActivatedAbilities.Keys)
 				{
 					connectedPlayer.Mind.PlayerButtonedActions?.RegisterNewAction(data, abilitiesToGain.ActivatedAbilities[data].Invoke);

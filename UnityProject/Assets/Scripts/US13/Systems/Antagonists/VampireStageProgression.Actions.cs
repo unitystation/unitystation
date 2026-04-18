@@ -141,9 +141,8 @@ namespace US13.Systems.Antagonists
 
 		private void TryForceEndCooldown(string actionId)
 		{
-			Loggy.Warning("Attempting to remove cooldown...");
-			connectedPlayer.Mind.PlayerButtonedActions.ServerPreventEndCooldown(actionId);
-			connectedPlayer.Mind.Body?.PlayerButtonedActions.ServerPreventEndCooldown(actionId);
+			connectedPlayer.Mind.PlayerButtonedActions.ServerEndCooldown(actionId);
+			connectedPlayer.Mind.Body?.PlayerButtonedActions.ServerEndCooldown(actionId);
 		}
 
 		private bool TryDrainPlayer(Vector2 worldMousePosition, Matrix matrix, PlayerScript firstPlayerOnTile)

@@ -110,7 +110,7 @@ namespace US13.Actions.V2
 					break;
 			}
 
-			if (CustomNetworkManager.IsServer)
+			if (CustomNetworkManager.IsServer && ActionButtons.Contains(newData) == false)
 			{
 				ActionButtons.Add(newData);
 				this.netIdentity.isDirty = true;
@@ -241,7 +241,7 @@ namespace US13.Actions.V2
 		}
 
 		[Server]
-		public void ServerPreventEndCooldown(string actionId)
+		public void ServerEndCooldown(string actionId)
 		{
 			ActionCooldowns.RemoveAll(x => x.ActionId.Equals(actionId, StringComparison.InvariantCulture));
 			this.cachedNetIdentity.isDirty = true;
@@ -339,7 +339,6 @@ namespace US13.Actions.V2
 			var isUnderCooldown = ActionCooldowns.Find(tuple => tuple.ActionId == actionId);
 			if (isUnderCooldown == null) return 0f;
 			var remaining = (isUnderCooldown.CooldownEnd - DateTime.UtcNow).TotalSeconds;
-			Loggy.Warning($"{actionId} was found to be under cooldown still with {remaining}s left");
 			return remaining > 0 ? (float)remaining : 0f;
 		}
 	}
