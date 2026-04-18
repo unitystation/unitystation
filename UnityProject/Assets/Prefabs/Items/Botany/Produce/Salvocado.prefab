@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1228509457504133931
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1600992099113291060, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4975da382ff035b4f997b3baa4162305,
+        type: 2}
+    - target: {fileID: 2002829731075193566, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: parentID
+      value: 13109acf47f9c854dacc921fcaca4235
+      objectReference: {fileID: 0}
+    - target: {fileID: 2002829731075193566, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: foreverID
+      value: e9dd526cc78c27d42aaadcb5922eab6b
+      objectReference: {fileID: 0}
+    - target: {fileID: 3649759435450807491, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: leavings
+      value: 
+      objectReference: {fileID: 5589924747261997601, guid: e4485e6de5e02ee4b8356f2be64e43de,
+        type: 3}
+    - target: {fileID: 4719833430661875183, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 69c2f71ed516ea745aac01dc31aac272,
+        type: 3}
+    - target: {fileID: 4820531085304023815, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: _assetId
+      value: 276697432
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855514555966294983, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855514555966294983, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855514555966294983, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855514555966294983, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855514555966294983, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855514555966294983, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855514555966294983, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855514555966294983, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855514555966294983, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855514555966294983, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4859879754334500531, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: m_Name
+      value: Salvocado
+      objectReference: {fileID: 0}
+    - target: {fileID: 5015981216893344209, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: exportCost
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 5015981216893344209, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: initialName
+      value: salvocado fruit
+      objectReference: {fileID: 0}
+    - target: {fileID: 5015981216893344209, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: initialDescription
+      value: "Selectively bred by horticultural labs at the Tannh\xE4user Gate, this
+        avocado has rejuvenating properties. Tastes like sprinkles."
+      objectReference: {fileID: 0}
+    - target: {fileID: 6582435115114379972, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: seedPacket
+      value: 
+      objectReference: {fileID: 6470793647483183245, guid: 467127dd6f48c6a4dac129eb581f5a4d,
+        type: 3}
+    - target: {fileID: 7429143718927280106, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+      propertyPath: leavings
+      value: 
+      objectReference: {fileID: 5589924747261997601, guid: e4485e6de5e02ee4b8356f2be64e43de,
+        type: 3}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 13109acf47f9c854dacc921fcaca4235, type: 3}
