@@ -92,7 +92,7 @@ namespace US13.Systems.Antagonists
 			for (int i = Math.Max(currentVampirismStage,0); i >= Math.Max(newStage, 0); i--)
 			{
 				StageAbilities abilitiesToLose = stageAbilities[i];
-				if(abilitiesToLose.onStageReachedText != null) devolutionMessageBuilder.AppendLine($"<color=red>{abilitiesToLose.onStageReachedText}</color>");
+				if(abilitiesToLose.onStageReachedText != null) devolutionMessageBuilder.AppendLine($"<color=red>{abilitiesToLose.onStageLostText}</color>");
 				foreach (var action in abilitiesToLose.ActivatedAbilities.Keys)
 				{
 					connectedPlayer.Mind.PlayerButtonedActions?.UnregisterAction(action);
