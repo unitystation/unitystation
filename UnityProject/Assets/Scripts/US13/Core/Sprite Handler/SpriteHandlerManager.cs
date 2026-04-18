@@ -208,6 +208,7 @@ namespace US13.Core.Sprite_Handler
 			}
 
 			PresentSprites[networkIdentity][spriteHandler.name] = spriteHandler;
+			SpriteUpdateMessage.ProcessUnprocessedData(); //In case thhere's changes For those that Were not processed
 		}
 
 		public void UpdateNewPlayer(NetworkConnection requestedBy)
