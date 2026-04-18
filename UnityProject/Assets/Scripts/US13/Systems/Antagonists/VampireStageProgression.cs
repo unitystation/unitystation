@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Chemistry;
+using Logs;
 using Mirror;
 using NaughtyAttributes;
 using SecureStuff;
@@ -118,7 +119,7 @@ namespace US13.Systems.Antagonists
 			}
 
 			StringBuilder evolutionMessageBuilder = new StringBuilder();
-			for (int i = Math.Max(currentVampirismStage,0); i <= newStage; i++)
+			for (int i = currentVampirismStage; i <= newStage; ++i)
 			{
 				StageAbilities abilitiesToGain = stageAbilities[i];
 				if(abilitiesToGain.onStageReachedText != null) evolutionMessageBuilder.AppendLine($"<color=red>{abilitiesToGain.onStageReachedText}</color>");
