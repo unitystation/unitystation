@@ -1,0 +1,122 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1428347048282269288
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: exportCost
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: initialName
+      value: avocado pit
+      objectReference: {fileID: 0}
+    - target: {fileID: 4217086282201860695, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: initialDescription
+      value: Avocados used to be fertilized in the bowels of the giant sloth and
+        then excreted out. Upon the extinction of the giant sloth, avocados had no
+        way to fertilize and grow more, until humans began manually cultivating them--
+        thankfully without needing to ingest and excrete the pit.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4353717592831911221, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_Name
+      value: AvocadoPit
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4357233968558970945, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4467490074185128065, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: _assetId
+      value: 3913719387
+      objectReference: {fileID: 0}
+    - target: {fileID: 4511048310713767529, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9a739f48017f258419d1f117f4606ba2,
+        type: 3}
+    - target: {fileID: 6226849216177938727, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: seedPacket
+      value: 
+      objectReference: {fileID: 3300502256865382577, guid: d0d53b3832612ce429e43e6c7d9284e8,
+        type: 3}
+    - target: {fileID: 7578885421250109106, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 3263126877131239425}
+    - target: {fileID: 7578885421250109106, guid: 983b718a497883e46bb1b4c8927f9961,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: edf14c90c71467e49a12f2cd54c749e3,
+        type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 983b718a497883e46bb1b4c8927f9961, type: 3}
+--- !u!212 &3263126877131239425 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4511048310713767529, guid: 983b718a497883e46bb1b4c8927f9961,
+    type: 3}
+  m_PrefabInstance: {fileID: 1428347048282269288}
+  m_PrefabAsset: {fileID: 0}

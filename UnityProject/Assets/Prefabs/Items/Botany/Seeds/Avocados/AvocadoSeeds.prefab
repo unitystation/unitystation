@@ -1,0 +1,137 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1756573456675526352
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.PlantName
+      value: avocado
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.DeadSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: c3d9281805b61374ba8cdc619752f494,
+        type: 2}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 4859879754334500531, guid: 13109acf47f9c854dacc921fcaca4235,
+        type: 3}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 856e3a61c8fe48b40b84701b8eb49765,
+        type: 2}
+    - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: initialDescription
+      value: These seeds grow into avocado trees. Actually, 'this' seed, because
+        there's just one big round pit in the packet.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3763059340105120725, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: _assetId
+      value: 2022407949
+      objectReference: {fileID: 0}
+    - target: {fileID: 3867790606060242529, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: m_Name
+      value: AvocadoSeeds
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3872714356470070037, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3989294870869407037, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6ecff2d79d454af4fa32969d4bc37bc8,
+        type: 3}
+    - target: {fileID: 6983737391352839654, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 3403675459554321389}
+    - target: {fileID: 6983737391352839654, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9b10bc266c887954aa4da0cfe88d5a59,
+        type: 2}
+    - target: {fileID: 7860926447315831308, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: parentID
+      value: 26abf4c2c542ffa4098216683cb5f652
+      objectReference: {fileID: 0}
+    - target: {fileID: 7860926447315831308, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: foreverID
+      value: d0d53b3832612ce429e43e6c7d9284e8
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 26abf4c2c542ffa4098216683cb5f652, type: 3}
+--- !u!212 &3403675459554321389 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3989294870869407037, guid: 26abf4c2c542ffa4098216683cb5f652,
+    type: 3}
+  m_PrefabInstance: {fileID: 1756573456675526352}
+  m_PrefabAsset: {fileID: 0}
