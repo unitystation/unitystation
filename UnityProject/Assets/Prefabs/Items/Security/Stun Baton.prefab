@@ -130,6 +130,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: CanBeUsedOnSelfOnHelpIntent
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: 'initialTraits.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: c45c93fdd4d59483cbdb87a1d323bcc5,
@@ -509,6 +514,9 @@ MonoBehaviour:
   batteryStorage: {fileID: 1068818633637654657}
   <isRemovableBattery>k__BackingField: 1
   removeBatteryTime: 0.25
+  ChangeSprites: 0
+  EffectedHandler: {fileID: 0}
+  UseVariants: 0
 --- !u!114 &1068818633637654657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,9 +537,20 @@ MonoBehaviour:
   forceSpawnContents: 0
   ManuallySpawnContent: 0
   dropItemsOnDespawn: 0
-  UesAddlistPopulater: 0
+  UesAddlistPopulater: 1
   Populater:
-    SlotContents: []
+    SlotContents:
+    - DoNotGetFirstEmptySlot: 0
+      Prefab: {fileID: 5999901686547831408, guid: bd07fb3945875634685790190ea8decc,
+        type: 3}
+      StackableAmount: 1
+      UseIndex: 1
+      IndexSlot: 0
+      NamedSlot: 0
+      AlternativeNamedSlots: 
+      IfOccupiedFindEmptySlot: 0
+      ReplacementStrategy: 0
+      namedSlotPopulatorEntrys: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
   initialignoreRoundstartGrabObjects: 0

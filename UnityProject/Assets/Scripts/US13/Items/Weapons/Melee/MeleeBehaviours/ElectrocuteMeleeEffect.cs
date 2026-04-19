@@ -14,7 +14,7 @@ namespace US13.Items.Weapons.Melee
 	[Serializable]
 	public class ElectrocuteMeleeEffect : ICustomMeleeBehaviour
 	{
-		[SerializeField] private float voltage = 300.0f;
+		[SerializeField] private float voltage = 1500.0f;
 
 		[SerializeReference, SelectImplementation(typeof(IHitRequirement))]
 		private List<IHitRequirement> hitRequirements;
@@ -43,8 +43,8 @@ namespace US13.Items.Weapons.Melee
 		public WeaponNetworkActions.MeleeStats CustomMeleeBehaviour(GameObject attacker,
 			GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats)
 		{
-			if (attacker.TryGetComponent<PlayerScript>(out var playerScript) == false) return stats;
-			Electrocution newElectrocution = new Electrocution(voltage, attacker.AssumedWorldPosServer(), stats.DamageSourceName, true);
+			if (target.TryGetComponent<PlayerScript>(out var playerScript) == false) return stats;
+			Electrocution newElectrocution = new Electrocution(voltage, target.AssumedWorldPosServer(), stats.DamageSourceName, true);
 			playerScript.playerHealth?.Electrocute(newElectrocution);
 			if(useSound != null) SoundManager.PlayNetworkedAtPos(useSound, target.transform.position, sourceObj: target.gameObject);
 			return stats;

@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Logs;
 using NaughtyAttributes;
 using UnityEditor;
 using UnityEngine;
@@ -28,10 +30,11 @@ namespace US13.Objects
 
 		[SerializeField] private bool ChangeSprites = false;
 		[SerializeField, ShowIf(nameof(ChangeSprites))] private SpriteHandler EffectedHandler;
-		public bool HasBatteries => batteryStorage.HasAnyOccupied();
-		public bool IsFull => batteryStorage.GetNextEmptySlot() != null;
+		[SerializeField, ShowIf(nameof(ChangeSprites))] private bool UseVariants = false;
+		public bool HasBatteries => batteries.Any();
+		public bool IsFull => batteryStorage.GetNextEmptySlot() == null;
 
-		private int currentCharge;
+		private int currentCharge = 0;
 
 		public int CurrentCharge
 		{
@@ -54,9 +57,11 @@ namespace US13.Objects
 				}
 
 				currentCharge = Math.Max(0, value);
+				OnChargeChanged?.Invoke();
 			}
 		}
 
+		public Action OnChargeChanged;
 		private List<Battery> batteries;
 		// Start is called before the first frame update
 
@@ -65,34 +70,44 @@ namespace US13.Objects
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			foreach (ItemSlot slot in batteryStorage.GetItemSlots())
+			batteries = new List<Battery>();
+			currentCharge = 0;
+			foreach (var slot in batteryStorage.Populater.SlotContents)
 			{
-				if (slot.Item == null) continue;
-				if (slot.Item.TryGetComponent<Battery>(out var battery) == false) continue;
+				if (slot.Prefab == null) continue;
+				if (slot.Prefab.TryGetComponent<Battery>(out var battery) == false) continue;
 				batteries.Add(battery);
+				currentCharge = Math.Max(currentCharge,0) + battery.Watts;
 			}
-			EffectedHandler.SetSpriteVariant(batteries.Count);
+			OnChargeChanged?.Invoke();
+			UpdateSprites();
+		}
+
+		private void UpdateSprites()
+		{
+			if (ChangeSprites == false) return;
+			if(UseVariants) EffectedHandler.SetSpriteVariant(batteries.Count);
+			else EffectedHandler.SetCatalogueIndexSprite(batteries.Count);
 		}
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot && isRemovableBattery)
+
+			if (interaction.TargetObject.Equals(gameObject) && isRemovableBattery)
 			{
+				if (interaction.UsedObject == null) return true;
 				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver)) return true;
-				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponCell)
-				    && interaction.UsedObject != null && IsFull == false) return true;
+				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponCell) && IsFull == false) return true;
 			}
 			return false;
 		}
 
 		public void ServerPerformInteraction(InventoryApply interaction)
 		{
-			if (isRemovableBattery && Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && batteries.Count > 0) RemoveCellInteraction(interaction);
-			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponCell) == false ||
-			    batteryStorage.GetNextEmptySlot() == null) return;
-
+			if (isRemovableBattery && interaction.UsedObject != null && Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && HasBatteries) RemoveCellInteraction(interaction);
+			if (interaction.UsedObject == null || Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponCell) == false || IsFull) return;
 			if (interaction.UsedObject.TryGetComponent<Battery>(out Battery battery) == false) return;
 			AddNewBattery(battery, interaction.FromSlot);
 		}
@@ -123,10 +138,12 @@ namespace US13.Objects
 
 		private void AddNewBattery(Battery batteryToAdd, ItemSlot fromSlot)
 		{
-			if (Inventory.ServerTransfer(fromSlot, batteryStorage.GetNextEmptySlot()))
+			if (fromSlot == null || Inventory.ServerTransfer(fromSlot, batteryStorage.GetNextEmptySlot()))
 			{
 				batteries.Add(batteryToAdd);
-				EffectedHandler.SetSpriteVariant(batteries.Count);
+				currentCharge = Math.Max(currentCharge,0) + batteryToAdd.Watts;
+				OnChargeChanged?.Invoke();
+				UpdateSprites();
 			}
 		}
 
@@ -136,12 +153,13 @@ namespace US13.Objects
 			if (slotToRemove == null) return;
 			Pickupable itemToRemove = slotToRemove.Item;
 
-			if (toSlot == null || Inventory.ServerTransfer(batteryStorage.GetTopOccupiedIndexedSlot(), toSlot))
-			{
-				itemToRemove.TryGetComponent<Battery>(out var batteryToRemove);
-				batteries.Remove(batteryToRemove);
-				EffectedHandler.SetSpriteVariant(batteries.Count);
-			}
+			if(toSlot == null || Inventory.ServerTransfer(slotToRemove, toSlot) == false) Inventory.ServerDrop(slotToRemove);
+
+			itemToRemove.TryGetComponent<Battery>(out var batteryToRemove);
+			batteries.Remove(batteryToRemove);
+			currentCharge = Math.Max(currentCharge,0) - batteryToRemove.Watts;
+			OnChargeChanged?.Invoke();
+			UpdateSprites();
 		}
 
 

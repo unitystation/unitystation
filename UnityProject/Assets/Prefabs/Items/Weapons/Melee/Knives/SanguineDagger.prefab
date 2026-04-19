@@ -128,12 +128,12 @@ PrefabInstance:
     - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
         type: 3}
       propertyPath: managedReferences[4317661658594148435].sanguineEfficiency
-      value: 30
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
         type: 3}
       propertyPath: managedReferences[4317661658594148435].sanguineDrainAmount
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
         type: 3}
@@ -143,12 +143,12 @@ PrefabInstance:
     - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
         type: 3}
       propertyPath: managedReferences[4317661658594148435].useSound.AssetAddress
-      value: Assets/Prefabs/Magic/EnterBlood.prefab
+      value: Assets/Prefabs/Magic/enter_blood.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
         type: 3}
       propertyPath: managedReferences[4317661658594148435].sanguineDrainThreshold
-      value: 10
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
         type: 3}

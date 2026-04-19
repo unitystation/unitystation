@@ -18,21 +18,22 @@ public class SanguineDagger : MonoBehaviour, IServerInventoryMove
 	public void FillReagentMix(ReagentMix reagentMix)
 	{
 		bloodReagentMix = reagentMix;
-		foreach (var reagent in bloodReagentMix.reagents)
+		foreach (var reagent in bloodReagentMix.Clone().reagents)
 		{
-			bloodReagentMix.Add(reagent.Key, reagent.Value); //Basically just increases the spilled reagent to look more dramatic
+			bloodReagentMix.Add(reagent.Key, reagent.Value * 2.5f); //Basically just increases the spilled reagent to look more dramatic
 		}
 	}
 	public void OnInventoryMoveServer(InventoryMove move)
 	{
-		List<ItemSlot> handSlots = move.FromPlayer.PlayerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.hands);
-
+		if (move.InventoryMoveType == InventoryMoveType.Add) return;
+		List<ItemSlot> handSlots = move.FromPlayer?.PlayerScript?.DynamicItemStorage?.GetNamedItemSlots(NamedSlot.hands);
+		if (handSlots == null) return;
 		if (move.ToSlot != null && handSlots.Contains(move.ToSlot)) return;
 
 		Chat.AddWarningMsgFromServer(move.FromPlayer.gameObject,$"The {gameObject.ExpensiveName()} shatters as it leaves your hands!");
 
-		MatrixManager.ReagentReact(bloodReagentMix, move.FromPlayer.WorldPositionServer);
-		if(shatterSound != null) SoundManager.PlayNetworkedAtPosAsync(shatterSound, move.FromPlayer.WorldPositionServer, sourceObj: gameObject);
+		if(bloodReagentMix != null) MatrixManager.ReagentReact(bloodReagentMix, move.FromRootPlayer.WorldPositionServer);
+		if(shatterSound != null) SoundManager.PlayNetworkedAtPos(shatterSound, move.FromRootPlayer.WorldPositionServer);
 		_ = Despawn.ServerSingle(gameObject);
 	}
 }

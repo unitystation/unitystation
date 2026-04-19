@@ -22,7 +22,7 @@ namespace US13.Items.Weapons.Melee
 			if (shouldConsumeCharge == false) return true;
 			if (internalBattery.CurrentCharge < chargeUsage)
 			{
-				Chat.AddWarningMsgFromServer(attacker, $"Insufficient charge! Required (W): {chargeUsage}");
+				Chat.AddWarningMsgFromServer(attacker, $"Insufficient charge: {(int)(internalBattery.CurrentCharge / 1000.0f)} / {(int)(chargeUsage / 1000.0f)}kJ");
 				return false;
 			}
 			internalBattery.CurrentCharge -= chargeUsage;

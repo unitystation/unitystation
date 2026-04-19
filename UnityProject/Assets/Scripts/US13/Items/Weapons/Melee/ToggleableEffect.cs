@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
@@ -64,7 +65,18 @@ namespace US13.Items.Weapons.Melee
 		{
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			SetStateFromWeaponState(initialState);
+			if(internalBattery != null) internalBattery.OnChargeChanged += OnChargeChanged;
+		}
 
+		private void OnDestroy()
+		{
+			if(internalBattery != null) internalBattery.OnChargeChanged -= OnChargeChanged;
+		}
+
+		private void OnChargeChanged()
+		{
+			if (internalBattery.HasBatteries && (internalBattery.CurrentCharge <= 0 || weaponState == WeaponState.NoCell)) SetStateFromWeaponState(WeaponState.Off);
+			else if(internalBattery.HasBatteries == false) RemoveCell(false);
 		}
 
 		// Calls TurnOff() when item is spawned, see below.
@@ -84,8 +96,7 @@ namespace US13.Items.Weapons.Melee
 					SetState(true);
 					break;
 				case WeaponState.NoCell:
-					weaponState = state;
-					RemoveCell();
+					RemoveCell(true);
 					break;
 			}
 		}
@@ -100,11 +111,11 @@ namespace US13.Items.Weapons.Melee
 			spriteHandler.SetCatalogueIndexSprite((int)weaponState);
 		}
 
-		private void RemoveCell()
+		private void RemoveCell(bool shouldRemoveBattery)
 		{
 			weaponState = WeaponState.NoCell;
-			spriteHandler.SetCatalogueIndexSprite((int)WeaponState.NoCell);
-			internalBattery.RemoveBattery();
+			spriteHandler.SetCatalogueIndexSprite((int)weaponState);
+			if(shouldRemoveBattery) internalBattery.RemoveBattery();
 		}
 
 		//For making sure the user is actually conscious.

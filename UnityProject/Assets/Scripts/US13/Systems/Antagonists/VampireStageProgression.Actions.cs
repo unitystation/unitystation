@@ -389,16 +389,16 @@ namespace US13.Systems.Antagonists
 
 		public void SummonSanguineDagger(Vector2 worldMousePosition)
 		{
-			List<ItemSlot> handSlots = connectedPlayer.DynamicItemStorage.GetNamedItemSlots(NamedSlot.hands);
-			handSlots = handSlots.Where(h => h.IsEmpty).ToList(); //Get all empty hands
-			if (handSlots.Count() == 0)
+			List<ItemSlot> handSlots = connectedPlayer.Mind?.Body?.DynamicItemStorage.GetHandSlots();
+			handSlots = handSlots?.FindAll(h => h.IsEmpty); //Get all empty hands
+			if (handSlots == null || handSlots.Any() == false)
 			{
 				Chat.AddWarningMsgFromServer(connectedPlayer.gameObject, "You do not have any free hands to perform this action!");
 				return;
 			}
 
 			GameObject sanguineDagger = Spawn.ServerPrefab(sanguineDaggerPrefab).GameObject;
-			Inventory.Inventory.ServerAdd(sanguineDagger, handSlots[0]);
+			Inventory.Inventory.ServerAdd(sanguineDagger, handSlots[0], ReplacementStrategy.DropOther, true);
 
 			connectedPlayer.Mind?.Body?.playerHealth?.ApplyDamageToRandomBodyPart(sanguineDagger, selfDamage, AttackType.Internal, DamageType.Brute);
 			Chat.AddExamineMsgFromServer(connectedPlayer.gameObject, "You draw forth your own blood to form a sanguine dagger.");
