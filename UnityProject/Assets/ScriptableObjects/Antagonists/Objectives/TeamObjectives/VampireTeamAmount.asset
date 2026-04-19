@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20583d86a2c4d7241bbe673c4cc2acbf, type: 3}
+  m_Name: VampireTeamAmount
+  m_EditorClassIdentifier: Assets::US13.Systems.Antagonists.Objectives.TeamObjectives.CorrectVampireAmount
+  attributes: []
+  isEndRoundObjective: 0
+  objectiveName: Ensure stable population
+  IsUnique: 1
+  description: 'Ensure atleast 1 vampire is alive but no more than '
+  aiCanHave: 0
+  initialDescription: 'Ensure atleast 1 vampire is alive but no more than '

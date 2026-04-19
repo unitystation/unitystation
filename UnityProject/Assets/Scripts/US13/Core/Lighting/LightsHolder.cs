@@ -168,7 +168,7 @@ namespace US13.Core.Lighting
 			lightSprite.Shape = data.lightShape;
 			if (data.lightSpriteObject != null)
 			{
-				lightSprite.Sprite = data.lightSpriteObject.GetComponent<ItemLightControl>()?.ObjectLightSprite.Sprite;
+				lightSprite.Sprite = data.lightSpriteObject.GetComponent<ILightControl>()?.ObjectLightSprite.Sprite;
 			}
 			lightSprite.transform.localScale = new Vector3(data.size, data.size, data.size);
 			if (data.Id != 0)
@@ -191,6 +191,7 @@ namespace US13.Core.Lighting
 		}
 	}
 
+	[System.Serializable]
 	public struct LightData
 	{
 		public int Id;

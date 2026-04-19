@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using US13.Systems.Antagonists.Objectives.TeamObjectives;
 
 namespace US13.Systems.Antagonists
 {
@@ -36,11 +37,17 @@ namespace US13.Systems.Antagonists
 		/// </summary>
 		public IEnumerable<Objective> CoreObjectives => coreObjectives;
 
-		public List<Objective> GenerateObjectives()
+		public List<Objective> GenerateObjectives(Team createdTeam)
 		{
 			if (isStationTeam == true)
 			{
 				return new List<Objective>();
+			}
+
+			foreach (var objective in CoreObjectives)
+			{
+				if (objective is TeamObjective teamObjective == false) continue;
+				if(teamObjective.attributes.Count == 0) teamObjective.DoSetup(createdTeam);
 			}
 			return CoreObjectives.ToList();
 		}

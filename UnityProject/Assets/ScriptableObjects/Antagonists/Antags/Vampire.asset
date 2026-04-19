@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba7fccfc5cbc5a74e82a3b9dc55c9a05, type: 3}
+  m_Name: Vampire
+  m_EditorClassIdentifier: Assets::US13.Systems.Antagonists.Antags.Vampire
+  antagName: Vampire
+  team: {fileID: 11400000, guid: 378c1481706515e41b287a6ca870ca62, type: 2}
+  addTeamAtInit: 1
+  antagJobType: 64
+  playSound: 1
+  spawnSound:
+    AssetAddress: Assets/Prefabs/Magic/EnterBlood.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  textColor: {r: 0.54901963, g: 0, b: 0, a: 1}
+  backgroundColor: {r: 0.07169801, g: 0.07169801, b: 0.07169801, a: 0.5882353}
+  numberOfObjectives: 2
+  canUseSharedObjectives: 0
+  needsEscapeObjective: 0
+  chanceForGimmickObjective: 0
+  coreObjectives:
+  - {fileID: 11400000, guid: b6107e1c868bada4da25dc2fc840e411, type: 2}
+  antagOccupation: {fileID: 0}
+  showInPreferences: 1
+  randomizeCharacterForGhostRole: 0
+  ghostRoleOccupation: {fileID: 0}
+  <BlackListedObjectives>k__BackingField: []
+  <AlwaysStartWithObjectives>k__BackingField: []

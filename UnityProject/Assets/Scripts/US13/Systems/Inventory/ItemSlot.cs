@@ -298,6 +298,13 @@ namespace US13.Systems.Inventory
 			UpdateItemNSlotMessage.Send(serverObserverPlayers, this);
 		}
 
+		[Server]
+		public void ServerSetLock(bool preventItemMoves)
+		{
+			ItemNotRemovable = preventItemMoves;
+			UpdateItemNSlotMessage.Send(serverObserverPlayers, this);
+		}
+
 		/// <summary>
 		/// NOTE: Please use Inventory instead for moving inventory around.
 		///

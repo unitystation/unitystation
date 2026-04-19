@@ -43,8 +43,8 @@ namespace US13.Systems.Faith
 			}
 			UpdateManager.Add(LongUpdate, FaithEventsCheckTimeInSeconds);
 			UpdateManager.Add(PeriodicUpdate, FaithPerodicCheckTimeInSeconds);
-			Chat.AddGameWideSystemMsgToChat(
-				$"Faiths have been setup successfully! {CurrentFaiths.Count} faiths are now active.".Color(Color.green));
+
+			if(CustomNetworkManager.IsServer) Chat.AddGameWideSystemMsgToChat($"Faiths have been setup successfully! {CurrentFaiths.Count} faiths are now active.".Color(Color.green));
 			isInit = true;
 		}
 

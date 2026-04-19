@@ -27,6 +27,7 @@ namespace US13.Core.Camera
 		public GreyscaleCamera greyscaleCamera;
 		public GlitchEffect glitchEffect;
 		public NightVisionCamera nightVisionCamera;
+		public NightEyesCamera nightEyesCamera;
 		public NoirCamera noirCamera;
 
 		public BlurryVision blurryVisionEffect;
@@ -266,6 +267,12 @@ namespace US13.Core.Camera
 			_backgroundEffects?.ToggleNightVisionEffectState(state, nightVisionColour);
 		}
 
+		public void ToggleNightEyesState(bool state)
+		{
+			nightEyesCamera.enabled = state;
+			_backgroundEffects?.ToggleNightEyesState(state);
+		}
+
 		public void ToggleNoirEffectState(bool state)
 		{
 			noirCamera.enabled = state;
@@ -312,6 +319,7 @@ namespace US13.Core.Camera
 			noirCamera.enabled = false;
 			greyscaleCamera.enabled = false;
 			FlashbangCamera.enabled = false;
+			nightEyesCamera.enabled = false;
 			colourblindEmulationEffect.SetColourMode(ColourBlindMode.None);
 			blurryVisionEffect.SetBlurStrength(0);
 		}

@@ -115,6 +115,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 844a4a7afd525c145b5c5b199b735fed,
         type: 2}
+    - target: {fileID: 6820002895454037233, guid: 9d444ad6dde436d44920ac030fc733de,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 844a4a7afd525c145b5c5b199b735fed,
+        type: 2}
     - target: {fileID: 7217263268926205539, guid: 9d444ad6dde436d44920ac030fc733de,
         type: 3}
       propertyPath: customNetTransform
@@ -145,6 +151,7 @@ PrefabInstance:
     - {fileID: 2113994910920152532, guid: 9d444ad6dde436d44920ac030fc733de, type: 3}
     - {fileID: 3289875697544077319, guid: 9d444ad6dde436d44920ac030fc733de, type: 3}
     - {fileID: 55285483987348138, guid: 9d444ad6dde436d44920ac030fc733de, type: 3}
+    - {fileID: 1234497318857339680, guid: 9d444ad6dde436d44920ac030fc733de, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -192,6 +199,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &4287802351136866684

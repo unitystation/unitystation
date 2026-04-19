@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 using US13.Player;
 using US13.Systems.Antagonists.Objectives.TeamObjectives;
 using US13.Systems.StationObjectives;
@@ -84,7 +85,7 @@ namespace US13.Systems.Antagonists
 		{
 			foreach (var player in teamMembers)
 			{
-				player.Owner.ShowObjectives();
+				player.Owner.ShowObjectives(Vector2.zero);
 			}
 		}
 

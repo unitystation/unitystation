@@ -999,6 +999,7 @@ namespace US13.Player
 			if (gameObjectSent.PickupableOrNull()?.ItemSlot == null) return;
 			var fromSlot = gameObjectSent.PickupableOrNull()?.ItemSlot;
 			if (fromSlot == null) return;
+			if (fromSlot.ItemNotRemovable) return;
 			if (fromSlot.ItemStorage.ServerIsObserver(playerMove.gameObject))
 			{
 				Inventory.ServerTransfer(gameObjectSent.PickupableOrNull().ItemSlot, slot, ReplacementStrategy.DropOther);

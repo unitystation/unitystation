@@ -35,6 +35,11 @@ namespace US13.Messages.Client
 			var fromSlot = ItemSlot.Get(NetworkObjects[0].GetComponents<ItemStorage>()[msg.StorageIndexOnGameObjectFrom], msg.FromNamedSlot, msg.FromSlotIndex);
 			var toSlot = ItemSlot.Get(NetworkObjects[1].GetComponents<ItemStorage>()[msg.StorageIndexOnGameObjectTo], msg.ToNamedSlot, msg.ToSlotIndex);
 
+			if (fromSlot.ItemNotRemovable)
+			{
+				HandleFail(fromSlot, toSlot);
+				return;
+			}
 			if (!Validations.CanPutItemToSlot(SentByPlayer.Script, toSlot, fromSlot.Item, NetworkSide.Server, examineRecipient: SentByPlayer.GameObject))
 			{
 				HandleFail(fromSlot, toSlot);

@@ -57,7 +57,7 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 
 		public void OnDrag(PointerEventData data)
 		{
-			if (data.button == PointerEventData.InputButton.Left && itemSlot.Item != null)
+			if (data.button == PointerEventData.InputButton.Left && itemSlot.Item != null && itemSlot.ItemSlot.ItemNotRemovable == false)
 			{
 				UIManager.UiDragAndDrop.UI_ItemDrag(itemSlot);
 			}

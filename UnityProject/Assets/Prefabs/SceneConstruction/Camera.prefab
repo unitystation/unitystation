@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 6330374925910711719}
   - component: {fileID: 3572512131606703383}
   - component: {fileID: 4709064130717957210}
+  - component: {fileID: 6048891234820401937}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -433,6 +434,7 @@ MonoBehaviour:
   greyscaleCamera: {fileID: 7171882492086519817}
   glitchEffect: {fileID: 1578675351978633491}
   nightVisionCamera: {fileID: 1620099701739618863}
+  nightEyesCamera: {fileID: 6048891234820401937}
   noirCamera: {fileID: 4709064130717957210}
   blurryVisionEffect: {fileID: 7964655504328845500}
   colourblindEmulationEffect: {fileID: 8481840996761083126}
@@ -682,6 +684,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assets::US13.Core.Camera.NoirCamera
   shader: {fileID: 4800000, guid: f19942450fdefea45827fd6e0544d972, type: 3}
   lensRadius: 0.54
+--- !u!114 &6048891234820401937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365047106309440}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2afc63f99d3ff944a82b8758b2e17004, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Core.Camera.NightEyesCamera
+  shader: {fileID: 4800000, guid: e27b3b0c35a1bfb42a91dde0d43a2161, type: 3}
+  lensRadius: 0.5
 --- !u!1 &1588444935751324
 GameObject:
   m_ObjectHideFlags: 0
