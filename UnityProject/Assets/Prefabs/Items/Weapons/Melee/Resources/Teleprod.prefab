@@ -119,6 +119,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: 'managedReferences[-2]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: initialTraits.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -175,6 +180,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: CustomMeleeBehaviours.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: InitialitemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 5f038bed65cf4834b859886862c79577,
@@ -202,10 +212,40 @@ PrefabInstance:
       objectReference: {fileID: 4900000, guid: 66f8925ca5163a24c938d38655a4a791, type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: 'CustomMeleeBehaviours.Array.data[0]'
+      value: 4317661658594148430
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: InitialitemSprites.SpriteInventoryIcon
       value: 
       objectReference: {fileID: 11400000, guid: 696902fe508e2844a9fe1a4019e0df40,
         type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: 'managedReferences[4317661658594148429]'
+      value: Assets US13.Items.Weapons.Melee.MarkedMelee
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: 'managedReferences[4317661658594148430]'
+      value: Assets US13.Items.Weapons.Melee.TeleportMeleeEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: 'managedReferences[4317661658594148431]'
+      value: Assets US13.Items.Weapons.Melee.ConsumeBatteryCharge
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: 'managedReferences[4317661658594148432]'
+      value: Assets US13.Items.Weapons.Melee.CooldownTime
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: 'managedReferences[4317661658594148433]'
+      value: Assets US13.Items.Weapons.Melee.ConsumeBatteryCharge
+      objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[0]'
@@ -254,11 +294,151 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: 9a10a6f0ab9603047a07c214c9bc8339,
         type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148429].doPush
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148429].reqWield
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148429].pushForce
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148431].chargeUsage
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148433].chargeUsage
+      value: 200000
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148429].statusEffect
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148432].cooldownTime
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148429].backstabBonus
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148429].markedHitBonus
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148431].internalBattery
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148433].internalBattery
+      value: 
+      objectReference: {fileID: -7655275286530251589}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148431].shouldConsumeCharge
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148433].shouldConsumeCharge
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148430].shouldAvoidSpaceTiles
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148430].useSound.AssetAddress
+      value: Assets/Prefabs/Magic/TeleportAppear.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148430].shouldAvoidImpassables
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148430].maximumTeleportDistance
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148430].minimumTeleportDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148429].hitRequirements.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148430].hitRequirements.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: 'managedReferences[4317661658594148430].hitRequirements.Array.data[0]'
+      value: 4317661658594148432
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: 'managedReferences[4317661658594148430].hitRequirements.Array.data[1]'
+      value: 4317661658594148433
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148430].useSound.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148430].useSound.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148430].useSound.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148430].useSound.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148430].useSound.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 542829611148227948, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: relatedRecipes.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 8231327112697984416}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -319,12 +499,20 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 369399922285640410}
-    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 6523762280114733839}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+--- !u!114 &2705650514114133371 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 8127288814593014342}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8127442588295923452 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
@@ -343,6 +531,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 088b05d8e3804e948a69579df536c570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  batteryStorage: {fileID: 6523762280114733839}
+  <isRemovableBattery>k__BackingField: 1
+  removeBatteryTime: 0.25
 --- !u!114 &320067490702973822
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,7 +549,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  toggleAffectsComponent: 0
+  effectingBehaviourIDs: 00000000
+  spriteHandler: {fileID: 2705650514114133371}
+  attributes: {fileID: 8514023540806085022}
+  internalBattery: {fileID: -7655275286530251589}
   ToggleSound:
     AssetAddress: Assets/Prefabs/Effects/Sparks01.prefab
     AssetReference:
@@ -367,39 +561,7 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  intialState: 2
---- !u!114 &369399922285640410
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8127442588295923452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22e23dbc3e28c944c988b15aeccb6f40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useSound:
-    AssetAddress: Assets/Prefabs/Magic/TeleportAppear.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  cooldown: 10
-  canStun: 0
-  stunTime: 0
-  canTeleport: 1
-  avoidSpace: 0
-  avoidImpassable: 1
-  minTeleportDistance: 1
-  maxTeleportDistance: 5
-  hasBattery: 1
-  chargeUsage: 200000
-  cellPrefab: {fileID: 0}
-  allowScrewdriver: 1
+  initialState: 0
 --- !u!114 &6523762280114733839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -428,3 +590,21 @@ MonoBehaviour:
   initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
+--- !u!212 &8231327112697984416 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 8127288814593014342}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8514023540806085022 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 8127288814593014342}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8127442588295923452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

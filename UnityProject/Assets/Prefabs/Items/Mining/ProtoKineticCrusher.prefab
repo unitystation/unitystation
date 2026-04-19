@@ -47,6 +47,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 983609098388634077, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1969785921733618591}
+    - target: {fileID: 983609098388634077, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 540bb1ca3d2bf91418c92196cbffc492,
@@ -158,6 +163,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
+      propertyPath: 'managedReferences[-2]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
       propertyPath: attackVerbs.Array.size
       value: 5
       objectReference: {fileID: 0}
@@ -211,6 +221,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
+      propertyPath: CustomMeleeBehaviours.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
       propertyPath: InitialitemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 391705b102bbb8f90b413d1ee64b30d9,
@@ -223,15 +238,100 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
+      propertyPath: 'CustomMeleeBehaviours.Array.data[0]'
+      value: 4317661658594148426
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
       propertyPath: InitialitemSprites.SpriteInventoryIcon
       value: 
       objectReference: {fileID: 11400000, guid: e945fda21f680834ebd556f142dad0c6,
         type: 2}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: 'managedReferences[4317661658594148426]'
+      value: Assets US13.Items.Weapons.Melee.MarkedMelee
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: 'managedReferences[4317661658594148427]'
+      value: Assets US13.Items.Weapons.Melee.ConsumeBatteryCharge
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: 'managedReferences[4317661658594148428]'
+      value: Assets US13.Items.Weapons.Melee.CooldownTime
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148426].doPush
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148426].reqWield
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148426].pushForce
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148427].chargeUsage
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148426].statusEffect
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148428].cooldownTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148426].backstabBonus
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148426].markedHitBonus
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148427].internalBattery
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148427].shouldConsumeCharge
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148426].hitRequirements.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: 'managedReferences[4317661658594148426].hitRequirements.Array.data[0]'
+      value: 4317661658594148428
+      objectReference: {fileID: 0}
     - target: {fileID: 7053223090983703362, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: foreverID
       value: 3f3c69eb80c13d439a7659f6834b091a
       objectReference: {fileID: 0}
+    - target: {fileID: 7790862161162773672, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 3235497439635828136}
     - target: {fileID: 7790862161162773672, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -248,10 +348,6 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: -3052719004654847166}
     - targetCorrespondingSourceObject: {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       insertIndex: -1
@@ -281,30 +377,24 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 8986662425810040325}
   m_SourcePrefab: {fileID: 100100000, guid: ad527ba4de069794796e314f236794f4, type: 3}
+--- !u!212 &1969785921733618591 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 871876898739104324, guid: ad527ba4de069794796e314f236794f4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1679722502878249435}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &3235497439635828136 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4299065660771937395, guid: ad527ba4de069794796e314f236794f4,
+    type: 3}
+  m_PrefabInstance: {fileID: 1679722502878249435}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3321191813867953908 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4,
     type: 3}
   m_PrefabInstance: {fileID: 1679722502878249435}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-3052719004654847166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3321191813867953908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a45bf28f465e773996a9a5a74d40dd1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  statusEffect: {fileID: 11400000, guid: 04a6d019e2cbb81cdb0bb5390f4091e1, type: 2}
-  markedHitBonus: 30
-  backstabBonus: 30
-  pushForce: 0
-  reqWield: 1
-  doPush: 0
 --- !u!114 &5975586456323971994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -320,6 +410,16 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  canActivate:
+    InitialState: 1
+    OnBoolChange:
+      m_PersistentCalls:
+        m_Calls: []
+  canDeactivate:
+    InitialState: 1
+    OnBoolChange:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!114 &8127772774069969631
 MonoBehaviour:
   m_ObjectHideFlags: 0

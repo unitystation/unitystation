@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using US13.Core.Attributes;
 using US13.Core.Chat;
 using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.HealthV2;
@@ -13,7 +15,7 @@ namespace US13.Items.Weapons.Melee
 	/// <summary>
 	/// Adding this to a weapon allows it to mark enemies and do bonus damage when they are marked.
 	/// </summary>
-	public class MarkedMelee : MonoBehaviour, ICustomMeleeBehaviour, IExaminable
+	public class MarkedMelee : ICustomMeleeBehaviour, IExaminable
 	{
 		[SerializeField] private Marked statusEffect;
 
@@ -30,19 +32,24 @@ namespace US13.Items.Weapons.Melee
 		private ActivatableWeapon activatable;
 		private ChangeDamageOnActivate avChangeDamage;
 
-		void Awake()
+		[SerializeReference, SelectImplementation(typeof(IHitRequirement))]
+		private List<IHitRequirement> hitRequirements;
+
+		List<IHitRequirement> ICustomMeleeBehaviour.Requirements
 		{
-			attribs = gameObject.GetComponent<ItemAttributesV2>();
-			activatable = gameObject.GetComponent<ActivatableWeapon>();
-			avChangeDamage = gameObject.GetComponent<ChangeDamageOnActivate>();
-			attribs.OnMelee += OnHit;
+			get => hitRequirements;
+			set => hitRequirements = value;
 		}
 
-		private void OnDestroy()
-		{
-			attribs.OnMelee -= OnHit;
-		}
+		private bool isEnabled = true;
 
+		bool ICustomMeleeBehaviour.IsEnabled
+		{
+			get => isEnabled;
+			set => isEnabled = value;
+		}
+		/*
+		//TODO: Update to new custom melee behaviour
 		private void OnHit(GameObject attacker, GameObject target)
 		{
 			if (doPush)
@@ -62,7 +69,7 @@ namespace US13.Items.Weapons.Melee
 				var mark = Instantiate(statusEffect);
 				targetPlayerScript.StatusEffectManager.RemoveStatus(mark);
 			}
-		}
+		}*/
 
 		public WeaponNetworkActions.MeleeStats CustomMeleeBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats)
 		{
@@ -78,8 +85,8 @@ namespace US13.Items.Weapons.Melee
 			}
 
 			var targetPlayerScript = target.GetComponent<PlayerScript>();
-			var mark = Instantiate(statusEffect);
-			if (targetPlayerScript != null && targetPlayerScript.StatusEffectManager.HasStatus(mark))
+			//var mark = Instantiate(statusEffect); //TODO: Update to status effects V2
+			if (targetPlayerScript != null /*&& targetPlayerScript.StatusEffectManager.HasStatus(mark)*/)
 			{
 				var damageTotal = markedHitBonus + stats.Damage;
 

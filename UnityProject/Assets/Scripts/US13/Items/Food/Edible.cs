@@ -295,6 +295,7 @@ namespace US13.Items.Food
 		public ReagentMix FullConsume(PlayerScript feeder)
 		{
 			ReagentMix incomingFood = FoodContents.CurrentReagentMix.Clone();
+			currentBites = 0;
 			SpawnLeavingsAndDespawn(feeder);
 			return incomingFood;
 		}

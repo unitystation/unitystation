@@ -6,11 +6,13 @@ using UnityEngine.Serialization;
 using US13.Clothing;
 using US13.Core;
 using US13.Core.Addressables.Types;
+using US13.Core.Attributes;
 using US13.Core.Physics;
 using US13.Core.Sprite_Handler;
 using US13.Core.Utils;
 using US13.HealthV2;
 using US13.Items.Traits;
+using US13.Items.Weapons.Melee;
 using US13.Systems.Inventory;
 using US13.Tilemaps.Behaviours.Objects;
 using US13.UI.Systems.Tooltips.HoverTooltips;
@@ -198,6 +200,9 @@ namespace US13.Items
 			get => attackVerbs;
 			set => attackVerbs = new List<string>(value);
 		}
+
+		[SerializeReference, SelectImplementation(typeof(ICustomMeleeBehaviour))]
+		public List<ICustomMeleeBehaviour> CustomMeleeBehaviours = new List<ICustomMeleeBehaviour>();
 
 		/// <summary>
 		/// Actual current traits, accounting for dynamic add / remove. Note that these adds / removes
