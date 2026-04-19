@@ -85,6 +85,7 @@ namespace US13.Actions.V2.UI
 
 			TriggerAction();
 			UpdateCooldown();
+			UpdateCooldown();
 		}
 
 		private void HandleActivatedAction()

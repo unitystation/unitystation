@@ -336,6 +336,7 @@ namespace US13.Systems.Antagonists
 		{
 			var finalState = state;
 
+			if(connectedPlayer != PlayerManager.LocalPlayerScript) return; //Only should toggle night vision if this mind is the local player
 			if (Camera.main == null || Camera.main.TryGetComponent<CameraEffectControlScript>(out var effects) == false) return;
 
 			effects.AdjustPlayerVisibility(
