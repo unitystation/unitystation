@@ -27,10 +27,13 @@ MonoBehaviour:
   requiredReagents:
   - requiredAmount: 5
     requiredReagent: {fileID: 11400000, guid: b699d877848346042a46482836e3f2e7, type: 2}
+    catalyst: 0
   - requiredAmount: 5
     requiredReagent: {fileID: 11400000, guid: 911271db97b77da51889f97d6688a103, type: 2}
+    catalyst: 0
   - requiredAmount: 2
     requiredReagent: {fileID: 11400000, guid: b9bdb0acb54b8dc40837f92c2e7819a6, type: 2}
+    catalyst: 0
   requiredToolTraits: []
   result:
   - {fileID: 8192723771560842583, guid: 041c594460144314ca8040531557a7bb, type: 3}

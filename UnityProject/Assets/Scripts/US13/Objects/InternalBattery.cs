@@ -8,6 +8,8 @@ using US13.Core.Chat;
 using US13.Core.Input_System.InteractionV2;
 using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Core.Lifecycle;
+using US13.Core.Sprite_Handler;
 using US13.Items.Traits;
 using US13.Managers;
 using US13.Messages.Server.SoundMessages;
@@ -18,16 +20,19 @@ using Util;
 
 namespace US13.Objects
 {
-	public class InternalBattery : MonoBehaviour, IChargeable, ICheckedInteractable<InventoryApply>
+	public class InternalBattery : MonoBehaviour, IChargeable, ICheckedInteractable<InventoryApply>, IServerSpawn
 	{
 		[SerializeField] private ItemStorage batteryStorage;
 		[field: SerializeField] public bool isRemovableBattery { get; private set; } = true;
 		[SerializeField, ShowIf(nameof(isRemovableBattery))] private float removeBatteryTime;
 
+		[SerializeField] private bool ChangeSprites = false;
+		[SerializeField, ShowIf(nameof(ChangeSprites))] private SpriteHandler EffectedHandler;
 		public bool HasBatteries => batteryStorage.HasAnyOccupied();
 		public bool IsFull => batteryStorage.GetNextEmptySlot() != null;
 
 		private int currentCharge;
+
 		public int CurrentCharge
 		{
 			get => currentCharge;
@@ -45,8 +50,9 @@ namespace US13.Objects
 					int chargeDifference = Math.Min(amountToChange, batteryCap);
 					battery.Watts += isLoss ? -chargeDifference : chargeDifference;
 					amountToChange -= chargeDifference;
-					if(amountToChange <= 0) break;
+					if (amountToChange <= 0) break;
 				}
+
 				currentCharge = Math.Max(0, value);
 			}
 		}
@@ -56,6 +62,17 @@ namespace US13.Objects
 
 		private StandardProgressActionConfig ProgressConfig
 			= new StandardProgressActionConfig(StandardProgressActionType.ItemTransfer);
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			foreach (ItemSlot slot in batteryStorage.GetItemSlots())
+			{
+				if (slot.Item == null) continue;
+				if (slot.Item.TryGetComponent<Battery>(out var battery) == false) continue;
+				batteries.Add(battery);
+			}
+			EffectedHandler.SetSpriteVariant(batteries.Count);
+		}
 
 		public bool WillInteract(InventoryApply interaction, NetworkSide side)
 		{
@@ -106,7 +123,11 @@ namespace US13.Objects
 
 		private void AddNewBattery(Battery batteryToAdd, ItemSlot fromSlot)
 		{
-			if (Inventory.ServerTransfer(fromSlot, batteryStorage.GetNextEmptySlot())) batteries.Add(batteryToAdd);
+			if (Inventory.ServerTransfer(fromSlot, batteryStorage.GetNextEmptySlot()))
+			{
+				batteries.Add(batteryToAdd);
+				EffectedHandler.SetSpriteVariant(batteries.Count);
+			}
 		}
 
 		public void RemoveBattery(ItemSlot toSlot = null)
@@ -119,6 +140,7 @@ namespace US13.Objects
 			{
 				itemToRemove.TryGetComponent<Battery>(out var batteryToRemove);
 				batteries.Remove(batteryToRemove);
+				EffectedHandler.SetSpriteVariant(batteries.Count);
 			}
 		}
 

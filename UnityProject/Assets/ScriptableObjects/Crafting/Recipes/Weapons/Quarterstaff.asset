@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a638c97a2384c54bee47631bd326e8b, type: 3}
+  m_Name: Quarterstaff
+  m_EditorClassIdentifier: 
+  category: 0
+  craftingTime: 10
+  recipeName: Quarterstaff
+  recipeIconOverride: {fileID: 0}
+  recipeDescription: Crude but robust
+  requiredIngredients:
+  - requiredAmount: 2
+    requiredItem: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
+      type: 3}
+  - requiredAmount: 2
+    requiredItem: {fileID: 683694994805896424, guid: 51ddc7025f52f6e4e96d4410324d2bd0,
+      type: 3}
+  requiredReagents: []
+  requiredToolTraits:
+  - {fileID: 11400000, guid: aaed69546e98a47d8b488a046d00ebe7, type: 2}
+  result:
+  - {fileID: 5528209918886331922, guid: df040399c30c64c4a868f6fef6a04baf, type: 3}
+  resultHandlers: []
+  isSimple: 0
+  indexInSingleton: 463

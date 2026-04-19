@@ -120,7 +120,7 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialDescription
-      value: An improvised prod for incapacitating people with.
+      value: 'An improvised prod for incapacitating people with. '
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -500,15 +500,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2778503101191743056}
-    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 4591772837897782933}
     - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6669159906137905766}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2817331458128483223}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!114 &2705650514114133371 stripped
 MonoBehaviour:
@@ -543,34 +543,8 @@ MonoBehaviour:
   batteryStorage: {fileID: 4591772837897782933}
   <isRemovableBattery>k__BackingField: 1
   removeBatteryTime: 0.25
---- !u!114 &2778503101191743056
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8127442588295923452}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44299057457244141b47ddc650ae68be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  effectingBehaviourIDs: 
-  spriteHandler: {fileID: 2705650514114133371}
-  attributes: {fileID: 8514023540806085022}
-  internalBattery: {fileID: 1703646045356427902}
-  ToggleSound:
-    AssetAddress: Assets/Prefabs/Effects/Sparks01.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  initialState: 0
+  ChangeSprites: 0
+  EffectedHandler: {fileID: 0}
 --- !u!114 &4591772837897782933
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -623,6 +597,34 @@ MonoBehaviour:
   hideClothingFlags: 0
   disallowConsume: 0
   Colour: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &2817331458128483223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8127442588295923452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44299057457244141b47ddc650ae68be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  effectingBehaviourIDs: 00000000
+  spriteHandler: {fileID: 2705650514114133371}
+  attributes: {fileID: 8514023540806085022}
+  internalBattery: {fileID: 1703646045356427902}
+  ToggleSound:
+    AssetAddress: Assets/Prefabs/Effects/Sparks01.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  initialState: 0
 --- !u!212 &8231327112697984416 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,

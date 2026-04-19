@@ -73,6 +73,9 @@ namespace US13.Systems.Antagonists
 		[SerializeField,BoxGroup("Sanguine Cloak")] private GameObject vampireCloak;
 		[SerializeField,BoxGroup("Sanguine Cloak")] private ItemStorage cloakSlotTempStorage;
 
+		[SerializeField,BoxGroup("Sanguine Dagger")] private GameObject sanguineDaggerPrefab;
+		[SerializeField,BoxGroup("Sanguine Dagger")] private int selfDamage = 20;
+		[SerializeField,BoxGroup("Sanguine Dagger")] private float bloodTaken = 5;
 		private int _lightId;
 		private float squaredCosine;
 
@@ -382,6 +385,29 @@ namespace US13.Systems.Antagonists
 			{
 				Inventory.Inventory.ServerDespawn(neckSlots[0]);
 			}
+		}
+
+		public void SummonSanguineDagger(Vector2 worldMousePosition)
+		{
+			List<ItemSlot> handSlots = connectedPlayer.DynamicItemStorage.GetNamedItemSlots(NamedSlot.hands);
+			handSlots = handSlots.Where(h => h.IsEmpty).ToList(); //Get all empty hands
+			if (handSlots.Count() == 0)
+			{
+				Chat.AddWarningMsgFromServer(connectedPlayer.gameObject, "You do not have any free hands to perform this action!");
+				return;
+			}
+
+			GameObject sanguineDagger = Spawn.ServerPrefab(sanguineDaggerPrefab).GameObject;
+			Inventory.Inventory.ServerAdd(sanguineDagger, handSlots[0]);
+
+			connectedPlayer.Mind?.Body?.playerHealth?.ApplyDamageToRandomBodyPart(sanguineDagger, selfDamage, AttackType.Internal, DamageType.Brute);
+			Chat.AddExamineMsgFromServer(connectedPlayer.gameObject, "You draw forth your own blood to form a sanguine dagger.");
+
+			if(sanguineDagger.TryGetComponent<SanguineDagger>(out var daggerComponent) == false) return;
+			ReagentMix bloodToTake = connectedPlayer.playerHealth?.reagentPoolSystem?.BloodPool?.Take(bloodTaken);
+			if (bloodToTake == null) return;
+
+			daggerComponent.FillReagentMix(bloodToTake);
 		}
 	}
 }
