@@ -322,13 +322,27 @@ namespace US13.Tilemaps.Behaviours.Objects
 			playerScript.RegisterPlayer.ServerStun(1, false, false);
 		}
 
+		public void ServerSleep(float sleepDuration = 4f)
+		{
+			//Makes the player unconscious but only if they aren't already in a worse state
+			playerScript.playerHealth?.SetConsciousStateRespectHealth(ConsciousState.UNCONSCIOUS);
+			//Prevents the players state from improving during this time
+			playerScript.playerHealth?.HealthStateController.SetConsciousLock(true);
+			//Stuns the player
+			ServerStun(sleepDuration, false, false, true);
+			//Allow the players state to improve again
+			playerScript.playerHealth?.HealthStateController.SetConsciousLock(false);
+			//Makes the player conscious if their health state allows it
+			playerScript.playerHealth?.SetConsciousStateRespectHealth(ConsciousState.CONSCIOUS);
+		}
+
 		/// <summary>
 		/// Stops the player from moving and interacting for a period of time.
 		/// Also drops held items by default.
 		/// </summary>
 		/// <param name="stunDuration">Time before the stun is removed.</param>
 		/// <param name="dropItem">If items in the hand slots should be dropped on stun.</param>
-		public void ServerStun(float stunDuration = 4f, bool dropItem = true, bool checkForArmor = true, bool StopMovement = true, Action stunImmunityFeedback = null)
+		public void ServerStun(float stunDuration = 4f, bool dropItem = true, bool checkForArmor = true, bool StopMovement = true, Action stunImmunityFeedback = null, bool causeKnockdown = true)
 		{
 			bool CheckArmorStunImmunity()
 			{
@@ -356,8 +370,12 @@ namespace US13.Tilemaps.Behaviours.Objects
 
 			var oldVal = IsSlippingServer;
 			IsSlippingServer = true;
-			ServerCheckStandingChange( true);
 			OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);
+			if (causeKnockdown)
+			{
+				ServerCheckStandingChange(true);
+			}
+
 			if (dropItem)
 			{
 				playerScript.DynamicItemStorage.ServerDropItemsInHand();

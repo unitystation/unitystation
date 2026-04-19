@@ -14,6 +14,7 @@ namespace US13.HealthV2.Living.MedicalChemistry
 		public Reagent SpaceCancerReagent = null;
 		public Reagent ParanoiaReagent = null;
 		public Reagent SpaceColdReagent = null;
+		public Reagent VampirismReagent = null;
 
 
 		public SerializableDictionary<string, SicknessReaction> diseaseReactionDictionary = default;

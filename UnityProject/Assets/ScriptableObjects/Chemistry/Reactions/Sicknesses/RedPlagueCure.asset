@@ -13,16 +13,21 @@ MonoBehaviour:
   m_Name: RedPlagueCure
   m_EditorClassIdentifier: 
   ingredients:
-    m_keys: []
-    m_values: 
+    m_keys:
+    - {fileID: 11400000, guid: a353f355495400bf5b38e4b7f9315591, type: 2}
+    - {fileID: 11400000, guid: b0d244ad6284333a1b4962f309f7f593, type: 2}
+    - {fileID: 11400000, guid: 71f3eb7fc3909074a9f91b4dac0d9b91, type: 2}
+    m_values: 010000000100000005000000
   useExactAmounts: 0
   MinimumReactionMultiple: 0
   catalysts:
     m_keys: []
     m_values: 
   inhibitors:
-    m_keys: []
-    m_values: 
+    m_keys:
+    - {fileID: 11400000, guid: d9d775afecbd9828d9c018084c935522, type: 2}
+    - {fileID: 11400000, guid: 3a54c19300dc2022cb0d10a8e5883ea7, type: 2}
+    m_values: 0100000001000000
   hasMinTemp: 0
   serializableTempMin: 0
   hasMaxTemp: 0
@@ -34,7 +39,7 @@ MonoBehaviour:
     m_keys: []
     m_values: 
   overrideDisplayName: 
-  indexInSingleton: 507
+  indexInSingleton: 508
   ReagentMetabolismMultiplier: 1
   InternalAllRequired: []
   InternalBlacklist: []
