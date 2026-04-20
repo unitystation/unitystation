@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: melee_lefthand_sanguine_dagger
+  m_EditorClassIdentifier: 
+  foreverID: a1aabc6ecce219042ae6167c985f02ea
+  Variance:
+  - Frames:
+    - sprite: {fileID: -2263221749452329761, guid: 3d98f1e999c2cd64e87e134cb1f03ab0,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 9041225963396600513, guid: 3d98f1e999c2cd64e87e134cb1f03ab0,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -1519157968767162880, guid: 3d98f1e999c2cd64e87e134cb1f03ab0,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -2463571784778437478, guid: 3d98f1e999c2cd64e87e134cb1f03ab0,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 

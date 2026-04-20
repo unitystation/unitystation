@@ -40,5 +40,8 @@ namespace US13.Items.Weapons.Melee
 			modStats.Damage = rnd.Next(minDamage, maxDamage);
 			return modStats;
 		}
+
+		public void OnHitBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats) { }
+		public void OnBlockBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats) { }
 	}
 }

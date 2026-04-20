@@ -14,5 +14,7 @@ namespace US13.Items.Weapons.Melee
 		public List<IHitRequirement> Requirements { get; set; }
 		public bool IsEnabled { get; set; }
 		WeaponNetworkActions.MeleeStats CustomMeleeBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats);
+		void OnHitBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats);
+		void OnBlockBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats);
 	}
 }

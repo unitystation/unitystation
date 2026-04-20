@@ -198,6 +198,11 @@ namespace US13.Items.Weapons
 						// The attack hit.
 						if (victim.TryGetComponent<LivingHealthMasterBase>(out var victimHealth))
 						{
+							foreach (var meleeBehaviour in weaponAttributes.CustomMeleeBehaviours)
+							{
+								ApplyHitEffects(stats, victim, damageZone, meleeBehaviour);
+							}
+
 							AdminLogsManager.AddNewLog(this.gameObject, $" Attacked ", victim, $" Dealing damage {stats.Damage} Of type {stats.DamageType} damageZone {damageZone} traumaDamageChance {stats.TraumaDamageChance} Traumatic damage type {stats.TraumaticDamageType} ", LogCategory.MobDamage);
 							victimHealth.ApplyDamageToBodyPart(gameObject, stats.Damage, AttackType.Melee, stats.DamageType, damageZone, traumaDamageChance: stats.TraumaDamageChance, tramuticDamageType: stats.TraumaticDamageType);
 							didHit = true;
@@ -207,6 +212,13 @@ namespace US13.Items.Weapons
 						{
 							victimHealthOld.ApplyDamageToBodyPart(gameObject, stats.Damage, AttackType.Melee, stats.DamageType, damageZone);
 							didHit = true;
+						}
+					}
+					else
+					{
+						foreach (var meleeBehaviour in weaponAttributes.CustomMeleeBehaviours)
+						{
+							ApplyBlockEffects(stats, victim, damageZone, meleeBehaviour);
 						}
 					}
 				}
@@ -270,6 +282,29 @@ namespace US13.Items.Weapons
 				return initialStats;
 			}
 			return meleeBehaviour.CustomMeleeBehaviour(gameObject, victim, damageZone, initialStats);
+		}
+		public void ApplyHitEffects(MeleeStats initialStats, GameObject victim, BodyPartType damageZone, ICustomMeleeBehaviour meleeBehaviour)
+		{
+			if (meleeBehaviour.IsEnabled == false) return;
+
+			foreach (var requirement in meleeBehaviour.Requirements)
+			{
+				if (requirement.CanHit(gameObject, victim, damageZone, initialStats)) continue;
+				return;
+			}
+			meleeBehaviour.OnHitBehaviour(gameObject, victim, damageZone, initialStats);
+		}
+
+		public void ApplyBlockEffects(MeleeStats initialStats, GameObject victim, BodyPartType damageZone, ICustomMeleeBehaviour meleeBehaviour)
+		{
+			if (meleeBehaviour.IsEnabled == false) return;
+
+			foreach (var requirement in meleeBehaviour.Requirements)
+			{
+				if (requirement.CanHit(gameObject, victim, damageZone, initialStats)) continue;
+				return;
+			}
+			meleeBehaviour.OnBlockBehaviour(gameObject, victim, damageZone, initialStats);
 		}
 
 		[Server]

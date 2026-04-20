@@ -50,16 +50,22 @@ namespace US13.Items.Weapons.Melee
 		public WeaponNetworkActions.MeleeStats CustomMeleeBehaviour(GameObject attacker,
 			GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats)
 		{
-			if (attacker.TryGetComponent<PlayerScript>(out var attackerPlayerScript) == false) return stats;
-			if (target.TryGetComponent<PlayerScript>(out var victimPlayerScript) == false) return stats;
+			return stats;
+		}
+
+		public void OnHitBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone,
+			WeaponNetworkActions.MeleeStats stats)
+		{
+			if (attacker.TryGetComponent<PlayerScript>(out var attackerPlayerScript) == false) return;
+			if (target.TryGetComponent<PlayerScript>(out var victimPlayerScript) == false) return;
 
 			ReagentPoolSystem victimReagentPool = victimPlayerScript.playerHealth?.reagentPoolSystem;
 			ReagentPoolSystem attackerReagentPool = attackerPlayerScript.playerHealth?.reagentPoolSystem;
-			if (victimReagentPool == null || attackerReagentPool == null) return stats;
+			if (victimReagentPool == null || attackerReagentPool == null) return;
 
 			TeamData currentTeam = victimPlayerScript.Mind?.AntagPublic?.CurTeam?.Data;
-			if (currentTeam == vampireTeam && victimReagentPool.BloodPool[CommonSicknesses.Instance.VampirismReagent] < VampireSafetyConcentration * victimReagentPool.NormalBlood) return stats;
-			if (victimReagentPool.BloodPool.Total < victimReagentPool.NormalBlood * SanguineThresholdFraction) return stats;
+			if (currentTeam == vampireTeam && victimReagentPool.BloodPool[CommonSicknesses.Instance.VampirismReagent] < VampireSafetyConcentration * victimReagentPool.NormalBlood) return;
+			if (victimReagentPool.BloodPool.Total < victimReagentPool.NormalBlood * SanguineThresholdFraction) return;
 
 			ReagentMix extractedBlood = victimReagentPool.BloodPool.Take(victimReagentPool.NormalBlood * SanguineAmountFraction);
 			float gainedBlood = extractedBlood.Total * SanguineEfficiencyFraction;
@@ -67,7 +73,7 @@ namespace US13.Items.Weapons.Melee
 			attackerReagentPool.BloodPool.Add(CommonSicknesses.Instance.VampirismReagent, gainedBlood);
 
 			if(useSound != null) SoundManager.PlayNetworkedAtPos(useSound, target.transform.position, sourceObj: target.gameObject);
-			return stats;
 		}
+		public void OnBlockBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats) { }
 	}
 }

@@ -18,6 +18,18 @@ PrefabInstance:
       propertyPath: spriteRenderer
       value: 
       objectReference: {fileID: 1094365865594957570}
+    - target: {fileID: 4520221803203555702, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f9ae8b49ecb6a4f41bc230704bb33550,
+        type: 2}
+    - target: {fileID: 7569679527290075565, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: af430d8542aeed6419f1cd9069c0a515,
+        type: 3}
     - target: {fileID: 7667703169655306053, guid: 229f1c93e0e4ada439cfe4b781f65997,
         type: 3}
       propertyPath: _assetId
@@ -99,6 +111,18 @@ PrefabInstance:
       propertyPath: CustomMeleeBehaviours.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 608fcb55ed9e93e4b9db9e1442319e13,
+        type: 2}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: a84dfff9a6cb93642a2b191c4d1fe8c0,
+        type: 2}
     - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
         type: 3}
       propertyPath: 'CustomMeleeBehaviours.Array.data[0]'

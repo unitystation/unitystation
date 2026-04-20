@@ -43,11 +43,17 @@ namespace US13.Items.Weapons.Melee
 		public WeaponNetworkActions.MeleeStats CustomMeleeBehaviour(GameObject attacker,
 			GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats)
 		{
-			if (target.TryGetComponent<PlayerScript>(out var playerScript) == false) return stats;
+			return stats;
+		}
+
+		public void OnHitBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone,
+			WeaponNetworkActions.MeleeStats stats)
+		{
+			if (target.TryGetComponent<PlayerScript>(out var playerScript) == false) return;
 			Electrocution newElectrocution = new Electrocution(voltage, target.AssumedWorldPosServer(), stats.DamageSourceName, true);
 			playerScript.playerHealth?.Electrocute(newElectrocution);
 			if(useSound != null) SoundManager.PlayNetworkedAtPos(useSound, target.transform.position, sourceObj: target.gameObject);
-			return stats;
 		}
+		public void OnBlockBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats) { }
 	}
 }

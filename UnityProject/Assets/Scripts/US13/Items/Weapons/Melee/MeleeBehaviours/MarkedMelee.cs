@@ -7,6 +7,7 @@ using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.HealthV2;
 using US13.Items.Weapons.ActivatableWeaponComponents.Server;
 using US13.Player;
+using US13.Systems.StatusesAndEffects;
 using US13.Systems.StatusesAndEffects.Implementations;
 using UniversalObjectPhysics = US13.Core.Physics.UniversalObjectPhysics;
 
@@ -25,6 +26,7 @@ namespace US13.Items.Weapons.Melee
 
 		[SerializeField] private bool reqWield = false;
 		[SerializeField] private bool doPush = false;
+
 
 		private bool isCooldown;
 
@@ -48,28 +50,6 @@ namespace US13.Items.Weapons.Melee
 			get => isEnabled;
 			set => isEnabled = value;
 		}
-		/*
-		//TODO: Update to new custom melee behaviour
-		private void OnHit(GameObject attacker, GameObject target)
-		{
-			if (doPush)
-			{
-				Vector2 dir = (target.transform.position - attacker.transform.position).normalized;
-				var objPhys = target.GetComponent<UniversalObjectPhysics>();
-
-				if (objPhys != null)
-				{
-					objPhys.NewtonianPush(dir, pushForce, 1, 0);
-				}
-			}
-
-			var targetPlayerScript = target.GetComponent<PlayerScript>();
-			if (targetPlayerScript != null)
-			{
-				var mark = Instantiate(statusEffect);
-				targetPlayerScript.StatusEffectManager.RemoveStatus(mark);
-			}
-		}*/
 
 		public WeaponNetworkActions.MeleeStats CustomMeleeBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats)
 		{
@@ -85,8 +65,7 @@ namespace US13.Items.Weapons.Melee
 			}
 
 			var targetPlayerScript = target.GetComponent<PlayerScript>();
-			//var mark = Instantiate(statusEffect); //TODO: Update to status effects V2
-			if (targetPlayerScript != null /*&& targetPlayerScript.StatusEffectManager.HasStatus(mark)*/)
+			if (targetPlayerScript != null && targetPlayerScript.StatusEffectManager.HasStatus(statusEffect))
 			{
 				var damageTotal = markedHitBonus + stats.Damage;
 
@@ -100,11 +79,22 @@ namespace US13.Items.Weapons.Melee
 				}
 
 				modStats.Damage = damageTotal;
+				targetPlayerScript.StatusEffectManager.RemoveStatus(statusEffect);
 				return modStats;
 			}
 
 			return modStats;
 		}
+
+		public void OnHitBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats)
+		{
+			if (doPush == false) return;
+
+			Vector2 dir = (target.transform.position - attacker.transform.position).normalized;
+			var objPhys = target.GetComponent<UniversalObjectPhysics>();
+			if (objPhys != null) objPhys.NewtonianPush(dir, pushForce, 1, 0);
+		}
+		public void OnBlockBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats) { }
 
 		public string Examine(Vector3 worldPos = default)
 		{

@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 5641268970727667022}
+    - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 72724e53405819746b6a95063a46be7d,
@@ -18,7 +23,7 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialPresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 72724e53405819746b6a95063a46be7d,
+      objectReference: {fileID: 11400000, guid: b739863e288c4574895579639a1eae86,
         type: 2}
     - target: {fileID: 688350503109327316, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
@@ -119,7 +124,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 2407f7d4fe7c1c44dbd2efd41562514f,
+      objectReference: {fileID: -4390054985076042999, guid: f17307bb5bfffd64b8d012d5d8e1a441,
         type: 3}
     - target: {fileID: 6036740337081534181, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
@@ -244,7 +249,7 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialitemSprites.SpriteLeftHand
       value: 
-      objectReference: {fileID: 11400000, guid: bacded9e0186a864da3fd96ccdea7e26,
+      objectReference: {fileID: 11400000, guid: 87129e562a8260a4c9b7f8112a60a0b4,
         type: 2}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
@@ -255,13 +260,13 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialitemSprites.SpriteRightHand
       value: 
-      objectReference: {fileID: 11400000, guid: b107f41fd5dd29a4288373eed1638106,
+      objectReference: {fileID: 11400000, guid: d60aec365c8bbc84d935485187ae4b00,
         type: 2}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
       propertyPath: InitialitemSprites.SpriteInventoryIcon
       value: 
-      objectReference: {fileID: 11400000, guid: 72724e53405819746b6a95063a46be7d,
+      objectReference: {fileID: 11400000, guid: b739863e288c4574895579639a1eae86,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -334,7 +339,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   allClothingData:
-  - {fileID: 11400000, guid: b73656cf454dc5b4a887832578529ee8, type: 2}
+  - {fileID: 11400000, guid: cb1578487e60d33468d3689f5489d873, type: 2}
   CurrentClothIndex: 0
   randomInitialClothData: 0
   hidesIdentity: 0
@@ -396,10 +401,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemIcon: {fileID: 1872998911101140373}
   ActivatedSprites:
-    SpriteInventoryIcon: {fileID: 11400000, guid: e5c7ccb33e29e27479b4c0cda2946e26,
+    SpriteInventoryIcon: {fileID: 11400000, guid: b739863e288c4574895579639a1eae86,
       type: 2}
-    SpriteLeftHand: {fileID: 11400000, guid: d648481b55388634abcb08f25e428f26, type: 2}
-    SpriteRightHand: {fileID: 11400000, guid: e59b48963633efc4195255b22e0fb6c9, type: 2}
+    SpriteLeftHand: {fileID: 11400000, guid: 835b9b0a1e854094fabf86826a2aae27, type: 2}
+    SpriteRightHand: {fileID: 11400000, guid: 85bed1102c6ff0a42950a7f810a89ad2, type: 2}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
@@ -460,3 +465,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   activateMessage: You wield {obj} grabbing it with both of your hands.
   deactivateMessage: You unwield {obj}.
+--- !u!212 &5641268970727667022 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6036740337081534181, guid: 93af1c166793efb498012ddc7370f8ec,
+    type: 3}
+  m_PrefabInstance: {fileID: 2129955677012210603}
+  m_PrefabAsset: {fileID: 0}

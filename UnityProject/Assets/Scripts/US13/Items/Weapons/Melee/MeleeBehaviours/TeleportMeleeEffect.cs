@@ -39,10 +39,13 @@ namespace US13.Items.Weapons.Melee
 		public WeaponNetworkActions.MeleeStats CustomMeleeBehaviour(GameObject attacker,
 			GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats)
 		{
-			TeleportUtils.ServerTeleportRandom(target, minimumTeleportDistance, maximumTeleportDistance, shouldAvoidSpaceTiles, shouldAvoidImpassables);
-
-			if(useSound != null) SoundManager.PlayNetworkedAtPos(useSound, target.transform.position, sourceObj: target.gameObject);
 			return stats;
 		}
+		public void OnHitBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats)
+		{
+			TeleportUtils.ServerTeleportRandom(target, minimumTeleportDistance, maximumTeleportDistance, shouldAvoidSpaceTiles, shouldAvoidImpassables);
+			if(useSound != null) SoundManager.PlayNetworkedAtPos(useSound, target.transform.position, sourceObj: target.gameObject);
+		}
+		public void OnBlockBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats) { }
 	}
 }
