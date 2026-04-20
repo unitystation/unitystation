@@ -272,36 +272,36 @@ namespace US13.Items.Weapons
 		}
 
 
-		public MeleeStats ApplyMeleeBehaviour(MeleeStats initialStats, GameObject victim, BodyPartType damageZone, ICustomMeleeBehaviour meleeBehaviour)
+		private MeleeStats ApplyMeleeBehaviour(MeleeStats initialStats, GameObject victim, BodyPartType damageZone, ICustomMeleeBehaviour meleeBehaviour)
 		{
 			if (meleeBehaviour.IsEnabled == false) return initialStats;
 
 			foreach (var requirement in meleeBehaviour.Requirements)
 			{
-				if (requirement.CanHit(gameObject, victim, damageZone, initialStats)) continue;
+				if (requirement.CanHit(IHitRequirement.HitRequirementType.Behaviour, gameObject, victim, damageZone, initialStats)) continue;
 				return initialStats;
 			}
 			return meleeBehaviour.CustomMeleeBehaviour(gameObject, victim, damageZone, initialStats);
 		}
-		public void ApplyHitEffects(MeleeStats initialStats, GameObject victim, BodyPartType damageZone, ICustomMeleeBehaviour meleeBehaviour)
+		private void ApplyHitEffects(MeleeStats initialStats, GameObject victim, BodyPartType damageZone, ICustomMeleeBehaviour meleeBehaviour)
 		{
 			if (meleeBehaviour.IsEnabled == false) return;
 
 			foreach (var requirement in meleeBehaviour.Requirements)
 			{
-				if (requirement.CanHit(gameObject, victim, damageZone, initialStats)) continue;
+				if (requirement.CanHit(IHitRequirement.HitRequirementType.OnHit, gameObject, victim, damageZone, initialStats)) continue;
 				return;
 			}
 			meleeBehaviour.OnHitBehaviour(gameObject, victim, damageZone, initialStats);
 		}
 
-		public void ApplyBlockEffects(MeleeStats initialStats, GameObject victim, BodyPartType damageZone, ICustomMeleeBehaviour meleeBehaviour)
+		private void ApplyBlockEffects(MeleeStats initialStats, GameObject victim, BodyPartType damageZone, ICustomMeleeBehaviour meleeBehaviour)
 		{
 			if (meleeBehaviour.IsEnabled == false) return;
 
 			foreach (var requirement in meleeBehaviour.Requirements)
 			{
-				if (requirement.CanHit(gameObject, victim, damageZone, initialStats)) continue;
+				if (requirement.CanHit(IHitRequirement.HitRequirementType.OnBlock, gameObject, victim, damageZone, initialStats)) continue;
 				return;
 			}
 			meleeBehaviour.OnBlockBehaviour(gameObject, victim, damageZone, initialStats);

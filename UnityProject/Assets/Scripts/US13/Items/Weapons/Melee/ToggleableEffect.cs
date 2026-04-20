@@ -113,6 +113,10 @@ namespace US13.Items.Weapons.Melee
 
 		private void RemoveCell(bool shouldRemoveBattery)
 		{
+			foreach (var i in effectingBehaviourIDs)
+			{
+				attributes.CustomMeleeBehaviours[i].IsEnabled = false;
+			}
 			weaponState = WeaponState.NoCell;
 			spriteHandler.SetCatalogueIndexSprite((int)weaponState);
 			if(shouldRemoveBattery) internalBattery.RemoveBattery();

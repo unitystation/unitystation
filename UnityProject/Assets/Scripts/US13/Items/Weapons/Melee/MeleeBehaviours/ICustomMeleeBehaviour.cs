@@ -11,6 +11,9 @@ namespace US13.Items.Weapons.Melee
 	/// </summary>
 	public interface ICustomMeleeBehaviour
 	{
+		/// <summary>
+		/// Requirements are only called if an OnHit or OnBlock Behaviour returns true
+		/// </summary>
 		public List<IHitRequirement> Requirements { get; set; }
 		public bool IsEnabled { get; set; }
 		WeaponNetworkActions.MeleeStats CustomMeleeBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats);

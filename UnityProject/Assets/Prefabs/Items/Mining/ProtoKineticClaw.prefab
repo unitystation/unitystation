@@ -192,7 +192,8 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[4317661658594148423].statusEffect
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 04a6d019e2cbb81cdb0bb5390f4091e1,
+        type: 2}
     - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}
       propertyPath: managedReferences[4317661658594148425].cooldownTime
@@ -207,6 +208,11 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[4317661658594148423].markedHitBonus
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148425].hitRequirement
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}

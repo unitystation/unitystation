@@ -54,6 +54,7 @@ namespace US13.Items.Weapons.Melee
 			playerScript.playerHealth?.Electrocute(newElectrocution);
 			if(useSound != null) SoundManager.PlayNetworkedAtPos(useSound, target.transform.position, sourceObj: target.gameObject);
 		}
-		public void OnBlockBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats) { }
+		public void OnBlockBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone,
+			WeaponNetworkActions.MeleeStats stats) {}
 	}
 }

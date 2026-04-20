@@ -17,8 +17,16 @@ namespace US13.Items.Weapons.Melee
 		[SerializeField] private int chargeUsage = 1000;
 		[SerializeField] private InternalBattery internalBattery = null;
 
-		public bool CanHit(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats)
+		[SerializeField] private IHitRequirement.HitRequirementType hitRequirement = IHitRequirement.HitRequirementType.OnHit;
+		IHitRequirement.HitRequirementType IHitRequirement.EffectedMethods
 		{
+			get => hitRequirement;
+			set => hitRequirement = value;
+		}
+
+		public bool CanHit(IHitRequirement.HitRequirementType type, GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats)
+		{
+			if (hitRequirement.HasFlag(type) == false) return true;
 			if (shouldConsumeCharge == false) return true;
 			if (internalBattery.CurrentCharge < chargeUsage)
 			{
