@@ -27,13 +27,12 @@ namespace US13.Items.Weapons.Melee
 		public bool CanHit(IHitRequirement.HitRequirementType type, GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats)
 		{
 			if (hitRequirement.HasFlag(type) == false) return true;
-			if (shouldConsumeCharge == false) return true;
 			if (internalBattery.CurrentCharge < chargeUsage)
 			{
 				Chat.AddWarningMsgFromServer(attacker, $"Insufficient charge: {(int)(internalBattery.CurrentCharge / 1000.0f)} / {(int)(chargeUsage / 1000.0f)}kJ");
 				return false;
 			}
-			internalBattery.CurrentCharge -= chargeUsage;
+			if (shouldConsumeCharge) internalBattery.CurrentCharge -= chargeUsage;
 
 			return true;
 		}
