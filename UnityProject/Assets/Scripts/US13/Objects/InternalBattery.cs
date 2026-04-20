@@ -149,6 +149,7 @@ namespace US13.Objects
 
 		public void RemoveBattery(ItemSlot toSlot = null)
 		{
+			if (HasBatteries == false) return;
 			ItemSlot slotToRemove = batteryStorage.GetTopOccupiedIndexedSlot();
 			if (slotToRemove == null) return;
 			Pickupable itemToRemove = slotToRemove.Item;

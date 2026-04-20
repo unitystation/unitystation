@@ -64,8 +64,8 @@ namespace US13.Items.Weapons.Melee
 		private void Awake()
 		{
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
-			SetStateFromWeaponState(initialState);
 			if(internalBattery != null) internalBattery.OnChargeChanged += OnChargeChanged;
+			SetStateFromWeaponState(initialState, true);
 		}
 
 		private void OnDestroy()
@@ -85,7 +85,7 @@ namespace US13.Items.Weapons.Melee
 			SetStateFromWeaponState(initialState);
 		}
 
-		private void SetStateFromWeaponState(WeaponState state)
+		private void SetStateFromWeaponState(WeaponState state, bool skipRemoval = false)
 		{
 			switch(state)
 			{
@@ -96,7 +96,7 @@ namespace US13.Items.Weapons.Melee
 					SetState(true);
 					break;
 				case WeaponState.NoCell:
-					RemoveCell(true);
+					RemoveCell(!skipRemoval);
 					break;
 			}
 		}
