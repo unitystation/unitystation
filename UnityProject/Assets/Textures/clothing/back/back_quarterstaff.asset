@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: back_quarterstaff
+  m_EditorClassIdentifier: 
+  foreverID: a070490843d8e9344b135d360e22d2ca
+  Variance:
+  - Frames:
+    - sprite: {fileID: 63208559910291568, guid: ab863f6c6c3385d41b6fa59bd0f12d8d,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 838187865872423056, guid: ab863f6c6c3385d41b6fa59bd0f12d8d,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 443009396858425014, guid: ab863f6c6c3385d41b6fa59bd0f12d8d,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 1465659124, guid: ab863f6c6c3385d41b6fa59bd0f12d8d, type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 

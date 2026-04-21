@@ -1,10 +1,13 @@
+using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
+using US13.Core.Attributes;
 using US13.Core.Chat;
 using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.HealthV2;
 using US13.Items.Weapons.ActivatableWeaponComponents.Server;
 using US13.Player;
+using US13.Systems.StatusesAndEffects;
 using US13.Systems.StatusesAndEffects.Implementations;
 using UniversalObjectPhysics = US13.Core.Physics.UniversalObjectPhysics;
 
@@ -13,7 +16,7 @@ namespace US13.Items.Weapons.Melee
 	/// <summary>
 	/// Adding this to a weapon allows it to mark enemies and do bonus damage when they are marked.
 	/// </summary>
-	public class MarkedMelee : MonoBehaviour, ICustomMeleeBehaviour, IExaminable
+	public class MarkedMelee : ICustomMeleeBehaviour, IExaminable
 	{
 		[SerializeField] private Marked statusEffect;
 
@@ -24,44 +27,28 @@ namespace US13.Items.Weapons.Melee
 		[SerializeField] private bool reqWield = false;
 		[SerializeField] private bool doPush = false;
 
+
 		private bool isCooldown;
 
 		private ItemAttributesV2 attribs;
 		private ActivatableWeapon activatable;
 		private ChangeDamageOnActivate avChangeDamage;
 
-		void Awake()
+		[SerializeReference, SelectImplementation(typeof(IHitRequirement))]
+		private List<IHitRequirement> hitRequirements;
+
+		List<IHitRequirement> ICustomMeleeBehaviour.Requirements
 		{
-			attribs = gameObject.GetComponent<ItemAttributesV2>();
-			activatable = gameObject.GetComponent<ActivatableWeapon>();
-			avChangeDamage = gameObject.GetComponent<ChangeDamageOnActivate>();
-			attribs.OnMelee += OnHit;
+			get => hitRequirements;
+			set => hitRequirements = value;
 		}
 
-		private void OnDestroy()
+		private bool isEnabled = true;
+
+		bool ICustomMeleeBehaviour.IsEnabled
 		{
-			attribs.OnMelee -= OnHit;
-		}
-
-		private void OnHit(GameObject attacker, GameObject target)
-		{
-			if (doPush)
-			{
-				Vector2 dir = (target.transform.position - attacker.transform.position).normalized;
-				var objPhys = target.GetComponent<UniversalObjectPhysics>();
-
-				if (objPhys != null)
-				{
-					objPhys.NewtonianPush(dir, pushForce, 1, 0);
-				}
-			}
-
-			var targetPlayerScript = target.GetComponent<PlayerScript>();
-			if (targetPlayerScript != null)
-			{
-				var mark = Instantiate(statusEffect);
-				targetPlayerScript.StatusEffectManager.RemoveStatus(mark);
-			}
+			get => isEnabled;
+			set => isEnabled = value;
 		}
 
 		public WeaponNetworkActions.MeleeStats CustomMeleeBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats)
@@ -78,8 +65,7 @@ namespace US13.Items.Weapons.Melee
 			}
 
 			var targetPlayerScript = target.GetComponent<PlayerScript>();
-			var mark = Instantiate(statusEffect);
-			if (targetPlayerScript != null && targetPlayerScript.StatusEffectManager.HasStatus(mark))
+			if (targetPlayerScript != null && targetPlayerScript.StatusEffectManager.HasStatus(statusEffect))
 			{
 				var damageTotal = markedHitBonus + stats.Damage;
 
@@ -93,11 +79,22 @@ namespace US13.Items.Weapons.Melee
 				}
 
 				modStats.Damage = damageTotal;
+				targetPlayerScript.StatusEffectManager.RemoveStatus(statusEffect);
 				return modStats;
 			}
 
 			return modStats;
 		}
+
+		public void OnHitBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats)
+		{
+			if (doPush == false) return;
+
+			Vector2 dir = (target.transform.position - attacker.transform.position).normalized;
+			var objPhys = target.GetComponent<UniversalObjectPhysics>();
+			if (objPhys != null) objPhys.NewtonianPush(dir, pushForce, 1, 0);
+		}
+		public void OnBlockBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats) { }
 
 		public string Examine(Vector3 worldPos = default)
 		{

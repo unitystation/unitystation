@@ -53,7 +53,7 @@ PrefabInstance:
     - target: {fileID: 4149248815674038313, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
       propertyPath: relatedRecipes.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4149248815674038313, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
@@ -69,6 +69,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4149248815674038313, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d37b6741258faf4e9f81ad9eeb04379,
+        type: 2}
+    - target: {fileID: 4149248815674038313, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: ce92bcc66c6e7b5488aff693efe82fae,
+        type: 2}
+    - target: {fileID: 4149248815674038313, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
       propertyPath: relatedRecipes.Array.data[0].ingredientIndex
       value: 1
       objectReference: {fileID: 0}
@@ -76,6 +88,16 @@ PrefabInstance:
         type: 3}
       propertyPath: relatedRecipes.Array.data[1].ingredientIndex
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4149248815674038313, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].ingredientIndex
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4149248815674038313, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].ingredientIndex
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4390993211494916771, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
@@ -176,6 +198,12 @@ PrefabInstance:
     - target: {fileID: 7734962754486397560, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b117a2dc5dcc5ad4bbc5a343e4803b28,
+        type: 2}
+    - target: {fileID: 7734962754486397560, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: b117a2dc5dcc5ad4bbc5a343e4803b28,
         type: 2}

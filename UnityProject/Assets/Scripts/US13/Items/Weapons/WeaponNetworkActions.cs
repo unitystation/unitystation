@@ -127,17 +127,14 @@ namespace US13.Items.Weapons
 			GameObject weapon = playerScript.PlayerNetworkActions.GetActiveHandItem();
 			ItemAttributesV2 weaponAttributes = weapon == null ? null : weapon.GetComponent<ItemAttributesV2>();
 
-
-
-
 			if (weaponAttributes != null)
 			{
 				stats = MeleeStats.Init(weaponAttributes);
-
-				if (weapon.TryGetComponent<ICustomMeleeBehaviour>(out var customMeleeBehaviour))
+				foreach (var meleeBehaviour in weaponAttributes.CustomMeleeBehaviours)
 				{
-					stats = customMeleeBehaviour.CustomMeleeBehaviour(gameObject, victim, damageZone, stats);
+					stats = ApplyMeleeBehaviour(stats, victim, damageZone, meleeBehaviour);
 				}
+
 				AdminLogsManager.AddNewLog(this.gameObject, " Try to attack ", victim, " With  ", weapon, LogCategory.MobDamage);
 			}
 			else
@@ -201,6 +198,11 @@ namespace US13.Items.Weapons
 						// The attack hit.
 						if (victim.TryGetComponent<LivingHealthMasterBase>(out var victimHealth))
 						{
+							foreach (var meleeBehaviour in weaponAttributes.CustomMeleeBehaviours)
+							{
+								ApplyHitEffects(stats, victim, damageZone, meleeBehaviour);
+							}
+
 							AdminLogsManager.AddNewLog(this.gameObject, $" Attacked ", victim, $" Dealing damage {stats.Damage} Of type {stats.DamageType} damageZone {damageZone} traumaDamageChance {stats.TraumaDamageChance} Traumatic damage type {stats.TraumaticDamageType} ", LogCategory.MobDamage);
 							victimHealth.ApplyDamageToBodyPart(gameObject, stats.Damage, AttackType.Melee, stats.DamageType, damageZone, traumaDamageChance: stats.TraumaDamageChance, tramuticDamageType: stats.TraumaticDamageType);
 							didHit = true;
@@ -210,6 +212,13 @@ namespace US13.Items.Weapons
 						{
 							victimHealthOld.ApplyDamageToBodyPart(gameObject, stats.Damage, AttackType.Melee, stats.DamageType, damageZone);
 							didHit = true;
+						}
+					}
+					else
+					{
+						foreach (var meleeBehaviour in weaponAttributes.CustomMeleeBehaviours)
+						{
+							ApplyBlockEffects(stats, victim, damageZone, meleeBehaviour);
 						}
 					}
 				}
@@ -260,6 +269,42 @@ namespace US13.Items.Weapons
 			}
 
 			Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Melee);
+		}
+
+
+		private MeleeStats ApplyMeleeBehaviour(MeleeStats initialStats, GameObject victim, BodyPartType damageZone, ICustomMeleeBehaviour meleeBehaviour)
+		{
+			if (meleeBehaviour.IsEnabled == false) return initialStats;
+
+			foreach (var requirement in meleeBehaviour.Requirements)
+			{
+				if (requirement.CanHit(IHitRequirement.HitRequirementType.Behaviour, gameObject, victim, damageZone, initialStats)) continue;
+				return initialStats;
+			}
+			return meleeBehaviour.CustomMeleeBehaviour(gameObject, victim, damageZone, initialStats);
+		}
+		private void ApplyHitEffects(MeleeStats initialStats, GameObject victim, BodyPartType damageZone, ICustomMeleeBehaviour meleeBehaviour)
+		{
+			if (meleeBehaviour.IsEnabled == false) return;
+
+			foreach (var requirement in meleeBehaviour.Requirements)
+			{
+				if (requirement.CanHit(IHitRequirement.HitRequirementType.OnHit, gameObject, victim, damageZone, initialStats)) continue;
+				return;
+			}
+			meleeBehaviour.OnHitBehaviour(gameObject, victim, damageZone, initialStats);
+		}
+
+		private void ApplyBlockEffects(MeleeStats initialStats, GameObject victim, BodyPartType damageZone, ICustomMeleeBehaviour meleeBehaviour)
+		{
+			if (meleeBehaviour.IsEnabled == false) return;
+
+			foreach (var requirement in meleeBehaviour.Requirements)
+			{
+				if (requirement.CanHit(IHitRequirement.HitRequirementType.OnBlock, gameObject, victim, damageZone, initialStats)) continue;
+				return;
+			}
+			meleeBehaviour.OnBlockBehaviour(gameObject, victim, damageZone, initialStats);
 		}
 
 		[Server]
@@ -383,6 +428,7 @@ namespace US13.Items.Weapons
 			public float TraumaDamageChance;
 			public TraumaticDamageTypes TraumaticDamageType;
 			public Action<GameObject, GameObject> HitAction;
+			public string DamageSourceName;
 
 			public static MeleeStats Init(ItemAttributesV2 data)
 			{
@@ -395,6 +441,7 @@ namespace US13.Items.Weapons
 					TraumaDamageChance = data.TraumaDamageChance,
 					TraumaticDamageType = data.TraumaticDamageType,
 					HitAction = data.OnMelee,
+					DamageSourceName = data.ArticleName,
 				};
 			}
 

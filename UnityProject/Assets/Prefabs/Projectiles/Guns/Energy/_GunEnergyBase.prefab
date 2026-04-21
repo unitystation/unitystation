@@ -53,6 +53,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -74,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
@@ -104,7 +107,7 @@ MonoBehaviour:
   SubCatalogue: []
   InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 96014042515403583}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -165,6 +168,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -186,6 +191,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
@@ -216,7 +222,7 @@ MonoBehaviour:
   SubCatalogue: []
   InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 1848979366670267442}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -277,6 +283,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -298,6 +306,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
@@ -328,7 +337,7 @@ MonoBehaviour:
   SubCatalogue: []
   InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 2719026976851437719}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -389,6 +398,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -410,6 +421,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
@@ -440,7 +452,7 @@ MonoBehaviour:
   SubCatalogue: []
   InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 617012563949353989}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -462,6 +474,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6b5f254be9fd647e6a3dc1399aa47aeb,
         type: 2}
+    - target: {fileID: 2619834082358948637, guid: da85b7a590e7c8444af73629fcb5dd22,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4548863991441914418}
     - target: {fileID: 3001407139512993015, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
       propertyPath: parentID
@@ -648,6 +665,18 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6648593666208859230}
   m_SourcePrefab: {fileID: 100100000, guid: da85b7a590e7c8444af73629fcb5dd22, type: 3}
+--- !u!114 &942046851822298982 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -4477014874976573806, guid: da85b7a590e7c8444af73629fcb5dd22,
+    type: 3}
+  m_PrefabInstance: {fileID: 5533974169584468468}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4454405483554457966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &4450321759764526106 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
@@ -672,6 +701,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 088b05d8e3804e948a69579df536c570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  batteryStorage: {fileID: 942046851822298982}
+  <isRemovableBattery>k__BackingField: 1
+  removeBatteryTime: 5
+  ChangeSprites: 0
+  EffectedHandler: {fileID: 0}
 --- !u!114 &6648593666208859230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -767,3 +801,9 @@ MonoBehaviour:
   chargeSprite: {fileID: 0}
   ammoSprite: {fileID: 0}
   allowScrewdriver: 1
+--- !u!212 &4548863991441914418 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8353174128348429254, guid: da85b7a590e7c8444af73629fcb5dd22,
+    type: 3}
+  m_PrefabInstance: {fileID: 5533974169584468468}
+  m_PrefabAsset: {fileID: 0}
