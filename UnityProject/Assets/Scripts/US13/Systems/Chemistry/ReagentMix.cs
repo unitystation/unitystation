@@ -739,7 +739,22 @@ namespace Chemistry
 			var amount = 0f;
 			if (reagent)
 			{
-				amount = reagents.m_dict[reagent];
+				try
+				{
+					amount = reagents.m_dict[reagent];
+				}
+				catch (Exception e)
+				{
+					if (e is KeyNotFoundException)
+					{
+						return 0;
+					}
+					else
+					{
+						Loggy.Error($"An error occured while trying to get {reagent.Name} from {MixName}.\n {e}");
+						return 0;
+					}
+				}
 			}
 			else
 			{
