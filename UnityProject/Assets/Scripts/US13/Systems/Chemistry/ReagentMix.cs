@@ -561,6 +561,44 @@ namespace Chemistry
 			return split;
 		}
 
+		/// <summary>
+		/// Returns a new reagent mix of the specified amount containing reagents in the same proportion of the parent reagent mix.
+		/// This function does not affect the original mix.
+		/// </summary>
+		/// <param name="amount">The size of the sample to create</param>
+		/// <returns></returns>
+		public ReagentMix CloneSample(float amount)
+		{
+			ReagentMix sampleMix = new ReagentMix();
+			if (amount == 0 || amount < 0)
+			{
+				return sampleMix;
+			}
+
+			if (float.IsNaN(amount) || float.IsNegativeInfinity(amount) || float.IsPositiveInfinity(amount))
+			{
+				Loggy.Error($"Trying to sample by {amount}", Category.Chemistry);
+				return sampleMix;
+			}
+
+			var total = Total;
+
+			//temperature change
+			var targetTotal = sampleMix.Total;
+			if (targetTotal == 0) 	sampleMix.temperature = temperature;
+			else sampleMix.temperature = (sampleMix.temperature * targetTotal + temperature * amount) / (targetTotal + amount);
+
+			var multiplier = Math.Min(1, amount / total);
+			lock (reagents)
+			{
+				foreach (var reagent in reagents.m_dict)
+				{
+					sampleMix.Add(reagent.Key, reagent.Value * multiplier);
+				}
+			}
+			return sampleMix;
+		}
+
 		public void TransferTo(ReagentMix target, float amount)
 		{
 			if (amount == 0 || amount < 0)

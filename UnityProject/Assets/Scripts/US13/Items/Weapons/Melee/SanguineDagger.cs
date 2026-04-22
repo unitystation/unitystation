@@ -18,11 +18,8 @@ public class SanguineDagger : MonoBehaviour, IServerInventoryMove
 	public void FillReagentMix(ReagentMix reagentMix)
 	{
 		bloodReagentMix = reagentMix;
-		foreach (var reagent in bloodReagentMix.Clone().reagents)
-		{
-			bloodReagentMix.Add(reagent.Key, reagent.Value * 2.5f); //Basically just increases the spilled reagent to look more dramatic
-		}
 	}
+
 	public void OnInventoryMoveServer(InventoryMove move)
 	{
 		if (move.InventoryMoveType == InventoryMoveType.Add) return;

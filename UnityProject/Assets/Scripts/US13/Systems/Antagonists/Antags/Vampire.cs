@@ -1,3 +1,4 @@
+using Chemistry;
 using UnityEngine;
 using US13.HealthV2.Living.MedicalChemistry;
 using US13.Player;
@@ -8,6 +9,10 @@ namespace US13.Systems.Antagonists.Antags
 	[CreateAssetMenu(menuName="ScriptableObjects/Antagonist/Vampire")]
 	public class Vampire : Antagonist
 	{
-		public override void AfterSpawn(Mind NewMind) { }
+		public override void AfterSpawn(Mind NewMind)
+		{
+			ReagentMix playerBlood = NewMind.Body?.playerHealth?.reagentPoolSystem?.BloodPool;
+			playerBlood?.Add(CommonSicknesses.Instance.VampirismReagent, 5.0f); //Should start as vampire no matter what
+		}
 	}
 }
