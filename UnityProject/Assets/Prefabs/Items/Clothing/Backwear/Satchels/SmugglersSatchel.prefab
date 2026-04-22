@@ -8,6 +8,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1019234497907649067, guid: a168a3bbdfd796d48bf524dd9bef1803,
+        type: 3}
+      propertyPath: itemStoragePopulator
+      value: 
+      objectReference: {fileID: 11400000, guid: db675140baa990346ae727f931b84fbd,
+        type: 2}
+    - target: {fileID: 1019234497907649067, guid: a168a3bbdfd796d48bf524dd9bef1803,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: e8b6fa61b6bdb4b8aa2833a751dfc487,
+        type: 2}
     - target: {fileID: 3604887204119082504, guid: a168a3bbdfd796d48bf524dd9bef1803,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -45,6 +57,11 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: 20ada5a61825ec040874bf3fc3edac74
+      objectReference: {fileID: 0}
+    - target: {fileID: 7038180996947190509, guid: a168a3bbdfd796d48bf524dd9bef1803,
+        type: 3}
+      propertyPath: exportCost
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 7038180996947190509, guid: a168a3bbdfd796d48bf524dd9bef1803,
         type: 3}
