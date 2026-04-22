@@ -269,16 +269,23 @@ namespace US13.Items.Weapons
 				var explosionMatrix = registerItem.Matrix;
 				var worldPos = objectPhysics.registerTile.WorldPosition;
 
-				if (destroyGrenade)
-				{
-					// Despawn grenade
-					_ = Despawn.ServerSingle(gameObject);
-				}
-
+				DespawnGrenade();
 				// Explosion here
 				var explosionGO = Instantiate(explosionPrefab, explosionMatrix.transform);
 				explosionGO.transform.position = worldPos;
 				explosionGO.Explode();
+			}
+			else
+			{
+				DespawnGrenade();
+			}
+		}
+
+		private void DespawnGrenade()
+		{
+			if (destroyGrenade)
+			{
+				_ = Despawn.ServerSingle(gameObject);
 			}
 		}
 
