@@ -142,6 +142,8 @@ namespace US13.Items.Implants.Organs
 		public int BadEyesight = 0;
 		private int DefaultBadEyesight = 0;
 
+		public MultiInterestFloat BadEyesightRecord = new MultiInterestFloat(0, InSetFloatBehaviour: MultiInterestFloat.FloatBehaviour.PickTop);
+
 		[SyncVar(hook = nameof(SyncColourBlindMode))]
 		public ColourBlindMode CurrentColourblindness = ColourBlindMode.None;
 		public ColourBlindMode DefaultColourblindness = ColourBlindMode.None;
@@ -149,7 +151,6 @@ namespace US13.Items.Implants.Organs
 		[SyncVar(hook = nameof(SyncXrayState))]
 		public bool HasXray = false;
 		public bool DefaultHasXray = false;
-
 
 
 		public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)
@@ -220,9 +221,6 @@ namespace US13.Items.Implants.Organs
 			Camera.main.GetComponent<CameraEffectControlScript>().colourblindEmulationEffect
 				.SetColourMode(newState);
 		}
-
-
-
 
 		public void SyncXrayState(bool old, bool newState)
 		{

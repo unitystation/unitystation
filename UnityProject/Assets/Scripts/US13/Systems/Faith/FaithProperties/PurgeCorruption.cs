@@ -45,7 +45,7 @@ namespace US13.Systems.Faith.FaithProperties
 		{
 			foreach (var antag in AntagManager.Instance.ActiveAntags)
 			{
-				if (antag.CurTeam.Data != vampireTeam) continue;
+				if (antag.CurTeam?.Data != vampireTeam) continue;
 				if (antag.Owner?.Body?.playerHealth?.IsDead == true)
 				{
 					FaithManager.AwardPoints(deadVampireRewardPoints, AssociatedFaith.Faith.FaithName);

@@ -8,7 +8,6 @@ namespace US13.HealthV2.Living.Mutations.Eyes
 	[CreateAssetMenu(fileName = "BlurryVisionMutation", menuName = "ScriptableObjects/Mutations/BlurryVisionMutation")]
 	public class BlurryVisionMutation  : MutationSO
 	{
-
 		public int BlurrinessStrength = 30;
 		public override Mutation GetMutation(BodyPart BodyPart,MutationSO _RelatedMutationSO)
 		{

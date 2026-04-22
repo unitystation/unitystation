@@ -7,7 +7,6 @@ using US13.Core.Attributes;
 using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.Metabolism;
 using US13.HealthV2.Living.PolymorphicSystems.Bodypart;
-using US13.HealthV2.Living.PolymorphicSystems.Hunger.HungerCalculationMethods;
 using US13.Systems.StatusesAndEffects;
 using US13.UI.Core.Alerts;
 

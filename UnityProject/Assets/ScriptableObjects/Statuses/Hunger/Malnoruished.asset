@@ -12,5 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ba74246e3a41e2b0a713c2ba3d28d8, type: 3}
   m_Name: Malnoruished
   m_EditorClassIdentifier: Assets::Systems.StatusesAndEffects.Implementations.Hunger.BaseHungerStatusEffect
+  CustomBehaviors:
+  - rid: 4619252273578246204
+  - rid: 4619252273578246206
   StatusAlert: {fileID: 11400000, guid: 756fa4a7b0404794a9db193e0514e2b5, type: 2}
   MessageOnEnteringStatus: <color=yellow>You're malnoruished..</color>
+  references:
+    version: 2
+    RefIds:
+    - rid: 4619252273578246204
+      type: {class: ControlLimbEfficiency, ns: US13.Systems.StatusesAndEffects.Implementations.HorizontalStatusEffectBehaviors,
+        asm: Assets}
+      data:
+        LimbEfficiency: 0.9
+    - rid: 4619252273578246206
+      type: {class: AddToBlurryVision, ns: US13.Systems.StatusesAndEffects.Implementations.HorizontalStatusEffectBehaviors,
+        asm: Assets}
+      data:
+        BlurrinessToAdd: 10
