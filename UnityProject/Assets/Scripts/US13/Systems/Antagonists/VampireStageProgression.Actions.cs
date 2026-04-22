@@ -360,13 +360,13 @@ namespace US13.Systems.Antagonists
 
 		public void SpectralCloak(Vector2 worldMousePosition)
 		{
-			cloakEquipped = !cloakEquipped;
 			if (cloakEquipped) EquipCloak();
 			else UnEquipCloak();
 		}
 
 		private void EquipCloak()
 		{
+			cloakEquipped = true;
 			if (cloakSlotTempStorage == false) return;
 			List<ItemSlot> neckSlots = connectedPlayer.DynamicItemStorage.GetNamedItemSlots(NamedSlot.neck);
 			if (neckSlots.Count() != 0) Inventory.Inventory.ServerTransfer(neckSlots[0], cloakSlotTempStorage.GetIndexedItemSlot(0));
@@ -377,6 +377,7 @@ namespace US13.Systems.Antagonists
 
 		private void UnEquipCloak()
 		{
+			cloakEquipped = false;
 			if (cloakSlotTempStorage == false) return;
 			List<ItemSlot> neckSlots = connectedPlayer.DynamicItemStorage.GetNamedItemSlots(NamedSlot.neck);
 			neckSlots[0].ServerSetLock(false);
@@ -404,7 +405,8 @@ namespace US13.Systems.Antagonists
 			Chat.AddExamineMsgFromServer(connectedPlayer.gameObject, "You draw forth your own blood to form a sanguine dagger.");
 
 			if(sanguineDagger.TryGetComponent<SanguineDagger>(out var daggerComponent) == false) return;
-			ReagentMix bloodToTake = connectedPlayer.playerHealth?.reagentPoolSystem?.BloodPool?.Take(bloodTaken);
+
+			ReagentMix bloodToTake = connectedPlayer.playerHealth?.reagentPoolSystem?.BloodPool?.CloneSample(bloodTaken);
 			if (bloodToTake == null) return;
 
 			daggerComponent.FillReagentMix(bloodToTake);
