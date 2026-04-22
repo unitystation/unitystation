@@ -19,16 +19,14 @@ namespace US13.Systems.StatusesAndEffects.Implementations
 		public float Buff = 1.25f;
 		public AlertSO SpeedBuffAlert;
 
-		private PlayerScript PlayerBase { get; set; }
-
 		public override void OnAdded(GameObject target)
 		{
 			DeathTime = DateTime.Now.AddSeconds(Duration);
-			PlayerBase = target.GetComponent<PlayerScript>();
+			PlayerScript PlayerBase = target.GetComponent<PlayerScript>();
 			UpdateManager.Add(CheckExpiration, 1f);
 			if (PlayerBase == null)
 			{
-				Loggy.Warning($"[SpeedBuff] - Oi govna, can't make an inanimate object ({target}) belt it.");
+				Loggy.Warning($"Oi govna, can't make an inanimate object ({target}) belt it.");
 				return;
 			}
 			foreach (var limb in PlayerBase.playerHealth.GetBodyFunctionsOfType<Limb>())
@@ -42,9 +40,9 @@ namespace US13.Systems.StatusesAndEffects.Implementations
 		{
 			base.OnRemoved(target);
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckExpiration);
-			PlayerBase?.BodyAlerts.UnRegisterAlert(SpeedBuffAlert);
-			if (PlayerBase == null) return;
-			foreach (var limb in PlayerBase.playerHealth.GetBodyFunctionsOfType<Limb>())
+			if (target.TryGetComponent<PlayerScript>(out var playerBase) == false) return;
+			playerBase.BodyAlerts.UnRegisterAlert(SpeedBuffAlert);
+			foreach (var limb in playerBase.playerHealth.GetBodyFunctionsOfType<Limb>())
 			{
 				limb.RemoveEfficiency(this);
 			}

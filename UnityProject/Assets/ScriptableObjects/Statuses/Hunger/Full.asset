@@ -12,5 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 57ba74246e3a41e2b0a713c2ba3d28d8, type: 3}
   m_Name: Full
   m_EditorClassIdentifier: Assets::Systems.StatusesAndEffects.Implementations.Hunger.BaseHungerStatusEffect
+  CustomBehaviors:
+  - rid: 4619252273578246202
   StatusAlert: {fileID: 11400000, guid: 9dcf0f63efe865449a8efde4713b5348, type: 2}
   MessageOnEnteringStatus: Your stomach feels bloated and full.
+  references:
+    version: 2
+    RefIds:
+    - rid: 4619252273578246202
+      type: {class: ControlLimbEfficiency, ns: US13.Systems.StatusesAndEffects.Implementations.HorizontalStatusEffectBehaviors,
+        asm: Assets}
+      data:
+        LimbEfficiency: 0.75
