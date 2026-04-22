@@ -18,8 +18,6 @@ namespace US13.Core.Camera
 
 		public void SetBlurStrength(int InStrength)
 		{
-
-
 			if (InStrength <= 0)
 			{
 				_BlurryStrength = 1;
