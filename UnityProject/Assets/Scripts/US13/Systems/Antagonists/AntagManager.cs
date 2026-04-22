@@ -188,7 +188,7 @@ namespace US13.Systems.Antagonists
 
 				try
 				{
-					objectives.AddRange(team.Data.GenerateObjectives());
+					objectives.AddRange(team.Data.GenerateObjectives(team));
 					team.AddTeamObjectives(objectives);
 				}
 				catch (Exception e)
@@ -211,7 +211,7 @@ namespace US13.Systems.Antagonists
 			ShowAntagBanner(SpawnMind, chosenAntag);
 
 			SetTeamAntag(SpawnMind, chosenAntag);
-			SpawnMind.ShowObjectives();
+			SpawnMind.ShowObjectives(Vector2.zero);
 			chosenAntag.AfterSpawn(SpawnMind);
 
 			var msg =
@@ -267,7 +267,7 @@ namespace US13.Systems.Antagonists
 		{
 			foreach (var activeAntag in activeAntags)
 			{
-				activeAntag.Owner?.ShowObjectives();
+				activeAntag.Owner?.ShowObjectives(Vector2.zero);
 			}
 		}
 

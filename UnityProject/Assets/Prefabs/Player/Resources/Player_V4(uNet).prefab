@@ -514,6 +514,8 @@ GameObject:
   - component: {fileID: 2951782550490073926}
   - component: {fileID: 7322151694171111061}
   - component: {fileID: 3997376295190111250}
+  - component: {fileID: 7531832425166861119}
+  - component: {fileID: 5592240411958216951}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -2187,6 +2189,245 @@ MonoBehaviour:
   SpriteHandlerPrefab: {fileID: 8887064764018805882, guid: 32de53576abc27a4496e84f2e8e827c3,
     type: 3}
   TrackingObject: {fileID: 0}
+--- !u!114 &7531832425166861119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a72535229f6f31c42894d69d32362b27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Systems.Antagonists.VampireStageProgression
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  bloodDrainActionId: blood_drain
+  bloodDrainRange: 1.5
+  bloodDrainTime: 1.5
+  bloodDrainThreshold: 70
+  bloodDrainAmount: 10
+  bloodDrainEfficiency: 20
+  corruptActionId: vampire_convert
+  corruptRange: 1.5
+  corruptTime: 1.5
+  corruptionAmount: 4.5
+  selfCorruptionAmount: 10
+  hypnoticStareDuration: 10
+  hypnoticStareRange: 4.5
+  hypnoticStareAngleDegrees: 90
+  hypnoticStareLightData:
+    Id: 0
+    lightColor: {r: 1, g: 0.07352942, b: 0, a: 0.73333335}
+    lightShape: 0
+    lightSpriteObject: {fileID: 114279031792796038}
+    size: 12
+  playerLightsHolder: {fileID: 1812110424391118221}
+  stareLightSprite: {fileID: 4991258112924306666}
+  darknessVisibilityMultiplier: 20
+  dimLightColour: {r: 0.74901974, g: 0.74901974, b: 0.74901974, a: 0.5176471}
+  vampireCloak: {fileID: 9008747155078074142, guid: 22001ebec7b578642be221960ee4e0b1,
+    type: 3}
+  cloakSlotTempStorage: {fileID: 5592240411958216951}
+  sanguineDaggerPrefab: {fileID: 999238813840350302, guid: 91a9e6c29b24f834abffe39c775c8a61,
+    type: 3}
+  selfDamage: 20
+  bloodTaken: 30
+  vampirismReaction: {fileID: 11400000, guid: a0c0311475173e34b9dbd8aa16945e5f, type: 2}
+  preventCuredVampires: {fileID: 11400000, guid: 3fd9965a8b428c546b4cf911b5730bd1,
+    type: 2}
+  amountVampiresObjective: {fileID: 11400000, guid: 13eecded6665c8444bedb2e4bbeb4067,
+    type: 2}
+  connectedPlayer: {fileID: 114617133355526680}
+  vampireAntagonist: {fileID: 11400000, guid: 4f52429999025fe4f948ae027370d6ec, type: 2}
+  vampireTeam: {fileID: 11400000, guid: 378c1481706515e41b287a6ca870ca62, type: 2}
+  stageAbilities:
+  - <ActivatedAbilities>k__BackingField:
+      m_keys: []
+      m_values: []
+    Mutations: []
+    onStageReachedText: 
+    onStageLostText: 
+  - <ActivatedAbilities>k__BackingField:
+      m_keys:
+      - ID: blood_drain
+        DisplayName: Blood Drain
+        Description: Drain the blood of a living creature to heal and increase corruption.
+        TriggerType: 0
+        Type: 1
+        CooldownTime: 15
+        CanUseWhileGhosting: 0
+        AnimatedIconCatalogue:
+        - {fileID: 11400000, guid: ac4cef25a4d15f641b93d4c6dd975a23, type: 2}
+        TryToGrabSpritesFromRelatedObject: 0
+        HasCustomCursorOffset: 0
+        HasCustomCursor: 1
+        OffsetType: 1
+        CursorOffset: {x: 0, y: 0}
+        CursorTexture: {fileID: 11400000, guid: f3e23c8b0ccd0334ca8b9d4b92bdff65,
+          type: 2}
+        TrackingObject: {fileID: 0}
+        ObjectRelatedToThisAction: {fileID: 0}
+      - ID: dark_vision
+        DisplayName: Eyes of the Night
+        Description: Track your victims even through the dead of night.
+        TriggerType: 0
+        Type: 0
+        CooldownTime: 0
+        CanUseWhileGhosting: 0
+        AnimatedIconCatalogue:
+        - {fileID: 11400000, guid: a6ed8cbfc333f8f45942338bc211820e, type: 2}
+        TryToGrabSpritesFromRelatedObject: 0
+        HasCustomCursorOffset: 0
+        HasCustomCursor: 1
+        OffsetType: 1
+        CursorOffset: {x: 0, y: 0}
+        CursorTexture: {fileID: 11400000, guid: f3e23c8b0ccd0334ca8b9d4b92bdff65,
+          type: 2}
+        TrackingObject: {fileID: 0}
+        ObjectRelatedToThisAction: {fileID: 0}
+      - ID: sanguine_dagger
+        DisplayName: Summon Dagger
+        Description: Summon a dagger of your own blood. Strike living creatures to
+          increase corruption.
+        TriggerType: 0
+        Type: 0
+        CooldownTime: 15
+        CanUseWhileGhosting: 0
+        AnimatedIconCatalogue:
+        - {fileID: 11400000, guid: e952042006ead574e8977927ed4d1822, type: 2}
+        TryToGrabSpritesFromRelatedObject: 0
+        HasCustomCursorOffset: 0
+        HasCustomCursor: 1
+        OffsetType: 1
+        CursorOffset: {x: 0, y: 0}
+        CursorTexture: {fileID: 11400000, guid: f3e23c8b0ccd0334ca8b9d4b92bdff65,
+          type: 2}
+        TrackingObject: {fileID: 0}
+        ObjectRelatedToThisAction: {fileID: 0}
+      m_values:
+      - target: {fileID: 7531832425166861119}
+        methodName: BloodDrain
+        parameterType: 
+      - target: {fileID: 7531832425166861119}
+        methodName: ToggleNightVision
+        parameterType: 
+      - target: {fileID: 7531832425166861119}
+        methodName: SummonSanguineDagger
+        parameterType: 
+    Mutations:
+    - {fileID: 11400000, guid: 85b46608a403da74892b9bb16d3b712c, type: 2}
+    onStageReachedText: You feel a new strength within you and a thirst for the blood
+      of the living.
+    onStageLostText: The corruption subsides, your thirtst for blood is quelled.
+  - <ActivatedAbilities>k__BackingField:
+      m_keys:
+      - ID: hypnotic_stare
+        DisplayName: Hypnotic Stare
+        Description: Cause those not of the corruption to fall into\na sleep for
+          a brief period.
+        TriggerType: 0
+        Type: 1
+        CooldownTime: 420
+        CanUseWhileGhosting: 0
+        AnimatedIconCatalogue:
+        - {fileID: 11400000, guid: 3f791a6f454230c4aa251e2a2286c8c0, type: 2}
+        TryToGrabSpritesFromRelatedObject: 0
+        HasCustomCursorOffset: 0
+        HasCustomCursor: 1
+        OffsetType: 1
+        CursorOffset: {x: 0, y: 0}
+        CursorTexture: {fileID: 11400000, guid: f3e23c8b0ccd0334ca8b9d4b92bdff65,
+          type: 2}
+        TrackingObject: {fileID: 0}
+        ObjectRelatedToThisAction: {fileID: 0}
+      - ID: vampire_convert
+        DisplayName: Corrupt Victim
+        Description: Bite a target and afflict them with the vampiric corruption.
+        TriggerType: 0
+        Type: 1
+        CooldownTime: 300
+        CanUseWhileGhosting: 0
+        AnimatedIconCatalogue:
+        - {fileID: 11400000, guid: ee342887377d8564594332022364c77e, type: 2}
+        TryToGrabSpritesFromRelatedObject: 0
+        HasCustomCursorOffset: 0
+        HasCustomCursor: 1
+        OffsetType: 1
+        CursorOffset: {x: 0, y: 0}
+        CursorTexture: {fileID: 11400000, guid: f3e23c8b0ccd0334ca8b9d4b92bdff65,
+          type: 2}
+        TrackingObject: {fileID: 0}
+        ObjectRelatedToThisAction: {fileID: 0}
+      m_values:
+      - target: {fileID: 7531832425166861119}
+        methodName: HypnoticStare
+        parameterType: 
+      - target: {fileID: 7531832425166861119}
+        methodName: Convert
+        parameterType: 
+    Mutations: []
+    onStageReachedText: The corruption surges through your veins, invigorating you
+      with new strength.
+    onStageLostText: Your power leaves you...
+  - <ActivatedAbilities>k__BackingField:
+      m_keys:
+      - ID: spectral_cloak
+        DisplayName: Sanguine Cloak
+        Description: Call forth a protective garment. \nSubtlety is of no concern.
+        TriggerType: 0
+        Type: 0
+        CooldownTime: 30
+        CanUseWhileGhosting: 0
+        AnimatedIconCatalogue:
+        - {fileID: 11400000, guid: 7b894c2e8a2914743ab4a0484eae8dc0, type: 2}
+        TryToGrabSpritesFromRelatedObject: 0
+        HasCustomCursorOffset: 0
+        HasCustomCursor: 1
+        OffsetType: 1
+        CursorOffset: {x: 0, y: 0}
+        CursorTexture: {fileID: 11400000, guid: f3e23c8b0ccd0334ca8b9d4b92bdff65,
+          type: 2}
+        TrackingObject: {fileID: 0}
+        ObjectRelatedToThisAction: {fileID: 0}
+      m_values:
+      - target: {fileID: 7531832425166861119}
+        methodName: SpectralCloak
+        parameterType: 
+    Mutations:
+    - {fileID: 11400000, guid: 7d30a8633ee38fd49b6dd72e35a0dc0c, type: 2}
+    onStageReachedText: Your strength is supreme.
+    onStageLostText: Your once great power begins to fade...
+--- !u!114 &5592240411958216951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Systems.Inventory.ItemStorage
+  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 149a35e975c8b46349e834afec575f55,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  ManuallySpawnContent: 0
+  dropItemsOnDespawn: 1
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -14726,6 +14967,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4014615114185567668}
+  - {fileID: 4954673832513773942}
   m_Father: {fileID: 4102488425209486}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7775671784592916423
@@ -15079,3 +15321,127 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 4300145449095171559}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &4959049656721722398
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 7081663397127498413}
+    m_Modifications:
+    - target: {fileID: 1762630675659964, guid: e2b1333de46384f95876864de1911fff, type: 3}
+      propertyPath: m_Name
+      value: StareLight
+      objectReference: {fileID: 0}
+    - target: {fileID: 1762630675659964, guid: e2b1333de46384f95876864de1911fff, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.008
+      objectReference: {fileID: 0}
+    - target: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.707107
+      objectReference: {fileID: 0}
+    - target: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.00000031610082
+      objectReference: {fileID: 0}
+    - target: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.00000021073387
+      objectReference: {fileID: 0}
+    - target: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.70710665
+      objectReference: {fileID: 0}
+    - target: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 23824325930050846, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 33937463476659220, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d889f81f1d032fc4aac62153542b2700,
+        type: 3}
+    - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: Color.a
+      value: 0.003921569
+      objectReference: {fileID: 0}
+    - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: InitialColour.a
+      value: 0.6431373
+      objectReference: {fileID: 0}
+    - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e2b1333de46384f95876864de1911fff, type: 3}
+--- !u!4 &4954673832513773942 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff,
+    type: 3}
+  m_PrefabInstance: {fileID: 4959049656721722398}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4991258112924306666 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
+    type: 3}
+  m_PrefabInstance: {fileID: 4959049656721722398}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

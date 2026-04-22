@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using US13.Core.Addressables;
@@ -11,6 +13,7 @@ using US13.Core.Sprite_Handler;
 using US13.Items.Traits;
 using US13.Managers;
 using US13.Messages.Server.SoundMessages;
+using US13.Objects;
 using US13.Systems.Construction.Parts;
 using US13.Systems.Inventory;
 using US13.UI.Core.ProgressBar;
@@ -22,21 +25,22 @@ namespace US13.Items.Weapons.Melee
 	/// Logic for toggling a weapon such as a stun baton or teleprod on or off
 	/// </summary>
 	[RequireComponent(typeof(Pickupable))]
-	[RequireComponent(typeof(MeleeEffect))]
-	public class ToggleableEffect : NetworkBehaviour, ICheckedInteractable<HandActivate>, IServerSpawn, ICheckedInteractable<InventoryApply>
+	public class ToggleableEffect : NetworkBehaviour, ICheckedInteractable<HandActivate>, IServerSpawn
 	{
-		[SerializeField] private bool toggleAffectsComponent = false;
+		//On this: I'm not sure if you can assign a reference to an interface selector in another component. This is a bit dirty but it works.
+		[SerializeField, Tooltip("This script will toggle the ICustomMeleeBehaviours at these indexes on the connected ItemAttributes")]
+		private List<int> effectingBehaviourIDs = new List<int>();
+		[SerializeField] private SpriteHandler spriteHandler;
+		[SerializeField] private ItemAttributesV2 attributes;
+		[SerializeField] private InternalBattery internalBattery;
 
-		private SpriteHandler spriteHandler;
-
-		private MeleeEffect meleeEffect;
 
 		// Sound played when turning this item on/off.
 		public AddressableAudioSource ToggleSound;
 
 		[Space(10)]
 		[SerializeField]
-		private WeaponState intialState = WeaponState.Off;
+		private WeaponState initialState = WeaponState.Off;
 
 		///Both used as states for the item and for the sub-catalogue in the sprite handler.
 		public enum WeaponState
@@ -57,78 +61,65 @@ namespace US13.Items.Weapons.Melee
 		protected StandardProgressActionConfig ProgressConfig
 			= new StandardProgressActionConfig(StandardProgressActionType.ItemTransfer);
 
-		private const float CELL_REMOVE_TIME = 3f;
-
 		private void Awake()
 		{
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
-			meleeEffect = GetComponent<MeleeEffect>();
-			weaponState = intialState;
+			if(internalBattery != null) internalBattery.OnChargeChanged += OnChargeChanged;
+			SetStateFromWeaponState(initialState, true);
+		}
+
+		private void OnDestroy()
+		{
+			if(internalBattery != null) internalBattery.OnChargeChanged -= OnChargeChanged;
+		}
+
+		private void OnChargeChanged()
+		{
+			if (internalBattery.HasBatteries && (internalBattery.CurrentCharge <= 0 || weaponState == WeaponState.NoCell)) SetStateFromWeaponState(WeaponState.Off);
+			else if(internalBattery.HasBatteries == false) RemoveCell(false);
 		}
 
 		// Calls TurnOff() when item is spawned, see below.
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			switch(weaponState)
+			SetStateFromWeaponState(initialState);
+		}
+
+		private void SetStateFromWeaponState(WeaponState state, bool skipRemoval = false)
+		{
+			switch(state)
 			{
 				case WeaponState.Off:
-					TurnOff();
+					SetState(false);
 					break;
 				case WeaponState.On:
-					TurnOn();
+					SetState(true);
 					break;
 				case WeaponState.NoCell:
-					RemoveCell();
+					RemoveCell(!skipRemoval);
 					break;
 			}
 		}
 
-		public void TurnOn()
+		private void SetState(bool newState)
 		{
-			if(toggleAffectsComponent) meleeEffect.enabled = true;
-			weaponState = WeaponState.On;
-			spriteHandler.SetCatalogueIndexSprite((int)WeaponState.On);
+			foreach (var i in effectingBehaviourIDs)
+			{
+				attributes.CustomMeleeBehaviours[i].IsEnabled = newState;
+			}
+			weaponState = newState ? WeaponState.On : WeaponState.Off;
+			spriteHandler.SetCatalogueIndexSprite((int)weaponState);
 		}
 
-		public void TurnOff()
+		private void RemoveCell(bool shouldRemoveBattery)
 		{
-			//logic to turn the teleprod off.
-			if (toggleAffectsComponent) meleeEffect.enabled = false;
-			weaponState = WeaponState.Off;
-			spriteHandler.SetCatalogueIndexSprite((int)WeaponState.Off);
-		}
-
-		private void RemoveCell()
-		{
-			//Logic for removing the items battery
-			if (toggleAffectsComponent) meleeEffect.enabled = false;
+			foreach (var i in effectingBehaviourIDs)
+			{
+				attributes.CustomMeleeBehaviours[i].IsEnabled = false;
+			}
 			weaponState = WeaponState.NoCell;
-			spriteHandler.SetCatalogueIndexSprite((int)WeaponState.NoCell);
-			Inventory.ServerDrop(meleeEffect.batterySlot);
-		}
-
-		private void RemoveCellInteraction(InventoryApply interaction)
-		{
-			void ProgressFinishAction()
-			{
-				Chat.AddActionMsgToChat(interaction.Performer,
-					$"The {gameObject.ExpensiveName()}'s power cell pops out",
-					$"{interaction.Performer.ExpensiveName()} finishes removing {gameObject.ExpensiveName()}'s energy cell.");
-				RemoveCell();
-			}
-
-			var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)
-				.ServerStartProgress(interaction.Performer.RegisterTile(), CELL_REMOVE_TIME, interaction.Performer);
-
-			if (bar != null)
-			{
-				Chat.AddActionMsgToChat(interaction.Performer,
-					$"You begin unsecuring the {gameObject.ExpensiveName()}'s power cell.",
-					$"{interaction.Performer.ExpensiveName()} begins unsecuring {gameObject.ExpensiveName()}'s power cell.");
-					AudioSourceParameters audioSourceParameters = new AudioSourceParameters(pitch: UnityEngine.Random.Range(0.8f, 1.2f));
-				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.screwdriver, interaction.Performer.AssumedWorldPosServer(), audioSourceParameters, sourceObj: interaction.Performer);
-			}
-
+			spriteHandler.SetCatalogueIndexSprite((int)weaponState);
+			if(shouldRemoveBattery) internalBattery.RemoveBattery();
 		}
 
 		//For making sure the user is actually conscious.
@@ -137,83 +128,36 @@ namespace US13.Items.Weapons.Melee
 			return DefaultWillInteract.Default(interaction, side);
 		}
 
-		#region inventoryinteraction
-
-		public bool WillInteract(InventoryApply interaction, NetworkSide side)
-		{
-			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-
-			if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot)
-			{
-				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && meleeEffect.allowScrewdriver)
-				{
-					return true;
-				}
-				else if (interaction.UsedObject != null)
-				{
-					if (meleeEffect.Battery == null && Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponCell))
-					{
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-
-		public void ServerPerformInteraction(InventoryApply interaction)
-		{
-			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && meleeEffect.Battery != null && meleeEffect.allowScrewdriver)
-			{
-				RemoveCellInteraction(interaction);
-			}
-
-			if (meleeEffect.Battery == null && Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponCell))
-			{
-				if (interaction.UsedObject.GetComponent<Battery>().MaxWatts >= meleeEffect.chargeUsage)
-				{
-					Inventory.ServerTransfer(interaction.FromSlot, meleeEffect.batterySlot);
-					TurnOff();
-				}
-				else
-				{
-					Chat.AddExamineMsg(interaction.Performer, $"The {gameObject.ExpensiveName()} requires a higher capacity cell.");
-				}
-			}
-		}
-
-		#endregion
-
-		//Activating the teleprod in-hand turns it off or off depending on its state.
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			SoundManager.PlayNetworkedAtPos(ToggleSound, interaction.Performer.AssumedWorldPosServer(), sourceObj: interaction.Performer);
+			if (ToggleSound != null)
+			{
+				_ = SoundManager.PlayNetworkedAtPosAsync(ToggleSound, interaction.Performer.AssumedWorldPosServer(), sourceObj: interaction.Performer);
+			}
 
-			if (weaponState == WeaponState.Off || weaponState == WeaponState.NoCell)
+			if (weaponState == WeaponState.On)
 			{
-				if (meleeEffect.hasBattery)
-				{
-					if(meleeEffect.Battery != null && (meleeEffect.Battery.Watts >= meleeEffect.chargeUsage) && weaponState != WeaponState.NoCell)
-					{
-						Chat.AddExamineMsgFromServer(interaction.Performer, $"You switch the {gameObject.ExpensiveName()} on");
-						TurnOn();
-					}
-					else
-					{
-						string state = meleeEffect.Battery != null ? "is out of power" : "has no cell";
-						Chat.AddExamineMsg(interaction.Performer, $"Your {gameObject.ExpensiveName()} {state}.");
-					}
-				}
-				else
-				{
-					Chat.AddExamineMsgFromServer(interaction.Performer, $"You extend the {gameObject.ExpensiveName()}");
-					TurnOn();
-				}
+				Chat.AddExamineMsgFromServer(interaction.Performer, internalBattery.HasBatteries
+						? $"You switch the {gameObject.ExpensiveName()} off"
+						: $"You retract the {gameObject.ExpensiveName()}");
+				SetState(false);
+				return;
 			}
-			else
+			if (internalBattery == null)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, meleeEffect.hasBattery ? $"You switch the {gameObject.ExpensiveName()} off" : $"You retract the {gameObject.ExpensiveName()}");
-				TurnOff();
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"You extend the {gameObject.ExpensiveName()}");
+				SetState(true);
+				return;
 			}
+			if(internalBattery.CurrentCharge > 0 && weaponState != WeaponState.NoCell)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"You switch the {gameObject.ExpensiveName()} on");
+				SetState(true);
+				return;
+			}
+
+			string state = internalBattery.HasBatteries ? "is out of power" : "has no cell";
+			Chat.AddExamineMsg(interaction.Performer, $"Your {gameObject.ExpensiveName()} {state}.");
 		}
 	}
 }

@@ -18,7 +18,7 @@ namespace US13.Actions.V2
 		[field: SerializeField] public float ActionButtonRefreshRate { get; private set; } = 0.75f;
 
 		private readonly SyncList<ActionButtonData> ActionButtons = new SyncList<ActionButtonData>();
-		private readonly SyncList<CooldownInfo> ActionCooldowns = new();
+		private readonly SyncList<CooldownInfo> ActionCooldowns = new SyncList<CooldownInfo>();
 		private readonly Dictionary<string, (ActionButtonData Data, Action<Vector2> Action)> ServerActionRegistry = new();
 		private readonly Dictionary<string, (ActionButtonData Data, Action<Vector2> Action)> ClientActionRegistry = new();
 		private NetworkIdentity cachedNetIdentity;
@@ -110,7 +110,7 @@ namespace US13.Actions.V2
 					break;
 			}
 
-			if (CustomNetworkManager.IsServer)
+			if (CustomNetworkManager.IsServer && ActionButtons.Contains(newData) == false)
 			{
 				ActionButtons.Add(newData);
 				this.netIdentity.isDirty = true;
@@ -186,11 +186,11 @@ namespace US13.Actions.V2
 			if (ServerActionRegistry.TryGetValue(actionId, out var found) == false) return;
 			try
 			{
-				found.Action?.Invoke(mouseLocation);
 				if (found.Data.CooldownTime > MINIMUM_COOLDOWN_TIME)
 				{
 					AddCooldown(actionId, found.Data.CooldownTime);
 				}
+				found.Action?.Invoke(mouseLocation);
 			}
 			catch (Exception e)
 			{
@@ -238,6 +238,13 @@ namespace US13.Actions.V2
 				cachedNetIdentity = gameObject.NetWorkIdentity();
 			}
 			cachedNetIdentity.isDirty = true;
+		}
+
+		[Server]
+		public void ServerEndCooldown(string actionId)
+		{
+			ActionCooldowns.RemoveAll(x => x.ActionId.Equals(actionId, StringComparison.InvariantCulture));
+			this.cachedNetIdentity.isDirty = true;
 		}
 
 		[Client]
@@ -304,7 +311,13 @@ namespace US13.Actions.V2
 
 		private bool IsActionOnCooldown(string actionId)
 		{
-			var isUnderCooldown = ActionCooldowns.Find(tuple => tuple.ActionId == actionId);
+			Loggy.Warning("While Checking");
+			foreach (var cooldown in ActionCooldowns)
+			{
+				Loggy.Warning($"{cooldown.ActionId} : {cooldown.CooldownEnd}");
+			}
+			var isUnderCooldown = ActionCooldowns.Find(tuple => tuple.ActionId.Equals(actionId, StringComparison.InvariantCulture));
+			if(isUnderCooldown != null) Loggy.Warning($"Found: {isUnderCooldown.ActionId} : {isUnderCooldown.CooldownEnd}");
 			if (isUnderCooldown == null) return false;
 			if (isUnderCooldown.CooldownEnd <= DateTime.UtcNow)
 			{

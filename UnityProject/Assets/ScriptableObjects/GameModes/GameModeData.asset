@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6849c8b0e24cd8449bd45583dc7c810, type: 3}
   m_Name: GameModeData
   m_EditorClassIdentifier: 
-  GameModes:
+  rotation:
   - {fileID: 11400000, guid: fbbefa05fa3b98d47bfec09bbdeeee1f, type: 2}
   - {fileID: 11400000, guid: 05fce6636cea92c45b994911665cde8e, type: 2}
   - {fileID: 11400000, guid: 825a8bd9474980f4787c876ebfcc3c8a, type: 2}
   - {fileID: 11400000, guid: c353eaa51022b234ea81a69d54a1cee7, type: 2}
+  - {fileID: 11400000, guid: 3b7e5a6284706a146930021cc4161610, type: 2}
   - {fileID: 11400000, guid: be5a87a6a81f8e043a1dbddc99b71db7, type: 2}
   - {fileID: 11400000, guid: 603078f33eb2da242a66f808a5e1b59f, type: 2}
   DefaultGameMode: {fileID: 11400000, guid: 825a8bd9474980f4787c876ebfcc3c8a, type: 2}

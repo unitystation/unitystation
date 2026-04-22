@@ -34,7 +34,9 @@ MonoBehaviour:
   randomSicknesses: 1
   possibleSicknesses:
   - {fileID: 11400000, guid: c277cb2e90e88e743ab2494b395ca8fa, type: 2}
-  randomSicknessRatio: 0.01
+  - {fileID: 11400000, guid: 663b67816c62a694b94fc771e7e91efd, type: 2}
+  - {fileID: 11400000, guid: eea29c4c2e4ea5e41b8ae15a911b5479, type: 2}
+  randomSicknessRatio: 0.05
   MainStations: {fileID: 11400000, guid: 9b0018951af67314ca9e85705e0d2ce4, type: 2}
   AsteroidList: {fileID: 11400000, guid: b1d9059b8db83ab479c9dffdc939b281, type: 2}
   AdditionalSceneList: {fileID: 11400000, guid: 6370dfaa39db5574aa7cc451537de4f1,

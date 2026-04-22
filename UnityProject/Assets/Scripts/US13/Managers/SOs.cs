@@ -10,6 +10,7 @@ using US13.Core.Addressables;
 using US13.Core.Cooldowns;
 using US13.Core.Lifecycle;
 using US13.Core.Sprite_Handler;
+using US13.HealthV2.Living.MedicalChemistry;
 using US13.HealthV2.Living.Surgery;
 using US13.Items.PDA;
 using US13.Items.Traits;
@@ -59,6 +60,7 @@ namespace US13.Managers
 		public UplinkCategoryList UplinkCategoryList;
 		public UplinkPasswordList UplinkPasswordList;
 		public ThrusterFuelReactions ThrusterFuelReactions;
+		public CommonSicknesses CommonSicknesses;
 
 		public SpawnPointSpritesSingleton SpawnPointSpritesSingleton;
 
@@ -112,6 +114,7 @@ namespace US13.Managers
 				{ typeof(CommonMaterials), CommonMaterials },
 				{ typeof(CommonReagents), CommonReagents },
 				{ typeof(CommonSpriteDataSOs), CommonSpriteDataSOs },
+				{ typeof(CommonSicknesses), CommonSicknesses },
 			};
 		}
 

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
+using US13.Core.Attributes;
 using US13.HealthV2;
 
 namespace US13.Items.Weapons.Melee
@@ -16,11 +18,30 @@ namespace US13.Items.Weapons.Melee
 
 		private static System.Random rnd = new System.Random();
 
+		[SerializeReference, SelectImplementation(typeof(IHitRequirement))]
+		private List<IHitRequirement> hitRequirements;
+
+		List<IHitRequirement> ICustomMeleeBehaviour.Requirements
+		{
+			get => hitRequirements;
+			set => hitRequirements = value;
+		}
+		private bool isEnabled = true;
+
+		bool ICustomMeleeBehaviour.IsEnabled
+		{
+			get => isEnabled;
+			set => isEnabled = value;
+		}
+
 		public WeaponNetworkActions.MeleeStats CustomMeleeBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats)
 		{
 			var modStats = stats;
 			modStats.Damage = rnd.Next(minDamage, maxDamage);
 			return modStats;
 		}
+
+		public void OnHitBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats) { }
+		public void OnBlockBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats) { }
 	}
 }

@@ -264,6 +264,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 653f176c1bbcda549ba1a40c27a7b577,
         type: 2}
+    - target: {fileID: 4987756423560292299, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 653f176c1bbcda549ba1a40c27a7b577,
+        type: 2}
     - target: {fileID: 5243514714527551521, guid: 27208d0fc3f7c3544a8d1a7861253b52,
         type: 3}
       propertyPath: parentID
@@ -274,8 +280,55 @@ PrefabInstance:
       propertyPath: foreverID
       value: 0399bd90d0dd48548badfaac91ea0dec
       objectReference: {fileID: 0}
+    - target: {fileID: 6436208063954450623, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: groundReagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6436208063954450623, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: groundReagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6436208063954450623, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: 'groundReagents.m_keys.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: d47b3e4d11a3c912a870f05525295965,
+        type: 2}
+    - target: {fileID: 6436208063954450623, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      propertyPath: 'groundReagents.m_values.Array.data[0]'
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1188401911067925580, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4910691023522091849}
   m_SourcePrefab: {fileID: 100100000, guid: 27208d0fc3f7c3544a8d1a7861253b52, type: 3}
+--- !u!1 &5852104329801765785 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1188401911067925580, guid: 27208d0fc3f7c3544a8d1a7861253b52,
+    type: 3}
+  m_PrefabInstance: {fileID: 4704243852310302677}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4910691023522091849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5852104329801765785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f29e6d2ff5e85744814055d0d21353e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Items.Kitchen.Juiceable
+  juicedReagents:
+    m_keys:
+    - {fileID: 11400000, guid: d47b3e4d11a3c912a870f05525295965, type: 2}
+    m_values: 0a000000

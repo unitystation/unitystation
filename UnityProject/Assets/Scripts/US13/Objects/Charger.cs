@@ -25,7 +25,7 @@ namespace US13.Objects
 		private SpriteHandler spriteHandler;
 
 		private int ChargingWatts;
-		private Battery battery;
+		private InternalBattery batteryToCharge;
 
 		#region Lifecycle
 
@@ -80,21 +80,20 @@ namespace US13.Objects
 					Inventory.ServerDrop(ChargingSlot);
 				}
 
-				battery = null;
+				batteryToCharge = null;
 				electricalMagazine = null;
 				SetSprite(SpriteState.Idle);
 				_APCPoweredDevice.Resistance = 99999;
 			}
 			else if (ChargingSlot.Item == null && interaction.UsedObject != null && Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.InternalBattery))
 			{
-				var _object = interaction.UsedObject.GetComponent<InternalBattery>();
-				if (_object == null) return;
-				battery = _object.GetBattery();
-				electricalMagazine = battery.GetComponent<ElectricalMagazine>();
+				if (interaction.UsedObject.TryGetComponent<InternalBattery>(out var newBattery) == false) return;
+				batteryToCharge = newBattery;
+				electricalMagazine = newBattery.GetComponent<ElectricalMagazine>();
 				Inventory.ServerTransfer(interaction.HandSlot, ChargingSlot);
-				if (battery != null)
+				if (newBattery != null)
 				{
-					_APCPoweredDevice.Resistance = battery.InternalResistance;
+					_APCPoweredDevice.Resistance = newBattery.InternalResistanceParrallel();
 					UpdateManager.Add(UpdateMe, 1);
 					UpdateMe();
 				}
@@ -110,32 +109,25 @@ namespace US13.Objects
 
 		private void CheckCharging()
 		{
-			if (battery.Watts < battery.MaxWatts)
-			{
-				if (ChargingWatts == 0)
-				{
-					SetSprite(SpriteState.Error);
-					return;
-				}
-
-				SetSprite(SpriteState.Charging);
-				AddCharge();
-			}
-			else
+			if (batteryToCharge.IsFullyCharged)
 			{
 				SetSprite(SpriteState.Charged);
+				return;
 			}
+
+			if (ChargingWatts == 0)
+			{
+				SetSprite(SpriteState.Error);
+				return;
+			}
+
+			SetSprite(SpriteState.Charging);
+			AddCharge();
 		}
 
 		private void AddCharge()
 		{
-			battery.Watts += ChargingWatts;
-
-			if (battery.Watts > battery.MaxWatts)
-			{
-				battery.Watts = battery.MaxWatts;
-			}
-
+			batteryToCharge.CurrentCharge += ChargingWatts;
 			if (electricalMagazine != null)
 			{
 				//For electrical guns
@@ -155,11 +147,11 @@ namespace US13.Objects
 
 		public void PowerNetworkUpdate(float voltage)
 		{
-			if (battery != null)
-			{
-				ChargingWatts = Mathf.RoundToInt((voltage / battery.InternalResistance) * voltage);
-				_APCPoweredDevice.Resistance = battery.InternalResistance;
-			}
+			if (batteryToCharge == null) return;
+
+			float cachedResistance = batteryToCharge.InternalResistanceParrallel();
+			ChargingWatts = Mathf.RoundToInt((voltage * voltage) / cachedResistance);
+			_APCPoweredDevice.Resistance = cachedResistance;
 		}
 
 		public void StateUpdate(PowerState state) { }
@@ -167,16 +159,8 @@ namespace US13.Objects
 
 		public string Examine(Vector3 worldPos = default(Vector3))
 		{
-			if (battery == null)
-			{
-				return "The display on the charges state That there is no battery connected";
-			}
-			else
-			{
-
-				return $"The display on the charges state battery is at {100 * ((float)battery.Watts / (float)battery.MaxWatts)} and charging at {ChargingWatts}W";
-			}
-
+			if (batteryToCharge == null) return "The display on the charges state That there is no battery connected";
+			return $"The display on the charges state battery is at {Mathf.Round(batteryToCharge.CurrentCharge / 1000.0f)}kJ and charging at {ChargingWatts}W";
 		}
 	}
 }

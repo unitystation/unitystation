@@ -41,6 +41,9 @@ namespace US13.HealthV2.Living
 		[SyncVar]
 		private ConsciousState consciousState = ConsciousState.CONSCIOUS;
 
+		//If true, the conscious state can not be made higher than it currently is.
+		[SyncVar] private bool preventConsciousImprovements = false;
+
 		public ConsciousState ConsciousState => consciousState;
 
 		[SyncVar]
@@ -159,11 +162,20 @@ namespace US13.HealthV2.Living
 		[Server]
 		public void SetConsciousState(ConsciousState newConsciousState)
 		{
+			//Higher consious states are worse
+			if (preventConsciousImprovements && (int)newConsciousState < (int)consciousState) return;
+
 			consciousState = newConsciousState;
 			if (connectionToClient != null)
 			{
 				InvokeClientConsciousStateEvent(newConsciousState);
 			}
+		}
+
+		[Server]
+		public void SetConsciousLock(bool isLocked)
+		{
+			preventConsciousImprovements = isLocked;
 		}
 
 		[Server]

@@ -25,7 +25,6 @@ namespace Items.Science
 		public List<GameObject> Composition;
 
 		private RadiationProducer radProducer;
-		private MeleeEffect meleeEffect;
 
 		[SerializeField]
 		private SpriteHandler spriteHandler;
@@ -39,7 +38,6 @@ namespace Items.Science
 		private void Awake()
 		{
 			radProducer = GetComponent<RadiationProducer>();
-			meleeEffect = GetComponent<MeleeEffect>();
 		}
 
 		internal void SetUpValues(ArtifactData parentData, string Id)
@@ -48,7 +46,7 @@ namespace Items.Science
 			sliverData = parentData;
 
 			sliverData.radiationlevel = (int)(sliverData.radiationlevel * Random.Range(0.80f, 1.20f)); // +- 20% accuracy
-			sliverData.bluespacesig = (int)(sliverData.bluespacesig * Random.Range(0.80f, 1.20f)); 
+			sliverData.bluespacesig = (int)(sliverData.bluespacesig * Random.Range(0.80f, 1.20f));
 			sliverData.bananiumsig = (int)(sliverData.bananiumsig * Random.Range(0.80f, 1.20f));
 
 			RPReward = Random.Range(SLIVER_MINIMUM_RESEARCH_REWARD, SLIVER_MAXIMUM_RESEARCH_REWARD);
@@ -66,9 +64,6 @@ namespace Items.Science
 		{
 			if (sliverData.bluespacesig >= 100)
 			{
-				meleeEffect.NetSetActive(true);
-				meleeEffect.maxTeleportDistance = (int)(sliverData.bluespacesig / 100);
-
 				for (int i = 0; i < (int)((sliverData.bluespacesig + 100) / 200); i++) //every 200 bluespace sig starting at 100
 				{
 					Composition.Add(artifactDataSO.compositionData["bluespace"]);

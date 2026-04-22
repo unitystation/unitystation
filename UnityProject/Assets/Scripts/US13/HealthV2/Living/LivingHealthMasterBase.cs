@@ -1229,17 +1229,50 @@ namespace US13.HealthV2.Living
 			}
 		}
 
-		public void SetConsciousState(ConsciousState NewConsciousState)
+		public void SetConsciousState(ConsciousState newConsciousState)
 		{
-			if (ConsciousState != NewConsciousState)
+			if (ConsciousState != newConsciousState)
 			{
 				var oldState = healthStateController.ConsciousState;
 				if (isServer)
 				{
-					healthStateController.SetConsciousState(NewConsciousState);
-					OnConsciousStateChangeServer.Invoke(oldState, NewConsciousState);
+					healthStateController.SetConsciousState(newConsciousState);
+					OnConsciousStateChangeServer.Invoke(oldState, newConsciousState);
 				}
 			}
+		}
+
+		public void SetConsciousStateRespectHealth(ConsciousState newConsciousState)
+		{
+			ConsciousState consciousStateFromHealth = ConsciousState.CONSCIOUS;
+			switch (healthStateController.OverallHealth)
+			{
+				case < -100:
+					SetConsciousState(ConsciousState.DEAD);
+					break;
+				case < -50:
+					SetConsciousState(ConsciousState.UNCONSCIOUS);
+					break;
+				case < 0:
+					SetConsciousState(ConsciousState.BARELY_CONSCIOUS);
+					break;
+				default:
+					SetConsciousState(ConsciousState.CONSCIOUS);
+					break;
+			}
+
+			ConsciousState newState = (ConsciousState)Math.Max((int)consciousStateFromHealth, (int)newConsciousState); //Assume the worst state
+
+			if (newState == ConsciousState.UNCONSCIOUS && ConsciousState is ConsciousState.CONSCIOUS or ConsciousState.BARELY_CONSCIOUS)
+			{
+				OnCritExit?.Invoke();
+			}
+
+			if (newState == ConsciousState.DEAD && ConsciousState is ConsciousState.CONSCIOUS or ConsciousState.BARELY_CONSCIOUS)
+			{
+				OnRevive?.Invoke();
+			}
+			SetConsciousState(newState);
 		}
 
 		/// <summary>

@@ -81,7 +81,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 2770085063242367836}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6510c9b95b6fa3498b97083dcdd5e89, type: 3}
   m_Name: 
@@ -216,7 +216,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 3644034045838036660}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 164ec78ad1a573543bf2c71098fbfc8c,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 164ec78ad1a573543bf2c71098fbfc8c,
         type: 2}
@@ -264,10 +275,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3969877647122030955}
-    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 4400842231486894432}
     - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -280,38 +287,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3485882664482685266}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3969877647122030955
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3486841869076151784}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22e23dbc3e28c944c988b15aeccb6f40, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useSound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Magic/Blink.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  cooldown: 2
-  canStun: 0
-  stunTime: 0
-  canTeleport: 1
-  avoidSpace: 0
-  avoidImpassable: 1
-  minTeleportDistance: 0
-  maxTeleportDistance: 0
-  hasBattery: 0
-  chargeUsage: 0
-  cellPrefab: {fileID: 0}
-  allowScrewdriver: 1
 --- !u!114 &4400842231486894432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,13 +319,18 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  OutPuttingRadiation: 0
-  color: {r: 0.3647059, g: 0.7921569, b: 0.19215687, a: 0}
+  InitialOutPuttingRadiation: 0
+  InitialColour: {r: 0.3647059, g: 0.7921569, b: 0.19215687, a: 0}
   lightSprite: {fileID: 3940133109612748078}
-  SynchroniseStrength: 0
 --- !u!4 &3490362367766315164 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 3485882664482685266}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &3644034045838036660 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
     type: 3}
   m_PrefabInstance: {fileID: 3485882664482685266}
   m_PrefabAsset: {fileID: 0}

@@ -37,7 +37,7 @@ namespace US13.HealthV2.Living
 
 				foreach (var sender in senders)
 				{
-					effect.Key.Apply(sender,reagentMix ,sender.gameObject.AssumedWorldPosServer() ,   effectResult);
+					effect.Key.Apply(sender,reagentMix ,sender.gameObject.AssumedWorldPosServer(), effectResult);
 				}
 			}
 		}

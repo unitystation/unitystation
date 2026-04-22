@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
+  m_Name: SpaceContraband
+  m_EditorClassIdentifier: 
+  foreverID: 5c8ebcfc5799c2043999cefd99020d44
+  pool:
+  - prefab: {fileID: 7235659444419165720, guid: 552cb08d7db47c14e81ddaf7ca4fd55c,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 9161364321117314532, guid: 7ad4192a6d3e96f72892584fca9009ea,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 2861262522480647445, guid: 79b1a551a149fb1488323584aba0d077,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 2861262522480647445, guid: 8e6bb516c263cc84aaa97d51dca86c9e,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 2861262522480647445, guid: fe0589faaad7b0a4faa302e09dc723b3,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 3359438494829520671, guid: 31735f85836cad248aa0f46372cb954a,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 3359438494829520671, guid: e9a5f8591637bd4408763d546b73b147,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 3359438494829520671, guid: 535cf712f6a743846a3507cc50b30d31,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 3359438494829520671, guid: 70392b3f9153ec54cb7d312ac2293280,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 5307303368926091077, guid: a753ad12f9c4b8847be33e910d2e18e5,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4372893291364708743, guid: c867e97b20544c24a88a714b2c8490ed,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4245553451975094303, guid: c05c071c51fbfec408e4c9f6240dc824,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 831001491632180302, guid: 612b94b3afdd65d488e97c5fd244a026, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4245553451975094303, guid: 8fb9b82aab871a54fb9bdb7e4a985821,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  RequiredTrait: {fileID: 0}

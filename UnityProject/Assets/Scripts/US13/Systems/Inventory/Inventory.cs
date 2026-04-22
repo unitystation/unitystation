@@ -59,6 +59,11 @@ namespace US13.Systems.Inventory
 		/// <returns>true if successful</returns>
 		public static void ServerSwap(ItemSlot SlotOne, ItemSlot SlotTwo, ReplacementStrategy replacementStrategy = ReplacementStrategy.Cancel, bool IgnoreRestraints = false)
 		{
+			if (SlotOne.ItemNotRemovable || SlotTwo.ItemNotRemovable)
+			{
+				Loggy.Error().Format("Inventory move attempted unremoveable slot.", Category.Inventory);
+				return;
+			}
 			var ObjectOne = SlotOne.ItemObject;
 			ServerDrop(SlotOne);
 			var ObjectTwo = SlotTwo.ItemObject;
