@@ -31,7 +31,7 @@ namespace US13.Items.Implants.Organs
 
 		public float MinuteStoreMaxAmount = 60; //Last for 60 minutes
 
-		public float AbsorbedAmount { set; get; } = 0;
+		[NonSerialized]	public float AbsorbedAmount = 0;
 
 		public bool IsFull => Math.Abs(MinuteStoreMaxAmount - AbsorbedAmount) < 0.01f;
 
