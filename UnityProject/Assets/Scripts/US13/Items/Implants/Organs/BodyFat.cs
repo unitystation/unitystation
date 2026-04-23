@@ -55,6 +55,16 @@ namespace US13.Items.Implants.Organs
 			AbsorbedAmount = newAbsorbedAmount;
 		}
 
+		public void ReleaseNutriment(float ToRelease)
+		{
+			if (ToRelease > AbsorbedAmount)
+			{
+				ToRelease = AbsorbedAmount;
+			}
+			ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(HungerComponent.Nutriment, ToRelease);
+			AbsorbedAmount -= ToRelease;
+		}
+
 		public override void ImplantPeriodicUpdate()
 		{
 
@@ -65,14 +75,7 @@ namespace US13.Items.Implants.Organs
 			//Loggy.Log("NutrimentPercentage >" + NutrimentPercentage);
 			if (nutrimentPercentage < ReleaseNutrimentPercentage)
 			{
-				float ToRelease = ReleaseAmount;
-				if (ToRelease > AbsorbedAmount)
-				{
-					ToRelease = AbsorbedAmount;
-				}
-
-				ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(HungerComponent.Nutriment, ToRelease);
-				AbsorbedAmount -= ToRelease;
+				ReleaseNutriment(ReleaseAmount);
 				isFreshBlood = false;
 				// Loggy.Log("ToRelease >" + ToRelease);
 			}
@@ -93,7 +96,7 @@ namespace US13.Items.Implants.Organs
 					float ToAbsorb = ReagentCirculatedComponent.AssociatedSystem.BloodPool[HungerComponent.Nutriment];
 					if (AbsorbedAmount + ToAbsorb > MinuteStoreMaxAmount)
 					{
-						ToAbsorb -= ((AbsorbedAmount + ToAbsorb) - MinuteStoreMaxAmount);
+						ToAbsorb = ToAbsorb - ((AbsorbedAmount + ToAbsorb) - MinuteStoreMaxAmount);
 					}
 
 					float Absorbing = ReagentCirculatedComponent.AssociatedSystem.BloodPool.Remove(HungerComponent.Nutriment, ToAbsorb);
