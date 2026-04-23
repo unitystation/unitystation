@@ -38,37 +38,24 @@ namespace US13.Items.Implants.Organs
 			base.ImplantPeriodicUpdate();
 			if (!StomachContents) return;
 			//BloodContainer
-			if (StomachContents.ReagentMixTotal > 0)
-			{
-				float ToDigest = DigesterAmountPerSecond * RelatedPart.TotalModified;
-				if (StomachContents.ReagentMixTotal < ToDigest)
-				{
-					ToDigest = StomachContents.ReagentMixTotal;
-				}
-				var Digesting = StomachContents.TakeReagents(ToDigest);
 
-				_ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(Digesting);
-			}
-			else
+			float ToDigest = DigesterAmountPerSecond * RelatedPart.TotalModified;
+			if (StomachContents.ReagentMixTotal < ToDigest)
 			{
-				HungerComponent.HungerState = HungerState.Starving;
+				ToDigest = StomachContents.ReagentMixTotal;
 			}
 
-			if (StomachContents.SpareCapacity < StomachIsConsideredFullWhenSpareCapacityIsLessThan)
-			{
-				HungerComponent.HungerState = HungerState.Full;
-			}
-			else
-			{
-				HungerComponent.HungerState = HungerState.Normal;
-			}
+			var Digesting = StomachContents.TakeReagents(ToDigest);
+
+			_ReagentCirculatedComponent.AssociatedSystem.BloodPool.Add(Digesting);
 
 			if (CanAddFat())
 			{
 				AddFat();
 				if (RelatedPart.HealthMaster.gameObject)
 				{
-					Chat.AddExamineMsg(RelatedPart.HealthMaster.gameObject, "You feel like you've gained a little weight.");
+					Chat.AddExamineMsg(RelatedPart.HealthMaster.gameObject,
+						"You feel like you've gained a little weight.");
 				}
 			}
 		}
@@ -90,7 +77,8 @@ namespace US13.Items.Implants.Organs
 
 		public void AddFat()
 		{
-			var added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject, spawnManualContents: true).GameObject.GetComponent<BodyFat>();
+			var added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject, spawnManualContents: true).GameObject
+				.GetComponent<BodyFat>();
 			BodyFats.Add(added);
 			added.RelatedStomach = this;
 			added.SetAbsorbedAmount(0);
