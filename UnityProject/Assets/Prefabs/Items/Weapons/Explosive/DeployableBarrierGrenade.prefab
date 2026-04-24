@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &8000920210916745530
+--- !u!1001 &7594168233780095859
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,27 +10,26 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2450954382432651964, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
-      propertyPath: PresentSpriteSet
+      propertyPath: spriteRenderer
       value: 
-      objectReference: {fileID: 11400000, guid: 768dd751540d35142a72e32044033c45,
-        type: 2}
+      objectReference: {fileID: 2078278638043064596}
     - target: {fileID: 2450954382432651964, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
       propertyPath: InitialPresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 768dd751540d35142a72e32044033c45,
+      objectReference: {fileID: 11400000, guid: a58e603198119774ab9a8819dcee2888,
         type: 2}
     - target: {fileID: 2450954382432651964, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
       propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
-      objectReference: {fileID: 11400000, guid: 768dd751540d35142a72e32044033c45,
+      objectReference: {fileID: 11400000, guid: a58e603198119774ab9a8819dcee2888,
         type: 2}
     - target: {fileID: 2450954382432651964, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
       propertyPath: 'SubCatalogue.Array.data[3]'
       value: 
-      objectReference: {fileID: 11400000, guid: 4f443b74e230a024583d526d1beda6b0,
+      objectReference: {fileID: 11400000, guid: f51f1a7e6b41b304cb2db80158443367,
         type: 2}
     - target: {fileID: 3458532336144809302, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
@@ -40,73 +39,33 @@ PrefabInstance:
     - target: {fileID: 3458532336144809302, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
       propertyPath: foreverID
-      value: oTNR6MN$OROxKehh_DBh
-      objectReference: {fileID: 0}
-    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
-        type: 3}
-      propertyPath: hitDamage
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
-        type: 3}
-      propertyPath: exportCost
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
-        type: 3}
-      propertyPath: throwRange
-      value: 9
+      value: 3b9158ca86c60e747a9b5b17f42e5388
       objectReference: {fileID: 0}
     - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
       propertyPath: initialName
-      value: Flashbang
-      objectReference: {fileID: 0}
-    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
-        type: 3}
-      propertyPath: initialSize
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
-        type: 3}
-      propertyPath: throwDamage
-      value: 6
+      value: deployable barrier grenade
       objectReference: {fileID: 0}
     - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
       propertyPath: initialDescription
-      value: Look directly at it for a suprise.
-      objectReference: {fileID: 0}
-    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
-        type: 3}
-      propertyPath: traumaDamageChance
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
-        type: 3}
-      propertyPath: TraumaticDamageType
-      value: 8
+      value: Instant robust cover.
       objectReference: {fileID: 0}
     - target: {fileID: 8481510294924968551, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 954c2752bafe57545b90eb9c471030e3,
+      objectReference: {fileID: 21300000, guid: 682d6d83273836c43a3578b09fd45725,
         type: 3}
     - target: {fileID: 8561801018043092111, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
       propertyPath: _assetId
-      value: 1200479610
+      value: 2867686274
       objectReference: {fileID: 0}
     - target: {fileID: 8594439505056330043, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
       propertyPath: m_Name
-      value: FlashbangGrenade
-      objectReference: {fileID: 0}
-    - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
+      value: DeployableBarrierGrenade
       objectReference: {fileID: 0}
     - target: {fileID: 8599085903787527247, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
@@ -160,16 +119,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
-      propertyPath: fuseLength
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
-        type: 3}
-      propertyPath: fuseMinimum
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
-        type: 3}
       propertyPath: explosionPrefab
       value: 
       objectReference: {fileID: 0}
@@ -187,7 +136,7 @@ PrefabInstance:
         type: 3}
       propertyPath: OnExpload.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 3861562749713631138}
+      objectReference: {fileID: -6524112215869475137}
     - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
       propertyPath: OnExpload.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -201,7 +150,7 @@ PrefabInstance:
     - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
       propertyPath: OnExpload.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: Items.Weapons.FlashbangGrenadeLogic, Assets
+      value: US13.Items.Weapons.SpawnObjectGrenadeLogic, Assets
       objectReference: {fileID: 0}
     - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
@@ -215,42 +164,34 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8594439505056330043, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3861562749713631138}
+      addedObject: {fileID: -6524112215869475137}
   m_SourcePrefab: {fileID: 100100000, guid: 838a4732b2dece64497d074b7a700be6, type: 3}
---- !u!1 &1751178680301309953 stripped
+--- !u!212 &2078278638043064596 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8481510294924968551, guid: 838a4732b2dece64497d074b7a700be6,
+    type: 3}
+  m_PrefabInstance: {fileID: 7594168233780095859}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2172550263312996936 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8594439505056330043, guid: 838a4732b2dece64497d074b7a700be6,
     type: 3}
-  m_PrefabInstance: {fileID: 8000920210916745530}
+  m_PrefabInstance: {fileID: 7594168233780095859}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3861562749713631138
+--- !u!114 &-6524112215869475137
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1751178680301309953}
+  m_GameObject: {fileID: 2172550263312996936}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5c1b4675d6344cd964771a27f256f44, type: 3}
+  m_Script: {fileID: 11500000, guid: 42328e4dc40d8aa49a952cbe2998745b, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  maximumDistance: 20
-  flashRadius: 20
-  flashTime: 5
-  weakDuration: 4
-  stunExtraTime: 8
-  flashCooldown: 24
-  flashSound:
-    AssetAddress: Assets/Prefabs/Effects/FlashbangBoom.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  stunsPlayers: 1
-  despawnOnInvoke: 1
+  m_EditorClassIdentifier: Assets::SpawnObjectGrenadeLogic
+  prefabToSpawn: {fileID: 6899002528379857253, guid: 6b7563f69c76a2a4a9dd785f88e80c19,
+    type: 3}
+  snapObjectToGrid: 1
+  spawnQuantity: 1
+  spawnScatterRadius: -0.5
