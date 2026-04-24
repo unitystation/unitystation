@@ -360,7 +360,7 @@ namespace US13.Systems.Antagonists
 
 		public void SpectralCloak(Vector2 worldMousePosition)
 		{
-			if (cloakEquipped) EquipCloak();
+			if (cloakEquipped == false) EquipCloak();
 			else UnEquipCloak();
 		}
 
