@@ -1493,5 +1493,45 @@
         ],
         "name": "Portable Heater Board",
         "Item_ID": "PortableHeaterBoard"
-    }
+    },
+    {
+      "Internal_ID": "Board_Chem_Master_3000",
+      "Description": " A circuit board to Build a Chem Master 3000.",
+      "Category": [
+        "Medical Machinery"
+      ],
+      "Materials": {
+        "Glass": 1000,
+        "Metal": 500
+      },
+      "Machinery_type": [
+        "CircuitImprinter"
+      ],
+      "Compatible_machinery": [
+        "Science",
+        "Medical"
+      ],
+      "name": "Chem Master 3000 (Machine Board)",
+      "Item_ID": "1a647f4dd2f499d40b782ae9b88a5f51"
+    },
+  {
+    "Internal_ID": "Board_Chem_Dispenser",
+    "Description": " A circuit board to Build a Chem Dispenser.",
+    "Category": [
+      "Medical Machinery"
+    ],
+    "Materials": {
+      "Glass": 1000,
+      "Metal": 500
+    },
+    "Machinery_type": [
+      "CircuitImprinter"
+    ],
+    "Compatible_machinery": [
+      "Science",
+      "Medical"
+    ],
+    "name": "Chem Dispenser (Machine Board)",
+    "Item_ID": "c242e43da5bd5cb418a0cdccf5cf1358"
+  }
 ]

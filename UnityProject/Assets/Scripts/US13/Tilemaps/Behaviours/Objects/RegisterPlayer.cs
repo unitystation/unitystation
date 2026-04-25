@@ -410,11 +410,8 @@ namespace US13.Tilemaps.Behaviours.Objects
 
 			OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);
 
-			if (playerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS
-			    || playerScript.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS)
-			{
-				playerScript.playerMove.ServerAllowInput.RemovePosition(this);
-			}
+
+			playerScript.playerMove.ServerAllowInput.RemovePosition(this);
 
 			ServerUpdateStunStatus(false);
 
