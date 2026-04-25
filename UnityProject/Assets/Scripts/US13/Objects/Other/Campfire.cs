@@ -17,6 +17,7 @@ using US13.Items.Traits;
 using US13.Managers.NetworkManagement;
 using US13.Managers.UpdateManager;
 using US13.Player;
+using US13.Systems.Fire;
 using US13.Tilemaps.Behaviours.Meta;
 using US13.Tilemaps.Behaviours.Meta.Atmospherics;
 using US13.Tilemaps.Behaviours.Meta.Atmospherics.Data;
@@ -35,6 +36,7 @@ namespace US13.Objects.Other
 		[SerializeField] private SpriteDataSO campfireActive;
 		[SerializeField] private SpriteDataSO campfireInactive;
 		[SerializeField] private List<ItemTrait> lightingItems;
+		[SerializeField] private List<ItemTrait> FuelItems;
 		[SerializeField] private List<ItemTrait> proddingItems;
 		[SerializeField] private CampfireState currentState = CampfireState.Unlit;
 		[SerializeField] private int stacks = 0;
@@ -164,6 +166,19 @@ namespace US13.Objects.Other
 					$"The {commonComponents.ItemAttributes.ArticleName} you're holding isn't a good enough tool to start a campfire.");
 				return;
 			}
+
+			var Source = commonComponents.SafeGetComponent<FireSource>();
+			if (Source != null)
+			{
+				if (Source.IsBurning == false)
+				{
+					Chat.AddExamineMsg(interaction.Performer,
+						$"The {commonComponents.ItemAttributes.ArticleName} Isn't lit.");
+					return;
+				}
+			}
+
+
 			Chat.AddActionMsgToChat(interaction.Performer, $"{interaction.PerformerPlayerScript.visibleName} is attempting to start the campfire with {commonComponents.ItemAttributes.ArticleName}");
 
 			StandardProgressActionConfig cfg = new StandardProgressActionConfig(StandardProgressActionType.Construction, false, false, false);
@@ -173,7 +188,6 @@ namespace US13.Objects.Other
 				{
 					LightCampUp();
 					Chat.AddActionMsgToChat(interaction.Performer, $"{interaction.PerformerPlayerScript.visibleName} has successfully started a fire with the {interaction.HandObject.ExpensiveName()}.".Color(Color.green));
-					_ = Despawn.ServerSingle(interaction.HandObject);
 				}
 				else
 				{
@@ -194,7 +208,7 @@ namespace US13.Objects.Other
 				if (DMMath.Prob(25)) AddStacks(1);
 				return;
 			}
-			if (obj.HasAnyTraitZeroAlloc(lightingItems))
+			if (obj.HasAnyTraitZeroAlloc(FuelItems))
 			{
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"{interaction.PerformerPlayerScript.visibleName} adds {obj.ArticleName} as fuel for the {attributes.ArticleName}, extending its lifespan.");

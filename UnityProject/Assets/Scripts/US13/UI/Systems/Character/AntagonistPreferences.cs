@@ -14,6 +14,9 @@ namespace US13.UI.Systems.Character
 		private GameObject antagEntryTemplate = null;
 
 		[SerializeField]
+		private GameObject parent = null;
+
+		[SerializeField]
 		private AntagData antagData = null;
 
 		private readonly Dictionary<string, AntagEntry> antagEntries = new();
@@ -50,7 +53,7 @@ namespace US13.UI.Systems.Character
 
 			foreach (var antag in antags)
 			{
-				var newEntryGO = Instantiate(antagEntryTemplate.gameObject, antagEntryTemplate.transform.parent);
+				var newEntryGO = Instantiate(antagEntryTemplate.gameObject, parent.transform);
 				var entry = newEntryGO.GetComponent<AntagEntry>();
 				entry.Setup(antag);
 				antagEntries.Add(antag.AntagName, entry);
