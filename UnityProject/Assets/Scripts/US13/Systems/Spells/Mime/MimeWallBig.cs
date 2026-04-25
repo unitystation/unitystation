@@ -46,7 +46,7 @@ namespace Mime
 
 		public override bool CastSpellServer(PlayerInfo caster)
 		{
-			Vector3Int[] obstructions = new Vector3Int[3];
+			Vector3Int[] obstructions = new Vector3Int[3]{ TransformState.HiddenPos, TransformState.HiddenPos,TransformState.HiddenPos};
 
 			var Matrix = MatrixManager.AtPoint(caster.Script.WorldPos, true);
 
@@ -69,7 +69,7 @@ namespace Mime
 
 					if (Matrix.MetaTileMap.HasTile(Local2, LayerType.Walls) == false)
 					{
-						obstructions[1] = Local;
+						obstructions[1] = Local2;
 						Matrix.MetaTileMap.SetTile(Local2, obstructionTile);
 					}
 
@@ -96,7 +96,7 @@ namespace Mime
 
 					if (Matrix.MetaTileMap.HasTile(Local2, LayerType.Walls) == false)
 					{
-						obstructions[1] = Local;
+						obstructions[1] = Local2;
 						Matrix.MetaTileMap.SetTile(Local2, obstructionTile);
 					}
 
@@ -119,6 +119,7 @@ namespace Mime
 
 			foreach (var Position in Positions)
 			{
+				if (Position == TransformState.HiddenPos) continue;
 				MatrixInfo.TileChangeManager.MetaTileMap.RemoveTileWithlayer(Position, obstructionTile.LayerType);
 			}
 		}

@@ -84,25 +84,12 @@ MonoBehaviour:
   references:
     version: 2
     RefIds:
-    - rid: 4619251886771667011
-      type: {class: NutrimentInBlood, ns: US13.HealthV2.Living.PolymorphicSystems.Hunger.HungerCalculationMethods,
+    - rid: 4552862688837107712
+      type: {class: DefaultUnityStationHungerCalculation, ns: US13.HealthV2.Living.PolymorphicSystems.Hunger.HungerCalculationMethods,
         asm: Assets}
       data:
-        NutrimentThresholdForStarving: 10
-        NutrimentThresholdForMalnourished: 15
-        NutrimentThresholdForHunger: 20
-        NutrimentThresholdForNormal: 40
-        NutrimentConsumedPerTick: 0.01
-        healingPerTick: 0.0085
-        StartingNutritionAmountInBlood: 30
-        StartingNutrimentInStomachs:
-          temperature: 294.15
-          reagents:
-            m_keys:
-            - {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
-            m_values:
-            - 5
-          reagentKeys: []
+        MinutesThresholdForHunger: 5
+        MinutesThresholdForNormal: 10
     - rid: 5920833068371804161
       type: {class: ReagentPoolSystem, ns: US13.HealthV2.Living.PolymorphicSystems,
         asm: Assets}
@@ -142,13 +129,13 @@ MonoBehaviour:
       data:
         Base: {fileID: 0}
         BodyParts: []
+        BodyFats: []
         NumberOfMinutesBeforeStarving: 30
         BodyNutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
           type: 2}
         CashedHungerState: 1
         HungerStatusEffects:
-          NotHungryStatusEffect: {fileID: 11400000, guid: a2cf78c09e3073c44bfbe12e9789cd05,
-            type: 2}
+          NotHungryStatusEffect: {fileID: 0}
           StravingStatusEffect: {fileID: 11400000, guid: 8526c1e024fdd1e4d8bc35595159d8a4,
             type: 2}
           HungryStatusEffect: {fileID: 11400000, guid: a7b8118c2b73a574cbb4425327020959,
@@ -158,7 +145,7 @@ MonoBehaviour:
           FatStatusEffect: {fileID: 11400000, guid: 8a92c094201a758498a79523323565eb,
             type: 2}
         HungerCalculationMethod:
-          rid: 4619251886771667011
+          rid: 4552862688837107712
     - rid: 5920833068371804166
       type: {class: NaturalChemicalReleaseSystem, ns: US13.HealthV2.Living.PolymorphicSystems,
         asm: Assets}

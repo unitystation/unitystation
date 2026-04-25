@@ -50,6 +50,7 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Hunger.HungerCalculationMethod
 		/// <param name="hungerSystem">the hunger system that's calling this initialization</param>
 		public void Initialize(LivingHealthMasterBase creatureHealth, HungerSystem hungerSystem)
 		{
+			hungerSystem.ApplyStatusAffectsEffects = false;
 			// Step 1: Total blood throughput across all hunger-participating body parts.
 			var totalBloodThroughput = 0f;
 			foreach (var bodyPart in hungerSystem.BodyParts)

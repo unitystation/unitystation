@@ -20,6 +20,7 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Hunger.HungerCalculationMethod
 
 		public void Initialize(LivingHealthMasterBase creatureHealth, HungerSystem hungerSystem)
 		{
+			hungerSystem.ApplyStatusAffectsEffects = true;
 			creatureHealth.reagentPoolSystem.BloodPool.Add(hungerSystem.BodyNutriment, StartingNutritionAmountInBlood);
 			foreach (Stomach stomach in creatureHealth.GetStomachs())
 			{

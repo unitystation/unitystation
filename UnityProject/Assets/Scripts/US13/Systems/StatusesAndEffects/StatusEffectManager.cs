@@ -29,7 +29,7 @@ namespace US13.Systems.StatusesAndEffects
 			}
 		}
 
-		public void AddStatus(StatusEffect status)
+		public void AddStatus(StatusEffect status, bool ApplyStatusAffectsEffects = true)
 		{
 			if (status == null) return;
 			HandleExpirableStatusAddition(status);
@@ -37,7 +37,11 @@ namespace US13.Systems.StatusesAndEffects
 			HandleImmediateStatusAddition(status);
 
 			if (HasStatus(status)) return;
-			status.Initialize(gameObject);
+			if (ApplyStatusAffectsEffects)
+			{
+				status.Initialize(gameObject);
+			}
+
 			Statuses.Add(status);
 		}
 
@@ -71,10 +75,13 @@ namespace US13.Systems.StatusesAndEffects
 			status.DoEffect(gameObject);
 		}
 
-		public void RemoveStatus(StatusEffect status)
+		public void RemoveStatus(StatusEffect status, bool RemoveStatusAffectsEffects = true)
 		{
 			if (status == false) return;
-			status.OnRemoved(gameObject);
+			if (RemoveStatusAffectsEffects)
+			{
+				status.OnRemoved(gameObject);
+			}
 			Statuses.Remove(status);
 		}
 

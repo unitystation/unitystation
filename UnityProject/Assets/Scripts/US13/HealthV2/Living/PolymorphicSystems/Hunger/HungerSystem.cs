@@ -21,6 +21,9 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Hunger
 	/// </summary>
 	public class HungerSystem : HealthSystemBase
 	{
+
+		[NonSerialized] public bool ApplyStatusAffectsEffects = true;
+
 		/// <summary>
 		/// Maps each required reagent (nutriment type) to the body parts that consume it
 		/// and the total amount needed per update tick.
@@ -258,13 +261,13 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Hunger
 			var oldStatusEffect = GetStatusEffectFromHunger(oldState);
 			if (oldStatusEffect != null)
 			{
-				statusEffectManager?.RemoveStatus(oldStatusEffect);
+				statusEffectManager?.RemoveStatus(oldStatusEffect, ApplyStatusAffectsEffects);
 			}
 
 			var newStatusEffect = GetStatusEffectFromHunger(newState);
 			if (newStatusEffect != null)
 			{
-				statusEffectManager?.AddStatus(newStatusEffect);
+				statusEffectManager?.AddStatus(newStatusEffect, ApplyStatusAffectsEffects);
 			}
 		}
 
