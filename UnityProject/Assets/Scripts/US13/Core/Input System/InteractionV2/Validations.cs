@@ -48,7 +48,7 @@ namespace US13.Core.Input_System.InteractionV2
 		/// <returns>true iff object not null and has component</returns>
 		public static bool HasComponent<T>(GameObject toCheck) where T : Component
 		{
-			if (toCheck != null) return false;
+			if (toCheck == null) return false;
 			var data = toCheck.GetComponent(typeof(T));
 			if (data == null) return false;
 			var mono = data as MonoBehaviour;
