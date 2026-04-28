@@ -2928,6 +2928,15 @@
                       "Data": "True"
                     }
                   ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_10┼-27┼0┼@0@AirController@0"
+                    }
+                  ]
                 }
               ]
             }
@@ -2962,6 +2971,50 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Down_By180"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "a50474d976314462a79602e20a762520_10┼-27┼0┼",
+            "PrefabID": "a50474d976314462a79602e20a762520",
+            "Name": "ACU (1)",
+            "LocalPRS": "10┼-27┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -3062,6 +3115,15 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_10┼-27┼0┼@0@AirController@0"
                     }
                   ]
                 },

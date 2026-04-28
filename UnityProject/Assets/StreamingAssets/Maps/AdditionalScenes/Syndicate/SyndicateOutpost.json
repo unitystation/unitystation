@@ -41294,6 +41294,25 @@
             }
           },
           {
+            "GitID": "a50474d976314462a79602e20a762520_-19┼-17┼0┼",
+            "PrefabID": "a50474d976314462a79602e20a762520",
+            "Name": "ACU (2)",
+            "LocalPRS": "-19┼-17┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_-18┼-22┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "NameMatches": true,
@@ -41360,6 +41379,59 @@
                     {
                       "Name": "selfSufficient",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_-19┼-17┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "a50474d976314462a79602e20a762520_-17┼-21┼0┼",
+            "PrefabID": "a50474d976314462a79602e20a762520",
+            "Name": "ACU (1)",
+            "LocalPRS": "-17┼-21┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -41536,6 +41608,15 @@
                   ]
                 },
                 {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_-17┼-21┼0┼@0@AirController@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Scrubber@0",
                   "Data": [
                     {
@@ -41629,6 +41710,15 @@
                     {
                       "Name": "selfSufficient",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_-17┼-21┼0┼@0@AirController@0"
                     }
                   ]
                 }
@@ -41848,6 +41938,25 @@
             }
           },
           {
+            "GitID": "a50474d976314462a79602e20a762520_-4┼-4┼0┼",
+            "PrefabID": "a50474d976314462a79602e20a762520",
+            "Name": "ACU (3)",
+            "LocalPRS": "-4┼-4┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_-3┼-21┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "NameMatches": true,
@@ -41916,6 +42025,15 @@
                       "Data": "True"
                     }
                   ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_-4┼-4┼0┼@0@AirController@0"
+                    }
+                  ]
                 }
               ]
             }
@@ -41933,6 +42051,15 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_-4┼-4┼0┼@0@AirController@0"
                     }
                   ]
                 },
@@ -42006,6 +42133,15 @@
                     {
                       "Name": "selfSufficient",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_-1┼-2┼0┼@0@AirController@0"
                     }
                   ]
                 }
@@ -42233,6 +42369,50 @@
                     {
                       "Name": "NewdoorControllers#0",
                       "Data": "79cea07a5f8e66f49a554df1a003ecba_-3┼-1┼0┼@0@DoorMasterController@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "a50474d976314462a79602e20a762520_-1┼-2┼0┼",
+            "PrefabID": "a50474d976314462a79602e20a762520",
+            "Name": "ACU (4)",
+            "LocalPRS": "-1┼-2┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -42514,6 +42694,15 @@
                   ]
                 },
                 {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_5┼-17┼0┼@0@AirController@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Scrubber@0",
                   "Data": [
                     {
@@ -42546,6 +42735,34 @@
                   "Data": [
                     {
                       "Name": "selfSufficient",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_5┼-17┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "a50474d976314462a79602e20a762520_5┼-17┼0┼",
+            "PrefabID": "a50474d976314462a79602e20a762520",
+            "Name": "ACU (2)",
+            "LocalPRS": "5┼-17┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
                       "Data": "True"
                     }
                   ]
@@ -43406,6 +43623,15 @@
                   ]
                 },
                 {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_16┼-29┼0┼@0@AirController@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Scrubber@0",
                   "Data": [
                     {
@@ -43910,6 +44136,50 @@
             "LocalPRS": "16┼-31┼0┼"
           },
           {
+            "GitID": "a50474d976314462a79602e20a762520_16┼-29┼0┼",
+            "PrefabID": "a50474d976314462a79602e20a762520",
+            "Name": "ACU (1)",
+            "LocalPRS": "16┼-29┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_16┼-28┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "NameMatches": true,
@@ -44031,6 +44301,15 @@
                     {
                       "Name": "selfSufficient",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_16┼-29┼0┼@0@AirController@0"
                     }
                   ]
                 }
@@ -44789,6 +45068,15 @@
                       "Data": "Right_By270"
                     }
                   ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_37┼-24┼0┼@0@LightSwitchV2@0"
+                    }
+                  ]
                 }
               ],
               "Children": [
@@ -44832,6 +45120,15 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Down_By180"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_37┼-24┼0┼@0@LightSwitchV2@0"
                     }
                   ]
                 }
@@ -44927,6 +45224,15 @@
                       "Data": "True"
                     }
                   ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_28┼-23┼0┼@0@AirController@0"
+                    }
+                  ]
                 }
               ]
             }
@@ -44944,6 +45250,15 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_28┼-23┼0┼@0@AirController@0"
                     }
                   ]
                 },
@@ -45173,6 +45488,47 @@
             }
           },
           {
+            "GitID": "f2432d244a6b7774ea00ff013beb7dcb_23┼-32┼0┼",
+            "PrefabID": "f2432d244a6b7774ea00ff013beb7dcb",
+            "Name": "LightSwitch (1)",
+            "LocalPRS": "23┼-32┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSwitchV2@0",
+                  "Data": [
+                    {
+                      "Name": "listOfLights#1",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_24┼-32┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "listOfLights#0",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_24┼-29┼0┼@0@LightSource@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "1172c577b92e17940afd7e1729f184f6_23┼-31┼0┼",
             "PrefabID": "1172c577b92e17940afd7e1729f184f6",
             "Name": "AirlockHatchGrunge (2)",
@@ -45211,6 +45567,50 @@
             }
           },
           {
+            "GitID": "a50474d976314462a79602e20a762520_23┼-29┼0┼",
+            "PrefabID": "a50474d976314462a79602e20a762520",
+            "Name": "ACU (5)",
+            "LocalPRS": "23┼-29┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_23┼-24┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "NameMatches": true,
@@ -45242,6 +45642,15 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Down_By180"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_37┼-24┼0┼@0@LightSwitchV2@0"
                     }
                   ]
                 }
@@ -45410,6 +45819,15 @@
                       "Data": "Right_By270"
                     }
                   ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_23┼-32┼0┼@0@LightSwitchV2@0"
+                    }
+                  ]
                 }
               ],
               "Children": [
@@ -45452,6 +45870,15 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Right_By270"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_23┼-32┼0┼@0@LightSwitchV2@0"
                     }
                   ]
                 }
@@ -45539,7 +45966,7 @@
                   "Data": [
                     {
                       "Name": "relatedLightSwitch",
-                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_27┼-23┼0┼@0@LightSwitchV2@0"
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_28┼-21┼0┼@0@LightSwitchV2@0"
                     }
                   ]
                 }
@@ -45593,7 +46020,7 @@
                   "Data": [
                     {
                       "Name": "relatedLightSwitch",
-                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_27┼-23┼0┼@0@LightSwitchV2@0"
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_28┼-21┼0┼@0@LightSwitchV2@0"
                     }
                   ]
                 }
@@ -45719,6 +46146,15 @@
                       "Data": "True"
                     }
                   ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_23┼-29┼0┼@0@AirController@0"
+                    }
+                  ]
                 }
               ]
             }
@@ -45736,6 +46172,15 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_23┼-29┼0┼@0@AirController@0"
                     }
                   ]
                 },
@@ -46092,6 +46537,15 @@
                       "Data": "True"
                     }
                   ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_37┼-24┼0┼@0@LightSwitchV2@0"
+                    }
+                  ]
                 }
               ],
               "Children": [
@@ -46153,6 +46607,66 @@
                   "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "a50474d976314462a79602e20a762520_28┼-23┼0┼",
+            "PrefabID": "a50474d976314462a79602e20a762520",
+            "Name": "ACU (3)",
+            "LocalPRS": "28┼-23┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "f2432d244a6b7774ea00ff013beb7dcb_28┼-21┼0┼",
+            "PrefabID": "f2432d244a6b7774ea00ff013beb7dcb",
+            "Name": "LightSwitch (1)",
+            "LocalPRS": "28┼-21┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSwitchV2@0",
+                  "Data": [
+                    {
+                      "Name": "listOfLights#1",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_24┼-19┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "listOfLights#0",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_24┼-22┼0┼@0@LightSource@0"
+                    }
+                  ]
                 }
               ]
             }
@@ -46329,34 +46843,6 @@
             "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
             "Name": "VIR_LowVoltageMachineConnector",
             "LocalPRS": "29┼-24┼0┼"
-          },
-          {
-            "GitID": "cb2f847ef3b8b754181a970a4032c552_29┼-21┼0┼",
-            "PrefabID": "cb2f847ef3b8b754181a970a4032c552",
-            "Name": "AirScrubber (5)",
-            "LocalPRS": "29┼-21┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Scrubber@0",
-                  "Data": [
-                    {
-                      "Name": "selfSufficient",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ]
-            }
           },
           {
             "GitID": "c4c1a5e556c58314eb690ee3272fb1cf_29┼-20┼0┼",
@@ -46653,6 +47139,15 @@
                       "Data": "True"
                     }
                   ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_33┼-29┼0┼@0@AirController@0"
+                    }
+                  ]
                 }
               ]
             }
@@ -46670,6 +47165,15 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_33┼-29┼0┼@0@AirController@0"
                     }
                   ]
                 },
@@ -47133,6 +47637,50 @@
             }
           },
           {
+            "GitID": "a50474d976314462a79602e20a762520_33┼-29┼0┼",
+            "PrefabID": "a50474d976314462a79602e20a762520",
+            "Name": "ACU (6)",
+            "LocalPRS": "33┼-29┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_33┼-24┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "NameMatches": true,
@@ -47337,6 +47885,15 @@
                       "Data": "True"
                     }
                   ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_28┼-23┼0┼@0@AirController@0"
+                    }
+                  ]
                 }
               ]
             }
@@ -47373,6 +47930,15 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_28┼-23┼0┼@0@AirController@0"
                     }
                   ]
                 },
@@ -47420,6 +47986,15 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Down_By180"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_37┼-24┼0┼@0@LightSwitchV2@0"
                     }
                   ]
                 }
@@ -47718,6 +48293,34 @@
                 {
                   "ClassID": "LightSwitchV2@0",
                   "Data": [
+                    {
+                      "Name": "listOfLights#14",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_20┼-32┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "listOfLights#13",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_35┼-18┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "listOfLights#12",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_20┼-19┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "listOfLights#11",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_23┼-24┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "listOfLights#10",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_28┼-26┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "listOfLights#9",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_43┼-30┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "listOfLights#8",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_40┼-30┼0┼@0@LightSource@0"
+                    },
                     {
                       "Name": "listOfLights#7",
                       "Data": "fde32c02abddc814f9366ff1fb21f234_36┼-20┼0┼@0@LightSource@0"
@@ -48339,6 +48942,15 @@
                       "Data": "True"
                     }
                   ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_39┼-17┼0┼@0@AirController@0"
+                    }
+                  ]
                 }
               ]
             }
@@ -48356,6 +48968,15 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_39┼-17┼0┼@0@AirController@0"
                     }
                   ]
                 },
@@ -48421,6 +49042,25 @@
                   "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "a50474d976314462a79602e20a762520_39┼-17┼0┼",
+            "PrefabID": "a50474d976314462a79602e20a762520",
+            "Name": "ACU (4)",
+            "LocalPRS": "39┼-17┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
                 }
               ]
             }
@@ -48547,6 +49187,15 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Down_By180"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_37┼-24┼0┼@0@LightSwitchV2@0"
                     }
                   ]
                 }
@@ -48717,34 +49366,6 @@
                   "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "0d553281bdfc0fd438b3f6c7db58688c_41┼-29┼0┼",
-            "PrefabID": "0d553281bdfc0fd438b3f6c7db58688c",
-            "Name": "AirVent (3)",
-            "LocalPRS": "41┼-29┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "AirVent@0",
-                  "Data": [
-                    {
-                      "Name": "selfSufficient",
-                      "Data": "True"
-                    }
-                  ]
                 }
               ]
             }
@@ -49175,6 +49796,15 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Down_By180"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_37┼-24┼0┼@0@LightSwitchV2@0"
                     }
                   ]
                 }
@@ -54174,6 +54804,50 @@
             }
           },
           {
+            "GitID": "a50474d976314462a79602e20a762520_2┼-17┼0┼",
+            "PrefabID": "a50474d976314462a79602e20a762520",
+            "Name": "ACU (5)",
+            "LocalPRS": "2┼-17┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "e456d62fc63bc3344a513208fbc3018a_2.84┼-20.76┼0┼",
             "PrefabID": "e456d62fc63bc3344a513208fbc3018a",
             "Name": "CombatAidKit",
@@ -54352,6 +55026,50 @@
             }
           },
           {
+            "GitID": "a50474d976314462a79602e20a762520_4┼-28┼0┼",
+            "PrefabID": "a50474d976314462a79602e20a762520",
+            "Name": "ACU (1)",
+            "LocalPRS": "4┼-28┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "c80393b4412660b41937e05425ceb921_4┼-24┼0┼",
             "PrefabID": "c80393b4412660b41937e05425ceb921",
             "NameMatches": true,
@@ -54429,6 +55147,15 @@
                       "Data": "True"
                     }
                   ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_4┼-28┼0┼@0@AirController@0"
+                    }
+                  ]
                 }
               ]
             }
@@ -54446,6 +55173,15 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_4┼-28┼0┼@0@AirController@0"
                     }
                   ]
                 },
@@ -54499,6 +55235,15 @@
                       "Data": "True"
                     }
                   ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_2┼-17┼0┼@0@AirController@0"
+                    }
+                  ]
                 }
               ]
             }
@@ -54549,6 +55294,15 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_2┼-17┼0┼@0@AirController@0"
                     }
                   ]
                 },
@@ -55091,6 +55845,50 @@
             }
           },
           {
+            "GitID": "a50474d976314462a79602e20a762520_8┼-12┼0┼",
+            "PrefabID": "a50474d976314462a79602e20a762520",
+            "Name": "ACU (4)",
+            "LocalPRS": "8┼-12┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "67c1a2e93881ef1479a466ad4ee872eb_8┼-6┼0┼",
             "PrefabID": "67c1a2e93881ef1479a466ad4ee872eb",
             "NameMatches": true,
@@ -55618,6 +56416,50 @@
             }
           },
           {
+            "GitID": "a50474d976314462a79602e20a762520_9┼-9┼0┼",
+            "PrefabID": "a50474d976314462a79602e20a762520",
+            "Name": "ACU (3)",
+            "LocalPRS": "9┼-9┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "cb2f847ef3b8b754181a970a4032c552_9┼-7┼0┼",
             "PrefabID": "cb2f847ef3b8b754181a970a4032c552",
             "Name": "AirScrubber (15)",
@@ -55630,6 +56472,15 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_9┼-9┼0┼@0@AirController@0"
                     }
                   ]
                 },
@@ -55760,6 +56611,50 @@
             }
           },
           {
+            "GitID": "a50474d976314462a79602e20a762520_10┼-26┼0┼",
+            "PrefabID": "a50474d976314462a79602e20a762520",
+            "Name": "ACU (6)",
+            "LocalPRS": "10┼-26┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_10┼-25┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "NameMatches": true,
@@ -55844,6 +56739,15 @@
                   ]
                 },
                 {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_10┼-26┼0┼@0@AirController@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Scrubber@0",
                   "Data": [
                     {
@@ -55913,6 +56817,15 @@
                     {
                       "Name": "selfSufficient",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_8┼-12┼0┼@0@AirController@0"
                     }
                   ]
                 }
@@ -56582,6 +57495,15 @@
                     {
                       "Name": "selfSufficient",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_9┼-9┼0┼@0@AirController@0"
                     }
                   ]
                 }
@@ -57469,6 +58391,15 @@
                   ]
                 },
                 {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_14┼-13┼0┼@0@AirController@0"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "Scrubber@0",
                   "Data": [
                     {
@@ -57501,6 +58432,34 @@
                   "Data": [
                     {
                       "Name": "selfSufficient",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_14┼-13┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "a50474d976314462a79602e20a762520_14┼-13┼0┼",
+            "PrefabID": "a50474d976314462a79602e20a762520",
+            "Name": "ACU (2)",
+            "LocalPRS": "14┼-13┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
                       "Data": "True"
                     }
                   ]
@@ -57572,6 +58531,15 @@
                       "Data": "True"
                     }
                   ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_16┼-28┼0┼@0@AirController@0"
+                    }
+                  ]
                 }
               ]
             }
@@ -57589,6 +58557,15 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "AcuDevice@0",
+                  "Data": [
+                    {
+                      "Name": "Controller",
+                      "Data": "a50474d976314462a79602e20a762520_16┼-28┼0┼@0@AirController@0"
                     }
                   ]
                 },
@@ -57937,6 +58914,50 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Down_By180"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "a50474d976314462a79602e20a762520_16┼-28┼0┼",
+            "PrefabID": "a50474d976314462a79602e20a762520",
+            "Name": "ACU (1)",
+            "LocalPRS": "16┼-28┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
                     }
                   ]
                 }
