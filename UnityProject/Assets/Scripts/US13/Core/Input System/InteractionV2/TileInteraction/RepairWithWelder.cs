@@ -13,7 +13,8 @@ namespace US13.Core.Input_System.InteractionV2.TileInteraction
 	public class RepairWithWelder : TileInteraction
 	{
 
-
+		[Tooltip("Seconds taken to perform this action. Set to 0 for instant.")] [SerializeField]
+		private float seconds = 4;
 
 		public LayerTile ReplaceWith; //TODO Tiles should handle itself
 
@@ -33,7 +34,7 @@ namespace US13.Core.Input_System.InteractionV2.TileInteraction
 		public override void ServerPerformInteraction(TileApply interaction)
 		{
 
-			ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
+			ToolUtils.ServerUseToolWithActionMessages(interaction, seconds,
 				$"You begin repairing the {interaction.BasicTile.DisplayName}...",
 				$"{interaction.Performer.ExpensiveName()} begins to repair the {interaction.BasicTile.DisplayName}...",
 				$"You repair the {interaction.BasicTile.DisplayName}.",
