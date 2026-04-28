@@ -1,11 +1,11 @@
 {
   "Ver": "1.0.0",
-  "MapName": "5x5I_NS",
+  "MapName": "5x5Gateway",
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "7726┼7959┼0┼",
-      "MatrixName": "5x5I_NS",
+      "Location": "7726┼7935┼0┼",
+      "MatrixName": "5x5Gateway",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
         "XYs": [
@@ -24,9 +24,6 @@
             "Key": "X0Y1",
             "Value": [
               {
-                "Tel": "Wall"
-              },
-              {
                 "Tel": "Plating"
               }
             ]
@@ -35,9 +32,6 @@
             "Key": "X0Y2",
             "Value": [
               {
-                "Tel": "Wall"
-              },
-              {
                 "Tel": "Plating"
               }
             ]
@@ -45,9 +39,6 @@
           {
             "Key": "X0Y3",
             "Value": [
-              {
-                "Tel": "Wall"
-              },
               {
                 "Tel": "Plating"
               }
@@ -83,9 +74,6 @@
           {
             "Key": "X1Y2",
             "Value": [
-              {
-                "Tel": "Wall"
-              },
               {
                 "Tel": "Plating"
               }
@@ -127,9 +115,6 @@
             "Key": "X2Y2",
             "Value": [
               {
-                "Tel": "Wall"
-              },
-              {
                 "Tel": "Plating"
               }
             ]
@@ -170,9 +155,6 @@
             "Key": "X3Y2",
             "Value": [
               {
-                "Tel": "Wall"
-              },
-              {
                 "Tel": "Plating"
               }
             ]
@@ -208,9 +190,6 @@
             "Key": "X4Y1",
             "Value": [
               {
-                "Tel": "Wall"
-              },
-              {
                 "Tel": "Plating"
               }
             ]
@@ -219,9 +198,6 @@
             "Key": "X4Y2",
             "Value": [
               {
-                "Tel": "Wall"
-              },
-              {
                 "Tel": "Plating"
               }
             ]
@@ -229,9 +205,6 @@
           {
             "Key": "X4Y3",
             "Value": [
-              {
-                "Tel": "Wall"
-              },
               {
                 "Tel": "Plating"
               }
@@ -255,119 +228,11 @@
         "CommonPrefabs": [],
         "PrefabData": [
           {
-            "GitID": "4e067333d18d9724690055be203850b5_1┼1┼0┼",
-            "PrefabID": "4e067333d18d9724690055be203850b5",
-            "Name": "MaintLootx2 (1)",
-            "LocalPRS": "1┼1┼0┼"
-          },
-          {
-            "GitID": "ed4e62dc12dca724ba1e5f374965096b_1┼1┼0┼",
-            "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
-            "Name": "Rack (1)",
-            "LocalPRS": "1┼1┼0┼"
-          },
-          {
-            "GitID": "c937e0abe85aca9499d09951de736ec6_2┼1┼0┼",
-            "PrefabID": "c937e0abe85aca9499d09951de736ec6",
-            "Name": "LightBulbFixture (1)",
-            "LocalPRS": "2┼1┼0┼0ø0ø180ø",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Down_By180"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "LightSource@0",
-                  "Data": [
-                    {
-                      "Name": "isWithoutSwitch",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,3",
-                  "Active": false,
-                  "ClassDatas": []
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "ed4e62dc12dca724ba1e5f374965096b_2┼1┼0┼",
-            "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
-            "Name": "Rack (2)",
+            "GitID": "bf668c0a59e6e5c4e9b1cf6485655d0a_2┼1┼0┼",
+            "PrefabID": "bf668c0a59e6e5c4e9b1cf6485655d0a",
+            "NameMatches": true,
+            "Name": "ExitMarkerMaintRooms",
             "LocalPRS": "2┼1┼0┼"
-          },
-          {
-            "GitID": "c937e0abe85aca9499d09951de736ec6_2┼3┼0┼",
-            "PrefabID": "c937e0abe85aca9499d09951de736ec6",
-            "Name": "LightBulbFixture (2)",
-            "LocalPRS": "2┼3┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "LightSource@0",
-                  "Data": [
-                    {
-                      "Name": "isWithoutSwitch",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,3",
-                  "Active": false,
-                  "ClassDatas": []
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "032e150131f53a64fbf6048aca6a879a_2.5┼1.5┼0┼",
-            "PrefabID": "032e150131f53a64fbf6048aca6a879a",
-            "Name": "RandomToolSpawner (2)",
-            "LocalPRS": "2.5┼1.5┼0┼"
-          },
-          {
-            "GitID": "ed4e62dc12dca724ba1e5f374965096b_3┼1┼0┼",
-            "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
-            "Name": "Rack (3)",
-            "LocalPRS": "3┼1┼0┼"
-          },
-          {
-            "GitID": "032e150131f53a64fbf6048aca6a879a_3.5┼1.5┼0┼",
-            "PrefabID": "032e150131f53a64fbf6048aca6a879a",
-            "Name": "RandomToolSpawner (3)",
-            "LocalPRS": "3.5┼1.5┼0┼"
           }
         ],
         "IDToNetIDClient": {}

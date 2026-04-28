@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "-2┼-109┼0┼",
+      "Location": "7802┼7883┼0┼",
       "MatrixName": "7x7Hard_HivebotHall",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -598,7 +598,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -655,6 +655,22 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "AwayGeneric1"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -717,7 +733,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -783,7 +799,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -901,7 +917,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -927,6 +943,22 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "AwayGeneric1"
+                        }
+                      ]
                     }
                   ]
                 }
