@@ -44,6 +44,11 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
 		[FormerlySerializedAs("ReagentCirculated")] [HideInInspector]
 		public ReagentCirculatedComponent reagentCirculatedComponent;
 
+		public float FullMultiplier = 1.1f;
+		public float NormalMultiplier = 1;
+		public float HungaryMultiplier = 1;
+		public float MalnourishedMultiplier = 0.90f;
+		public float StarvingMultiplier = 0.90f;
 		/// <summary>
 		/// Heals damage caused by sources other than lack of blood reagent
 		/// </summary>
@@ -78,6 +83,25 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
 			base.Awake();
 			reagentCirculatedComponent = GetComponent<ReagentCirculatedComponent>();
 			RelatedPart.AddModifier(HungerModifier);
+		}
+
+		public float GetMultiplierForHungerState(HungerState state)
+		{
+			switch (state)
+			{
+				case HungerState.Full:
+					return FullMultiplier;
+				case HungerState.Normal:
+					return NormalMultiplier;
+				case HungerState.Hungry:
+					return HungaryMultiplier;
+				case HungerState.Malnourished:
+					return MalnourishedMultiplier;
+				case HungerState.Starving:
+					return StarvingMultiplier;
+				default:
+					return NormalMultiplier;
+			}
 		}
 	}
 }

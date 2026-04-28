@@ -8,6 +8,7 @@ using US13.HealthV2;
 using US13.HealthV2.Living;
 using US13.Items.Weapons;
 using US13.Managers.MatrixManager;
+using US13.Player;
 using US13.ScriptableObjects.Gun;
 using Util;
 
@@ -20,13 +21,15 @@ namespace US13.Projectiles.Behaviours
 	{
 		private GameObject shooter;
 		private BodyPartType targetZone;
+		private GameObject Target;
 
 		[SerializeField] private DamageData damageData = null;
 
-		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, MagazineBehaviour MagazineBehaviour , BodyPartType targetZone = BodyPartType.Chest)
+		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, MagazineBehaviour MagazineBehaviour , BodyPartType targetZone = BodyPartType.Chest, GameObject Target = null)
 		{
 			this.shooter = shooter;
 			this.targetZone = targetZone;
+			this.Target = Target;
 		}
 
 		public bool OnHit(MatrixManager.CustomPhysicsHit hit)
@@ -62,7 +65,7 @@ namespace US13.Projectiles.Behaviours
 
 			//TODO REMOVE AFTER SWITCHING MOBS TO
 			var health = coll.GetComponent<LivingHealthMasterBase>();
-			if (health != null)
+			if (health != null && health.Hitble(Target))
 			{
 				health.ApplyDamageToBodyPart(shooter, damageData.Damage,
 					damageData.AttackType, damageData.DamageType, targetZone, default, 50,

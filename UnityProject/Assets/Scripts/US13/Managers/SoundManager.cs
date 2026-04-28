@@ -187,6 +187,11 @@ namespace US13.Managers
 				return null;
 			}
 
+			if (audioSourceParameters.SpatialBlend == 0) //Always presume that it's meant to be 3d if unset
+			{
+				audioSourceParameters.SpatialBlend = 2; //Set to 3D so you don't get global sales accidentally
+			}
+
 			addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
 
 			if (global || audioSourceParameters.Loops)
@@ -460,7 +465,7 @@ namespace US13.Managers
 				}
 			}
 
-			_ = PlayAtPosition(addressableAudioSources, worldPos, soundSpawnToken, polyphonic, isGlobal, netId, audioSourceParameters);
+			_ = ClientPlayAtPosition(addressableAudioSources, worldPos, soundSpawnToken, polyphonic, isGlobal, netId, audioSourceParameters);
 		}
 
 		/// <summary>
@@ -468,7 +473,7 @@ namespace US13.Managers
 		/// </summary>
 		/// <param name="addressableAudioSource">Sound to be played.</param>
 		/// <param name="soundSpawnToken">The SoundSpawn Token that identifies the same sound spawn instance across server and clients</returns>
-		public static async Task PlayAtPosition(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
+		public static async Task ClientPlayAtPosition(AddressableAudioSource addressableAudioSource, Vector3 worldPos,
 			GameObject gameObject = null, string soundSpawnToken = "", bool polyphonic = false,
 			bool isGlobal = false, AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
 		{
@@ -484,7 +489,7 @@ namespace US13.Managers
 				}
 			}
 
-			await PlayAtPosition(new List<AddressableAudioSource>() {addressableAudioSource}, worldPos, soundSpawnToken,
+			await ClientPlayAtPosition(new List<AddressableAudioSource>() {addressableAudioSource}, worldPos, soundSpawnToken,
 				polyphonic, isGlobal, netId, audioSourceParameters);
 		}
 
@@ -494,7 +499,7 @@ namespace US13.Managers
 		/// </summary>
 		/// <param name="addressableAudioSources">Sound to be played.  If more than one is specified, one will be picked at random.</param>
 		/// <param name="soundSpawnToken">The token that identifies the SoundSpawn uniquely among the server and all clients </param>
-		public static async Task PlayAtPosition(List<AddressableAudioSource> addressableAudioSources,
+		public static async Task ClientPlayAtPosition(List<AddressableAudioSource> addressableAudioSources,
 			Vector3 worldPos, string soundSpawnToken, bool polyphonic = false,
 			bool isGlobal = false, uint netId = NetId.Empty, AudioSourceParameters audioSourceParameters = new AudioSourceParameters())
 		{

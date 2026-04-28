@@ -20,7 +20,7 @@ namespace US13.Projectiles
 
 		public abstract void Suicide(GameObject controlledByPlayer, Gun fromWeapon, MagazineBehaviour CurrentMagazine, BodyPartType targetZone = BodyPartType.Chest);
 
-		public abstract void Shoot(Vector2 direction, GameObject controlledByPlayer, Gun fromWeapon, MagazineBehaviour Magazine, BodyPartType targetZone = BodyPartType.Chest);
+		public abstract void Shoot(Vector2 direction, GameObject controlledByPlayer, Gun fromWeapon, MagazineBehaviour Magazine, GameObject target, BodyPartType targetZone = BodyPartType.Chest);
 
 	}
 }

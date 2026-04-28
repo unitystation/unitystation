@@ -174,7 +174,7 @@ namespace US13.Objects.Engineering
 			{
 				SoundManager.ClientStop(runLoopGUID, true);
 				smokeParticles.Stop();
-				_ = SoundManager.PlayAtPosition(generatorEndSfx, registerTile.WorldPosition, gameObject);
+				_ = SoundManager.ClientPlayAtPosition(generatorEndSfx, registerTile.WorldPosition, gameObject);
 			}
 		}
 

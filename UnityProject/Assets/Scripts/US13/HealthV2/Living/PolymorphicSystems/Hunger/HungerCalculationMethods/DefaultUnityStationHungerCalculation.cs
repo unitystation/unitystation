@@ -170,23 +170,20 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Hunger.HungerCalculationMethod
 					Storedfat.Sum(x => x.AbsorbedAmount) + health.reagentPoolSystem.BloodPool[KVP.Key];
 
 				var State = HungerState.Normal;
-				float HungerDeBuff = 1;
 
 
 				if (MinutesOfNutriment > MinutesThresholdForNormal)
 				{
 					State = HungerState.Normal;
-					HungerDeBuff = 1;
+
 				}
 				else if (MinutesOfNutriment > MinutesThresholdForHunger)
 				{
 					State = HungerState.Hungry;
-					HungerDeBuff = 0.95f;
 				}
 				else
 				{
 					State = HungerState.Malnourished;
-					HungerDeBuff = 0.75f;
 				}
 
 				if (needed > health.reagentPoolSystem.BloodPool[KVP.Key])
@@ -226,10 +223,12 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Hunger.HungerCalculationMethod
 				{
 					if (effective > 0.1f)
 					{
+						var Multiplyer = bodyPart.GetMultiplierForHungerState(State);
+
 						// Sufficient nutriment delivered — body part is functioning normally.
-						if (Mathf.Approximately(bodyPart.HungerModifier.Multiplier, HungerDeBuff) == false)
+						if (Mathf.Approximately(bodyPart.HungerModifier.Multiplier, Multiplyer) == false)
 						{
-							bodyPart.HungerModifier.Multiplier = HungerDeBuff; // Restore normal speed.
+							bodyPart.HungerModifier.Multiplier = Multiplyer; // Restore normal speed.
 						}
 
 						bodyPart.HungerState = State;
@@ -251,9 +250,9 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Hunger.HungerCalculationMethod
 					else
 					{
 						// Insufficient nutriment, body part is starving.
-						if (Mathf.Approximately(bodyPart.HungerModifier.Multiplier, 0.5f) == false)
+						if (Mathf.Approximately(bodyPart.HungerModifier.Multiplier, bodyPart.StarvingMultiplier) == false)
 						{
-							bodyPart.HungerModifier.Multiplier = 0.5f; // Halve movement/action speed.
+							bodyPart.HungerModifier.Multiplier = bodyPart.StarvingMultiplier; // Halve movement/action speed.
 						}
 
 						bodyPart.HungerState = HungerState.Starving;

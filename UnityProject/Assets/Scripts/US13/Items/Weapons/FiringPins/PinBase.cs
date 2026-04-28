@@ -16,7 +16,7 @@ namespace US13.Items.Weapons.FiringPins
 
 		protected void CallShotServer(AimApply interaction, bool isSuicide)
 		{
-			gunComp.ServerShoot(interaction.Performer, interaction.TargetVector.normalized, interaction.TargetBodyPart, isSuicide);
+			gunComp.ServerShoot(interaction.Performer, interaction.TargetVector.normalized, interaction.TargetBodyPart, isSuicide, interaction.TargetObject);
 		}
 
 		protected JobType GetJobServer(GameObject player)

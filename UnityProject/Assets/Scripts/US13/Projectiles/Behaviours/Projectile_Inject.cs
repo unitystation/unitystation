@@ -14,7 +14,9 @@ namespace US13.Projectiles.Behaviours
 	{
 		public ReagentMix ReagentMix;
 		private BodyPartType targetZone;
-		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone = BodyPartType.Chest)
+		private GameObject target;
+
+		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone = BodyPartType.Chest, GameObject Target = null)
 		{
 
 			var Container = MagazineBehaviour.GetCachedComponent<ReagentContainer>(includeDisabled: false);
@@ -33,7 +35,7 @@ namespace US13.Projectiles.Behaviours
 			var coll = hit.CollisionHit.GameObject;
 			if (coll == null) return false;
 			var health = coll.GetComponent<LivingHealthMasterBase>();
-			if (health != null)
+			if (health != null && health.Hitble(target))
 			{
 				health.reagentPoolSystem.BloodPool.Add(ReagentMix);
 				Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);

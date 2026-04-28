@@ -15,6 +15,7 @@ namespace US13.Projectiles.Behaviours
 		private GameObject shooter;
 		private Gun weapon;
 		private BodyPartType targetZone;
+		private GameObject target;
 
 		[Tooltip("How long the player hit by this will be stunned")]
 		[SerializeField] private float stunTime = 4.0f;
@@ -28,11 +29,12 @@ namespace US13.Projectiles.Behaviours
 		[Tooltip("Will the projectile create a hitmsg")]
 		[SerializeField] private bool doMsg = false;
 
-		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone = BodyPartType.Chest)
+		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone = BodyPartType.Chest, GameObject Target = null)
 		{
 			this.shooter = shooter;
 			this.weapon = weapon;
 			this.targetZone = targetZone;
+			this.target = Target;
 		}
 
 		public bool OnHit(MatrixManager.CustomPhysicsHit hit)
@@ -46,6 +48,8 @@ namespace US13.Projectiles.Behaviours
 			if (coll == null) return false;
 			var player = coll.GetComponent<RegisterPlayer>();
 			if (player == null) return false;
+
+			if (player.PlayerScript.playerHealth.Hitble(target) == false) return false;
 
 			player.ServerStun(stunTime, willDisarm, passThroughStunImmunity == false, true, () => SparkUtil.TrySpark(gameObject,  IsInGameItemSuppressedLog :false));
 

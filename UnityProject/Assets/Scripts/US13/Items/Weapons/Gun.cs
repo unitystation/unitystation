@@ -674,7 +674,7 @@ namespace US13.Items.Weapons
 			else
 			{
 				ServerShoot(interaction.Performer, interaction.TargetVector.normalized, interaction.TargetBodyPart,
-					isSuicide);
+					isSuicide, interaction.TargetObject);
 			}
 
 			if (interaction.Intent == Intent.Harm && interaction.UsedObject == gameObject)
@@ -736,7 +736,7 @@ namespace US13.Items.Weapons
 		/// <param name="isSuicideShot">if this is a suicide shot</param>
 		[Server]
 		public void ServerShoot(GameObject shotBy, Vector2 target,
-			BodyPartType damageZone, bool isSuicideShot)
+			BodyPartType damageZone, bool isSuicideShot, GameObject objTarget)
 		{
 			//don't process the shot if the player is no longer able to interact
 			PlayerScript shooterScript = shotBy.GetComponent<PlayerScript>();
@@ -785,7 +785,7 @@ namespace US13.Items.Weapons
 			var finalDirection = ApplyRecoil(target);
 			//perform the actual server side shooting, creating the bullet that does actual damage
 			ServerSpawnShots(shotBy, finalDirection, damageZone, isSuicideShot, toShoot,
-				quantity);
+				quantity, objTarget);
 
 			StartCoroutine(DelayGun());
 			//trigger a hotspot caused by gun firing
@@ -825,7 +825,7 @@ namespace US13.Items.Weapons
 		/// <param name="projectile">prefab of the projectile that should be spawned</param>
 		/// <param name="quantity">the amount of projectiles to spawn when spawning the shots</param>
 		private void ServerSpawnShots(GameObject shooter, Vector2 finalDirection,
-			BodyPartType damageZone, bool isSuicideShot, GameObject projectile, int quantity)
+			BodyPartType damageZone, bool isSuicideShot, GameObject projectile, int quantity, GameObject target)
 		{
 			if (!MatrixManager.IsInitialized) return;
 
@@ -863,7 +863,7 @@ namespace US13.Items.Weapons
 						shooter.transform.position, parent: shooter.transform.parent).GameObject;
 					Projectile projectileComponent = newprojectile.GetComponent<Projectile>();
 					Vector2 finalDirectionOverride = CalcProjectileDirections(finalDirection, n);
-					projectileComponent.Shoot(finalDirectionOverride, shooter, this, CurrentMagazine, damageZone);
+					projectileComponent.Shoot(finalDirectionOverride, shooter, this, CurrentMagazine, target, damageZone);
 				}
 			}
 
@@ -1082,7 +1082,7 @@ namespace US13.Items.Weapons
 		protected virtual IEnumerator SuicideAction(GameObject performer)
 		{
 			ServerShoot(performer, performer.RegisterTile().LocalPosition.ToLocal(), BodyPartType.Head,
-				true);
+				true, performer);
 			var health = performer.GetComponent<LivingHealthMasterBase>();
 			health.ApplyDamageAll(performer, health.MaxHealth / 2, AttackType.Bullet, DamageType.Brute);
 			yield return null;

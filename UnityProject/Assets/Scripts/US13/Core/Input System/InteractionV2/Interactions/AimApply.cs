@@ -2,7 +2,9 @@ using System.Linq;
 using UnityEngine;
 using US13.Core.Input_System.InteractionV2.Interactions.Internal;
 using US13.HealthV2;
+using US13.HealthV2.Living;
 using US13.Player;
+using US13.Shuttles;
 using US13.Systems.Inventory;
 using US13.UI.Systems;
 using US13.UI.Systems.MainHUD.UI_Bottom;
@@ -63,8 +65,8 @@ namespace US13.Core.Input_System.InteractionV2.Interactions
 		/// <param name="targetPosition"> The local position the player is aiming at
 		///  Same as originatorPosition Assuming hitting self </param>
 		private AimApply(GameObject performer, GameObject handObject, ItemSlot handSlot, MouseButtonState buttonState,
-			Vector2 targetPosition, BodyPartType bodyPartType, Intent intent, Mind inMind, Vector2 originatorPosition) :
-			base(performer, handObject, null, bodyPartType, intent, inMind)
+			Vector2 targetPosition, BodyPartType bodyPartType, Intent intent, Mind inMind, Vector2 originatorPosition, GameObject TargetingObject) :
+			base(performer, handObject, TargetingObject, bodyPartType, intent, inMind)
 		{
 			this.originatorPosition = originatorPosition;
 			this.targetPosition = targetPosition;
@@ -101,6 +103,13 @@ namespace US13.Core.Input_System.InteractionV2.Interactions
 					go => go == PlayerManager.LocalPlayerObject).Any();
 			}
 
+			var TargetingObject = MouseUtils.GetOrderedObjectsUnderMouse(PLAYER_LAYER_MASK).FirstOrDefault();
+
+			if (TargetingObject.GetUniversalObjectPhysics() == null)
+			{
+				TargetingObject = null;
+			}
+
 			return new AimApply(PlayerManager.LocalPlayerObject, PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot().ItemObject,
 				PlayerManager.LocalPlayerScript.DynamicItemStorage.GetActiveHandSlot(),
 				buttonState,
@@ -109,7 +118,8 @@ namespace US13.Core.Input_System.InteractionV2.Interactions
 				UIManager.DamageZone,
 				UIManager.CurrentIntent,
 				PlayerManager.LocalMindScript,
-				PlayerManager.LocalPlayerObject.transform.localPosition.To2());
+				PlayerManager.LocalPlayerObject.transform.localPosition.To2(),
+				TargetingObject);
 		}
 
 		/// <summary>
@@ -126,9 +136,9 @@ namespace US13.Core.Input_System.InteractionV2.Interactions
 		/// <returns>a hand apply by the client, targeting the specified object with the item in the active hand</returns>
 		/// <param name="mouseButtonState">state of the mouse button</param>
 		public static AimApply ByClient(GameObject clientPlayer, Vector2 TargetPosition, GameObject handObject, ItemSlot handSlot, MouseButtonState mouseButtonState,
-			BodyPartType TargetBodyPart, Intent intent, Vector2 originatorPosition, Mind inMind)
+			BodyPartType TargetBodyPart, Intent intent, Vector2 originatorPosition, Mind inMind, GameObject TargetObject)
 		{
-			return new AimApply(clientPlayer, handObject, handSlot,  mouseButtonState, TargetPosition, TargetBodyPart, intent,inMind ,  originatorPosition );
+			return new AimApply(clientPlayer, handObject, handSlot,  mouseButtonState, TargetPosition, TargetBodyPart, intent,inMind ,  originatorPosition, TargetObject );
 		}
 	}
 

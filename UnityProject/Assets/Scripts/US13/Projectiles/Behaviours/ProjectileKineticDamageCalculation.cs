@@ -10,7 +10,7 @@ namespace US13.Projectiles.Behaviours
 	{
 		private float pressure;
 
-		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone = BodyPartType.Chest)
+		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone = BodyPartType.Chest, GameObject Target = null)
 		{
 			pressure = GetPressureOnPoint(shooter);
 		}

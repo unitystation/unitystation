@@ -214,11 +214,16 @@ namespace US13.Messages.Client.Interaction
 				var clientStorage = SentByPlayer.Script.DynamicItemStorage;
 				var usedSlot = clientStorage.GetActiveHandSlot();
 				var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
-				LoadNetworkObject(ProcessorObject);
-				var processorObj = NetworkObject;
+
+				LoadMultipleObjects(new uint[]{
+					ProcessorObject, TargetObject
+				});
+				var processorObj = NetworkObjects[0];
+				var targetobj = NetworkObjects[1];
+
 				CheckMatrixSync(ref processorObj);
 
-				var interaction = AimApply.ByClient(performer, TargetPosition, usedObject, usedSlot, MouseButtonState, TargetBodyPart, Intent, UnsafeClientPredictedPosition, Mind);
+				var interaction = AimApply.ByClient(performer, TargetPosition, usedObject, usedSlot, MouseButtonState, TargetBodyPart, Intent, UnsafeClientPredictedPosition, Mind , targetobj);
 				ProcessInteraction(interaction, processorObj, ComponentType);
 			}
 			else if (InteractionType == typeof(MouseDrop))
@@ -554,6 +559,7 @@ namespace US13.Messages.Client.Interaction
 			else if (typeof(T) == typeof(AimApply))
 			{
 				var casted = interaction as AimApply;
+				msg.TargetObject =  GetNetId(casted.TargetObject);
 				msg.TargetPosition = casted.TargetPosition; //TODO add client Origin
 				msg.MouseButtonState = casted.MouseButtonState;
 				msg.TargetBodyPart = casted.TargetBodyPart;
@@ -744,6 +750,7 @@ namespace US13.Messages.Client.Interaction
 			}
 			else if (message.InteractionType == typeof(AimApply))
 			{
+				message.TargetObject =  reader.ReadUInt();
 				message.TargetPosition = reader.ReadVector2();
 				message.UnsafeClientPredictedPosition = reader.ReadVector2();
 				message.MouseButtonState = reader.ReadBool() ? MouseButtonState.PRESS : MouseButtonState.HOLD;
@@ -831,6 +838,7 @@ namespace US13.Messages.Client.Interaction
 			}
 			else if (message.InteractionType == typeof(AimApply))
 			{
+				writer.WriteUInt(message.TargetObject);
 				writer.WriteVector2(message.TargetPosition);
 				writer.WriteVector2(message.UnsafeClientPredictedPosition);
 				writer.WriteBool(message.MouseButtonState == MouseButtonState.PRESS);

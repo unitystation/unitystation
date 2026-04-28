@@ -27,19 +27,19 @@ namespace US13.Projectiles
 
 		public override void Suicide(GameObject controlledByPlayer, Gun fromWeapon, MagazineBehaviour Magazine, BodyPartType targetZone = BodyPartType.Chest)
 		{
-			ShootBeam(Vector2.zero, controlledByPlayer,fromWeapon,Magazine , targetZone);
+			ShootBeam(Vector2.zero, controlledByPlayer,fromWeapon,Magazine , targetZone,controlledByPlayer );
 		}
 
-		public override void Shoot(Vector2 direction, GameObject controlledByPlayer, Gun fromWeapon,  MagazineBehaviour Magazine, BodyPartType targetZone = BodyPartType.Chest)
+		public override void Shoot(Vector2 direction, GameObject controlledByPlayer, Gun fromWeapon,  MagazineBehaviour Magazine, GameObject Target , BodyPartType targetZone = BodyPartType.Chest)
 		{
-			ShootBeam(direction, controlledByPlayer,fromWeapon, Magazine, targetZone);
+			ShootBeam(direction, controlledByPlayer,fromWeapon, Magazine, targetZone, Target);
 		}
 
-		private void ShootBeam(Vector2 direction, GameObject controlledByPlayer, Gun fromWeapon, MagazineBehaviour Magazine, BodyPartType targetZone )
+		private void ShootBeam(Vector2 direction, GameObject controlledByPlayer, Gun fromWeapon, MagazineBehaviour Magazine, BodyPartType targetZone , GameObject target)
 		{
 			foreach (var behaviour in behavioursOnShoot)
 			{
-				behaviour.OnShoot(direction, controlledByPlayer, fromWeapon, Magazine, targetZone);
+				behaviour.OnShoot(direction, controlledByPlayer, fromWeapon, Magazine, targetZone, target);
 			}
 
 			var pos = transform.position;

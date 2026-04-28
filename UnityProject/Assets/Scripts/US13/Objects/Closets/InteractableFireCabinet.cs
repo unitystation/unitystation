@@ -129,14 +129,14 @@ namespace US13.Objects.Closets
 		private void Open()
 		{
 			IsClosed = false;
-			_ = SoundManager.PlayAtPosition(OpenCloseSound, transform.position, gameObject);
+			_ = SoundManager.ClientPlayAtPosition(OpenCloseSound, transform.position, gameObject);
 			ServerSetState(slot.Item != null ? FireCabinetState.OpenFull : FireCabinetState.OpenEmpty);
 		}
 
 		private void Close()
 		{
 			IsClosed = true;
-			_ = SoundManager.PlayAtPosition(OpenCloseSound, transform.position, gameObject);
+			_ = SoundManager.ClientPlayAtPosition(OpenCloseSound, transform.position, gameObject);
 			ServerSetState(FireCabinetState.Closed);
 		}
 

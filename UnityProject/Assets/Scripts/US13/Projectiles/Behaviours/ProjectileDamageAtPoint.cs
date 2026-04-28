@@ -26,7 +26,7 @@ namespace US13.Projectiles.Behaviours
 		}
 
 		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon,MagazineBehaviour MagazineBehaviour,
-			BodyPartType targetZone = BodyPartType.Chest)
+			BodyPartType targetZone = BodyPartType.Chest, GameObject Target = null)
 		{
 			this.direction = direction;
 		}

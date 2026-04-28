@@ -114,7 +114,7 @@ namespace US13.Items.Medical
 				if (livingHealthMaster.IsDead == false)
 				{
 					livingHealthMaster.playerScript.Mind.OrNull()?.StopGhosting();
-					_ = SoundManager.PlayNetworkedAtPosAsync(soundSuccsuess, objectPos);
+					_ = SoundManager.PlayNetworkedAtPosAsync(soundSuccsuess, objectPos,  new AudioSourceParameters(spatialBlend:2));
 					StartCoroutine(Cooldown());
 					return;
 				}

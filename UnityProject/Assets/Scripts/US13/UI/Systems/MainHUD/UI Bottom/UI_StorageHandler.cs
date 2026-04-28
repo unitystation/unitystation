@@ -138,7 +138,7 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 		{
 			if (PlayerManager.LocalPlayerObject != null)
 			{
-				_ = SoundManager.PlayAtPosition(CommonSounds.Instance.Rustle,
+				_ = SoundManager.ClientPlayAtPosition(CommonSounds.Instance.Rustle,
 					PlayerManager.LocalPlayerObject.transform.position,
 					PlayerManager.LocalPlayerObject);
 			}

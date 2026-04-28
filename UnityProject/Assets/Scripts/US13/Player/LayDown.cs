@@ -23,6 +23,8 @@ namespace US13.Player
 		private readonly Quaternion layingDownRotation = Quaternion.Euler(0, 0, -90);
 		private readonly Quaternion standingUp = Quaternion.Euler(0, 0, 0);
 
+		private BoxCollider2D Collider;
+
 		[SyncVar(hook = nameof(SyncLayDownState))]
 		private bool isLayingDown = false;
 
@@ -33,10 +35,11 @@ namespace US13.Player
 		private void Awake()
 		{
 			UprightSprites = this.GetCachedComponent<UprightSprites>();
-			playerScript ??= GetComponent<PlayerScript>();
-			playerDirectional ??= GetComponent<Rotatable>();
-			health ??= GetComponent<LivingHealthMasterBase>();
-			networkedLean ??= GetComponent<Util.NetworkedLeanTween>();
+			playerScript ??= this.GetCachedComponent<PlayerScript>();
+			playerDirectional ??= this.GetCachedComponent<Rotatable>();
+			health ??= this.GetCachedComponent<LivingHealthMasterBase>();
+			networkedLean ??= this.GetCachedComponent<Util.NetworkedLeanTween>();
+			Collider = this.GetCachedComponent<BoxCollider2D>();
 		}
 
 		public override void OnStartClient()

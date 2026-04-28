@@ -413,6 +413,22 @@ namespace US13.HealthV2.Living
 			ComponentsTracker<LivingHealthMasterBase>.Instances.Remove(this);
 		}
 
+		public bool Hitble(GameObject Targeting)
+		{
+			if (playerScript == null) return true;
+			if (playerScript.LayDown == null) return true;
+			if (playerScript.LayDown.IsLayingDown)
+			{
+				return Targeting == this.gameObject;
+			}
+			else
+			{
+				return true;
+			}
+
+
+		}
+
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			//Generate BloodType and DNA
