@@ -52,22 +52,25 @@ namespace US13.Systems.Antagonists
 		public void Apply()
 		{
 			if (ReagentPool == null) return;
+			if (connectedPlayer.PlayerButtonedActions == null) return;
 
-			int vampireStage;
-			if (ReagentPool.BloodPool.reagents.ContainsKey(CommonSicknesses.Instance.VampirismReagent) == false)
+			//I think there's an issue as chemistry is multithreaded that when you lose blood from damage it can create a race condition on what the blood pool is supposed to be.
+			//To try fix this we gonna lock the ReagentPool.BloodPool so everyone agrees what the stages are supposed to be and we dont get a "Lose stages 1 and 2. Reagin 2" situation.
+			lock(ReagentPool.BloodPool)
 			{
-				vampireStage = -1;
-			}
-			else
-			{
-				TestForPlayerCountChange();
-				float diseaseAmount = ReagentPool.BloodPool[CommonSicknesses.Instance.VampirismReagent];
-				vampireStage = vampirismReaction.GetStageIDFromReagentAmount(ReagentPool, diseaseAmount) - 1;
-			}
+				int vampireStage;
+				if (ReagentPool.BloodPool.reagents.ContainsKey(CommonSicknesses.Instance.VampirismReagent) == false) vampireStage = -1; //Vampire stage -1 means we want to remove/add stage 0 aswell
+				else
+				{
+					TestForPlayerCountChange();
+					float diseaseAmount = ReagentPool.BloodPool[CommonSicknesses.Instance.VampirismReagent];
+					vampireStage = vampirismReaction.GetStageIDFromReagentAmount(ReagentPool, diseaseAmount) - 1;
+				}
 
-			if(vampireStage == currentVampirismStage) return;
-			if (vampireStage > currentVampirismStage) Evolve(vampireStage);
-			else Devolve(vampireStage);
+				if(vampireStage == currentVampirismStage) return;
+				if (vampireStage > currentVampirismStage) Evolve(vampireStage);
+				else Devolve(vampireStage);
+			}
 		}
 
 		private void TestForPlayerCountChange()
@@ -89,13 +92,13 @@ namespace US13.Systems.Antagonists
 			if (newStage < 3 && cloakEquipped) UnEquipCloak();
 
 			StringBuilder devolutionMessageBuilder = new StringBuilder();
-			for (int i = Math.Max(currentVampirismStage,0); i >= Math.Max(newStage, 0); i--)
+			for (int i = currentVampirismStage; i > newStage; i++)
 			{
 				StageAbilities abilitiesToLose = stageAbilities[i];
 				if(abilitiesToLose.onStageReachedText != null) devolutionMessageBuilder.AppendLine($"<color=red>{abilitiesToLose.onStageLostText}</color>");
 				foreach (var action in abilitiesToLose.ActivatedAbilities.Keys)
 				{
-					connectedPlayer.Mind.PlayerButtonedActions?.UnregisterAction(action);
+					connectedPlayer.PlayerButtonedActions?.UnregisterAction(action);
 				}
 
 				if (abilitiesToLose.Mutations.Count == 0) continue;
@@ -125,7 +128,7 @@ namespace US13.Systems.Antagonists
 				if(abilitiesToGain.onStageReachedText != null) evolutionMessageBuilder.AppendLine($"<color=red>{abilitiesToGain.onStageReachedText}</color>");
 				foreach (var data in abilitiesToGain.ActivatedAbilities.Keys)
 				{
-					connectedPlayer.Mind.PlayerButtonedActions?.RegisterNewAction(data, abilitiesToGain.ActivatedAbilities[data].Invoke);
+					connectedPlayer.PlayerButtonedActions?.RegisterNewAction(data, abilitiesToGain.ActivatedAbilities[data].Invoke);
 				}
 				if (abilitiesToGain.Mutations.Count == 0) continue;
 				foreach (var bodyPart in connectedPlayer.playerHealth.BodyPartList)
