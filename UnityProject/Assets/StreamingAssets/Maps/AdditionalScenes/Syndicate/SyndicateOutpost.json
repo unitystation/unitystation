@@ -42666,6 +42666,15 @@
                       "Data": "True"
                     }
                   ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "isWithoutSwitch",
+                      "Data": "True"
+                    }
+                  ]
                 }
               ],
               "Children": [
@@ -46404,57 +46413,6 @@
             "PrefabID": "8b23406984f2ff757ab3d52e9f67116d",
             "Name": "TankDispenserOxyOnly (1)",
             "LocalPRS": "27┼-28┼0┼"
-          },
-          {
-            "GitID": "f2432d244a6b7774ea00ff013beb7dcb_27┼-23┼0┼",
-            "PrefabID": "f2432d244a6b7774ea00ff013beb7dcb",
-            "NameMatches": true,
-            "Name": "LightSwitch",
-            "LocalPRS": "27┼-23┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Integrity@0",
-                  "Data": [
-                    {
-                      "Name": "Armor@Melee",
-                      "Data": "0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "LightSwitchV2@0",
-                  "Data": [
-                    {
-                      "Name": "listOfLights#1",
-                      "Data": "fde32c02abddc814f9366ff1fb21f234_24┼-22┼0┼@0@LightSource@0"
-                    },
-                    {
-                      "Name": "listOfLights#0",
-                      "Data": "fde32c02abddc814f9366ff1fb21f234_24┼-19┼0┼@0@LightSource@0"
-                    }
-                  ]
-                }
-              ]
-            }
           },
           {
             "GitID": "f223683e503b6d14e8ada71a7bab7247_27┼-22┼0┼",
