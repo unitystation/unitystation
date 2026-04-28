@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "-2┼-85┼0┼",
+      "Location": "7802┼7907┼0┼",
       "MatrixName": "7x7Hard_MeetingRoom",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -617,7 +617,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -772,6 +772,25 @@
             }
           },
           {
+            "GitID": "d3c71176f32c1274b929f3a88695a795_2.88┼3┼0┼",
+            "PrefabID": "d3c71176f32c1274b929f3a88695a795",
+            "Name": "Paper (1)",
+            "LocalPRS": "2.88┼3┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Paper@0",
+                  "Data": [
+                    {
+                      "Name": "initialText",
+                      "Data": "SYNERGY."
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "21bb3b22e17572f479870465dd940c9d_3┼1┼0┼",
             "PrefabID": "21bb3b22e17572f479870465dd940c9d",
             "Name": "OfficeChairDark (5)",
@@ -834,6 +853,45 @@
                     {
                       "Name": "requiredClearance#0",
                       "Data": "AwayGeneric1"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "d3c71176f32c1274b929f3a88695a795_3.12┼2.25┼0┼",
+            "PrefabID": "d3c71176f32c1274b929f3a88695a795",
+            "NameMatches": true,
+            "Name": "Paper",
+            "LocalPRS": "3.12┼2.25┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Paper@0",
+                  "Data": [
+                    {
+                      "Name": "initialText",
+                      "Data": "STRATEGY."
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "d3c71176f32c1274b929f3a88695a795_3.12┼3.88┼0┼",
+            "PrefabID": "d3c71176f32c1274b929f3a88695a795",
+            "Name": "Paper (2)",
+            "LocalPRS": "3.12┼3.88┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Paper@0",
+                  "Data": [
+                    {
+                      "Name": "initialText",
+                      "Data": "SENSITIVITY."
                     }
                   ]
                 }
@@ -1059,7 +1117,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }

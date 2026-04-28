@@ -1,11 +1,11 @@
 {
   "Ver": "1.0.0",
-  "MapName": "5x5I_EW",
+  "MapName": "5x5crayons_SE",
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "7726┼7953┼0┼",
-      "MatrixName": "5x5I_EW",
+      "Location": "7750┼7941┼0┼",
+      "MatrixName": "5x5crayons_SE",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
         "XYs": [
@@ -24,6 +24,9 @@
             "Key": "X0Y1",
             "Value": [
               {
+                "Tel": "Wall"
+              },
+              {
                 "Tel": "Plating"
               }
             ]
@@ -32,6 +35,9 @@
             "Key": "X0Y2",
             "Value": [
               {
+                "Tel": "Wall"
+              },
+              {
                 "Tel": "Plating"
               }
             ]
@@ -39,6 +45,9 @@
           {
             "Key": "X0Y3",
             "Value": [
+              {
+                "Tel": "Wall"
+              },
               {
                 "Tel": "Plating"
               }
@@ -87,6 +96,9 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Table"
               }
             ]
           },
@@ -105,9 +117,6 @@
             "Key": "X2Y0",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
-              },
-              {
                 "Tel": "Plating"
               }
             ]
@@ -115,9 +124,6 @@
           {
             "Key": "X2Y1",
             "Value": [
-              {
-                "Tel": "Wall"
-              },
               {
                 "Tel": "Plating"
               }
@@ -127,9 +133,6 @@
             "Key": "X2Y2",
             "Value": [
               {
-                "Tel": "Wall"
-              },
-              {
                 "Tel": "Plating"
               }
             ]
@@ -138,10 +141,10 @@
             "Key": "X2Y3",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "Plating"
               },
               {
-                "Tel": "Plating"
+                "Tel": "Table"
               }
             ]
           },
@@ -149,7 +152,7 @@
             "Key": "X2Y4",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
+                "Tel": "Wall"
               },
               {
                 "Tel": "Plating"
@@ -217,6 +220,9 @@
             "Key": "X4Y1",
             "Value": [
               {
+                "Tel": "Wall"
+              },
+              {
                 "Tel": "Plating"
               }
             ]
@@ -232,6 +238,9 @@
           {
             "Key": "X4Y3",
             "Value": [
+              {
+                "Tel": "Wall"
+              },
               {
                 "Tel": "Plating"
               }
@@ -255,115 +264,10 @@
         "CommonPrefabs": [],
         "PrefabData": [
           {
-            "GitID": "032e150131f53a64fbf6048aca6a879a_1┼1┼0┼",
-            "PrefabID": "032e150131f53a64fbf6048aca6a879a",
-            "Name": "RandomToolSpawner (1)",
-            "LocalPRS": "1┼1┼0┼"
-          },
-          {
-            "GitID": "ed4e62dc12dca724ba1e5f374965096b_1┼1┼0┼",
-            "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
-            "Name": "Rack (2)",
-            "LocalPRS": "1┼1┼0┼"
-          },
-          {
-            "GitID": "4378ec3d4d96c1239bfd5e740e90f4c1_1┼2┼0┼",
-            "PrefabID": "4378ec3d4d96c1239bfd5e740e90f4c1",
-            "NameMatches": true,
-            "Name": "BackroomsPossibleLoot",
-            "LocalPRS": "1┼2┼0┼"
-          },
-          {
-            "GitID": "c937e0abe85aca9499d09951de736ec6_1┼2┼0┼",
-            "PrefabID": "c937e0abe85aca9499d09951de736ec6",
-            "Name": "LightBulbFixture (2)",
-            "LocalPRS": "1┼2┼0┼0ø0ø90ø",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "LightSource@0",
-                  "Data": [
-                    {
-                      "Name": "isWithoutSwitch",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,3",
-                  "Active": false,
-                  "ClassDatas": []
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "ed4e62dc12dca724ba1e5f374965096b_1┼2┼0┼",
-            "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
-            "Name": "Rack (3)",
-            "LocalPRS": "1┼2┼0┼"
-          },
-          {
-            "GitID": "032e150131f53a64fbf6048aca6a879a_1┼3┼0┼",
-            "PrefabID": "032e150131f53a64fbf6048aca6a879a",
-            "Name": "RandomToolSpawner (2)",
-            "LocalPRS": "1┼3┼0┼"
-          },
-          {
-            "GitID": "ed4e62dc12dca724ba1e5f374965096b_1┼3┼0┼",
-            "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
-            "Name": "Rack (1)",
-            "LocalPRS": "1┼3┼0┼"
-          },
-          {
-            "GitID": "4e067333d18d9724690055be203850b5_3┼1┼0┼",
-            "PrefabID": "4e067333d18d9724690055be203850b5",
-            "Name": "MaintLootx2 (2)",
-            "LocalPRS": "3┼1┼0┼"
-          },
-          {
-            "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_3┼1┼0┼",
-            "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
-            "Name": "ClosetBase (3)",
-            "LocalPRS": "3┼1┼0┼"
-          },
-          {
-            "GitID": "4378ec3d4d96c1239bfd5e740e90f4c1_3┼2┼0┼",
-            "PrefabID": "4378ec3d4d96c1239bfd5e740e90f4c1",
-            "Name": "BackroomsPossibleLoot (1)",
-            "LocalPRS": "3┼2┼0┼"
-          },
-          {
-            "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_3┼2┼0┼",
-            "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
-            "Name": "ClosetBase (2)",
-            "LocalPRS": "3┼2┼0┼"
-          },
-          {
-            "GitID": "c937e0abe85aca9499d09951de736ec6_3┼2┼0┼",
-            "PrefabID": "c937e0abe85aca9499d09951de736ec6",
-            "Name": "LightBulbFixture (1)",
-            "LocalPRS": "3┼2┼0┼0ø0ø270ø",
+            "GitID": "f2432d244a6b7774ea00ff013beb7dcb_0┼2┼0┼",
+            "PrefabID": "f2432d244a6b7774ea00ff013beb7dcb",
+            "Name": "LightSwitch (1)",
+            "LocalPRS": "0┼2┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -385,11 +289,107 @@
                   ]
                 },
                 {
+                  "ClassID": "LightSwitchV2@0",
+                  "Data": [
+                    {
+                      "Name": "listOfLights#0",
+                      "Data": "c937e0abe85aca9499d09951de736ec6_2┼3┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "isOn",
+                      "Data": "False"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "3e16004dbf7f0e44bb12728d0a565ef1_1┼3┼0┼",
+            "PrefabID": "3e16004dbf7f0e44bb12728d0a565ef1",
+            "Name": "CrayonBox (1)",
+            "LocalPRS": "1┼3┼0┼"
+          },
+          {
+            "GitID": "3e16004dbf7f0e44bb12728d0a565ef1_1┼3.25┼0┼",
+            "PrefabID": "3e16004dbf7f0e44bb12728d0a565ef1",
+            "NameMatches": true,
+            "Name": "CrayonBox",
+            "LocalPRS": "1┼3.25┼0┼"
+          },
+          {
+            "GitID": "96104dc9daa95c640828aabd5149a411_1.5┼3.25┼0┼",
+            "PrefabID": "96104dc9daa95c640828aabd5149a411",
+            "Name": "RandomCrayon (1)",
+            "LocalPRS": "1.5┼3.25┼0┼"
+          },
+          {
+            "GitID": "4eef56ab532f51146aa11b1b05e56c10_1.75┼3┼0┼",
+            "PrefabID": "4eef56ab532f51146aa11b1b05e56c10",
+            "Name": "RainbowCrayon (1)",
+            "LocalPRS": "1.75┼3┼0┼"
+          },
+          {
+            "GitID": "1c37096a28e810a41a6b7b194de0af76_1.75┼3.25┼0┼",
+            "PrefabID": "1c37096a28e810a41a6b7b194de0af76",
+            "NameMatches": true,
+            "Name": "UnlimitedColourRainbowCrayon",
+            "LocalPRS": "1.75┼3.25┼0┼"
+          },
+          {
+            "GitID": "5fd9d8acdd4f02849884dcddff5db286_2┼0┼0┼",
+            "PrefabID": "5fd9d8acdd4f02849884dcddff5db286",
+            "Name": "AirlockStandardOpaque (1)",
+            "LocalPRS": "2┼0┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "c937e0abe85aca9499d09951de736ec6_2┼3┼0┼",
+            "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "Name": "LightBulbFixture (1)",
+            "LocalPRS": "2┼3┼0┼0ø0ø180ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Down_By180"
+                    }
+                  ]
+                },
+                {
                   "ClassID": "LightSource@0",
                   "Data": [
                     {
-                      "Name": "isWithoutSwitch",
-                      "Data": "True"
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_0┼2┼0┼@0@LightSwitchV2@0"
+                    },
+                    {
+                      "Name": "InitialState",
+                      "Data": "Off"
                     }
                   ]
                 }
@@ -404,16 +404,68 @@
             }
           },
           {
-            "GitID": "4e067333d18d9724690055be203850b5_3┼3┼0┼",
-            "PrefabID": "4e067333d18d9724690055be203850b5",
-            "Name": "MaintLootx2 (1)",
-            "LocalPRS": "3┼3┼0┼"
+            "GitID": "96104dc9daa95c640828aabd5149a411_2.12┼3.25┼0┼",
+            "PrefabID": "96104dc9daa95c640828aabd5149a411",
+            "Name": "RandomCrayon (2)",
+            "LocalPRS": "2.12┼3.25┼0┼"
           },
           {
-            "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_3┼3┼0┼",
-            "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
-            "Name": "ClosetBase (1)",
-            "LocalPRS": "3┼3┼0┼"
+            "GitID": "96104dc9daa95c640828aabd5149a411_2.25┼3.12┼0┼",
+            "PrefabID": "96104dc9daa95c640828aabd5149a411",
+            "NameMatches": true,
+            "Name": "RandomCrayon",
+            "LocalPRS": "2.25┼3.12┼0┼"
+          },
+          {
+            "GitID": "4378ec3d4d96c1239bfd5e740e90f4c1_2.88┼3.12┼0┼",
+            "PrefabID": "4378ec3d4d96c1239bfd5e740e90f4c1",
+            "NameMatches": true,
+            "Name": "BackroomsPossibleLoot",
+            "LocalPRS": "2.88┼3.12┼0┼"
+          },
+          {
+            "GitID": "1d35052f4fc2cad4d8226d1a63e4a1b3_3┼3┼0┼",
+            "PrefabID": "1d35052f4fc2cad4d8226d1a63e4a1b3",
+            "NameMatches": true,
+            "Name": "CrateBase",
+            "LocalPRS": "3┼3┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "4e067333d18d9724690055be203850b5_3.12┼2.88┼0┼",
+            "PrefabID": "4e067333d18d9724690055be203850b5",
+            "NameMatches": true,
+            "Name": "MaintLootx2",
+            "LocalPRS": "3.12┼2.88┼0┼"
+          },
+          {
+            "GitID": "5fd9d8acdd4f02849884dcddff5db286_4┼2┼0┼",
+            "PrefabID": "5fd9d8acdd4f02849884dcddff5db286",
+            "NameMatches": true,
+            "Name": "AirlockStandardOpaque",
+            "LocalPRS": "4┼2┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
           }
         ],
         "IDToNetIDClient": {}
