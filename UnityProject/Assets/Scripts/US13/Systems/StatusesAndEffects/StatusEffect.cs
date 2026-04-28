@@ -20,10 +20,21 @@ namespace US13.Systems.StatusesAndEffects
 		/// </summary>
 		public virtual void OnAdded(GameObject target)
 		{
-			foreach (var behavior in CustomBehaviors)
+			foreach (ICustomStatusEffectBehavior behavior in CustomBehaviors)
 			{
+				if (CanExtend(target, behavior)) continue;
 				behavior.ExtendedOnAdded(target);
 			}
+		}
+
+		private bool CanExtend(GameObject target, ICustomStatusEffectBehavior behavior)
+		{
+			if (behavior.ExtensionConditions == null) return true;
+			foreach (var condition in behavior.ExtensionConditions)
+			{
+				if (condition.PassCondition(target) == false) return false;
+			}
+			return true;
 		}
 
 		/// <summary>

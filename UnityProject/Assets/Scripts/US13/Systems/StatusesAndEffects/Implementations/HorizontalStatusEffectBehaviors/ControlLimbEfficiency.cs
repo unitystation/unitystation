@@ -1,5 +1,9 @@
-﻿using Logs;
+﻿using System.Collections.Generic;
+using Logs;
 using UnityEngine;
+using US13.Core.Attributes;
+using US13.Core.Lifecycle;
+using US13.Core.Modular;
 using US13.Items.Implants;
 using US13.Player;
 using US13.Systems.StatusesAndEffects.Interfaces;
@@ -9,6 +13,9 @@ namespace US13.Systems.StatusesAndEffects.Implementations.HorizontalStatusEffect
 	public class ControlLimbEfficiency : ICustomStatusEffectBehavior
 	{
 		public float LimbEfficiency = 1f;
+
+		[field: SerializeReference, SelectImplementation(typeof(IConditional))]
+		public List<IConditional> ExtensionConditions { get; set; } = new();
 
 		public void ExtendedOnAdded(GameObject target)
 		{

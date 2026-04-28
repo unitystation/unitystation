@@ -24,3 +24,18 @@ MonoBehaviour:
         asm: Assets}
       data:
         LimbEfficiency: 0.75
+        <ExtensionConditions>k__BackingField:
+        - rid: 4619252407159488577
+    - rid: 4619252407159488577
+      type: {class: ConditionEnableIfHungerMethodActive, ns: US13.HealthV2.Modular.Implementation,
+        asm: Assets}
+      data:
+        HungerCalculationToCheck:
+          rid: 4619252407159488578
+        InvertCheck: 1
+    - rid: 4619252407159488578
+      type: {class: DefaultUnityStationHungerCalculation, ns: US13.HealthV2.Living.PolymorphicSystems.Hunger.HungerCalculationMethods,
+        asm: Assets}
+      data:
+        MinutesThresholdForHunger: 5
+        MinutesThresholdForNormal: 10
