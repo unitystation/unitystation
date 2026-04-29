@@ -25,8 +25,38 @@ MonoBehaviour:
         asm: Assets}
       data:
         LimbEfficiency: 0.9
+        <ExtensionConditions>k__BackingField:
+        - rid: 4619252407159488575
     - rid: 4619252273578246206
       type: {class: AddToBlurryVision, ns: US13.Systems.StatusesAndEffects.Implementations.HorizontalStatusEffectBehaviors,
         asm: Assets}
       data:
         BlurrinessToAdd: 10
+        <ExtensionConditions>k__BackingField:
+        - rid: 4619252407159488573
+    - rid: 4619252407159488573
+      type: {class: ConditionEnableIfHungerMethodActive, ns: US13.HealthV2.Modular.Implementation,
+        asm: Assets}
+      data:
+        HungerCalculationToCheck:
+          rid: 4619252407159488574
+        InvertCheck: 1
+    - rid: 4619252407159488574
+      type: {class: DefaultUnityStationHungerCalculation, ns: US13.HealthV2.Living.PolymorphicSystems.Hunger.HungerCalculationMethods,
+        asm: Assets}
+      data:
+        MinutesThresholdForHunger: 5
+        MinutesThresholdForNormal: 10
+    - rid: 4619252407159488575
+      type: {class: ConditionEnableIfHungerMethodActive, ns: US13.HealthV2.Modular.Implementation,
+        asm: Assets}
+      data:
+        HungerCalculationToCheck:
+          rid: 4619252407159488576
+        InvertCheck: 1
+    - rid: 4619252407159488576
+      type: {class: DefaultUnityStationHungerCalculation, ns: US13.HealthV2.Living.PolymorphicSystems.Hunger.HungerCalculationMethods,
+        asm: Assets}
+      data:
+        MinutesThresholdForHunger: 5
+        MinutesThresholdForNormal: 10

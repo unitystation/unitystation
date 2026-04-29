@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "0┼0┼0┼",
+      "Location": "7726┼7953┼0┼",
       "MatrixName": "5x5I_EW",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -267,6 +267,13 @@
             "LocalPRS": "1┼1┼0┼"
           },
           {
+            "GitID": "4378ec3d4d96c1239bfd5e740e90f4c1_1┼2┼0┼",
+            "PrefabID": "4378ec3d4d96c1239bfd5e740e90f4c1",
+            "NameMatches": true,
+            "Name": "BackroomsPossibleLoot",
+            "LocalPRS": "1┼2┼0┼"
+          },
+          {
             "GitID": "c937e0abe85aca9499d09951de736ec6_1┼2┼0┼",
             "PrefabID": "c937e0abe85aca9499d09951de736ec6",
             "Name": "LightBulbFixture (2)",
@@ -303,12 +310,18 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
               ]
             }
+          },
+          {
+            "GitID": "ed4e62dc12dca724ba1e5f374965096b_1┼2┼0┼",
+            "PrefabID": "ed4e62dc12dca724ba1e5f374965096b",
+            "Name": "Rack (3)",
+            "LocalPRS": "1┼2┼0┼"
           },
           {
             "GitID": "032e150131f53a64fbf6048aca6a879a_1┼3┼0┼",
@@ -333,6 +346,12 @@
             "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
             "Name": "ClosetBase (3)",
             "LocalPRS": "3┼1┼0┼"
+          },
+          {
+            "GitID": "4378ec3d4d96c1239bfd5e740e90f4c1_3┼2┼0┼",
+            "PrefabID": "4378ec3d4d96c1239bfd5e740e90f4c1",
+            "Name": "BackroomsPossibleLoot (1)",
+            "LocalPRS": "3┼2┼0┼"
           },
           {
             "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_3┼2┼0┼",
@@ -377,7 +396,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }

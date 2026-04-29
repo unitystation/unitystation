@@ -12,6 +12,8 @@ using US13.Core.Lifecycle;
 using US13.Core.ObjectConnection;
 using US13.Managers.MatrixManager;
 using US13.Objects.Engineering;
+using US13.Objects.Traps;
+using US13.Systems.Clearance;
 using US13.Systems.Inventory;
 using US13.UI.Core.ProgressBar;
 using Util;
@@ -20,7 +22,7 @@ using UniversalObjectPhysics = US13.Core.Physics.UniversalObjectPhysics;
 
 namespace US13.Items.Others
 {
-	public class RandomItemSpot : NetworkBehaviour, IServerSpawn, ICheckedInteractable<HandActivate>
+	public class RandomItemSpot : NetworkBehaviour, IServerSpawn, ICheckedInteractable<HandActivate>, IGenericTrigger
 	{
 		public APCPoweredDevice APCtoSet;
 
@@ -42,10 +44,14 @@ namespace US13.Items.Others
 		[SerializeField] private bool automaticallyShoveIntoContainerBelowSpawnedItem = true;
 		[SerializeField] private bool deleteAfterUse = true;
 
+		[SerializeField] private TriggerType triggerType = TriggerType.Active;
+		TriggerType IGenericTrigger.TriggerType => triggerType;
+		private bool triggerState = false;
+
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			APCtoSet = this.GetComponent<APCPoweredDevice>();
-			RollRandomPool(true);
+			RollRandomPool(true, false);
 		}
 
 		public void RollRandomPool(bool UnrestrictedAndspawn, bool overrideTrigger = false)
@@ -54,6 +60,31 @@ namespace US13.Items.Others
 			SpawnRandomItems(UnrestrictedAndspawn);
 			APCtoSet.OrNull()?.RemoveFromAPC();
 
+		}
+
+		public void OnTrigger()
+		{
+			switch (triggerType)
+			{
+				case TriggerType.Active:
+					triggerState = true;
+					RollRandomPool(true, true);
+					break;
+				case TriggerType.Toggle:
+					triggerState = !triggerState;
+					if(triggerState) RollRandomPool(true, true);
+					break;
+				case TriggerType.HoldState:
+					if(triggerState == false) RollRandomPool(true, true);
+					triggerState = true;
+					break;
+			}
+		}
+
+		public void OnTriggerWithClearance(IClearanceSource source) => OnTrigger();
+		public void OnTriggerEnd()
+		{
+			if (triggerType == TriggerType.Active) triggerState = false;
 		}
 
 		[Button]

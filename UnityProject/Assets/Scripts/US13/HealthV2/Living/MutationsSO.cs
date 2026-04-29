@@ -10,6 +10,11 @@ namespace US13.HealthV2.Living
 		[SerializeField]
 		private string displayName = "";
 
+		[SerializeField] private bool isStableMutation = false;
+		[SerializeField] private bool canBeChemicallyRemoved = true;
+
+		public bool CanBeChemicallyRemoved => canBeChemicallyRemoved;
+
 		public string DisplayName
 		{
 			get
@@ -28,9 +33,20 @@ namespace US13.HealthV2.Living
 		[Tooltip(" Effects the type of dinosaur that spawned when An egg is generated, Hire equals more aggressive and dangerous Dinosaurs")]
 		[Range(0, 100)] public int ResearchDifficult;
 
-		[Tooltip("The stability says if this is a negative or positive mutation in terms of balancing, E.G x-ray will give - stability, while a negative mutation for example blindness will give positive stability, " +
-		         "this balances out the game preventing you from having to many overpowered mutations, because you need to have a few mutations that are disadvantages")]
-		public int Stability = 0;
+		[SerializeField, Tooltip("The stability says if this is a negative or positive mutation in terms of balancing, E.G x-ray will give - stability, while a negative mutation for example blindness will give positive stability, " +
+		                       "this balances out the game preventing you from having to many overpowered mutations, because you need to have a few mutations that are disadvantages")]
+		private int stability = 0;
+
+
+		public int Stability
+		{
+			get => stability;
+			set
+			{
+				if (isStableMutation == false) stability = value;
+				else stability = 0; //A stable mutation doesn't effect stability, i.e doesn't result in any positive/negative gains
+			}
+		}
 
 
 		[Tooltip(" Description of the Mutation ")]

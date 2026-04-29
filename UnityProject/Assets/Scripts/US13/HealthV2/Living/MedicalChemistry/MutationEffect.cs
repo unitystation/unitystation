@@ -45,7 +45,7 @@ namespace US13.HealthV2.Living.MedicalChemistry
 				{
 					for (int i = Mutation.ActiveMutations.Count - 1; i >= 0; i--)
 					{
-						Mutation.RemoveMutation(Mutation.ActiveMutations[i].RelatedMutationSO);
+						Mutation.RemoveMutation(Mutation.ActiveMutations[i].RelatedMutationSO, true);
 					}
 				}
 				else
@@ -57,7 +57,7 @@ namespace US13.HealthV2.Living.MedicalChemistry
 
 					foreach (var removeMutation in MutationsToRemove)
 					{
-						Mutation.RemoveMutation(removeMutation);
+						Mutation.RemoveMutation(removeMutation, true);
 					}
 				}
 			}

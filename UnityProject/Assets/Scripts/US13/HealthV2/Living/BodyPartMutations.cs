@@ -164,12 +164,13 @@ namespace US13.HealthV2.Living
 			//Maybe under undo mutations??
 		}
 
-		public void RemoveMutation(MutationSO Mutation)
+		public void RemoveMutation(MutationSO Mutation, bool isChemicalRemoval = false)
 		{
 			Mutation Target = null;
 			foreach (var ActiveMutation in ActiveMutations)
 			{
-				if (ActiveMutation.RelatedMutationSO == Mutation)
+				if (ActiveMutation.RelatedMutationSO == Mutation &&
+				    (isChemicalRemoval && ActiveMutation.RelatedMutationSO.CanBeChemicallyRemoved == false) == false)
 				{
 					Target = ActiveMutation;
 					break;

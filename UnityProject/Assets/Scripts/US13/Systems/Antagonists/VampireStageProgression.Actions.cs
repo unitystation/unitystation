@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Chemistry;
 using Cysharp.Threading.Tasks;
 using Light2D;
@@ -144,8 +145,7 @@ namespace US13.Systems.Antagonists
 
 		private void TryForceEndCooldown(string actionId)
 		{
-			connectedPlayer.Mind.PlayerButtonedActions.ServerEndCooldown(actionId);
-			connectedPlayer.Mind.Body?.PlayerButtonedActions.ServerEndCooldown(actionId);
+			connectedPlayer.PlayerButtonedActions?.ServerEndCooldown(actionId);
 		}
 
 		private bool TryDrainPlayer(Vector2 worldMousePosition, Matrix matrix, PlayerScript firstPlayerOnTile)
@@ -175,10 +175,13 @@ namespace US13.Systems.Antagonists
 				{
 					Chat.AddExamineMsg(connectedPlayer.gameObject, $"You successfully to drain {firstPlayerOnTile.visibleName}'s blood.");
 					Chat.AddWarningMsgFromServer(firstPlayerOnTile.gameObject, "You feel a small prick on your neck.");
-					ReagentMix extractedBlood = victimReagentPool.BloodPool.Take(victimReagentPool.NormalBlood * BloodDrainAmountFraction);
+
+					ReagentMix extractedBlood = victimReagentPool.BloodPool?.Take(victimReagentPool.NormalBlood * BloodDrainAmountFraction);
+					if (extractedBlood == null) return;
+
 					float gainedBlood = extractedBlood.Total * BloodDrainEfficiencyFraction;
-					ReagentPool.BloodPool.Add(CommonSicknesses.Instance.VampirismReagent, gainedBlood);
-					connectedPlayer.playerHealth.HealDamageOnAll(connectedPlayer.gameObject, gainedBlood, DamageType.Brute);
+					ReagentPool.BloodPool?.Add(CommonSicknesses.Instance.VampirismReagent, gainedBlood);
+					connectedPlayer.playerHealth?.HealDamageOnAll(connectedPlayer.gameObject, gainedBlood, DamageType.Brute);
 				})
 				.ServerStartProgress(firstPlayerOnTile.RegisterPlayer, bloodDrainTime, connectedPlayer.gameObject);
 			if (bar != null)
@@ -208,8 +211,8 @@ namespace US13.Systems.Antagonists
 			var bar = StandardProgressAction.Create(progressConfig, () =>
 			{
 				Chat.AddExamineMsg(connectedPlayer.gameObject, $"You successfully to drain {firstMobOnTile.name}'s blood.");
-				ReagentPool.BloodPool.Add(CommonSicknesses.Instance.VampirismReagent, bloodToDrain * BloodDrainEfficiencyFraction * 10); //this times 10 is just to make V1 mobs give some blood despite low health
-				connectedPlayer.playerHealth.HealDamageOnAll(connectedPlayer.gameObject, bloodToDrain * BloodDrainEfficiencyFraction * 10, DamageType.Brute);
+				ReagentPool.BloodPool.Add(CommonSicknesses.Instance.VampirismReagent, bloodToDrain * BloodDrainEfficiencyFraction * 2.5f); //this times 10 is just to make V1 mobs give some blood despite low health
+				connectedPlayer.playerHealth.HealDamageOnAll(connectedPlayer.gameObject, bloodToDrain * BloodDrainEfficiencyFraction * 2.5f, DamageType.Brute);
 				firstMobOnTile.ApplyDamage(connectedPlayer.gameObject, bloodToDrain, AttackType.Internal, DamageType.Brute);
 			})
 				.ServerStartProgress(firstMobOnTile.gameObject.RegisterTile(), bloodDrainTime, connectedPlayer.gameObject);

@@ -48,6 +48,7 @@ namespace US13.Actions.V2
 			if (CustomNetworkManager.IsHeadless == false) UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 			ActionButtons.Callback -= OnActionButtonsChanged;
 			ClearCooldowns();
+			ServerRemoveAllActions();
 		}
 
 		private void UpdateMe()
@@ -233,10 +234,15 @@ namespace US13.Actions.V2
 				}
 				return hasItem;
 			});
-			if (cachedNetIdentity == null)
-			{
-				cachedNetIdentity = gameObject.NetWorkIdentity();
-			}
+			if (cachedNetIdentity == true) cachedNetIdentity = gameObject.NetWorkIdentity();
+			cachedNetIdentity.isDirty = true;
+		}
+
+		[Server]
+		public void ServerRemoveAllActions()
+		{
+			ActionButtons.Clear();
+			if (cachedNetIdentity == true) cachedNetIdentity = gameObject.NetWorkIdentity();
 			cachedNetIdentity.isDirty = true;
 		}
 
@@ -278,24 +284,8 @@ namespace US13.Actions.V2
 
 		private void ClearCooldowns()
 		{
-			var now = DateTime.UtcNow;
-			var keysToRemove = new List<CooldownInfo>();
-
-			foreach (var kvp in ActionCooldowns)
-			{
-				if (kvp.CooldownEnd <= now)
-				{
-					keysToRemove.Add(kvp);
-				}
-			}
-
-			foreach (var key in keysToRemove)
-			{
-				ActionCooldowns.Remove(key);
-				this.cachedNetIdentity.isDirty = true;
-			}
-
-
+			ActionCooldowns.RemoveAll(x => x.CooldownEnd <= DateTime.UtcNow);
+			this.cachedNetIdentity.isDirty = true;
 		}
 
 		private void AddCooldown(string actionId, float cooldownTime)
@@ -311,13 +301,7 @@ namespace US13.Actions.V2
 
 		private bool IsActionOnCooldown(string actionId)
 		{
-			Loggy.Warning("While Checking");
-			foreach (var cooldown in ActionCooldowns)
-			{
-				Loggy.Warning($"{cooldown.ActionId} : {cooldown.CooldownEnd}");
-			}
 			var isUnderCooldown = ActionCooldowns.Find(tuple => tuple.ActionId.Equals(actionId, StringComparison.InvariantCulture));
-			if(isUnderCooldown != null) Loggy.Warning($"Found: {isUnderCooldown.ActionId} : {isUnderCooldown.CooldownEnd}");
 			if (isUnderCooldown == null) return false;
 			if (isUnderCooldown.CooldownEnd <= DateTime.UtcNow)
 			{
@@ -325,21 +309,17 @@ namespace US13.Actions.V2
 				this.cachedNetIdentity.isDirty = true;
 				return false; // Cooldown has expired
 			}
-			else
-			{
-				Chat.AddExamineMsg(gameObject,
-					$"This action is still on cooldown, remaining time: {Math.Round((isUnderCooldown.CooldownEnd - DateTime.UtcNow).TotalSeconds, 2)} seconds.");
-				return true;
-			}
+			return true;
+
 		}
 
 		[Client]
 		public float GetRemainingCooldown(string actionId)
 		{
-			var isUnderCooldown = ActionCooldowns.Find(tuple => tuple.ActionId == actionId);
-			if (isUnderCooldown == null) return 0f;
+			var isUnderCooldown = ActionCooldowns.Find(tuple => tuple.ActionId.Equals(actionId, StringComparison.InvariantCulture));
+			if (isUnderCooldown == null) return 0.0f;
 			var remaining = (isUnderCooldown.CooldownEnd - DateTime.UtcNow).TotalSeconds;
-			return remaining > 0 ? (float)remaining : 0f;
+			return Mathf.Max((float)remaining, 0.0f);
 		}
 	}
 }
