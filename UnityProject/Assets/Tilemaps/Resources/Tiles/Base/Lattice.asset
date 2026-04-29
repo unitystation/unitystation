@@ -12,74 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
   m_Name: Lattice
   m_EditorClassIdentifier: 
-  <ForeverID>k__BackingField: e8a2685c8a14b7043bf58bde4374c6b1
-  displayName: lattice
-  description: 
-  LayerType: 4
-  TileType: 7
-  RequiredTiles: []
-  Mass: 1
-  floorTileSounds: {fileID: 11400000, guid: 33b708d1a18305241a84871025e97c36, type: 2}
-  CanSoundOverride: 0
-  atmosPassable: 1
-  isSealed: 0
-  SpawnWithNoAir: 0
-  passable: 1
-  mineable: 0
-  miningTime: 5
-  miningHardness: 1
-  constructable: 0
-  RadiationPassability: 1
-  ThermalConductivity: 0.05
-  HeatCapacity: 10000
-  doesReflectBullet: 0
-  indestructible: 0
-  ExplosionImpassable: 0
-  BlocksTileInteractionsUnder: 1
-  passableException:
-    m_keys: 01000000
-    m_values: 00
-  maxHealth: 50
-  damageDeflection: 0
-  armor:
-    Melee: 50
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 80
-    Acid: 50
-    Magic: 0
-    Bio: 0
-    Anomaly: 0
-    DismembermentProtectionChance: 0
-    StunImmunity: 0
-    TemperatureProtectionInK: {x: 268.15, y: 313.15}
-    PressureProtectionInKpa: {x: 30, y: 300}
-  tileInteractions:
-  - {fileID: 11400000, guid: 10228000f4d0b45ccbe54926e21b9cb0, type: 2}
-  <OnTileStartMining>k__BackingField: []
-  <OnTileFinishMining>k__BackingField: []
-  tileStepInteractions: []
-  spawnOnDeconstruct: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
-    type: 3}
-  spawnAmountOnDeconstruct: 1
-  lootOnDespawn: {fileID: 0}
-  toTileWhenDestroyed: {fileID: 0}
-  spawnOnDestroy: {fileID: 11400000, guid: 23e18374069b6f64e9074e7fd4327b71, type: 2}
-  damageOverlayList: {fileID: 0}
-  soundOnHit:
-    SetLoadSetting: 0
-    AssetAddress: 
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  SoundOnDestroy: []
-  connectCategory: 3
-  connectType: 0
+  _PreviewSprite: {fileID: 0}
+  sprite: {fileID: 0}
+  Sprites: []
   spriteSheet:
     Texture: {fileID: 2800000, guid: 8e7da7f35b3dad84db92f52b78937239, type: 3}
     Sprites:
@@ -132,4 +67,79 @@ MonoBehaviour:
     - {fileID: 21300092, guid: 8e7da7f35b3dad84db92f52b78937239, type: 3}
     - {fileID: 21300094, guid: 8e7da7f35b3dad84db92f52b78937239, type: 3}
     EquippedData: {fileID: 0}
+  spriteSheets: []
+  connectCategory: 3
+  connectType: 0
   texturePath: Floors
+  Blacklist: []
+  WhiteList: []
+  AnimationSpeed: 1
+  AnimationStartTime: 0
+  randomizeStartTime: 0
+  TileAnimationFlags: 0
+  <ForeverID>k__BackingField: e8a2685c8a14b7043bf58bde4374c6b1
+  displayName: lattice
+  description: 
+  LayerType: 4
+  TileType: 7
+  RequiredTiles: []
+  Mass: 1
+  floorTileSounds: {fileID: 11400000, guid: 33b708d1a18305241a84871025e97c36, type: 2}
+  CanSoundOverride: 0
+  atmosPassable: 1
+  isSealed: 0
+  SpawnWithNoAir: 0
+  passable: 1
+  mineable: 0
+  miningTime: 5
+  miningHardness: 1
+  constructable: 0
+  RadiationPassability: 1
+  ThermalConductivity: 0.05
+  HeatCapacity: 10000
+  doesReflectBullet: 0
+  indestructible: 0
+  ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
+  passableException:
+    m_keys: 01000000
+    m_values: 00
+  maxHealth: 50
+  damageDeflection: 0
+  armor:
+    Melee: 50
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 80
+    Rad: 0
+    Fire: 80
+    Acid: 50
+    Magic: 0
+    Bio: 0
+    Anomaly: 0
+    DismembermentProtectionChance: 0
+    StunImmunity: 0
+    TemperatureProtectionInK: {x: 268.15, y: 313.15}
+    PressureProtectionInKpa: {x: 30, y: 300}
+  tileInteractions:
+  - {fileID: 11400000, guid: 10228000f4d0b45ccbe54926e21b9cb0, type: 2}
+  <OnTileStartMining>k__BackingField: []
+  <OnTileFinishMining>k__BackingField: []
+  tileStepInteractions: []
+  spawnOnDeconstruct: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
+    type: 3}
+  spawnAmountOnDeconstruct: 1
+  lootOnDespawn: {fileID: 11400000, guid: 3168c41b56d93884a92cdda1978cb2b5, type: 2}
+  toTileWhenDestroyed: {fileID: 0}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
+  soundOnHit:
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SoundOnDestroy: []
