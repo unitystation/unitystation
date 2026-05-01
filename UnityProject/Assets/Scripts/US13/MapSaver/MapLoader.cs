@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Globalization;
 using Logs;
 using Mirror;
 using Newtonsoft.Json;
@@ -69,8 +70,8 @@ namespace US13.MapSaver
 
 				try
 				{
-					Position = new Vector3Int(int.Parse(Positions[0]), int.Parse(Positions[1]),
-						int.Parse(Positions[2]));
+					Position = new Vector3Int(int.Parse(Positions[0], CultureInfo.InvariantCulture), int.Parse(Positions[1], CultureInfo.InvariantCulture),
+						int.Parse(Positions[2], CultureInfo.InvariantCulture));
 				}
 				catch (Exception e)
 				{
@@ -157,19 +158,19 @@ namespace US13.MapSaver
 						var Substring = data[StartTileID..i]; //Fancy new Syntax for basically substring
 						try
 						{
-							return int.Parse(Substring);
+							return int.Parse(Substring, CultureInfo.InvariantCulture);
 							;
 						}
 						catch (Exception e)
 						{
 							Loggy.Error(e.ToString());
-							return int.Parse("1");
+							return 1;
 						}
 					}
 				}
 
 				var Substring2 = data[StartTileID..]; //Fancy new Syntax for basically substring
-				return int.Parse(Substring2);
+				return int.Parse(Substring2, CultureInfo.InvariantCulture);
 			}
 			else
 			{
@@ -287,7 +288,7 @@ namespace US13.MapSaver
 				string PrefabID = prefabData.PrefabID;
 				if (CompactObjectMapData.CommonPrefabs.Count > 0)
 				{
-					PrefabID = CompactObjectMapData.CommonPrefabs[int.Parse(prefabData.PrefabID)];
+					PrefabID = CompactObjectMapData.CommonPrefabs[int.Parse(prefabData.PrefabID, CultureInfo.InvariantCulture)];
 				}
 
 				position += Offset00;
@@ -383,7 +384,7 @@ namespace US13.MapSaver
 
 			if (string.IsNullOrEmpty(ID))
 			{
-				ID = prefabData.ID.ToString();
+				ID = prefabData.ID.ToString(CultureInfo.InvariantCulture);
 			}
 
 			MapSaver.CodeClass.ThisCodeClass.Objects[ID] = Object;
@@ -494,7 +495,7 @@ namespace US13.MapSaver
 
 				if (string.IsNullOrEmpty(ID))
 				{
-					ID = prefabData.ID.ToString();
+					ID = prefabData.ID.ToString(CultureInfo.InvariantCulture);
 				}
 
 				bool IsServer = CustomNetworkManager.IsServer;
@@ -513,7 +514,7 @@ namespace US13.MapSaver
 				foreach (var Child in IndividualObject.Children)
 				{
 
-					var Id = int.Parse(Child.ID.Split(",").Last());
+					var Id = int.Parse(Child.ID.Split(",").Last(), CultureInfo.InvariantCulture);
 					while (Object.transform.childCount <= Id)
 					{
 						var NewChild = new GameObject();
