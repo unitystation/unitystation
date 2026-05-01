@@ -3,14 +3,15 @@ using UnityEngine;
 
 namespace US13.Systems.MaintRooms
 {
+	[System.Serializable]
+	public class ListBlueprints
+	{
+		public string roomListId = null;
+		public List<WeightedBlueprintEntry> possibleRooms = new();
+	}
+
 	public class GenericBlueprintRegistrar : MonoBehaviour
 	{
-		[System.Serializable]
-		public class ListBlueprints
-		{
-			public string roomListId = null;
-			public List<WeightedBlueprintEntry> possibleRooms = new();
-		}
 		[SerializeField] private ListBlueprints listBlueprints = new();
 
 		public void Awake()

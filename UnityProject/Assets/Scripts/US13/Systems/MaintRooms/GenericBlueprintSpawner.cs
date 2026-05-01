@@ -10,7 +10,7 @@ namespace US13.Systems.MaintRooms
 		public int SelectedRoom { get; private set; } = -1;
 		[field: SerializeField] public string RoomListId { get; private set; } = "GenericBlueprintSpawner";
 
-		private TriggerType triggerType;
+		[SerializeField] private TriggerType triggerType;
 		public TriggerType TriggerType => triggerType;
 		private bool triggerState = false;
 
