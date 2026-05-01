@@ -1,5 +1,6 @@
 using System;
 using Chemistry;
+using Logs;
 using Mirror;
 using UnityEngine;
 using US13.ChemistryComponents;
@@ -20,12 +21,7 @@ namespace US13.Items.Kitchen
 		[SerializeField] private ItemAttributesV2 itemAttributes;
 		[SerializeField] private SpriteHandler spriteHandler;
 		[SerializeField] private Reagent friedNutrimentReagent;
-		[SerializeField] private ReagentContainer dormantReagentContainer;
-		[SerializeField] private Edible dormantEdible;
 
-		/// <summary>
-		/// The resolved active ReagentContainer (set during dormant component activation).
-		/// </summary>
 		private ReagentContainer activeReagentContainer;
 
 		/// <summary>
@@ -114,7 +110,7 @@ namespace US13.Items.Kitchen
 			itemAttributes.ServerSetArticleName(newName);
 		}
 
-		#region Dormant Component Activation
+		#region Component Activation
 
 		private void ResolveActiveComponents()
 		{
@@ -124,34 +120,31 @@ namespace US13.Items.Kitchen
 
 		private void ResolveEdibleComponent()
 		{
-			Edible edible = null;
-			foreach (var e in GetComponents<Edible>())
+			var edible = GetComponent<Edible>();
+			if (edible == null)
 			{
-				if (!e.enabled || e == dormantEdible) continue;
-				edible = e;
-				break;
+				Loggy.Error($"{name} has a DeepFryable but no Edible component.", Category.Objects);
+				return;
 			}
 
-			if (edible != null || dormantEdible == null) return;
-			dormantEdible.enabled = true;
+			if (edible.enabled) return;
+			edible.enabled = true;
 			int bites = Mathf.Max(1, (int)itemAttributes.Size);
-			dormantEdible.SetMaxBites(bites, resetCurrentBites: true);
+			edible.SetMaxBites(bites, resetCurrentBites: true);
 		}
 
 		private void ResolveReagentContainerComponent()
 		{
-			ReagentContainer container = null;
-			foreach (var rc in GetComponents<ReagentContainer>())
+			var container = GetComponent<ReagentContainer>();
+			if (container == null)
 			{
-				if (!rc.enabled || rc == dormantReagentContainer) continue;
-				container = rc;
-				break;
+				Loggy.Error($"{name} has a DeepFryable but no ReagentContainer component.", Category.Objects);
+				return;
 			}
 
-			if (container == null && dormantReagentContainer != null)
+			if (container.enabled == false)
 			{
-				dormantReagentContainer.enabled = true;
-				container = dormantReagentContainer;
+				container.enabled = true;
 			}
 
 			activeReagentContainer = container;
@@ -192,7 +185,7 @@ namespace US13.Items.Kitchen
 
 		private void OnHighestLevelChanged(FriedLevel oldLevel, FriedLevel newLevel)
 		{
-			// Try enabling the dormant components. This call is done in both server and client.
+			// Ensure components are active. This call is done in both server and client.
 			if (oldLevel == FriedLevel.NotFried && newLevel > FriedLevel.NotFried)
 			{
 				ResolveActiveComponents();

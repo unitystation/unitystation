@@ -141,6 +141,11 @@ PrefabInstance:
       propertyPath: foreverID
       value: 502f496beb9034b9b9c97868e845ed7e
       objectReference: {fileID: 0}
+    - target: {fileID: 8259949711225532789, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: dormantReagentContainer
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8982871833932450213, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
       propertyPath: spriteRenderer
@@ -158,7 +163,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: febbc8fe4e6d49b4096d99b7b5650b31,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8080383159786705365, guid: 6b5f74a79e023479cb5b30a2879621da, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -259,10 +265,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   ReactionSounds: 1
   maxCapacity: 100
   DEBUGReagent: {fileID: 0}
   DEBUGAmount: 0
+  StopReactions: 0
   reactionSet: {fileID: 0}
   AdditionalReactions: []
   initialReagentMix:
@@ -274,6 +284,12 @@ MonoBehaviour:
   destroyOnEmpty: 0
   ContentsSet: 0
   menuOptions: -1
+  currentReagentMix:
+    temperature: 0
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []
   spriteHandler: {fileID: 0}
   UseStandardExamine: 1
   ExamineAmount: 0
@@ -281,6 +297,7 @@ MonoBehaviour:
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 0
+  onlyAllowSyringeFilling: 0
   SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 20

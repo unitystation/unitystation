@@ -1,10 +1,13 @@
-﻿using Chemistry;
+using Chemistry;
 using UnityEngine;
 using US13.Core.Lifecycle;
 using US13.HealthV2.Living;
 
 namespace US13.Items.Food
 {
+	/// <summary>
+	/// Pill that injects a radiation-removing reagent into the eater's stomachs.
+	/// </summary>
 	//TODO Needs to be changed over to  medical chemistry Instead
 	public class PillStackRemover : Consumable
 	{
@@ -19,6 +22,7 @@ namespace US13.Items.Food
 			{
 				Stomach.StomachContents.Add(new ReagentMix(RADRemover,Amount/Stomachs.Count));
 			}
+			InvokeOnConsumed(eater, feeder);
 			//health.RadiationStacks *= StackPercentageRemove / 100f;
 			_ = Despawn.ServerSingle(gameObject);
 		}

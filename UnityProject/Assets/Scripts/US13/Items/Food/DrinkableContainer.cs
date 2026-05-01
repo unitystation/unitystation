@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
 using UnityEngine;
@@ -15,21 +15,26 @@ using Util;
 
 namespace US13.Items.Food
 {
+	/// <summary>
+	/// Drinkable container (cups, bottles, cans) that transfers reagents to the eater's stomachs.
+	/// </summary>
 	[RequireComponent(typeof(ItemAttributesV2))]
 	[RequireComponent(typeof(ReagentContainer))]
 	public class DrinkableContainer : Consumable
 	{
-		/// <summary>
-		/// The name of the sound the player makes when drinking
-		/// </summary>
 		[Tooltip("The name of the sound the player makes when drinking (must be in soundmanager")]
 		[SerializeField] private AddressableAudioSource drinkSound = null;
 
 		private ReagentContainer container;
 		private ItemAttributesV2 itemAttributes;
 		private RegisterItem item;
+
+		/// <summary>If true, always transfers exactly <see cref="FixedORMAXTransferAmount"/> units.</summary>
 		public bool SetFixedTransfer = false;
+
+		/// <summary>If true, caps each transfer to <see cref="FixedORMAXTransferAmount"/> units.</summary>
 		public bool MaxTransfer = true;
+
 		private bool ShowTransfer => SetFixedTransfer || MaxTransfer;
 
 		[ShowIf(nameof(ShowTransfer))]
@@ -93,6 +98,10 @@ namespace US13.Items.Food
 			}
 		}
 
+		/// <summary>
+		/// Transfers reagents from this container into the eater's stomachs, respecting transfer amount
+		/// settings. Fires <see cref="Consumable.OnConsumed"/> on completion.
+		/// </summary>
 		public virtual void Drink(PlayerScript eater, PlayerScript feeder)
 		{
 			var drinkAmount = container.TransferAmount;
@@ -141,6 +150,8 @@ namespace US13.Items.Food
 					.WithRandomPitch(0.7f, 1.3f)
 					.PlayNetworked();
 			}
+
+			InvokeOnConsumed(eater.gameObject, feeder.gameObject);
 		}
 	}
 }

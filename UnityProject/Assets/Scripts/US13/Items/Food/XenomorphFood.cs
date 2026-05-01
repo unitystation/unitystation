@@ -1,9 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using US13.Core.Chat;
 using US13.Core.Lifecycle;
 using US13.HealthV2.Living;
 using US13.HealthV2.Living.Metabolism;
-using US13.HealthV2.Living.PolymorphicSystems;
 using US13.HealthV2.Living.PolymorphicSystems.Hunger;
 using US13.Player;
 using US13.Systems.Inventory;
@@ -12,15 +11,19 @@ using US13.UI.Core.ProgressBar;
 
 namespace US13.Items.Food
 {
+	/// <summary>
+	/// Edible that implants xenomorph larvae into the eater's stomach organ on consumption.
+	/// Reimplements the consume flow (does NOT call base.TryConsume).
+	/// </summary>
 	[RequireComponent(typeof(RegisterItem))]
 	[RequireComponent(typeof(ItemAttributesV2))]
-	[RequireComponent(typeof(Edible))]
 	public class XenomorphFood : Edible
 	{
 		[SerializeField]
 		private GameObject larvae = null;
 
 		private string Name => itemAttributes.ArticleName;
+
 		private static readonly StandardProgressActionConfig ProgressConfig
 			= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
 
@@ -75,13 +78,14 @@ namespace US13.Items.Food
 				//No stomachs?!
 				return;
 			}
-			FoodContents.Divide(stomachs.Count);
+			foodContents.Divide(stomachs.Count);
 			foreach (var stomach in stomachs)
 			{
-				stomach.StomachContents.Add(FoodContents.CurrentReagentMix.Clone());
+				stomach.StomachContents.Add(foodContents.CurrentReagentMix.Clone());
 			}
 
 			Pregnancy(eater.playerHealth);
+			InvokeOnConsumed(eater.gameObject, feeder.gameObject);
 			var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
 			Inventory.ServerDespawn(feederSlot);
 		}

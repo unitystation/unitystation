@@ -24,6 +24,16 @@ PrefabInstance:
       propertyPath: foreverID
       value: b0d90585deacfa34db93558a101578b5
       objectReference: {fileID: 0}
+    - target: {fileID: 3618113085065192918, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: dormantEdible
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3618113085065192918, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: dormantReagentContainer
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: InitialPresentSpriteSet
@@ -107,7 +117,9 @@ PrefabInstance:
       value: Pumpkins with ghoulish faces illuminated by candles are a sure sign
         of the Halloween season.
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5553206116607981528, guid: 05a135eab68164d34bb02b82fff3cde0, type: 3}
+    - {fileID: 3509548197071701366, guid: 05a135eab68164d34bb02b82fff3cde0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -138,10 +150,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   ReactionSounds: 1
   maxCapacity: 100
   DEBUGReagent: {fileID: 0}
   DEBUGAmount: 0
+  StopReactions: 0
   reactionSet: {fileID: 0}
   AdditionalReactions: []
   initialReagentMix:
@@ -155,6 +171,12 @@ MonoBehaviour:
   destroyOnEmpty: 0
   ContentsSet: 0
   menuOptions: -1
+  currentReagentMix:
+    temperature: 0
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []
   spriteHandler: {fileID: 0}
   UseStandardExamine: 1
   ExamineAmount: 0
@@ -162,6 +184,7 @@ MonoBehaviour:
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 0
+  onlyAllowSyringeFilling: 0
   SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 20
@@ -188,10 +211,10 @@ MonoBehaviour:
   forceFeedTime: 3
   setCurrentBitesToMaxBitesOnServerSpawn: 1
   sound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/EatFood.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
