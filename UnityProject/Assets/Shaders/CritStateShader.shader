@@ -17,17 +17,17 @@
 
 				// frag shaders data
 				uniform sampler2D _MainTex;
-				uniform int _CurrentHealth = 0;
+				uniform float _CurrentHealth = 0.0f;
 					
 				static const float _GrainSpeed = 0.1f;
-				static const int vignetteStart = 25;
-				static const int vignetteEnd = -100;
-				static const int greyScaleStart = 25;
-				static const int greScaleEnd = -15;
-				static const int redTintStart = 10;
-				static const int redTintEnd = -60;
-				static const int darkeningStart = 0;
-				static const int darkeningEnd = -100;
+				static const int vignetteStart = 25.0f;
+				static const int vignetteEnd = -100.0f;
+				static const int greyScaleStart = 25.0f;
+				static const int greScaleEnd = -15.0f;
+				static const int redTintStart = 10.0f;
+				static const int redTintEnd = -60.0f;
+				static const int darkeningStart = 0.0f;
+				static const int darkeningEnd = -100.0f;
 					
 				static const float3 BT709 = float3(0.2126f, 0.7152f, 0.0722f);
 				static const float noiseIntensity = 0.04f;
@@ -44,7 +44,7 @@
 					float darkeningIntensity = smoothstep(darkeningStart, darkeningEnd, _CurrentHealth);
 					float vignetteIntensity = smoothstep(vignetteStart, vignetteEnd, _CurrentHealth);
 					
-					float lensRadius = lerp(1.2f, 0.4f, min(vignetteIntensity, 0.7f));
+					float lensRadius = lerp(1.3f, 0.4f, min(vignetteIntensity, 0.7f));
 					float softness = (1 - step(vignetteStart, _CurrentHealth)) * 0.4f;
 
 					//Vignette

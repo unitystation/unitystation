@@ -199,7 +199,9 @@ namespace US13.Tilemaps.Tiles
 			if (tilemap.GetComponent<Tilemap>().name == "Layer1")
 			{
 				// don't connect while in palette
-				base.GetTileData(position, tilemap, ref tileData);
+				tileData.sprite = PreviewSprite;
+				tileData.flags = TileFlags.None;
+				tileData.colliderType = Tile.ColliderType.Grid;
 				return;
 			}
 

@@ -12,72 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
   m_Name: shuttle_corner_NE
   m_EditorClassIdentifier: 
-  <ForeverID>k__BackingField: 4de378599289d31be8c2c13104aeffa0
-  displayName: shuttle wall
-  description: A light-weight titanium wall used in shuttles.
-  LayerType: 0
-  TileType: 1
-  RequiredTiles: []
-  Mass: 1
-  floorTileSounds: {fileID: 0}
-  CanSoundOverride: 0
-  atmosPassable: 0
-  isSealed: 0
-  SpawnWithNoAir: 0
-  passable: 0
-  mineable: 0
-  miningTime: 5
-  miningHardness: 1
-  constructable: 0
-  RadiationPassability: 0.75
-  ThermalConductivity: 0
-  HeatCapacity: 312500
-  doesReflectBullet: 1
-  indestructible: 0
-  ExplosionImpassable: 1
-  BlocksTileInteractionsUnder: 1
-  passableException:
-    m_keys: 
-    m_values: 
-  maxHealth: 300
-  damageDeflection: 11
-  armor:
-    Melee: 90
-    Bullet: 90
-    Laser: 90
-    Energy: 90
-    Bomb: 40
-    Rad: 100
-    Fire: 100
-    Acid: 90
-    Magic: 0
-    Bio: 90
-    Anomaly: 0
-    DismembermentProtectionChance: 0
-    StunImmunity: 0
-    TemperatureProtectionInK: {x: 268.15, y: 313.15}
-    PressureProtectionInKpa: {x: 30, y: 300}
-  tileInteractions: []
-  <OnTileStartMining>k__BackingField: []
-  <OnTileFinishMining>k__BackingField: []
-  tileStepInteractions: []
-  spawnOnDeconstruct: {fileID: 0}
-  spawnAmountOnDeconstruct: 1
-  lootOnDespawn: {fileID: 0}
-  toTileWhenDestroyed: {fileID: 0}
-  spawnOnDestroy: {fileID: 0}
-  damageOverlayList: {fileID: 0}
-  soundOnHit:
-    AssetAddress: 
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  SoundOnDestroy: []
-  connectCategory: 0
-  connectType: 1
+  _PreviewSprite: {fileID: 0}
+  sprite: {fileID: 0}
+  Sprites: []
   spriteSheet:
     Texture: {fileID: 2800000, guid: 256d136c3c1f1feb290a8acb16064723, type: 3}
     Sprites:
@@ -130,4 +67,104 @@ MonoBehaviour:
     - {fileID: -1020994774, guid: 256d136c3c1f1feb290a8acb16064723, type: 3}
     - {fileID: 713141202, guid: 256d136c3c1f1feb290a8acb16064723, type: 3}
     EquippedData: {fileID: 0}
+  spriteSheets: []
+  connectCategory: 0
+  connectType: 4
   texturePath: Walls
+  Blacklist: []
+  WhiteList:
+  - {fileID: 11400000, guid: 3975642db6c52ed4fa2086247abc1f28, type: 2}
+  - {fileID: 11400000, guid: 1c10e6823dbf44ce3b281a6f25f514e9, type: 2}
+  - {fileID: 11400000, guid: f12f5073d044ea3458ce449531942979, type: 2}
+  - {fileID: 11400000, guid: 0928ea19fb08346cbb0efa5178c62dae, type: 2}
+  - {fileID: 11400000, guid: 9bb645b368afb4aef881234040005bfd, type: 2}
+  - {fileID: 11400000, guid: 0cf0148a152f741f0b954929a644aaf2, type: 2}
+  - {fileID: 11400000, guid: fab674b25934e6c47851b75fc09783b7, type: 2}
+  - {fileID: 11400000, guid: ae105d9364e52524f854296e03bc894e, type: 2}
+  - {fileID: 11400000, guid: 3097141cf628d6b4fa575f66194e47b9, type: 2}
+  - {fileID: 11400000, guid: 6914ec94ffd209d458c2be9f26f7e631, type: 2}
+  - {fileID: 11400000}
+  - {fileID: 11400000, guid: 6d32674d18007c5239f0e17baea6cf07, type: 2}
+  - {fileID: 11400000, guid: cdee1024d882c842093c5d06c7f2506c, type: 2}
+  - {fileID: 11400000, guid: 095b2dab40ecad17e9540af3f526f1ff, type: 2}
+  - {fileID: 11400000, guid: 095b2dab40ecad17e9540af3f526f1ff, type: 2}
+  - {fileID: 11400000, guid: dc013ef1aa2df4ecfb06d53ae1c7d22d, type: 2}
+  - {fileID: 11400000, guid: 4f8003122d7745428950cc0cf2492c9c, type: 2}
+  - {fileID: 11400000, guid: 045921b2498a1b61ea8c7ccb60c8817f, type: 2}
+  - {fileID: 11400000, guid: 81f9762263bb1b51790833d6aca3e27b, type: 2}
+  - {fileID: 11400000, guid: 55bd16bffa1dd9dae8304106789fdbd8, type: 2}
+  - {fileID: 11400000, guid: 904e4b2d4844c6c798e0897cbefd00f0, type: 2}
+  - {fileID: 11400000, guid: 621bc5d8da7e127e481b941dfd3bec82, type: 2}
+  - {fileID: 11400000, guid: 1f47cc4f240bbaaf7b457445fa2df85e, type: 2}
+  - {fileID: 11400000, guid: 5f19b59979143a3fc95656049e0b385c, type: 2}
+  - {fileID: 11400000, guid: 7ecb9387751a11c18897c0674bcdce51, type: 2}
+  AnimationSpeed: 1
+  AnimationStartTime: 0
+  randomizeStartTime: 0
+  TileAnimationFlags: 0
+  <ForeverID>k__BackingField: 4de378599289d31be8c2c13104aeffa0
+  displayName: shuttle wall
+  description: A light-weight titanium wall used in shuttles.
+  LayerType: 0
+  TileType: 1
+  RequiredTiles: []
+  Mass: 1
+  floorTileSounds: {fileID: 0}
+  CanSoundOverride: 0
+  atmosPassable: 0
+  isSealed: 0
+  SpawnWithNoAir: 0
+  passable: 0
+  mineable: 0
+  miningTime: 5
+  miningHardness: 1
+  constructable: 0
+  RadiationPassability: 0.75
+  ThermalConductivity: 0
+  HeatCapacity: 312500
+  doesReflectBullet: 1
+  indestructible: 0
+  ExplosionImpassable: 1
+  BlocksTileInteractionsUnder: 1
+  passableException:
+    m_keys: 
+    m_values: 
+  maxHealth: 300
+  damageDeflection: 11
+  armor:
+    Melee: 90
+    Bullet: 90
+    Laser: 90
+    Energy: 90
+    Bomb: 40
+    Rad: 100
+    Fire: 100
+    Acid: 90
+    Magic: 0
+    Bio: 90
+    Anomaly: 0
+    DismembermentProtectionChance: 0
+    StunImmunity: 0
+    TemperatureProtectionInK: {x: 268.15, y: 313.15}
+    PressureProtectionInKpa: {x: 30, y: 300}
+  tileInteractions:
+  - {fileID: 11400000, guid: 8b75e51e5617da069a5d3ddb415ff998, type: 2}
+  - {fileID: 11400000, guid: 69844037908046f4ba5fc444bac1b2db, type: 2}
+  <OnTileStartMining>k__BackingField: []
+  <OnTileFinishMining>k__BackingField: []
+  tileStepInteractions: []
+  spawnOnDeconstruct: {fileID: 0}
+  spawnAmountOnDeconstruct: 1
+  lootOnDespawn: {fileID: 0}
+  toTileWhenDestroyed: {fileID: 0}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
+  soundOnHit:
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SoundOnDestroy: []

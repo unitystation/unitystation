@@ -1,3 +1,4 @@
+using System;
 using Mirror;
 using UnityEngine;
 using US13.Core.Chat;
@@ -12,12 +13,27 @@ using Util;
 namespace US13.Items.Food
 {
 	/// <summary>
-	/// Item that can be drinked or eaten by player
-	/// Also supports force feeding other player
+	/// Abstract base for any item that can be eaten or drunk.
+	/// Subclasses must call <see cref="InvokeOnConsumed"/> after consumption for
+	/// <see cref="EffectOnConsumed"/> and other listeners to fire.
 	/// </summary>
 	public abstract class Consumable : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		[SerializeField] protected float consumeTime = 0.1f;
+
+		/// <summary>
+		/// Raised server-side after consumption. Args: (eater, feeder).
+		/// <see cref="EffectOnConsumed"/> subscribes to this to apply data-driven effects.
+		/// </summary>
+		public event Action<GameObject, GameObject> OnConsumed;
+
+		/// <summary>
+		/// Null-safe raise of <see cref="OnConsumed"/>. All subclasses must call this after a successful consume.
+		/// </summary>
+		protected void InvokeOnConsumed(GameObject eater, GameObject feeder)
+		{
+			OnConsumed?.Invoke(eater, feeder);
+		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
@@ -77,10 +93,8 @@ namespace US13.Items.Food
 		}
 
 		/// <summary>
-		/// Check thats eater can consume this item
+		/// Whether <paramref name="eater"/> is in a valid state to consume (alive, not ghost, normal state).
 		/// </summary>
-		/// <param name="eater">Player that want to eat item</param>
-		/// <returns></returns>
 		public virtual bool CanBeConsumedBy(GameObject eater)
 		{
 			//todo: support npc force feeding
@@ -94,20 +108,14 @@ namespace US13.Items.Food
 		}
 
 
-		/// <summary>
-		/// Try to consume this item by eater. Server side only.
-		/// </summary>
-		/// <param name="eater">Player that want to eat item</param>
 		public void TryConsume(GameObject eater)
 		{
 			TryConsume(eater, eater);
 		}
 
 		/// <summary>
-		/// Try to consume this item by eater. Server side only.
+		/// Server-side consume entry point. Must call <see cref="InvokeOnConsumed"/> on success.
 		/// </summary>
-		/// <param name="feeder">Player that feed eater. Can be same as eater.</param>
-		/// <param name="eater">Player that is going to eat item</param>
 		public abstract void TryConsume(GameObject feeder, GameObject eater, bool projectileFed = false);
 	}
 }

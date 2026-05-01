@@ -12,6 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
   m_Name: brokenplating1
   m_EditorClassIdentifier: 
+  _PreviewSprite: {fileID: 0}
+  sprite: {fileID: 21300002, guid: f5c1f24201bcd954d9350fec4a804d20, type: 3}
+  Sprites: []
+  spriteSheet:
+    Texture: {fileID: 0}
+    Sprites: []
+    EquippedData: {fileID: 0}
+  spriteSheets: []
+  connectCategory: 4
+  connectType: 0
+  texturePath: 
+  Blacklist: []
+  WhiteList: []
+  AnimationSpeed: 1
+  AnimationStartTime: 0
+  randomizeStartTime: 0
+  TileAnimationFlags: 0
   <ForeverID>k__BackingField: b20dbca330c82af28a7089c211e7e25f
   displayName: plating
   description: 
@@ -22,7 +39,7 @@ MonoBehaviour:
   floorTileSounds: {fileID: 11400000, guid: b6656d824eea91648b8ada5f88db78ca, type: 2}
   CanSoundOverride: 0
   atmosPassable: 1
-  isSealed: 1
+  isSealed: 0
   SpawnWithNoAir: 0
   passable: 1
   mineable: 0
@@ -58,12 +75,11 @@ MonoBehaviour:
     TemperatureProtectionInK: {x: 268.15, y: 313.15}
     PressureProtectionInKpa: {x: 30, y: 300}
   tileInteractions:
-  - {fileID: 11400000, guid: 20594944fdc1e8c4f926faf5d0653dae, type: 2}
   - {fileID: 11400000, guid: 26cde2c683404c491be3a9225eb5aafc, type: 2}
   <OnTileStartMining>k__BackingField: []
   <OnTileFinishMining>k__BackingField: []
   tileStepInteractions: []
-  spawnOnDeconstruct: {fileID: 4547519999024183013, guid: ce2bf2f708dd3cbf1b06a7fd16f4eef6,
+  spawnOnDeconstruct: {fileID: 1332481008187699607, guid: 978cd708ed727e4feb1f4901fb902ad8,
     type: 3}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
@@ -79,6 +95,5 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []
-  sprite: {fileID: 21300002, guid: f5c1f24201bcd954d9350fec4a804d20, type: 3}
   CanBeHighlightedThroughScanners: 0
   HighlightObject: {fileID: 0}

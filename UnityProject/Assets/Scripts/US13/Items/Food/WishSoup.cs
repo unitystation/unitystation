@@ -1,10 +1,13 @@
-﻿using UnityEngine;
+using UnityEngine;
 using US13.Core.Lifecycle;
 using US13.Player;
 using US13.Systems.Inventory;
 
 namespace US13.Items.Food
 {
+	/// <summary>
+	/// Edible with a 25% chance to actually provide nutrients. Does NOT call base.Eat.
+	/// </summary>
 	public class WishSoup : Edible
 	{
 		protected override void Eat(PlayerScript eater, PlayerScript feeder, bool projectileFed = false)
@@ -33,13 +36,14 @@ namespace US13.Items.Food
 					//No stomachs?!
 					return;
 				}
-				FoodContents.Divide(stomachs.Count);
+				foodContents.Divide(stomachs.Count);
 				foreach (var stomach in stomachs)
 				{
-					stomach.StomachContents.Add(FoodContents.CurrentReagentMix.Clone());
+					stomach.StomachContents.Add(foodContents.CurrentReagentMix.Clone());
 				}
 			}
 
+			InvokeOnConsumed(eater.gameObject, feeder.gameObject);
 			var feederSlot = feeder.DynamicItemStorage.GetActiveHandSlot();
 			_ = Inventory.ServerDespawn(gameObject);
 
@@ -48,7 +52,7 @@ namespace US13.Items.Food
 				var leavingsInstance = Spawn.ServerPrefab(leavings).GameObject;
 				var pickupable = leavingsInstance.GetComponent<Pickupable>();
 				bool added = Inventory.ServerAdd(pickupable, feederSlot);
-				if (!added)
+				if (added == false)
 				{
 					//If stackable has leavings and they couldn't go in the same slot, they should be dropped
 					pickupable.UniversalObjectPhysics.AppearAtWorldPositionServer(feeder.WorldPos);

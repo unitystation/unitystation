@@ -208,7 +208,8 @@ PrefabInstance:
       propertyPath: forceFeedTime
       value: 8
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7110244738632999245, guid: 750a753b5c7e3ac4cbe1f07e69d256be, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -329,6 +330,7 @@ MonoBehaviour:
   RelatedPart: {fileID: 0}
   StomachContents: {fileID: 2742465342520069577}
   DigesterAmountPerSecond: 1
+  StomachIsConsideredFullWhenSpareCapacityIsLessThan: 15
   BodyFats: []
   BodyFatToInstantiate: {fileID: 1151132354838283526, guid: a93a0f454bce00f408fc109ffe92eefe,
     type: 3}
@@ -347,10 +349,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   ReactionSounds: 1
   maxCapacity: 100
   DEBUGReagent: {fileID: 0}
   DEBUGAmount: 0
+  StopReactions: 0
   reactionSet: {fileID: 0}
   AdditionalReactions: []
   initialReagentMix:
@@ -362,6 +368,12 @@ MonoBehaviour:
   destroyOnEmpty: 0
   ContentsSet: 0
   menuOptions: -1
+  currentReagentMix:
+    temperature: 0
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []
   spriteHandler: {fileID: 0}
   UseStandardExamine: 1
   ExamineAmount: 0
@@ -432,28 +444,34 @@ MonoBehaviour:
       Description: No door will block your way
       TriggerType: 0
       Type: 1
-      AnimatedIconCatalogue: []
       CooldownTime: 3
       CanUseWhileGhosting: 0
+      AnimatedIconCatalogue: []
+      TryToGrabSpritesFromRelatedObject: 0
+      HasCustomCursorOffset: 0
       HasCustomCursor: 1
       OffsetType: 1
       CursorOffset: {x: 0, y: 0}
       CursorTexture: {fileID: 11400000, guid: f3e23c8b0ccd0334ca8b9d4b92bdff65, type: 2}
       TrackingObject: {fileID: 0}
+      ObjectRelatedToThisAction: {fileID: 0}
     - ID: spider_ability_disappear
       DisplayName: Disappear
       Description: Go invisible for 60 seconds to hunt prey or avoid predators.
       TriggerType: 0
       Type: 0
-      AnimatedIconCatalogue:
-      - {fileID: 11400000, guid: aa2a3a3936fce084b83023b00e18394f, type: 2}
       CooldownTime: 120
       CanUseWhileGhosting: 0
+      AnimatedIconCatalogue:
+      - {fileID: 11400000, guid: aa2a3a3936fce084b83023b00e18394f, type: 2}
+      TryToGrabSpritesFromRelatedObject: 0
+      HasCustomCursorOffset: 0
       HasCustomCursor: 1
       OffsetType: 1
       CursorOffset: {x: 0, y: 0}
       CursorTexture: {fileID: 11400000, guid: f3e23c8b0ccd0334ca8b9d4b92bdff65, type: 2}
       TrackingObject: {fileID: 0}
+      ObjectRelatedToThisAction: {fileID: 0}
     m_values:
     - target: {fileID: 6035124000564632535}
       methodName: Crawl

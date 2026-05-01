@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -340,11 +341,11 @@ namespace US13.MapSaver
 						string[] partsX = x.Split('X', 'Y');
 						string[] partsY = y.Split('X', 'Y');
 
-						int x1 = int.Parse(partsX[1]);
-						int x2 = int.Parse(partsY[1]);
+						int x1 = int.Parse(partsX[1], CultureInfo.InvariantCulture);
+						int x2 = int.Parse(partsY[1], CultureInfo.InvariantCulture);
 
-						int y1 = int.Parse(partsX[2]);
-						int y2 = int.Parse(partsY[2]);
+						int y1 = int.Parse(partsX[2], CultureInfo.InvariantCulture);
+						int y2 = int.Parse(partsY[2], CultureInfo.InvariantCulture);
 
 						if (x1 != x2)
 						{
@@ -360,19 +361,19 @@ namespace US13.MapSaver
 						string[] partsX = x.Split('┼');
 						string[] partsY = y.Split('┼');
 
-						float x1 = float.Parse(partsX[0]);
-						float x2 = float.Parse(partsY[0]);
+						float x1 = float.Parse(partsX[0], CultureInfo.InvariantCulture);
+						float x2 = float.Parse(partsY[0], CultureInfo.InvariantCulture);
 
-						float y1 = float.Parse(partsX[1]);
-						float y2 = float.Parse(partsY[1]);
+						float y1 = float.Parse(partsX[1], CultureInfo.InvariantCulture);
+						float y2 = float.Parse(partsY[1], CultureInfo.InvariantCulture);
 
 						float? z1 = null;
 						float? z2 = null;
 						if (partsX.Length > 2 &&
 						    partsY.Length > 2) //TODO Handle z been cut off but not confusing with scale or size?
 						{
-							z1 = float.Parse(partsX[2]);
-							z2 = float.Parse(partsY[2]);
+							z1 = float.Parse(partsX[2], CultureInfo.InvariantCulture);
+							z2 = float.Parse(partsY[2], CultureInfo.InvariantCulture);
 						}
 
 						if (x1 != x2)
@@ -523,7 +524,7 @@ namespace US13.MapSaver
 				foreach (var prefabData in this.PrefabData)
 				{
 					prefabData.PrefabID =
-						CommonPrefabID.IndexOf(prefabData.PrefabID).ToString(); //TODO Rethink ToString To save ""
+						CommonPrefabID.IndexOf(prefabData.PrefabID).ToString(CultureInfo.InvariantCulture); //TODO Rethink ToString To save ""
 				}
 			}
 
@@ -531,7 +532,7 @@ namespace US13.MapSaver
 			{
 				foreach (var Prefab in PrefabData)
 				{
-					GitDItoID[Prefab.GitID] = IDStatic.ToString();
+					GitDItoID[Prefab.GitID] = IDStatic.ToString(CultureInfo.InvariantCulture);
 					Prefab.ID = IDStatic;
 					Prefab.GitID = null;
 					if (Prefab.NameMatches)
@@ -1080,20 +1081,21 @@ namespace US13.MapSaver
 		public static string StringToVector(string Data, out Vector3 Vector)
 		{
 			var position = Data.Split("┼");
-			Vector = new Vector3(float.Parse(position[0]), float.Parse(position[1]), float.Parse(position[2]));
+			Vector = new Vector3(float.Parse(position[0], CultureInfo.InvariantCulture), float.Parse(position[1], CultureInfo.InvariantCulture), float.Parse(position[2], CultureInfo.InvariantCulture));
 			return position[3];
 		}
 
 		public static string VectorToString(Vector3 Position, bool Round = true)
 		{
+			var inv = CultureInfo.InvariantCulture;
 			if (Round)
 			{
-				return Math.Round(Position.x, 2) + "┼" + Math.Round(Position.y, 2) + "┼" + Math.Round(Position.z, 2) +
+				return Math.Round(Position.x, 2).ToString(inv) + "┼" + Math.Round(Position.y, 2).ToString(inv) + "┼" + Math.Round(Position.z, 2).ToString(inv) +
 				       "┼";
 			}
 			else
 			{
-				return Math.Round(Position.x, 4) + "┼" + Math.Round(Position.y, 4) + "┼" + Math.Round(Position.z, 4) +
+				return Math.Round(Position.x, 4).ToString(inv) + "┼" + Math.Round(Position.y, 4).ToString(inv) + "┼" + Math.Round(Position.z, 4).ToString(inv) +
 				       "┼";
 			}
 		}
@@ -1102,12 +1104,12 @@ namespace US13.MapSaver
 		{
 			Position = Position[1..];
 			var position = Position.Split("Y");
-			return new Vector3Int(int.Parse(position[0]), int.Parse(position[1]));
+			return new Vector3Int(int.Parse(position[0], CultureInfo.InvariantCulture), int.Parse(position[1], CultureInfo.InvariantCulture));
 		}
 
 		public static string VectorIntToGitFriendlyPosition(Vector3Int pos)
 		{
-			return $"X{pos.x}Y{pos.y}";
+			return string.Format(CultureInfo.InvariantCulture, "X{0}Y{1}", pos.x, pos.y);
 		}
 
 
@@ -1123,25 +1125,25 @@ namespace US13.MapSaver
 
 			return new Matrix4x4()
 			{
-				m00 = float.Parse(Entries[0]),
-				m01 = float.Parse(Entries[1]),
-				m02 = float.Parse(Entries[2]),
-				m03 = float.Parse(Entries[3]),
+				m00 = float.Parse(Entries[0], CultureInfo.InvariantCulture),
+				m01 = float.Parse(Entries[1], CultureInfo.InvariantCulture),
+				m02 = float.Parse(Entries[2], CultureInfo.InvariantCulture),
+				m03 = float.Parse(Entries[3], CultureInfo.InvariantCulture),
 
-				m10 = float.Parse(Entries[4]),
-				m11 = float.Parse(Entries[5]),
-				m12 = float.Parse(Entries[6]),
-				m13 = float.Parse(Entries[7]),
+				m10 = float.Parse(Entries[4], CultureInfo.InvariantCulture),
+				m11 = float.Parse(Entries[5], CultureInfo.InvariantCulture),
+				m12 = float.Parse(Entries[6], CultureInfo.InvariantCulture),
+				m13 = float.Parse(Entries[7], CultureInfo.InvariantCulture),
 
-				m20 = float.Parse(Entries[8]),
-				m21 = float.Parse(Entries[9]),
-				m22 = float.Parse(Entries[10]),
-				m23 = float.Parse(Entries[11]),
+				m20 = float.Parse(Entries[8], CultureInfo.InvariantCulture),
+				m21 = float.Parse(Entries[9], CultureInfo.InvariantCulture),
+				m22 = float.Parse(Entries[10], CultureInfo.InvariantCulture),
+				m23 = float.Parse(Entries[11], CultureInfo.InvariantCulture),
 
-				m30 = float.Parse(Entries[12]),
-				m31 = float.Parse(Entries[13]),
-				m32 = float.Parse(Entries[14]),
-				m33 = float.Parse(Entries[15]),
+				m30 = float.Parse(Entries[12], CultureInfo.InvariantCulture),
+				m31 = float.Parse(Entries[13], CultureInfo.InvariantCulture),
+				m32 = float.Parse(Entries[14], CultureInfo.InvariantCulture),
+				m33 = float.Parse(Entries[15], CultureInfo.InvariantCulture),
 			};
 		}
 
@@ -1150,41 +1152,41 @@ namespace US13.MapSaver
 		{
 			SB.Clear();
 
-			SB.Append(matrix4X4.m00.ToString());
+			SB.Append(matrix4X4.m00.ToString("R", CultureInfo.InvariantCulture));
 			SB.Append(",");
-			SB.Append(matrix4X4.m01.ToString());
+			SB.Append(matrix4X4.m01.ToString("R", CultureInfo.InvariantCulture));
 			SB.Append(",");
-			SB.Append(matrix4X4.m02.ToString());
+			SB.Append(matrix4X4.m02.ToString("R", CultureInfo.InvariantCulture));
 			SB.Append(",");
-			SB.Append(matrix4X4.m03.ToString());
-			SB.Append(",");
-
-
-			SB.Append(matrix4X4.m10.ToString());
-			SB.Append(",");
-			SB.Append(matrix4X4.m11.ToString());
-			SB.Append(",");
-			SB.Append(matrix4X4.m12.ToString());
-			SB.Append(",");
-			SB.Append(matrix4X4.m13.ToString());
+			SB.Append(matrix4X4.m03.ToString("R", CultureInfo.InvariantCulture));
 			SB.Append(",");
 
-			SB.Append(matrix4X4.m20.ToString());
+
+			SB.Append(matrix4X4.m10.ToString("R", CultureInfo.InvariantCulture));
 			SB.Append(",");
-			SB.Append(matrix4X4.m21.ToString());
+			SB.Append(matrix4X4.m11.ToString("R", CultureInfo.InvariantCulture));
 			SB.Append(",");
-			SB.Append(matrix4X4.m22.ToString());
+			SB.Append(matrix4X4.m12.ToString("R", CultureInfo.InvariantCulture));
 			SB.Append(",");
-			SB.Append(matrix4X4.m23.ToString());
+			SB.Append(matrix4X4.m13.ToString("R", CultureInfo.InvariantCulture));
 			SB.Append(",");
 
-			SB.Append(matrix4X4.m30.ToString());
+			SB.Append(matrix4X4.m20.ToString("R", CultureInfo.InvariantCulture));
 			SB.Append(",");
-			SB.Append(matrix4X4.m31.ToString());
+			SB.Append(matrix4X4.m21.ToString("R", CultureInfo.InvariantCulture));
 			SB.Append(",");
-			SB.Append(matrix4X4.m32.ToString());
+			SB.Append(matrix4X4.m22.ToString("R", CultureInfo.InvariantCulture));
 			SB.Append(",");
-			SB.Append(matrix4X4.m33.ToString());
+			SB.Append(matrix4X4.m23.ToString("R", CultureInfo.InvariantCulture));
+			SB.Append(",");
+
+			SB.Append(matrix4X4.m30.ToString("R", CultureInfo.InvariantCulture));
+			SB.Append(",");
+			SB.Append(matrix4X4.m31.ToString("R", CultureInfo.InvariantCulture));
+			SB.Append(",");
+			SB.Append(matrix4X4.m32.ToString("R", CultureInfo.InvariantCulture));
+			SB.Append(",");
+			SB.Append(matrix4X4.m33.ToString("R", CultureInfo.InvariantCulture));
 
 			return SB.ToString();
 		}
@@ -1825,8 +1827,8 @@ namespace US13.MapSaver
 			if (Data.Contains("ø"))
 			{
 				var rotation = Data.Split("ø");
-				Object.transform.localRotation = Quaternion.Euler(new Vector3(float.Parse(rotation[0]),
-					float.Parse(rotation[1]), float.Parse(rotation[2])));
+				Object.transform.localRotation = Quaternion.Euler(new Vector3(float.Parse(rotation[0], CultureInfo.InvariantCulture),
+					float.Parse(rotation[1], CultureInfo.InvariantCulture), float.Parse(rotation[2], CultureInfo.InvariantCulture)));
 				if (rotation.Length > 3)
 				{
 					Data = rotation[3];
@@ -1841,7 +1843,7 @@ namespace US13.MapSaver
 			{
 				var Size = Data.Split("↔");
 				Object.transform.localScale =
-					new Vector3(float.Parse(Size[0]), float.Parse(Size[1]), float.Parse(Size[2]));
+					new Vector3(float.Parse(Size[0], CultureInfo.InvariantCulture), float.Parse(Size[1], CultureInfo.InvariantCulture), float.Parse(Size[2], CultureInfo.InvariantCulture));
 				if (Size.Length > 3)
 				{
 					Data = Size[3];
@@ -1868,9 +1870,10 @@ namespace US13.MapSaver
 			if (Object.transform.localRotation.eulerAngles != Vector3.zero)
 			{
 				var Angles = Object.transform.localRotation.eulerAngles;
-				var addString = Math.Round(Angles.x, 2) + "ø" +
-				                Math.Round(Angles.y, 2) + "ø" +
-				                Math.Round(Angles.z, 2) + "ø";
+				var inv = CultureInfo.InvariantCulture;
+				var addString = Math.Round(Angles.x, 2).ToString(inv) + "ø" +
+				                Math.Round(Angles.y, 2).ToString(inv) + "ø" +
+				                Math.Round(Angles.z, 2).ToString(inv) + "ø";
 
 				if (addString !=
 				    "0ø0ø0ø") //0.0001 Resulting in it adding 0ø0ø0ø But then next Save it removing it, This fixes that
@@ -1883,9 +1886,10 @@ namespace US13.MapSaver
 			if (Object.transform.localScale != Vector3.one)
 			{
 				var Angles = Object.transform.localScale;
-				var addString = Math.Round(Angles.x, 2) + "↔" +
-				                Math.Round(Angles.y, 2) + "↔" +
-				                Math.Round(Angles.z, 2) + "↔";
+				var inv = CultureInfo.InvariantCulture;
+				var addString = Math.Round(Angles.x, 2).ToString(inv) + "↔" +
+				                Math.Round(Angles.y, 2).ToString(inv) + "↔" +
+				                Math.Round(Angles.z, 2).ToString(inv) + "↔";
 
 				if (addString !=
 				    "1↔1↔1↔") //0.0001 Resulting in it adding 1↔1↔1↔ But then next Save it removing it, This fixes that

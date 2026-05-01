@@ -374,8 +374,9 @@ time without needed rework. If you are working on an existing map, you only need
     - If it is a Station where the crew will spawn in, add it into the __Main Station List SO__
     - If the scene is a scene which connects to the Station Gateway, add it into the __Away World List SO__
     - If the scene is an asteroid (contains ores to mine), add it into the __Asteroid List SO__
-    - If the scene is an antag spawn area or some other scene that doesn’t fit into the ones above, add it into the _
-      _Additional Scene List SO__
+    - If the scene is a generic centcom or antag spawn area, Add it to the __Additional Scene List SO__ under the relevant "Default" list
+    - If the scene is a centcom or antag spawn area for a specific map, Add it to the __Additional Scene List SO__ under the relevant Non-default list and fill the Dependant scene box with the path to the specific map this scene is dependant on
+    - If the scene otherwise does not fit any of the above and is intended to spawn in every map, Add it to the __Additional Scene List SO__ under the Additional Scenes list
 
 ### Checklist
 

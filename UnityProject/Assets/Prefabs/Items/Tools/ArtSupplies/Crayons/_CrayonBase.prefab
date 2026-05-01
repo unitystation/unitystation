@@ -13,6 +13,11 @@ PrefabInstance:
       propertyPath: spriteRenderer
       value: 
       objectReference: {fileID: 1487292090815827991}
+    - target: {fileID: 3184919532380354304, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: dormantReagentContainer
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3442741923849517114, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: parentID
@@ -119,7 +124,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: _CrayonBase
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3364592044955228064, guid: c9c58a9243d494537abcb4ee470efab0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

@@ -11,7 +11,7 @@ namespace US13.Systems.Antagonists.Objectives.TeamObjectives
 	{
 		private int MaxNumberOfVampires=> Mathf.CeilToInt(1 + (PlayerList.Instance.InGamePlayers.Count * (maxAmountOfVampiresPercent / 100.0f)));
 		[SerializeField] private string initialDescription = "";
-		[SerializeField, Range(0, 100)] private int maxAmountOfVampiresPercent = 20;
+		[SerializeField, Range(0, 100)] private int maxAmountOfVampiresPercent = 10;
 		protected override void SetupInGame()
 		{
 			foreach (var x in team.TeamMembers)

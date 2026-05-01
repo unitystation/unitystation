@@ -1,19 +1,7 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-using Logs;
 using Mirror;
-using NaughtyAttributes;
-using Newtonsoft.Json;
-using SecureStuff;
 using UnityEngine;
-using US13.Core.GameGizmos;
 using US13.Core.ObjectConnection;
-using US13.Managers.MatrixManager;
-using US13.MapSaver;
-using US13.Variable_Viewer;
 using Util;
 
 namespace US13.Systems.MaintRooms
@@ -26,17 +14,12 @@ namespace US13.Systems.MaintRooms
 		[SerializeField,Tooltip("The room chosen by this object will override the room choice at ONE of these generators")]
         private List<MaintRoomGenerator> possibleRoomsToOverride;
 
-
-		[SerializeField, Tooltip("The list of possible rooms to guarantee. Can be used to create variants of a room needed to spawn")]
-		private List<WeightedRoomEntry> possibleRoomsWeighted = new List<WeightedRoomEntry>();
-
-		private MaintRoomSO selectedRoom = null;
+		[SerializeField] private string roomListId;
 
 		public void SyncMaintGenerator(MaintGenerator oldGen, MaintGenerator newGen)
 		{
 			if (maintGenerator == newGen) return;
 			maintGenerator = newGen;
-
 
 			if (oldGen != null)
 			{
@@ -47,54 +30,12 @@ namespace US13.Systems.MaintRooms
 			maintGenerator.AddGuarantor(this);
 		}
 
-		#region Generation
-
 		public void SelectRoom()
 		{
-			if(PickWeightedRoom(out selectedRoom) == false) return;
-
+			if(BluePrintSpawner.PickWeightedRoom(roomListId, out int chosenEntry) == false) return;
 			MaintRoomGenerator roomLocation = possibleRoomsToOverride.PickRandom();
-			roomLocation.SelectRoom(selectedRoom);
+			roomLocation.ChooseRoom(chosenEntry, roomListId);
 		}
-
-		private bool PickWeightedRoom(out MaintRoomSO room)
-		{
-			room = null;
-
-			int totalWeight = 0;
-			int chosenWeight = 0;
-			int currentTotal = 0;
-
-			foreach (WeightedRoomEntry entry in possibleRoomsWeighted)
-			{
-				totalWeight += entry.weight;
-			}
-
-
-			chosenWeight = UnityEngine.Random.Range(0, totalWeight + 1);
-
-			for (int i = 0; i < possibleRoomsWeighted.Count; i++)
-			{
-				WeightedRoomEntry entry = possibleRoomsWeighted[i];
-				currentTotal += entry.weight;
-				if (chosenWeight > currentTotal) continue;
-				room = entry.roomToSpawn;
-				int startingIndex = i;
-				while (MaintRoomSO.TryRegisterRoomAsSpawned(room) == false)
-				{
-					i++;
-					if (i >= possibleRoomsWeighted.Count) i = 0;
-					if (i == startingIndex) return false;
-
-					room = possibleRoomsWeighted[i].roomToSpawn;
-				}
-
-				return true;
-			}
-			return false;
-		}
-
-		#endregion
 
 		#region Connection
 

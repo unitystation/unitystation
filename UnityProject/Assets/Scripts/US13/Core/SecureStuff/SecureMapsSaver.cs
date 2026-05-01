@@ -281,10 +281,9 @@ namespace SecureStuff
 			                  && KeyType.GetCustomAttributes(typeof(System.SerializableAttribute), true).Length > 0;
 
 			if (KeyIsClass == true) return; //is not Supported
-
-			if (KeyanyOfThem == false && KeyIsClass == false)
+			if (KeyanyOfThem == false)
 			{
-				if (KeyType.IsValueType == false)
+				if (KeyType != typeof(string) && KeyType.IsValueType == false)
 				{
 					return; //Non-serialisable class
 				}
@@ -335,7 +334,7 @@ namespace SecureStuff
 			if (ValType.IsGenericType) return; //No list within lists for now
 			if (ValanyOfThem == false && ValIsClass == false)
 			{
-				if (ValType.IsValueType == false)
+				if (ValType != typeof(string) && ValType.IsValueType == false)
 				{
 					return; //Non-serialisable class
 				}
@@ -649,13 +648,13 @@ namespace SecureStuff
 			                  && KeyType.IsValueType == false
 			                  && (KeyType == typeof(string)) == false
 			                  && KeyType.IsGenericType == false
-			                  && HasAttribute(Field, typeof(System.SerializableAttribute));
+			                  && KeyType.GetCustomAttributes(typeof(System.SerializableAttribute)).Any();
 
 			if (KeyIsClass == true) return; //is not Supported
 
 			if (KeyanyOfThem == false && KeyIsClass == false)
 			{
-				if (KeyType.IsValueType && KeyType.IsPrimitive == false && KeyType.IsEnum == false)
+				if (KeyType != typeof(string) && KeyType.IsValueType && KeyType.IsPrimitive == false && KeyType.IsEnum == false)
 				{
 					return; //Non-serialisable class
 				}
@@ -693,7 +692,7 @@ namespace SecureStuff
 			                  && ValType.IsValueType == false
 			                  && (ValType == typeof(string)) == false
 			                  && ValType.IsGenericType == false
-			                  && HasAttribute(Field, typeof(System.SerializableAttribute));
+			                  && ValType.GetCustomAttributes(typeof(System.SerializableAttribute)).Any();
 
 			if (typeof(System.Action).IsAssignableFrom(KeyType)
 			    || (typeof(UnityEngine.Events.UnityEventBase).IsAssignableFrom(KeyType))
@@ -741,7 +740,7 @@ namespace SecureStuff
 				if (ReturnKey(Key, KeyisScriptableObject, KeyIsComponent, KeyanyOfThem, KeyType,
 					    out var StringData))
 				{
-					if (ValIsClass && modified.GetValue(Key) == null)
+					if (ValIsClass && modified.GetValue(Key) != null)
 					{
 						RecursiveSearchData(OnGameObjectComponents, AllGameObjectOnObject, IPopulateIDRelation,
 							FieldDatas,
