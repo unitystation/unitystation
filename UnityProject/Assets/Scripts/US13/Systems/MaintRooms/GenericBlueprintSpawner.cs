@@ -1,4 +1,5 @@
 using UnityEngine;
+using US13.Managers.NetworkManagement;
 using US13.Objects.Traps;
 using US13.Systems.Clearance;
 using US13.Tilemaps.Behaviours.Meta;
@@ -20,11 +21,13 @@ namespace US13.Systems.MaintRooms
 
 		public override void Initialize()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
 			if(triggerOnSpawn) TriggerGeneration();
 		}
 
 		public void OnTrigger()
 		{
+			if (CustomNetworkManager.IsServer == false) return;
 			switch (TriggerType)
 			{
 				case TriggerType.Active:
