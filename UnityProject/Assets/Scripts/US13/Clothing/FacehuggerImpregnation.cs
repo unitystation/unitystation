@@ -44,6 +44,8 @@ namespace US13.Clothing
 
 		private CooldownInstance alienTryHuggerCooldown = new CooldownInstance(2f);
 
+		private const float critShaderStateOnWorn = -50.0f; //Mid crit
+
 		private Pickupable pickupable;
 
 		private void Awake()
@@ -178,7 +180,7 @@ namespace US13.Clothing
 			if (info.ClientInventoryMoveType == ClientInventoryMoveType.Added
 				&& playerScript.DynamicItemStorage.InventoryHasObjectInCategory(gameObject, NamedSlot.mask))
 			{
-				OverlayCrits.Instance.SetNewHealthValue(-50.0f);
+				OverlayCrits.Instance.SetNewHealthValue(critShaderStateOnWorn);
 			}
 			else if (info.ClientInventoryMoveType == ClientInventoryMoveType.Removed
 				&& playerScript.DynamicItemStorage.InventoryHasObjectInCategory(gameObject, NamedSlot.mask) == false)
