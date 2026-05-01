@@ -97,7 +97,6 @@ namespace US13.Objects
 
 			if (interaction.TargetObject.Equals(gameObject) && isRemovableBattery)
 			{
-				if (interaction.UsedObject == null) return true;
 				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver)) return true;
 				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponCell) && IsFull == false) return true;
 			}
@@ -107,7 +106,7 @@ namespace US13.Objects
 		public void ServerPerformInteraction(InventoryApply interaction)
 		{
 			if (isRemovableBattery && interaction.UsedObject != null && Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver) && HasBatteries) RemoveCellInteraction(interaction);
-			if (interaction.UsedObject == null || Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponCell) == false || IsFull) return;
+			if ( Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.WeaponCell) == false || IsFull) return;
 			if (interaction.UsedObject.TryGetComponent<Battery>(out Battery battery) == false) return;
 			AddNewBattery(battery, interaction.FromSlot);
 		}

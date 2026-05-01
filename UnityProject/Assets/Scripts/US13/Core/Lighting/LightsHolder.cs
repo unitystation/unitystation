@@ -5,6 +5,7 @@ using Logs;
 using Mirror;
 using UnityEngine;
 using US13.Core.Lifecycle;
+using US13.Core.Sprite_Handler;
 using US13.Core.Transform;
 using US13.Managers.NetworkManagement;
 using US13.Objects.Directionals;
@@ -114,7 +115,12 @@ namespace US13.Core.Lighting
 		{
 			foreach (var sprite in lightsParent.GetComponentsInChildren<LightSprite>())
 			{
-				if (sprite.GivenID == id) Despawn.ClientSingle(sprite.gameObject);
+				if (sprite.GivenID == id)
+				{
+					var Handler = sprite.gameObject.GetComponent<SpriteHandler>();
+					Handler?.UnregisterFromManager();
+					Despawn.ClientSingle(sprite.gameObject);
+				}
 			}
 		}
 
@@ -143,9 +149,10 @@ namespace US13.Core.Lighting
 			{
 				if (lightsParent.childCount <= i || lightsParent.GetChild(i) == null)
 				{
-					var newLight = Spawn.ClientPrefab(lightSpriteObject, parent: lightsParent);
+					lightSpriteObject.name = i + "Light spread2D";
+					var newLight = Instantiate(lightSpriteObject, parent: lightsParent);
 					// Add the LightSprite component to the new game object
-					LightSprite lightSprite = newLight.GameObject.GetComponent<LightSprite>();
+					LightSprite lightSprite = newLight.GetComponent<LightSprite>();
 					// Set the properties of the LightSprite component based on the corresponding data in the Lights list
 					SetLightData(Lights[i], lightSprite);
 					lightSprite.transform.localPosition = Vector3.zero;
@@ -169,6 +176,12 @@ namespace US13.Core.Lighting
 			if (data.lightSpriteObject != null)
 			{
 				lightSprite.Sprite = data.lightSpriteObject.GetComponent<ILightControl>()?.ObjectLightSprite.Sprite;
+				var Handler =  lightSprite?.GetComponent<LightSpriteHandler>();
+				var SourceHandler = data.lightSpriteObject.GetComponent<ILightControl>()?.ObjectLightSprite?.GetComponent<LightSpriteHandler>();
+				if (Handler != null && SourceHandler != null)
+				{
+					Handler.SetSpriteSO(SourceHandler.GetCurrentSpriteSO());
+				}
 			}
 			lightSprite.transform.localScale = new Vector3(data.size, data.size, data.size);
 			if (data.Id != 0)
@@ -186,6 +199,8 @@ namespace US13.Core.Lighting
 		{
 			foreach (var sprite in lightsParent.GetComponentsInChildren<LightSprite>())
 			{
+				var Handler = sprite.gameObject.GetComponent<SpriteHandler>();
+				Handler?.UnregisterFromManager();
 				Despawn.ClientSingle(sprite.gameObject);
 			}
 		}

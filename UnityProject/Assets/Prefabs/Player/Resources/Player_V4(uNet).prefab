@@ -612,6 +612,7 @@ MonoBehaviour:
   syncInterval: 0.1
   playerTypeSettings: {fileID: 11400000, guid: f1ddb9807767eb342a542c93328653f0, type: 2}
   inventorySpeechModifiers: 0
+  LayDown: {fileID: 0}
   PlayerScriptVisible: {fileID: 8218340658487575790}
   PlayerSync: {fileID: 0}
   <PlayerFaith>k__BackingField: {fileID: 6182295504772674896}
@@ -15216,7 +15217,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1762630675659964, guid: e2b1333de46384f95876864de1911fff, type: 3}
       propertyPath: m_Name
-      value: Light2D
+      value: Light2DSmall
       objectReference: {fileID: 0}
     - target: {fileID: 1762630675659964, guid: e2b1333de46384f95876864de1911fff, type: 3}
       propertyPath: m_IsActive
@@ -15288,6 +15289,11 @@ PrefabInstance:
       value: 0.003921569
       objectReference: {fileID: 0}
     - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: InitialColour.a
+      value: 0.003921569
+      objectReference: {fileID: 0}
+    - target: {fileID: 4436086651214663511, guid: e2b1333de46384f95876864de1911fff,
         type: 3}
       propertyPath: InitialColour.a
       value: 0.003921569

@@ -394,7 +394,7 @@ namespace US13.Core.Sprite_Handler
 			if (setColour == value) return;
 			setColour = value;
 
-			SetImageColor(value);
+			SetImageColour(value);
 			if (networked)
 			{
 				NetUpdate(newSetColor: value);
@@ -753,6 +753,14 @@ namespace US13.Core.Sprite_Handler
 			SpriteHandlerManager.Instance.QueueChanges[this] = spriteChange;
 		}
 
+		public void UnregisterFromManager(bool AndNoNetwork = false)
+		{
+			if (NetworkThis)
+			{
+				SpriteHandlerManager.UnRegisterHandler(networkIdentity, this);
+			}
+		}
+
 		protected virtual void Init()
 		{
 			if (initialised) return;
@@ -865,7 +873,7 @@ namespace US13.Core.Sprite_Handler
 			}
 		}
 
-		protected virtual void SetImageColor(Color value)
+		protected virtual void SetImageColour(Color value)
 		{
 			if (HasSpriteRenderer)
 			{
@@ -942,10 +950,21 @@ namespace US13.Core.Sprite_Handler
 					spriteRenderer = GetComponent<SpriteRenderer>();
 				}
 
+				if (spriteRenderer != null)
+				{
+					HasSpriteRenderer = true;
+				}
+
 				if (image == null)
 				{
 					image = GetComponent<Image>();
 				}
+
+				if (image != null)
+				{
+					Hasimage = true;
+				}
+
 			}
 #endif
 
@@ -1271,10 +1290,11 @@ namespace US13.Core.Sprite_Handler
 			// ValidateLate might be called after this object is already destroyed.
 			if (this == null || Application.isPlaying) return;
 			if (Selection.activeGameObject == null) return;
-			if (Selection.activeGameObject.name != this.gameObject.transform.parent.gameObject.name &&
+			if (Selection.activeGameObject.name != this.gameObject?.transform?.parent?.gameObject?.name &&
 			    Selection.activeGameObject != this.gameObject) return;
 
 			PresentSpriteSet = InitialPresentSpriteSet;
+			variantIndex = initialVariantIndex;
 			PushTexture();
 		}
 
