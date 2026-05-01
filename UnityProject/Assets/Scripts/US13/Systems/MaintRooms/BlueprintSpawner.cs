@@ -148,22 +148,22 @@ namespace US13.Systems.MaintRooms
 		/// <param name="roomListId">The string key for the registered blueprint option list</param>
 		/// <param name="isEditor">Is this being run outside playmode?</param>
 		/// <returns>The index of the chosen room to spawn or -1 on a failure</returns>
-		public static int SpawnRandomRoom(Matrix parentMatrix, Vector3Int positionToSpawn, string roomListId,
+		public static bool SpawnRandomRoom(Matrix parentMatrix, Vector3Int positionToSpawn, string roomListId,
 			bool isEditor = false, int preChosenId = -1)
 		{
 			if (parentMatrix == false && isEditor == false)
 			{
 				Loggy.Error($"No parent matrix selected for blueprint: {roomListId}");
-				return -1;
+				return false;
 			}
 
 			if (roomListRegistry.TryGetValue(roomListId, out var roomList) == false)
 			{
 				Loggy.Warning($"Could not find registry entry: {roomListId}");
-				return -1;
+				return false;
 			}
 
-			if (roomList._list.Count == 0) return -1;
+			if (roomList._list.Count == 0) return false;
 
 			int chosenEntry = preChosenId;
 			if (preChosenId == -1)
@@ -171,7 +171,7 @@ namespace US13.Systems.MaintRooms
 				if (PickWeightedRoom(roomList, out chosenEntry) == false)
 				{
 					Loggy.Warning($"No appropriate room to spawn in list: {roomListId}");
-					return -1;
+					return false;
 				}
 			}
 
@@ -179,7 +179,7 @@ namespace US13.Systems.MaintRooms
 			string filePath = roomDirectory;
 			MapSaver.MapSaver.CodeClass.ThisCodeClass.Reset();
 
-			if (string.IsNullOrEmpty(filePath)) return -1;
+			if (string.IsNullOrEmpty(filePath)) return false;
 
 			//Ensure is correct format for OS (Will replace forward slashes '/' with backslashes '\' for Windows systems.
 			if(Path.AltDirectorySeparatorChar != Path.DirectorySeparatorChar) filePath.Replace(Path.AltDirectorySeparatorChar, Path.DirectorySeparatorChar);
@@ -188,6 +188,9 @@ namespace US13.Systems.MaintRooms
 			string data = AccessFile.Load(filePath, FolderType.Rooms);
 
 			var mapData = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(data);
+
+			if (mapData?.ContainedMatrices == null || mapData.ContainedMatrices.Count == 0) return false;
+
 			var matrixData = mapData.ContainedMatrices.Count != 0
 				? mapData.ContainedMatrices[0]
 				: JsonConvert.DeserializeObject<MapSaver.MapSaver.MatrixData>(data);
@@ -198,7 +201,7 @@ namespace US13.Systems.MaintRooms
 			{
 				Loggy.Error(
 					$"Invalid MapData at filePath: {Path.Combine(Application.streamingAssetsPath, FolderType.Rooms.ToString(), filePath + ".json")}");
-				return -1;
+				return false;
 			}
 
 			if (isEditor == false)
@@ -208,7 +211,7 @@ namespace US13.Systems.MaintRooms
 					matrixData, null, MatrixName: parentMatrix.name);
 			}
 			else SpawnBlueprintEditor(matrixData, positionToSpawn);
-			return chosenEntry;
+			return true;
 		}
 
 		private static void SpawnBlueprintEditor(MapSaver.MapSaver.MatrixData dataToSpawn, Vector3Int positionToSpawn)

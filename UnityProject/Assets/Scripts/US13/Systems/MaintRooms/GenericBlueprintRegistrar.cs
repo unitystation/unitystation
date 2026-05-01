@@ -1,27 +1,35 @@
 using System.Collections.Generic;
+using SecureStuff;
 using UnityEngine;
+using US13.Core.Lifecycle;
 
 namespace US13.Systems.MaintRooms
 {
 	[System.Serializable]
 	public class ListBlueprints
 	{
-		public string roomListId = null;
 		public List<WeightedBlueprintEntry> possibleRooms = new();
 	}
 
-	public class GenericBlueprintRegistrar : MonoBehaviour
+	public class GenericBlueprintRegistrar : MonoBehaviour, INewMappedOnSpawn
 	{
-		[SerializeField] private ListBlueprints listBlueprints = new();
+		[SerializeField]
+		private SerializableDictionary<string, ListBlueprints> listBlueprints = new();
 
-		public void Awake()
+		public void OnNewMappedOnSpawn()
 		{
-			BluePrintSpawner.RegisterNewBlueprintList(listBlueprints.roomListId, listBlueprints.possibleRooms);
+			foreach (var blueprint in listBlueprints)
+			{
+				BluePrintSpawner.RegisterNewBlueprintList(blueprint.Key, blueprint.Value.possibleRooms);
+			}
 		}
 
 		public void OnDestroy()
 		{
-			BluePrintSpawner.UnregisterBlueprintList(listBlueprints.roomListId);
+			foreach (var blueprint in listBlueprints)
+			{
+				BluePrintSpawner.UnregisterBlueprintList(blueprint.Key);
+			}
 		}
 	}
 }
