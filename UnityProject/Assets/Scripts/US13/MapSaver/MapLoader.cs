@@ -588,7 +588,7 @@ namespace US13.MapSaver
 			bool LoadObjects = true, string MatrixName = null, bool LoadingMultiple = false,
 			SceneType sceneType = SceneType.HiddenScene, bool TestLoad = false)
 		{
-#if UNITY_EDITOR
+			#if UNITY_EDITOR
 			if (Application.isPlaying == false)
 			{
 				if (TestLoad)
@@ -606,7 +606,7 @@ namespace US13.MapSaver
 					}
 				}
 			}
-#endif
+			#endif
 
 			Matrix aaMatrix = null;
 			try
@@ -614,12 +614,12 @@ namespace US13.MapSaver
 				if (Matrix == null)
 				{
 					aaMatrix = MatrixManager.MakeNewMatrix(MatrixName, sceneType);
-#if UNITY_EDITOR
+					#if UNITY_EDITOR
 					if (Application.isPlaying == false)
 					{
 						aaMatrix.Awake();
 					}
-#endif
+					#endif
 
 					if (Application.isPlaying == false)
 					{
@@ -658,7 +658,6 @@ namespace US13.MapSaver
 
 
 				//TODO MapSaver.CodeClass.ThisCodeClass?? Clearing?
-				MapSaver.CompactObjectMapData data = null;
 				if (MatrixData.CompactTileMapData != null)
 				{
 					ProcessorCompactTileMapData(aaMatrix, Offset00.RoundToInt(), Offset.RoundToInt(),

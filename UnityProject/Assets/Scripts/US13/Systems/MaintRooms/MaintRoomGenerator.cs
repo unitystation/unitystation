@@ -1,18 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 using Logs;
 using Mirror;
-using NaughtyAttributes;
-using Newtonsoft.Json;
-using SecureStuff;
 using UnityEngine;
 using US13.Core.GameGizmos;
 using US13.Core.ObjectConnection;
-using US13.Managers.MatrixManager;
-using US13.MapSaver;
 using US13.Variable_Viewer;
 using Util;
 
@@ -36,10 +29,10 @@ namespace US13.Systems.MaintRooms
 		[SerializeField, Range(1, MaintGenerator.MAX_DIMENSIONS)] private int roomHeight = 5;
 
 		private const int WALL_GAP = 2;
-		[SerializeField] private List<WeightedRoomEntry> possibleRoomsWeighted = new List<WeightedRoomEntry>();
 
-		private MaintRoomSO selectedRoom = null;
-		private bool hasChosenValidRoom = false;
+		public int SelectedRoom { get; private set; } = -1;
+
+		[field: SerializeField] public string RoomListId { get; private set; } = "Maintrooms7x7";
 
 		public void SyncMaintGenerator(MaintGenerator oldGen, MaintGenerator newGen)
 		{
@@ -62,7 +55,7 @@ namespace US13.Systems.MaintRooms
 
 		#region Generation
 
-		public Task ClearSpaceInMaze(Vector3 generatorOffset, int mazeWidth, in short[] maze)
+		public Task ClearSpaceInMaze(Vector3 generatorOffset, int mazeWidth, int mazeHeight, in short[] maze)
 		{
 			if (roomWidth < 0 || roomWidth > MaintGenerator.MAX_DIMENSIONS)
 			{
@@ -83,90 +76,41 @@ namespace US13.Systems.MaintRooms
 					"Maintroom generator has even dimensions, this might result in undesired generation!");
 			}
 
-			for (int y = 0; y < roomHeight; y++)
+			for (int y = Math.Max(pos.y,0); y < Math.Min(pos.y + roomHeight, mazeHeight); y++)
 			{
-				int startIndex = pos.x + ((pos.y + y) * mazeWidth);
+				int startIndex = Math.Clamp(pos.x, 0, mazeWidth - 1) + (y * mazeWidth);
 				Array.Fill(maze, (short)MazeState.ExcludedCell, startIndex, roomWidth);
 			}
 
 			return Task.CompletedTask;
 		}
 
-		public void SelectRoom()
-		{
-			hasChosenValidRoom = PickWeightedRoom(out selectedRoom);
-		}
-
-		public void SelectRoom(MaintRoomSO forceRoom)
-		{
-			selectedRoom = forceRoom;
-			hasChosenValidRoom = true;
-		}
-
-		private bool PickWeightedRoom(out MaintRoomSO room)
-		{
-			room = null;
-
-			int totalWeight = 0;
-			int chosenWeight = 0;
-			int currentTotal = 0;
-
-			foreach (WeightedRoomEntry entry in possibleRoomsWeighted)
-			{
-				totalWeight += entry.weight;
-			}
-
-
-			chosenWeight = UnityEngine.Random.Range(0, totalWeight + 1);
-
-			for (int i = 0; i < possibleRoomsWeighted.Count; i++)
-			{
-				WeightedRoomEntry entry = possibleRoomsWeighted[i];
-				currentTotal += entry.weight;
-				if (chosenWeight > currentTotal) continue;
-				room = entry.roomToSpawn;
-				int startingIndex = i;
-				while (MaintRoomSO.TryRegisterRoomAsSpawned(room) == false)
-				{
-					i++;
-					if (i >= possibleRoomsWeighted.Count) i = 0;
-					if (i == startingIndex) return false;
-
-					room = possibleRoomsWeighted[i].roomToSpawn;
-				}
-
-				return true;
-			}
-
-			return false;
-		}
-
-		public void CarveRoomDoors(Vector3 generatorOffset, int mazeWidth, ref short[] maze)
+		public void CarveRoomDoors(Vector3 generatorOffset, MaintGenerator.Directions doorDirections, int mazeWidth, ref short[] maze)
 		{
 			var pos = (transform.localPosition - generatorOffset).RoundTo2Int();
 
 			int halfX = (roomWidth - 1) / 2;
 			int halfY = (roomHeight - 1) / 2;
 
-			if (selectedRoom.DoorDirections.HasFlag(DirectionFlag.Up))
+			if (doorDirections.HasFlag(MaintGenerator.Directions.North))
 			{
 				Vector2 doorPosition = new Vector2Int(pos.x + halfX, pos.y + roomHeight);
 				int index = (int)(doorPosition.x + (doorPosition.y * mazeWidth));
 				if (index > 0 && index < maze.Length) maze[index] = (short)MazeState.EmptyCell;
 			}
-			if (selectedRoom.DoorDirections.HasFlag(DirectionFlag.Down))
+			if (doorDirections.HasFlag(MaintGenerator.Directions.South))
 			{
 				Vector2 doorPosition = new Vector2Int(pos.x + halfX, pos.y - 1);
 				int index = (int)(doorPosition.x + (doorPosition.y * mazeWidth));
 				if (index > 0 && index < maze.Length) maze[index] = (short)MazeState.EmptyCell;
 			}
-			if (selectedRoom.DoorDirections.HasFlag(DirectionFlag.Left))
+			if (doorDirections.HasFlag(MaintGenerator.Directions.West))
 			{
 				Vector2 doorPosition = new Vector2Int(pos.x - 1, pos.y + halfY);
 				int index = (int)(doorPosition.x + (doorPosition.y * mazeWidth));
 				if (index > 0 && index < maze.Length) maze[index] = (short)MazeState.EmptyCell;
 			}
-			if (selectedRoom.DoorDirections.HasFlag(DirectionFlag.Right))
+			if (doorDirections.HasFlag(MaintGenerator.Directions.East))
 			{
 				Vector2 doorPosition = new Vector2Int(pos.x + roomWidth, pos.y + halfY);
 				int index = (int)(doorPosition.x + (doorPosition.y * mazeWidth));
@@ -174,74 +118,17 @@ namespace US13.Systems.MaintRooms
 			}
 		}
 
-		[Button("Test Room Spawn")]
-		private void TestRoomSpawn()
+		public void ChooseRoom(int roomToChoose = -1, string newListId = null)
 		{
-			if(PickWeightedRoom(out selectedRoom)) SpawnRandomRoom(true);
+			if (roomToChoose == -1) BluePrintSpawner.PickWeightedRoom(RoomListId, out roomToChoose);
+			else RoomListId = newListId;
+
+			SelectedRoom = roomToChoose;
 		}
 
-		public void SpawnRandomRoom(bool isEditor = false)
+		public void TriggerGeneration(bool isEditor = false)
 		{
-			if (possibleRoomsWeighted.Count == 0) return;
-			if (hasChosenValidRoom == false) return;
-
-			string filePath = Path.Combine("MaintRoomBluePrints", selectedRoom.roomFileName);
-			MapSaver.MapSaver.CodeClass.ThisCodeClass.Reset();
-
-			Loggy.Info("Accessing Room: " + filePath);
-			if (string.IsNullOrEmpty(filePath)) return;
-
-			var positionOffset = (transform.position - new Vector3(1,1,0));
-
-			string data = AccessFile.Load(filePath, FolderType.Rooms);
-
-			var mapData = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(data);
-			var matrixData = mapData.ContainedMatrices.Count != 0 ? mapData.ContainedMatrices[0] : JsonConvert.DeserializeObject<MapSaver.MapSaver.MatrixData>(data);
-
-			if (maintGenerator == false)
-			{
-				Loggy.Error($"No maint generator parent for {gameObject.ExpensiveName()}");
-				return;
-			}
-
-			MatrixInfo matrixInfo = null;
-			if(isEditor == false) matrixInfo = maintGenerator?.MatrixInfo;
-
-
-			if (matrixData == null || mapData.ContainedMatrices.Count == 0)
-			{
-				Loggy.Error($"Invalid MapData at filePath: {Path.Combine(Application.streamingAssetsPath,FolderType.Rooms.ToString(), filePath + ".json")}");
-				return;
-			}
-
-			if(isEditor == false)
-			{
-				Loggy.Info("Loading Room..." + filePath);
-				MapLoader.ServerLoadSectionNoCoRoutine(matrixInfo, Vector3.zero, transform.localPosition,
-				matrixData, null, MatrixName: "Backrooms");
-			}
-			else
-			{
-				var Imnum = MapLoader.ServerLoadSection(null, Vector3.zero, positionOffset,
-					matrixData, null, MatrixName: "Backrooms");
-				List<IEnumerator> previousLevels = new List<IEnumerator>();
-				bool loop = true;
-				while (loop && previousLevels.Count == 0)
-				{
-					if (Imnum.Current is IEnumerator)
-					{
-						previousLevels.Add(Imnum);
-						Imnum = (IEnumerator)Imnum.Current;
-					}
-					loop = Imnum.MoveNext();
-					if (!loop && previousLevels.Count > 0)
-					{
-						Imnum = previousLevels[^1];
-						previousLevels.RemoveAt(previousLevels.Count - 1);
-						loop = Imnum.MoveNext();
-					}
-				}
-			}
+			BluePrintSpawner.SpawnRandomRoom(isEditor ? null : maintGenerator.MatrixInfo.Matrix, isEditor ? transform.position.CutToInt() - new Vector3Int(1, 1, 0) : transform.localPosition.CutToInt(), RoomListId, isEditor, SelectedRoom);
 		}
 
 		#endregion
