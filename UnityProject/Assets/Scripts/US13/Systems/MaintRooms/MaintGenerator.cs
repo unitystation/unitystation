@@ -17,6 +17,21 @@ using Util;
 
 namespace US13.Systems.MaintRooms
 {
+	[System.Serializable]
+	public class ListMaintBlueprints
+	{
+		[SerializeField] public List<WeightedMaintBlueprintEntry> possibleRooms = new();
+	}
+
+	[Flags]
+	public enum Directions
+	{
+		North = 1,
+		East = 2,
+		South = 4,
+		West = 8,
+	}
+
 	public class MaintGenerator : ItemMatrixSystemInit, IMultitoolMasterable, ISelectionGizmo
 	{
 		public MultitoolConnectionType ConType => MultitoolConnectionType.MaintGeneratorExclusionZone;
@@ -26,23 +41,17 @@ namespace US13.Systems.MaintRooms
 		[SerializeField] private List<MaintRoomGenerator> roomGenerators = new List<MaintRoomGenerator>();
 		[SerializeField] private List<MaintRoomGuarantor> roomGuarantors = new List<MaintRoomGuarantor>();
 
+		public SerializableDictionary<string, ListMaintBlueprints> RoomListsToRegister = new();
+
 		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = true;
 
-		private enum Direction
+		private readonly Dictionary<Directions, Vector2Int> DirectionVector = new Dictionary<Directions, Vector2Int>
 		{
-			North = 1,
-			East = 2,
-			South = 3,
-			West = 4,
-		}
-
-		private readonly Dictionary<Direction, Vector2Int> DirectionVector = new Dictionary<Direction, Vector2Int>
-		{
-			{Direction.North, new Vector2Int(0, 1)},
-			{Direction.South, new Vector2Int(0, -1)},
-			{Direction.East, new Vector2Int(1, 0)},
-			{Direction.West, new Vector2Int(-1, 0)}
+			{Directions.North, new Vector2Int(0, 1)},
+			{Directions.South, new Vector2Int(0, -1)},
+			{Directions.East, new Vector2Int(1, 0)},
+			{Directions.West, new Vector2Int(-1, 0)}
 		};
 
 		public const int MAX_DIMENSIONS = 256;
@@ -117,6 +126,11 @@ namespace US13.Systems.MaintRooms
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 
+			foreach (var list in RoomListsToRegister)
+			{
+				BluePrintSpawner.RegisterNewBlueprintList(list.Key, list.Value.possibleRooms);
+			}
+
 			mazeArray = new short[width * height];
 			possibleCells = new List<Vector2Int>();
 
@@ -124,7 +138,7 @@ namespace US13.Systems.MaintRooms
 
 			foreach (var room in roomGenerators)
 			{
-				room.SelectRoom();
+				room.ChooseRoom();
 			}
 
 			foreach (var guarantor in roomGuarantors)
@@ -136,7 +150,7 @@ namespace US13.Systems.MaintRooms
 
 			foreach (var room in roomGenerators)
 			{
-				await room.ClearSpaceInMaze(this.gameObject.transform.localPosition, width, in mazeArray);
+				await room.ClearSpaceInMaze(this.gameObject.transform.localPosition, width, height, in mazeArray);
 			}
 
 			if (width % 2 == 0 || height % 2 == 0)
@@ -148,7 +162,8 @@ namespace US13.Systems.MaintRooms
 
 			foreach (var room in roomGenerators)
 			{
-				room.CarveRoomDoors(this.gameObject.transform.localPosition, width, ref mazeArray);
+				var list = RoomListsToRegister[room.RoomListId];
+				room.CarveRoomDoors(this.gameObject.transform.localPosition, list.possibleRooms[room.SelectedRoom].doorDirections, width, ref mazeArray);
 			}
 		}
 
@@ -156,6 +171,12 @@ namespace US13.Systems.MaintRooms
 		{
 			mazeArray = null;
 			possibleCells.Clear();
+
+			foreach (var list in RoomListsToRegister)
+			{
+				BluePrintSpawner.UnregisterBlueprintList(list.Key);
+			}
+
 		}
 
 		private void OnDrawGizmos()
@@ -170,8 +191,23 @@ namespace US13.Systems.MaintRooms
 		{
 			foreach (var room in roomGenerators)
 			{
-				room.SpawnRandomRoom();
+				room.TriggerGeneration(false);
 			}
+		}
+
+		[Button("Generate Rooms - Edit Mode")]
+		public void LoadRoomsEditor()
+		{
+			BluePrintSpawner.ClearBlueprintRegistry();
+			foreach (var list in RoomListsToRegister)
+			{
+				BluePrintSpawner.RegisterNewBlueprintList(list.Key, list.Value.possibleRooms);
+			}
+			foreach (var room in roomGenerators)
+			{
+				room.TriggerGeneration(true);
+			}
+			BluePrintSpawner.ClearBlueprintRegistry();
 		}
 
 		#region Tiles
@@ -191,17 +227,17 @@ namespace US13.Systems.MaintRooms
 				foundPath = false;
 				currentCell = possibleCells[possibleCells.Count - 1];
 
-				var directions = new List<Direction>
+				var directions = new List<Directions>
 				{
-					Direction.North,
-					Direction.South,
-					Direction.East,
-					Direction.West
+					Directions.North,
+					Directions.South,
+					Directions.East,
+					Directions.West
 				}.OrderBy(z => Guid.NewGuid());
 
 				mazeArray[currentCell.x + currentCell.y*width] = (short)MazeState.EmptyCell;
 
-				foreach (Direction direction in directions)
+				foreach (Directions direction in directions)
 				{
 					newCell = new Vector2Int(currentCell.x, currentCell.y) + (DirectionVector[direction] * WALL_GAP);
 
@@ -350,16 +386,16 @@ namespace US13.Systems.MaintRooms
 
 		private bool CheckOpposites(int x, int y)
 		{
-			Vector2Int newCellA = new Vector2Int(x, y) + DirectionVector[Direction.East];
-			Vector2Int newCellB = new Vector2Int(x, y) + DirectionVector[Direction.West];
+			Vector2Int newCellA = new Vector2Int(x, y) + DirectionVector[Directions.East];
+			Vector2Int newCellB = new Vector2Int(x, y) + DirectionVector[Directions.West];
 
 			if (IsOutOfBounds(newCellB.x, newCellB.y) == false
 				&& IsOutOfBounds(newCellA.x, newCellA.y) == false
 				&& mazeArray[newCellA.x + newCellA.y*width] == (short)MazeState.FullCell
 				&& mazeArray[newCellB.x + newCellB.y*width] == (short)MazeState.FullCell) return true;
 
-			newCellA = new Vector2Int(x, y) + DirectionVector[Direction.North];
-			newCellB = new Vector2Int(x, y) + DirectionVector[Direction.South];
+			newCellA = new Vector2Int(x, y) + DirectionVector[Directions.North];
+			newCellB = new Vector2Int(x, y) + DirectionVector[Directions.South];
 
 			if (IsOutOfBounds(newCellB.x, newCellB.y) == false
 				&& IsOutOfBounds(newCellA.x, newCellA.y) == false
@@ -372,7 +408,7 @@ namespace US13.Systems.MaintRooms
 		private int CountNeighbours(int x, int y)
 		{
 			int count = 0;
-			foreach (KeyValuePair<Direction, Vector2Int> direction in DirectionVector)
+			foreach (KeyValuePair<Directions, Vector2Int> direction in DirectionVector)
 			{
 				Vector2Int newCell = new Vector2Int(x, y) + direction.Value;
 
