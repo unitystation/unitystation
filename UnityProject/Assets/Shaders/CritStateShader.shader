@@ -44,7 +44,7 @@
 					float darkeningIntensity = smoothstep(darkeningStart, darkeningEnd, _CurrentHealth);
 					float vignetteIntensity = smoothstep(vignetteStart, vignetteEnd, _CurrentHealth);
 					
-					float lensRadius = lerp(1.2f, 0.4f, min(vignetteIntensity, 0.7f));
+					float lensRadius = lerp(1.3f, 0.4f, min(vignetteIntensity, 0.7f));
 					float softness = (1 - step(vignetteStart, _CurrentHealth)) * 0.4f;
 
 					//Vignette

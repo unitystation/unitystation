@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using US13.HealthV2;
 using US13.Managers;
 using US13.Managers.UpdateManager;
 using US13.Player;
@@ -37,8 +39,14 @@ namespace US13.UI.Systems.Alerts
 		private float criticalBlinkingTime = 0.5f;
 
 		private float temporaryDamageValue = 0;
-		private const float temporaryDamageDecay = 2000;
-		private const float temporaryDamageMultiplier = 50f;
+		private const float temporaryDamageDecay = 10f;
+		private const float temporaryDamageMultiplier = 1.5f;
+
+		private DateTime lastHitTime = DateTime.UtcNow;
+		private const float temporaryDamageHangTimeSeconds = 1.5f;
+
+		private float cachedPriorPercent = 0.0f;
+		private bool attached = false;
 
 
 		private void OnEnable()
@@ -106,13 +114,29 @@ namespace US13.UI.Systems.Alerts
 
 		private void CheckHealth()
 		{
-			float maxHealth = PlayerManager.LocalPlayerScript.playerHealth.MaxHealth;
-			float damageDelta = Math.Max(0, PlayerManager.LocalPlayerScript.playerHealth.OverallHealth - PlayerManager.LocalPlayerScript.playerHealth.OverallHealth);
 			float healthPercentage = PlayerManager.LocalPlayerScript.playerHealth.HealthPercentage();
+			if (cachedPriorPercent.Approx(healthPercentage) && temporaryDamageValue <= 0.1f) return;
+			float damageTaken = cachedPriorPercent - healthPercentage;
+			cachedPriorPercent = healthPercentage;
+
+			if (damageTaken > 1.0f)
+			{
+				temporaryDamageValue += damageTaken * temporaryDamageMultiplier;
+				temporaryDamageValue = Mathf.Min(85.0f, temporaryDamageValue);
+				lastHitTime = DateTime.UtcNow;
+			}
+
+			if (DateTime.UtcNow - lastHitTime > TimeSpan.FromSeconds(temporaryDamageHangTimeSeconds))
+			{
+				temporaryDamageValue -= Time.deltaTime * temporaryDamageDecay;
+				temporaryDamageValue = Mathf.Max(0.0f, temporaryDamageValue);
+			}
+
+			OverlayCrits.Instance.SetNewHealthValue(healthPercentage - temporaryDamageValue);
 
 			switch (healthPercentage)
 			{
-				case >=100.0f:
+				case >= 100.0f:
 					CurrentSpriteSet = 0;
 					break;
 				case >= 66.67f:
@@ -132,23 +156,8 @@ namespace US13.UI.Systems.Alerts
 					break;
 			}
 
-			//Causes a brief flash upon taking damage
-			temporaryDamageValue += damageDelta * temporaryDamageMultiplier;
-			temporaryDamageValue = Math.Min(85, temporaryDamageValue);
-			if (temporaryDamageValue > 0) //Is damage taken not healing
-			{
-				temporaryDamageValue -= (temporaryDamageDecay * Time.deltaTime); //Reduce temp damage by decay
-				temporaryDamageValue = Math.Max(0, temporaryDamageValue);
-
-				healthPercentage -= (100 * temporaryDamageValue) / maxHealth; //Apply this false health loss to percentage for crit overlay
-			}
-
-			OverlayCrits.Instance.SetNewHealthValue(healthPercentage);
-
 			// crit state has 2 sprite sets (blinking)
-			if (CurrentSpriteSet != 4 && CurrentSpriteSet != 5)
-				SoundManager.ClientStop("Critstate", true);
-
+			if (CurrentSpriteSet is < 4 or > 5) SoundManager.ClientStop("Critstate", true);
 			pulseImg.sprite = StatesSprites[CurrentSpriteSet].SP[currentSprite];
 			bgImage.sprite = statesBgImages[CurrentSpriteSet];
 		}
