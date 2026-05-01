@@ -330,7 +330,6 @@ namespace US13.Player
 
 					// stop the crit notification and change overlay to ghost mode
 					SoundManager.ClientStop("Critstate", true);
-					OverlayCrits.Instance.SetState(OverlayState.death);
 					// show ghosts
 					var mask = Camera2DFollow.followControl.cam.cullingMask;
 					mask |= 1 << LayerMask.NameToLayer("Ghosts");
@@ -356,7 +355,6 @@ namespace US13.Player
 				{
 					// stop the crit notification and change overlay to ghost mode
 					SoundManager.ClientStop("Critstate", true);
-					OverlayCrits.Instance.SetState(OverlayState.death);
 					// hide ghosts
 					var mask = Camera2DFollow.followControl.cam.cullingMask;
 					mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));

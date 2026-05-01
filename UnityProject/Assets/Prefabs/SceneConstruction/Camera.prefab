@@ -563,12 +563,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3033b5d39951d430299684ac3cd06d7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  holeMat: {fileID: 2100000, guid: ecc97e9b19bc34985b4b01b0121c9683, type: 2}
-  TargetshroudColor: {r: 1, g: 0, b: 0, a: 0}
-  shroudColor: {r: 1, g: 0, b: 0, a: 0}
-  Radius: 5
-  Epow: 2
-  TargetRadius: 3
+  shader: {fileID: 4800000, guid: 1ff9149423ea76347afaed3233259686, type: 3}
 --- !u!114 &4216804807468684203
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -234,7 +234,7 @@ namespace US13.Actions.V2
 				}
 				return hasItem;
 			});
-			if (cachedNetIdentity == true) cachedNetIdentity = gameObject.NetWorkIdentity();
+			if (cachedNetIdentity == false) cachedNetIdentity = gameObject.NetWorkIdentity();
 			cachedNetIdentity.isDirty = true;
 		}
 
@@ -242,7 +242,7 @@ namespace US13.Actions.V2
 		public void ServerRemoveAllActions()
 		{
 			ActionButtons.Clear();
-			if (cachedNetIdentity == true) cachedNetIdentity = gameObject.NetWorkIdentity();
+			if (cachedNetIdentity == false) cachedNetIdentity = gameObject.NetWorkIdentity();
 			cachedNetIdentity.isDirty = true;
 		}
 
@@ -309,8 +309,8 @@ namespace US13.Actions.V2
 				this.cachedNetIdentity.isDirty = true;
 				return false; // Cooldown has expired
 			}
-			return true;
-
+			Chat.AddExamineMsg(gameObject, $"This action is still on cooldown, remaining time: {Math.Round((isUnderCooldown.CooldownEnd - DateTime.UtcNow).TotalSeconds, 2)} seconds.");
+            return true;
 		}
 
 		[Client]

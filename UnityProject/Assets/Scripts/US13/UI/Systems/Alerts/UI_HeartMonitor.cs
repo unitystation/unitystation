@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -7,6 +8,7 @@ using US13.Managers.UpdateManager;
 using US13.Player;
 using US13.UI.Core;
 using US13.UI.Systems.CameraOverlays;
+using Util;
 
 namespace US13.UI.Systems.Alerts
 {
@@ -34,7 +36,9 @@ namespace US13.UI.Systems.Alerts
 		[Tooltip("Time between monitor bg blinks")] [SerializeField]
 		private float criticalBlinkingTime = 0.5f;
 
-		private float overallHealthCache = 100;
+		private float temporaryDamageValue = 0;
+		private const float temporaryDamageDecay = 2000;
+		private const float temporaryDamageMultiplier = 50f;
 
 
 		private void OnEnable()
@@ -53,7 +57,7 @@ namespace US13.UI.Systems.Alerts
 		{
 			if (OverlayCrits.Instance == null) return;
 			// Ensure crit overlay is reset to normal.
-			OverlayCrits.Instance.SetState(OverlayState.normal);
+			OverlayCrits.Instance.SetNewHealthValue(100.0f);
 		}
 
 		//Managed by UpdateManager
@@ -100,93 +104,46 @@ namespace US13.UI.Systems.Alerts
 			}
 		}
 
-		private float TemporaryDamageIndicator = 0;
-		private float Decay = 2000;
-		private float Magnifyer = 50f;
-
 		private void CheckHealth()
 		{
-			if (PlayerManager.LocalPlayerScript.playerHealth.OverallHealth == overallHealthCache)
-			{
-				return;
-			}
-
 			float maxHealth = PlayerManager.LocalPlayerScript.playerHealth.MaxHealth;
-			float DamagedDelta = overallHealthCache - PlayerManager.LocalPlayerScript.playerHealth.OverallHealth;
+			float damageDelta = Math.Max(0, PlayerManager.LocalPlayerScript.playerHealth.OverallHealth - PlayerManager.LocalPlayerScript.playerHealth.OverallHealth);
+			float healthPercentage = PlayerManager.LocalPlayerScript.playerHealth.HealthPercentage();
 
-			if (0 > DamagedDelta)
+			switch (healthPercentage)
 			{
-				DamagedDelta = 0;
-			}
-
-			TemporaryDamageIndicator += DamagedDelta * Magnifyer;
-
-
-			overallHealthCache = PlayerManager.LocalPlayerScript.playerHealth.OverallHealth;
-
-			float HealthPercentage = overallHealthCache / maxHealth;
-
-
-			if (TemporaryDamageIndicator > 85)
-			{
-				TemporaryDamageIndicator = 85;
-			}
-
-
-			if (HealthPercentage > 0)
-			{
-				if (HealthPercentage >= 1)
-				{
+				case >=100.0f:
 					CurrentSpriteSet = 0;
-				}
-				else if (HealthPercentage >= 0.66f)
-				{
+					break;
+				case >= 66.67f:
 					CurrentSpriteSet = 1;
-				}
-				else if (HealthPercentage >= 0.33f)
-				{
+					break;
+				case >= 33.33f:
 					CurrentSpriteSet = 2;
-				}
-				else
-				{
+					break;
+				case >= -66.67f:
 					CurrentSpriteSet = 3;
-				}
-			}
-			else
-			{
-				HealthPercentage = overallHealthCache / 100f;
-
-				if (HealthPercentage > -0.66f)
-				{
-					CurrentSpriteSet = 3;
-				}
-				else if (HealthPercentage > -1)
-				{
-					// crit state has 2 sprite sets (blinking)
-					// so next state is 6 instead of 5
+					break;
+				case > -100.0f:
 					CurrentSpriteSet = 4;
-				}
-				else
-				{
+					break;
+				default:
 					CurrentSpriteSet = 6;
-				}
+					break;
 			}
 
-
-			if (TemporaryDamageIndicator > 0)
+			//Causes a brief flash upon taking damage
+			temporaryDamageValue += damageDelta * temporaryDamageMultiplier;
+			temporaryDamageValue = Math.Min(85, temporaryDamageValue);
+			if (temporaryDamageValue > 0) //Is damage taken not healing
 			{
-				TemporaryDamageIndicator -= Decay * Time.deltaTime;
-				if (TemporaryDamageIndicator < 0)
-				{
-					TemporaryDamageIndicator = 0;
-				}
+				temporaryDamageValue -= (temporaryDamageDecay * Time.deltaTime); //Reduce temp damage by decay
+				temporaryDamageValue = Math.Max(0, temporaryDamageValue);
 
-				HealthPercentage = (overallHealthCache - TemporaryDamageIndicator) / maxHealth;
+				healthPercentage -= (100 * temporaryDamageValue) / maxHealth; //Apply this false health loss to percentage for crit overlay
 			}
 
-
-			OverlayCrits.Instance.SetState(HealthPercentage);
-
+			OverlayCrits.Instance.SetNewHealthValue(healthPercentage);
 
 			// crit state has 2 sprite sets (blinking)
 			if (CurrentSpriteSet != 4 && CurrentSpriteSet != 5)

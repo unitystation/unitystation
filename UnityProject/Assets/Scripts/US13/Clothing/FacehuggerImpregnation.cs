@@ -178,12 +178,12 @@ namespace US13.Clothing
 			if (info.ClientInventoryMoveType == ClientInventoryMoveType.Added
 				&& playerScript.DynamicItemStorage.InventoryHasObjectInCategory(gameObject, NamedSlot.mask))
 			{
-				OverlayCrits.Instance.SetState(OverlayState.crit);
+				OverlayCrits.Instance.SetNewHealthValue(-50.0f);
 			}
 			else if (info.ClientInventoryMoveType == ClientInventoryMoveType.Removed
 				&& playerScript.DynamicItemStorage.InventoryHasObjectInCategory(gameObject, NamedSlot.mask) == false)
 			{
-				OverlayCrits.Instance.SetState(OverlayState.normal);
+				OverlayCrits.Instance.SetNewHealthValue(playerScript.playerHealth.HealthPercentage());
 			}
 		}
 
