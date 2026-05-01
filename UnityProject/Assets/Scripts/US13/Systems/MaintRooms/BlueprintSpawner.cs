@@ -24,37 +24,38 @@ namespace US13.Systems.MaintRooms
 	[Serializable]
 	public class WeightedMaintBlueprintEntry : WeightedBlueprintEntry
 	{
-		public MaintGenerator.Directions doorDirections = MaintGenerator.Directions.South;
+		[SerializeField] public Directions doorDirections = Directions.South;
+	}
+
+	public class BlueprintList
+	{
+		public BlueprintList(List<WeightedBlueprintEntry> entries)
+		{
+			_list = entries;
+			_totalWeight = 0;
+			foreach (var entry in entries)
+			{
+				_totalWeight += entry.weight;
+			}
+		}
+		public BlueprintList(List<WeightedMaintBlueprintEntry> entries)
+		{
+
+			_list = new List<WeightedBlueprintEntry>();
+			_list.AddRange(entries); //Weird but necessary intermediate step.
+
+			_totalWeight = 0;
+			foreach (var entry in entries)
+			{
+				_totalWeight += entry.weight;
+			}
+		}
+		public List<WeightedBlueprintEntry> _list;
+		public int _totalWeight;
 	}
 
 	public static class BluePrintSpawner
 	{
-		private class BlueprintList
-		{
-			public BlueprintList(List<WeightedBlueprintEntry> entries)
-			{
-				_list = entries;
-				_totalWeight = 0;
-				foreach (var entry in entries)
-				{
-					_totalWeight += entry.weight;
-				}
-			}
-			public BlueprintList(List<WeightedMaintBlueprintEntry> entries)
-			{
-
-				_list = new List<WeightedBlueprintEntry>();
-				_list.AddRange(entries); //Weird but necessary intermediate step.
-
-				_totalWeight = 0;
-				foreach (var entry in entries)
-				{
-					_totalWeight += entry.weight;
-				}
-			}
-			public List<WeightedBlueprintEntry> _list;
-			public int _totalWeight;
-		}
 
 		private static readonly Dictionary<string, BlueprintList> roomListRegistry = new();
 

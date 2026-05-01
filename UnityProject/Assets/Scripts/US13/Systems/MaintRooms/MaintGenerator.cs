@@ -17,14 +17,23 @@ using Util;
 
 namespace US13.Systems.MaintRooms
 {
+	[System.Serializable]
+	public class ListMaintBlueprints
+	{
+		[SerializeField] public List<WeightedMaintBlueprintEntry> possibleRooms = new();
+	}
+
+	[Flags]
+	public enum Directions
+	{
+		North = 1,
+		East = 2,
+		South = 4,
+		West = 8,
+	}
+
 	public class MaintGenerator : ItemMatrixSystemInit, IMultitoolMasterable, ISelectionGizmo
 	{
-		[System.Serializable]
-		public class ListMaintBlueprints
-		{
-			public List<WeightedMaintBlueprintEntry> possibleRooms = new();
-		}
-
 		public MultitoolConnectionType ConType => MultitoolConnectionType.MaintGeneratorExclusionZone;
 
 		public int MaxDistance => 9999;
@@ -36,15 +45,6 @@ namespace US13.Systems.MaintRooms
 
 		[field: SerializeField] public bool CanRelink { get; set; } = true;
 		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = true;
-
-		[Flags]
-		public enum Directions
-		{
-			North = 1,
-			East = 2,
-			South = 4,
-			West = 8,
-		}
 
 		private readonly Dictionary<Directions, Vector2Int> DirectionVector = new Dictionary<Directions, Vector2Int>
 		{

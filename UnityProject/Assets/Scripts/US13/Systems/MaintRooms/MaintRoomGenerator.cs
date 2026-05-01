@@ -29,6 +29,8 @@ namespace US13.Systems.MaintRooms
 		[SerializeField, Range(1, MaintGenerator.MAX_DIMENSIONS)] private int roomHeight = 5;
 
 		private const int WALL_GAP = 2;
+		[SerializeField] private List<WeightedRoomEntry> possibleRoomsWeighted = new List<WeightedRoomEntry>();
+		public List<WeightedRoomEntry> Rooms => possibleRoomsWeighted;
 
 		public int SelectedRoom { get; private set; } = -1;
 
@@ -85,32 +87,32 @@ namespace US13.Systems.MaintRooms
 			return Task.CompletedTask;
 		}
 
-		public void CarveRoomDoors(Vector3 generatorOffset, MaintGenerator.Directions doorDirections, int mazeWidth, ref short[] maze)
+		public void CarveRoomDoors(Vector3 generatorOffset, Directions doorDirections, int mazeWidth, ref short[] maze)
 		{
 			var pos = (transform.localPosition - generatorOffset).RoundTo2Int();
 
 			int halfX = (roomWidth - 1) / 2;
 			int halfY = (roomHeight - 1) / 2;
 
-			if (doorDirections.HasFlag(MaintGenerator.Directions.North))
+			if (doorDirections.HasFlag(Directions.North))
 			{
 				Vector2 doorPosition = new Vector2Int(pos.x + halfX, pos.y + roomHeight);
 				int index = (int)(doorPosition.x + (doorPosition.y * mazeWidth));
 				if (index > 0 && index < maze.Length) maze[index] = (short)MazeState.EmptyCell;
 			}
-			if (doorDirections.HasFlag(MaintGenerator.Directions.South))
+			if (doorDirections.HasFlag(Directions.South))
 			{
 				Vector2 doorPosition = new Vector2Int(pos.x + halfX, pos.y - 1);
 				int index = (int)(doorPosition.x + (doorPosition.y * mazeWidth));
 				if (index > 0 && index < maze.Length) maze[index] = (short)MazeState.EmptyCell;
 			}
-			if (doorDirections.HasFlag(MaintGenerator.Directions.West))
+			if (doorDirections.HasFlag(Directions.West))
 			{
 				Vector2 doorPosition = new Vector2Int(pos.x - 1, pos.y + halfY);
 				int index = (int)(doorPosition.x + (doorPosition.y * mazeWidth));
 				if (index > 0 && index < maze.Length) maze[index] = (short)MazeState.EmptyCell;
 			}
-			if (doorDirections.HasFlag(MaintGenerator.Directions.East))
+			if (doorDirections.HasFlag(Directions.East))
 			{
 				Vector2 doorPosition = new Vector2Int(pos.x + roomWidth, pos.y + halfY);
 				int index = (int)(doorPosition.x + (doorPosition.y * mazeWidth));
