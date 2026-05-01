@@ -176,11 +176,11 @@ namespace US13.Shuttles
 
 				bool runLoop = true;
 
-				int Sets = RNG.GetRandomNumber(4, 10);
+				int numberSets = RNG.GetRandomNumber(4, 10);
 
 				List<GameObject> SetsFound = new List<GameObject>();
 
-				while (runLoop && Sets > SetsFound.Count)
+				while (runLoop && numberSets > SetsFound.Count)
 				{
 					Runs++;
 					if (Runs > 100)
