@@ -11,14 +11,6 @@ using Util;
 
 namespace US13.Systems.MaintRooms
 {
-	[Serializable]
-	public class WeightedRoomEntry
-	{
-		//This would perfectly serve as a struct, except unity won't expose it in the editor unless this is a class
-		public MaintRoomSO roomToSpawn;
-		public int weight;
-	}
-
 	public class MaintRoomGenerator : NetworkBehaviour, IMultitoolSlaveable, ISelectionGizmo
 	{
 		[SerializeField, SyncVar(hook = nameof(SyncMaintGenerator))]
@@ -29,9 +21,6 @@ namespace US13.Systems.MaintRooms
 		[SerializeField, Range(1, MaintGenerator.MAX_DIMENSIONS)] private int roomHeight = 5;
 
 		private const int WALL_GAP = 2;
-		[SerializeField] private List<WeightedRoomEntry> possibleRoomsWeighted = new List<WeightedRoomEntry>();
-		public List<WeightedRoomEntry> Rooms => possibleRoomsWeighted;
-
 		public int SelectedRoom { get; private set; } = -1;
 
 		[field: SerializeField] public string RoomListId { get; private set; } = "Maintrooms7x7";

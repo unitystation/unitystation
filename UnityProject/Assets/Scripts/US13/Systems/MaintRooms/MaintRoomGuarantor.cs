@@ -1,19 +1,7 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
-using Logs;
 using Mirror;
-using NaughtyAttributes;
-using Newtonsoft.Json;
-using SecureStuff;
 using UnityEngine;
-using US13.Core.GameGizmos;
 using US13.Core.ObjectConnection;
-using US13.Managers.MatrixManager;
-using US13.MapSaver;
-using US13.Variable_Viewer;
 using Util;
 
 namespace US13.Systems.MaintRooms
@@ -26,8 +14,6 @@ namespace US13.Systems.MaintRooms
 		[SerializeField,Tooltip("The room chosen by this object will override the room choice at ONE of these generators")]
         private List<MaintRoomGenerator> possibleRoomsToOverride;
 
-		[SerializeField] private List<WeightedRoomEntry> possibleRoomsWeighted = new List<WeightedRoomEntry>();
-		public List<WeightedRoomEntry> Rooms => possibleRoomsWeighted;
 		[SerializeField] private string roomListId;
 
 		public void SyncMaintGenerator(MaintGenerator oldGen, MaintGenerator newGen)
