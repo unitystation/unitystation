@@ -1271,7 +1271,7 @@ namespace US13.Core.Sprite_Handler
 			// ValidateLate might be called after this object is already destroyed.
 			if (this == null || Application.isPlaying) return;
 			if (Selection.activeGameObject == null) return;
-			if (Selection.activeGameObject.name != this.gameObject.transform.parent.gameObject.name &&
+			if (Selection.activeGameObject.name != this.gameObject.transform?.parent?.gameObject?.name &&
 			    Selection.activeGameObject != this.gameObject) return;
 
 			PresentSpriteSet = InitialPresentSpriteSet;
