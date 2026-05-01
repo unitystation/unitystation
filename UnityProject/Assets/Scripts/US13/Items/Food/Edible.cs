@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Chemistry;
 using Logs;
 using Mirror;
@@ -33,19 +33,20 @@ using UniversalObjectPhysics = US13.Core.Physics.UniversalObjectPhysics;
 namespace US13.Items.Food
 {
 	/// <summary>
-	/// Indicates an edible object
+	/// Solid food item that can be eaten in one or more bites, transferring reagents to the eater's stomachs.
 	/// </summary>
 	[RequireComponent(typeof(RegisterItem))]
 	[RequireComponent(typeof(ItemAttributesV2))]
 	[RequireComponent(typeof(ReagentContainer))]
 	public class Edible : Consumable, ICheckedInteractable<HandActivate>, IHoverTooltip, IServerSpawn
 	{
+		/// <summary>Prefab spawned when the food is fully consumed (e.g. wrapper, bone). May be null.</summary>
 		public GameObject leavings;
+
 		[PlayModeOnly, SerializeField, SyncVar] private int currentBites;
 		[SerializeField] private int maxBites = 1;
 		[SerializeField] private float forceFeedTime = 3f;
 		[SerializeField] private bool setCurrentBitesToMaxBitesOnServerSpawn = true;
-
 		[SerializeField] private AddressableAudioSource sound = null;
 
 		private float RandomPitch => Random.Range(0.7f, 1.3f);
@@ -55,11 +56,7 @@ namespace US13.Items.Food
 		protected ItemAttributesV2 itemAttributes;
 		private Stackable stackable;
 		private RegisterItem item;
-		private ReagentContainer foodContents;
-		protected ReagentContainer FoodContents =>
-			foodContents != null
-				? foodContents
-				: foodContents = this.GetCachedComponent<ReagentContainer>(includeDisabled: false);
+		protected ReagentContainer foodContents;
 
 		private string Name => itemAttributes.ArticleName;
 
@@ -92,6 +89,7 @@ namespace US13.Items.Food
 			if (setCurrentBitesToMaxBitesOnServerSpawn) currentBites = maxBites;
 		}
 
+		/// <summary>Adjusts max bites at runtime (e.g. cooking/processing).</summary>
 		public void SetMaxBites(int newMaxBites, bool resetCurrentBites = false)
 		{
 			maxBites = newMaxBites;
@@ -111,9 +109,6 @@ namespace US13.Items.Food
 			return true;
 		}
 
-		/// <summary>
-		/// Eat by activating from inventory
-		/// </summary>
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
 			TryConsume(interaction.PerformerPlayerScript.gameObject);
@@ -212,6 +207,11 @@ namespace US13.Items.Food
 			}).ServerStartProgress(eater.RegisterPlayer, consumeTime, eater.gameObject);
 		}
 
+		/// <summary>
+		/// Core eat logic: checks stomach capacity, transfers reagents, plays sound, and fires
+		/// <see cref="Consumable.OnConsumed"/>. Uses <see cref="FullConsume"/> for projectiles,
+		/// <see cref="GetMixForBite"/> otherwise.
+		/// </summary>
 		protected virtual void Eat(PlayerScript eater, PlayerScript feeder, bool projectileFed = false)
 		{
 			//TODO: Reimplement metabolism.
@@ -236,7 +236,7 @@ namespace US13.Items.Food
 				return;
 			}
 
-			if (SpareSpace < FoodContents.CurrentReagentMix.Total)
+			if (SpareSpace < foodContents.CurrentReagentMix.Total)
 			{
 				LogUnwillingEat(eater, feeder);
 			}
@@ -253,6 +253,7 @@ namespace US13.Items.Food
 			AudioSourceParameters eatSoundParameters = new AudioSourceParameters(pitch: RandomPitch);
 			SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, eatSoundParameters, sourceObj: eater.gameObject);
 			ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_FOODEATEN);
+			InvokeOnConsumed(eater.gameObject, feeder != null ? feeder.gameObject : null);
 		}
 
 		private void LogUnwillingEat(PlayerScript eater, PlayerScript feeder)
@@ -292,17 +293,19 @@ namespace US13.Items.Food
 				$"{feeder.gameObject.ExpensiveName()} tries to stuff food into {eater.gameObject.ExpensiveName()}'s mouth but no more food is going in");
 		}
 
+		/// <summary>Consumes the entire reagent mix at once (projectile delivery). Spawns leavings and despawns.</summary>
 		public ReagentMix FullConsume(PlayerScript feeder)
 		{
-			ReagentMix incomingFood = FoodContents.CurrentReagentMix.Clone();
+			ReagentMix incomingFood = foodContents.CurrentReagentMix.Clone();
 			currentBites = 0;
 			SpawnLeavingsAndDespawn(feeder);
 			return incomingFood;
 		}
 
+		/// <summary>Consumes one bite. Handles stackable vs single-item logic; despawns on last bite.</summary>
 		public ReagentMix GetMixForBite(PlayerScript feeder)
 		{
-			ReagentMix incomingFood = FoodContents.CurrentReagentMix.Clone();
+			ReagentMix incomingFood = foodContents.CurrentReagentMix.Clone();
 
 			if (stackable != null)
 			{
@@ -359,8 +362,13 @@ namespace US13.Items.Food
 			return $"It appears that {biteStatus}";
 		}
 
+		/// <inheritdoc/>
 		public string CustomTitle() { return null; }
+
+		/// <inheritdoc/>
 		public Sprite CustomIcon() { return null; }
+
+		/// <inheritdoc/>
 		public List<Sprite> IconIndicators() { return null; }
 
 		public List<TextColor> InteractionsStrings()

@@ -18,9 +18,20 @@ PrefabInstance:
       propertyPath: foreverID
       value: 41b8ba286ee48d147b5b90a4535e27c8
       objectReference: {fileID: 0}
+    - target: {fileID: 3981830319603922103, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: dormantEdible
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4128362409855863911, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4a2fd63edcb9e7c408e2cc58eddc5183,
+        type: 2}
+    - target: {fileID: 4128362409855863911, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 4a2fd63edcb9e7c408e2cc58eddc5183,
         type: 2}
@@ -223,9 +234,21 @@ PrefabInstance:
       objectReference: {fileID: 2800000, guid: ed16b98054be26147b0ba40316f28b0d, type: 3}
     - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 1ae2a2e0fc0e36d4b973c593e9f3fa12,
+        type: 2}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
       propertyPath: itemSprites.LeftHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: c35277ffcb52ee640a8fff25c1f05359, type: 3}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 3ba65a618edd2df4faabbd81d38f9eaa,
+        type: 2}
     - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: itemSprites.RightHand.EquippedData
@@ -387,6 +410,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8249693547510685597, guid: f866b44bcdd7d734885f7c49999d85c9, type: 3}
+    - {fileID: 5216470946909398713, guid: f866b44bcdd7d734885f7c49999d85c9, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -423,10 +447,10 @@ MonoBehaviour:
   forceFeedTime: 3
   setCurrentBitesToMaxBitesOnServerSpawn: 1
   sound:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0

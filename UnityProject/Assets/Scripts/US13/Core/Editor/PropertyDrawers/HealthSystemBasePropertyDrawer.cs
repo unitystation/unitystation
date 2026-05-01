@@ -44,7 +44,7 @@ public class HealthSystemBasePropertyDrawer : PropertyDrawer
 	    // Show the dropdown and create an instance of the selected implementation type
 	    EditorGUI.BeginChangeCheck();
 	    // Display a dropdown menu of all available implementation types, using their full names as the display text
-	    _implementationTypeIndex = EditorGUI.Popup(dropdownPosition, "", _implementationTypeIndex, _implementations.Select(impl => impl.FullName).ToArray());
+	    _implementationTypeIndex = EditorGUI.Popup(dropdownPosition, "", _implementationTypeIndex, _implementations.Select(impl => impl.Name).ToArray());
 	    // If the dropdown selection has changed or the value was null, create a new instance of the selected implementation type
 	    if (EditorGUI.EndChangeCheck() || forceUpdate)
 	    {
