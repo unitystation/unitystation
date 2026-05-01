@@ -540,6 +540,10 @@
                     "string Combine(string, string, string)",
                     "string Combine(string, string, string, string)",
                     "string GetFileName(string)"
+                ],
+                "Fields": [
+                    "char DirectorySeparatorChar",
+                    "char AltDirectorySeparatorChar"
                 ]
             },
             "StringReader": {
