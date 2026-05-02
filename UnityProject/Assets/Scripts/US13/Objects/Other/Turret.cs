@@ -461,7 +461,7 @@ namespace US13.Objects.Other
 			SoundManager.PlayNetworkedAtPos(bulletSound, registerTile.WorldPosition, sourceObj: gameObject);
 
 			ProjectileManager.InstantiateAndShoot(bulletName,
-				rotationToShoot, gameObject, null, BodyPartType.None);
+				rotationToShoot, gameObject, null, BodyPartType.None, Target: target);
 		}
 
 		#endregion

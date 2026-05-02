@@ -39,9 +39,9 @@ namespace US13.Core.Sprite_Handler
 			lightSprite = GetComponent<LightSprite>();
 		}
 
-		protected override void SetImageColor(Color value)
+		protected override void SetImageColour(Color value)
 		{
-			base.SetImageColor(value);
+			base.SetImageColour(value);
 			if (lightSprite != null)
 			{
 				lightSprite.Color = value;

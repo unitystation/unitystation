@@ -400,7 +400,7 @@ namespace US13.Managers
 			var parameters = BuildParameters();
 			string token = fadeInDuration > 0 ? System.Guid.NewGuid().ToString() : "";
 
-			await SoundManager.PlayAtPosition(sound, worldPos, sourceObj, soundSpawnToken: token,
+			await SoundManager.ClientPlayAtPosition(sound, worldPos, sourceObj, soundSpawnToken: token,
 				audioSourceParameters: parameters, polyphonic: polyphonic, isGlobal: isGlobal);
 
 			if (fadeInDuration > 0)

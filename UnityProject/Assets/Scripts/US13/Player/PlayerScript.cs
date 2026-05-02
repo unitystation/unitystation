@@ -78,7 +78,7 @@ namespace US13.Player
 
 		public ChatModifier inventorySpeechModifiers = ChatModifier.None;
 
-
+		public LayDown LayDown;
 		public CharacterSheet characterSettings => PlayerScriptVisible.characterSettings;
 
 
@@ -258,6 +258,7 @@ namespace US13.Player
 			PlayerScriptVisible ??= GetComponent<PlayerScriptVisible>();
 			PlayerButtonedActions ??= GetComponent<ActionManager>();
 			PlayerAlpha ??= GetComponent<BodySpritesInvisbility>();
+			LayDown ??= this.GetComponent<LayDown>();
 		}
 
 		private void OnEnable()

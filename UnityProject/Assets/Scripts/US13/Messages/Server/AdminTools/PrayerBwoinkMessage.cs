@@ -18,7 +18,7 @@ namespace US13.Messages.Server.AdminTools
 
 		public override void Process(NetMessage msg)
 		{
-			_ = SoundManager.PlayAtPosition(CommonSounds.Instance.Prayer, Vector3.zero, PlayerManager.LocalPlayerObject,
+			_ = SoundManager.ClientPlayAtPosition(CommonSounds.Instance.Prayer, Vector3.zero, PlayerManager.LocalPlayerObject,
 				null,
 				false,
 				true,

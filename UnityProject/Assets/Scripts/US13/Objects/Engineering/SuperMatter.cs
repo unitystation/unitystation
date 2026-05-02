@@ -364,7 +364,7 @@ namespace US13.Objects.Engineering
 				//Delam state
 				SoundManager.ClientStop(loopingSoundGuid, true);
 				loopingSoundGuid = Guid.NewGuid().ToString();
-				_ = SoundManager.PlayAtPosition(delamLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
+				_ = SoundManager.ClientPlayAtPosition(delamLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
 
 				lightSprite.transform.localScale = new Vector3(9, 9, 9);
 				lightPulser.SetPulseSpeed(1);
@@ -374,7 +374,7 @@ namespace US13.Objects.Engineering
 				//Normal state
 				SoundManager.ClientStop(loopingSoundGuid, true);
 				loopingSoundGuid = Guid.NewGuid().ToString();
-				_ = SoundManager.PlayAtPosition(normalLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
+				_ = SoundManager.ClientPlayAtPosition(normalLoopSound, registerTile.WorldPositionServer, gameObject, loopingSoundGuid);
 
 				lightSprite.transform.localScale = new Vector3(3, 3, 3);
 				lightPulser.SetPulseSpeed(0.5f);

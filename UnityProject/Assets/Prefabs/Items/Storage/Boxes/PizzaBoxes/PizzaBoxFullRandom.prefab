@@ -85,6 +85,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7981628501990062821, guid: d3025a1bc493cc246a21c87ee6e6bfb6,
         type: 3}
+      propertyPath: forceSpawnContents
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7981628501990062821, guid: d3025a1bc493cc246a21c87ee6e6bfb6,
+        type: 3}
       propertyPath: itemStoragePopulator
       value: 
       objectReference: {fileID: 11400000, guid: 54aa9243717356ba3827a5c28c61d0d2,

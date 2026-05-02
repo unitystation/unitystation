@@ -5,6 +5,7 @@ using US13.Core.Lifecycle;
 using US13.Health;
 using US13.Health.Objects;
 using US13.Managers;
+using US13.Messages.Server.SoundMessages;
 using US13.Tilemaps.Behaviours.Layers;
 using US13.Tilemaps.Behaviours.Meta;
 using US13.Tilemaps.Tiles;
@@ -112,7 +113,7 @@ namespace US13.Tilemaps.Behaviours
 			if(basicTile.SoundOnHit != null && !string.IsNullOrEmpty(basicTile.SoundOnHit.AssetAddress) && basicTile.SoundOnHit.AssetAddress != "null")
 			{
 				if(damageTaken >= 1)
-					SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition);
+					SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition, new AudioSourceParameters( spatialBlend:2));
 			}
 
 			var totalDamageTaken = data.GetTileDamage(Layer.LayerType);
@@ -122,7 +123,7 @@ namespace US13.Tilemaps.Behaviours
 				float excessEnergy = basicTile.Armor.GetForce( totalDamageTaken - basicTile.MaxHealth, attackType);
 				if (basicTile.SoundOnDestroy.Count > 0)
 				{
-					SoundManager.PlayNetworkedAtPos(basicTile.SoundOnDestroy.RandomElement(), worldPosition);
+					SoundManager.PlayNetworkedAtPos(basicTile.SoundOnDestroy.RandomElement(), worldPosition, new AudioSourceParameters( spatialBlend:2));
 				}
 				data.RemoveTileDamage(Layer.LayerType);
 				tileChangeManager.MetaTileMap.RemoveTileWithlayer(data.LocalPosition, Layer.LayerType);

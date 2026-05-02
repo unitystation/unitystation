@@ -104,13 +104,13 @@ namespace US13.Items.Medical
 				var objectPos = gameObject.AssumedWorldPosServer();
 				if (CanDefibrillate(livingHealthMaster, interaction.Performer) == false)
 				{
-					_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, objectPos, new AudioSourceParameters(spatialBlend:2));
+					_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, objectPos);
 					StartCoroutine(Cooldown());
 					return;
 				}
 
 				livingHealthMaster.RestartHeart();
-				_ = SoundManager.PlayNetworkedAtPosAsync(soundZap, objectPos, new AudioSourceParameters(spatialBlend:2));
+				_ = SoundManager.PlayNetworkedAtPosAsync(soundZap, objectPos);
 				if (livingHealthMaster.IsDead == false)
 				{
 					livingHealthMaster.playerScript.Mind.OrNull()?.StopGhosting();
@@ -119,7 +119,7 @@ namespace US13.Items.Medical
 					return;
 				}
 
-				_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, objectPos, new AudioSourceParameters(spatialBlend:2));
+				_ = SoundManager.PlayNetworkedAtPosAsync(soundFailed, objectPos);
 				StartCoroutine(Cooldown());
 			}
 
@@ -140,7 +140,7 @@ namespace US13.Items.Medical
 			onCooldown = true;
 			yield return WaitFor.Seconds(cooldown);
 			onCooldown = false;
-			SoundManager.PlayNetworkedAtPos(soundCharged, gameObject.AssumedWorldPosServer(), new AudioSourceParameters(spatialBlend:2));
+			SoundManager.PlayNetworkedAtPos(soundCharged, gameObject.AssumedWorldPosServer());
 		}
 
 		public void ServerPerformInteraction(HandActivate interaction)
@@ -155,7 +155,7 @@ namespace US13.Items.Medical
 			{
 				Chat.AddExamineMsg(interaction.Performer, $"You prepare the {gameObject.ExpensiveName()}");
 				isReady = true;
-				_ = SoundManager.PlayNetworkedAtPosAsync(soundReady, gameObject.AssumedWorldPosServer(), new AudioSourceParameters(spatialBlend:2));
+				_ = SoundManager.PlayNetworkedAtPosAsync(soundReady, gameObject.AssumedWorldPosServer());
 				return;
 			}
 

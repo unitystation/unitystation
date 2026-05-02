@@ -133,7 +133,7 @@ namespace US13.Objects.Other
 		private IEnumerator DelayLandingSFX()
 		{
 			yield return WaitFor.Seconds(TRAVEL_TIME - 1);
-			_ = SoundManager.PlayAtPosition(RocketLand, WorldPosition, gameObject);
+			_ = SoundManager.ClientPlayAtPosition(RocketLand, WorldPosition, gameObject);
 		}
 	}
 }

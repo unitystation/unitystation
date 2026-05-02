@@ -4,6 +4,7 @@ using US13._3D;
 using US13.Core.Lifecycle;
 using US13.Core.Sprite_Handler;
 using US13.HealthV2;
+using US13.HealthV2.Living;
 using US13.Items.Weapons;
 using US13.Managers;
 using US13.Managers.MatrixManager;
@@ -22,6 +23,8 @@ namespace US13.Projectiles
 
 		private MovingProjectile movingProjectile;
 		private Transform thisTransform;
+
+		private GameObject target;
 
 		[SerializeField] private HitProcessor hitProcessor = null;
 		[SerializeField] private LayerMaskData maskData = null;
@@ -70,16 +73,17 @@ namespace US13.Projectiles
 			StartShoot(Vector2.zero, controlledByPlayer, fromWeapon, Magazine, targetZone);
 		}
 
-		public override void Shoot(Vector2 direction, GameObject controlledByPlayer, Gun fromWeapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone = BodyPartType.Chest)
+		public override void Shoot(Vector2 direction, GameObject controlledByPlayer, Gun fromWeapon, MagazineBehaviour MagazineBehaviour, GameObject target, BodyPartType targetZone = BodyPartType.Chest)
 		{
 			WillHurtShooter = false;
-			StartShoot(direction, controlledByPlayer, fromWeapon, MagazineBehaviour, targetZone);
+
+			StartShoot(direction, controlledByPlayer, fromWeapon, MagazineBehaviour, targetZone, target);
 		}
 
-		private void StartShoot(Vector2 direction, GameObject controlledByPlayer, Gun fromWeapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone)
+		private void StartShoot(Vector2 direction, GameObject controlledByPlayer, Gun fromWeapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone, GameObject target = null)
 		{
 			shooter = controlledByPlayer;
-
+			this.target = target;
 			var startPosition = new Vector3(direction.x, direction.y, thisTransform.position.z) * 0.2f;
 			thisTransform.position += startPosition;
 
@@ -92,7 +96,7 @@ namespace US13.Projectiles
 
 			foreach (var behaviour in behavioursOnShoot)
 			{
-				behaviour.OnShoot(direction, controlledByPlayer,fromWeapon, MagazineBehaviour,targetZone);
+				behaviour.OnShoot(direction, controlledByPlayer,fromWeapon, MagazineBehaviour,targetZone, target);
 			}
 		}
 
@@ -147,6 +151,9 @@ namespace US13.Projectiles
 			{
 				return false;
 			}
+
+			if (hit.CollisionHit.GameObject?.GetComponent<LivingHealthMasterBase>()?.Hitble(target) == false) return false;
+
 
 			return true;
 		}

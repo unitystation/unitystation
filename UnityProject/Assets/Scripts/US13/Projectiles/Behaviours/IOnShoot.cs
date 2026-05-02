@@ -10,6 +10,6 @@ namespace US13.Projectiles.Behaviours
 	/// </summary>
 	public interface IOnShoot
 	{
-		void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone = BodyPartType.Chest);
+		void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone = BodyPartType.Chest, GameObject Target = null);
 	}
 }

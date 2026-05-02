@@ -76,7 +76,7 @@ namespace US13.Items.Weapons
 
 				if (ammoBackfire && gunComp.CurrentMagazine.ServerAmmoRemains != 0)
 				{
-					gunComp.ServerShoot(interaction.Performer, Vector2.zero, BodyPartType.Head, true);
+					gunComp.ServerShoot(interaction.Performer, Vector2.zero, BodyPartType.Head, true,interaction.Performer.gameObject );
 					Chat.AddActionMsgToChat(interaction.Performer,
 					$"The {gameObject.ExpensiveName()} goes off in your face!",
 					$"The {gameObject.ExpensiveName()} goes off in {interaction.Performer.ExpensiveName()}'s face!");

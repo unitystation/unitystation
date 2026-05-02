@@ -54,8 +54,7 @@ namespace US13.HealthV2.Living
 		private void PlayAudio()
 		{
 			// TODO: Gibbing sounds are different for various mobs. We'll need to read it from their species SO when we add them.
-			_ = SoundManager.PlayAtPosition(defaultGibSound, gameObject.AssumedWorldPosServer(),
-				gameObject);
+			SoundManager.PlayNetworkedAtPos(defaultGibSound, gameObject.AssumedWorldPosServer());
 		}
 
 		private void RemoveAllBodyParts()

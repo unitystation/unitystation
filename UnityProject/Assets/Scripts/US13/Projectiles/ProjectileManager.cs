@@ -10,7 +10,7 @@ namespace US13.Projectiles
 	public class ProjectileManager : MonoBehaviour
 	{
 		public static GameObject InstantiateAndShoot(GameObject projectile, Vector2 finalDirection, GameObject shooter,
-			Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest, float Rangeoverride = -1f, Vector3? ShootWorldPosition = null)
+			Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest, float Rangeoverride = -1f, Vector3? ShootWorldPosition = null, GameObject Target = null)
 		{
 
 			if (ShootWorldPosition == null)
@@ -21,7 +21,7 @@ namespace US13.Projectiles
 			GameObject Newprojectile = Spawn.ServerPrefab(projectile,
 				ShootWorldPosition, parent: shooter.transform.parent).GameObject;
 			Projectile projectileComponent = Newprojectile.GetComponent<Projectile>();
-			projectileComponent.Shoot(finalDirection, shooter, fromWeapon, null, targetZone);
+			projectileComponent.Shoot(finalDirection, shooter, fromWeapon, null, Target, targetZone);
 			if (Rangeoverride != -1f)
 			{
 				if (projectileComponent.TryGetComponent<ProjectileRangeLimited>(out var rangeLimited))
@@ -34,10 +34,10 @@ namespace US13.Projectiles
 		}
 
 		public static GameObject InstantiateAndShoot(string projectile, Vector2 finalDirection, GameObject shooter,
-			Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest, float Rangeoverride = -1f, Vector3? ShootWorldPosition = null)
+			Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest, float Rangeoverride = -1f, Vector3? ShootWorldPosition = null, GameObject Target = null)
 		{
 			return InstantiateAndShoot(Spawn.GetPrefabByName(projectile), finalDirection, shooter, fromWeapon,
-				targetZone, Rangeoverride, ShootWorldPosition);
+				targetZone, Rangeoverride, ShootWorldPosition, Target);
 		}
 
 		public static GameObject CloneAndShoot(OnHitDetectData data, string projectile, Vector2 finalDirection, GameObject shooter,

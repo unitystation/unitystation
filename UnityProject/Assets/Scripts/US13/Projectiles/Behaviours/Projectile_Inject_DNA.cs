@@ -14,7 +14,9 @@ namespace US13.Projectiles.Behaviours
 	{
 		public List<DNAMutationData> DNAPayload = new List<DNAMutationData>();
 		private BodyPartType targetZone;
-		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone = BodyPartType.Chest)
+		private GameObject target;
+
+		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone = BodyPartType.Chest, GameObject Target = null)
 		{
 
 			var Container = MagazineBehaviour.GetComponent<MutationInjector>();
@@ -25,6 +27,7 @@ namespace US13.Projectiles.Behaviours
 
 
 			this.targetZone = targetZone;
+			this.target = Target;
 		}
 
 		public bool OnHit(MatrixManager.CustomPhysicsHit hit)
@@ -33,7 +36,8 @@ namespace US13.Projectiles.Behaviours
 			var coll = hit.CollisionHit.GameObject;
 			if (coll == null) return false;
 			var health = coll.GetComponent<LivingHealthMasterBase>();
-			if (health != null)
+
+			if (health != null && health.Hitble(target))
 			{
 				health.InjectDna(DNAPayload);
 				Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);

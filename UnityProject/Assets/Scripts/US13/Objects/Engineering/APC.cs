@@ -364,7 +364,7 @@ namespace US13.Objects.Engineering
 					screenDisplay.sprite = null;
 					EmergencyState = true;
 					StopRefresh();
-					_ = SoundManager.PlayAtPosition(NoPowerSound, gameObject.AssumedWorldPosServer());
+					_ = SoundManager.ClientPlayAtPosition(NoPowerSound, gameObject.AssumedWorldPosServer());
 					break;
 			}
 		}

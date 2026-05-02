@@ -20,13 +20,15 @@ namespace US13.Projectiles.Behaviours
 		private BodyPartType targetZone;
 		private ProjectileKineticDamageCalculation projectileKineticDamage;
 
+		private GameObject target;
 
 		[SerializeField] private DamageData damageData = null;
 
-		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone = BodyPartType.Chest)
+		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone = BodyPartType.Chest, GameObject Target = null)
 		{
 			this.shooter = shooter;
 			this.targetZone = targetZone;
+			this.target = Target;
 		}
 
 		public bool OnHit(MatrixManager.CustomPhysicsHit  hit)
@@ -51,6 +53,7 @@ namespace US13.Projectiles.Behaviours
 			//TODO REMOVE AFTER CHANGING MOBS OVER TO NEW HEALTH
 			if (livingHealth != null)
 			{
+
 				livingHealth.ApplyDamageToBodyPart(shooter, newDamage, damageData.AttackType, damageData.DamageType, targetZone);
 
 				Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
@@ -63,6 +66,8 @@ namespace US13.Projectiles.Behaviours
 
 				return true;
 			}
+
+			if (health.Hitble(target) == false) return false;
 
 			health.ApplyDamageToBodyPart(shooter, newDamage, damageData.AttackType, damageData.DamageType, targetZone);
 

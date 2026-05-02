@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Logs;
@@ -169,84 +170,68 @@ namespace US13.Shuttles
 
 		public void FillShuttleWithRubbish()
 		{
-			int Runs = 0;
-
-			bool runLoop = true;
-
-			int Sets = RNG.GetRandomNumber(4, 10);
-
-			List<GameObject> SetsFound = new List<GameObject>();
-
-			while (runLoop && Sets > SetsFound.Count)
+			try
 			{
-				Runs++;
-				if (Runs > 100)
+				int Runs = 0;
+
+				bool runLoop = true;
+
+				int numberSets = RNG.GetRandomNumber(4, 10);
+
+				List<GameObject> SetsFound = new List<GameObject>();
+
+				while (runLoop && numberSets > SetsFound.Count)
 				{
-					Loggy.Error("Unable to find prefab matching parameters from allSpawnablePrefabs Breaking loop");
-					break;
+					Runs++;
+					if (Runs > 100)
+					{
+						Loggy.Error("Unable to find prefab matching parameters from allSpawnablePrefabs Breaking loop");
+						break;
+					}
+
+					var Prefab = EnumerableExt.PickRandom(CustomNetworkManager.Instance.allSpawnablePrefabs);
+
+					if (Prefab.GetComponent<UniversalObjectPhysics>() == null)
+					{
+						continue;
+					}
+
+					SetsFound.Add(Prefab);
 				}
 
-				var Prefab = EnumerableExt.PickRandom(CustomNetworkManager.Instance.allSpawnablePrefabs);
-
-				if (Prefab.GetComponent<UniversalObjectPhysics>() == null)
+				int NumberOfItems = RNG.GetRandomNumber(10, 50);
+				Dictionary<GameObject, Stackable> stackableItems = new Dictionary<GameObject, Stackable>();
+				for (int i = 0; i < NumberOfItems; i++)
 				{
-					continue;
+					Vector3 pos = GetRandomFreePos();
+					_ = SpawnObject(EnumerableExt.PickRandom(SetsFound), stackableItems, pos);
+					stackableItems.Clear();
 				}
-
-				SetsFound.Add(Prefab);
 			}
-
-			int NumberOfItems = RNG.GetRandomNumber(10, 50);
-			Dictionary<GameObject, Stackable> stackableItems = new Dictionary<GameObject, Stackable>();
-			for (int i = 0; i < NumberOfItems; i++)
+			catch (Exception e)
 			{
-				Vector3 pos = GetRandomFreePos();
-				_ = SpawnObject(EnumerableExt.PickRandom(SetsFound), stackableItems, pos);
-				stackableItems.Clear();
+				Loggy.Error(e.ToString());
 			}
 		}
 
-		public GameObject SpawnObject(GameObject entryPrefab, Dictionary<GameObject, Stackable> stackableItems, Vector3 pos)
+		public GameObject SpawnObject(GameObject entryPrefab, Dictionary<GameObject, Stackable> stackableItems,
+			Vector3 pos)
 		{
-			var blueprint = entryPrefab.GetComponent<PlayerBlueprint>();
-
-			if (blueprint != null)
+			try
 			{
-				var body = blueprint.SpawnObject();
-				return body;
-			}
+				var blueprint = entryPrefab.GetComponent<PlayerBlueprint>();
 
-			if (stackableItems.ContainsKey(entryPrefab) == false)
-			{
-				var orderedItem = Spawn.ServerPrefab(entryPrefab, pos.ToWorld(mm.NetworkedMatrixMove.MetaTileMap.matrix))
-					.GameObject;
-				if (orderedItem == null)
+				if (blueprint != null)
 				{
-					//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
-					Loggy.Info($"Can't add ordered item to create because it doesn't have a GameObject",
-						Category.Cargo);
-					return null;
+					var body = blueprint.SpawnObject();
+					return body;
 				}
 
-				var stackableItem = orderedItem.GetComponent<Stackable>();
-				if (stackableItem != null)
+				if (stackableItems.ContainsKey(entryPrefab) == false)
 				{
-					stackableItems.Add(entryPrefab, stackableItem);
-				}
-
-
-				return orderedItem;
-			}
-			else
-			{
-				if (stackableItems[entryPrefab].Amount < stackableItems[entryPrefab].MaxAmount)
-				{
-					stackableItems[entryPrefab].ServerIncrease(1);
-				}
-				else
-				{
-					//Start a new one to start stacking
-					var orderedItem = Spawn.ServerPrefab(entryPrefab, pos).GameObject;
+					var orderedItem = Spawn
+						.ServerPrefab(entryPrefab, pos.ToWorld(mm.NetworkedMatrixMove.MetaTileMap.matrix))
+						.GameObject;
 					if (orderedItem == null)
 					{
 						//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
@@ -256,10 +241,42 @@ namespace US13.Shuttles
 					}
 
 					var stackableItem = orderedItem.GetComponent<Stackable>();
-					stackableItems[entryPrefab] = stackableItem;
+					if (stackableItem != null)
+					{
+						stackableItems.Add(entryPrefab, stackableItem);
+					}
+
 
 					return orderedItem;
 				}
+				else
+				{
+					if (stackableItems[entryPrefab].Amount < stackableItems[entryPrefab].MaxAmount)
+					{
+						stackableItems[entryPrefab].ServerIncrease(1);
+					}
+					else
+					{
+						//Start a new one to start stacking
+						var orderedItem = Spawn.ServerPrefab(entryPrefab, pos).GameObject;
+						if (orderedItem == null)
+						{
+							//let the shuttle still be able to complete the order empty otherwise it will be stuck permantly
+							Loggy.Info($"Can't add ordered item to create because it doesn't have a GameObject",
+								Category.Cargo);
+							return null;
+						}
+
+						var stackableItem = orderedItem.GetComponent<Stackable>();
+						stackableItems[entryPrefab] = stackableItem;
+
+						return orderedItem;
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
 			}
 
 			return null;
@@ -276,7 +293,8 @@ namespace US13.Shuttles
 			if (pos == TransformState.HiddenPos)
 				return (false);
 
-			var crate = Spawn.ServerPrefab(order.Crate, pos.ToWorld(mm.NetworkedMatrixMove.MetaTileMap.matrix)).GameObject;
+			var crate = Spawn.ServerPrefab(order.Crate, pos.ToWorld(mm.NetworkedMatrixMove.MetaTileMap.matrix))
+				.GameObject;
 			Dictionary<GameObject, Stackable> stackableItems = new Dictionary<GameObject, Stackable>();
 			//error occurred trying to spawn, just ignore this order.
 			if (crate == null) return true;

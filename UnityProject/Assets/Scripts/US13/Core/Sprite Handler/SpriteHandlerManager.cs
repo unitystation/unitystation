@@ -145,11 +145,11 @@ namespace US13.Core.Sprite_Handler
 
 			}
 
-			if (PresentSprites.ContainsKey(networkIdentity))
+			if (PresentSprites.TryGetValue(networkIdentity, out var Container))
 			{
-				if (PresentSprites[networkIdentity].ContainsKey(spriteHandler.name))
+				if (Container.ContainsKey(spriteHandler.name)) //Keep the if for debugging purposes
 				{
-					PresentSprites[networkIdentity].Remove(spriteHandler.name);
+					Container.Remove(spriteHandler.name);
 				}
 			}
 		}

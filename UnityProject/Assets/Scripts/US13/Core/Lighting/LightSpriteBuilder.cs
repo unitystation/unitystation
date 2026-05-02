@@ -1,4 +1,5 @@
 ﻿using UI.Core;
+using US13.Core.Sprite_Handler;
 
 namespace Light2D
 {
@@ -13,6 +14,7 @@ namespace Light2D
 
 		private static Material mMaterial;
 		private static Sprite mSprite;
+		private static SpriteDataSO mspriteSO;
 
 		private static Material material
 		{
@@ -40,6 +42,19 @@ namespace Light2D
 			}
 		}
 
+		private static SpriteDataSO spriteSO
+		{
+			get
+			{
+				if (mspriteSO == null)
+				{
+					mspriteSO = (SpriteDataSO)Resources.Load(SpriteLocation, typeof(SpriteDataSO));
+				}
+
+				return mspriteSO;
+			}
+		}
+
 		public static GameObject BuildDefault(GameObject iRoot, Color iColor = default(Color), float iSize = 7)
 		{
 			var _gameObject = new GameObject("Light2D");
@@ -55,6 +70,9 @@ namespace Light2D
 			_lightSprite.Sprite = sprite;
 			_lightSprite.Color = iColor;
 
+			// var _Handler = _gameObject.AddComponent<LightSpriteHandler>();
+			// _Handler.SetSpriteSO(spriteSO);
+			// _Handler.SetColor(iColor);
 			return _gameObject;
 		}
 	}

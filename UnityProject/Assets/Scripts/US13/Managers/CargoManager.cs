@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using Logs;
@@ -31,10 +32,19 @@ namespace US13.Managers
 		public int Credits;
 		public ShuttleStatus ShuttleStatus = ShuttleStatus.DockedStation;
 		public float CurrentFlyTime;
-		public string CentcomMessage = "";  // Message that will appear in status tab. Resets on sending shuttle to centcom.
+
+		public string
+			CentcomMessage = ""; // Message that will appear in status tab. Resets on sending shuttle to centcom.
+
 		public List<CargoCategory> Supplies = new List<CargoCategory>(); // Supplies - all the stuff cargo can order
-		public List<CargoOrderSO> CurrentOrders = new List<CargoOrderSO>(); // Orders - payed orders that will spawn in shuttle on centcom arrival
-		public List<CargoOrderSO> CurrentCart = new List<CargoOrderSO>(); // Cart - current orders, that haven't been payed for/ordered yet
+
+		public List<CargoOrderSO>
+			CurrentOrders =
+				new List<CargoOrderSO>(); // Orders - payed orders that will spawn in shuttle on centcom arrival
+
+		public List<CargoOrderSO>
+			CurrentCart = new List<CargoOrderSO>(); // Cart - current orders, that haven't been payed for/ordered yet
+
 		public List<CargoBounty> ActiveBounties = new List<CargoBounty>();
 
 		public int cartSizeLimit = 20;
@@ -46,11 +56,9 @@ namespace US13.Managers
 		public CargoUpdateEvent OnBountiesUpdate = new CargoUpdateEvent();
 		public CargoUpdateEvent OnConnectionChangeToCentComm = new CargoUpdateEvent();
 
-		[SerializeField]
-		private CargoData cargoData;
+		[SerializeField] private CargoData cargoData;
 
-		[SerializeField]
-		private float shuttleFlyDuration = 10f;
+		[SerializeField] private float shuttleFlyDuration = 10f;
 
 		private Dictionary<string, ExportedItem> exportedItems = new Dictionary<string, ExportedItem>();
 
@@ -63,11 +71,16 @@ namespace US13.Managers
 
 		public bool NTNeedsSomethingDumping;
 
-		[SerializeField, BoxGroup("Random Bounties")] private float checkForTimeCooldown = 50f;
-		[SerializeField, BoxGroup("Random Bounties")] private Vector2 randomTimeRangeForRandomBounty = new Vector2(320, 690);
-		[SerializeField, BoxGroup("Random Bounties")] private List<CargoBounty> randomBountiesList = new List<CargoBounty>();
+		[SerializeField, BoxGroup("Random Bounties")]
+		private float checkForTimeCooldown = 50f;
 
-		private static readonly List<int> randomJunkPrices = new List<int> { 5, 10, 15 };
+		[SerializeField, BoxGroup("Random Bounties")]
+		private Vector2 randomTimeRangeForRandomBounty = new Vector2(320, 690);
+
+		[SerializeField, BoxGroup("Random Bounties")]
+		private List<CargoBounty> randomBountiesList = new List<CargoBounty>();
+
+		private static readonly List<int> randomJunkPrices = new List<int> {5, 10, 15};
 
 		private void Awake()
 		{
@@ -81,7 +94,8 @@ namespace US13.Managers
 			}
 
 
-			randomBountyTimeCheck = UnityEngine.Random.Range((int)randomTimeRangeForRandomBounty.x, (int)randomTimeRangeForRandomBounty.y);
+			randomBountyTimeCheck = UnityEngine.Random.Range((int) randomTimeRangeForRandomBounty.x,
+				(int) randomTimeRangeForRandomBounty.y);
 		}
 
 
@@ -94,7 +108,7 @@ namespace US13.Managers
 		private void OnDisable()
 		{
 			UpdateManager.UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
-			EventManager.RemoveHandler(Event.ScenesLoadedServer,  CallShuttle);
+			EventManager.RemoveHandler(Event.ScenesLoadedServer, CallShuttle);
 		}
 
 		/// <summary>
@@ -116,8 +130,10 @@ namespace US13.Managers
 				{
 					continue;
 				}
+
 				return true;
 			}
+
 			return false;
 		}
 
@@ -125,7 +141,6 @@ namespace US13.Managers
 		{
 			OnRoundRestart();
 		}
-
 
 
 		public void OnRoundRestart()
@@ -143,20 +158,22 @@ namespace US13.Managers
 			Supplies = new List<CargoCategory>(cargoData.Categories);
 			ActiveBounties = new List<CargoBounty>(cargoData.CargoBounties);
 			lastTimeRecorded = 0;
-			randomBountyTimeCheck = UnityEngine.Random.Range((int)randomTimeRangeForRandomBounty.x, (int)randomTimeRangeForRandomBounty.y);
+			randomBountyTimeCheck = UnityEngine.Random.Range((int) randomTimeRangeForRandomBounty.x,
+				(int) randomTimeRangeForRandomBounty.y);
 		}
 
 		void UpdateMe()
 		{
-			if(CustomNetworkManager.IsServer == false) return;
+			if (CustomNetworkManager.IsServer == false) return;
 
-			if(RandomBountiesActive == false || CargoOffline) return;
+			if (RandomBountiesActive == false || CargoOffline) return;
 			lastTimeRecorded += (int) checkForTimeCooldown;
-			if(lastTimeRecorded >= randomBountyTimeCheck)
+			if (lastTimeRecorded >= randomBountyTimeCheck)
 			{
 				RollRandomBounties();
 				lastTimeRecorded = 0;
-				randomBountyTimeCheck = UnityEngine.Random.Range((int)randomTimeRangeForRandomBounty.x, (int)randomTimeRangeForRandomBounty.y);
+				randomBountyTimeCheck = UnityEngine.Random.Range((int) randomTimeRangeForRandomBounty.x,
+					(int) randomTimeRangeForRandomBounty.y);
 			}
 		}
 
@@ -179,7 +196,7 @@ namespace US13.Managers
 			if (CustomNetworkManager.IsServer == false) return;
 
 			if (CurrentFlyTime > 0f || ShuttleStatus == ShuttleStatus.OnRouteCentcom
-									|| ShuttleStatus == ShuttleStatus.OnRouteStation)
+			                        || ShuttleStatus == ShuttleStatus.OnRouteStation)
 			{
 				return;
 			}
@@ -189,7 +206,15 @@ namespace US13.Managers
 			//then it starts moving to station
 			if (ShuttleStatus == ShuttleStatus.DockedCentcom)
 			{
-				SpawnOrder();
+				try
+				{
+					SpawnOrder();
+				}
+				catch (Exception e)
+				{
+					Loggy.Error(e.ToString());
+				}
+
 				ShuttleStatus = ShuttleStatus.OnRouteStation;
 				CentcomMessage += "Shuttle is sent back with goods." + "\n";
 				AutopilotShipCargo.Instance.MoveToStation();
@@ -209,7 +234,9 @@ namespace US13.Managers
 					CurrentFlyTime = 0;
 					if (CentcomMessage.EndsWith(warningMessageEnd) == false)
 					{
-						CentcomMessage += "Due to safety and security reasons, the automatic cargo shuttle is unable to depart with any human, alien or animal organisms aboard." + "\n";
+						CentcomMessage +=
+							"Due to safety and security reasons, the automatic cargo shuttle is unable to depart with any human, alien or animal organisms aboard." +
+							"\n";
 					}
 				}
 				else
@@ -257,7 +284,8 @@ namespace US13.Managers
 
 					CentcomMessage += $"+{entry.Value.TotalValue} credits: {entry.Value.Count}";
 
-					if (!string.IsNullOrEmpty(entry.Value.ExportMessage) && string.IsNullOrEmpty(entry.Value.ExportName))
+					if (!string.IsNullOrEmpty(entry.Value.ExportMessage) &&
+					    string.IsNullOrEmpty(entry.Value.ExportName))
 					{
 						// Special handling for items that don't want pluralisation after
 						CentcomMessage += $" {entry.Value.ExportMessage}\n";
@@ -299,7 +327,8 @@ namespace US13.Managers
 			if (obj.TryGetComponent<PlayerScript>(out var playerScript))
 			{
 				// No one must survive to tell the secrets of Central Command's cargo handling techniques.
-				Chat.AddExamineMsg(obj, "<color=red> You feel a strong force of energy run through your body before everything goes to black in the blink of the eye. </color>");
+				Chat.AddExamineMsg(obj,
+					"<color=red> You feel a strong force of energy run through your body before everything goes to black in the blink of the eye. </color>");
 				playerScript.playerHealth.OnGib(" Gib by Cargo Shuttle being sold ");
 				return;
 			}
@@ -353,7 +382,9 @@ namespace US13.Managers
 			if (attributes != null)
 			{
 				attributes.OnExport();
-				exportName = string.IsNullOrEmpty(attributes.ExportName) ? attributes.ArticleName : attributes.ExportName;
+				exportName = string.IsNullOrEmpty(attributes.ExportName)
+					? attributes.ArticleName
+					: attributes.ExportName;
 			}
 			else
 			{
@@ -369,11 +400,11 @@ namespace US13.Managers
 				export = new ExportedItem
 				{
 					ExportMessage = attributes ? attributes.ExportMessage : string.Empty,
-					ExportName = attributes ? attributes.ExportName : string.Empty // Need to always use the given export name
+					ExportName =
+						attributes ? attributes.ExportName : string.Empty // Need to always use the given export name
 				};
 				exportedItems.Add(exportName, export);
 			}
-
 
 
 			var count = obj.TryGetComponent<Stackable>(out var stackable) ? stackable.Amount : 1;
@@ -386,14 +417,15 @@ namespace US13.Managers
 
 			if (obj.TryGetComponent<ItemAttributesV2>(out var itemAttributes))
 			{
-
 				//charge cargo for getting rid of trash through centeral commmunications.
 				if (itemAttributes.HasTrait(CommonTraits.Instance.Trash))
 				{
 					var chargedPrice = randomJunkPrices.PickRandom();
 					Credits -= chargedPrice;
-					export.ExportMessage += "\n" + $"{chargedPrice} Charged for junk removal for item : {itemAttributes.ArticleName}.";
+					export.ExportMessage +=
+						"\n" + $"{chargedPrice} Charged for junk removal for item : {itemAttributes.ArticleName}.";
 				}
+
 				foreach (var itemTrait in itemAttributes.GetTraits())
 				{
 					if (itemTrait == null)
@@ -406,6 +438,7 @@ namespace US13.Managers
 					{
 						SoldHistory.Add(itemTrait, 0);
 					}
+
 					SoldHistory[itemTrait] += count;
 					count = TryCompleteBounty(itemTrait, count);
 
@@ -420,10 +453,12 @@ namespace US13.Managers
 
 				lock (gasContainer.GasMixLocal.GasesArray) //no Double lock
 				{
-					foreach (var gas in gasContainer.GasMixLocal.GasesArray)  //doesn't appear to modify list while iterating
+					foreach (var gas in
+					         gasContainer.GasMixLocal.GasesArray) //doesn't appear to modify list while iterating
 					{
-						int gasValue = (int)gas.Moles * gas.GasSO.ExportPrice;
-						stringBuilder.AppendLine($"Exported {gas.Moles} moles of {gas.GasSO.Name} for {gasValue} credits");
+						int gasValue = (int) gas.Moles * gas.GasSO.ExportPrice;
+						stringBuilder.AppendLine(
+							$"Exported {gas.Moles} moles of {gas.GasSO.Name} for {gasValue} credits");
 						export.TotalValue += gasValue;
 						Credits += gasValue;
 					}
@@ -459,6 +494,7 @@ namespace US13.Managers
 						CheckBountyCompletion(activeBounty);
 						break;
 					}
+
 					count -= activeBounty.Demands[itemTrait];
 					activeBounty.Demands[itemTrait] = 0;
 					CheckBountyCompletion(activeBounty);
@@ -477,6 +513,7 @@ namespace US13.Managers
 					return;
 				}
 			}
+
 			CompleteBounty(cargoBounty);
 		}
 
@@ -484,32 +521,48 @@ namespace US13.Managers
 		{
 			ActiveBounties.Remove(cargoBounty);
 			Credits += cargoBounty.Reward;
-			CentcomMessage += $"+{cargoBounty.Reward.ToString()} credits: {cargoBounty.TooltipDescription} - completed.\n";
+			CentcomMessage +=
+				$"+{cargoBounty.Reward.ToString()} credits: {cargoBounty.TooltipDescription} - completed.\n";
 			OnBountiesUpdate.Invoke();
 		}
 
 		private void SpawnOrder()
 		{
-			AutopilotShipCargo.Instance.PrepareSpawnOrders();
-			for (int i = 0; i < CurrentOrders.Count; i++)
+			try
 			{
-				if (AutopilotShipCargo.Instance.SpawnOrder(CurrentOrders[i]))
+				AutopilotShipCargo.Instance.PrepareSpawnOrders();
+				for (int i = 0; i < CurrentOrders.Count; i++)
 				{
-					CurrentOrders.RemoveAt(i);
-					i--;
+					try
+					{
+						if (AutopilotShipCargo.Instance.SpawnOrder(CurrentOrders[i]))
+						{
+							CurrentOrders.RemoveAt(i);
+							i--;
+						}
+					}
+					catch (Exception e)
+					{
+						Loggy.Error(e.ToString());
+					}
 				}
 			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+			}
+
 
 			if (NTNeedsSomethingDumping)
 			{
 				NTNeedsSomethingDumping = false;
 				AutopilotShipCargo.Instance.FillShuttleWithRubbish();
-				var text = "Incoming Central Command Supplies Update:\n We have some excess inventory of items and assorted objects arriving on your cargo shuttle. " +
-				           "Have them for free.";
+				var text =
+					"Incoming Central Command Supplies Update:\n We have some excess inventory of items and assorted objects arriving on your cargo shuttle. " +
+					"Have them for free.";
 
 				CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, text, CentComm.UpdateSound.Alert);
 			}
-
 		}
 
 		public void AddToCart(CargoOrderSO orderToAdd)
@@ -546,6 +599,7 @@ namespace US13.Managers
 			{
 				totalPrice += CurrentCart[i].CreditCost;
 			}
+
 			return (totalPrice);
 		}
 
@@ -563,6 +617,7 @@ namespace US13.Managers
 				CurrentCart.Clear();
 				Credits -= totalPrice;
 			}
+
 			OnCreditsUpdate.Invoke();
 			OnCartUpdate.Invoke();
 		}
@@ -584,26 +639,27 @@ namespace US13.Managers
 		/// </summary>
 		public void AddBounty(ItemTrait trait, int amount, string title, string description, int reward, bool announce)
 		{
-			if(amount < 1 || reward < 1) return;
+			if (amount < 1 || reward < 1) return;
 			CargoBounty newBounty = new CargoBounty();
 			newBounty.Demands.Add(trait, amount);
 			newBounty.TooltipDescription = description;
 			newBounty.Title = title;
 			newBounty.Reward = reward;
 			ActiveBounties.Add(newBounty);
-			if(announce) AnnounceNewBounty();
+			if (announce) AnnounceNewBounty();
 		}
 
 		public void AddBounty(CargoBounty bounty, bool announce)
 		{
-			if(bounty == null) return;
+			if (bounty == null) return;
 			ActiveBounties.Add(bounty);
-			if(announce) AnnounceNewBounty();
+			if (announce) AnnounceNewBounty();
 		}
 
 		private void AnnounceNewBounty()
 		{
-			CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce, "A bounty for cargo has been issued from central communications", CentComm.UpdateSound.Notice);
+			CentComm.MakeAnnouncement(ChatTemplates.CentcomAnnounce,
+				"A bounty for cargo has been issued from central communications", CentComm.UpdateSound.Notice);
 		}
 
 		private class ExportedItem
@@ -623,5 +679,7 @@ namespace US13.Managers
 		}
 	}
 
-	public class CargoUpdateEvent : UnityEvent { }
+	public class CargoUpdateEvent : UnityEvent
+	{
+	}
 }
