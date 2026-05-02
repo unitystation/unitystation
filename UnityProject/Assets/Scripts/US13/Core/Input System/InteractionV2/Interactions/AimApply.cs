@@ -65,8 +65,8 @@ namespace US13.Core.Input_System.InteractionV2.Interactions
 		/// <param name="targetPosition"> The local position the player is aiming at
 		///  Same as originatorPosition Assuming hitting self </param>
 		private AimApply(GameObject performer, GameObject handObject, ItemSlot handSlot, MouseButtonState buttonState,
-			Vector2 targetPosition, BodyPartType bodyPartType, Intent intent, Mind inMind, Vector2 originatorPosition, GameObject TargetingObject) :
-			base(performer, handObject, TargetingObject, bodyPartType, intent, inMind)
+			Vector2 targetPosition, BodyPartType bodyPartType, Intent intent, Mind inMind, Vector2 originatorPosition, GameObject targetingObject) :
+			base(performer, handObject, targetingObject, bodyPartType, intent, inMind)
 		{
 			this.originatorPosition = originatorPosition;
 			this.targetPosition = targetPosition;
