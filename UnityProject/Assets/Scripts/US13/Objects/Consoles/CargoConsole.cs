@@ -99,7 +99,7 @@ namespace US13.Objects.Consoles
 		public void PlayBudgetUpdateSound()
 		{
 			if(soundIsOnCooldown) return;
-			_ = SoundManager.PlayNetworkedAtPosAsync(creditArrivalSound, gameObject.AssumedWorldPosServer(), new AudioSourceParameters(spatialBlend:2));
+			_ = SoundManager.PlayNetworkedAtPosAsync(creditArrivalSound, gameObject.AssumedWorldPosServer());
 			StartCoroutine(SoundCooldown());
 		}
 
