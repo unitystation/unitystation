@@ -63,21 +63,22 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 
 		protected override bool IsCurrentTaskValid()
 		{
+			if (targetMatrix == null) return false;
 			Vector3 worldPos = targetCell.ToWorld(targetMatrix);
 			return Vector3.Distance(worldPos, LivingHealthMaster.gameObject.AssumedWorldPosServer()) <= 1.5f;
 		}
 
 		public override List<Vector3Int> FindTarget(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
 		{
+			decalToClean = null;
+			targetMatrix = null;
+			
 			var path = FindPuddles(out targetPosition, out targetMatrixLocal);
 			if (IsEmagged) return path;
 
 			var decals = ComponentsTracker<FloorDecal>.GetAllNearbyTypesToTarget(master.Body.gameObject, searchRadius);
 			if (decals == null) return path;
 
-			decalToClean = null;
-			targetMatrix = null;
-			
 			targetMatrixLocal = master.Body.UniversalObjectPhysics.registerTile.Matrix;
 			var currentPosition = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrixLocal);
 
