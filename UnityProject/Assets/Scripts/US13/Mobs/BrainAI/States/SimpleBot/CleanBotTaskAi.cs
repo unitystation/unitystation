@@ -72,12 +72,12 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			var path = FindPuddles(out targetPosition, out targetMatrixLocal);
 			if (IsEmagged) return path;
 
-			decalToClean = null;
-			targetMatrix = null;
-
 			var decals = ComponentsTracker<FloorDecal>.GetAllNearbyTypesToTarget(master.Body.gameObject, searchRadius);
 			if (decals == null) return path;
 
+			decalToClean = null;
+			targetMatrix = null;
+			
 			targetMatrixLocal = master.Body.UniversalObjectPhysics.registerTile.Matrix;
 			var currentPosition = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrixLocal);
 
