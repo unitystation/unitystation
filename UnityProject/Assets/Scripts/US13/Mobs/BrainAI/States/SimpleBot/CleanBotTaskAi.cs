@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using Chemistry;
 using Cysharp.Threading.Tasks;
 using Logs;
 using UnityEngine;
+using US13.Core;
 using US13.Managers;
+using US13.Mobs.Traversal;
 using US13.Objects.Construction.FloorDecals;
 using US13.Tilemaps.Behaviours.Layers;
 using Util;
@@ -14,9 +17,6 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 	{
 		private FloorDecal decalToClean = null;
 		[SerializeField] private Reagent reagentToSpill = null;
-
-		private Collider2D[] possibleDecals = new Collider2D[10];
-		[SerializeField] private ContactFilter2D contactFilter;
 
 		public override void OnEnterState()
 		{
@@ -61,10 +61,10 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			}
 
 			searchRadius = 1; //Search nearby tiles to see if it can continue to clean without moving
-			bool found = FindTarget(out targetCell, out targetMatrix);
+			var path = FindTarget(out targetCell, out targetMatrix);
 			searchRadius = 5;
 
-			if (found == false) master.RemoveAddState(this, findSimpleTaskAi); //If cant clean without moving, return to search state
+			if (path == null || path.Count == 0) master.RemoveAddState(this, findSimpleTaskAi); //If cant clean without moving, return to search state
 			else DoTask();
 		}
 
@@ -76,11 +76,6 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 		private bool IsDecalValid(Vector3 positionToCheck)
 		{
 			return decalToClean && decalToClean.Cleanable && Vector3.Distance(decalToClean.gameObject.AssumedWorldPosServer(), positionToCheck) < 1.1f;
-		}
-
-		private static bool IsAccessableAt(Vector3Int position, Matrix matrix)
-		{
-			return matrix.MetaDataLayer.IsOccupiedAt(position) == false;
 		}
 
 		protected override bool IsCurrentTaskValid()
@@ -97,7 +92,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			       && IsDecalValid(worldPos);
 		}
 
-		public override bool FindTarget(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
+		public override List<Vector3Int> FindTarget(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
 		{
 			if (IsEmagged) return FindTargetEmagged(out targetPosition, out targetMatrixLocal);
 
@@ -107,30 +102,29 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			targetPosition = currentPosition;
 			decalToClean = null;
 
-			int decalCount = Physics2D.OverlapCircle(currentPosition.ToWorld(targetMatrixLocal), searchRadius, contactFilter, possibleDecals);
-			for(int i = 0; i < decalCount; i++)
+			var decals = ComponentsTracker<FloorDecal>.GetAllNearbyTypesToTarget(master.Body.gameObject, searchRadius, bypassInventories: false);
+			foreach(var decal in decals)
 			{
-				FloorDecal decal = possibleDecals[i].GetCachedComponent<FloorDecal>();
-				if (decal == false || decal.Cleanable == false) continue;
-
+				if (decal.Cleanable == false) continue;
 
 				var worldPos = decal.gameObject.AssumedWorldPosServer();
 				targetPosition = worldPos.ToLocalInt(targetMatrixLocal);
 
-				if(IsAccessableAt(targetPosition, targetMatrixLocal) == false) continue;
+				var possiblePath = MobTraversal.GeneratePath(currentPosition, targetPosition, targetMatrixLocal, PathfinderType.AStar);
+				if (possiblePath == null || possiblePath.Count == 0) continue;
 
 				this.decalToClean = decal;
 				targetMatrix = targetMatrixLocal;
 				targetCell = targetPosition;
-				return true;
+				return possiblePath;
 			}
 
 			targetMatrix = null;
 			targetMatrixLocal = null;
-			return false;
+			return null;
 		}
 
-		private bool FindTargetEmagged(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
+		private List<Vector3Int> FindTargetEmagged(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
 		{
 			targetMatrixLocal = master.Body.UniversalObjectPhysics.registerTile.Matrix;
 			var currentPosition = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrixLocal);
@@ -148,17 +142,20 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 
 					if (targetMatrixLocal.MetaDataLayer.IsSlipperyAt(checkPos) == false && targetMatrixLocal.MetaTileMap.IsAtmosPassableAt(checkPos, targetMatrixLocal))
 					{
+						var possiblePath = MobTraversal.GeneratePath(currentPosition, targetPosition, targetMatrixLocal, PathfinderType.AStar);
+						if (possiblePath == null || possiblePath.Count == 0) continue;
+
 						targetMatrix = targetMatrixLocal;
 						targetPosition = checkPos;
 						targetCell = checkPos;
-						return true;
+						return possiblePath;
 					}
 				}
 			}
 
 			targetMatrix = null;
 			targetMatrixLocal = null;
-			return false;
+			return null;
 		}
 	}
 }

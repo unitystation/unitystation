@@ -112,7 +112,7 @@ namespace US13.Mobs.BrainAI.States.Arial
 			if (isStalking) return;
 			if (pathfinder.QueueMovementGoal(target.gameObject.TileLocalPosition().To3Int(),
 				    () => OnDoneTraversalToLocation(Vector3Int.zero),
-				    null, TraversalStrategies, true))
+				    null, TraversalStrategies, PathfinderType.AStar, true))
 			{
 				isTraversing = true;
 			}

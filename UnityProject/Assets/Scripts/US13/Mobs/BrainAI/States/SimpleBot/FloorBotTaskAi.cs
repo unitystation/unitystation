@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using US13.Managers;
+using US13.Mobs.Traversal;
 using US13.Tilemaps.Behaviours.Layers;
 using US13.Tilemaps.Tiles;
 using US13.Tilemaps.Utils;
@@ -42,10 +45,10 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			}
 
 			searchRadius = 1; //Look for tiles in range of current position so can retain state
-			bool found = FindTarget(out targetCell, out targetMatrix);
+			var path = FindTarget(out targetCell, out targetMatrix);
 			searchRadius = 2;
 
-			if (found == false) master.RemoveAddState(this, findSimpleTaskAi); //If no nearby tiles, return to search state.
+			if (path == null || path.Count == 0) master.RemoveAddState(this, findSimpleTaskAi); //If no nearby tiles, return to search state.
 			else DoTask();
 		}
 
@@ -60,7 +63,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			       && IsExposedBaseTile(targetCell, targetMatrix);
 		}
 
-		public override bool FindTarget(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
+		public override List<Vector3Int> FindTarget(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
 		{
 			targetMatrixLocal = master.Body.UniversalObjectPhysics.registerTile.Matrix;
 			var currentPosition = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrixLocal);
@@ -78,17 +81,20 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 					if ((IsEmagged == false && IsExposedBaseTile(checkPos, targetMatrixLocal))
 					    || (IsEmagged == true && IsExposedFloorTile(checkPos, targetMatrixLocal)))
 					{
+						var possiblePath = MobTraversal.GeneratePath(currentPosition, targetPosition, targetMatrixLocal, PathfinderType.AStar);
+						if (possiblePath == null || possiblePath.Count == 0) continue;
+
 						targetMatrix = targetMatrixLocal;
 						targetPosition = checkPos;
 						targetCell = checkPos;
-						return true;
+						return possiblePath;
 					}
 				}
 			}
 
 			targetMatrix = null;
 			targetMatrixLocal = null;
-			return false;
+			return null;
 		}
 
 		private static bool IsExposedBaseTile(Vector3Int position, Matrix matrix)

@@ -20,13 +20,13 @@
 				uniform float _CurrentHealth = 0.0f;
 					
 				static const float _GrainSpeed = 0.1f;
-				static const int vignetteStart = 25.0f;
+				static const int vignetteStart = 50.0f;
 				static const int vignetteEnd = -100.0f;
-				static const int greyScaleStart = 25.0f;
+				static const int greyScaleStart = 50.0f;
 				static const int greScaleEnd = -15.0f;
-				static const int redTintStart = 10.0f;
+				static const int redTintStart = 30.0f;
 				static const int redTintEnd = -60.0f;
-				static const int darkeningStart = 0.0f;
+				static const int darkeningStart = 15.0f;
 				static const int darkeningEnd = -100.0f;
 					
 				static const float3 BT709 = float3(0.2126f, 0.7152f, 0.0722f);
@@ -40,7 +40,7 @@
 					float luminosity = dot(col.rgb, BT709);
 				
 					float greyScaleIntensity = smoothstep(greyScaleStart, greScaleEnd, _CurrentHealth);
-					float redTintIntensity = smoothstep(redTintStart, redTintEnd, _CurrentHealth) * 0.75f;
+					float redTintIntensity = smoothstep(redTintStart, redTintEnd, _CurrentHealth) * 0.8f;
 					float darkeningIntensity = smoothstep(darkeningStart, darkeningEnd, _CurrentHealth);
 					float vignetteIntensity = smoothstep(vignetteStart, vignetteEnd, _CurrentHealth);
 					
@@ -61,7 +61,7 @@
 					float4 redFilter = float4(luminosity, luminosity * (1 - redTintIntensity), luminosity * (1 - redTintIntensity), 1);
 					float4 outputColour = lerp(col, float4(luminosity,luminosity,luminosity,1), greyScaleIntensity); //Desaturate by stage one intensity
 					outputColour = lerp(outputColour, redFilter, redTintIntensity); //Make red by stage two intensity
-					outputColour = lerp(outputColour, float4(0.0f,0.0f,0.0f,1.0f), min(darkeningIntensity, 0.6f));
+					outputColour = lerp(outputColour, float4(0.0f,0.0f,0.0f,1.0f), min(darkeningIntensity, 0.7f));
 
 					//Apply noise
 					outputColour += noise; 

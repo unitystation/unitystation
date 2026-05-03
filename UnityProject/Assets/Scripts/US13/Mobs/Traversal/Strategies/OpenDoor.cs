@@ -12,13 +12,13 @@ namespace US13.Mobs.Traversal.Strategies
 	/// </summary>
 	public class OpenDoor : ITraversalStrat
 	{
-		public Tuple<bool, Component, LayerTile> ObsticalCheck(Vector3Int obsticalPosition, PlayerScript mob)
+		public Tuple<bool, Component, LayerTile> ObstacleCheck(Vector3Int obsticalPosition, PlayerScript mob)
 		{
 			var door = mob.RegisterPlayer.Matrix.GetFirst<DoorMasterController>(obsticalPosition, true);
 			return new Tuple<bool, Component, LayerTile>(door != null, door, null);
 		}
 
-		public int TraverseObstical(Vector3Int direction, Component obsticalObject, LayerTile obsticalTile, PlayerScript mob)
+		public int TraverseObstacle(Vector3Int direction, Component obsticalObject, LayerTile obsticalTile, PlayerScript mob)
 		{
 			var door = obsticalObject as DoorMasterController;
 			door?.PulseTryOpen(mob.gameObject);

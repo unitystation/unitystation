@@ -47,7 +47,8 @@ namespace US13.Mobs.BrainAI.States.GenericStates
 				MobTraversal.TraversalDetails newDetails = new MobTraversal.TraversalDetails
 				{
 					TargetPosition = MobToFollow.gameObject.TileLocalPosition().To3Int(),
-					CancelOnSlip = true
+					CancelOnSlip = true,
+					Algorithm = PathfinderType.BFS,
 				};
 				UpdateManager.ThinkShot(() => _ = pathfinder.CancelQueueAndGenerateNewPathToFollow(newDetails), PeriodicUpdateInterval - 0.5f);
 			}

@@ -23,6 +23,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 
 		[SerializeReference, SelectImplementation(typeof(ITraversalStrat))]
 		public List<ITraversalStrat> TraversalStrategies = new List<ITraversalStrat>();
+		protected List<Vector3Int> selectedPath = null;
 
 		private bool isTraversing = false;
 		private int refuseReturn = 0;
@@ -30,6 +31,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 		[SerializeField] private List<AudibleMobDialogue> idleDialogue = new List<AudibleMobDialogue>();
 		[SerializeField] List<AudibleMobDialogue> idleEmaggedDialogue = new List<AudibleMobDialogue>();
 		[SerializeField] private float dialogueChancePercent = 50;
+
 
 		private void Start()
 		{
@@ -83,7 +85,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 				master.RemoveAddState(this, wanderState);
 				return;
 			}
-			isTraversing = pathfinder.QueueMovementGoal(targetCell, () => OnDoneTraversalToLocation(Vector3Int.zero), null, TraversalStrategies, true);
+			isTraversing = pathfinder.QueueMovementGoal(targetCell, () => OnDoneTraversalToLocation(Vector3Int.zero), null, TraversalStrategies, PathfinderType.AStar, true);
 
 			if (isTraversing == false)
 			{
@@ -151,8 +153,8 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			//repeatedly trying to reach an unreachable target
 			if (refuseReturn-- > 0) return false;
 
-			foundTarget = taskState.FindTarget(out targetCell, out targetMatrix);
-			return foundTarget;
+			selectedPath = taskState.FindTarget(out targetCell, out targetMatrix);
+			return selectedPath != null && selectedPath.Count > 0;
 		}
 
 		public void EmagMob()

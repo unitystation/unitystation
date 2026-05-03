@@ -69,16 +69,28 @@ namespace US13.Mobs.Traversal
 			CancelCurrentTraversalImmediately();
 		}
 
-		public static List<Vector3Int> GeneratePath(Vector3Int start, Vector3Int target, Matrix matrix)
+		public static List<Vector3Int> GeneratePath(Vector3Int start, Vector3Int target, Matrix matrix, PathfinderType algorithm)
 		{
-			return matrix.MetaDataLayer.Pathfinder.AStarFromTo(matrix.MetaDataLayer.Nodes,
-				start, target, false,
-				Vector3Int.Distance(start, target) > 2);
+			switch (algorithm)
+			{
+				case PathfinderType.AStar:
+					return matrix.MetaDataLayer.Pathfinder.AStarFromTo(matrix.MetaDataLayer.Nodes,
+						start, target, false,
+						Vector3Int.Distance(start, target) > 2);
+				case PathfinderType.BFS:
+					return matrix.MetaDataLayer.Pathfinder.FromTo(matrix.MetaDataLayer.Nodes,
+						start, target, false,
+						Vector3Int.Distance(start, target) > 2);
+				default:
+					return matrix.MetaDataLayer.Pathfinder.AStarFromTo(matrix.MetaDataLayer.Nodes,
+						start, target, false,
+						Vector3Int.Distance(start, target) > 2);
+			}
 		}
 
 		public bool QueueMovementGoal(Vector3Int newTarget,
 			Action onTraversalFinalStep = null,
-			Action onRetryMoveToDirection = null, List<ITraversalStrat> strategies = null, bool cancelOnSlip = false)
+			Action onRetryMoveToDirection = null, List<ITraversalStrat> strategies = null, PathfinderType algorithm = PathfinderType.AStar, bool cancelOnSlip = false)
 		{
 			TraversalDetails newDetails = new TraversalDetails
 			{
@@ -86,19 +98,41 @@ namespace US13.Mobs.Traversal
 				OnTraversalFinalStep = onTraversalFinalStep,
 				OnRetryMoveToDirection = onRetryMoveToDirection,
 				Strats = strategies,
-				CancelOnSlip = cancelOnSlip
+				CancelOnSlip = cancelOnSlip,
+				Algorithm = algorithm
 			};
 			return QueueMovementGoal(newDetails);
 		}
 
-		public bool QueueMovementGoal(TraversalDetails newTraversalDetails)
+		private bool QueueMovementGoal(TraversalDetails newTraversalDetails)
 		{
 			if (health.IsDead) return false;
 			if (_targetQueue.Count >= MaxQueuedTargets) return false;
 
-			//TODO: Add a check to switch between using BFS and A*.
-			path = GeneratePath(gameObject.TileLocalPosition().To3Int(), newTraversalDetails.TargetPosition, matrix);
+			path = GeneratePath(gameObject.TileLocalPosition().To3Int(), newTraversalDetails.TargetPosition, matrix, newTraversalDetails.Algorithm);
+
 			if (path == null || path.Count == 0)
+			{
+				if (DebugGizmos) Loggy.Info("Attempted to move to a location that is not reachable.");
+				return false;
+			}
+
+			if (_isMoving == false)
+			{
+				CleanSlate(false);
+				_ = MoveToTarget(newTraversalDetails);
+				return true;
+			}
+			_targetQueue.Enqueue(newTraversalDetails);
+			return true;
+		}
+
+		public bool QueueMovementGoalFromPath(TraversalDetails newTraversalDetails, List<Vector3Int> pathToUse)
+		{
+			if (health.IsDead) return false;
+			if (_targetQueue.Count >= MaxQueuedTargets) return false;
+
+			if (pathToUse == null || pathToUse.Count == 0)
 			{
 				if (DebugGizmos) Loggy.Info("Attempted to move to a location that is not reachable.");
 				return false;
@@ -116,7 +150,7 @@ namespace US13.Mobs.Traversal
 
 		public async UniTask CancelQueueAndGenerateNewPathToFollow(TraversalDetails newDetails)
 		{
-			var newPath = GeneratePath(gameObject.TileLocalPosition().To3Int(), newDetails.TargetPosition, matrix);
+			var newPath = GeneratePath(gameObject.TileLocalPosition().To3Int(), newDetails.TargetPosition, matrix, newDetails.Algorithm);
 			if (newPath == null || newPath.Count == 0)
 			{
 				if (DebugGizmos) Loggy.Info("Attempted to move to a location that is not reachable.");
@@ -289,10 +323,10 @@ namespace US13.Mobs.Traversal
 				}
 				try
 				{
-					var check = strat.ObsticalCheck(target, Mob);
+					var check = strat.ObstacleCheck(target, Mob);
 					if (check.Item1)
 					{
-						timeoutRequestTicks += strat.TraverseObstical(target, check.Item2, check.Item3, Mob);
+						timeoutRequestTicks += strat.TraverseObstacle(target, check.Item2, check.Item3, Mob);
 						return;
 					}
 				}
@@ -361,6 +395,7 @@ namespace US13.Mobs.Traversal
 			public Action OnTraversalCancelled;
 			public GameObject TargetObject;
 			public List<ITraversalStrat> Strats;
+			public PathfinderType Algorithm;
 		}
 	}
 

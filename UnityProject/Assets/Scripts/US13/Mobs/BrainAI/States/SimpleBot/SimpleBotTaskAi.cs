@@ -113,11 +113,11 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			return false;
 		}
 
-		public virtual bool FindTarget(out Vector3Int targetPosition, out Matrix targetMatrix)
+		public virtual List<Vector3Int> FindTarget(out Vector3Int targetPosition, out Matrix targetMatrix)
 		{
 			targetPosition = Vector3Int.zero;
 			targetMatrix = null;
-			return false;
+			return null;
 		}
 
 

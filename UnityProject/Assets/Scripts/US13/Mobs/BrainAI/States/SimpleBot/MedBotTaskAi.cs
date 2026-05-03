@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cysharp.Threading.Tasks;
 using Logs;
 using UnityEngine;
+using US13.Core;
 using US13.Health.Objects;
 using US13.HealthV2;
 using US13.HealthV2.Living;
 using US13.Managers;
+using US13.Mobs.Traversal;
 using US13.Player;
 using US13.Tilemaps.Behaviours.Layers;
 using Util;
@@ -18,9 +21,6 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 	{
 		private LivingHealthMasterBase creatureToHeal = null;
 		[SerializeField] private List<PlayerHealthData> blackListedSpecies = new List<PlayerHealthData>();
-
-		private Collider2D[] possiblePlayers = new Collider2D[5];
-		[SerializeField] private ContactFilter2D contactFilter;
 
 		public override void OnEnterState()
 		{
@@ -62,30 +62,26 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			}
 
 			searchRadius = 1; //Search nearby tiles to see if it can continue to heal without moving
-			bool found = FindTarget(out targetCell, out targetMatrix);
+			var path = FindTarget(out targetCell, out targetMatrix);
 			searchRadius = 5;
 
-			if (found == false) master.RemoveAddState(this, findSimpleTaskAi); //If cant heal without moving, return to search state
+			if (path == null || path.Count == 0) master.RemoveAddState(this, findSimpleTaskAi); //If cant heal without moving, return to search state
 			else DoTask();
 		}
 		protected override bool IsCurrentTaskValid()
 		{
 			if (creatureToHeal == false || creatureToHeal.mobID == LivingHealthMaster.mobID) return false;
 			if (blackListedSpecies.Contains(creatureToHeal.InitialSpecies)) return false;
-			if (IsEmagged)
-			{
-				var worldPosHurt = creatureToHeal.gameObject.AssumedWorldPosServer();
-				return Vector3.Distance(worldPosHurt, LivingHealthMaster.gameObject.AssumedWorldPosServer()) <= 1.5f;
-			}
 
 			var damage = creatureToHeal.GetBruteBurnTotal();
-			if (damage >= 0f) return false;
+			if (IsEmagged && damage > -100f) return false;
+			if (IsEmagged == false && damage <= 0f) return false;
 
 			Vector3 worldPos = creatureToHeal.gameObject.AssumedWorldPosServer();
 			return Vector3.Distance(worldPos, LivingHealthMaster.gameObject.AssumedWorldPosServer()) <= 1.5f;
 		}
 
-		public override bool FindTarget(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
+		public override List<Vector3Int> FindTarget(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
 		{
 			targetMatrixLocal = master.Body.UniversalObjectPhysics.registerTile.Matrix;
 			var currentPosition = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrixLocal);
@@ -93,31 +89,32 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			targetPosition = currentPosition;
 			creatureToHeal = null;
 
-			var targetCount = Physics2D.OverlapCircle(currentPosition.ToWorld(targetMatrixLocal), searchRadius, contactFilter, possiblePlayers);
-			for (int i = 0; i < targetCount; i++)
+			var targets = ComponentsTracker<LivingHealthMasterBase>.GetAllNearbyTypesToTarget(master.Body.gameObject, searchRadius, bypassInventories: false);
+			foreach(var living in targets)
 			{
-				var health = possiblePlayers[i].GetCachedComponent<LivingHealthMasterBase>();
+				if (living.mobID == LivingHealthMaster.mobID) continue;
+				if (blackListedSpecies.Contains(living.InitialSpecies)) continue;
 
-				if (health == false || health.mobID == LivingHealthMaster.mobID) continue;
-				if (blackListedSpecies.Contains(health.InitialSpecies)) continue;
+				var damage = living.GetBruteBurnTotal();
 
-				var damage = health.GetBruteBurnTotal();
+				if (IsEmagged && damage > -100f) continue;
+				if (IsEmagged == false && damage <= 0f) continue;
 
-				if (IsEmagged && damage < -100f) continue;
-				if (IsEmagged == false && damage >= 0f) continue;
+				var possiblePath = MobTraversal.GeneratePath(currentPosition, targetPosition, targetMatrixLocal, PathfinderType.AStar);
+				if (possiblePath == null || possiblePath.Count == 0) continue;
 
-				var worldPos = health.gameObject.AssumedWorldPosServer();
+				var worldPos = living.gameObject.AssumedWorldPosServer();
 				targetPosition = worldPos.ToLocalInt(targetMatrixLocal);
 
-				this.creatureToHeal = health;
+				this.creatureToHeal = living;
 				targetMatrix = targetMatrixLocal;
 				targetCell = targetPosition;
-				return true;
+				return possiblePath;
 			}
 
 			targetMatrix = null;
 			targetMatrixLocal = null;
-			return false;
+			return null;
 		}
 	}
 }
