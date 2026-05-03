@@ -214,6 +214,11 @@ namespace US13.Tilemaps.Behaviours.Layers
 			return Get(position, false).IsSpace;
 		}
 
+		public bool HasReagentSpatter(Vector3Int localPosInt)
+		{
+			return Get(localPosInt).ReagentsOnTile is { Total: >= 0.1f };
+		}
+
 		public bool IsRoomAt(Vector3Int position)
 		{
 			return Get(position, false).IsRoom;
@@ -487,11 +492,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 			node.ReagentsOnTile.Clear();
 		}
 
-		public bool HasReagentSpatter(Vector3Int localPosInt)
-		{
-			var node = Get(localPosInt);
-			return node.ReagentsOnTile.Total >= 0.1f;
-		}
+
 
 		public void Paintsplat(Vector3 worldPos, Vector3Int localPosInt, ReagentMix reagents)
 		{

@@ -20,13 +20,6 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 
 		public override void OnEnterState()
 		{
-			if (IsEmagged == false && decalToClean == false)
-			{
-				Loggy.Error("CleanBotTaskAi: Attempted to enter state but decalToClean was null!");
-				master.RemoveAddState(this, findSimpleTaskAi);
-				return;
-			}
-
 			searchRadius = 3;
 			isPerformingTask = false;
 
