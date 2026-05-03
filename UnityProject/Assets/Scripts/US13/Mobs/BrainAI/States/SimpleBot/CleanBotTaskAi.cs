@@ -76,7 +76,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			targetMatrix = null;
 
 			var decals = ComponentsTracker<FloorDecal>.GetAllNearbyTypesToTarget(master.Body.gameObject, searchRadius);
-			if (decals == null) return null;
+			if (decals == null) return path;
 
 			targetMatrixLocal = master.Body.UniversalObjectPhysics.registerTile.Matrix;
 			var currentPosition = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrixLocal);
@@ -97,7 +97,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 				return possiblePath;
 			}
 
-			return null;
+			return path;
 		}
 
 		private List<Vector3Int> FindPuddles(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
@@ -110,9 +110,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			{
 				for (int x = -searchRadius; x <= searchRadius; x++)
 				{
-					var checkPos = currentPosition;
-					checkPos.x += x;
-					checkPos.y += y;
+					var checkPos = currentPosition + new Vector3Int(x,y,0);
 
 					if ((IsEmagged == false && targetMatrixLocal.MetaDataLayer.HasReagentSpatter(checkPos))
 					    || (IsEmagged && targetMatrixLocal.MetaDataLayer.IsSlipperyAt(checkPos) == false))

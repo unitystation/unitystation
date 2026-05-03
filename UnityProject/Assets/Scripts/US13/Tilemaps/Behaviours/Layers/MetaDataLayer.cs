@@ -216,7 +216,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 		public bool HasReagentSpatter(Vector3Int localPosInt)
 		{
-			return Get(localPosInt).ReagentsOnTile is { Total: >= 0.1f };
+			return matrix.GetMetaDataNode(localPosInt).ReagentsOnTile is { Total: >= 0.1f };
 		}
 
 		public bool IsRoomAt(Vector3Int position)
