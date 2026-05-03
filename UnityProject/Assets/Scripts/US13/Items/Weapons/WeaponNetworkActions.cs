@@ -198,9 +198,12 @@ namespace US13.Items.Weapons
 						// The attack hit.
 						if (victim.TryGetComponent<LivingHealthMasterBase>(out var victimHealth))
 						{
-							foreach (var meleeBehaviour in weaponAttributes.CustomMeleeBehaviours)
+							if (weaponAttributes)
 							{
-								ApplyHitEffects(stats, victim, damageZone, meleeBehaviour);
+								foreach (var meleeBehaviour in weaponAttributes.CustomMeleeBehaviours)
+								{
+									ApplyHitEffects(stats, victim, damageZone, meleeBehaviour);
+								}
 							}
 
 							AdminLogsManager.AddNewLog(this.gameObject, $" Attacked ", victim, $" Dealing damage {stats.Damage} Of type {stats.DamageType} damageZone {damageZone} traumaDamageChance {stats.TraumaDamageChance} Traumatic damage type {stats.TraumaticDamageType} ", LogCategory.MobDamage);
@@ -216,9 +219,12 @@ namespace US13.Items.Weapons
 					}
 					else
 					{
-						foreach (var meleeBehaviour in weaponAttributes.CustomMeleeBehaviours)
+						if (weaponAttributes)
 						{
-							ApplyBlockEffects(stats, victim, damageZone, meleeBehaviour);
+							foreach (var meleeBehaviour in weaponAttributes.CustomMeleeBehaviours)
+							{
+								ApplyBlockEffects(stats, victim, damageZone, meleeBehaviour);
+							}
 						}
 					}
 				}

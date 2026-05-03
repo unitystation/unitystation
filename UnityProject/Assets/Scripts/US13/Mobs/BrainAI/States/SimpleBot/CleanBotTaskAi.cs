@@ -105,7 +105,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			if (decals == null) return null;
 
 			targetMatrixLocal = master.Body.UniversalObjectPhysics.registerTile.Matrix;
-			targetPosition = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrixLocal);
+			var currentPosition = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrixLocal);
 
 			foreach(var decal in decals)
 			{
@@ -114,7 +114,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 				var worldPos = decal.gameObject.AssumedWorldPosServer();
 				targetPosition = worldPos.ToLocalInt(targetMatrixLocal);
 
-				var possiblePath = MobTraversal.GeneratePath(targetPosition, targetPosition, targetMatrixLocal, PathfinderType.AStar);
+				var possiblePath = MobTraversal.GeneratePath(currentPosition, targetPosition, targetMatrixLocal, PathfinderType.AStar);
 				if (possiblePath == null || possiblePath.Count == 0) continue;
 
 				this.decalToClean = decal;

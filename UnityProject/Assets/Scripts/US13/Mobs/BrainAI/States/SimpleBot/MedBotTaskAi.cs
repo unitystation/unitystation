@@ -92,7 +92,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			if (targets == null) return null;
 
 			targetMatrixLocal = master.Body.UniversalObjectPhysics.registerTile.Matrix;
-			targetPosition  = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrixLocal);
+			var currentPosition  = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrixLocal);
 
 			foreach(var living in targets)
 			{
@@ -104,18 +104,17 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 				if (IsEmagged && damage > -100f) continue;
 				if (IsEmagged == false && damage <= 0f) continue;
 
-				var possiblePath = MobTraversal.GeneratePath(targetPosition, targetPosition, targetMatrixLocal, PathfinderType.AStar);
-				if (possiblePath == null || possiblePath.Count == 0) continue;
-
 				var worldPos = living.gameObject.AssumedWorldPosServer();
 				targetPosition = worldPos.ToLocalInt(targetMatrixLocal);
+
+				var possiblePath = MobTraversal.GeneratePath(currentPosition, targetPosition, targetMatrixLocal, PathfinderType.AStar);
+				if (possiblePath == null || possiblePath.Count == 0) continue;
 
 				this.creatureToHeal = living;
 				targetMatrix = targetMatrixLocal;
 				targetCell = targetPosition;
 				return possiblePath;
 			}
-
 			return null;
 		}
 	}
