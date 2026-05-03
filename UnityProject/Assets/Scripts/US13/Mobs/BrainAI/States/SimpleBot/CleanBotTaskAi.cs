@@ -15,7 +15,6 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 {
 	public class CleanBotTaskAi : SimpleBotTaskAi
 	{
-		private FloorDecal decalToClean = null;
 		[SerializeField] private Reagent reagentToSpill = null;
 
 		public override void OnEnterState()
@@ -70,9 +69,8 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 
 		public override List<Vector3Int> FindTarget(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
 		{
-			decalToClean = null;
 			targetMatrix = null;
-			
+
 			var path = FindPuddles(out targetPosition, out targetMatrixLocal);
 			if (IsEmagged) return path;
 
@@ -92,7 +90,6 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 				var possiblePath = MobTraversal.GeneratePath(currentPosition, targetPosition, targetMatrixLocal, PathfinderType.AStar);
 				if (possiblePath == null || possiblePath.Count == 0) continue;
 
-				this.decalToClean = decal;
 				targetMatrix = targetMatrixLocal;
 				targetCell = targetPosition;
 				return possiblePath;

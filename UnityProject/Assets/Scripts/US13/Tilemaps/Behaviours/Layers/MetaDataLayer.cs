@@ -29,6 +29,7 @@ using US13.Tilemaps.Behaviours.Meta;
 using US13.Tilemaps.Behaviours.Meta.Atmospherics;
 using US13.Tilemaps.Behaviours.Meta.Atmospherics.Data;
 using US13.Tilemaps.Behaviours.Pathfinding;
+using US13.Tilemaps.Tiles;
 using US13.Tilemaps.Utils;
 using Util;
 using Random = UnityEngine.Random;
@@ -462,24 +463,15 @@ namespace US13.Tilemaps.Behaviours.Layers
 					{
 						tile = CommonTiles.Instance.LiquidBig;
 					}
-
-
-					var Position = matrix.MetaTileMap.AddOverlay(localPosInt, tile, color: GetTileColourMix(reagents));
-					SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Bubbles, localPosInt);
-					return (Position, reagents.MixState);
+					
+					var position = matrix.MetaTileMap.AddOverlay(localPosInt, tile, color: GetTileColourMix(reagents));
+					_ = SoundManager.PlayNetworkedAtPosAsync(CommonSounds.Instance.Bubbles, localPosInt);
+					return (position, reagents.MixState);
 				case ReagentState.Gas:
 				case ReagentState.Solid:
-					var Position1 = Vector3Int.back;
-					if (reagents.MajorMixReagent.name == "TableSalt")
-					{
-						Position1 = matrix.MetaTileMap.AddOverlay(localPosInt, CommonTiles.Instance.PowderSalt, color: GetTileColourMix(reagents));
-					}
-					else
-					{
-						Position1 = matrix.MetaTileMap.AddOverlay(localPosInt, CommonTiles.Instance.Powder, color: GetTileColourMix(reagents));
-					}
-
-					return (Position1, ReagentState.Solid);
+					OverlayTile toAdd = reagents.MajorMixReagent != null && reagents.MajorMixReagent == CommonReagents.Instance.TableSalt ? CommonTiles.Instance.PowderSalt : CommonTiles.Instance.Powder;
+					var positionMix = matrix.MetaTileMap.AddOverlay(localPosInt, toAdd, color: GetTileColourMix(reagents));
+					return (positionMix, ReagentState.Solid);
 			}
 			return (Vector3Int.zero, ReagentState.Solid);;
 		}
