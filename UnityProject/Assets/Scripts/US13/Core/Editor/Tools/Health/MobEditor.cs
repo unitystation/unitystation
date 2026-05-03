@@ -12,7 +12,7 @@ using US13.ScriptableObjects.Health;
 using US13.UI.Systems.Lobby;
 using BodyPart = US13.HealthV2.Living.BodyParts.BodyPart;
 
-namespace US13.Mobs
+namespace US13.Core.Editor.Tools.Health
 {
 #if UNITY_EDITOR
 
