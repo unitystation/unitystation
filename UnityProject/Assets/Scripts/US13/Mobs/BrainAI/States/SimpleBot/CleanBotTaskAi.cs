@@ -96,13 +96,17 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 		{
 			if (IsEmagged) return FindTargetEmagged(out targetPosition, out targetMatrixLocal);
 
-			targetMatrixLocal = master.Body.UniversalObjectPhysics.registerTile.Matrix;
-			var currentPosition = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrixLocal);
-
-			targetPosition = currentPosition;
+			targetMatrixLocal = null;
+			targetPosition = Vector3Int.zero;
 			decalToClean = null;
+			targetMatrix = null;
 
 			var decals = ComponentsTracker<FloorDecal>.GetAllNearbyTypesToTarget(master.Body.gameObject, searchRadius, bypassInventories: false);
+			if (decals == null) return null;
+
+			targetMatrixLocal = master.Body.UniversalObjectPhysics.registerTile.Matrix;
+			targetPosition = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrixLocal);
+
 			foreach(var decal in decals)
 			{
 				if (decal.Cleanable == false) continue;
@@ -110,7 +114,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 				var worldPos = decal.gameObject.AssumedWorldPosServer();
 				targetPosition = worldPos.ToLocalInt(targetMatrixLocal);
 
-				var possiblePath = MobTraversal.GeneratePath(currentPosition, targetPosition, targetMatrixLocal, PathfinderType.AStar);
+				var possiblePath = MobTraversal.GeneratePath(targetPosition, targetPosition, targetMatrixLocal, PathfinderType.AStar);
 				if (possiblePath == null || possiblePath.Count == 0) continue;
 
 				this.decalToClean = decal;
@@ -118,9 +122,6 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 				targetCell = targetPosition;
 				return possiblePath;
 			}
-
-			targetMatrix = null;
-			targetMatrixLocal = null;
 			return null;
 		}
 

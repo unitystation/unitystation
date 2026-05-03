@@ -83,13 +83,17 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 
 		public override List<Vector3Int> FindTarget(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
 		{
-			targetMatrixLocal = master.Body.UniversalObjectPhysics.registerTile.Matrix;
-			var currentPosition = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrixLocal);
-
-			targetPosition = currentPosition;
+			targetMatrixLocal = null;
+			targetPosition = Vector3Int.zero;
+			targetMatrix = null;
 			creatureToHeal = null;
 
 			var targets = ComponentsTracker<LivingHealthMasterBase>.GetAllNearbyTypesToTarget(master.Body.gameObject, searchRadius, bypassInventories: false);
+			if (targets == null) return null;
+
+			targetMatrixLocal = master.Body.UniversalObjectPhysics.registerTile.Matrix;
+			targetPosition  = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrixLocal);
+
 			foreach(var living in targets)
 			{
 				if (living.mobID == LivingHealthMaster.mobID) continue;
@@ -100,7 +104,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 				if (IsEmagged && damage > -100f) continue;
 				if (IsEmagged == false && damage <= 0f) continue;
 
-				var possiblePath = MobTraversal.GeneratePath(currentPosition, targetPosition, targetMatrixLocal, PathfinderType.AStar);
+				var possiblePath = MobTraversal.GeneratePath(targetPosition, targetPosition, targetMatrixLocal, PathfinderType.AStar);
 				if (possiblePath == null || possiblePath.Count == 0) continue;
 
 				var worldPos = living.gameObject.AssumedWorldPosServer();
@@ -112,8 +116,6 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 				return possiblePath;
 			}
 
-			targetMatrix = null;
-			targetMatrixLocal = null;
 			return null;
 		}
 	}
