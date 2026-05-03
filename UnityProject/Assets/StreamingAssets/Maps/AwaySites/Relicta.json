@@ -3023,7 +3023,7 @@
             "Key": "X-31Y15",
             "Value": [
               {
-                "Tel": "Floor"
+                "Tel": "floorscorched1"
               },
               {
                 "Tel": "Plating"
@@ -3205,6 +3205,9 @@
           {
             "Key": "X-30Y-13",
             "Value": [
+              {
+                "Tel": "floorscorched2"
+              },
               {
                 "Tel": "Plating"
               }
@@ -6355,7 +6358,7 @@
             "Key": "X-24Y0",
             "Value": [
               {
-                "Tel": "Floor"
+                "Tel": "floorscorched1"
               },
               {
                 "Tel": "Plating"
@@ -6897,7 +6900,7 @@
             "Key": "X-23Y0",
             "Value": [
               {
-                "Tel": "Floor"
+                "Tel": "floorscorched2"
               },
               {
                 "Tel": "Plating"
@@ -8813,9 +8816,6 @@
                 "Tel": "PlatingIndestructible"
               },
               {
-                "Tel": "Grille"
-              },
-              {
                 "Tel": "NO-Low_Voltage_Cable",
                 "Z": 1
               }
@@ -8837,9 +8837,6 @@
             "Key": "X-20Y23",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
-              },
-              {
                 "Tel": "PlatingIndestructible"
               },
               {
@@ -8852,14 +8849,11 @@
             "Key": "X-20Y24",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "NS-Low_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "NS-Low_Voltage_Cable"
               }
             ]
           },
@@ -8867,7 +8861,7 @@
             "Key": "X-20Y25",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "NS-Low_Voltage_Cable",
@@ -8882,7 +8876,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "NS-Low_Voltage_Cable",
@@ -8894,10 +8888,7 @@
             "Key": "X-20Y27",
             "Value": [
               {
-                "Tel": "Floor"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "NS-Low_Voltage_Cable",
@@ -8912,7 +8903,7 @@
                 "Tel": "Floor"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "NS-Low_Voltage_Cable",
@@ -8956,9 +8947,6 @@
           {
             "Key": "X-20Y31",
             "Value": [
-              {
-                "Tel": "Floor"
-              },
               {
                 "Tel": "PlatingIndestructible"
               },
@@ -9429,9 +9417,6 @@
               {
                 "Tel": "NS-Medium_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "NS-Medium_Voltage_Cable"
               }
             ]
           },
@@ -9439,14 +9424,11 @@
             "Key": "X-19Y24",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "NS-Medium_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "NS-Medium_Voltage_Cable"
               }
             ]
           },
@@ -9454,14 +9436,11 @@
             "Key": "X-19Y25",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "NS-Medium_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "NS-Medium_Voltage_Cable"
               }
             ]
           },
@@ -9469,17 +9448,11 @@
             "Key": "X-19Y26",
             "Value": [
               {
-                "Tel": "Floor"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "NS-Medium_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "NS-Medium_Voltage_Cable"
               }
             ]
           },
@@ -9487,17 +9460,11 @@
             "Key": "X-19Y27",
             "Value": [
               {
-                "Tel": "Floor"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "NS-Medium_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "NS-Medium_Voltage_Cable"
               }
             ]
           },
@@ -9505,14 +9472,14 @@
             "Key": "X-19Y28",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "NS-Medium_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "NS-Medium_Voltage_Cable"
               }
             ]
           },
@@ -9520,27 +9487,23 @@
             "Key": "X-19Y29",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "Floor"
               },
               {
-                "Tel": "WE-Low_Voltage_Cable",
-                "Z": 1
-              },
-              {
-                "Tel": "NS-Medium_Voltage_Cable"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "NS-Medium_Voltage_Cable",
-                "Z": -1
+                "Z": 1
+              },
+              {
+                "Tel": "WE-Low_Voltage_Cable"
               }
             ]
           },
           {
             "Key": "X-19Y30",
             "Value": [
-              {
-                "Tel": "Floor"
-              },
               {
                 "Tel": "PlatingIndestructible"
               },
@@ -10101,7 +10064,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "WE-Low_Voltage_Cable",
@@ -11896,6 +11859,14 @@
               },
               {
                 "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X-14Y-18",
+            "Value": [
+              {
+                "Tel": "Lattice"
               }
             ]
           },
@@ -13735,6 +13706,9 @@
             "Key": "X-11Y-18",
             "Value": [
               {
+                "Tel": "floorscorched1"
+              },
+              {
                 "Tel": "Plating"
               }
             ]
@@ -13961,7 +13935,7 @@
             "Key": "X-11Y5",
             "Value": [
               {
-                "Tel": "Floor"
+                "Tel": "floorscorched1"
               },
               {
                 "Tel": "Plating"
@@ -16933,6 +16907,14 @@
             ]
           },
           {
+            "Key": "X-6Y-33",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
             "Key": "X-6Y-32",
             "Value": [
               {
@@ -19382,6 +19364,14 @@
             ]
           },
           {
+            "Key": "X-2Y-33",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
             "Key": "X-2Y-32",
             "Value": [
               {
@@ -20949,6 +20939,62 @@
             ]
           },
           {
+            "Key": "X0Y-37",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y-36",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y-35",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y-34",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
             "Key": "X0Y-32",
             "Value": [
               {
@@ -21760,13 +21806,68 @@
             ]
           },
           {
-            "Key": "X1Y-32",
+            "Key": "X1Y-37",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
+                "Tel": "WindowReinforced"
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y-36",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y-35",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y-34",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y-33",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y-32",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -22512,13 +22613,68 @@
             ]
           },
           {
-            "Key": "X2Y-32",
+            "Key": "X2Y-37",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
+                "Tel": "WindowReinforced"
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y-36",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y-35",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y-34",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y-33",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y-32",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -23318,6 +23474,62 @@
             ]
           },
           {
+            "Key": "X3Y-37",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y-36",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y-35",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y-34",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
             "Key": "X3Y-32",
             "Value": [
               {
@@ -23940,7 +24152,7 @@
             "Key": "X3Y31",
             "Value": [
               {
-                "Tel": "Floor"
+                "Tel": "floorscorched1"
               },
               {
                 "Tel": "Plating"
@@ -24003,6 +24215,22 @@
               },
               {
                 "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y-36",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y-35",
+            "Value": [
+              {
+                "Tel": "Lattice"
               }
             ]
           },
@@ -24670,6 +24898,62 @@
           },
           {
             "Key": "X4Y36",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X5Y-37",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X5Y-36",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X5Y-35",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X5Y-34",
             "Value": [
               {
                 "Tel": "WindowReinforced"
@@ -25352,13 +25636,68 @@
             ]
           },
           {
-            "Key": "X6Y-32",
+            "Key": "X6Y-37",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
+                "Tel": "WindowReinforced"
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X6Y-36",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X6Y-35",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X6Y-34",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X6Y-33",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X6Y-32",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -25971,13 +26310,68 @@
             ]
           },
           {
-            "Key": "X7Y-32",
+            "Key": "X7Y-37",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
+                "Tel": "WindowReinforced"
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X7Y-36",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X7Y-35",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X7Y-34",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X7Y-33",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X7Y-32",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -26571,13 +26965,72 @@
             ]
           },
           {
-            "Key": "X8Y-32",
+            "Key": "X8Y-37",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
+                "Tel": "WindowReinforced"
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X8Y-36",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X8Y-35",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X8Y-34",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X8Y-32",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -26585,10 +27038,13 @@
             "Key": "X8Y-31",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
+                "Tel": "WindowReinforced"
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -26596,10 +27052,13 @@
             "Key": "X8Y-30",
             "Value": [
               {
-                "Tel": "RustyReinforcedWall"
+                "Tel": "WindowReinforced"
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -26607,10 +27066,13 @@
             "Key": "X8Y-29",
             "Value": [
               {
-                "Tel": "RustyReinforcedWall"
+                "Tel": "WindowReinforced"
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -26618,10 +27080,13 @@
             "Key": "X8Y-28",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
+                "Tel": "WindowReinforced"
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -26629,10 +27094,13 @@
             "Key": "X8Y-27",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
+                "Tel": "WindowReinforced"
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -26640,10 +27108,13 @@
             "Key": "X8Y-26",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
+                "Tel": "WindowReinforced"
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -27206,6 +27677,9 @@
             "Key": "X8Y24",
             "Value": [
               {
+                "Tel": "floorscorched2"
+              },
+              {
                 "Tel": "Plating"
               }
             ]
@@ -27397,7 +27871,39 @@
             ]
           },
           {
-            "Key": "X9Y-30",
+            "Key": "X9Y-32",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X9Y-31",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X9Y-27",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X9Y-26",
+            "Value": [
+              {
+                "Tel": "Lattice"
+              }
+            ]
+          },
+          {
+            "Key": "X9Y-23",
             "Value": [
               {
                 "Tel": "WindowReinforced"
@@ -27407,68 +27913,6 @@
               },
               {
                 "Tel": "Grille"
-              }
-            ]
-          },
-          {
-            "Key": "X9Y-29",
-            "Value": [
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X9Y-28",
-            "Value": [
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X9Y-27",
-            "Value": [
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X9Y-26",
-            "Value": [
-              {
-                "Tel": "damaged1"
-              },
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X9Y-25",
-            "Value": [
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X9Y-24",
-            "Value": [
-              {
-                "Tel": "Floor"
-              },
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X9Y-23",
-            "Value": [
-              {
-                "Tel": "Plating"
               }
             ]
           },
@@ -27667,7 +28111,7 @@
             "Key": "X9Y0",
             "Value": [
               {
-                "Tel": "Floor"
+                "Tel": "floorscorched1"
               },
               {
                 "Tel": "Plating"
@@ -28124,6 +28568,48 @@
             ]
           },
           {
+            "Key": "X10Y-33",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X10Y-32",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X10Y-31",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
             "Key": "X10Y-30",
             "Value": [
               {
@@ -28138,18 +28624,16 @@
             ]
           },
           {
-            "Key": "X10Y-29",
-            "Value": [
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
             "Key": "X10Y-28",
             "Value": [
               {
+                "Tel": "WindowReinforced"
+              },
+              {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -28157,10 +28641,13 @@
             "Key": "X10Y-27",
             "Value": [
               {
-                "Tel": "Floor"
+                "Tel": "WindowReinforced"
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -28168,10 +28655,13 @@
             "Key": "X10Y-26",
             "Value": [
               {
-                "Tel": "Floor"
+                "Tel": "WindowReinforced"
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -28179,21 +28669,13 @@
             "Key": "X10Y-25",
             "Value": [
               {
-                "Tel": "Floor"
+                "Tel": "WindowReinforced"
               },
               {
                 "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X10Y-24",
-            "Value": [
-              {
-                "Tel": "Floor"
               },
               {
-                "Tel": "Plating"
+                "Tel": "Grille"
               }
             ]
           },
@@ -28201,10 +28683,13 @@
             "Key": "X10Y-23",
             "Value": [
               {
-                "Tel": "Floor"
+                "Tel": "WindowReinforced"
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -28491,7 +28976,7 @@
             "Key": "X10Y1",
             "Value": [
               {
-                "Tel": "Floor"
+                "Tel": "floorscorched2"
               },
               {
                 "Tel": "Plating"
@@ -28909,6 +29394,36 @@
             ]
           },
           {
+            "Key": "X11Y-33",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X11Y-32",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X11Y-31",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
             "Key": "X11Y-30",
             "Value": [
               {
@@ -28926,10 +29441,7 @@
             "Key": "X11Y-29",
             "Value": [
               {
-                "Tel": "Floor"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "Lattice"
               }
             ]
           },
@@ -28937,7 +29449,13 @@
             "Key": "X11Y-28",
             "Value": [
               {
+                "Tel": "WindowReinforced"
+              },
+              {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -28945,10 +29463,7 @@
             "Key": "X11Y-27",
             "Value": [
               {
-                "Tel": "Floor"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -28956,10 +29471,7 @@
             "Key": "X11Y-26",
             "Value": [
               {
-                "Tel": "Floor"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -28967,18 +29479,13 @@
             "Key": "X11Y-25",
             "Value": [
               {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X11Y-24",
-            "Value": [
-              {
-                "Tel": "damaged2"
+                "Tel": "WindowReinforced"
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -28986,10 +29493,13 @@
             "Key": "X11Y-23",
             "Value": [
               {
-                "Tel": "Floor"
+                "Tel": "WindowReinforced"
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               }
             ]
           },
@@ -29705,6 +30215,36 @@
             ]
           },
           {
+            "Key": "X12Y-33",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X12Y-32",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X12Y-31",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
             "Key": "X12Y-30",
             "Value": [
               {
@@ -29722,13 +30262,7 @@
             "Key": "X12Y-29",
             "Value": [
               {
-                "Tel": "WindowReinforced"
-              },
-              {
-                "Tel": "Plating"
-              },
-              {
-                "Tel": "Grille"
+                "Tel": "Lattice"
               }
             ]
           },
@@ -29750,13 +30284,7 @@
             "Key": "X12Y-27",
             "Value": [
               {
-                "Tel": "WindowReinforced"
-              },
-              {
-                "Tel": "Plating"
-              },
-              {
-                "Tel": "Grille"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -29764,32 +30292,12 @@
             "Key": "X12Y-26",
             "Value": [
               {
-                "Tel": "WindowReinforced"
-              },
-              {
-                "Tel": "Plating"
-              },
-              {
-                "Tel": "Grille"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
           {
             "Key": "X12Y-25",
-            "Value": [
-              {
-                "Tel": "WindowReinforced"
-              },
-              {
-                "Tel": "Plating"
-              },
-              {
-                "Tel": "Grille"
-              }
-            ]
-          },
-          {
-            "Key": "X12Y-24",
             "Value": [
               {
                 "Tel": "WindowReinforced"
@@ -30575,6 +31083,118 @@
             ]
           },
           {
+            "Key": "X13Y-33",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X13Y-32",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X13Y-31",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X13Y-30",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X13Y-28",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X13Y-27",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X13Y-26",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X13Y-25",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
             "Key": "X13Y-2",
             "Value": [
               {
@@ -30603,7 +31223,7 @@
             "Key": "X13Y0",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "WE-Medium_Voltage_Cable",
@@ -30615,17 +31235,11 @@
             "Key": "X13Y1",
             "Value": [
               {
-                "Tel": "Floor"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructibledmg3"
               },
               {
                 "Tel": "WE-Low_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "WE-Low_Voltage_Cable"
               }
             ]
           },
@@ -31031,10 +31645,7 @@
             "Key": "X14Y0",
             "Value": [
               {
-                "Tel": "Floor"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "WE-Medium_Voltage_Cable",
@@ -31046,17 +31657,11 @@
             "Key": "X14Y1",
             "Value": [
               {
-                "Tel": "Floor"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "WE-Low_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "WE-Low_Voltage_Cable"
               }
             ]
           },
@@ -31642,7 +32247,7 @@
             "Key": "X15Y0",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructibledmg1"
               },
               {
                 "Tel": "WE-Medium_Voltage_Cable",
@@ -31657,14 +32262,11 @@
                 "Tel": "Floor"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "WE-Low_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "WE-Low_Voltage_Cable"
               }
             ]
           },
@@ -32226,7 +32828,10 @@
             "Key": "X16Y0",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "WE-Medium_Voltage_Cable",
@@ -32238,17 +32843,11 @@
             "Key": "X16Y1",
             "Value": [
               {
-                "Tel": "Floor"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "WE-Low_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "WE-Low_Voltage_Cable"
               }
             ]
           },
@@ -32831,7 +33430,7 @@
             "Key": "X17Y0",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "WE-Medium_Voltage_Cable",
@@ -32843,14 +33442,11 @@
             "Key": "X17Y1",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "WE-Low_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "WE-Low_Voltage_Cable"
               }
             ]
           },
@@ -33413,14 +34009,14 @@
             "Key": "X18Y1",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "WE-Low_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "WE-Low_Voltage_Cable"
               }
             ]
           },
@@ -34048,10 +34644,7 @@
             "Key": "X19Y1",
             "Value": [
               {
-                "Tel": "damaged2"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "NS-Medium_Voltage_Cable",
@@ -34059,10 +34652,6 @@
               },
               {
                 "Tel": "WE-Low_Voltage_Cable"
-              },
-              {
-                "Tel": "WE-Low_Voltage_Cable",
-                "Z": -1
               }
             ]
           },
@@ -34675,6 +35264,9 @@
             "Key": "X20Y-3",
             "Value": [
               {
+                "Tel": "white"
+              },
+              {
                 "Tel": "PlatingIndestructible"
               },
               {
@@ -34690,7 +35282,7 @@
                 "Tel": "white"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "NS-Low_Voltage_Cable",
@@ -34726,17 +35318,11 @@
             "Key": "X20Y1",
             "Value": [
               {
-                "Tel": "Floor"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "WE-Low_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "WE-Low_Voltage_Cable"
               }
             ]
           },
@@ -35372,17 +35958,11 @@
             "Key": "X21Y1",
             "Value": [
               {
-                "Tel": "Floor"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "WE-Low_Voltage_Cable",
                 "Z": 1
-              },
-              {
-                "Tel": "WE-Low_Voltage_Cable"
               }
             ]
           },
@@ -35736,11 +36316,10 @@
             "Key": "X22Y-12",
             "Value": [
               {
-                "Tel": "PlatingIndestructible"
+                "Tel": "white"
               },
               {
-                "Tel": "NE-Low_Voltage_Cable",
-                "Z": 1
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -35748,11 +36327,10 @@
             "Key": "X22Y-11",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "white"
               },
               {
-                "Tel": "NS-Low_Voltage_Cable",
-                "Z": 1
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -35763,14 +36341,7 @@
                 "Tel": "white"
               },
               {
-                "Tel": "Plating"
-              },
-              {
-                "Tel": "NS-Low_Voltage_Cable",
-                "Z": 1
-              },
-              {
-                "Tel": "NS-Low_Voltage_Cable"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -35778,17 +36349,7 @@
             "Key": "X22Y-9",
             "Value": [
               {
-                "Tel": "white"
-              },
-              {
-                "Tel": "Plating"
-              },
-              {
-                "Tel": "NS-Low_Voltage_Cable",
-                "Z": 1
-              },
-              {
-                "Tel": "NS-Low_Voltage_Cable"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -35796,14 +36357,7 @@
             "Key": "X22Y-8",
             "Value": [
               {
-                "Tel": "white"
-              },
-              {
                 "Tel": "PlatingIndestructible"
-              },
-              {
-                "Tel": "NS-Low_Voltage_Cable",
-                "Z": 1
               }
             ]
           },
@@ -35814,11 +36368,7 @@
                 "Tel": "white"
               },
               {
-                "Tel": "Plating"
-              },
-              {
-                "Tel": "NS-Low_Voltage_Cable",
-                "Z": 1
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -35829,11 +36379,7 @@
                 "Tel": "white"
               },
               {
-                "Tel": "Plating"
-              },
-              {
-                "Tel": "NS-Low_Voltage_Cable",
-                "Z": 1
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -35847,7 +36393,7 @@
                 "Tel": "PlatingIndestructible"
               },
               {
-                "Tel": "NS-Low_Voltage_Cable",
+                "Tel": "NE-Low_Voltage_Cable",
                 "Z": 1
               }
             ]
@@ -35925,9 +36471,6 @@
           {
             "Key": "X22Y1",
             "Value": [
-              {
-                "Tel": "Floor"
-              },
               {
                 "Tel": "Plating"
               },
@@ -36337,14 +36880,10 @@
             "Key": "X23Y-12",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "white"
               },
               {
-                "Tel": "WE-Low_Voltage_Cable",
-                "Z": 1
-              },
-              {
-                "Tel": "WE-Low_Voltage_Cable"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -36412,7 +36951,14 @@
             "Key": "X23Y-5",
             "Value": [
               {
+                "Tel": "white"
+              },
+              {
                 "Tel": "PlatingIndestructible"
+              },
+              {
+                "Tel": "WO-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -36845,14 +37391,7 @@
                 "Tel": "white"
               },
               {
-                "Tel": "Plating"
-              },
-              {
-                "Tel": "WE-Low_Voltage_Cable",
-                "Z": 1
-              },
-              {
-                "Tel": "WE-Low_Voltage_Cable"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -37288,14 +37827,10 @@
             "Key": "X25Y-12",
             "Value": [
               {
+                "Tel": "white"
+              },
+              {
                 "Tel": "PlatingIndestructible"
-              },
-              {
-                "Tel": "WE-Low_Voltage_Cable",
-                "Z": 1
-              },
-              {
-                "Tel": "WE-Low_Voltage_Cable"
               }
             ]
           },
@@ -37616,11 +38151,10 @@
             "Key": "X26Y-12",
             "Value": [
               {
-                "Tel": "PlatingIndestructible"
+                "Tel": "white"
               },
               {
-                "Tel": "NW-Low_Voltage_Cable",
-                "Z": 1
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -37628,11 +38162,10 @@
             "Key": "X26Y-11",
             "Value": [
               {
-                "Tel": "PlatingIndestructible"
+                "Tel": "white"
               },
               {
-                "Tel": "NS-Low_Voltage_Cable",
-                "Z": 1
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -37640,11 +38173,10 @@
             "Key": "X26Y-10",
             "Value": [
               {
-                "Tel": "PlatingIndestructible"
+                "Tel": "white"
               },
               {
-                "Tel": "NS-Low_Voltage_Cable",
-                "Z": 1
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -37652,14 +38184,10 @@
             "Key": "X26Y-9",
             "Value": [
               {
+                "Tel": "white"
+              },
+              {
                 "Tel": "PlatingIndestructible"
-              },
-              {
-                "Tel": "NS-Low_Voltage_Cable",
-                "Z": 1
-              },
-              {
-                "Tel": "NS-Low_Voltage_Cable"
               }
             ]
           },
@@ -37671,13 +38199,6 @@
               },
               {
                 "Tel": "PlatingIndestructible"
-              },
-              {
-                "Tel": "NS-Low_Voltage_Cable",
-                "Z": 1
-              },
-              {
-                "Tel": "NS-Low_Voltage_Cable"
               }
             ]
           },
@@ -37689,13 +38210,6 @@
               },
               {
                 "Tel": "PlatingIndestructible"
-              },
-              {
-                "Tel": "NS-Low_Voltage_Cable",
-                "Z": 1
-              },
-              {
-                "Tel": "NS-Low_Voltage_Cable"
               }
             ]
           },
@@ -37704,13 +38218,6 @@
             "Value": [
               {
                 "Tel": "PlatingIndestructible"
-              },
-              {
-                "Tel": "NS-Low_Voltage_Cable",
-                "Z": 1
-              },
-              {
-                "Tel": "NS-Low_Voltage_Cable"
               }
             ]
           },
@@ -37718,14 +38225,7 @@
             "Key": "X26Y-5",
             "Value": [
               {
-                "Tel": "white"
-              },
-              {
                 "Tel": "PlatingIndestructible"
-              },
-              {
-                "Tel": "NS-Low_Voltage_Cable",
-                "Z": 1
               }
             ]
           },
@@ -37734,10 +38234,6 @@
             "Value": [
               {
                 "Tel": "PlatingIndestructible"
-              },
-              {
-                "Tel": "NS-Low_Voltage_Cable",
-                "Z": 1
               }
             ]
           },
@@ -37745,11 +38241,10 @@
             "Key": "X26Y-3",
             "Value": [
               {
-                "Tel": "PlatingIndestructible"
+                "Tel": "white"
               },
               {
-                "Tel": "SO-Low_Voltage_Cable",
-                "Z": 1
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -39396,7 +39891,7 @@
             "Key": "X32Y3",
             "Value": [
               {
-                "Tel": "Floor"
+                "Tel": "floorscorched2"
               },
               {
                 "Tel": "Plating"
@@ -47844,7 +48339,7 @@
                     },
                     {
                       "Name": "connectedDevices#7",
-                      "Data": "cb2f847ef3b8b754181a970a4032c552_10┼-20┼0┼@0@APCPoweredDevice@0"
+                      "Data": "cb2f847ef3b8b754181a970a4032c552_8┼-17┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#6",
@@ -47868,7 +48363,7 @@
                     },
                     {
                       "Name": "connectedDevices#1",
-                      "Data": "fde32c02abddc814f9366ff1fb21f234_9┼-24┼0┼@0@APCPoweredDevice@0"
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_9┼-20┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#0",
@@ -49306,6 +49801,34 @@
             }
           },
           {
+            "GitID": "cb2f847ef3b8b754181a970a4032c552_8┼-17┼0┼",
+            "PrefabID": "cb2f847ef3b8b754181a970a4032c552",
+            "Name": "AirScrubber (21)",
+            "LocalPRS": "8┼-17┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_3┼-19┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Scrubber@0",
+                  "Data": [
+                    {
+                      "Name": "selfSufficient",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "f2432d244a6b7774ea00ff013beb7dcb_8┼13┼0┼",
             "PrefabID": "f2432d244a6b7774ea00ff013beb7dcb",
             "Name": "LightSwitch (3)",
@@ -49428,11 +49951,11 @@
             "LocalPRS": "8┼30┼0┼"
           },
           {
-            "GitID": "fde32c02abddc814f9366ff1fb21f234_9┼-24┼0┼",
+            "GitID": "fde32c02abddc814f9366ff1fb21f234_9┼-20┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "NameMatches": true,
             "Name": "LightTubeFixture",
-            "LocalPRS": "9┼-24┼0┼0ø0ø270ø",
+            "LocalPRS": "9┼-20┼0┼0ø0ø270ø",
             "Object": {
               "ClassDatas": [
                 {
@@ -49680,39 +50203,11 @@
             }
           },
           {
-            "GitID": "d56b65cebb41c78479fed5218fb0344c_10┼-27┼0┼",
+            "GitID": "d56b65cebb41c78479fed5218fb0344c_10┼-20┼0┼",
             "PrefabID": "d56b65cebb41c78479fed5218fb0344c",
             "NameMatches": true,
             "Name": "AirVentSelfSufficient",
-            "LocalPRS": "10┼-27┼0┼"
-          },
-          {
-            "GitID": "cb2f847ef3b8b754181a970a4032c552_10┼-20┼0┼",
-            "PrefabID": "cb2f847ef3b8b754181a970a4032c552",
-            "Name": "AirScrubber (21)",
-            "LocalPRS": "10┼-20┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_3┼-19┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Scrubber@0",
-                  "Data": [
-                    {
-                      "Name": "selfSufficient",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "10┼-20┼0┼"
           },
           {
             "GitID": "cb2f847ef3b8b754181a970a4032c552_10┼6┼0┼",
@@ -50874,6 +51369,13 @@
             "LocalPRS": "14┼9┼0┼"
           },
           {
+            "GitID": "c0d35a75ba9aa4c4fab141f0fac245f6_14┼11┼0┼",
+            "PrefabID": "c0d35a75ba9aa4c4fab141f0fac245f6",
+            "NameMatches": true,
+            "Name": "HydroponicsTray",
+            "LocalPRS": "14┼11┼0┼"
+          },
+          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_14┼24┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "NameMatches": true,
@@ -51529,7 +52031,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -51574,7 +52076,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -51593,7 +52095,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -51890,7 +52392,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -52304,7 +52806,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -52345,7 +52847,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -52390,7 +52892,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -52506,7 +53008,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -52525,7 +53027,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -52641,7 +53143,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -52775,7 +53277,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -52871,7 +53373,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -52915,12 +53417,19 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
                     }
                   ]
                 }
               ]
             }
+          },
+          {
+            "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_23┼-5┼0┼",
+            "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "NameMatches": true,
+            "Name": "Low Machine Connector",
+            "LocalPRS": "23┼-5┼0┼"
           },
           {
             "GitID": "f5de4bfc8649c7a428e694010049af77_23┼2┼0┼",
@@ -52994,7 +53503,119 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼",
+            "PrefabID": "cd57203a8d3f54f478446e9b0ced6cf9",
+            "Name": "APC (1)",
+            "LocalPRS": "24┼-5┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APC@0",
+                  "Data": [
+                    {
+                      "Name": "connectedDevices#21",
+                      "Data": "c937e0abe85aca9499d09951de736ec6_28┼-6┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#20",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_16┼-10┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#19",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_23┼-10┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#18",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_21┼-8┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#17",
+                      "Data": "c937e0abe85aca9499d09951de736ec6_19┼-7┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#16",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_19┼-8┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#15",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_16┼-4┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#14",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_26┼-10┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#13",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_25┼-5┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#12",
+                      "Data": "c937e0abe85aca9499d09951de736ec6_25┼-3┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#11",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_27┼-12┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#10",
+                      "Data": "30fb7ca3bc404684697f10534d3eee73_26┼-5┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#9",
+                      "Data": "9f6a082ba93c5684b808b09619c08044_24┼-12┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#8",
+                      "Data": "6fa1bf6a566af2f479f551f9bb604178_24┼-4┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#7",
+                      "Data": "cbe919cf00f84254f83d474582798520_28┼-7┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#6",
+                      "Data": "30fb7ca3bc404684697f10534d3eee73_20┼-8┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#5",
+                      "Data": "30fb7ca3bc404684697f10534d3eee73_23┼-7┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#4",
+                      "Data": "30fb7ca3bc404684697f10534d3eee73_22┼-7┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#3",
+                      "Data": "30fb7ca3bc404684697f10534d3eee73_17┼-7┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#2",
+                      "Data": "30fb7ca3bc404684697f10534d3eee73_16┼-7┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#1",
+                      "Data": "9f6a082ba93c5684b808b09619c08044_20┼-2┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#0",
+                      "Data": "9f6a082ba93c5684b808b09619c08044_19┼-2┼0┼@0@APCPoweredDevice@0"
                     }
                   ]
                 }
@@ -53014,7 +53635,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -53131,7 +53752,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -53168,7 +53789,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -53307,7 +53928,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -53339,7 +53960,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -53356,116 +53977,6 @@
                           "Data": "Chemistry"
                         }
                       ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_26┼-3┼0┼",
-            "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
-            "NameMatches": true,
-            "Name": "Low Machine Connector",
-            "LocalPRS": "26┼-3┼0┼"
-          },
-          {
-            "GitID": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼",
-            "PrefabID": "cd57203a8d3f54f478446e9b0ced6cf9",
-            "Name": "APC (1)",
-            "LocalPRS": "26┼-2┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APC@0",
-                  "Data": [
-                    {
-                      "Name": "connectedDevices#21",
-                      "Data": "c937e0abe85aca9499d09951de736ec6_28┼-6┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#20",
-                      "Data": "fde32c02abddc814f9366ff1fb21f234_16┼-10┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#19",
-                      "Data": "fde32c02abddc814f9366ff1fb21f234_23┼-10┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#18",
-                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_21┼-8┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#17",
-                      "Data": "c937e0abe85aca9499d09951de736ec6_19┼-7┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#16",
-                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_19┼-8┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#15",
-                      "Data": "fde32c02abddc814f9366ff1fb21f234_16┼-4┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#14",
-                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_26┼-10┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#13",
-                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_25┼-5┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#12",
-                      "Data": "c937e0abe85aca9499d09951de736ec6_25┼-3┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#11",
-                      "Data": "fde32c02abddc814f9366ff1fb21f234_27┼-12┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#10",
-                      "Data": "30fb7ca3bc404684697f10534d3eee73_26┼-5┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#9",
-                      "Data": "9f6a082ba93c5684b808b09619c08044_24┼-12┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#8",
-                      "Data": "6fa1bf6a566af2f479f551f9bb604178_24┼-4┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#7",
-                      "Data": "cbe919cf00f84254f83d474582798520_28┼-7┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#6",
-                      "Data": "30fb7ca3bc404684697f10534d3eee73_20┼-8┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#5",
-                      "Data": "30fb7ca3bc404684697f10534d3eee73_23┼-7┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#4",
-                      "Data": "30fb7ca3bc404684697f10534d3eee73_22┼-7┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#3",
-                      "Data": "30fb7ca3bc404684697f10534d3eee73_17┼-7┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#2",
-                      "Data": "30fb7ca3bc404684697f10534d3eee73_16┼-7┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#1",
-                      "Data": "9f6a082ba93c5684b808b09619c08044_20┼-2┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#0",
-                      "Data": "9f6a082ba93c5684b808b09619c08044_19┼-2┼0┼@0@APCPoweredDevice@0"
                     }
                   ]
                 }
@@ -53572,7 +54083,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -53659,7 +54170,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -53723,7 +54234,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_26┼-2┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_24┼-5┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -53814,13 +54325,6 @@
                 }
               ]
             }
-          },
-          {
-            "GitID": "d56b65cebb41c78479fed5218fb0344c_29┼-11┼0┼",
-            "PrefabID": "d56b65cebb41c78479fed5218fb0344c",
-            "NameMatches": true,
-            "Name": "AirVentSelfSufficient",
-            "LocalPRS": "29┼-11┼0┼"
           },
           {
             "GitID": "69b2a032b40410c4aace843d93130385_29┼-6┼0┼",
@@ -54061,6 +54565,13 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "d56b65cebb41c78479fed5218fb0344c_31┼-11┼0┼",
+            "PrefabID": "d56b65cebb41c78479fed5218fb0344c",
+            "NameMatches": true,
+            "Name": "AirVentSelfSufficient",
+            "LocalPRS": "31┼-11┼0┼"
           },
           {
             "GitID": "c8af057edecfa6c4f877ae1b042d6ead_31┼5┼0┼",
@@ -54657,8 +55168,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-1.5,5.5,0",
-          "Size": "81,75,2"
+          "Pos": "-1.5,3,0.5",
+          "Size": "81,80,1"
         }
       ]
     }
