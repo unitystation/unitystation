@@ -80,9 +80,9 @@ namespace US13.Objects.Engineering
 		private void Awake()
 		{
 			baseSpriteHandler = transform.GetChild(0).GetComponent<SpriteHandler>();
-			chargingIndicator = transform.GetChild(1).GetComponent<SpriteHandler>();
-			outputEnabledIndicator = transform.GetChild(2).GetComponent<SpriteHandler>();
-			chargeLevelIndicator = transform.GetChild(3).GetComponent<SpriteHandler>();
+			chargingIndicator = transform.GetChild(2).GetComponent<SpriteHandler>();
+			outputEnabledIndicator = transform.GetChild(3).GetComponent<SpriteHandler>();
+			chargeLevelIndicator = transform.GetChild(4).GetComponent<SpriteHandler>();
 			registerTile = GetComponent<RegisterTile>();
 			objectBehaviour = GetComponent<UniversalObjectPhysics>();
 			machine = GetComponent<Machine>();

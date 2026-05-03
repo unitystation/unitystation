@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using US13.HealthV2.Living;
 using US13.Items;
+using US13.Objects.Construction.FloorDecals;
 using US13.Objects.Directionals;
 using US13.Player;
 using US13.Tilemaps.Behaviours.Objects;
@@ -20,6 +21,7 @@ namespace US13.Core.Utils
 		public PlayerScript PlayerScript => SafeGetComponent<PlayerScript>();
 
 		public Rotatable Rotatable => SafeGetComponent<Rotatable>();
+		public FloorDecal FloorDecal => SafeGetComponent<FloorDecal>();
 
 		public LivingHealthMasterBase LivingHealth => SafeGetComponent<LivingHealthMasterBase>();
 
