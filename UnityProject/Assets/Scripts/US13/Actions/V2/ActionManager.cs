@@ -316,7 +316,7 @@ namespace US13.Actions.V2
 		[Client]
 		public float GetRemainingCooldown(string actionId)
 		{
-			var isUnderCooldown = ActionCooldowns.Find(tuple => tuple.ActionId.Equals(actionId, StringComparison.InvariantCulture));
+			var isUnderCooldown = ActionCooldowns.Find(tuple => tuple is { ActionId: not null } && tuple.ActionId.Equals(actionId, StringComparison.InvariantCulture));
 			if (isUnderCooldown == null) return 0.0f;
 			var remaining = (isUnderCooldown.CooldownEnd - DateTime.UtcNow).TotalSeconds;
 			return Mathf.Max((float)remaining, 0.0f);
