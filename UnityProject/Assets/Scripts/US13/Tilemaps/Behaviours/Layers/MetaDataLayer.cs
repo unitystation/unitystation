@@ -487,6 +487,12 @@ namespace US13.Tilemaps.Behaviours.Layers
 			node.ReagentsOnTile.Clear();
 		}
 
+		public bool HasReagentSpatter(Vector3Int localPosInt)
+		{
+			var node = Get(localPosInt);
+			return node.ReagentsOnTile.Total >= 0.1f;
+		}
+
 		public void Paintsplat(Vector3 worldPos, Vector3Int localPosInt, ReagentMix reagents)
 		{
 			switch (ChemistryUtils.GetMixStateDescription(reagents))

@@ -47,7 +47,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 				return;
 			}
 
-			if (IsCurrentTaskValid() == true)
+			if (IsCurrentTaskValid())
 			{
 				Vector3Int worldPos = targetCell.ToWorldInt(targetMatrix);
 
@@ -68,36 +68,17 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			else DoTask();
 		}
 
-		/// <summary>
-		/// Checks to see if the target decal exists, is cleanable and is still at the recorded position
-		/// </summary>
-		/// <param name="positionToCheck">The assumed world position of the decal</param>
-		/// <returns></returns>
-		private bool IsDecalValid(Vector3 positionToCheck)
-		{
-			return decalToClean && decalToClean.Cleanable && Vector3.Distance(decalToClean.gameObject.AssumedWorldPosServer(), positionToCheck) < 1.1f;
-		}
-
 		protected override bool IsCurrentTaskValid()
 		{
-			if(IsEmagged)
-			{
-				var worldPosToSlip = targetCell.ToWorld(targetMatrix);
-				return Vector3.Distance(worldPosToSlip, LivingHealthMaster.gameObject.AssumedWorldPosServer()) <= 1.5f;
-			}
-
 			Vector3 worldPos = targetCell.ToWorld(targetMatrix);
-
-			return Vector3.Distance(worldPos, LivingHealthMaster.gameObject.AssumedWorldPosServer()) <= 1.5f
-			       && IsDecalValid(worldPos);
+			return Vector3.Distance(worldPos, LivingHealthMaster.gameObject.AssumedWorldPosServer()) <= 1.5f;
 		}
 
 		public override List<Vector3Int> FindTarget(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
 		{
-			if (IsEmagged) return FindTargetEmagged(out targetPosition, out targetMatrixLocal);
+			var path = FindPuddles(out targetPosition, out targetMatrixLocal);
+			if (IsEmagged) return path;
 
-			targetMatrixLocal = null;
-			targetPosition = Vector3Int.zero;
 			decalToClean = null;
 			targetMatrix = null;
 
@@ -122,16 +103,15 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 				targetCell = targetPosition;
 				return possiblePath;
 			}
+
 			return null;
 		}
 
-		private List<Vector3Int> FindTargetEmagged(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
+		private List<Vector3Int> FindPuddles(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
 		{
+			targetPosition = Vector3Int.zero;
 			targetMatrixLocal = master.Body.UniversalObjectPhysics.registerTile.Matrix;
 			var currentPosition = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrixLocal);
-
-			targetPosition = currentPosition;
-			decalToClean = null;
 
 			for (int y = -searchRadius; y <= searchRadius; y++)
 			{
@@ -141,9 +121,10 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 					checkPos.x += x;
 					checkPos.y += y;
 
-					if (targetMatrixLocal.MetaDataLayer.IsSlipperyAt(checkPos) == false && targetMatrixLocal.MetaTileMap.IsAtmosPassableAt(checkPos, targetMatrixLocal))
+					if ((IsEmagged == false && targetMatrixLocal.MetaDataLayer.HasReagentSpatter(checkPos))
+					    || (IsEmagged && targetMatrixLocal.MetaDataLayer.IsSlipperyAt(checkPos) == false))
 					{
-						var possiblePath = MobTraversal.GeneratePath(currentPosition, targetPosition, targetMatrixLocal, PathfinderType.AStar);
+						var possiblePath = MobTraversal.GeneratePath(currentPosition, checkPos, targetMatrixLocal, PathfinderType.AStar);
 						if (possiblePath == null || possiblePath.Count == 0) continue;
 
 						targetMatrix = targetMatrixLocal;
@@ -153,9 +134,6 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 					}
 				}
 			}
-
-			targetMatrix = null;
-			targetMatrixLocal = null;
 			return null;
 		}
 	}
