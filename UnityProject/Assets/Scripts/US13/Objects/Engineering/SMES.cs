@@ -116,11 +116,11 @@ namespace US13.Objects.Engineering
 		{
 			if (IsCharging)
 			{
-				chargingIndicator.SetCatalogueIndexSprite((int) ChargingOverlayState.Charging);
+				chargingIndicator?.SetCatalogueIndexSprite((int) ChargingOverlayState.Charging);
 			}
 			else
 			{
-				chargingIndicator.SetCatalogueIndexSprite((int) ChargingOverlayState.Discharging);
+				chargingIndicator?.SetCatalogueIndexSprite((int) ChargingOverlayState.Discharging);
 			}
 		}
 

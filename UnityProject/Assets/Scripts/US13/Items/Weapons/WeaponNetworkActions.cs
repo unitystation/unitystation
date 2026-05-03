@@ -198,7 +198,7 @@ namespace US13.Items.Weapons
 						// The attack hit.
 						if (victim.TryGetComponent<LivingHealthMasterBase>(out var victimHealth))
 						{
-							if (weaponAttributes)
+							if (weaponAttributes != null)
 							{
 								foreach (var meleeBehaviour in weaponAttributes.CustomMeleeBehaviours)
 								{
@@ -219,7 +219,7 @@ namespace US13.Items.Weapons
 					}
 					else
 					{
-						if (weaponAttributes)
+						if (weaponAttributes != null)
 						{
 							foreach (var meleeBehaviour in weaponAttributes.CustomMeleeBehaviours)
 							{
