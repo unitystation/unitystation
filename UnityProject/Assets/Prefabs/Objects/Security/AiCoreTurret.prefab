@@ -105,13 +105,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}
+      propertyPath: lineOfSightMask.m_Bits
+      value: 1180160
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
       propertyPath: CheckWeaponAuthorisation
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}
       propertyPath: CheckUnauthorisedPersonnel
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}

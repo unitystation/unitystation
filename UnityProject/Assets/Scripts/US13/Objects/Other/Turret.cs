@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Mirror;
+using UnityEditor.PackageManager;
 using UnityEngine;
 using US13.Core;
 using US13.Core.Addressables.Types;
@@ -111,9 +112,9 @@ namespace US13.Objects.Other
 
 		private enum TurretType
 		{
-			Normal,
-			Ai,
-			Syndicate
+			Normal = 0,
+			Ai = 1,
+			Syndicate = 2
 		}
 
 		//Check for Weapon Authorization:
@@ -232,8 +233,6 @@ namespace US13.Objects.Other
 			UpdateManager.Add(UpdateLoop, UpdateTimer);
 			integrity.OnWillDestroyServer.AddListener(OnTurretDestroy);
 			apcPoweredDevice.OnStateChangeEvent += (OnPowerStateChange);
-
-			SetUpBullet();
 		}
 
 		private void OnDisable()
@@ -301,7 +300,7 @@ namespace US13.Objects.Other
 		private void SearchForMobs()
 		{
 			var turretPos = registerTile.WorldPosition;
-			var foundPlayers = ComponentsTracker<LivingHealthMasterBase>.GetAllNearbyTypesToTarget(this.gameObject, range, false);
+			var foundPlayers = ComponentsTracker<LivingHealthMasterBase>.GetAllNearbyTypesToLocation(turretPos, range, false);
 			if (foundPlayers == null)
 			{
 				//No targets
@@ -310,13 +309,10 @@ namespace US13.Objects.Other
 			}
 			foreach (var player in foundPlayers.OrderBy(player => (turretPos - player.transform.position).sqrMagnitude))
 			{
-				Vector3 worldPos;
-
-				if (player.playerScript == null) continue;
-				if (player.playerScript.IsNormal == false || player.playerScript.IsDeadOrGhost == false) continue;
-
+				if (player == null) continue;
+				if (player.playerScript.IsNormal == false || player.playerScript.IsDeadOrGhost) continue;
 				if(turretType != TurretType.Ai && ValidatePlayer(player.playerScript)) continue;
-				worldPos = player.ObjectBehaviour.OfficialPosition;
+				Vector3 worldPos = player.gameObject.AssumedWorldPosServer();
 
 				var linecast = MatrixManager.Linecast(turretPos, LayerTypeSelection.Walls, lineOfSightMask, worldPos, toIgnore);
 				if(linecast.ItHit) continue;
@@ -336,7 +332,7 @@ namespace US13.Objects.Other
 			//Neutralize All Unauthorised Personnel
 			if (CheckUnauthorisedPersonnel)
 			{
-				var allowed = authorisedClearance.HasClearance(script.Access);
+				var allowed = authorisedClearance.HasClearance(script.gameObject);
 				//Check for failure
 				if (allowed == false) return false;
 			}
@@ -353,7 +349,7 @@ namespace US13.Objects.Other
 					if (Validations.HasItemTrait(handItem.ServerGameObjectReference, CommonTraits.Instance.Gun))
 					{
 						//Only allow authorised people to have guns
-						bool allowed = weaponAuthorisationClearance.HasClearance(script.Access);
+						bool allowed = weaponAuthorisationClearance.HasClearance(script.gameObject);
 						//Check for failure
 						if (allowed == false) return false;
 					}
@@ -516,14 +512,15 @@ namespace US13.Objects.Other
 
 			shootSpeedMultiplier = Mathf.Clamp(shootSpeedMultiplier, 0.1f, 10f);
 			shootSpeed *= shootSpeedMultiplier;
+			shootSpeed = Mathf.Min(0.5f, shootSpeed);
 		}
 
 		private void ChangeCoverState()
 		{
-			//Dont have cover on ballistic turret
+			//Don't have cover on ballistic turret
 			if(ballisticTurret) return;
 
-			//If changing cover state dont check
+			//If changing cover state don't check
 			if (coverStateChanging) return;
 
 			//Open if we need to
