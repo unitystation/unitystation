@@ -132,7 +132,8 @@ namespace US13.Mobs.Traversal
 			if (health.IsDead) return false;
 			if (_targetQueue.Count >= MaxQueuedTargets) return false;
 
-			if (pathToUse == null || pathToUse.Count == 0)
+			path = pathToUse;
+			if (path == null || path.Count == 0)
 			{
 				if (DebugGizmos) Loggy.Info("Attempted to move to a location that is not reachable.");
 				return false;
