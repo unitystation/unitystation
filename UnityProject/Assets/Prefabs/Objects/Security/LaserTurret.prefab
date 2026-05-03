@@ -528,15 +528,20 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   ballisticTurret: 0
+  lineOfSightMask:
+    serializedVersion: 2
+    m_Bits: 131584
   turretType: 0
+  toIgnore:
+  - {fileID: 11400000, guid: 8a5d7b8cc9d261442bd185a31ad88e67, type: 2}
   CheckWeaponAuthorisation: 0
-  weaponAuthorisationClearance: {fileID: 1159551954190040820}
+  weaponAuthorisationClearance: {fileID: 2953874713575829681}
   CheckSecurityRecords: 1
   CheckForArrest: 1
   CheckUnauthorisedPersonnel: 0
-  authorisedClearance: {fileID: 1159551954190040820}
+  authorisedClearance: {fileID: 7670922418104730739}
   CheckUnidentifiedLifeSigns: 1
-  restricted: {fileID: 7670922418104730739}
+  tinkerRequiredClearance: {fileID: 1159551954190040820}
   <CanRelink>k__BackingField: 1
 --- !u!114 &2506153195070795302
 MonoBehaviour:

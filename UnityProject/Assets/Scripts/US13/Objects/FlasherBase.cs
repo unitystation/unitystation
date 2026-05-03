@@ -50,7 +50,7 @@ namespace US13.Objects
 
 				var result = MatrixManager.Linecast(
 					gameObject.AssumedWorldPosServer(), LayerTypeSelection.Walls, null,
-					target.gameObject.AssumedWorldPosServer(), false);
+					target.gameObject.AssumedWorldPosServer(), DEBUG: false);
 				if (result.ItHit) continue;
 				var duration = result.Distance < maximumDistance ? flashTime : weakDuration;
 

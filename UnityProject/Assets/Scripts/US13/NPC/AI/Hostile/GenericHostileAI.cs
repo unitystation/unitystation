@@ -181,7 +181,7 @@ namespace US13.NPC.AI.Hostile
 				    LayerTypeSelection.Walls,
 				    null,
 				    coll.gameObject.AssumedWorldPosServer(),
-				    true
+				    DEBUG: true
 			    ).ItHit == false)
 			{
 				if (coll.gameObject.TryGetComponent<LivingHealthMasterBase>(out var health) == false ||

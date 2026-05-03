@@ -2808,7 +2808,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 						if (tileLocation != null)
 						{
 							if (tileNamesToIgnore != null &&
-							    tileNamesToIgnore.Any(c => c != null && c.name == tileLocation?.layerTile?.name))
+							    tileNamesToIgnore.Any(c => c != null && c.name == tileLocation?.layerTile.name))
 								continue;
 
 							Vector2 normal;
