@@ -101,7 +101,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			decalToClean = null;
 			targetMatrix = null;
 
-			var decals = ComponentsTracker<FloorDecal>.GetAllNearbyTypesToTarget(master.Body.gameObject, searchRadius, bypassInventories: false);
+			var decals = ComponentsTracker<FloorDecal>.GetAllNearbyTypesToTarget(master.Body.gameObject, searchRadius);
 			if (decals == null) return null;
 
 			targetMatrixLocal = master.Body.UniversalObjectPhysics.registerTile.Matrix;

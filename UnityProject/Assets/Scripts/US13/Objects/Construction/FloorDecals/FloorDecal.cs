@@ -1,8 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Mirror;
 using UnityEngine;
 using US13.ChemistryComponents;
+using US13.Core;
 using US13.Core.Lifecycle;
+using US13.Items.Food;
 using US13.Managers.MatrixManager;
 using US13.Managers.NetworkManagement;
 using Util;
@@ -57,6 +60,12 @@ namespace US13.Objects.Construction.FloorDecals
 		private void Awake()
 		{
 			EnsureInit();
+			ComponentsTracker<FloorDecal>.Instances.Add(this);
+		}
+
+		public void OnDestroy()
+		{
+			ComponentsTracker<FloorDecal>.Instances.Remove(this);
 		}
 
 		private void EnsureInit()
