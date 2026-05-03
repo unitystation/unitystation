@@ -103,8 +103,30 @@ PrefabInstance:
       propertyPath: _assetId
       value: 4071051504
       objectReference: {fileID: 0}
+    - target: {fileID: 7995357239597924047, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: commonComponentsToRegister.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7995357239597924047, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: 'commonComponentsToRegister.Array.data[4]'
+      value: 
+      objectReference: {fileID: 6312170781089424920}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
+--- !u!114 &6312170781089424920 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+    type: 3}
+  m_PrefabInstance: {fileID: 684191565822164833}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
