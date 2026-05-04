@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Mirror;
 using UnityEngine;
+using US13.Core;
 using US13.Core.Addressables.Types;
 using US13.Core.Chat;
 using US13.Core.Input_System.InteractionV2;
@@ -14,6 +15,7 @@ using US13.Core.ObjectConnection;
 using US13.Core.Sprite_Handler;
 using US13.Health.Objects;
 using US13.HealthV2;
+using US13.HealthV2.Living;
 using US13.Items.Tool;
 using US13.Items.Traits;
 using US13.Items.Weapons;
@@ -31,6 +33,7 @@ using US13.Systems.Clearance;
 using US13.Systems.Construction;
 using US13.Systems.Inventory;
 using US13.Tilemaps.Behaviours.Objects;
+using US13.Tilemaps.Tiles;
 using US13.Tilemaps.Utils;
 using US13.UI.Core.Net;
 using US13.UI.Core.ProgressBar;
@@ -91,11 +94,15 @@ namespace US13.Objects.Other
 		[SerializeField]
 		private bool ballisticTurret;
 
+		[SerializeField] private LayerMask lineOfSightMask = new();
+
 		[SerializeField]
 		[Tooltip("If turret not normal, then will always target mobs, if turret is Ai then will ignore all other checks and always fire")]
 		//If turret not normal, then will always target mobs, if turret is Ai then will ignore all other checks and
 		//always fire
 		private TurretType turretType = TurretType.Normal;
+
+		[SerializeField] private LayerTile[] toIgnore;
 
 #pragma warning disable CS0414 // disable unused compiler warning
 		[SyncVar(hook = nameof(SyncOpen))]
@@ -104,9 +111,9 @@ namespace US13.Objects.Other
 
 		private enum TurretType
 		{
-			Normal,
-			Ai,
-			Syndicate
+			Normal = 0,
+			Ai = 1,
+			Syndicate = 2
 		}
 
 		//Check for Weapon Authorization:
@@ -171,7 +178,7 @@ namespace US13.Objects.Other
 
 		private ItemStorage itemStorage;
 		private APCPoweredDevice apcPoweredDevice;
-		[SerializeField]  private ClearanceRestricted restricted;
+		[SerializeField]  private ClearanceRestricted tinkerRequiredClearance;
 
 		//Used to debug player searching linecast
 		private LineRenderer lineRenderer;
@@ -194,11 +201,6 @@ namespace US13.Objects.Other
 			itemStorage = GetComponent<ItemStorage>();
 			apcPoweredDevice = GetComponent<APCPoweredDevice>();
 			integrity = GetComponent<Integrity>();
-			if (restricted == null)
-			{
-				restricted = GetComponent<ClearanceRestricted>();
-			}
-
 			lineRenderer = GetComponentInChildren<LineRenderer>();
 		}
 
@@ -230,8 +232,6 @@ namespace US13.Objects.Other
 			UpdateManager.Add(UpdateLoop, UpdateTimer);
 			integrity.OnWillDestroyServer.AddListener(OnTurretDestroy);
 			apcPoweredDevice.OnStateChangeEvent += (OnPowerStateChange);
-
-			SetUpBullet();
 		}
 
 		private void OnDisable()
@@ -299,65 +299,26 @@ namespace US13.Objects.Other
 		private void SearchForMobs()
 		{
 			var turretPos = registerTile.WorldPosition;
-			var mobsFound = Physics2D.OverlapCircleAll(turretPos.To2Int(), range, LayerMask.GetMask("Players", "NPC"));
-
-			if (mobsFound.Length == 0)
+			var foundPlayers = ComponentsTracker<LivingHealthMasterBase>.GetAllNearbyTypesToLocation(turretPos, range, false);
+			if (foundPlayers == null)
 			{
 				//No targets
 				target = null;
 				return;
 			}
-
-			//Order mobs by distance, sqrMag distance cheaper to calculate
-			var orderedMobs = mobsFound.OrderBy(
-				x => (turretPos - x.transform.position).sqrMagnitude).ToList();
-
-			foreach (var mob in orderedMobs)
+			foreach (var player in foundPlayers.OrderBy(player => (turretPos - player.transform.position).sqrMagnitude))
 			{
-				Vector3 worldPos;
+				if (player == null) continue;
+				if (player.playerScript.IsNormal == false || player.playerScript.IsDeadOrGhost) continue;
+				if(turretType != TurretType.Ai && ValidatePlayer(player.playerScript)) continue;
+				Vector3 worldPos = player.gameObject.AssumedWorldPosServer();
 
-				//Testing for player
-				if (mob.TryGetComponent<PlayerScript>(out var script))
-				{
-					//Only target normal players and alive players
-					if(script.IsNormal == false || script.IsDeadOrGhost) continue;
+				var linecast = MatrixManager.Linecast(turretPos, LayerTypeSelection.Walls, lineOfSightMask, worldPos, toIgnore);
+				if(linecast.ItHit) continue;
 
-					//Check if player is allowed, but only if not an Ai turret as those will shoot all targets
-					if(turretType != TurretType.Ai && ValidatePlayer(script)) continue;
-
-					worldPos = script.ObjectPhysics.OfficialPosition;
-				}
-				//Test for mob, syndicate and AI will always target mobs, otherwise only on unidentified
-				else if ((turretType != TurretType.Normal || CheckUnidentifiedLifeSigns) && mob.TryGetComponent<MobAI>(out var mobAi))
-				{
-					//Only target alive mobs
-					if(mobAi.IsDead) continue;
-
-					worldPos = mobAi.ObjectPhysics.OfficialPosition;
-				}
-				else
-				{
-					//Must be allowed mob or player so dont target them
-					continue;
-				}
-
-				//TODO maybe add bool to linecast to only do raycast if linecast reaches WorldTo
-				var linecast = MatrixManager.Linecast(turretPos,
-					LayerTypeSelection.Walls, LayerMask.GetMask("Door Closed", "Walls"), worldPos);
-
-				// TODO theres something buggy with linecast, seems like the raycast check is going through doors??
-				// lineRenderer.positionCount = 2;
-				// lineRenderer.SetPositions(new []{turretPos, linecast.ItHit ? linecast.HitWorld : worldPos});
-				// lineRenderer.enabled = true;
-
-				//Check to see if we hit a wall or closed door, allow for tolerance
-				if(linecast.ItHit) continue; // && Vector3.Distance(worldPos, linecast.HitWorld) > 0.2f
-
-				//Set our target
-				target = mob.gameObject;
+				target = player.gameObject;
 				return;
 			}
-
 			//No targets
 			target = null;
 		}
@@ -371,53 +332,14 @@ namespace US13.Objects.Other
 			if (CheckUnauthorisedPersonnel)
 			{
 				var allowed = authorisedClearance.HasClearance(script.gameObject);
-
 				//Check for failure
 				if (allowed == false) return false;
-			}
-
-			//Record Checking
-			if (CheckUnidentifiedLifeSigns || CheckForArrest || CheckSecurityRecords)
-			{
-				var hasRecord = false;
-				foreach (var record in CrewManifestManager.Instance.SecurityRecords)
-				{
-					//Check to see if we have record
-					if (record.characterSettings.Name.Equals(script.visibleName) == false) continue;
-
-					//Check Security Records For Criminals
-					if (CheckSecurityRecords && record.Status == SecurityStatus.Criminal)
-					{
-						return false;
-					}
-
-					//Neutralize Identified Criminals
-					if (CheckForArrest && record.Status == SecurityStatus.Arrest)
-					{
-						return false;
-					}
-
-					hasRecord = true;
-					break;
-				}
-
-				//Neutralize All Unidentified Life Signs
-				//Unknown name check here or else it would be possible for someone to add record with the name Unknown
-				//and then wouldn't be targeted by turrets
-				if (CheckUnidentifiedLifeSigns && (hasRecord == false || script.visibleName.Equals("Unknown")))
-				{
-					return false;
-				}
 			}
 
 			//Check for Weapon Authorization
 			if (CheckWeaponAuthorisation && script.Equipment != null)
 			{
-				if (CheckSlot(NamedSlot.rightHand) == false || CheckSlot(NamedSlot.leftHand) == false)
-				{
-					return false;
-				}
-
+				if (CheckSlot(NamedSlot.rightHand) == false || CheckSlot(NamedSlot.leftHand) == false) return false;
 				bool CheckSlot(NamedSlot slot)
 				{
 					var handItem = script.Equipment.GetClothingItem(slot);
@@ -427,14 +349,38 @@ namespace US13.Objects.Other
 					{
 						//Only allow authorised people to have guns
 						bool allowed = weaponAuthorisationClearance.HasClearance(script.gameObject);
-
 						//Check for failure
 						if (allowed == false) return false;
 					}
-
 					//Passed weapons check for this hand
 					return true;
 				}
+			}
+
+			if ((CheckForArrest || CheckSecurityRecords) == false) return true;
+
+			var hasRecord = false;
+			foreach (var record in CrewManifestManager.Instance.SecurityRecords)
+			{
+				//Check to see if we have record
+				if (record.characterSettings.Name.Equals(script.visibleName) == false) continue;
+
+				//Check Security Records For Criminals
+				if (CheckSecurityRecords && record.Status == SecurityStatus.Criminal) return false;
+
+				//Neutralize Identified Criminals
+				if (CheckForArrest && record.Status == SecurityStatus.Arrest) return false;
+
+				hasRecord = true;
+				break;
+			}
+
+			//Neutralize All Unidentified Life Signs
+			//Unknown name check here or else it would be possible for someone to add record with the name Unknown
+			//and then wouldn't be targeted by turrets
+			if (CheckUnidentifiedLifeSigns && (hasRecord == false || script.visibleName.Equals("Unknown")))
+			{
+				return false;
 			}
 
 			return true;
@@ -565,14 +511,15 @@ namespace US13.Objects.Other
 
 			shootSpeedMultiplier = Mathf.Clamp(shootSpeedMultiplier, 0.1f, 10f);
 			shootSpeed *= shootSpeedMultiplier;
+			shootSpeed = Mathf.Min(0.5f, shootSpeed);
 		}
 
 		private void ChangeCoverState()
 		{
-			//Dont have cover on ballistic turret
+			//Don't have cover on ballistic turret
 			if(ballisticTurret) return;
 
-			//If changing cover state dont check
+			//If changing cover state don't check
 			if (coverStateChanging) return;
 
 			//Open if we need to
@@ -640,7 +587,7 @@ namespace US13.Objects.Other
 			//If Id try unlock
 			if (Validations.HasItemTrait(interaction, CommonTraits.Instance.Id))
 			{
-				if (restricted.HasClearance(interaction.HandObject) == false)
+				if (tinkerRequiredClearance.HasClearance(interaction.PerformerPlayerScript.Access) == false)
 				{
 					Chat.AddExamineMsgFromServer(interaction.Performer, $"You need higher authorisation to unlock this {gameObject.ExpensiveName()}");
 					return;
