@@ -96,7 +96,7 @@ namespace US13.Systems.ChemistryEffects
 			var possibleTargets = Physics2D.OverlapCircleAll(worldPosition, afflictionRadius, LayerMask.GetMask("Players"));
 			foreach (var target in possibleTargets)
 			{
-				var result = MatrixManager.Linecast(worldPosition, LayerTypeSelection.Walls, null,target.gameObject.AssumedWorldPosServer(), false);
+				var result = MatrixManager.Linecast(worldPosition, LayerTypeSelection.Walls, null,target.gameObject.AssumedWorldPosServer(), DEBUG: false);
 				if (result.ItHit) continue;
 
 				var duration = strength * STUN_DURATION_PER_YIELD;

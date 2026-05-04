@@ -11,6 +11,7 @@ using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Core.Lifecycle;
 using US13.Core.Sprite_Handler;
 using US13.HealthV2;
+using US13.Items.Traits;
 using US13.Managers.NetworkManagement;
 using US13.Projectiles;
 using US13.Projectiles.Behaviours;
@@ -36,8 +37,10 @@ namespace US13.Systems.Research.LaserPuzzle
 		public bool HasItem => itemStorage.GetIndexedItemSlot(0).IsOccupied;
 
 
-		[SerializeField, Tooltip("Certain items that should not be allowed to be destroyed for gamplay reasons, includes nuclear disk, captains hat etc.")]
+		[SerializeField, Tooltip("Certain items that should not be allowed to be destroyed for gameplay reasons, includes nuclear disk, captains hat etc.")]
 		private List<GameObject> blackListedItems = new List<GameObject>();
+		[SerializeField]
+		private List<ItemTrait> blackListedTraits = new();
 
 		private IEnumerable<string> blackListedItemNames;
 
@@ -81,8 +84,7 @@ namespace US13.Systems.Research.LaserPuzzle
 			else
 			{
 				if (interaction.HandObject == null) return;
-
-				if (blackListedItemNames.Contains(interaction.HandObject.Item().InitialName))
+				if (interaction.HandObject.Item().HasAnyTraitZeroAlloc(blackListedTraits) || blackListedItemNames.Contains(interaction.HandObject.Item().InitialName))
 				{
 					Chat.AddExamineMsg(interaction.Performer, $"The light on the pinth blinks red, refusing storage of the {interaction.HandObject.ExpensiveName()}");
 				}

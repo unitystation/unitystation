@@ -124,7 +124,7 @@ namespace US13.Systems.Explosions
 		{
 			var result = MatrixManager.Linecast(
 				startingPos.To3Int(), LayerTypeSelection.Walls, null,
-				obj.gameObject.AssumedWorldPosServer(), true);
+				obj.gameObject.AssumedWorldPosServer(), DEBUG:true);
 			if (result.ItHit)
 			{
 #if UNITY_EDITOR
