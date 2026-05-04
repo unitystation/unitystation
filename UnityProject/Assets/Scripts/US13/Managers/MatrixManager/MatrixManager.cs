@@ -417,17 +417,14 @@ namespace US13.Managers.MatrixManager
 					return matrixInfo;
 				}
 			}
-#if UNITY_EDITOR
+			#if UNITY_EDITOR
 			if (Instance.spaceMatrix == null)
 			{
 				Instance.spaceMatrix = FindObjectsByType<MatrixSync>(FindObjectsSortMode.None)
 					.FirstOrDefault(x => x.IsSpaceMatrix)?.NetworkedMatrix?.matrix;
 			}
-#endif
-
-
-
-			return Instance.spaceMatrix.MatrixInfo;
+			#endif
+			return Instance.spaceMatrix?.MatrixInfo;
 		}
 
 		public static MatrixInfo GetByName_DEBUG_ONLY(string Name)

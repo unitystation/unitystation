@@ -24,8 +24,11 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 		[SerializeReference, SelectImplementation(typeof(ITraversalStrat))]
 		public List<ITraversalStrat> TraversalStrategies = new List<ITraversalStrat>();
 
+		private List<Vector3Int> selectedPath = null;
+		private MobTraversal.TraversalDetails traversalDetails;
 		private bool isTraversing = false;
-		private int refuseReturn = 0;
+		private const int hesitancy = 5; //If this cannot find a valid task, how many updates before it tries again?
+		private int hesitance = 0; //How many updates remain until it looks again
 
 		[SerializeField] private List<AudibleMobDialogue> idleDialogue = new List<AudibleMobDialogue>();
 		[SerializeField] List<AudibleMobDialogue> idleEmaggedDialogue = new List<AudibleMobDialogue>();
@@ -33,6 +36,14 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 
 		private void Start()
 		{
+			traversalDetails = new MobTraversal.TraversalDetails
+			{
+				OnTraversalFinalStep = () => OnDoneTraversalToLocation(Vector3Int.zero),
+				OnRetryMoveToDirection = null,
+				Strats = TraversalStrategies,
+				CancelOnSlip = true,
+				Algorithm = PathfinderType.AStar
+			};
 			taskState = GetComponent<SimpleBotTaskAi>();
 			if (taskState == null)
 			{
@@ -83,12 +94,14 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 				master.RemoveAddState(this, wanderState);
 				return;
 			}
-			isTraversing = pathfinder.QueueMovementGoal(targetCell, () => OnDoneTraversalToLocation(Vector3Int.zero), null, TraversalStrategies, true);
+
+			traversalDetails.TargetPosition = targetCell;
+			isTraversing = pathfinder.QueueMovementGoalFromPath(traversalDetails, selectedPath);
 
 			if (isTraversing == false)
 			{
 				master.RemoveAddState(this, wanderState);
-				refuseReturn = 7;
+				hesitance = hesitancy;
 			}
 		}
 
@@ -113,7 +126,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			else
 			{
 				master.RemoveAddState(this, wanderState);
-				refuseReturn = 7;
+				hesitance = hesitancy;
 			}
 		}
 
@@ -149,10 +162,10 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 		{
 			//If the bot was unable to path find to a target, we force it to wander for awhile so it doesn't get stuck
 			//repeatedly trying to reach an unreachable target
-			if (refuseReturn-- > 0) return false;
+			if (hesitance-- > 0) return false;
 
-			foundTarget = taskState.FindTarget(out targetCell, out targetMatrix);
-			return foundTarget;
+			selectedPath = taskState.FindTarget(out targetCell, out targetMatrix);
+			return selectedPath is { Count: > 0 };
 		}
 
 		public void EmagMob()

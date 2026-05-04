@@ -1073,7 +1073,7 @@ namespace US13.HealthV2.Living
 			foreach (var implant in BodyPartList)
 			{
 				if (implant.DamageContributesToOverallHealth == false) continue;
-				toReturn -= (implant.Burn + implant.Brute);
+				toReturn += (implant.Burn + implant.Brute);
 			}
 
 			return toReturn;

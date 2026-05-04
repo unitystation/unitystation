@@ -12,6 +12,6 @@ namespace US13.ScriptableObjects
 		public Reagent Blood;
 		public Reagent SpaceCleaner;
 		public Reagent SpaceLube;
-
+		public Reagent TableSalt;
 	}
 }

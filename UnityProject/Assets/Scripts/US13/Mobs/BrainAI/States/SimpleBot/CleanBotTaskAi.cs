@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using Chemistry;
 using Cysharp.Threading.Tasks;
 using Logs;
 using UnityEngine;
+using US13.Core;
 using US13.Managers;
+using US13.Mobs.Traversal;
 using US13.Objects.Construction.FloorDecals;
 using US13.Tilemaps.Behaviours.Layers;
 using Util;
@@ -12,21 +15,10 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 {
 	public class CleanBotTaskAi : SimpleBotTaskAi
 	{
-		private FloorDecal decalToClean = null;
 		[SerializeField] private Reagent reagentToSpill = null;
-
-		private Collider2D[] possibleDecals = new Collider2D[10];
-		[SerializeField] private ContactFilter2D contactFilter;
 
 		public override void OnEnterState()
 		{
-			if (IsEmagged == false && decalToClean == false)
-			{
-				Loggy.Error("CleanBotTaskAi: Attempted to enter state but decalToClean was null!");
-				master.RemoveAddState(this, findSimpleTaskAi);
-				return;
-			}
-
 			searchRadius = 3;
 			isPerformingTask = false;
 
@@ -47,7 +39,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 				return;
 			}
 
-			if (IsCurrentTaskValid() == true)
+			if (IsCurrentTaskValid())
 			{
 				Vector3Int worldPos = targetCell.ToWorldInt(targetMatrix);
 
@@ -61,104 +53,77 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			}
 
 			searchRadius = 1; //Search nearby tiles to see if it can continue to clean without moving
-			bool found = FindTarget(out targetCell, out targetMatrix);
+			var path = FindTarget(out targetCell, out targetMatrix);
 			searchRadius = 5;
 
-			if (found == false) master.RemoveAddState(this, findSimpleTaskAi); //If cant clean without moving, return to search state
+			if (path == null || path.Count == 0) master.RemoveAddState(this, findSimpleTaskAi); //If cant clean without moving, return to search state
 			else DoTask();
-		}
-
-		/// <summary>
-		/// Checks to see if the target decal exists, is cleanable and is still at the recorded position
-		/// </summary>
-		/// <param name="positionToCheck">The assumed world position of the decal</param>
-		/// <returns></returns>
-		private bool IsDecalValid(Vector3 positionToCheck)
-		{
-			return decalToClean && decalToClean.Cleanable && Vector3.Distance(decalToClean.gameObject.AssumedWorldPosServer(), positionToCheck) < 1.1f;
-		}
-
-		private static bool IsAccessableAt(Vector3Int position, Matrix matrix)
-		{
-			return matrix.MetaDataLayer.IsOccupiedAt(position) == false;
 		}
 
 		protected override bool IsCurrentTaskValid()
 		{
-			if(IsEmagged)
-			{
-				var worldPosToSlip = targetCell.ToWorld(targetMatrix);
-				return Vector3.Distance(worldPosToSlip, LivingHealthMaster.gameObject.AssumedWorldPosServer()) <= 1.5f;
-			}
-
+			if (targetMatrix == null) return false;
 			Vector3 worldPos = targetCell.ToWorld(targetMatrix);
-
-			return Vector3.Distance(worldPos, LivingHealthMaster.gameObject.AssumedWorldPosServer()) <= 1.5f
-			       && IsDecalValid(worldPos);
+			return Vector3.Distance(worldPos, LivingHealthMaster.gameObject.AssumedWorldPosServer()) <= 1.5f;
 		}
 
-		public override bool FindTarget(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
+		public override List<Vector3Int> FindTarget(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
 		{
-			if (IsEmagged) return FindTargetEmagged(out targetPosition, out targetMatrixLocal);
+			targetMatrix = null;
+
+			var path = FindPuddles(out targetPosition, out targetMatrixLocal);
+			if (IsEmagged) return path;
+
+			var decals = ComponentsTracker<FloorDecal>.GetAllNearbyTypesToTarget(master.Body.gameObject, searchRadius);
+			if (decals == null) return path;
 
 			targetMatrixLocal = master.Body.UniversalObjectPhysics.registerTile.Matrix;
 			var currentPosition = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrixLocal);
 
-			targetPosition = currentPosition;
-			decalToClean = null;
-
-			int decalCount = Physics2D.OverlapCircle(currentPosition.ToWorld(targetMatrixLocal), searchRadius, contactFilter, possibleDecals);
-			for(int i = 0; i < decalCount; i++)
+			foreach(var decal in decals)
 			{
-				FloorDecal decal = possibleDecals[i].GetCachedComponent<FloorDecal>();
-				if (decal == false || decal.Cleanable == false) continue;
-
+				if (decal.Cleanable == false) continue;
 
 				var worldPos = decal.gameObject.AssumedWorldPosServer();
 				targetPosition = worldPos.ToLocalInt(targetMatrixLocal);
 
-				if(IsAccessableAt(targetPosition, targetMatrixLocal) == false) continue;
+				var possiblePath = MobTraversal.GeneratePath(currentPosition, targetPosition, targetMatrixLocal, PathfinderType.AStar);
+				if (possiblePath == null || possiblePath.Count == 0) continue;
 
-				this.decalToClean = decal;
 				targetMatrix = targetMatrixLocal;
 				targetCell = targetPosition;
-				return true;
+				return possiblePath;
 			}
 
-			targetMatrix = null;
-			targetMatrixLocal = null;
-			return false;
+			return path;
 		}
 
-		private bool FindTargetEmagged(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
+		private List<Vector3Int> FindPuddles(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
 		{
+			targetPosition = Vector3Int.zero;
 			targetMatrixLocal = master.Body.UniversalObjectPhysics.registerTile.Matrix;
 			var currentPosition = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrixLocal);
-
-			targetPosition = currentPosition;
-			decalToClean = null;
 
 			for (int y = -searchRadius; y <= searchRadius; y++)
 			{
 				for (int x = -searchRadius; x <= searchRadius; x++)
 				{
-					var checkPos = currentPosition;
-					checkPos.x += x;
-					checkPos.y += y;
+					var checkPos = currentPosition + new Vector3Int(x,y,0);
 
-					if (targetMatrixLocal.MetaDataLayer.IsSlipperyAt(checkPos) == false && targetMatrixLocal.MetaTileMap.IsAtmosPassableAt(checkPos, targetMatrixLocal))
+					if ((IsEmagged == false && targetMatrixLocal.MetaDataLayer.HasReagentSpatter(checkPos))
+					    || (IsEmagged && targetMatrixLocal.MetaDataLayer.IsSlipperyAt(checkPos) == false))
 					{
+						var possiblePath = MobTraversal.GeneratePath(currentPosition, checkPos, targetMatrixLocal, PathfinderType.AStar);
+						if (possiblePath == null || possiblePath.Count == 0) continue;
+
 						targetMatrix = targetMatrixLocal;
 						targetPosition = checkPos;
 						targetCell = checkPos;
-						return true;
+						return possiblePath;
 					}
 				}
 			}
-
-			targetMatrix = null;
-			targetMatrixLocal = null;
-			return false;
+			return null;
 		}
 	}
 }

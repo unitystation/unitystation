@@ -14,13 +14,13 @@ namespace US13.Mobs.Traversal.Strategies
 	{
 		public int ClimbSpeedInMilliseconds = 3135;
 
-		public Tuple<bool, Component, LayerTile> ObsticalCheck(Vector3Int obsticalPosition, PlayerScript mob)
+		public Tuple<bool, Component, LayerTile> ObstacleCheck(Vector3Int obsticalPosition, PlayerScript mob)
 		{
 			var table = mob.RegisterPlayer.Matrix.IsTableAt(obsticalPosition);
 			return new Tuple<bool, Component, LayerTile>(table != null, null, table);
 		}
 
-		public int TraverseObstical(Vector3Int direction, Component obsticalObject, LayerTile obsticalTile, PlayerScript mob)
+		public int TraverseObstacle(Vector3Int direction, Component obsticalObject, LayerTile obsticalTile, PlayerScript mob)
 		{
 			if (obsticalTile is BasicTile table)
 			{

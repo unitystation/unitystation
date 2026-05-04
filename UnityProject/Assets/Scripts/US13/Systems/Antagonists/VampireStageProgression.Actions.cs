@@ -244,28 +244,31 @@ namespace US13.Systems.Antagonists
 			Vector3 facingVector = connectedPlayer.CurrentDirection.ToLocalVector3();
 
 			var nearbyPlayers = ComponentsTracker<LivingHealthMasterBase>.GetAllNearbyTypesToTarget(connectedPlayer.gameObject, hypnoticStareRange, bypassInventories: false);
-			foreach(var player in nearbyPlayers)
+			if (nearbyPlayers != null)
 			{
-				if(player.gameObject == gameObject) continue;
-				Vector3 targetPosition = player.gameObject.AssumedWorldPosServer();
-				Vector3 relativeVector = targetPosition - positionOrigin;
+				foreach (var player in nearbyPlayers)
+				{
+					if (player.gameObject == gameObject) continue;
+					Vector3 targetPosition = player.gameObject.AssumedWorldPosServer();
+					Vector3 relativeVector = targetPosition - positionOrigin;
 
-				if (relativeVector.sqrMagnitude > hypnoticStareRange * hypnoticStareRange) continue;
+					if (relativeVector.sqrMagnitude > hypnoticStareRange * hypnoticStareRange) continue;
 
-				float dotProduct = Vector3.Dot(relativeVector, facingVector);
-				if (dotProduct <= 0f) continue;
-				bool isInCone = dotProduct * dotProduct > squaredCosine * relativeVector.sqrMagnitude;
-				if (isInCone == false) continue;
+					float dotProduct = Vector3.Dot(relativeVector, facingVector);
+					if (dotProduct <= 0f) continue;
+					bool isInCone = dotProduct * dotProduct > squaredCosine * relativeVector.sqrMagnitude;
+					if (isInCone == false) continue;
 
-				//The above code uses the identity A dot B = |A||B|cos(theta) to quickly verify the cone without needing any trig functions, divisions or squares
-				//Squared Cosine is evaluated on awake
+					//The above code uses the identity A dot B = |A||B|cos(theta) to quickly verify the cone without needing any trig functions, divisions or squares
+					//Squared Cosine is evaluated on awake
 
-				var result = MatrixManager.Linecast(
-					positionOrigin, LayerTypeSelection.Walls, null,
-					targetPosition, DEBUG: false);
-				if (result.ItHit) continue;
+					var result = MatrixManager.Linecast(
+						positionOrigin, LayerTypeSelection.Walls, null,
+						targetPosition, DEBUG: false);
+					if (result.ItHit) continue;
 
-				player.playerScript.RegisterPlayer.ServerSleep(hypnoticStareDuration);
+					player.playerScript.RegisterPlayer.ServerSleep(hypnoticStareDuration);
+				}
 			}
 
 			await UniTask.WaitForSeconds(1.0f);
