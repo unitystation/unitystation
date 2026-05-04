@@ -121,7 +121,7 @@ namespace US13.Core.Camera
 
 			bool HasFovMOd = Camera2DFollow.followControl.FOVtarget != null;
 
-			if (matrix?.MetaTileMap == null || matrix.Matrix) return;
+			if (matrix?.MetaTileMap == null || matrix.Matrix == null) return;
 			var wall = matrix.MetaTileMap.GetTile(Localpos.RoundToInt(), LayerType.Walls);
 			var  door = matrix.Matrix.Get<RegisterDoor>( Localpos.RoundToInt(),
 				isServer: CustomNetworkManager.IsServer).Any(x => x != null && x.gameObject.layer  == Layer);
