@@ -264,7 +264,7 @@ namespace US13.Systems.Antagonists
 
 					var result = MatrixManager.Linecast(
 						positionOrigin, LayerTypeSelection.Walls, null,
-						targetPosition, false);
+						targetPosition, DEBUG: false);
 					if (result.ItHit) continue;
 
 					player.playerScript.RegisterPlayer.ServerSleep(hypnoticStareDuration);
