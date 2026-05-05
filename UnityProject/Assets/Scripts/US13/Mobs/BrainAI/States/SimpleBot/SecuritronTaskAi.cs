@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Chemistry;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using US13.Core;
-using US13.Health.Objects;
 using US13.HealthV2;
 using US13.HealthV2.Living;
 using US13.Items;
 using US13.Items.Traits;
-using US13.Managers;
-using US13.Managers.MatrixManager;
 using US13.Mobs.Traversal;
 using US13.Player;
 using US13.Systems.Inventory;
@@ -100,6 +96,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			if(player.RegisterPlayer.IsLayingDown && player.playerMove.IsCuffed == false)
 			{
 				player.playerMove.Cuff(stunBatonItem.gameObject, player.gameObject);
+				restraints = FindCuffs();
 				return true;
 			}
 			securitron.WeaponNetworkActions.ServerPerformMeleeAttack(player.gameObject, relative.To2().normalized, BodyPartType.Chest, LayerType.Objects, stunBatonItem);
@@ -111,6 +108,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			targetMatrixLocal = null;
 			targetPosition = Vector3Int.zero;
 			targetMatrix = null;
+			targetPlayer = null;
 
 			var targets = ComponentsTracker<LivingHealthMasterBase>.GetAllNearbyTypesToTarget(master.Body.gameObject, searchRadius, bypassInventories: false);
 			if (targets == null) return null;
@@ -129,7 +127,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 					break;
 				}
 				if(isWanted == false && IsEmagged == false) continue;
-				if (IsEmagged && player.playerScript.PlayerSync.IsCuffed) continue;
+				if (IsEmagged && player.playerScript?.PlayerSync.IsCuffed == true) continue;
 
 				var worldPos = player.gameObject.AssumedWorldPosServer();
 				targetPosition = worldPos.ToLocalInt(targetMatrixLocal);
@@ -137,6 +135,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 				var possiblePath = MobTraversal.GeneratePath(currentPosition, targetPosition, targetMatrixLocal, PathfinderType.AStar);
 				if (possiblePath == null || possiblePath.Count == 0) break; //we don't need to keep looking through records if theres no path to this location
 
+				targetPlayer = player.playerScript;
 				targetMatrix = targetMatrixLocal;
 				targetCell = targetPosition;
 			}
