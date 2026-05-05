@@ -26,6 +26,8 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 		[SerializeField] private ReagentMix fireRetardantMix;
 		[SerializeField] private ReagentMix emaggedChemicalMix;
 
+		private const int minHealthToAttack = -10;
+
 		public override void OnEnterState()
 		{
 			searchRadius = 5;
@@ -128,7 +130,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			{
 				if (living.mobID == LivingHealthMaster.mobID) continue;
 				if (blackListedSpecies.Contains(living.InitialSpecies)) continue;
-				if (living.FireStacks == 0) continue;
+				if (living.FireStacks != 0 && living.OverallHealth > minHealthToAttack) continue;
 
 				var worldPos = living.gameObject.AssumedWorldPosServer();
 				targetPosition = worldPos.ToLocalInt(targetMatrixLocal);
