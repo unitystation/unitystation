@@ -17,6 +17,7 @@ namespace US13.ChemistryComponents.SplatEffects
 		public void HandleSplatForReagent(ref ReagentMix reagents, ref bool didSplat,
 			Vector3 position, Vector3 worldPos, Vector3Int localPosInt, bool spawnPrefabEffect = true)
 		{
+			//As much as I would love too, we cant pass n the MatrixInfo due to the fact that the Chemistry assembly cant access matrices
 			MatrixInfo matrixInfo = MatrixManager.AtPoint(worldPos, true);
 			matrixInfo.MetaDataLayer.MakeSlipperyAt(localPosInt, canDryUp, isSuperSlippery);
 			didSplat = true;
