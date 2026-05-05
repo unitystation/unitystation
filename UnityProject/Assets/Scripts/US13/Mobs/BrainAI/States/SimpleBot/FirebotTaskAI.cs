@@ -130,7 +130,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			{
 				if (living.mobID == LivingHealthMaster.mobID) continue;
 				if (blackListedSpecies.Contains(living.InitialSpecies)) continue;
-				if (living.FireStacks < maxFireStacksToAttack && living.OverallHealth > minHealthToAttack) continue;
+				if (living.FireStacks > maxFireStacksToAttack && living.OverallHealth > minHealthToAttack) continue;
 
 				var worldPos = living.gameObject.AssumedWorldPosServer();
 				targetPosition = worldPos.ToLocalInt(targetMatrixLocal);

@@ -16,6 +16,10 @@ MonoBehaviour:
   displayName: Sulphuric acid
   description: A strong mineral acid with the molecular formula H2SO4.
   color: {r: 0, g: 1, b: 0.19607843, a: 1}
-  state: 0
+  state: 1
   heatDensity: 5
   indexInSingleton: 536
+  OnSplatEffects: []
+  references:
+    version: 2
+    RefIds: []
