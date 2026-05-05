@@ -27,7 +27,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 		[SerializeField] private ReagentMix emaggedChemicalMix;
 
 		private const int minHealthToAttack = -10;
-
+		private const int maxFireStacksToAttack = 10;
 		public override void OnEnterState()
 		{
 			searchRadius = 5;
@@ -102,9 +102,9 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 
 		private async UniTaskVoid ApplyReagentWithTravelTime(Matrix currentMatrix, ReagentMix reagentMix, List<Vector3Int> positionList)
 		{
-			for (int i = 0; i < positionList.Count; i++)
+			foreach (var pos in positionList)
 			{
-				MatrixManager.ReagentReact(reagentMix.Clone(), positionList[i], currentMatrix.MatrixInfo);
+				MatrixManager.ReagentReact(reagentMix.Clone(), pos, currentMatrix.MatrixInfo);
 				await UniTask.Delay(TimeSpan.FromSeconds(SprayTileTravelDelay));
 			}
 		}
@@ -130,7 +130,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			{
 				if (living.mobID == LivingHealthMaster.mobID) continue;
 				if (blackListedSpecies.Contains(living.InitialSpecies)) continue;
-				if (living.FireStacks != 0 && living.OverallHealth > minHealthToAttack) continue;
+				if (living.FireStacks < maxFireStacksToAttack && living.OverallHealth > minHealthToAttack) continue;
 
 				var worldPos = living.gameObject.AssumedWorldPosServer();
 				targetPosition = worldPos.ToLocalInt(targetMatrixLocal);

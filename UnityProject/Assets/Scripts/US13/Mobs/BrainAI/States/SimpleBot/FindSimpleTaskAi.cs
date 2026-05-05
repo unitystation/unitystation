@@ -34,6 +34,9 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 
 		[SerializeField] private List<AudibleMobDialogue> idleDialogue = new List<AudibleMobDialogue>();
 		[SerializeField] List<AudibleMobDialogue> idleEmaggedDialogue = new List<AudibleMobDialogue>();
+
+		[SerializeField] protected List<AudibleMobDialogue> foundTargetDialogue = new List<AudibleMobDialogue>();
+
 		[SerializeField] private float dialogueChancePercent = 50;
 
 		private void Start()
@@ -99,6 +102,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 
 			traversalDetails.TargetPosition = targetCell;
 			isTraversing = pathfinder.QueueMovementGoalFromPath(traversalDetails, selectedPath);
+			taskState.Speak(foundTargetDialogue.PickRandom());
 
 			if (isTraversing == false)
 			{

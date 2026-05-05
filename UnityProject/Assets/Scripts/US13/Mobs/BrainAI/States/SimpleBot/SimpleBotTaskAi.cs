@@ -36,6 +36,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 
 		[SerializeField] protected LanguageSO botLanguage = null;
 		[SerializeField] protected List<AudibleMobDialogue> stateExitDialogue = new List<AudibleMobDialogue>();
+		[SerializeField] protected List<AudibleMobDialogue> stateEnterDialogue = new List<AudibleMobDialogue>();
 
 		protected CancellationTokenSource cancellationTokenSource = new();
 		protected bool isPerformingTask = false;
@@ -54,6 +55,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 
 		public override void OnEnterState()
 		{
+			Speak(stateEnterDialogue.PickRandom());
 			DoTask();
 		}
 
