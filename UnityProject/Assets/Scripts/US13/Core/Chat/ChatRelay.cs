@@ -79,7 +79,9 @@ namespace US13.Core.Chat
 
 		private void WhisperCheck(ChatEvent chatEvent)
 		{
-			var willWhisper = whisperPrefix.Any(prefix => chatEvent.message.Contains(prefix));
+			var willWhisper = whisperPrefix.Any(prefix =>
+				chatEvent is { message: not null }
+				&& chatEvent.message.Contains(prefix));
 			chatEvent.IsWhispering = willWhisper;
 		}
 
