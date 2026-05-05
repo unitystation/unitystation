@@ -44,7 +44,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 				Vector2 relative = (targetCell - startLocation).To2();
 				Effect.PlayParticleDirectional(this.gameObject, relative.normalized);
 				SoundManager.PlayNetworkedAtPos(IsEmagged ? emaggedPerformSound : taskPerformSound, LivingHealthMaster.gameObject.AssumedWorldPosServer(), global: false);
-				SprayAreaWithReagent(targetMatrix, startLocation, targetCell.To2Int());
+				SprayAreaWithReagent(targetMatrix, startLocation, targetCell);
 			}
 
 			bool isCancelled = await UniTask
@@ -68,14 +68,17 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 		}
 
 
-		private void SprayAreaWithReagent(Matrix currentMatrix, Vector3Int startLocation, Vector2Int targetLocation)
+		private void SprayAreaWithReagent(Matrix currentMatrix, Vector3Int startLocation, Vector3Int targetLocation)
 		{
+			startLocation = startLocation.ToWorldInt(currentMatrix);
+			targetLocation = targetLocation.ToWorldInt(currentMatrix);
+
 			Vector2 startLocation2D = startLocation.To2Int();
-			Vector2 relative = targetLocation - startLocation2D;
+			Vector2 relative = targetLocation.To2() - startLocation2D;
 			Vector2 normalVector = Vector2.Perpendicular(relative).normalized;
 			Vector2 parallelStart = startLocation2D - normalVector;
 
-			List<Vector3Int> passableTiles = GetPassableTiles(startLocation, targetLocation);
+			List<Vector3Int> passableTiles = GetPassableTiles(startLocation, targetLocation.To2Int());
 			passableTiles.AddRange(GetPassableTiles(parallelStart.To3Int(), (parallelStart + relative).RoundTo2Int()));
 			parallelStart = startLocation2D + normalVector;
 			passableTiles.AddRange(GetPassableTiles(parallelStart.To3Int(), (parallelStart + relative).RoundTo2Int()));
@@ -99,7 +102,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 		{
 			for (int i = 0; i < positionList.Count; i++)
 			{
-				MatrixManager.ReagentReact(reagentMix, positionList[i], currentMatrix.MatrixInfo);
+				MatrixManager.ReagentReact(reagentMix.Clone(), positionList[i], currentMatrix.MatrixInfo);
 				await UniTask.Delay(TimeSpan.FromSeconds(SprayTileTravelDelay));
 			}
 		}

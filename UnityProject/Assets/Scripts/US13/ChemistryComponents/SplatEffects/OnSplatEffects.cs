@@ -2,6 +2,7 @@ using System.Linq;
 using Chemistry;
 using UnityEngine;
 using US13.Core.Factories;
+using US13.Health.Objects;
 using US13.HealthV2.Living;
 using US13.Managers.MatrixManager;
 using US13.Objects.Construction.FloorDecals;
@@ -74,14 +75,16 @@ namespace US13.ChemistryComponents.SplatEffects
 
 	public class ExtinguishOnSplat : IOnSplatEffect
 	{
+		[SerializeField] private float stacksPerUnit = 1.0f;
+
 		public void HandleSplatForReagent(ref ReagentMix reagents, ref bool didSplat,
-			Vector3 position, Vector3 worldPos, Vector3Int localPosInt, bool spawnPrefabEffect = true)
+			Vector3 position, Vector3 worldPos, Vector3Int localPosInt, float reagentAmount = 0.0f, bool spawnPrefabEffect = true)
 		{
 			MatrixInfo matrixInfo = MatrixManager.AtPoint(worldPos, true);
 			matrixInfo.ReactionManager.ExtinguishHotspot(localPosInt);
-			foreach (var livingHealthBehaviour in matrixInfo.Matrix.Get<LivingHealthMasterBase>(localPosInt, true))
+			foreach (var flammable in matrixInfo.Matrix.Get<Flammable>(localPosInt, true))
 			{
-				livingHealthBehaviour.Extinguish();
+				flammable.AddFireStacks((int)(-stacksPerUnit * reagentAmount));
 			}
 		}
 	}
