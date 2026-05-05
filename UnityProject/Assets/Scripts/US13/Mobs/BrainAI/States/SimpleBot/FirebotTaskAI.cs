@@ -41,7 +41,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			if (IsCurrentTaskValid())
 			{
 				Vector3Int startLocation = master.Body.gameObject.AssumedWorldPosServer().ToLocalInt(targetMatrix);
-				Vector2 relative = (startLocation - targetCell).To2();
+				Vector2 relative = (targetCell - startLocation).To2();
 				Effect.PlayParticleDirectional(this.gameObject, relative.normalized);
 				SoundManager.PlayNetworkedAtPos(IsEmagged ? emaggedPerformSound : taskPerformSound, LivingHealthMaster.gameObject.AssumedWorldPosServer(), global: false);
 				SprayAreaWithReagent(targetMatrix, startLocation, targetCell.To2Int());
@@ -143,7 +143,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 		public override List<Vector3Int> FindTarget(out Vector3Int targetPosition, out Matrix targetMatrixLocal)
 		{
 			if(IsEmagged) return FindTargetWhileEmagged(out targetPosition, out targetMatrixLocal);
-			
+
 			targetMatrixLocal = null;
 			targetPosition = Vector3Int.zero;
 			targetMatrix = null;

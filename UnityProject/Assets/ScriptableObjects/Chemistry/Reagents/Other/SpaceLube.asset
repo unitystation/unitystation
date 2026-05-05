@@ -20,3 +20,14 @@ MonoBehaviour:
   state: 1
   heatDensity: 5
   indexInSingleton: 441
+  OnSplatEffects:
+  - rid: 3457065890737553479
+  references:
+    version: 2
+    RefIds:
+    - rid: 3457065890737553479
+      type: {class: MakeSlipperyOnSplat, ns: US13.ChemistryComponents.SplatEffects,
+        asm: Assets}
+      data:
+        isSuperSlippery: 1
+        canDryUp: 0
