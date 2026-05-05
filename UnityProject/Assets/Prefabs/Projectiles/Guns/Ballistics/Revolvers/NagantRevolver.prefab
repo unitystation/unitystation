@@ -132,7 +132,7 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: An old model of revolver that originated in Russia. Able to be suppressed.
-        Uses 7.62x38mmR ammo
+        Uses 7.62x38mm ammo.
       objectReference: {fileID: 0}
     - target: {fileID: 7032857965971736401, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
@@ -147,6 +147,12 @@ PrefabInstance:
     - target: {fileID: 7810681965648851131, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f697b336c13ef1845937efdac2128f8c,
+        type: 2}
+    - target: {fileID: 7810681965648851131, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: f697b336c13ef1845937efdac2128f8c,
         type: 2}

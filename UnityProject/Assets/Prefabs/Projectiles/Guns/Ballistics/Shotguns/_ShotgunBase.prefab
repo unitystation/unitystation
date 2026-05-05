@@ -38,25 +38,9 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
-      propertyPath: MagSize
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
-        type: 3}
-      propertyPath: FireRate
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
-        type: 3}
       propertyPath: ammoType
       value: 15
       objectReference: {fileID: 0}
-    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
-        type: 3}
-      propertyPath: Projectile
-      value: 
-      objectReference: {fileID: 2003804624138751089, guid: 4adcadc588a9b69449a7184abef7ad19,
-        type: 3}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: ammoPrefab
@@ -65,30 +49,14 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
-      propertyPath: FiringSound
-      value: ShootLMG
-      objectReference: {fileID: 0}
-    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
-        type: 3}
       propertyPath: MagInternal
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
-        type: 3}
-      propertyPath: ProjectilesFired
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: MaxRecoilVariance
       value: 0.05
       objectReference: {fileID: 0}
-    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
-        type: 3}
-      propertyPath: genericInternalMag
-      value: 
-      objectReference: {fileID: 4040938859939369650, guid: 863f3c5765447184b8b0d23ff0b9ddff,
-        type: 3}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: allowMagazineRemoval
@@ -112,8 +80,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0.22
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
       propertyPath: SuppressedSoundA.AssetAddress
       value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoilDuration
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoveryDuration
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
@@ -170,6 +153,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7bba6409a20d3484aa1b6d42aa8b6e9f,
         type: 2}
+    - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: cc3b8cc0098b09d45acbb325c5ec8337,
+        type: 2}
+    - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7bba6409a20d3484aa1b6d42aa8b6e9f,
+        type: 2}
     - target: {fileID: 8958440777353242636, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: m_Sprite
@@ -180,11 +175,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: _ShotgunBase
-      objectReference: {fileID: 0}
-    - target: {fileID: 9128991954208744996, guid: b17740819c0bf4b44a53be1e477dc4d5,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9128991954208744996, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
@@ -241,11 +231,6 @@ PrefabInstance:
       propertyPath: _assetId
       value: 376099528
       objectReference: {fileID: 0}
-    - target: {fileID: 9166802612737582820, guid: b17740819c0bf4b44a53be1e477dc4d5,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 3da1d244806a96340a48e959ecc816e4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -284,3 +269,4 @@ MonoBehaviour:
   hidesSlots: 0
   hideClothingFlags: 0
   disallowConsume: 0
+  Colour: {r: 1, g: 1, b: 1, a: 1}

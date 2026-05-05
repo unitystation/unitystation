@@ -53,6 +53,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -74,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 40
@@ -505,6 +508,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: WeaponType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: ammoPrefab
       value: 
       objectReference: {fileID: 975013249514806011, guid: 47d3f5b042c2b6244ab27eea9e71be01,
@@ -546,6 +554,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: ProjectileVelocity
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: firemodeName.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -581,6 +594,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: 'chargeSprites.Array.data[0]'
       value: 
       objectReference: {fileID: 8048860274609277641}
@@ -608,6 +626,11 @@ PrefabInstance:
         type: 3}
       propertyPath: firemodeProjectiles.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoilDuration
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -642,6 +665,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5951038657140010356, guid: 00552b9802a37ba4bbe1aca46515b240,
         type: 3}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoveryDuration
+      value: 0.35
+      objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: firemodeFiringSound.Array.data[0].AssetAddress
@@ -724,6 +752,7 @@ MonoBehaviour:
   hidesSlots: 0
   hideClothingFlags: 0
   disallowConsume: 0
+  Colour: {r: 1, g: 1, b: 1, a: 1}
 --- !u!4 &6583733005057544527 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,

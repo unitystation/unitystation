@@ -154,6 +154,12 @@ PrefabInstance:
       propertyPath: InitialColour.g
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5572642767229722754, guid: f8f5682e74c42bb45851c71a4b53b20b,
+        type: 3}
+      propertyPath: decal
+      value: 
+      objectReference: {fileID: 8136594067987114590, guid: c8bc96bbff413124381dc5d56ff0963f,
+        type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -224,10 +230,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  InitialPresentSpriteSet: {fileID: 11400000, guid: d39f2938943a271468e9efbe0dee0bcb,
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 3119922b67881afb6a120c079d7c3226,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 0.27450982}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 

@@ -78,22 +78,6 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4821844458157436374, guid: bb89e4eb0756de04b8ab904221c23296,
         type: 3}
-      propertyPath: activatedHitDamage
-      value: 34
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821844458157436374, guid: bb89e4eb0756de04b8ab904221c23296,
-        type: 3}
-      propertyPath: activatedBlockChance
-      value: 75
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821844458157436374, guid: bb89e4eb0756de04b8ab904221c23296,
-        type: 3}
-      propertyPath: Sprites.Off.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 885c1aed89e9a7240b994849585cfa42,
-        type: 2}
-    - target: {fileID: 4821844458157436374, guid: bb89e4eb0756de04b8ab904221c23296,
-        type: 3}
       propertyPath: Sprites.Red.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 567f75a5a79caec42a0b52a8c6502d9c,
@@ -103,12 +87,6 @@ PrefabInstance:
       propertyPath: Sprites.Blue.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: c25ff557b7bae0c4b8438c681b93dd40,
-        type: 2}
-    - target: {fileID: 4821844458157436374, guid: bb89e4eb0756de04b8ab904221c23296,
-        type: 3}
-      propertyPath: Sprites.Off.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 10f1ae6cbe42b8f46a4893e5e0f5b695,
         type: 2}
     - target: {fileID: 4821844458157436374, guid: bb89e4eb0756de04b8ab904221c23296,
         type: 3}
@@ -151,12 +129,6 @@ PrefabInstance:
       propertyPath: Sprites.Rainbow.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 3226f8fd85a61b74690ef3ca64f400e2,
-        type: 2}
-    - target: {fileID: 4821844458157436374, guid: bb89e4eb0756de04b8ab904221c23296,
-        type: 3}
-      propertyPath: Sprites.Off.SpriteInventoryIcon
-      value: 
-      objectReference: {fileID: 11400000, guid: 453601a54e3201d418dca15a57fd9d19,
         type: 2}
     - target: {fileID: 4821844458157436374, guid: bb89e4eb0756de04b8ab904221c23296,
         type: 3}
@@ -273,7 +245,7 @@ PrefabInstance:
     - target: {fileID: 7858931176587863443, guid: bb89e4eb0756de04b8ab904221c23296,
         type: 3}
       propertyPath: initialName
-      value: Dual Bladed Energy Sword
+      value: dual-bladed energy sword
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: bb89e4eb0756de04b8ab904221c23296,
         type: 3}

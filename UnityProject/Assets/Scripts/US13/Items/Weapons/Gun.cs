@@ -884,17 +884,23 @@ namespace US13.Items.Weapons
 			}
 
 			var identity = shooter.GetComponent<NetworkIdentity>();
-			RPCShowMuzzleFlash(identity);
-			if (identity.OrNull()?.connectionToClient != null)
+            if (identity.OrNull()?.connectionToClient != null)
 			{
 				if (isServer && shooter == PlayerManager.LocalPlayerObject)
 				{
 					Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
 				}
-
 				RPCShowRecoil(identity.connectionToClient, finalDirection);
 			}
+            //Call DoFiringEffects as separate method for override of muzzle flash by laser guns/etc.
+            DoFiringEffects(identity);
 		}
+
+        protected virtual void DoFiringEffects(NetworkIdentity identity)
+        {
+			RPCShowMuzzleFlash(identity);
+        }
+
 
 		[TargetRpc]
 		public void RPCShowRecoil(NetworkConnection target, Vector2 finalDirection)

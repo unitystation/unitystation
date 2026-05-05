@@ -15,7 +15,7 @@ namespace US13.Managers.SubSceneManager
 		public List<string> AdditionalScenes = new List<string>();
 
 
-		[Tooltip("Default Central Command scene used if no specific map is set")]
+		[Tooltip("List of default Central Command scenes that will be picked randomly at round load if no specific map is set")]
 		public List<string> defaultCentComScenes = new List<string>();
 
 		[Tooltip("List of CentCom scenes that will be picked randomly at round load unless specific map is set")]

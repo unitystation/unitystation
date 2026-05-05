@@ -16,6 +16,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
       propertyPath: 'firemodeProjectiles.Array.data[0]'
       value: 
       objectReference: {fileID: 5515713039983384973, guid: ecd41b6b41a13764ba625359f786f79c,
@@ -26,6 +31,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5515713039983384973, guid: ecd41b6b41a13764ba625359f786f79c,
         type: 3}
+    - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoveryDuration
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 3537619260171532079, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: parentID
@@ -39,6 +49,12 @@ PrefabInstance:
     - target: {fileID: 4387776157011116229, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f9fafe375e1adc4da1ca75a12d44bd9,
+        type: 2}
+    - target: {fileID: 4387776157011116229, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 4f9fafe375e1adc4da1ca75a12d44bd9,
         type: 2}
@@ -73,6 +89,12 @@ PrefabInstance:
     - target: {fileID: 6727335172233747888, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d73259f967b77bf42927e44d73b5328d,
+        type: 2}
+    - target: {fileID: 6727335172233747888, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d73259f967b77bf42927e44d73b5328d,
         type: 2}

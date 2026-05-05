@@ -24,6 +24,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 93bf57552eef5424a9677ef6d7179beb,
         type: 2}
+    - target: {fileID: 3162983547074257111, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 93bf57552eef5424a9677ef6d7179beb,
+        type: 2}
     - target: {fileID: 5647755007262651736, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: itemStorageCapacity
@@ -34,11 +40,6 @@ PrefabInstance:
         type: 3}
       propertyPath: ammoType
       value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
-        type: 3}
-      propertyPath: FireDelay
-      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
@@ -70,6 +71,11 @@ PrefabInstance:
         type: 3}
       propertyPath: loadMagSound.AssetAddress
       value: Assets/Prefabs/Weapons/Gun/Revolver/RevolverLoadBullet.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}

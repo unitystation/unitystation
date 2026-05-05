@@ -27,6 +27,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f88690ef7e9b14e4b959dffa020a3659,
+        type: 2}
+    - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -41,12 +47,6 @@ PrefabInstance:
       propertyPath: 'SubCatalogue.Array.data[3]'
       value: 
       objectReference: {fileID: 11400000, guid: f88690ef7e9b14e4b959dffa020a3659,
-        type: 2}
-    - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: 'SubCatalogue.Array.data[4]'
-      value: 
-      objectReference: {fileID: 11400000, guid: da130efa4d0b05a4282fc362de53847f,
         type: 2}
     - target: {fileID: 942046851822298982, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -76,6 +76,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: initialSize
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: initialDescription
       value: The "Portable Energy Transducer, Railgun Adjacent" is an energy-based
         anti-material marksman rifle that uses highly charged particle beams moving
@@ -94,20 +99,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6c991d126aa4cf84c89b94d23b77d3ca,
         type: 2}
+    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 9aa9854749d61604b90f79392d0205f6,
+        type: 2}
+    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 6c991d126aa4cf84c89b94d23b77d3ca,
+        type: 2}
     - target: {fileID: 4342894697621943514, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: _assetId
       value: 3113289926
-      objectReference: {fileID: 0}
-    - target: {fileID: 4342894697621943514, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: m_AssetId
-      value: f39d93f3932480b488f9111099f1a9da
-      objectReference: {fileID: 0}
-    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -177,6 +184,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: FireDelay
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: ammoPrefab
       value: 
       objectReference: {fileID: 3086363675824091064, guid: 50f5099ff57beaa46abf783ee0adf64d,
@@ -186,6 +198,47 @@ PrefabInstance:
       propertyPath: chargeSprite
       value: 
       objectReference: {fileID: 3198343143762792328}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: FiringSoundA.AssetAddress
+      value: Assets/Prefabs/Weapons/Emitter1.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: 'firemodeName.Array.data[0]'
+      value: DESTROY
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: 'firemodeUsage.Array.data[0]'
+      value: 1000000
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoilDuration
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: 'firemodeProjectiles.Array.data[0]'
+      value: 
+      objectReference: {fileID: 141087819969772048, guid: 2ce9204d2469d9476b21dfed35fc27e5,
+        type: 3}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoveryDuration
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeFiringSound.Array.data[0].AssetAddress
+      value: Assets/Prefabs/Weapons/Emitter1.prefab
+      objectReference: {fileID: 0}
     - target: {fileID: 7308079732379829507, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: parentID
@@ -199,6 +252,12 @@ PrefabInstance:
     - target: {fileID: 7536533288437052137, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9432bd3298938a94591326a907db1dc9,
+        type: 2}
+    - target: {fileID: 7536533288437052137, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 9432bd3298938a94591326a907db1dc9,
         type: 2}

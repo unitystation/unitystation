@@ -246,6 +246,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: WeaponType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: FiringSound
       value: PlasmaCutter
       objectReference: {fileID: 0}
@@ -291,6 +296,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0.18
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: 'firemodeUsage.Array.data[0]'
       value: 25000
       objectReference: {fileID: 0}
@@ -303,6 +313,11 @@ PrefabInstance:
         type: 3}
       propertyPath: firemodeProjectiles.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoilDuration
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -326,6 +341,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5076580856386662130, guid: f65f1f0bd0295df468272b3d767985a7,
         type: 3}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoveryDuration
+      value: 0.4
+      objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: firemodeFiringSound.Array.data[0].AssetAddress

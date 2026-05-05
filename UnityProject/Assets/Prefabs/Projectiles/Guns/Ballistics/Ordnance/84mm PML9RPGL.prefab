@@ -52,6 +52,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -73,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
@@ -101,12 +105,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: aefba002b195baf4b9ebf4e3529d4a65, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: aefba002b195baf4b9ebf4e3529d4a65,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &5138270576490816514
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -128,6 +137,12 @@ PrefabInstance:
     - target: {fileID: 3162983547074257111, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ba4463881b8a2414fab0c64b31130f44,
+        type: 2}
+    - target: {fileID: 3162983547074257111, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: ba4463881b8a2414fab0c64b31130f44,
         type: 2}
@@ -172,7 +187,7 @@ PrefabInstance:
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: ProjectileVelocity
-      value: 15
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
@@ -192,8 +207,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
       propertyPath: SuppressedSoundA.AssetAddress
       value: null
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoilDuration
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoveryDuration
+      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
@@ -236,6 +266,18 @@ PrefabInstance:
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d383c0d1536965438d0d103901621c4,
+        type: 2}
+    - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: a17ea38dad699d24c8be8e30f9e2e8f6,
+        type: 2}
+    - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 2d383c0d1536965438d0d103901621c4,
         type: 2}

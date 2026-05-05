@@ -196,6 +196,10 @@ namespace US13.Items.Weapons
 			FiringSoundA = firemodeFiringSound[currentFiremode];
 		}
 
+        protected override void DoFiringEffects(NetworkIdentity identity)
+        {
+        }
+
 		//This function should only be run serverside or it WILL desync the weapons sprites
 		public void UpdateChargeSprite() {
 			if (ammoSprite != null )

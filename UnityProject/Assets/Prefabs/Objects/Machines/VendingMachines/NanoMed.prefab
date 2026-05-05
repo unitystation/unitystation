@@ -233,6 +233,17 @@ PrefabInstance:
       propertyPath: InitialVendorContent.Array.data[6].ItemName
       value: Charcoal Pill Bottle
       objectReference: {fileID: 0}
+    - target: {fileID: 4998327886754794683, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 45acc4237fda6a2439517c7b6d9b502d,
+        type: 3}
+    - target: {fileID: 4998327886754794683, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4999872741374772649, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: m_LocalRotation.x
@@ -341,6 +352,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5088554221740940463}
+    - targetCorrespondingSourceObject: {fileID: 1048278490791050272, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8529793905661824048}
   m_SourcePrefab: {fileID: 100100000, guid: 2f2954acc32d9d3468c620e34a625966, type: 3}
 --- !u!1 &4125757218789279952 stripped
 GameObject:
@@ -360,6 +375,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ed94c89426884e758facbd072bbf0ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assets::Objects.Wallmounts.WallmountSpriteBehavior
+--- !u!114 &8529793905661824048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4125757218789279952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Lighting::LightEmissionBehaviour
+  mIntensity: 0.2
+  mAdditionalEmission: 0
+  mScale: 1
 --- !u!1 &5317608158200183530 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9081061823247388186, guid: 2f2954acc32d9d3468c620e34a625966,

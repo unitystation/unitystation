@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 370b3458fd3bfce4fa379a7a9baf3a0a,
         type: 2}
+    - target: {fileID: 471271850343394589, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 370b3458fd3bfce4fa379a7a9baf3a0a,
+        type: 2}
     - target: {fileID: 2341667748445018359, guid: cce47c5ed69f6ca40a312fa09d93db8f,
         type: 3}
       propertyPath: initialName
@@ -47,6 +53,21 @@ PrefabInstance:
     - target: {fileID: 3570249104166932168, guid: cce47c5ed69f6ca40a312fa09d93db8f,
         type: 3}
       propertyPath: Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3570249104166932168, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.3019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 3570249104166932168, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.76862746
+      objectReference: {fileID: 0}
+    - target: {fileID: 3570249104166932168, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialColour.r
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4585709544569780028, guid: cce47c5ed69f6ca40a312fa09d93db8f,
@@ -145,6 +166,27 @@ PrefabInstance:
         type: 3}
       propertyPath: HullColor.r
       value: 0.9176471
+      objectReference: {fileID: 0}
+    - target: {fileID: 9187750856948122982, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7489695ea6c19de4fb4aa0ac20d106e1,
+        type: 3}
+    - target: {fileID: 9187750856948122982, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.6632558
+      objectReference: {fileID: 0}
+    - target: {fileID: 9187750856948122982, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.88838255
+      objectReference: {fileID: 0}
+    - target: {fileID: 9187750856948122982, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

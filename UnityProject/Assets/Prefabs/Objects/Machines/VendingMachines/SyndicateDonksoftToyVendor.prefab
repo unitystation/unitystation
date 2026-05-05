@@ -86,6 +86,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2368661890258351188, guid: e24780af3a0e5ce4a95df51fb628f3c9,
         type: 3}
+    - target: {fileID: 3620302501313717941, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.7092442
+      objectReference: {fileID: 0}
+    - target: {fileID: 3620302501313717941, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.61026347
+      objectReference: {fileID: 0}
+    - target: {fileID: 3620302501313717941, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3868250325507980753, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
         type: 3}
       propertyPath: HullColor.b
@@ -117,6 +132,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3953f5b7e52f63a44b5a61004159bfba,
         type: 2}
+    - target: {fileID: 5419761128961461966, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3953f5b7e52f63a44b5a61004159bfba,
+        type: 2}
     - target: {fileID: 7909395311387343652, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
         type: 3}
       propertyPath: initialName
@@ -127,6 +148,21 @@ PrefabInstance:
       propertyPath: initialDescription
       value: An ages 8 and up approved vendor that dispenses toys. If you were to
         find the right wires, you can unlock the adult mode setting!
+      objectReference: {fileID: 0}
+    - target: {fileID: 8948799711312801051, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.4457979
+      objectReference: {fileID: 0}
+    - target: {fileID: 8948799711312801051, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.2569586
+      objectReference: {fileID: 0}
+    - target: {fileID: 8948799711312801051, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8988055784870957430, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
         type: 3}
