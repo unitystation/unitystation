@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Logs;
+using NaughtyAttributes;
 using UnityEngine;
 using US13.Core.Attributes;
 using US13.HealthV2.Living;
@@ -27,7 +28,8 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 		private List<Vector3Int> selectedPath = null;
 		private MobTraversal.TraversalDetails traversalDetails;
 		private bool isTraversing = false;
-		private const int hesitancy = 5; //If this cannot find a valid task, how many updates before it tries again?
+
+		[SerializeField, MinMaxSlider(2, 10)] private Vector2Int hesitation = new Vector2Int(5, 7);
 		private int hesitance = 0; //How many updates remain until it looks again
 
 		[SerializeField] private List<AudibleMobDialogue> idleDialogue = new List<AudibleMobDialogue>();
@@ -101,7 +103,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			if (isTraversing == false)
 			{
 				master.RemoveAddState(this, wanderState);
-				hesitance = hesitancy;
+				hesitance = Random.Range(hesitation.x, hesitation.y + 1);
 			}
 		}
 
@@ -126,7 +128,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			else
 			{
 				master.RemoveAddState(this, wanderState);
-				hesitance = hesitancy;
+				hesitance = Random.Range(hesitation.x, hesitation.y + 1);
 			}
 		}
 
@@ -165,6 +167,8 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			if (hesitance-- > 0) return false;
 
 			selectedPath = taskState.FindTarget(out targetCell, out targetMatrix);
+			selectedPath?.RemoveAt(selectedPath.Count - 1); //Stop one tile early as we have a range of 1 and the target might not be passable.
+
 			return selectedPath is { Count: > 0 };
 		}
 

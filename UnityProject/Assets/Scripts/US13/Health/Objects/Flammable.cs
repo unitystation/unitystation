@@ -4,6 +4,7 @@ using Logs;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Profiling;
+using US13.Core;
 using US13.Core.Chat;
 using US13.Core.Input_System;
 using US13.Core.Input_System.InteractionV2.Interfaces;
@@ -74,7 +75,13 @@ namespace US13.Health.Objects
 		private void Awake()
 		{
 			integrity = GetComponent<Integrity>();
+			ComponentsTracker<Flammable>.Instances.Add(this);
 			EnsureInit();
+		}
+
+		private void OnDestroy()
+		{
+			ComponentsTracker<Flammable>.Instances.Remove(this);
 		}
 
 		private void OnEnable()
