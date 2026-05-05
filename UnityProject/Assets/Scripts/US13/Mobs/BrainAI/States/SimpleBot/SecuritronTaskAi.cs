@@ -38,7 +38,6 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			}
 
 			if (stunBatonItem == null) stunBatonItem = securitronInternalStorage.GetIndexedItemSlot(0)?.ItemAttributes;
-			if (restraints == null) restraints = FindCuffs();
 
 			searchRadius = 5;
 			DoTask();
@@ -95,8 +94,9 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			Vector3 relative = player.AssumedWorldPos - securitron.AssumedWorldPos;
 			if(player.RegisterPlayer.IsLayingDown && player.playerMove.IsCuffed == false)
 			{
+				if (restraints == null) restraints = FindCuffs();
 				player.playerMove.Cuff(stunBatonItem.gameObject, player.gameObject);
-				restraints = FindCuffs();
+				restraints = null;
 				return true;
 			}
 			securitron.WeaponNetworkActions.ServerPerformMeleeAttack(player.gameObject, relative.To2().normalized, BodyPartType.Chest, LayerType.None, stunBatonItem, true);
