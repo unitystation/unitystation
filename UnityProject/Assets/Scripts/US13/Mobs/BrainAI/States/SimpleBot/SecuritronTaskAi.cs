@@ -76,7 +76,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 				return;
 			}
 
-			searchRadius = 1;
+			searchRadius = 2;
 			var path = FindTarget(out targetCell, out targetMatrix);
 			searchRadius = 5;
 
@@ -99,7 +99,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 				restraints = FindCuffs();
 				return true;
 			}
-			securitron.WeaponNetworkActions.ServerPerformMeleeAttack(player.gameObject, relative.To2().normalized, BodyPartType.Chest, LayerType.Objects, stunBatonItem);
+			securitron.WeaponNetworkActions.ServerPerformMeleeAttack(player.gameObject, relative.To2().normalized, BodyPartType.Chest, LayerType.None, stunBatonItem, true);
 			return false;
 		}
 
@@ -138,6 +138,8 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 				targetPlayer = player.playerScript;
 				targetMatrix = targetMatrixLocal;
 				targetCell = targetPosition;
+
+				return possiblePath;
 			}
 			return null;
 		}

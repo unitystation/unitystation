@@ -90,7 +90,7 @@ namespace US13.Items.Weapons
 		/// <param name="damageZone">damage zone if attacking mob, otherwise use None</param>
 		/// <param name="layerType">layer being attacked if attacking tilemap, otherwise use None</param>
 		[Server]
-		public void ServerPerformMeleeAttack(GameObject victim, Vector2 attackDirection, BodyPartType damageZone, LayerType layerType, ItemAttributesV2 weaponToAttackWith = null)
+		public void ServerPerformMeleeAttack(GameObject victim, Vector2 attackDirection, BodyPartType damageZone, LayerType layerType, ItemAttributesV2 weaponToAttackWith = null, bool isMobAttack = false)
 		{
 			if (victim == null) return;
 			if (playerMove.ObjectIsBuckling.OrNull()?.gameObject != null && playerMove.ObjectIsBuckling is MovementSynchronisation)
@@ -98,10 +98,9 @@ namespace US13.Items.Weapons
 				victim = playerMove.ObjectIsBuckling.gameObject;
 			}
 			if (Cooldowns.IsOnServer(playerScript, CommonCooldowns.Instance.Melee)) return;
-			if (playerMove.AllowInput == false) return;
+			if (isMobAttack == false && playerMove.AllowInput == false) return;
 			if (playerScript.PlayerTypeSettings.CanMelee == false) return;
 			if (playerScript.playerHealth.serverPlayerConscious == false) return;
-
 			if (victim.TryGetComponent<InteractableTiles>(out var tiles))
 			{
 				// validate based on position of target vector
