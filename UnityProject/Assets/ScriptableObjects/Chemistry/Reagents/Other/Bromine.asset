@@ -16,7 +16,11 @@ MonoBehaviour:
   displayName: Bromine
   description: A brownish liquid that's highly reactive. Useful for stopping free
     radicals, but not intended for human consumption.
-  color: {r: 0.78431374, g: 0.64705884, b: 0.8627451, a: 1}
+  color: {r: 0.7207546, g: 0.4753571, b: 0.16182974, a: 1}
   state: 1
   heatDensity: 5
   indexInSingleton: 350
+  OnSplatEffects: []
+  references:
+    version: 2
+    RefIds: []
