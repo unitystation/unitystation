@@ -81,7 +81,7 @@ namespace US13.Core.Chat
 		{
 			var willWhisper = whisperPrefix.Any(prefix =>
 				chatEvent is { message: not null }
-				&& chatEvent.message.Contains(prefix));
+				&& chatEvent.message.TrimStart().StartsWith(prefix));
 			chatEvent.IsWhispering = willWhisper;
 		}
 
