@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: m_Name
-      value: FloorBotBody
+      value: FireBotBody
       objectReference: {fileID: 0}
     - target: {fileID: 1168521912962732652, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -71,13 +71,13 @@ PrefabInstance:
     - target: {fileID: 1274760333973328556, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: _assetId
-      value: 4164029190
+      value: 1937335586
       objectReference: {fileID: 0}
     - target: {fileID: 1357021381986229316, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 1bb9bd1eab4a0454394041a1c21c90be,
+      objectReference: {fileID: 21300000, guid: d896ae98267f9cc4d90326729f56cd6e,
         type: 3}
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -87,12 +87,12 @@ PrefabInstance:
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: initialName
-      value: Floor Bot Chassis
+      value: Fire Bot Chassis
       objectReference: {fileID: 0}
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: initialDescription
-      value: The husk of a simple floor bot
+      value: The husk of a simple fire bot
       objectReference: {fileID: 0}
     - target: {fileID: 1641972083238813818, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -180,7 +180,7 @@ PrefabInstance:
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: OptionalReplacementOrgan.Array.size
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -211,7 +211,8 @@ PrefabInstance:
         type: 3}
       propertyPath: 'OptionalReplacementOrgan.Array.data[0]'
       value: 
-      objectReference: {fileID: 4426650879872711363}
+      objectReference: {fileID: 4426650879872711363, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: 'OptionalReplacementOrgan.Array.data[1]'
@@ -228,14 +229,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'OptionalReplacementOrgan.Array.data[3]'
       value: 
-      objectReference: {fileID: 4426650879872711363, guid: dc44631eec9f0c343ab2aeee9958a74d,
-        type: 3}
-    - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
-        type: 3}
-      propertyPath: 'OptionalReplacementOrgan.Array.data[4]'
-      value: 
-      objectReference: {fileID: 8920147566148851481, guid: 0a868131491d2574e8eb7e6ceedbd42e,
-        type: 3}
+      objectReference: {fileID: 4426650879872711363}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: 'BodyTypesSprites.SpriteOrder.Orders.Array.data[0]'
@@ -265,7 +259,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'BodyTypesSprites.BodyTypes.Array.data[0].Sprites.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 721ecc7a3b346db4886ee0f07f65515c,
+      objectReference: {fileID: 11400000, guid: 95cda132c71d8bb4da9e4e74bbb47235,
         type: 2}
     - target: {fileID: 2719098251223779414, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -287,8 +281,13 @@ PrefabInstance:
         type: 3}
       propertyPath: Populater.SlotContents.Array.data[0].Prefab
       value: 
-      objectReference: {fileID: 112421141507975957, guid: b6b606388cb517144a21d93415c57401,
+      objectReference: {fileID: 8691188583290625036, guid: dae9b9b47c0d26f498ce05c0fe05eb46,
         type: 3}
+    - target: {fileID: 4999823976648774815, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1127122551263343107}
     - target: {fileID: 4999823976648774815, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -299,7 +298,7 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialPresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 8d9aaab2d62887741b582f1afa6f5897,
+      objectReference: {fileID: 11400000, guid: 6b4253ff1fad164478f33ab69e3a8671,
         type: 2}
     - target: {fileID: 5232716269704749941, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -309,7 +308,7 @@ PrefabInstance:
     - target: {fileID: 5232716269704749941, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: foreverID
-      value: a9GqMyL8wZr$_5wPDvgS
+      value: dc44631eec9f0c343ab2aeee9958a74d
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -367,10 +366,16 @@ MonoBehaviour:
   syncInterval: 0.1
   RelatedPart: {fileID: 4426650879872711363}
   possibleSprites:
-  - {fileID: 11400000, guid: 721ecc7a3b346db4886ee0f07f65515c, type: 2}
-  - {fileID: 11400000, guid: 0c542316839b3f94e957287bc0ebb098, type: 2}
-  - {fileID: 11400000, guid: 8d9aaab2d62887741b582f1afa6f5897, type: 2}
-  - {fileID: 11400000, guid: 8d9aaab2d62887741b582f1afa6f5897, type: 2}
+  - {fileID: 11400000, guid: 95cda132c71d8bb4da9e4e74bbb47235, type: 2}
+  - {fileID: 11400000, guid: 35b68eae8e6abdc419f72b909487ba3e, type: 2}
+  - {fileID: 11400000, guid: 6b4253ff1fad164478f33ab69e3a8671, type: 2}
+  - {fileID: 11400000, guid: 6b4253ff1fad164478f33ab69e3a8671, type: 2}
+--- !u!212 &1127122551263343107 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1357021381986229316, guid: 1162a9966a460f940a18b4d183b04c30,
+    type: 3}
+  m_PrefabInstance: {fileID: 2121560723397291591}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4426650879872711363 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,

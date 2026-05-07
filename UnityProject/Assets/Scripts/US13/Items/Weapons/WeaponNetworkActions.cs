@@ -80,6 +80,7 @@ namespace US13.Items.Weapons
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
+
 		/// <summary>
 		/// Perform a melee attack to be performed using the object in the player's active hand. Will be validated and performed if valid.
 		/// Also handles punching if weapon is null.
@@ -89,7 +90,7 @@ namespace US13.Items.Weapons
 		/// <param name="damageZone">damage zone if attacking mob, otherwise use None</param>
 		/// <param name="layerType">layer being attacked if attacking tilemap, otherwise use None</param>
 		[Server]
-		public void ServerPerformMeleeAttack(GameObject victim, Vector2 attackDirection, BodyPartType damageZone, LayerType layerType)
+		public void ServerPerformMeleeAttack(GameObject victim, Vector2 attackDirection, BodyPartType damageZone, LayerType layerType, ItemAttributesV2 weaponToAttackWith = null, bool isMobAttack = false)
 		{
 			if (victim == null) return;
 			if (playerMove.ObjectIsBuckling.OrNull()?.gameObject != null && playerMove.ObjectIsBuckling is MovementSynchronisation)
@@ -97,10 +98,9 @@ namespace US13.Items.Weapons
 				victim = playerMove.ObjectIsBuckling.gameObject;
 			}
 			if (Cooldowns.IsOnServer(playerScript, CommonCooldowns.Instance.Melee)) return;
-			if (playerMove.AllowInput == false) return;
+			if (isMobAttack == false && playerMove.AllowInput == false) return;
 			if (playerScript.PlayerTypeSettings.CanMelee == false) return;
 			if (playerScript.playerHealth.serverPlayerConscious == false) return;
-
 			if (victim.TryGetComponent<InteractableTiles>(out var tiles))
 			{
 				// validate based on position of target vector
@@ -124,8 +124,12 @@ namespace US13.Items.Weapons
 				TraumaticDamageType = tramuticDamageType,
 			};
 
-			GameObject weapon = playerScript.PlayerNetworkActions.GetActiveHandItem();
-			ItemAttributesV2 weaponAttributes = weapon == null ? null : weapon.GetComponent<ItemAttributesV2>();
+			ItemAttributesV2 weaponAttributes = weaponToAttackWith;
+			if (weaponAttributes == null)
+			{
+				GameObject weapon = playerScript.PlayerNetworkActions.GetActiveHandItem();
+				weaponAttributes = weapon == null ? null : weapon.GetComponent<ItemAttributesV2>();
+			}
 
 			if (weaponAttributes != null)
 			{
@@ -135,7 +139,7 @@ namespace US13.Items.Weapons
 					stats = ApplyMeleeBehaviour(stats, victim, damageZone, meleeBehaviour);
 				}
 
-				AdminLogsManager.AddNewLog(this.gameObject, " Try to attack ", victim, " With  ", weapon, LogCategory.MobDamage);
+				AdminLogsManager.AddNewLog(this.gameObject, " Try to attack ", victim, " With  ", weaponAttributes.gameObject, LogCategory.MobDamage);
 			}
 			else
 			{
@@ -241,8 +245,8 @@ namespace US13.Items.Weapons
 
 					if (weaponAttributes != null)
 					{
-						Chat.AddCombatMsgToChat(gameObject, $"You missed {victimName} with {weapon.ExpensiveName()}!",
-							$"{gameObject.ExpensiveName()} missed {victimName} with {weapon.ExpensiveName()}!");
+						Chat.AddCombatMsgToChat(gameObject, $"You missed {victimName} with {weaponAttributes.gameObject.ExpensiveName()}!",
+							$"{gameObject.ExpensiveName()} missed {victimName} with {weaponAttributes.gameObject.ExpensiveName()}!");
 					}
 					else
 					{
@@ -262,13 +266,13 @@ namespace US13.Items.Weapons
 
 				if (stats.Damage > 0)
 				{
-					Chat.AddAttackMsgToChat(gameObject, victim, damageZone, weapon,
+					Chat.AddAttackMsgToChat(gameObject, victim, damageZone, weaponAttributes?.gameObject,
 						attackedTile: attackedTile, customAttackVerb: weaponAttributes == null ? stats.WeaponVerb : null);
 				}
 
 				if (victim != gameObject)
 				{
-					RpcMeleeAttackLerp(attackDirection, weapon);
+					RpcMeleeAttackLerp(attackDirection,weaponAttributes?.gameObject);
 				}
 
 				stats.HitAction?.Invoke(gameObject, victim);

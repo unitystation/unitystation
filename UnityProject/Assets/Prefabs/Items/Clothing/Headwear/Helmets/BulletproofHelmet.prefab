@@ -37,6 +37,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 60373dc658763634386e3b5bbc567d68,
         type: 2}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 640c3a53dc024a542980bacaae3e47b6,
+        type: 2}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d8bebd5aec0791a4191379760fbfe27e,
+        type: 2}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 60373dc658763634386e3b5bbc567d68,
+        type: 2}
     - target: {fileID: 2067487341669760131, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: m_Sprite
@@ -299,5 +317,32 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2179959185564930015, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5955809358206599348}
   m_SourcePrefab: {fileID: 100100000, guid: a7a048f6c330048e9a2358fb6f71d385, type: 3}
+--- !u!1 &7636118406116123594 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2179959185564930015, guid: a7a048f6c330048e9a2358fb6f71d385,
+    type: 3}
+  m_PrefabInstance: {fileID: 8626702741117152277}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5955809358206599348
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7636118406116123594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccbb5729ffc2e0b4f89279dcaf8110ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Robotics.Bots.ContainerConstruct
+  craftItem:
+  - {fileID: 8610225452865205335, guid: c9d03be44229a74469be1b6738941ec3, type: 3}
+  amount: 1
+  prefabToSpawn: {fileID: 5914959498962467419, guid: 68481649e9007da45bfd974a0437bc6b,
+    type: 3}

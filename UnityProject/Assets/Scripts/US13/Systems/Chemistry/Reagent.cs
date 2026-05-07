@@ -1,9 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
 using ScriptableObjects;
 using UnityEngine;
+using US13.Core.Attributes;
 
 namespace Chemistry
 {
+	public interface IOnSplatEffect
+	{
+		public void HandleSplatForReagent(ref ReagentMix reagents, ref bool didSplat,
+			Vector3 position, Vector3 worldPos, Vector3Int localPosInt, float reagentAmount = 0.0f, bool spawnPrefabEffect = true)
+		{
+			return;
+		}
+	}
 	[CreateAssetMenu(fileName = "reagent", menuName = "ScriptableObjects/Chemistry/Reagent")]
 	public class Reagent : SOTracker , IEquatable<Reagent>
 	{
@@ -21,6 +31,10 @@ namespace Chemistry
 
 		//Every single reaction this chemical is used in
 		[NonSerialized] public Reaction[] RelatedReactions = Array.Empty<Reaction>();
+
+		[SerializeReference, SelectImplementation(typeof(IOnSplatEffect))]
+		public List<IOnSplatEffect> OnSplatEffects = new List<IOnSplatEffect>();
+
 
 		// The minimum opacity of a puddle, even if the reagent is very diluted. This is to make sure the puddle is always visible.
 		public const float MINIMUM_PUDDLE_OPACITY = 0.25f;

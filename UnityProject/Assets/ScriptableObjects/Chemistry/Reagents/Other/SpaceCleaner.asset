@@ -19,3 +19,11 @@ MonoBehaviour:
   state: 1
   heatDensity: 5
   indexInSingleton: 440
+  OnSplatEffects:
+  - rid: 3457065890737553478
+  references:
+    version: 2
+    RefIds:
+    - rid: 3457065890737553478
+      type: {class: CleanOnSplat, ns: US13.ChemistryComponents.SplatEffects, asm: Assets}
+      data: 

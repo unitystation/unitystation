@@ -325,16 +325,13 @@ namespace US13.Tilemaps.Behaviours.Layers
 			if (MatrixManager.IsTotallyImpassable(Position, true)) return;
 
 			bool didSplat = false;
-			bool paintBlood = false;
-
-			var existingSplats = MatrixManager.GetAt<FloorDecal>(Position, true);
 
 			if (reagents.Total > 0)
 			{
 				try
 				{
 					HandleSplats(ref reagents, ref didSplat, Position, worldPos,
-						localPosInt, existingSplats, spawnPrefabEffect);
+						localPosInt, spawnPrefabEffect);
 				}
 				catch (Exception e)
 				{
@@ -344,84 +341,18 @@ namespace US13.Tilemaps.Behaviours.Layers
 		}
 
 		private void HandleSplats(ref ReagentMix reagents, ref bool didSplat,
-			Vector3 position, Vector3 worldPos, Vector3Int localPosInt, IEnumerable<FloorDecal> ExistingDecals, bool spawnPrefabEffect = true)
+			Vector3 position, Vector3 worldPos, Vector3Int localPosInt, bool spawnPrefabEffect = true)
 		{
 			lock (reagents.reagents)
 			{
-				if (reagents.MajorMixReagent == CommonReagents.Instance.SpaceCleaner)
+				foreach (var reagent in reagents.reagents)
 				{
-					this.Clean(worldPos, localPosInt, false);
-				}
-				else if (reagents.MajorMixReagent == CommonReagents.Instance.SpaceLube)
-				{
-					// ( ͡° ͜ʖ ͡°)
-					if (Get(localPosInt).IsSuperSlippery == false)
+					foreach (var effect in reagent.Key.OnSplatEffects)
 					{
-						EffectsFactory.WaterSplat(worldPos, wasLube: true);
-						MakeSlipperyAt(localPosInt, false, true);
+						effect.HandleSplatForReagent(ref reagents, ref didSplat, position, worldPos, localPosInt, reagent.Value, spawnPrefabEffect);
 					}
 				}
-				else
-				{
-					//(Max): This sucks ass. Stop hardcoding this shit in places that it doesn't belong to, and make it part of the reagent logic itself.
-					//TODO: Refactor this part so that Reagents handle their own logic for splats instead of MetaDataLayer.
-					if (reagents.MajorMixReagent == CommonReagents.Instance.Water)
-					{
-						MakeSlipperyAt(localPosInt, false);
-						matrix.ReactionManager.ExtinguishHotspot(localPosInt);
-						foreach (var livingHealthBehaviour in matrix.Get<LivingHealthMasterBase>(localPosInt, true))
-						{
-							livingHealthBehaviour.Extinguish();
-						}
-
-						didSplat = true;
-						EffectsFactory.WaterSplat(worldPos);
-					}
-
-					if (reagents.MajorMixReagent == CommonReagents.Instance.Blood)
-					{
-						var PreExisting = 0f;
-						var loop = ExistingDecals.ToList();
-						var cell = matrix.GetMetaDataNode(localPosInt);
-
-						PreExisting += cell.ReagentsOnTile.Total;
-						foreach (var Container in loop)
-						{
-							PreExisting += Container.ReagentContainer.ReagentMixTotal;
-						}
-
-
-						if (PreExisting + reagents.Total <= 30)
-						{
-							if (PreExisting == 0)
-							{
-								if (spawnPrefabEffect)
-								{
-									PaintBlood(position, reagents);
-									return;
-								}
-							}
-							else
-							{
-								if (loop.Count > 0)
-								{
-									loop[0].ReagentContainer.Add(reagents);
-								}
-							}
-						}
-						else
-						{
-							foreach (var Container in loop)
-							{
-								reagents.Add(Container.ReagentContainer.CurrentReagentMix);
-								Container.ReagentContainer.CurrentReagentMix.Clear();
-								//_ = Despawn.ServerSingle(Container.gameObject);
-							}
-						}
-					}
-
-					StoreReagentsAtTile(reagents, localPosInt);
-				}
+				StoreReagentsAtTile(reagents, localPosInt);
 			}
 		}
 
@@ -463,7 +394,6 @@ namespace US13.Tilemaps.Behaviours.Layers
 					{
 						tile = CommonTiles.Instance.LiquidBig;
 					}
-					
 					var position = matrix.MetaTileMap.AddOverlay(localPosInt, tile, color: GetTileColourMix(reagents));
 					_ = SoundManager.PlayNetworkedAtPosAsync(CommonSounds.Instance.Bubbles, localPosInt);
 					return (position, reagents.MixState);

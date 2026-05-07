@@ -297,19 +297,21 @@ namespace US13.Player.MovementV2
 		//(Max) TODO: Move cuffing logic into their own separate component.
 		public void Cuff(HandApply interaction)
 		{
+			Inventory.ServerDrop(interaction.HandObject);
+			Cuff(interaction.HandObject, interaction.TargetObject);
+		}
+
+		public void Cuff(GameObject cuffingObject, GameObject targetObject)
+		{
 			SyncCuffed(IsCuffed, true);
-
-			var targetStorage = interaction.TargetObject.GetComponent<DynamicItemStorage>();
-
-			//transfer cuffs to the special cuff slot
+			var targetStorage = targetObject.GetComponent<DynamicItemStorage>();
 
 			foreach (var handcuffSlot in targetStorage.GetNamedItemSlots(NamedSlot.handcuffs))
 			{
-				Inventory.ServerTransfer(interaction.HandSlot, handcuffSlot);
+				Inventory.ServerAdd(cuffingObject, handcuffSlot);
 				break;
 			}
 
-			//drop hand items
 			foreach (var itemSlot in targetStorage.GetNamedItemSlots(NamedSlot.leftHand))
 			{
 				Inventory.ServerDrop(itemSlot);

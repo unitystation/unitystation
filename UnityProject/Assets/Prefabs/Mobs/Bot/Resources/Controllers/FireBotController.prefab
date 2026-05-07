@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2928560505281577385
+--- !u!1 &1471260064862095446
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,9 +8,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3934840079880746874}
-  - component: {fileID: 8349287093357475524}
-  - component: {fileID: 1388779835493589971}
+  - component: {fileID: 6089671492054387699}
+  - component: {fileID: 7001254295832958907}
+  - component: {fileID: 6292157139340936350}
   m_Layer: 10
   m_Name: ParticleEffect
   m_TagString: Untagged
@@ -18,28 +18,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3934840079880746874
+--- !u!4 &6089671492054387699
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2928560505281577385}
+  m_GameObject: {fileID: 1471260064862095446}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7910266627795891021}
+  m_Father: {fileID: 8687109257475367288}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!198 &8349287093357475524
+--- !u!198 &7001254295832958907
 ParticleSystem:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2928560505281577385}
+  m_GameObject: {fileID: 1471260064862095446}
   serializedVersion: 8
   lengthInSec: 1
   simulationSpeed: 1
@@ -5012,14 +5012,14 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!199 &1388779835493589971
+--- !u!199 &6292157139340936350
 ParticleSystemRenderer:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2928560505281577385}
+  m_GameObject: {fileID: 1471260064862095446}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -5092,7 +5092,7 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!1001 &7914790827376915075
+--- !u!1001 &8724083365543966489
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -5100,333 +5100,320 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+    - target: {fileID: 7692143295305377, guid: b6b606388cb517144a21d93415c57401, type: 3}
+      propertyPath: _assetId
+      value: 2062749407
+      objectReference: {fileID: 0}
+    - target: {fileID: 112421141507975957, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: m_Name
-      value: FireExtinguisher
+      value: FireBotController
       objectReference: {fileID: 0}
-    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+    - target: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
+    - target: {fileID: 1588973984930370205, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: _assetId
-      value: 2504500023
-      objectReference: {fileID: 0}
-    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 908afbc5b9f871148b5ccd0b81bd147f
-      objectReference: {fileID: 0}
-    - target: {fileID: 114883521337486670, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: Resistances.FireProof
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 65bae883a79671342ba887b2c584674c,
-        type: 3}
-    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: hitDamage
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: exportCost
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: exportName
-      value: fire extinguisher
-      objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: initialName
-      value: fire extinguisher
-      objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: initialSize
+      propertyPath: stateExitDialogue.Array.size
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+    - target: {fileID: 1588973984930370205, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: throwDamage
-      value: 10
+      propertyPath: stateExitDialogue.Array.data[0].transcription
+      value: Fire detected.
       objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+    - target: {fileID: 1588973984930370205, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: initialDescription
-      value: A traditional red fire extinguisher.
+      propertyPath: stateExitDialogue.Array.data[1].transcription
+      value: Estinguishing...
       objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+    - target: {fileID: 1588973984930370205, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: traumaDamageChance
-      value: 37
+      propertyPath: stateExitDialogue.Array.data[2].transcription
+      value: Stop drop and roll.
       objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+    - target: {fileID: 1588973984930370205, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: TraumaticDamageType
-      value: 8
+      propertyPath: stateExitDialogue.Array.data[3].transcription
+      value: I will fix it!
       objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+    - target: {fileID: 1588973984930370205, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: hitSound.AssetAddress
-      value: Assets/Prefabs/Effects/smash.prefab
+      propertyPath: stateExitDialogue.Array.data[0].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/firebot/detected.prefab
       objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+    - target: {fileID: 1588973984930370205, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 1
+      propertyPath: stateExitDialogue.Array.data[1].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/firebot/extinguishing.prefab
       objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+    - target: {fileID: 1588973984930370205, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: itemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: da4c4bdabcb58eb4d946069f695874e3,
-        type: 2}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+      propertyPath: stateExitDialogue.Array.data[2].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/firebot/stopdropnroll.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1588973984930370205, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: 'initialTraits.Array.data[0]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 4b8500f0a3b33429b927e6db755bf25a,
-        type: 2}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+      propertyPath: stateExitDialogue.Array.data[3].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/floorbot/fixit.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: itemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 5b20623f96301874a8020232345f4479,
-        type: 2}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+      propertyPath: hesitation.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: itemSprites.LeftHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 4fb99fbf1d1ac0b499eee7a16d932971, type: 3}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+      propertyPath: hesitation.y
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: itemSprites.RightHand.Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: 4d06e0648a7ddc944b4d5665af10e250, type: 3}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: InitialitemSprites.SpriteLeftHand
-      value: 
-      objectReference: {fileID: 11400000, guid: da4c4bdabcb58eb4d946069f695874e3,
-        type: 2}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: itemSprites.LeftHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: 5ae46cf62f1f0ac4eb3ba5de0d9d042d, type: 3}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: InitialitemSprites.SpriteRightHand
-      value: 
-      objectReference: {fileID: 11400000, guid: 5b20623f96301874a8020232345f4479,
-        type: 2}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: itemSprites.RightHand.EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: d1bf86e3842f3df4583a1c0d0fff2ed3, type: 3}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[0]'
-      value: 
-      objectReference: {fileID: 21300000, guid: 4fb99fbf1d1ac0b499eee7a16d932971,
-        type: 3}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[1]'
-      value: 
-      objectReference: {fileID: 21300002, guid: 4fb99fbf1d1ac0b499eee7a16d932971,
-        type: 3}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[2]'
-      value: 
-      objectReference: {fileID: 21300004, guid: 4fb99fbf1d1ac0b499eee7a16d932971,
-        type: 3}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: 'itemSprites.LeftHand.Sprites.Array.data[3]'
-      value: 
-      objectReference: {fileID: 21300006, guid: 4fb99fbf1d1ac0b499eee7a16d932971,
-        type: 3}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[0]'
-      value: 
-      objectReference: {fileID: 21300000, guid: 4d06e0648a7ddc944b4d5665af10e250,
-        type: 3}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[1]'
-      value: 
-      objectReference: {fileID: 21300002, guid: 4d06e0648a7ddc944b4d5665af10e250,
-        type: 3}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[2]'
-      value: 
-      objectReference: {fileID: 21300004, guid: 4d06e0648a7ddc944b4d5665af10e250,
-        type: 3}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: 'itemSprites.RightHand.Sprites.Array.data[3]'
-      value: 
-      objectReference: {fileID: 21300006, guid: 4d06e0648a7ddc944b4d5665af10e250,
-        type: 3}
-    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: spriteRenderer
-      value: 
-      objectReference: {fileID: 8008699943347289445}
-    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: da74f7e1b82ede541abc3d3bd88ece23,
-        type: 2}
-    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: InitialPresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: da74f7e1b82ede541abc3d3bd88ece23,
-        type: 2}
-    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: SubCatalogue.Array.size
+      propertyPath: foundTargetDialogue.Array.size
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: 'SubCatalogue.Array.data[0]'
-      value: 
-      objectReference: {fileID: 11400000, guid: da74f7e1b82ede541abc3d3bd88ece23,
-        type: 2}
-    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: 'SubCatalogue.Array.data[1]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 666968a3b9531a74c87377716fe13c05,
-        type: 2}
-    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: parentID
-      value: a7abba22164ce49f0bf9b9b219f39298
+      propertyPath: idleEmaggedDialogue.Array.size
+      value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: <Blacklist>k__BackingField.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[0].transcription
+      value: Keep it cool.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[1].transcription
+      value: No fires detected.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[2].transcription
+      value: Only you can prevent station fires!
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[3].transcription
+      value: Temperature nominal.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: foundTargetDialogue.Array.data[0].transcription
+      value: Fire detected.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: foundTargetDialogue.Array.data[1].transcription
+      value: Stop drop and roll
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[0].transcription
+      value: Keep candles near curtains for cozy night lights.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[1].transcription
+      value: Keep a bucket of water near your outlets incase an electric fire breaks
+        out.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[2].transcription
+      value: Pouring gasoline on fire makes it burn out faster.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[0].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/firebot/keepitcool.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[1].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/firebot/nofires.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[2].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/firebot/onlyyou.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleDialogue.Array.data[3].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/firebot/tempnominal.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: foundTargetDialogue.Array.data[0].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/firebot/detected.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: foundTargetDialogue.Array.data[1].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/firebot/stopdropnroll.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[0].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/firebot/candle_tip.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[1].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/firebot/electric_fire_tip.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: idleEmaggedDialogue.Array.data[2].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/firebot/gasoline_tip.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3581588255896703113, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: 'OptionalReplacementOrgan.Array.data[3]'
+      value: 
+      objectReference: {fileID: 5234994846561429392}
+    - target: {fileID: 6428289829602600824, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
       propertyPath: foreverID
-      value: 908afbc5b9f871148b5ccd0b81bd147f
-      objectReference: {fileID: 0}
-    - target: {fileID: 6578957487127773165, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: dormantReagentContainer
-      value: 
+      value: dae9b9b47c0d26f498ce05c0fe05eb46
       objectReference: {fileID: 0}
     m_RemovedComponents:
-    - {fileID: 6471482627474267981, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+    - {fileID: 1588973984930370205, guid: b6b606388cb517144a21d93415c57401, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,
+    - targetCorrespondingSourceObject: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3934840079880746874}
+      addedObject: {fileID: 6089671492054387699}
     m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+    - targetCorrespondingSourceObject: {fileID: 112421141507975957, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1321428494454122456}
-    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5035609469445439989}
-    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8772182177953388806}
-  m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
---- !u!4 &7910266627795891021 stripped
+      addedObject: {fileID: 9155074962010672931}
+  m_SourcePrefab: {fileID: 100100000, guid: b6b606388cb517144a21d93415c57401, type: 3}
+--- !u!114 &5014186585099178233 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4361687565459908576, guid: b6b606388cb517144a21d93415c57401,
+    type: 3}
+  m_PrefabInstance: {fileID: 8724083365543966489}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8691188583290625036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f14e9b5b4498704cb98ada2d5271d86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5234994846561429392 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3581588255896703113, guid: b6b606388cb517144a21d93415c57401,
+    type: 3}
+  m_PrefabInstance: {fileID: 8724083365543966489}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8691188583290625036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7006759618337944654 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1742656826546176855, guid: b6b606388cb517144a21d93415c57401,
+    type: 3}
+  m_PrefabInstance: {fileID: 8724083365543966489}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8691188583290625036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18d38ca4cab17f544a95f2d3600c2045, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &8687109257475367288 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,
+  m_CorrespondingSourceObject: {fileID: 116218716797523553, guid: b6b606388cb517144a21d93415c57401,
     type: 3}
-  m_PrefabInstance: {fileID: 7914790827376915075}
+  m_PrefabInstance: {fileID: 8724083365543966489}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &7914350351518715449 stripped
+--- !u!1 &8691188583290625036 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+  m_CorrespondingSourceObject: {fileID: 112421141507975957, guid: b6b606388cb517144a21d93415c57401,
     type: 3}
-  m_PrefabInstance: {fileID: 7914790827376915075}
+  m_PrefabInstance: {fileID: 8724083365543966489}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1321428494454122456
+--- !u!114 &9155074962010672931
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7914350351518715449}
+  m_GameObject: {fileID: 8691188583290625036}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df14585efc20d2f4c9f0b66982db3b8d, type: 3}
+  m_Script: {fileID: 11500000, guid: cef90f0acdc9ec04ea9377286a200b23, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assets::US13.Mobs.BrainAI.States.SimpleBot.FirebotTaskAi
   syncDirection: 0
   syncMode: 0
-  syncInterval: 0.1
-  travelDistance: 6
-  SpraySound:
+  syncInterval: 0
+  RelatedPart: {fileID: 5234994846561429392}
+  <Blacklist>k__BackingField: []
+  <UpdateType>k__BackingField: 3
+  <PeriodicUpdateInterval>k__BackingField: 2
+  <master>k__BackingField: {fileID: 5014186585099178233}
+  findSimpleTaskAi: {fileID: 7006759618337944654}
+  taskPerformSound:
     AssetAddress: Assets/Prefabs/Effects/Extinguish.prefab
     AssetReference:
       m_AssetGUID: 
@@ -5434,82 +5421,45 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  reagentsPerUse: 5
-  reagentContainer: {fileID: 5035609469445439989}
-  safety: 1
---- !u!114 &5035609469445439989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7914350351518715449}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  ReactionSounds: 1
-  maxCapacity: 3000
-  DEBUGReagent: {fileID: 0}
-  DEBUGAmount: 0
-  StopReactions: 0
-  reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
-  AdditionalReactions: []
-  initialReagentMix:
-    temperature: 273.15
+  emaggedPerformSound:
+    AssetAddress: Assets/Prefabs/Effects/Extinguish.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  taskPerformDuration: 2
+  botLanguage: {fileID: 11400000, guid: 90699dd78f8cfad4e983185c4f67ae72, type: 2}
+  stateExitDialogue: []
+  stateEnterDialogue:
+  - audioSource:
+      AssetAddress: Assets/Prefabs/NPC/Bots/firebot/extinguishing.prefab
+      AssetReference:
+        m_AssetGUID: 
+        m_SubObjectName: 
+        m_SubObjectGUID: 
+        m_SubObjectType: 
+        m_EditorAssetChanged: 0
+    transcription: Extinguishing...
+  blackListedSpecies:
+  - {fileID: 11400000, guid: 878d88bc2a64d75429f00a1208902607, type: 2}
+  - {fileID: 11400000, guid: 60f6168d2ada0a34ea579eb77f1fd6b0, type: 2}
+  - {fileID: 11400000, guid: 8770766e8b1928749b18b9ae78c81d78, type: 2}
+  sprayDistance: 6
+  fireRetardantMix:
+    temperature: 253.15
     reagents:
       m_keys:
-      - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
+      - {fileID: 11400000, guid: 034f82e9c8f6b390db0684874a27450c, type: 2}
       m_values:
-      - 3000
+      - 1
     reagentKeys: []
-  destroyOnEmpty: 0
-  ContentsSet: 0
-  menuOptions: -1
-  currentReagentMix:
-    temperature: 0
+  emaggedChemicalMix:
+    temperature: 373.15
     reagents:
-      m_keys: []
-      m_values: []
+      m_keys:
+      - {fileID: 11400000, guid: 43a6ef917538f898ca86fa22a81babd4, type: 2}
+      m_values:
+      - 1
     reagentKeys: []
-  spriteHandler: {fileID: 0}
-  UseStandardExamine: 1
-  ExamineAmount: 0
-  ExamineContent: 0
-  traitWhitelist: []
-  reagentWhitelist:
-  - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
-  transferMode: 3
-  onlyAllowSyringeFilling: 0
-  SyringePulling: 0
-  possibleTransferAmounts: []
-  transferAmount: 20
-  transferSound: []
---- !u!114 &8772182177953388806
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7914350351518715449}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccbb5729ffc2e0b4f89279dcaf8110ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assets::US13.Robotics.Bots.ContainerConstruct
-  craftItem:
-  - {fileID: 7029765293304545759, guid: 40e2b6f8f7fbcdb4cbe892093907ef91, type: 3}
-  - {fileID: 7185978976352611110, guid: 0af3fb6f8543f0b4b914da932bd18ea0, type: 3}
-  amount: 1
-  prefabToSpawn: {fileID: 5914959498962467419, guid: 2b4bb4645199c7f40bb5ef2871ed07fd,
-    type: 3}
---- !u!212 &8008699943347289445 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 7914790827376915075}
-  m_PrefabAsset: {fileID: 0}
