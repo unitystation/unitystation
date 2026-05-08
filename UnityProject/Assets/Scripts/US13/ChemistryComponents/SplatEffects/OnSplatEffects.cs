@@ -16,7 +16,7 @@ namespace US13.ChemistryComponents.SplatEffects
 		[SerializeField] private bool canDryUp = false;
 
 		public void HandleSplatForReagent(ref ReagentMix reagents, ref bool didSplat,
-			Vector3 position, Vector3 worldPos, Vector3Int localPosInt, bool spawnPrefabEffect = true)
+            Vector3 position, Vector3 worldPos, Vector3Int localPosInt, float reagentAmount = 0.0f, bool spawnPrefabEffect = true)
 		{
 			//As much as I would love too, we cant pass n the MatrixInfo due to the fact that the Chemistry assembly cant access matrices
 			MatrixInfo matrixInfo = MatrixManager.AtPoint(worldPos, true);
@@ -29,7 +29,7 @@ namespace US13.ChemistryComponents.SplatEffects
 	public class CleanOnSplat : IOnSplatEffect
 	{
 		public void HandleSplatForReagent(ref ReagentMix reagents, ref bool didSplat,
-			Vector3 position, Vector3 worldPos, Vector3Int localPosInt, bool spawnPrefabEffect = true)
+            Vector3 position, Vector3 worldPos, Vector3Int localPosInt, float reagentAmount = 0.0f, bool spawnPrefabEffect = true)
 		{
 			MatrixInfo matrixInfo = MatrixManager.AtPoint(worldPos, true);
 			matrixInfo.MetaDataLayer.Clean(worldPos, localPosInt, false);
@@ -40,7 +40,7 @@ namespace US13.ChemistryComponents.SplatEffects
 	public class PaintBlood : IOnSplatEffect
 	{
 		public void HandleSplatForReagent(ref ReagentMix reagents, ref bool didSplat,
-			Vector3 position, Vector3 worldPos, Vector3Int localPosInt, bool spawnPrefabEffect = true)
+             Vector3 position, Vector3 worldPos, Vector3Int localPosInt, float reagentAmount = 0.0f, bool spawnPrefabEffect = true)
 		{
 			MatrixInfo matrixInfo = MatrixManager.AtPoint(worldPos, true);
 			var existingSplats = MatrixManager.GetAt<FloorDecal>(position, true);
