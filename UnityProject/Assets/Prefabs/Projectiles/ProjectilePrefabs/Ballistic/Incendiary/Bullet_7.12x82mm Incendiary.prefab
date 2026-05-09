@@ -8,6 +8,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 38618450835317829, guid: b1795817e9b5b8949a120fba7a7fa53f,
+        type: 3}
+      propertyPath: decal
+      value: 
+      objectReference: {fileID: 64157212496800772, guid: 7b92505d5d562e0ddbae801224f31611,
+        type: 3}
+    - target: {fileID: 38618450835317829, guid: b1795817e9b5b8949a120fba7a7fa53f,
+        type: 3}
+      propertyPath: animationTime
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 783771129450124497, guid: b1795817e9b5b8949a120fba7a7fa53f,
         type: 3}
       propertyPath: damageData
@@ -109,6 +120,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5871665337207295609}
+    - targetCorrespondingSourceObject: {fileID: 8102605189233929376, guid: b1795817e9b5b8949a120fba7a7fa53f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7861764058273794458}
   m_SourcePrefab: {fileID: 100100000, guid: b1795817e9b5b8949a120fba7a7fa53f, type: 3}
 --- !u!1 &2380364037288695883 stripped
 GameObject:
@@ -133,3 +148,24 @@ MonoBehaviour:
   fireStacksToGive: 2
   fireHotspotTemperature: 700
   changeTemperatureOnHotspot: 1
+--- !u!1 &2380382569055112857 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8102605189233929376, guid: b1795817e9b5b8949a120fba7a7fa53f,
+    type: 3}
+  m_PrefabInstance: {fileID: 5871265823666577977}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7861764058273794458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2380382569055112857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Lighting::LightEmissionBehaviour
+  mIntensity: 0.35
+  mAdditionalEmission: 0
+  mScale: 1

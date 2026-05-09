@@ -34,6 +34,21 @@ PrefabInstance:
       propertyPath: Color.r
       value: 0.31764707
       objectReference: {fileID: 0}
+    - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.9724138
+      objectReference: {fileID: 0}
+    - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.5586207
+      objectReference: {fileID: 0}
     - target: {fileID: 854479238589397880, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: _assetId
@@ -73,6 +88,12 @@ PrefabInstance:
     - target: {fileID: 4347831001461171392, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 46494561c3b66154dac22b9ede2c993f,
+        type: 2}
+    - target: {fileID: 4347831001461171392, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 46494561c3b66154dac22b9ede2c993f,
         type: 2}
@@ -788,6 +809,27 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[42].ItemName
       value: Glass of Lean
+      objectReference: {fileID: 0}
+    - target: {fileID: 4998327886754794683, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 62672c7c516e0074e8e8e27283593f62,
+        type: 3}
+    - target: {fileID: 4998327886754794683, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4998327886754794683, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.9836547
+      objectReference: {fileID: 0}
+    - target: {fileID: 4998327886754794683, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.7384747
       objectReference: {fileID: 0}
     - target: {fileID: 5293842515076411475, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}

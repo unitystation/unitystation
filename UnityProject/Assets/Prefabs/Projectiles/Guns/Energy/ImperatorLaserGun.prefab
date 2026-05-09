@@ -10,13 +10,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
+      propertyPath: FireDelay
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
       propertyPath: chargeSprite
       value: 
       objectReference: {fileID: 7797330910775930160}
     - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: ProjectileVelocity
-      value: 25
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
@@ -27,6 +32,11 @@ PrefabInstance:
         type: 3}
       propertyPath: 'firemodeName.Array.data[0]'
       value: Hellfire
+      objectReference: {fileID: 0}
+    - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0.12
       objectReference: {fileID: 0}
     - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
@@ -44,6 +54,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5996511364925663208, guid: c1e78413dfa7c5d4ebb396bb780027c1,
         type: 3}
+    - target: {fileID: 591988622948529778, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoveryDuration
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 3537619260171532079, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: parentID
@@ -57,6 +72,12 @@ PrefabInstance:
     - target: {fileID: 4387776157011116229, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6d8578971970ac94d8b3e42de4651a1a,
+        type: 2}
+    - target: {fileID: 4387776157011116229, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 6d8578971970ac94d8b3e42de4651a1a,
         type: 2}
@@ -74,6 +95,12 @@ PrefabInstance:
     - target: {fileID: 6727335172233747888, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ce486b9153da2c4291b95ec0a45876c,
+        type: 2}
+    - target: {fileID: 6727335172233747888, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 5ce486b9153da2c4291b95ec0a45876c,
         type: 2}
@@ -99,11 +126,6 @@ PrefabInstance:
       propertyPath: _assetId
       value: 3426169687
       objectReference: {fileID: 0}
-    - target: {fileID: 7509375819178772214, guid: 7fd11f09765590540b2685a0dfa2b8ea,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 24461e841e57b3c499e6b3621dd50639
-      objectReference: {fileID: 0}
     - target: {fileID: 7510084489263721142, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: Resistances.AcidProof
@@ -128,11 +150,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ImperatorLaserGun
-      objectReference: {fileID: 0}
-    - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7615901693902145078, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
@@ -190,12 +207,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: ee79320c4a04ed745b9462472e6f782a,
         type: 3}
-    - target: {fileID: 8019959057413244066, guid: 7fd11f09765590540b2685a0dfa2b8ea,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: d876447fb4123ef4f8f6d359f9206a70,
-        type: 2}
     - target: {fileID: 8020636786365355040, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
       propertyPath: hitDamage
@@ -231,17 +242,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 80e4e7e19f99fd94693de88004fbc88c,
         type: 2}
-    - target: {fileID: 8598678289473679745, guid: 7fd11f09765590540b2685a0dfa2b8ea,
+    - target: {fileID: 8020636786365355040, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
-      propertyPath: m_Sprite
+      propertyPath: InitialitemSprites.SpriteLeftHand
       value: 
-      objectReference: {fileID: 21300000, guid: 34eed17eb5c9ba7448cb9de02730a7dd,
+      objectReference: {fileID: 11400000, guid: ef8719d64b8c8424dbbea6d60bd98809,
+        type: 2}
+    - target: {fileID: 8020636786365355040, guid: 7fd11f09765590540b2685a0dfa2b8ea,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 80e4e7e19f99fd94693de88004fbc88c,
+        type: 2}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 5385416323251180298, guid: 7fd11f09765590540b2685a0dfa2b8ea, type: 3}
-    - {fileID: 5301359499372747796, guid: 7fd11f09765590540b2685a0dfa2b8ea, type: 3}
-    - {fileID: 150926433017264813, guid: 7fd11f09765590540b2685a0dfa2b8ea, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7fd11f09765590540b2685a0dfa2b8ea, type: 3}

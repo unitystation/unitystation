@@ -24,9 +24,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f8ec54529b24f8d468e3209ee78a0fc7,
         type: 2}
+    - target: {fileID: 1012046983369496508, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f8ec54529b24f8d468e3209ee78a0fc7,
+        type: 2}
     - target: {fileID: 2233387669780112674, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e538f3ca34a0a54b86de827ed877cc2,
+        type: 2}
+    - target: {fileID: 2233387669780112674, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 4e538f3ca34a0a54b86de827ed877cc2,
         type: 2}
@@ -102,10 +114,35 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4240186260771463435, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
+      propertyPath: WeaponType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4240186260771463435, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
       propertyPath: ammoPrefab
       value: 
       objectReference: {fileID: 1828274604841091001, guid: 2c4379a88448b794a9861197efad9553,
         type: 3}
+    - target: {fileID: 4240186260771463435, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: ProjectileVelocity
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4240186260771463435, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4240186260771463435, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoilDuration
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 4240186260771463435, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoveryDuration
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 4838918684345093570, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
       propertyPath: m_Sprite
@@ -231,6 +268,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 42e5466ddef02874b982886c7c91632c,
         type: 2}
+    - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 48ee0a2c22644c54784f2bb106415d44,
+        type: 2}
+    - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 42e5466ddef02874b982886c7c91632c,
+        type: 2}
     - target: {fileID: 6753185735506847169, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
       propertyPath: variantIndex
@@ -269,6 +318,12 @@ PrefabInstance:
     - target: {fileID: 8048860274609277641, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1066d1b79874cfb4999a51c33e62ae8f,
+        type: 2}
+    - target: {fileID: 8048860274609277641, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 1066d1b79874cfb4999a51c33e62ae8f,
         type: 2}

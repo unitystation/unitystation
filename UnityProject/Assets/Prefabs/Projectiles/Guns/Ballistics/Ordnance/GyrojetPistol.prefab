@@ -52,6 +52,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -73,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 40
@@ -101,12 +105,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 68d6204907c89fb458b2c20d5cac9e29, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 68d6204907c89fb458b2c20d5cac9e29,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &8882643949328928111
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -118,6 +127,12 @@ PrefabInstance:
     - target: {fileID: 2605031095160245205, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: cad54bf149fd78640b1cd19c82e1a0c1,
+        type: 2}
+    - target: {fileID: 2605031095160245205, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: cad54bf149fd78640b1cd19c82e1a0c1,
         type: 2}
@@ -157,6 +172,16 @@ PrefabInstance:
         type: 3}
       propertyPath: FiringSoundA.AssetAddress
       value: Assets/Prefabs/Weapons/Gun/General/GeneralGrenadeLaunch.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoilDuration
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: 4729653154424643162, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}

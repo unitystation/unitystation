@@ -132,7 +132,7 @@ namespace US13.Systems.Botany
 		{
 
 			plantData = PlantData.MutateNewPlant(newPlantData, modification, IncreasesMutationChanceState);
-			SyncSize( 0.5f + (newPlantData.Potency / 200f));
+			SyncSize( 0.8f + (newPlantData.Potency / 300f));
 			SetupChemicalContents();
 			if (edible != null)
 			{

@@ -52,6 +52,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -73,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 40
@@ -101,12 +105,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 78936969fb8ab094d8fb8eb0389a8014, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 78936969fb8ab094d8fb8eb0389a8014,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &2345025357992052647
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,6 +168,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -180,6 +192,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
@@ -208,12 +221,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: c91a0e862826d524ca381f61206d7689, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: c91a0e862826d524ca381f61206d7689,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &2348073536000564179
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -225,6 +243,12 @@ PrefabInstance:
     - target: {fileID: 2605031095160245205, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f58d7c477f6ea424ca89b9f17641c052,
+        type: 2}
+    - target: {fileID: 2605031095160245205, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: f58d7c477f6ea424ca89b9f17641c052,
         type: 2}
@@ -377,6 +401,18 @@ PrefabInstance:
     - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b648cd5a6b8546245877a9ac607067b9,
+        type: 2}
+    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 976e9d804bb396a4084481f048cbfc55,
+        type: 2}
+    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: b648cd5a6b8546245877a9ac607067b9,
         type: 2}

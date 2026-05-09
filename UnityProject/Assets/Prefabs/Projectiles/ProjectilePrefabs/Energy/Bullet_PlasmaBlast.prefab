@@ -27,9 +27,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3555369481859437115}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.00000031610085, y: 0.00000021073383, z: -0.70710677, w: 0.7071069}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 3}
+  m_LocalScale: {x: 8, y: 8, z: 3}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7818161943669900781}
@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitialColour: {r: 0.59887886, g: 0.13616946, b: 0.6415094, a: 1}
-  Sprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
+  InitialColour: {r: 0.9329268, g: 0.21341461, b: 1, a: 0.15686275}
+  Sprite: {fileID: 21300000, guid: 3776685c90e8ba373a55ec0ff2a71f71, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
@@ -72,6 +72,9 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -93,6 +96,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -121,10 +125,6 @@ PrefabInstance:
     - target: {fileID: 1560634355228308, guid: 5858b89c4790c084bb1915952309853d, type: 3}
       propertyPath: m_Name
       value: Bullet_PlasmaBlast
-      objectReference: {fileID: 0}
-    - target: {fileID: 4714298942886824, guid: 5858b89c4790c084bb1915952309853d, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4714298942886824, guid: 5858b89c4790c084bb1915952309853d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -183,11 +183,6 @@ PrefabInstance:
       propertyPath: foreverID
       value: f65f1f0bd0295df468272b3d767985a7
       objectReference: {fileID: 0}
-    - target: {fileID: 745527988631323550, guid: 5858b89c4790c084bb1915952309853d,
-        type: 3}
-      propertyPath: m_AssetId
-      value: f65f1f0bd0295df468272b3d767985a7
-      objectReference: {fileID: 0}
     - target: {fileID: 931388571632054408, guid: 5858b89c4790c084bb1915952309853d,
         type: 3}
       propertyPath: visibleName
@@ -203,11 +198,6 @@ PrefabInstance:
         type: 3}
       propertyPath: _assetId
       value: 822448444
-      objectReference: {fileID: 0}
-    - target: {fileID: 1410495953153992223, guid: 5858b89c4790c084bb1915952309853d,
-        type: 3}
-      propertyPath: m_AssetId
-      value: f65f1f0bd0295df468272b3d767985a7
       objectReference: {fileID: 0}
     - target: {fileID: 1766684164047083533, guid: 5858b89c4790c084bb1915952309853d,
         type: 3}
@@ -231,12 +221,21 @@ PrefabInstance:
         type: 3}
       propertyPath: decal
       value: 
-      objectReference: {fileID: 1768049102699016128, guid: 5a6f8d5d734f7e74090a0d8e04413b56,
+      objectReference: {fileID: 0}
+    - target: {fileID: 8142109516355469475, guid: 5858b89c4790c084bb1915952309853d,
         type: 3}
+      propertyPath: syncInterval
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8142109516355469475, guid: 5858b89c4790c084bb1915952309853d,
         type: 3}
       propertyPath: animationTime
-      value: 0.4
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8142109516355469475, guid: 5858b89c4790c084bb1915952309853d,
+        type: 3}
+      propertyPath: m_EditorClassIdentifier
+      value: Assets::US13.Projectiles.Behaviours.ProjectileDecal
       objectReference: {fileID: 0}
     - target: {fileID: 8833570430820708407, guid: 5858b89c4790c084bb1915952309853d,
         type: 3}
@@ -256,11 +255,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1560634355228308, guid: 5858b89c4790c084bb1915952309853d,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: -5521305940371116071}
+      addedObject: {fileID: -4845278748113661770}
     - targetCorrespondingSourceObject: {fileID: 1560634355228308, guid: 5858b89c4790c084bb1915952309853d,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: -4845278748113661770}
+      addedObject: {fileID: 5145877441734071952}
+    - targetCorrespondingSourceObject: {fileID: 1577029797726278, guid: 5858b89c4790c084bb1915952309853d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4188388843943903055}
   m_SourcePrefab: {fileID: 100100000, guid: 5858b89c4790c084bb1915952309853d, type: 3}
 --- !u!1 &5076580856386662130 stripped
 GameObject:
@@ -268,21 +271,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5077289644096729190}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-5521305940371116071
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5076580856386662130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36a8965dca76e724a86347f5c807dda0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  decal: {fileID: 1768049102699016128, guid: 5a6f8d5d734f7e74090a0d8e04413b56, type: 3}
-  animationTime: 0.4
-  isTriggeredOnHit: 0
 --- !u!114 &-4845278748113661770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,15 +285,51 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectileHardness: 5
   projectileMineFail:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   numberOfTilesAffected: 1
   maxHits: 4
+--- !u!114 &5145877441734071952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5076580856386662130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36a8965dca76e724a86347f5c807dda0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Projectiles.Behaviours.ProjectileDecalOnDespawn
+  decal: {fileID: 1768049102699016128, guid: 5a6f8d5d734f7e74090a0d8e04413b56, type: 3}
+  animationTime: 0.4
+  isTriggeredOnHit: 0
+--- !u!1 &5076597240282445856 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1577029797726278, guid: 5858b89c4790c084bb1915952309853d,
+    type: 3}
+  m_PrefabInstance: {fileID: 5077289644096729190}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4188388843943903055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5076597240282445856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Lighting::LightEmissionBehaviour
+  mIntensity: 0.3
+  mAdditionalEmission: 0
+  mScale: 1
 --- !u!4 &7818161943669900781 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3029120287842743691, guid: 5858b89c4790c084bb1915952309853d,

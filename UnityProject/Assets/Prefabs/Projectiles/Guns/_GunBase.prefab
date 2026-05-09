@@ -13,10 +13,6 @@ PrefabInstance:
       value: _GunBase
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -60,11 +56,6 @@ PrefabInstance:
         type: 3}
       propertyPath: _assetId
       value: 422209012
-      objectReference: {fileID: 0}
-    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: m_AssetId
-      value: da85b7a590e7c8444af73629fcb5dd22
       objectReference: {fileID: 0}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -166,6 +157,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 42e5466ddef02874b982886c7c91632c,
         type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 48ee0a2c22644c54784f2bb106415d44,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 42e5466ddef02874b982886c7c91632c,
+        type: 2}
     - target: {fileID: 3652986707257552662, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: BasePurity
@@ -241,7 +244,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
-  ignoreRoundstartGrabObjects: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &4644871529314044369
 MonoBehaviour:
@@ -261,6 +264,7 @@ MonoBehaviour:
   AllowSuicide: 1
   pinPrefab: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
     type: 3}
+  useFiringPin: 1
   allowPinSwap: 1
   FireDelay: 0.5
   isSuppressed: 0
@@ -268,9 +272,9 @@ MonoBehaviour:
   MaxRecoilVariance: 0
   ProjectileVelocity: 20
   CameraRecoilConfig:
-    Distance: 0.2
-    RecoilDuration: 0.05
-    RecoveryDuration: 0.6
+    Distance: 0
+    RecoilDuration: 0
+    RecoveryDuration: 0
   ammoPrefab: {fileID: 0}
   ammoType: 0
   casingPrefabOverride: {fileID: 0}
@@ -281,42 +285,42 @@ MonoBehaviour:
   attachmentPrefabs: []
   allowedAttachments: 6
   loadMagSound:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   unloadMagSound:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   FiringSoundA:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Weapons/Gun/Pistol/PistolShot.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SuppressedSoundA:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Weapons/Gun/General/GeneralHeavyShotSuppressed.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   DryFireSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Weapons/Gun/General/GeneralDryFire.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0

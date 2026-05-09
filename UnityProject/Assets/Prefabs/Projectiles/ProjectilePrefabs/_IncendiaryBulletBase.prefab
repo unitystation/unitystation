@@ -8,10 +8,15 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
+    - target: {fileID: 2318685547332036631, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 0
+      propertyPath: m_Color.b
+      value: 0.5176471
+      objectReference: {fileID: 0}
+    - target: {fileID: 2318685547332036631, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.8235294
       objectReference: {fileID: 0}
     - target: {fileID: 2508263998177041473, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
@@ -74,11 +79,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: fb63073a4e16de249aa1f7a97996dbb5,
         type: 2}
-    - target: {fileID: 2920371813632314487, guid: b343aea0e51a4c44694589195b8eae77,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 4b892092eb80e8a47818725986c23fd8
-      objectReference: {fileID: 0}
     - target: {fileID: 3038585825880915459, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
       propertyPath: foreverID
@@ -95,6 +95,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: fb63073a4e16de249aa1f7a97996dbb5,
         type: 2}
+    - target: {fileID: 4383997860686795589, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 499502539837467835}
+    - target: {fileID: 4383997860686795589, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.5176471
+      objectReference: {fileID: 0}
+    - target: {fileID: 4383997860686795589, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.8235294
+      objectReference: {fileID: 0}
+    - target: {fileID: 5918026808625155914, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
+      propertyPath: decal
+      value: 
+      objectReference: {fileID: 64157212496800772, guid: 7b92505d5d562e0ddbae801224f31611,
+        type: 3}
+    - target: {fileID: 5918026808625155914, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
+      propertyPath: animationTime
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 6361544417241939934, guid: b343aea0e51a4c44694589195b8eae77,
         type: 3}
       propertyPath: damageData
@@ -109,6 +135,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: -5065226900674394827}
+    - targetCorrespondingSourceObject: {fileID: 2511321102559578031, guid: b343aea0e51a4c44694589195b8eae77,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 397572262550415520}
   m_SourcePrefab: {fileID: 100100000, guid: b343aea0e51a4c44694589195b8eae77, type: 3}
 --- !u!1 &295309866684077521 stripped
 GameObject:
@@ -133,3 +163,30 @@ MonoBehaviour:
   fireStacksToGive: 4
   fireHotspotTemperature: 700
   changeTemperatureOnHotspot: 1
+--- !u!1 &295328741799068419 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2511321102559578031, guid: b343aea0e51a4c44694589195b8eae77,
+    type: 3}
+  m_PrefabInstance: {fileID: 2793136468160414892}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &397572262550415520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 295328741799068419}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Lighting::LightEmissionBehaviour
+  mIntensity: 0.35
+  mAdditionalEmission: 0
+  mScale: 1
+--- !u!212 &499502539837467835 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2318685547332036631, guid: b343aea0e51a4c44694589195b8eae77,
+    type: 3}
+  m_PrefabInstance: {fileID: 2793136468160414892}
+  m_PrefabAsset: {fileID: 0}

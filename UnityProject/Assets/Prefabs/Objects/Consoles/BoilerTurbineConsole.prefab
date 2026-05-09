@@ -104,6 +104,21 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 7f6eacde79c191f49b453bd576d1c1ec
       objectReference: {fileID: 0}
+    - target: {fileID: 2712468360772368645, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2712468360772368645, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.9137255
+      objectReference: {fileID: 0}
+    - target: {fileID: 2712468360772368645, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.64705884
+      objectReference: {fileID: 0}
     - target: {fileID: 3166760548704001533, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: NetTabType
@@ -120,12 +135,33 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 850488255249c27448f2e45e835c4796,
         type: 2}
+    - target: {fileID: 3806105522999988684, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 850488255249c27448f2e45e835c4796,
+        type: 2}
     - target: {fileID: 4381392260290605791, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: d50cac701c34f834cbbb46e44c285c95,
         type: 3}
+    - target: {fileID: 4440120190223384322, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4440120190223384322, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.9137255
+      objectReference: {fileID: 0}
+    - target: {fileID: 4440120190223384322, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.64705884
+      objectReference: {fileID: 0}
     - target: {fileID: 4571869433525098128, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
@@ -229,6 +265,41 @@ PrefabInstance:
       propertyPath: Color.r
       value: 0.408
       objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.a
+      value: 0.64705884
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.9137255
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.64705884
+      objectReference: {fileID: 0}
+    - target: {fileID: 6422803871620661103, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6422803871620661103, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.9137255
+      objectReference: {fileID: 0}
+    - target: {fileID: 6422803871620661103, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.64705884
+      objectReference: {fileID: 0}
     - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: parentID
@@ -298,6 +369,12 @@ PrefabInstance:
     - target: {fileID: 8201155816690774842, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2896c1e0775f3a94c8ef494bfe1a076e,
+        type: 2}
+    - target: {fileID: 8201155816690774842, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 2896c1e0775f3a94c8ef494bfe1a076e,
         type: 2}

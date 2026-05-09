@@ -512,12 +512,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
-      propertyPath: genericInternalMag
-      value: 
-      objectReference: {fileID: 2422759989583602921, guid: d819938d5d7681c4ba69845f60102a8c,
-        type: 3}
-    - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
-        type: 3}
       propertyPath: allowMagazineRemoval
       value: 0
       objectReference: {fileID: 0}
@@ -525,16 +519,6 @@ PrefabInstance:
         type: 3}
       propertyPath: _assetId
       value: 806525295
-      objectReference: {fileID: 0}
-    - target: {fileID: 8109205671878849838, guid: da85b7a590e7c8444af73629fcb5dd22,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 143d3926d4a5fa84f95f987c152b33a2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
@@ -706,6 +690,7 @@ MonoBehaviour:
   removeBatteryTime: 5
   ChangeSprites: 0
   EffectedHandler: {fileID: 0}
+  UseVariants: 0
 --- !u!114 &6648593666208859230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -732,9 +717,9 @@ MonoBehaviour:
   MaxRecoilVariance: 0
   ProjectileVelocity: 20
   CameraRecoilConfig:
-    Distance: 0.2
-    RecoilDuration: 0.05
-    RecoveryDuration: 0.6
+    Distance: 0.1
+    RecoilDuration: 0.08
+    RecoveryDuration: 0.25
   ammoPrefab: {fileID: 5999901686547831408, guid: bd07fb3945875634685790190ea8decc,
     type: 3}
   ammoType: 14

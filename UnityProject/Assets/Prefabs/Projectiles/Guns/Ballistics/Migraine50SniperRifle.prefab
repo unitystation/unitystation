@@ -52,6 +52,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -73,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 40
@@ -104,10 +108,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: bcb3cbf69af1acd499695b858c921b80,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &2221002083211345178
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,6 +168,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -181,6 +192,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
@@ -212,10 +224,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: bcb3cbf69af1acd499695b858c921b80,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &3139079831027586327
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -311,8 +327,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
       propertyPath: SuppressedSoundA.AssetAddress
       value: Assets/Prefabs/Weapons/Gun/General/GeneralHeavyShotSuppressed.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoilDuration
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoveryDuration
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 4729653154424643162, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
@@ -440,6 +471,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d26aa7602d3e2ec49829a2df4eac641b,
         type: 2}
+    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7ca090b2c5e1be94cbf988d694775b43,
+        type: 2}
+    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: a002b848c0b882d40b659ddbe85cbc90,
+        type: 2}
+    - target: {fileID: 8614656532152377136, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: d26aa7602d3e2ec49829a2df4eac641b,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -492,3 +541,4 @@ MonoBehaviour:
   hidesSlots: 0
   hideClothingFlags: 0
   disallowConsume: 0
+  Colour: {r: 1, g: 1, b: 1, a: 1}

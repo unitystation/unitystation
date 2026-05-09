@@ -97,11 +97,6 @@ PrefabInstance:
       propertyPath: foreverID
       value: 2ce9204d2469d9476b21dfed35fc27e5
       objectReference: {fileID: 0}
-    - target: {fileID: 4030776248151696319, guid: f8f5682e74c42bb45851c71a4b53b20b,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 744f742f4f95f5c4c8eb2015d1bfe1bb
-      objectReference: {fileID: 0}
     - target: {fileID: 4383945307501813551, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: layerType
@@ -114,25 +109,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4860837cc91abac4ebed35ad31512f33,
         type: 2}
-    - target: {fileID: 4383945307501813551, guid: f8f5682e74c42bb45851c71a4b53b20b,
-        type: 3}
-      propertyPath: layersToHit.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4383945307501813551, guid: f8f5682e74c42bb45851c71a4b53b20b,
-        type: 3}
-      propertyPath: 'layersToHit.Array.data[2]'
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4444242521069764277, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
       propertyPath: m_Name
       value: Bullet_ShipBeam
-      objectReference: {fileID: 0}
-    - target: {fileID: 4447352754948125577, guid: f8f5682e74c42bb45851c71a4b53b20b,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4447352754948125577, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
@@ -230,7 +210,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f68e161ab5e490e40a2813c2e26e10cb,
+      objectReference: {fileID: 21300000, guid: 3776685c90e8ba373a55ec0ff2a71f71,
         type: 3}
     - target: {fileID: 5391593875210699565, guid: f8f5682e74c42bb45851c71a4b53b20b,
         type: 3}
@@ -314,6 +294,7 @@ MonoBehaviour:
   explosionPrefab: {fileID: 6047024076387894157, guid: 7442edc5f98954af09587a7233e5a7c5,
     type: 3}
   explosionStrength: 80
+  explodeOnMaxRange: 0
 --- !u!212 &216892637462594426 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 4565153780927629279, guid: f8f5682e74c42bb45851c71a4b53b20b,
@@ -340,7 +321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  InitialPresentSpriteSet: {fileID: 11400000, guid: 3d8ec325ec2878f49a3fb13038c0588c,
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 3119922b67881afb6a120c079d7c3226,
     type: 2}
   randomInitialSprite: 0
   spriteRenderer: {fileID: 0}

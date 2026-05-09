@@ -142,7 +142,32 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: -5475611332671947467}
+    - targetCorrespondingSourceObject: {fileID: 1600128643440491535, guid: 33dfe2b5f12db3a43af6d409a2b599e5,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 918520399786184901}
   m_SourcePrefab: {fileID: 100100000, guid: 33dfe2b5f12db3a43af6d409a2b599e5, type: 3}
+--- !u!1 &5951022090315922342 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1600128643440491535, guid: 33dfe2b5f12db3a43af6d409a2b599e5,
+    type: 3}
+  m_PrefabInstance: {fileID: 4945668767053694889}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &918520399786184901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5951022090315922342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Lighting::LightEmissionBehaviour
+  mIntensity: 0.25
+  mAdditionalEmission: 0
+  mScale: 1
 --- !u!1 &5951038657140010356 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1600147492648282845, guid: 33dfe2b5f12db3a43af6d409a2b599e5,

@@ -82,7 +82,8 @@ namespace US13.Objects
 
 		private bool InitSound = false;
 
-		[Header("Power")] [SerializeField] private LightSprite lightSprite;
+		[Header("Power")] [SerializeField] private LightSprite lightMaskSprite;
+        [SerializeField] private LightSprite areaGlowSprite;
 
 		[SyncVar(hook = nameof(SetLightState))]
 		private bool isLightOn = true;
@@ -378,7 +379,8 @@ namespace US13.Objects
 		private void SetLightState(bool oldValue, bool newValue)
 		{
 			isLightOn = newValue;
-			lightSprite.OrNull()?.SetActive(newValue);
+			lightMaskSprite.OrNull()?.SetActive(newValue);
+			areaGlowSprite.OrNull()?.SetActive(newValue);
 			CheckAudioState();
 		}
 

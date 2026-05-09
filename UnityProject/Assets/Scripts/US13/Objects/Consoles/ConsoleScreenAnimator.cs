@@ -22,6 +22,7 @@ namespace US13.Objects.Consoles
 		[SerializeField]
 		private SpriteHandler spriteHandler;
 		public GameObject ScreenGlow;
+		public GameObject AreaGlow;
 
 		public void ToggleOn(bool turnOn)
 		{
@@ -34,6 +35,7 @@ namespace US13.Objects.Consoles
 				}
 				SpriteHandlerHere.PushTexture();
 				ScreenGlow.SetActive(true);
+				AreaGlow.SetActive(true);
 			}
 			else
 			{
@@ -41,6 +43,7 @@ namespace US13.Objects.Consoles
 				if (ScreenGlow != null)
 				{
 					ScreenGlow.SetActive(false);
+					AreaGlow.SetActive(false);
 				}
 			}
 		}

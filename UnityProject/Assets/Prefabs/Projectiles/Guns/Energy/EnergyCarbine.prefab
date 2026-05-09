@@ -53,6 +53,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -74,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 40
@@ -109,7 +112,7 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: a04c99a0b0348d246912e0a24bb49eb0,
     type: 2}
   randomInitialSprite: 0
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 7552729060021939030}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -129,8 +132,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 95bea90aeae848346831b9ef0916e39a,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 96014042515403583, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_WasSpriteAssigned
@@ -192,44 +194,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d2ed6e08bec6d6f45997c74d12ce71d3,
         type: 2}
-    - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: FireRate
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: SmartGun
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: Projectile
-      value: 
-      objectReference: {fileID: 3294328072042417454, guid: 49a8364f6515be34bac52c48c9214d85,
-        type: 3}
-    - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: ammoPrefab
-      value: 
-      objectReference: {fileID: 319333690820393223, guid: 0912d5acb5187db4aae8172dda64914c,
-        type: 3}
-    - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: FiringSound
-      value: ShootLaser
-      objectReference: {fileID: 0}
-    - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: ProjectilesFired
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1848979366670267442, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 95bea90aeae848346831b9ef0916e39a,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 1848979366670267442, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_WasSpriteAssigned
@@ -239,8 +208,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 95bea90aeae848346831b9ef0916e39a,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 2719026976851437719, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_WasSpriteAssigned
@@ -306,16 +274,6 @@ PrefabInstance:
         type: 3}
       propertyPath: _assetId
       value: 1180177811
-      objectReference: {fileID: 0}
-    - target: {fileID: 4342894697621943514, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: m_AssetId
-      value: d589c17f6fd91da4190edfdd2cb5aa53
-      objectReference: {fileID: 0}
-    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -402,30 +360,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: Projectile
-      value: 
-      objectReference: {fileID: 3294328072042417454, guid: 49a8364f6515be34bac52c48c9214d85,
-        type: 3}
-    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
       propertyPath: ammoSprite
       value: 
       objectReference: {fileID: 8316631766976624318}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: FiringSound
-      value: ShootLaser
-      objectReference: {fileID: 0}
-    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
       propertyPath: chargeSprite
       value: 
       objectReference: {fileID: 7606129215582619395}
-    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: countFiremode
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: firemodeName.Array.size
@@ -535,8 +477,7 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 0.28125
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 2220118134753059110, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
     - {fileID: 2153160782301408824, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}

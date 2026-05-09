@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitialColour: {r: 1, g: 0.99181634, b: 0.9575472, a: 1}
+  InitialColour: {r: 1, g: 0.99215686, b: 0.95686275, a: 0.5882353}
   Sprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -72,6 +72,9 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -93,6 +96,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -123,6 +127,11 @@ PrefabInstance:
       propertyPath: foreverID
       value: 9ddb59d16686625469e911c117422670
       objectReference: {fileID: 0}
+    - target: {fileID: 3202216405552181809, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4727274915372076845}
     - target: {fileID: 3202216405552181809, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
       propertyPath: SubCatalogue.Array.size
@@ -285,6 +294,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!212 &4727274915372076845 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8919208026219100906, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+    type: 3}
+  m_PrefabInstance: {fileID: 4205732087212553671}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4858067751920155761 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8734328976324889014, guid: 83442ea1bc97ef04db1f9962a2f7021d,
@@ -333,6 +348,16 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  canActivate:
+    InitialState: 1
+    OnBoolChange:
+      m_PersistentCalls:
+        m_Calls: []
+  canDeactivate:
+    InitialState: 1
+    OnBoolChange:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!114 &8569978743193370301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,11 +384,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activatedHitsound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/blade1.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   activatedAttackVerbs:
@@ -431,7 +456,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightControl: {fileID: 7140864852053075427}
-  Color: {r: 0.98039216, g: 0.50980395, b: 0.50980395, a: 1}
+  Color: {r: 0.98039216, g: 0.50980395, b: 0.50980395, a: 0.50980395}
 --- !u!114 &7524183173055825683
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,19 +470,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activateSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/saberon.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   deactivateSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/saberoff.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
 --- !u!4 &4861865327406825733 stripped

@@ -380,6 +380,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
       propertyPath: 'chargeSprites.Array.data[0]'
       value: 
       objectReference: {fileID: 7661957566163530242}
@@ -420,6 +425,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5418626791516505491, guid: b4492e96cb32b8941a4cf47edcf7c3cc,
         type: 3}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoveryDuration
+      value: 0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: firemodeFiringSound.Array.data[0].AssetAddress

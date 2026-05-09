@@ -47,8 +47,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0.07
+      objectReference: {fileID: 0}
+    - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
       propertyPath: SuppressedSoundA.AssetAddress
       value: Assets/Prefabs/Weapons/Gun/General/GeneralHeavyShotSuppressed.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoilDuration
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoveryDuration
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 4092814885568586395, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
@@ -158,6 +173,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f35170e82cee2b14399b2137581cdebf,
         type: 2}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 1590047ee4158834e9e62332be73b1d0,
+        type: 2}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f35170e82cee2b14399b2137581cdebf,
+        type: 2}
     - target: {fileID: 7053223090983703362, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: parentID
@@ -171,6 +198,12 @@ PrefabInstance:
     - target: {fileID: 7790862161162773672, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d134dc2c8206bda4285ed465f4f154c8,
+        type: 2}
+    - target: {fileID: 7790862161162773672, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d134dc2c8206bda4285ed465f4f154c8,
         type: 2}

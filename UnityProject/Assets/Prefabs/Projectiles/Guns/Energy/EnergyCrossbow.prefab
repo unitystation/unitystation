@@ -25,6 +25,16 @@ PrefabInstance:
       propertyPath: rechargeSpriteHandler
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 505096979424067052, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
+        type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 505096979424067052, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoveryDuration
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 4233841553354124691, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
         type: 3}
       propertyPath: exportCost
@@ -134,6 +144,12 @@ PrefabInstance:
     - target: {fileID: 7595925461580560758, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: fd0144fbc9ebcee42b83a02150853b11,
+        type: 2}
+    - target: {fileID: 7595925461580560758, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: fd0144fbc9ebcee42b83a02150853b11,
         type: 2}

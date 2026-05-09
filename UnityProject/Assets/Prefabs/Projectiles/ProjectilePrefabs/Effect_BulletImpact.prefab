@@ -76,12 +76,54 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 6041190463315187725, guid: 1c8abd1afb208014a9cc83f7120ab311,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 5195770179465892449}
+    - target: {fileID: 6041190463315187725, guid: 1c8abd1afb208014a9cc83f7120ab311,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 188d93901978dfd43897f22dbd3efc29,
+        type: 2}
+    - target: {fileID: 6041190463315187725, guid: 1c8abd1afb208014a9cc83f7120ab311,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 188d93901978dfd43897f22dbd3efc29,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2334073556106990922, guid: 1c8abd1afb208014a9cc83f7120ab311,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8624643942337532878}
   m_SourcePrefab: {fileID: 100100000, guid: 1c8abd1afb208014a9cc83f7120ab311, type: 3}
+--- !u!212 &5195770179465892449 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2491110745196637606, guid: 1c8abd1afb208014a9cc83f7120ab311,
+    type: 3}
+  m_PrefabInstance: {fileID: 7676703826731827143}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5399089165182216845 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2334073556106990922, guid: 1c8abd1afb208014a9cc83f7120ab311,
+    type: 3}
+  m_PrefabInstance: {fileID: 7676703826731827143}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8624643942337532878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5399089165182216845}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Lighting::LightEmissionBehaviour
+  mIntensity: 0.2
+  mAdditionalEmission: 0
+  mScale: 1

@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ef7cce1effa5bf948a15933ad41e0173,
         type: 2}
+    - target: {fileID: 471271850343394589, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ef7cce1effa5bf948a15933ad41e0173,
+        type: 2}
     - target: {fileID: 3532909349452968613, guid: cce47c5ed69f6ca40a312fa09d93db8f,
         type: 3}
       propertyPath: _assetId
@@ -38,6 +44,21 @@ PrefabInstance:
         type: 3}
       propertyPath: Color.r
       value: 0.25882354
+      objectReference: {fileID: 0}
+    - target: {fileID: 3570249104166932168, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.8484848
+      objectReference: {fileID: 0}
+    - target: {fileID: 3570249104166932168, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.78787875
+      objectReference: {fileID: 0}
+    - target: {fileID: 3570249104166932168, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4585709544569780028, guid: cce47c5ed69f6ca40a312fa09d93db8f,
         type: 3}
@@ -135,6 +156,21 @@ PrefabInstance:
         type: 3}
       propertyPath: HullColor.r
       value: 0.3254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 9187750856948122982, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.9080029
+      objectReference: {fileID: 0}
+    - target: {fileID: 9187750856948122982, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.8692673
+      objectReference: {fileID: 0}
+    - target: {fileID: 9187750856948122982, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

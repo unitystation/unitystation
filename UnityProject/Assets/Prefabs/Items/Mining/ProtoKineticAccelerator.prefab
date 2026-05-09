@@ -256,9 +256,9 @@ MonoBehaviour:
   MaxRecoilVariance: 0
   ProjectileVelocity: 20
   CameraRecoilConfig:
-    Distance: 0.2
-    RecoilDuration: 0.05
-    RecoveryDuration: 0.6
+    Distance: 0.18
+    RecoilDuration: 0.04
+    RecoveryDuration: 0.4
   ammoPrefab: {fileID: 5999901686547831408, guid: bd07fb3945875634685790190ea8decc,
     type: 3}
   ammoType: 18
@@ -270,43 +270,43 @@ MonoBehaviour:
   attachmentPrefabs: []
   allowedAttachments: 6
   loadMagSound:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   unloadMagSound:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   FiringSoundA:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Weapons/KineticShot.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SuppressedSoundA:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Weapons/Gun/General/GeneralHeavyShotSuppressed.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   DryFireSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Weapons/Gun/General/GeneralDryFire.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   projectile: {fileID: 7081206667275519994, guid: a4c2debd67d612549b05801d1e37121a,
@@ -314,10 +314,10 @@ MonoBehaviour:
   rechargeTime: 2
   rechargeSpriteHandler: {fileID: 983609098388634077}
   rechargeSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Weapons/KineticReload.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0

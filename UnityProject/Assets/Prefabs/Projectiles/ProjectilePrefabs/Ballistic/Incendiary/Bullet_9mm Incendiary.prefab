@@ -14,6 +14,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e93947133fbe98441a5de0af25807d0f,
         type: 2}
+    - target: {fileID: 3391597649312652572, guid: 40ea4aea218be439eaf29f853612870c,
+        type: 3}
+      propertyPath: decal
+      value: 
+      objectReference: {fileID: 64157212496800772, guid: 7b92505d5d562e0ddbae801224f31611,
+        type: 3}
+    - target: {fileID: 3391597649312652572, guid: 40ea4aea218be439eaf29f853612870c,
+        type: 3}
+      propertyPath: animationTime
+      value: 0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 5146330710846670258, guid: 40ea4aea218be439eaf29f853612870c,
         type: 3}
       propertyPath: damageData
@@ -109,7 +120,32 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1009951127237143621}
+    - targetCorrespondingSourceObject: {fileID: 6911458813124171257, guid: 40ea4aea218be439eaf29f853612870c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4885351387285303304}
   m_SourcePrefab: {fileID: 100100000, guid: 40ea4aea218be439eaf29f853612870c, type: 3}
+--- !u!1 &923136376559135847 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6911458813124171257, guid: 40ea4aea218be439eaf29f853612870c,
+    type: 3}
+  m_PrefabInstance: {fileID: 5991419766727653790}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4885351387285303304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 923136376559135847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Lighting::LightEmissionBehaviour
+  mIntensity: 0.35
+  mAdditionalEmission: 0
+  mScale: 1
 --- !u!1 &923152762474511029 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6911475130857718571, guid: 40ea4aea218be439eaf29f853612870c,
