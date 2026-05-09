@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using Logs;
@@ -29,6 +30,11 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 	[Serializable]
 	public class UI_ItemSlot : TooltipMonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	{
+		//private static List<(GameObject, UI_ItemSlot)> CurrentlyOpenItems = new  List<(GameObject, UI_ItemSlot)>();
+
+		private GameObject Previewingitem;
+		private bool IsCanFitPreview;
+
 		[SerializeField]
 		[FormerlySerializedAs("NamedSlot")]
 		[Tooltip("For player inventory, named slot in player's ItemStorage that this UI slot corresponds to.")]
@@ -85,9 +91,6 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 		public Image MoreInventoryImage;
 		public HasSubInventory HasSubInventory;
 
-		public Material OverlayMaterial;
-
-
 		public bool IsAdmins = false;
 
 		private void Awake()
@@ -102,7 +105,7 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 				MoreInventoryImage.enabled = false;
 			}
 
-			image = new UI_ItemImage(gameObject, OverlayMaterial);
+
 			hidden = initiallyHidden;
 		}
 
@@ -265,6 +268,7 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 				itemSlot.LinkLocalUISlot(null);
 				itemSlot.OnSlotContentsChangeClient.RemoveListener(OnClientSlotContentsChange);
 				itemSlot = null;
+				Reset();
 			}
 		}
 
@@ -312,11 +316,12 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 		///
 		/// </summary>
 		/// <param name="item">game object to use to determine what to show in this slot</param>
-		/// <param name="color">color tint to apply</param>
-		public void UpdateImage(GameObject item = null, Color? color = null)
+		/// <param name="colour">color tint to apply</param>
+		public void UpdateImage(GameObject item = null, Color? colour = null, bool CanFitPreview = false, bool SkipMoveAnimation = true)
 		{
+			if (Previewingitem == item && IsCanFitPreview == false) return;
+
 			bool nullItem = item == null;
-			bool forceColor = color != null;
 
 			if (nullItem && Item != null)
 			{
@@ -331,9 +336,23 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 				return;
 			}
 
+			Clear(true);
+
+			Previewingitem = item;
+			IsCanFitPreview = CanFitPreview;
+
 			if (!nullItem)
 			{
-				image?.ShowItem(item, OverlayMaterial, color);
+				//var hasEntry = CurrentlyOpenItems.Any(x => x.Item1 == Previewingitem);
+
+				//if (hasEntry)
+				//{
+					//image = UI_ItemImage.RequestItemImage(gameObject, item,CanFitPreview, colour, true);
+				image = UI_ItemImage.RequestItemImage(gameObject, item,CanFitPreview, colour, SkipMoveAnimation);
+
+				//CurrentlyOpenItems.Add((item, this));
+
+
 				if (placeholderImage)
 					placeholderImage.color = new Color(1, 1, 1, 0);
 
@@ -377,15 +396,10 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 			}
 		}
 
-		public void SetSecondaryImage(Sprite sprite)
-		{
-			image.SetOverlay(sprite);
-		}
-
 		/// <summary>
 		/// Clears the displayed image.
 		/// </summary>
-		public void Clear()
+		public void Clear(bool ClearOnlyPreviews = false)
 		{
 			PlayerScript lps = PlayerManager.LocalPlayerScript;
 			if (!lps)
@@ -393,7 +407,16 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 				return;
 			}
 
-			image?.ClearAll();
+			Previewingitem = null;
+			IsCanFitPreview = false;
+			//var Entry = CurrentlyOpenItems.Find(x => x.Item1 == Previewingitem && x.Item2 == this);
+			//CurrentlyOpenItems.Remove(Entry);
+
+			image?.ClearAll( this.gameObject, ClearOnlyPreviews: ClearOnlyPreviews);
+			image = null;
+
+
+
 			if (amountText)
 			{
 				amountText.enabled = false;
@@ -415,9 +438,19 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 			}
 		}
 
+		public void OnDestroy()
+		{
+			image?.ClearAll( this.gameObject, true);
+			image = null;
+		}
+
 		public void Reset()
 		{
-			image.ClearAll();
+			Previewingitem = null;
+			IsCanFitPreview = false;
+
+			image?.ClearAll(this.gameObject);
+			image = null;
 			if (amountText)
 			{
 				amountText.enabled = false;

@@ -105,14 +105,14 @@ namespace US13.UI.Core.OptionsMenu
 
 		public void OnPushToTalkChange()
 		{
-			VoiceChatManager.Instance.ClientPushToTalk = PushToTalkToggle.isOn;
+			VoiceChatManager.ClientPushToTalk = PushToTalkToggle.isOn;
 			UnityEngine.PlayerPrefs.SetInt(PlayerPrefKeys.PushToTalkToggle, PushToTalkToggle.isOn ? 1 : 0);
 			UnityEngine.PlayerPrefs.Save();
 		}
 
 		public void OnVoiceChatToggle()
 		{
-			VoiceChatManager.Instance.ClientEnabled = VoiceChatToggle.isOn;
+			VoiceChatManager.ClientEnabled = VoiceChatToggle.isOn;
 			UnityEngine.PlayerPrefs.SetInt(PlayerPrefKeys.VoiceChatToggle, VoiceChatToggle.isOn ? 1 : 0);
 			UnityEngine.PlayerPrefs.Save();
 		}

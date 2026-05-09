@@ -704,16 +704,19 @@ namespace US13.Systems.Inventory
 				return;
 			}
 
+
+			if (to.LocalUISlot != null)
+			{
+				to.LocalUISlot.UpdateImage(from.ItemObject, SkipMoveAnimation : false);
+			}
+
 			//client side prediction, just change the sprite of the ui slots
 			if (from.LocalUISlot != null)
 			{
 				from.LocalUISlot.Clear();
 			}
 
-			if (to.LocalUISlot != null)
-			{
-				to.LocalUISlot.UpdateImage(from.ItemObject);
-			}
+
 
 			//send the actual message.
 			RequestInventoryTransferMessage.Send(from, to);

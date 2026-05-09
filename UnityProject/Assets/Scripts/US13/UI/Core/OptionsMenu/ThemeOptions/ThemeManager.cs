@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Logs;
 using SecureStuff;
 using Shared.Util;
@@ -44,7 +45,7 @@ namespace US13.UI.Core.OptionsMenu.ThemeOptions
 
         public static bool ChatHighlight;
         public static bool MentionSound;
-        public static int MentionSoundIndex;
+        public static string MentionSoundIndex;
 
         public static AddressableAudioSource CurrentMentionSound;
 
@@ -84,8 +85,6 @@ namespace US13.UI.Core.OptionsMenu.ThemeOptions
 		        sound.Preload();
 	        }
 
-	        MentionSoundIndex = UnityEngine.PlayerPrefs.GetInt(PlayerPrefKeys.MentionSoundIndex);
-	        CurrentMentionSound = MentionSounds[MentionSoundIndex];
         }
 
         public void ChatHighlightToggle(bool toggle)
@@ -102,12 +101,10 @@ namespace US13.UI.Core.OptionsMenu.ThemeOptions
 	        UnityEngine.PlayerPrefs.Save();
         }
 
-        public void MentionSoundIndexChange(int newValue)
+        public void MentionSoundIndexChange(string newValue)
         {
 	        MentionSoundIndex = newValue;
-	        CurrentMentionSound = MentionSounds[MentionSoundIndex];
-	        UnityEngine.PlayerPrefs.SetInt(PlayerPrefKeys.MentionSoundIndex, newValue);
-	        UnityEngine.PlayerPrefs.Save();
+	        CurrentMentionSound = MentionSounds.FirstOrDefault(x => x.AssetAddress ==  newValue);
         }
 
         public static void RegisterHandler(ThemeHandler handler)

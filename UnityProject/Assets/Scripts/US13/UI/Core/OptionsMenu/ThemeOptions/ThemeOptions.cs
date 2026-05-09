@@ -115,20 +115,20 @@ namespace US13.UI.Core.OptionsMenu.ThemeOptions
 			chatEntryBackgroundToggle.isOn = UnityEngine.PlayerPrefs.GetInt(PlayerPrefKeys.CHAT_BACKGROUND_ALLWAYS_ENABLED, 0) == 1;
 
 			chatBubbleSizeSlider.value = DisplaySettings.Instance.ChatBubbleSize;
-			chatBubbleInstantToggle.isOn = DisplaySettings.Instance.ChatBubbleInstant == 1;
+			chatBubbleInstantToggle.isOn = DisplaySettings.Instance.ChatBubbleInstant;
 			chatBubblePopInSpeedSlider.value = DisplaySettings.Instance.ChatBubblePopInSpeed;
 			chatBubbleAdditionalTimeSlider.value = DisplaySettings.Instance.ChatBubbleAdditionalTime;
 			chatBubbleClownColourToggle.isOn = DisplaySettings.Instance.ChatBubbleClownColour == 1;
 			NumberOfBubblesSlider.value = ChatBubble.ChatBubble.GetPreferenceNummberBubbles();
 			try
 			{
-				var newOptions = new List<TMP_Dropdown.OptionData>();
-				foreach (var sound in ThemeManager.Instance.MentionSounds)
-				{
-					newOptions.Add(new TMP_Dropdown.OptionData(sound.AudioSource.name));
-				}
-				mentionSoundDropdown.options = newOptions;
-				mentionSoundDropdown.value = ThemeManager.MentionSoundIndex;
+				// var newOptions = new List<TMP_Dropdown.OptionData>();
+				// foreach (var sound in ThemeManager.Instance.MentionSounds)
+				// {
+				// 	newOptions.Add(new TMP_Dropdown.OptionData(sound.AudioSource.name));
+				// }
+				// mentionSoundDropdown.options = newOptions;
+				// mentionSoundDropdown.value = ThemeManager.MentionSoundIndex;
 			}
 			catch (Exception e)
 			{
@@ -263,7 +263,7 @@ namespace US13.UI.Core.OptionsMenu.ThemeOptions
 
 		public void OnMentionSoundIndexChange()
 		{
-			ThemeManager.Instance.MentionSoundIndexChange(mentionSoundDropdown.value);
+			//ThemeManager.Instance.MentionSoundIndexChange(mentionSoundDropdown.value);
 			Refresh();
 		}
 
@@ -281,7 +281,7 @@ namespace US13.UI.Core.OptionsMenu.ThemeOptions
 
 		public void OnChatBubbleInstantChange()
 		{
-			DisplaySettings.Instance.ChatBubbleInstant = chatBubbleInstantToggle.isOn ? 1 : 0;
+			DisplaySettings.Instance.ChatBubbleInstant = chatBubbleInstantToggle.isOn;
 		}
 
 		public void OnChatBubblePopInSpeedChange()
@@ -319,7 +319,7 @@ namespace US13.UI.Core.OptionsMenu.ThemeOptions
 
 		public void OnFontPreferenceChange()
 		{
-			ChatUI.Instance.FontIndexToUse = fontDropdown.value;
+			//ChatUI.Instance.FontIndexToUse = fontDropdown.value;
 			UnityEngine.PlayerPrefs.SetString("fontPref", fontDropdown.GetValueName());
 		}
 

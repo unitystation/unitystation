@@ -7,5 +7,5 @@ using UnityEngine;
 public class CommonMaterials : BadSingletonScriptableObject<CommonMaterials>
 {
 	public Material DefaultLightMaterial;
-
+	public Material ItemSlotMaterial;
 }

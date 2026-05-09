@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using DynamicOptions;
 using UnityEngine;
 using US13.Core.Initialisation;
 
@@ -42,6 +43,7 @@ namespace US13.UI.Core.OptionsMenu
 			var btns = GetComponentsInChildren<OptionsButton>(true);
 			optionButtons = new List<OptionsButton>(btns);
 			screen.SetActive(false);
+			OptionManager.Instance.Initialise();
 		}
 
 		public void ToggleButtonOn(OptionsButton button)
@@ -84,7 +86,24 @@ namespace US13.UI.Core.OptionsMenu
 			var index = optionButtons.FindIndex(x => x.IsActive == true);
 			if (index != -1)
 			{
-				optionButtons[index].ResetDefaults();
+				switch (optionButtons[index].name)
+				{
+					case ("DisplaySettings"):
+						OptionManager.Instance.OptionCollectionDisplay.ResetToDefault();
+						return;
+					case ("AudioSettings"):
+						OptionManager.Instance.OptionCollectionAudio.ResetToDefault();
+						return;
+					case ("ThemeSettings"):
+						OptionManager.Instance.OptionCollectionTheme.ResetToDefault();
+						return;
+					case ("GameSettings"):
+						OptionManager.Instance.OptionCollectionGameplay.ResetToDefault();
+						return;
+					case ("Misc"):
+						OptionManager.Instance.OptionCollectionMisc.ResetToDefault();
+						return;
+				}
 			}
 		}
 	}

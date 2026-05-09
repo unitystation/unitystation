@@ -135,7 +135,7 @@ namespace US13.Core.Chat
 		[BoxGroup("Animation"), Range(0,1)] public float ChatContentMinimumAlpha = 0f;
 
 		[field: SerializeField] public List<TMP_FontAsset> Fonts = new List<TMP_FontAsset>();
-		public int FontIndexToUse = -1;
+		public string FontIndexToUse = "LiberationSans SDF";
 
 
 		public void SetPreferenceChatContent(float preference)
@@ -186,17 +186,6 @@ namespace US13.Core.Chat
 			base.Awake();
 			ChatMinimumBackgroundAlpha = GetPreferenceChatBackground();
 			ChatContentMinimumAlpha = GetPreferenceChatContent();
-
-			var Option =UnityEngine.PlayerPrefs.GetString("fontPref", "LiberationSans SDF");
-
-			for (int i = 0; i < Fonts.Count; i++)
-			{
-				if (Fonts[i].name == Option)
-				{
-					FontIndexToUse = i;
-					break;
-				}
-			}
 		}
 
 		/// <summary>
@@ -353,7 +342,7 @@ namespace US13.Core.Chat
 			GameObject entry = entryPool.GetChatEntry();
 			var chatEntry = entry.GetComponent<ChatEntry>();
 			chatEntry.ViewportTransform = viewportTransform;
-			chatEntry.SetText(message, languageSprite, FontIndexToUse != -1 ? Fonts[FontIndexToUse] : null);
+			chatEntry.SetText(message, languageSprite, Fonts.FirstOrDefault(x => x.name == FontIndexToUse));
 			allEntries.Add(chatEntry);
 			SetEntryTransform(entry);
 			CheckLengthOfChatLog();

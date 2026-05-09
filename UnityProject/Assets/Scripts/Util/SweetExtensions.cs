@@ -563,6 +563,12 @@ namespace Util
 		}
 
 		/// Serializing Vector2 (rounded to int) into plaintext
+		public static string Serialise(this Vector2 pos)
+		{
+			return pos.x + "," + pos.y;
+		}
+
+		/// Serializing Vector2 (rounded to int) into plaintext
 		public static string Stringified(this Vector2 pos)
 		{
 			return (int) pos.x + "x" + (int) pos.y;

@@ -265,7 +265,15 @@ namespace Util
 			return TheColour;
 		}
 
+		public static  Vector2 ToVector2(this string SerialiseData)
+		{
+			Vector2 TheColour = Vector2.zero;
+			string[] XY = SerialiseData.Split(',');
+			TheColour.x = float.Parse(XY[0]);
+			TheColour.y = float.Parse(XY[1]);
 
+			return TheColour;
+		}
 
 		public static Color ToColour(this string SerialiseData)
 		{
