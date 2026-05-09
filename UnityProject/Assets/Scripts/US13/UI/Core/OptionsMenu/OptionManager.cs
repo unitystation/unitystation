@@ -121,7 +121,7 @@ public class OptionManager : SingletonManager<OptionManager>
 				UIParameters = () => { return (new Vector2(0f, 1f), false); },
 			}},
 		{Option.AudioReflections,
-			new OptionData() {DisplayName = "Audio Reflections", OptionType = OptionType.Abool, PreferenceKey = "AmbientVolume",
+			new OptionData() {DisplayName = "Audio Reflections", OptionType = OptionType.Abool, PreferenceKey = "AudioReflections",
 				OptionCategoryType = OptionCategoryType.Audio,
 				OnChangeAction = o => { AudioManager.Instance.EnableAudioReflections = (bool)o; return ""; },
 				Show = () => { return true; },
