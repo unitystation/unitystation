@@ -2,24 +2,27 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OptionItemButton : OptionItem
+namespace DynamicOptions
 {
-	public Button Button;
-
-	public override void Populate()
+	public class OptionItemButton : OptionItem
 	{
-		Button.onClick.AddListener(ValueChange);
-	}
+		public Button Button;
 
-	public override void ResetPreference()
-	{
-		//idk There's not really a default opption
-	}
+		public override void Populate()
+		{
+			Button.onClick.AddListener(ValueChange);
+		}
 
-	public void ValueChange()
-	{
-		var Return = OptionData.OnChangeAction.Invoke("");
-		FailedValidation.text = Return;
-		this.AssociatedCollection.OnValChange();
+		public override void ResetPreference()
+		{
+			//idk There's not really a default opption
+		}
+
+		public void ValueChange()
+		{
+			var Return = OptionData.OnChangeAction.Invoke("");
+			FailedValidation.text = Return;
+			this.AssociatedCollection.OnValChange();
+		}
 	}
 }

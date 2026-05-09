@@ -2,42 +2,46 @@ using TMPro;
 using UnityEngine;
 using Util;
 
-public class OptionItemVector2 : OptionItem
+namespace DynamicOptions
 {
-	public TMP_InputField InputFieldx;
-	public TMP_InputField InputFieldy;
-
-
-	public override void Populate()
+	public class OptionItemVector2 : OptionItem
 	{
-		var Vector = PlayerPrefs.GetString(OptionData.PreferenceKey).ToVector2();
-		InputFieldx.text = Vector.x.ToString();
-		InputFieldy.text = Vector.y.ToString();
-
-		_ = OptionData.OnChangeAction.Invoke(Vector);
-		InputFieldx.onEndEdit.AddListener(ValueChange);
-		InputFieldy.onEndEdit.AddListener(ValueChange);
-	}
-
-	public override void ResetPreference()
-	{
-		PlayerPrefs.SetString(OptionData.PreferenceKey, ((Vector2)OptionData.Default.Invoke()).Serialise());
-		PlayerPrefs.Save();
-	}
+		public TMP_InputField InputFieldx;
+		public TMP_InputField InputFieldy;
 
 
-
-	public void ValueChange(string value)
-	{
-		var Vector2 = new Vector2(float.Parse(InputFieldx.text), float.Parse(InputFieldy.text));
-
-		var Return =  OptionData.OnChangeAction.Invoke(Vector2);
-		FailedValidation.text = Return;
-		if (string.IsNullOrEmpty(Return))
+		public override void Populate()
 		{
-			PlayerPrefs.SetString(OptionData.PreferenceKey, Vector2.Serialise());
+			var Vector = PlayerPrefs.GetString(OptionData.PreferenceKey).ToVector2();
+			InputFieldx.text = Vector.x.ToString();
+			InputFieldy.text = Vector.y.ToString();
+
+			_ = OptionData.OnChangeAction.Invoke(Vector);
+			InputFieldx.onEndEdit.AddListener(ValueChange);
+			InputFieldy.onEndEdit.AddListener(ValueChange);
 		}
-		this.AssociatedCollection.OnValChange();
-		PlayerPrefs.Save();
+
+		public override void ResetPreference()
+		{
+			PlayerPrefs.SetString(OptionData.PreferenceKey, ((Vector2) OptionData.Default.Invoke()).Serialise());
+			PlayerPrefs.Save();
+		}
+
+
+
+		public void ValueChange(string value)
+		{
+			var Vector2 = new Vector2(float.Parse(InputFieldx.text), float.Parse(InputFieldy.text));
+
+			var Return = OptionData.OnChangeAction.Invoke(Vector2);
+			FailedValidation.text = Return;
+			if (string.IsNullOrEmpty(Return))
+			{
+				PlayerPrefs.SetString(OptionData.PreferenceKey, Vector2.Serialise());
+			}
+
+			this.AssociatedCollection.OnValChange();
+			PlayerPrefs.Save();
+		}
 	}
 }

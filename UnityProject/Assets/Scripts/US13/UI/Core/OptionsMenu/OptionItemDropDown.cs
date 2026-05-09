@@ -4,40 +4,44 @@ using UnityEngine;
 using UnityEngine.UI;
 using Util;
 
-public class OptionItemDropDown : OptionItem
+namespace DynamicOptions
 {
-	public TMP_Dropdown DropDown;
-
-	public override void Populate()
+	public class OptionItemDropDown : OptionItem
 	{
-		var Option = (List<string>) OptionData.UIParameters.Invoke();
-		DropDown.options = 	Option.ToOptionData();
+		public TMP_Dropdown DropDown;
 
-		var Preference = PlayerPrefs.GetString(OptionData.PreferenceKey);
-
-		DropDown.value = Option.IndexOf(PlayerPrefs.GetString(OptionData.PreferenceKey));
-		_ = OptionData.OnChangeAction.Invoke(Preference);
-		DropDown.onValueChanged.AddListener(ValueChange);
-	}
-
-
-
-	public override void ResetPreference()
-	{
-		PlayerPrefs.SetString(OptionData.PreferenceKey, (string)OptionData.Default.Invoke());
-		PlayerPrefs.Save();
-	}
-
-	public void ValueChange(int value)
-	{
-		var TextOpption = DropDown.options[value];
-		var Return =  OptionData.OnChangeAction.Invoke(TextOpption.text);
-		FailedValidation.text = Return;
-		if (string.IsNullOrEmpty(Return))
+		public override void Populate()
 		{
-			PlayerPrefs.SetString(OptionData.PreferenceKey, TextOpption.text);
+			var Option = (List<string>) OptionData.UIParameters.Invoke();
+			DropDown.options = Option.ToOptionData();
+
+			var Preference = PlayerPrefs.GetString(OptionData.PreferenceKey);
+
+			DropDown.value = Option.IndexOf(PlayerPrefs.GetString(OptionData.PreferenceKey));
+			_ = OptionData.OnChangeAction.Invoke(Preference);
+			DropDown.onValueChanged.AddListener(ValueChange);
 		}
-		this.AssociatedCollection.OnValChange();
-		PlayerPrefs.Save();
+
+
+
+		public override void ResetPreference()
+		{
+			PlayerPrefs.SetString(OptionData.PreferenceKey, (string) OptionData.Default.Invoke());
+			PlayerPrefs.Save();
+		}
+
+		public void ValueChange(int value)
+		{
+			var TextOpption = DropDown.options[value];
+			var Return = OptionData.OnChangeAction.Invoke(TextOpption.text);
+			FailedValidation.text = Return;
+			if (string.IsNullOrEmpty(Return))
+			{
+				PlayerPrefs.SetString(OptionData.PreferenceKey, TextOpption.text);
+			}
+
+			this.AssociatedCollection.OnValChange();
+			PlayerPrefs.Save();
+		}
 	}
 }

@@ -1,32 +1,36 @@
 using TMPro;
 using UnityEngine;
 
-public class OptionItemFloat : OptionItem
+namespace DynamicOptions
 {
-	public TMP_InputField InputField;
-
-	public override void Populate()
+	public class OptionItemFloat : OptionItem
 	{
-		InputField.text = PlayerPrefs.GetFloat(OptionData.PreferenceKey).ToString();
-		_ = OptionData.OnChangeAction.Invoke(float.Parse(InputField.text));
-		InputField.onEndEdit.AddListener(ValueChange);
-	}
+		public TMP_InputField InputField;
 
-	public override void ResetPreference()
-	{
-		PlayerPrefs.SetFloat(OptionData.PreferenceKey, (float)OptionData.Default.Invoke());
-		PlayerPrefs.Save();
-	}
-
-	public void ValueChange(string value)
-	{
-		var Return =  OptionData.OnChangeAction.Invoke(float.Parse(value));
-		FailedValidation.text = Return;
-		if (string.IsNullOrEmpty(Return))
+		public override void Populate()
 		{
-			PlayerPrefs.SetFloat(OptionData.PreferenceKey, float.Parse(value));
+			InputField.text = PlayerPrefs.GetFloat(OptionData.PreferenceKey).ToString();
+			_ = OptionData.OnChangeAction.Invoke(float.Parse(InputField.text));
+			InputField.onEndEdit.AddListener(ValueChange);
 		}
-		this.AssociatedCollection.OnValChange();
-		PlayerPrefs.Save();
+
+		public override void ResetPreference()
+		{
+			PlayerPrefs.SetFloat(OptionData.PreferenceKey, (float) OptionData.Default.Invoke());
+			PlayerPrefs.Save();
+		}
+
+		public void ValueChange(string value)
+		{
+			var Return = OptionData.OnChangeAction.Invoke(float.Parse(value));
+			FailedValidation.text = Return;
+			if (string.IsNullOrEmpty(Return))
+			{
+				PlayerPrefs.SetFloat(OptionData.PreferenceKey, float.Parse(value));
+			}
+
+			this.AssociatedCollection.OnValChange();
+			PlayerPrefs.Save();
+		}
 	}
 }

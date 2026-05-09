@@ -2,32 +2,36 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OptionItemBool : OptionItem
+namespace DynamicOptions
 {
-	public Toggle toggle;
-
-	public override void Populate()
+	public class OptionItemBool : OptionItem
 	{
-		toggle.isOn = bool.Parse(PlayerPrefs.GetString(OptionData.PreferenceKey));
-		_ = OptionData.OnChangeAction.Invoke(toggle.isOn);
-		toggle.onValueChanged.AddListener(ValueChange);
-	}
+		public Toggle toggle;
 
-	public override void ResetPreference()
-	{
-		PlayerPrefs.SetString(OptionData.PreferenceKey, OptionData.Default.Invoke().ToString());
-		PlayerPrefs.Save();
-	}
-
-	public void ValueChange(bool value)
-	{
-		var Return =  OptionData.OnChangeAction.Invoke(toggle.isOn);
-		FailedValidation.text = Return;
-		if (string.IsNullOrEmpty(Return))
+		public override void Populate()
 		{
-			PlayerPrefs.SetString(OptionData.PreferenceKey, value.ToString());
+			toggle.isOn = bool.Parse(PlayerPrefs.GetString(OptionData.PreferenceKey));
+			_ = OptionData.OnChangeAction.Invoke(toggle.isOn);
+			toggle.onValueChanged.AddListener(ValueChange);
 		}
-		this.AssociatedCollection.OnValChange();
-		PlayerPrefs.Save();
+
+		public override void ResetPreference()
+		{
+			PlayerPrefs.SetString(OptionData.PreferenceKey, OptionData.Default.Invoke().ToString());
+			PlayerPrefs.Save();
+		}
+
+		public void ValueChange(bool value)
+		{
+			var Return = OptionData.OnChangeAction.Invoke(toggle.isOn);
+			FailedValidation.text = Return;
+			if (string.IsNullOrEmpty(Return))
+			{
+				PlayerPrefs.SetString(OptionData.PreferenceKey, value.ToString());
+			}
+
+			this.AssociatedCollection.OnValChange();
+			PlayerPrefs.Save();
+		}
 	}
 }

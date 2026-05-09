@@ -2,85 +2,89 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class OptionCollection
+namespace DynamicOptions
 {
-	public Dictionary<Option,OptionItem> LivingOptionItems = new Dictionary<Option,OptionItem>();
-	public GameObject Parent;
-	public Dictionary<Option,OptionData> Options = new Dictionary<Option,OptionData>();
-
-
-	public void OnValChange()
+	public class OptionCollection
 	{
-		bool DoOrder = false;
+		public Dictionary<Option, OptionItem> LivingOptionItems = new Dictionary<Option, OptionItem>();
+		public GameObject Parent;
+		public Dictionary<Option, OptionData> Options = new Dictionary<Option, OptionData>();
 
-		foreach (var Options in Options)
+
+		public void OnValChange()
 		{
-			if (Options.Value.Show.Invoke())
+			bool DoOrder = false;
+
+			foreach (var Options in Options)
 			{
-				if (LivingOptionItems.ContainsKey(Options.Key) == false)
+				if (Options.Value.Show.Invoke())
 				{
-					LivingOptionItems[Options.Key] = OptionManager.Instance.InstantiateOptionItem(Options.Key, Options.Value, Parent, this);
-					DoOrder = true;
+					if (LivingOptionItems.ContainsKey(Options.Key) == false)
+					{
+						LivingOptionItems[Options.Key] =
+							OptionManager.Instance.InstantiateOptionItem(Options.Key, Options.Value, Parent, this);
+						DoOrder = true;
+					}
+				}
+				else
+				{
+					if (LivingOptionItems.ContainsKey(Options.Key))
+					{
+						Object.Destroy(LivingOptionItems[Options.Key].gameObject);
+						LivingOptionItems.Remove(Options.Key);
+						DoOrder = true;
+					}
 				}
 			}
-			else
+
+			if (DoOrder)
 			{
-				if (LivingOptionItems.ContainsKey(Options.Key))
-				{
-					Object.Destroy(LivingOptionItems[Options.Key].gameObject);
-					LivingOptionItems.Remove(Options.Key);
-					DoOrder = true;
-				}
+				Order();
 			}
 		}
 
-		if (DoOrder)
+		public void Order()
 		{
+			// Sort living items by their enum value (underlying int)
+			List<KeyValuePair<Option, OptionItem>> sorted = LivingOptionItems
+				.OrderBy(kvp => (int) kvp.Key)
+				.ToList();
+
+			// Re-assign sibling indices to match sorted order
+			for (int i = 0; i < sorted.Count; i++)
+			{
+				sorted[i].Value.transform.SetSiblingIndex(i);
+			}
+		}
+
+
+		public void Destroy()
+		{
+			foreach (var o in LivingOptionItems)
+			{
+				Object.Destroy(o.Value.gameObject);
+			}
+
+			LivingOptionItems = null;
+			Options = null;
+		}
+
+
+		public void ResetToDefault()
+		{
+			foreach (var o in LivingOptionItems)
+			{
+				o.Value.ResetPreference();
+				Object.Destroy(o.Value.gameObject);
+			}
+
+			foreach (var Option in Options)
+			{
+				LivingOptionItems[Option.Key] =
+					OptionManager.Instance.InstantiateOptionItem(Option.Key, Option.Value, Parent, this);
+			}
+
 			Order();
 		}
 	}
-
-	public void Order()
-	{
-		// Sort living items by their enum value (underlying int)
-		List<KeyValuePair<Option, OptionItem>> sorted = LivingOptionItems
-			.OrderBy(kvp => (int)kvp.Key)
-			.ToList();
-
-		// Re-assign sibling indices to match sorted order
-		for (int i = 0; i < sorted.Count; i++)
-		{
-			sorted[i].Value.transform.SetSiblingIndex(i);
-		}
-	}
-
-
-	public void Destroy()
-	{
-		foreach (var o in LivingOptionItems)
-		{
-			Object.Destroy(o.Value.gameObject);
-		}
-
-		LivingOptionItems = null;
-		Options = null;
-	}
-
-
-	public void ResetToDefault()
-	{
-
-		foreach (var o in LivingOptionItems)
-		{
-			o.Value.ResetPreference();
-			Object.Destroy(o.Value.gameObject);
-		}
-		foreach (var Option in Options)
-		{
-			LivingOptionItems[Option.Key] = OptionManager.Instance.InstantiateOptionItem(Option.Key, Option.Value, Parent, this);
-		}
-
-		Order();
-	}
-
 }
