@@ -31,11 +31,10 @@ public class OptionItem : MonoBehaviour
 		}
 		catch (Exception ex)
 		{
-			Loggy.Error(ex.ToString() + " for Option " + Option);
+			Loggy.Error("error for Option " + Option  + "  " + ex.ToString() );
 			ResetPreference();
 			Populate();
 		}
-
 	}
 
 	public virtual void Populate()

@@ -195,7 +195,7 @@ public class OptionManager : SingletonManager<OptionManager>
 				OnChangeAction = o => { DisplaySettings.Instance.ChatBubbleSize = (float) o; return ""; },
 				Show = () => { return true; },
 				Default = () => { return 2f; },
-				UIParameters = () => { return (new  Vector2(1f, 5f), false); },
+				UIParameters = () => { return (new  Vector2(1f, 5f), true); },
 			}},
 		{Option.ChatBubbleCharacterSpeed,
 			new OptionData() {DisplayName = "Chat Bubble Character Pop In Speed", OptionType = OptionType.Aslider, PreferenceKey = "ChatBubbleCharacterSpeed",
@@ -226,18 +226,11 @@ public class OptionManager : SingletonManager<OptionManager>
 				OptionCategoryType = OptionCategoryType.Theme,
 				OnChangeAction = o =>
 				{
-					if ((bool) o)
-					{
-						DisplaySettings.Instance.ChatBubbleInstant = 1;
-					}
-					else
-					{
-						DisplaySettings.Instance.ChatBubbleInstant = 0;
-					}
+					DisplaySettings.Instance.ChatBubbleInstant = (bool) o;
 					return "";
 				},
 				Show = () => { return true; },
-				Default = () => { return true; },
+				Default = () => { return false; },
 			}},
 		{Option.ChatBubbleClown,
 			new OptionData() {DisplayName = "Colourful Clown Chat Bubbles", OptionType = OptionType.Abool, PreferenceKey = "ChatBubbleClown",
@@ -386,6 +379,15 @@ public class OptionManager : SingletonManager<OptionManager>
 				Default = () => { return "System"; },
 				UIParameters = () => { return TranslationSystem.AvailableLanguages.ToList(); },
 			}},
+		{Option.ItemSwapSpeed,
+			new OptionData() {DisplayName = "Item Swap Animation Speed", OptionType = OptionType.Aslider, PreferenceKey = "ItemSwapSpeed",
+				OptionCategoryType = OptionCategoryType.Theme,
+				OnChangeAction = o => { UI_ItemImage.AnimationSpeed = (float)o; return "";  },
+				Show = () => { return true; },
+				Default = () => { return 0.15f; },
+				UIParameters = () => { return (new  Vector2(0f, 1f), false); },
+			}},
+		
 		// ========================================= Gameplay =========================================
 		{Option.PlayerExperienceLevel,
 			new OptionData() {DisplayName = "Player Experience Level", OptionType = OptionType.ADropDown, PreferenceKey = "PlayerExperienceLevel",
@@ -623,7 +625,8 @@ public enum Option
 	Language,
 	PlayerExperienceLevel,
 	A3DMode,
-	StreamerMode
+	StreamerMode,
+	ItemSwapSpeed
 }
 
 public struct OptionData

@@ -115,7 +115,7 @@ namespace US13.UI.Core.OptionsMenu.ThemeOptions
 			chatEntryBackgroundToggle.isOn = UnityEngine.PlayerPrefs.GetInt(PlayerPrefKeys.CHAT_BACKGROUND_ALLWAYS_ENABLED, 0) == 1;
 
 			chatBubbleSizeSlider.value = DisplaySettings.Instance.ChatBubbleSize;
-			chatBubbleInstantToggle.isOn = DisplaySettings.Instance.ChatBubbleInstant == 1;
+			chatBubbleInstantToggle.isOn = DisplaySettings.Instance.ChatBubbleInstant;
 			chatBubblePopInSpeedSlider.value = DisplaySettings.Instance.ChatBubblePopInSpeed;
 			chatBubbleAdditionalTimeSlider.value = DisplaySettings.Instance.ChatBubbleAdditionalTime;
 			chatBubbleClownColourToggle.isOn = DisplaySettings.Instance.ChatBubbleClownColour == 1;
@@ -281,7 +281,7 @@ namespace US13.UI.Core.OptionsMenu.ThemeOptions
 
 		public void OnChatBubbleInstantChange()
 		{
-			DisplaySettings.Instance.ChatBubbleInstant = chatBubbleInstantToggle.isOn ? 1 : 0;
+			DisplaySettings.Instance.ChatBubbleInstant = chatBubbleInstantToggle.isOn;
 		}
 
 		public void OnChatBubblePopInSpeedChange()

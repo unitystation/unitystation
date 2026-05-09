@@ -46,12 +46,6 @@ namespace US13.UI.Core.ChatBubble
 				UnityEngine.PlayerPrefs.Save();
 			}
 
-			if (UnityEngine.PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleInstant) == false)
-			{
-				UnityEngine.PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleInstant, DisplaySettings.DEFAULT_CHATBUBBLEINSTANT);
-				UnityEngine.PlayerPrefs.Save();
-			}
-
 			if (UnityEngine.PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubblePopInSpeed) == false)
 			{
 				UnityEngine.PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubblePopInSpeed, DisplaySettings.DEFAULT_CHATBUBBLEPOPINSPEED);

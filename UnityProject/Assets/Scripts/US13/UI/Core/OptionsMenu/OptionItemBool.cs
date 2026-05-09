@@ -16,6 +16,7 @@ public class OptionItemBool : OptionItem
 	public override void ResetPreference()
 	{
 		PlayerPrefs.SetString(OptionData.PreferenceKey, OptionData.Default.Invoke().ToString());
+		PlayerPrefs.Save();
 	}
 
 	public void ValueChange(bool value)
@@ -27,5 +28,6 @@ public class OptionItemBool : OptionItem
 			PlayerPrefs.SetString(OptionData.PreferenceKey, value.ToString());
 		}
 		this.AssociatedCollection.OnValChange();
+		PlayerPrefs.Save();
 	}
 }

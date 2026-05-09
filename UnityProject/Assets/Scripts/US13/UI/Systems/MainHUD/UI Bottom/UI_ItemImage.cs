@@ -18,6 +18,7 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 	{
 		public static Dictionary<GameObject,UI_ItemImage> UI_ItemImages  = new Dictionary<GameObject,UI_ItemImage>(); //how to Clear on Round end?
 
+		public static float AnimationSpeed;
 
 		private static readonly int IsPaletted = Shader.PropertyToID("_IsPaletted");
 		private static readonly int PaletteSize = Shader.PropertyToID("_PaletteSize");
@@ -122,7 +123,7 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 				LeanTween.value(SpriteContainer.gameObject,
 						rt.anchoredPosition,
 						Vector2.zero,
-						0.15f)
+						AnimationSpeed)
 					.setEase(LeanTweenType.easeInCirc)
 					.setOnUpdate((Vector2 pos) =>
 					{

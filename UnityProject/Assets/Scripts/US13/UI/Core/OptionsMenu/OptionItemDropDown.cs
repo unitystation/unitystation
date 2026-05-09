@@ -25,6 +25,7 @@ public class OptionItemDropDown : OptionItem
 	public override void ResetPreference()
 	{
 		PlayerPrefs.SetString(OptionData.PreferenceKey, (string)OptionData.Default.Invoke());
+		PlayerPrefs.Save();
 	}
 
 	public void ValueChange(int value)
@@ -37,5 +38,6 @@ public class OptionItemDropDown : OptionItem
 			PlayerPrefs.SetString(OptionData.PreferenceKey, TextOpption.text);
 		}
 		this.AssociatedCollection.OnValChange();
+		PlayerPrefs.Save();
 	}
 }

@@ -22,6 +22,7 @@ public class OptionItemVector2 : OptionItem
 	public override void ResetPreference()
 	{
 		PlayerPrefs.SetString(OptionData.PreferenceKey, ((Vector2)OptionData.Default.Invoke()).Serialise());
+		PlayerPrefs.Save();
 	}
 
 
@@ -37,5 +38,6 @@ public class OptionItemVector2 : OptionItem
 			PlayerPrefs.SetString(OptionData.PreferenceKey, Vector2.Serialise());
 		}
 		this.AssociatedCollection.OnValChange();
+		PlayerPrefs.Save();
 	}
 }

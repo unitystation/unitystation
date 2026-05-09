@@ -22,6 +22,7 @@ public class OptionItemSlider : OptionItem
 	public override void ResetPreference()
 	{
 		PlayerPrefs.SetFloat(OptionData.PreferenceKey, (float)OptionData.Default.Invoke());
+		PlayerPrefs.Save();
 	}
 
 	public void ValueChange(float value)
@@ -33,5 +34,6 @@ public class OptionItemSlider : OptionItem
 			PlayerPrefs.SetFloat(OptionData.PreferenceKey, value);
 		}
 		this.AssociatedCollection.OnValChange();
+		PlayerPrefs.Save();
 	}
 }

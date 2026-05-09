@@ -26,6 +26,7 @@ namespace US13.Managers.SettingsManager
 					changed |= value;
 				}
 			}
+
 			private bool fullScreenChanged = false;
 
 			public bool VSyncChanged
@@ -37,6 +38,7 @@ namespace US13.Managers.SettingsManager
 					changed |= value;
 				}
 			}
+
 			private bool vSyncChanged = false;
 
 			public bool TargetFrameRateChanged
@@ -48,6 +50,7 @@ namespace US13.Managers.SettingsManager
 					changed |= value;
 				}
 			}
+
 			private bool targetFrameRateChanged = false;
 
 			public bool ScrollWheelZoomChanged
@@ -59,6 +62,7 @@ namespace US13.Managers.SettingsManager
 					changed |= value;
 				}
 			}
+
 			private bool scrollWheelZoomChanged = false;
 
 			public bool ZoomLevelChanged
@@ -70,6 +74,7 @@ namespace US13.Managers.SettingsManager
 					changed |= value;
 				}
 			}
+
 			private bool zoomLevelChanged = false;
 
 			public bool ChatBubbleSizeChanged
@@ -81,6 +86,7 @@ namespace US13.Managers.SettingsManager
 					changed |= value;
 				}
 			}
+
 			private bool chatBubbleSizeChanged = false;
 
 			public bool ChatBubbleInstantChanged
@@ -92,6 +98,7 @@ namespace US13.Managers.SettingsManager
 					changed |= value;
 				}
 			}
+
 			private bool chatBubbleInstantChanged = false;
 
 			public bool ChatBubblePopInSpeedChanged
@@ -103,6 +110,7 @@ namespace US13.Managers.SettingsManager
 					changed |= value;
 				}
 			}
+
 			private bool chatBubblePopInSpeedChanged = false;
 
 			public bool ChatBubbleAdditionalTimeChanged
@@ -114,6 +122,7 @@ namespace US13.Managers.SettingsManager
 					changed |= value;
 				}
 			}
+
 			private bool chatBubbleAdditionalTimeChanged = false;
 
 			public bool ChatBubbleClownColourChanged
@@ -125,6 +134,7 @@ namespace US13.Managers.SettingsManager
 					changed |= value;
 				}
 			}
+
 			private bool chatBubbleClownColourChanged = false;
 		}
 
@@ -182,14 +192,12 @@ namespace US13.Managers.SettingsManager
 				}
 			}
 		}
+
 		private const bool DEFAULT_VSYNCENABLED = true;
 
 		public int TargetFrameRate
 		{
-			get
-			{
-				return UnityEngine.PlayerPrefs.GetInt(PlayerPrefKeys.TargetFrameRate, DEFAULT_TARGETFRAMERATE);
-			}
+			get { return UnityEngine.PlayerPrefs.GetInt(PlayerPrefKeys.TargetFrameRate, DEFAULT_TARGETFRAMERATE); }
 			set
 			{
 				int clampedVal = Mathf.Clamp(value, MIN_TARGETFRAMERATE, MAX_TARGETFRAMERATE);
@@ -212,6 +220,7 @@ namespace US13.Managers.SettingsManager
 				}
 			}
 		}
+
 		private const int DEFAULT_TARGETFRAMERATE = 99;
 		private const int MIN_TARGETFRAMERATE = 30;
 		public int Min_TargetFrameRate => MIN_TARGETFRAMERATE;
@@ -222,7 +231,8 @@ namespace US13.Managers.SettingsManager
 		{
 			get
 			{
-				return UnityEngine.PlayerPrefs.GetInt(PlayerPrefKeys.ScrollWheelZoom, DEFAULT_SCROLLWHEELZOOM ? 1 : 0) == 1;
+				return UnityEngine.PlayerPrefs.GetInt(PlayerPrefKeys.ScrollWheelZoom,
+					DEFAULT_SCROLLWHEELZOOM ? 1 : 0) == 1;
 			}
 			set
 			{
@@ -240,17 +250,14 @@ namespace US13.Managers.SettingsManager
 					UnityEngine.PlayerPrefs.SetInt(PlayerPrefKeys.ScrollWheelZoom, value ? 1 : 0);
 					UnityEngine.PlayerPrefs.Save();
 				}
-
 			}
 		}
+
 		private const bool DEFAULT_SCROLLWHEELZOOM = true;
 
 		public int ZoomLevel
 		{
-			get
-			{
-				return UnityEngine.PlayerPrefs.GetInt(PlayerPrefKeys.CamZoomKey, DEFAULT_ZOOMLEVEL);
-			}
+			get { return UnityEngine.PlayerPrefs.GetInt(PlayerPrefKeys.CamZoomKey, DEFAULT_ZOOMLEVEL); }
 			set
 			{
 				int clampedVal = Mathf.Clamp(value, MIN_ZOOMLEVEL, MAX_ZOOMLEVEL);
@@ -271,6 +278,7 @@ namespace US13.Managers.SettingsManager
 				}
 			}
 		}
+
 		private const int DEFAULT_ZOOMLEVEL = 32;
 		private const int MIN_ZOOMLEVEL = 32;
 		private const int MAX_ZOOMLEVEL = 512;
@@ -279,10 +287,7 @@ namespace US13.Managers.SettingsManager
 
 		public float ChatBubbleSize
 		{
-			get
-			{
-				return UnityEngine.PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleSize, DEFAULT_CHATBUBBLESIZE);
-			}
+			get { return UnityEngine.PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleSize, DEFAULT_CHATBUBBLESIZE); }
 			set
 			{
 				if (UnityEngine.PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleSize))
@@ -304,39 +309,27 @@ namespace US13.Managers.SettingsManager
 
 		public const float DEFAULT_CHATBUBBLESIZE = 2f;
 
-		public int ChatBubbleInstant
+		private bool chatBubbleInstant = false;
+
+		public bool ChatBubbleInstant
 		{
-			get
-			{
-				return UnityEngine.PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleInstant, DEFAULT_CHATBUBBLEINSTANT);
-			}
+			get { return chatBubbleInstant; }
 			set
 			{
-				if (UnityEngine.PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleInstant))
-				{
-					if (value != ChatBubbleInstant)
-					{
-						dsEventArgs.ChatBubbleInstantChanged = true;
-						UnityEngine.PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleInstant, value);
-						UnityEngine.PlayerPrefs.Save();
-					}
-				}
-				else
-				{
-					UnityEngine.PlayerPrefs.SetInt(PlayerPrefKeys.ChatBubbleInstant, value);
-					UnityEngine.PlayerPrefs.Save();
-				}
+				chatBubbleInstant = value;
+				dsEventArgs.ChatBubbleInstantChanged = true;
 			}
 		}
 
 		// 0 == false, 1 == true
-		public const int DEFAULT_CHATBUBBLEINSTANT = 0;
+		public const bool DEFAULT_CHATBUBBLEINSTANT = false;
 
 		public float ChatBubblePopInSpeed
 		{
 			get
 			{
-				return UnityEngine.PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubblePopInSpeed, DEFAULT_CHATBUBBLEPOPINSPEED);
+				return UnityEngine.PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubblePopInSpeed,
+					DEFAULT_CHATBUBBLEPOPINSPEED);
 			}
 			set
 			{
@@ -363,7 +356,8 @@ namespace US13.Managers.SettingsManager
 		{
 			get
 			{
-				return UnityEngine.PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleAdditionalTime, DEFAULT_CHATBUBBLEADDITIONALTIME);
+				return UnityEngine.PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleAdditionalTime,
+					DEFAULT_CHATBUBBLEADDITIONALTIME);
 			}
 			set
 			{
@@ -390,7 +384,8 @@ namespace US13.Managers.SettingsManager
 		{
 			get
 			{
-				return UnityEngine.PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleClownColour, DEFAULT_CHATBUBBLECLOWNCOLOUR);
+				return UnityEngine.PlayerPrefs.GetInt(PlayerPrefKeys.ChatBubbleClownColour,
+					DEFAULT_CHATBUBBLECLOWNCOLOUR);
 			}
 			set
 			{
@@ -421,6 +416,7 @@ namespace US13.Managers.SettingsManager
 		public static Vector2 UISCALE_DEFAULT = new Vector2(2560, 1440);
 
 		public event EventHandler<DisplaySettingsChangedEventArgs> SettingsChanged;
+
 		protected virtual void OnSettingsChanged(DisplaySettingsChangedEventArgs e)
 		{
 			EventHandler<DisplaySettingsChangedEventArgs> handler = SettingsChanged;
@@ -437,8 +433,8 @@ namespace US13.Managers.SettingsManager
 			instance = this;
 			IsFullScreen = Screen.fullScreen;
 			Vector2 savedScale = new Vector2(
-				UnityEngine.PlayerPrefs.GetInt(UISCALE_KEY + "x", (int)UISCALE_DEFAULT.x),
-				UnityEngine.PlayerPrefs.GetInt(UISCALE_KEY + "y", (int)UISCALE_DEFAULT.y)
+				UnityEngine.PlayerPrefs.GetInt(UISCALE_KEY + "x", (int) UISCALE_DEFAULT.x),
+				UnityEngine.PlayerPrefs.GetInt(UISCALE_KEY + "y", (int) UISCALE_DEFAULT.y)
 			);
 			UIManager.Instance.Scaler.referenceResolution = savedScale;
 			SetupPrefs();
@@ -523,34 +519,42 @@ namespace US13.Managers.SettingsManager
 			{
 				VSyncEnabled = DEFAULT_VSYNCENABLED;
 			}
+
 			if (prefEntries.Count == 0 || prefEntries.Contains(PlayerPrefKeys.TargetFrameRate))
 			{
 				TargetFrameRate = DEFAULT_TARGETFRAMERATE;
 			}
+
 			if (prefEntries.Count == 0 || prefEntries.Contains(PlayerPrefKeys.ChatBubbleSize))
 			{
 				ChatBubbleSize = DEFAULT_CHATBUBBLESIZE;
 			}
+
 			if (prefEntries.Count == 0 || prefEntries.Contains(PlayerPrefKeys.CamZoomKey))
 			{
 				ZoomLevel = DEFAULT_ZOOMLEVEL;
 			}
+
 			if (prefEntries.Count == 0 || prefEntries.Contains(PlayerPrefKeys.ScrollWheelZoom))
 			{
 				ScrollWheelZoom = DEFAULT_SCROLLWHEELZOOM;
 			}
+
 			if (prefEntries.Count == 0 || prefEntries.Contains(PlayerPrefKeys.ChatBubbleInstant))
 			{
 				ChatBubbleInstant = DEFAULT_CHATBUBBLEINSTANT;
 			}
+
 			if (prefEntries.Count == 0 || prefEntries.Contains(PlayerPrefKeys.ChatBubblePopInSpeed))
 			{
 				ChatBubblePopInSpeed = DEFAULT_CHATBUBBLEPOPINSPEED;
 			}
+
 			if (prefEntries.Count == 0 || prefEntries.Contains(PlayerPrefKeys.ChatBubbleAdditionalTime))
 			{
 				ChatBubbleAdditionalTime = DEFAULT_CHATBUBBLEADDITIONALTIME;
 			}
+
 			if (prefEntries.Count == 0 || prefEntries.Contains(PlayerPrefKeys.ChatBubbleClownColour))
 			{
 				ChatBubbleClownColour = DEFAULT_CHATBUBBLECLOWNCOLOUR;
@@ -571,12 +575,14 @@ namespace US13.Managers.SettingsManager
 		}
 
 		private bool changingFullscreen = false;
+
 		private IEnumerator ChangeFullscreenCoroutine(bool fullScreenOn)
 		{
 			while (changingFullscreen)
 			{
 				yield return null;
 			}
+
 			if (fullScreenOn == IsFullScreen)
 			{
 				yield break; // exit
@@ -593,14 +599,15 @@ namespace US13.Managers.SettingsManager
 			}
 			else
 			{
-				var windowWidth = (int)(Screen.currentResolution.width * windowSize);
-				var windowHeight = (int)(Screen.currentResolution.height * windowSize);
+				var windowWidth = (int) (Screen.currentResolution.width * windowSize);
+				var windowHeight = (int) (Screen.currentResolution.height * windowSize);
 
 				//making pixel perfect camera happy by not using odd resolutions
 				if (windowWidth % 2 != 0)
 				{
 					windowWidth--;
 				}
+
 				if (windowHeight % 2 != 0)
 				{
 					windowHeight--;
@@ -610,6 +617,7 @@ namespace US13.Managers.SettingsManager
 				Screen.fullScreenMode = FullScreenMode.Windowed;
 				yield return null;
 			}
+
 			dsEventArgs.FullScreenChanged = true;
 			changingFullscreen = false;
 		}

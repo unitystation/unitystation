@@ -67,4 +67,20 @@ public class OptionCollection
 	}
 
 
+	public void ResetToDefault()
+	{
+
+		foreach (var o in LivingOptionItems)
+		{
+			o.Value.ResetPreference();
+			Object.Destroy(o.Value.gameObject);
+		}
+		foreach (var Option in Options)
+		{
+			LivingOptionItems[Option.Key] = OptionManager.Instance.InstantiateOptionItem(Option.Key, Option.Value, Parent, this);
+		}
+
+		Order();
+	}
+
 }

@@ -15,6 +15,7 @@ public class OptionItemFloat : OptionItem
 	public override void ResetPreference()
 	{
 		PlayerPrefs.SetFloat(OptionData.PreferenceKey, (float)OptionData.Default.Invoke());
+		PlayerPrefs.Save();
 	}
 
 	public void ValueChange(string value)
@@ -26,5 +27,6 @@ public class OptionItemFloat : OptionItem
 			PlayerPrefs.SetFloat(OptionData.PreferenceKey, float.Parse(value));
 		}
 		this.AssociatedCollection.OnValChange();
+		PlayerPrefs.Save();
 	}
 }
