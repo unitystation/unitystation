@@ -273,7 +273,7 @@ namespace US13.Core.Initialisation
 		Addressables,
 		GameData,
 		VoiceChat,
-		TranslationSystem
+		TranslationSystem,
 	}
 
 	public interface IInitialise

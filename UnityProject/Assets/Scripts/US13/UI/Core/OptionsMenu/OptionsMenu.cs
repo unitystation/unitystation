@@ -42,6 +42,7 @@ namespace US13.UI.Core.OptionsMenu
 			var btns = GetComponentsInChildren<OptionsButton>(true);
 			optionButtons = new List<OptionsButton>(btns);
 			screen.SetActive(false);
+			OptionManager.Instance.Initialise();
 		}
 
 		public void ToggleButtonOn(OptionsButton button)

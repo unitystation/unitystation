@@ -58,11 +58,13 @@ namespace US13.UI.Core.DragAndDrop
 		{
 			if (fromSlot.Item != null && !isDragging)
 			{
+				dragDummy.transform.position = CommonInput.mousePosition;
 				DropInteracted = false;
 				FromSlotCache = fromSlot;
 				isDragging = true;
-				dragDummy.enabled = true;
-				dragDummy.sprite = fromSlot.Image.MainSprite;
+				UI_ItemImage.RequestItemImage(dragDummy.gameObject, fromSlot.ItemObject, MakeNewPreviewNotEmpty : false);
+				//dragDummy.enabled = true;
+				//dragDummy.sprite = fromSlot.Image.MainSprite;
 				fromSlot.Clear();
 				DraggedItem = fromSlot.ItemObject;
 			}

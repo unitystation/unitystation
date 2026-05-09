@@ -368,7 +368,7 @@ namespace US13.Clothing.BackPack
 
 			Inventory.ServerTransfer(interaction.FromSlot,
 				itemStorage.GetBestSlotFor((interaction).UsedObject));
-			if (interaction.UsedObject.Item().InventoryMoveSound != null)
+			if (interaction.UsedObject?.Item()?.InventoryMoveSound != null)
 			{
 				_ = SoundManager.PlayNetworkedAtPosAsync(interaction.UsedObject.Item().InventoryMoveSound,
 					interaction.Performer.AssumedWorldPosServer());

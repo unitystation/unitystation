@@ -12,7 +12,16 @@ namespace US13.UI.Core.OptionsMenu
 	/// <summary>
 	/// Controller for the display options view
 	/// <summary>
-	public class DisplayOptions : MonoBehaviour
+	public class DisplayOptions : MonoBehaviour //TOOD
+	/*/
+	 so,
+bool Toggle
+int input
+Slide
+x and y box
+drop-dowr
+button
+	 /*/
 	{
 		private Color VALIDCOLOR = Color.white;
 		private Color INVALIDCOLOR = Color.red;
@@ -72,7 +81,7 @@ namespace US13.UI.Core.OptionsMenu
 			scrollWheelZoomToggle.isOn = DisplaySettings.Instance.ScrollWheelZoom;
 			uiScaleX.text = UnityEngine.PlayerPrefs.GetInt(DisplaySettings.UISCALE_KEY + "x", (int)DisplaySettings.UISCALE_DEFAULT.x).ToString();
 			uiScaleY.text = UnityEngine.PlayerPrefs.GetInt(DisplaySettings.UISCALE_KEY + "y", (int)DisplaySettings.UISCALE_DEFAULT.y).ToString();
-			ParseAndSetReferenceResolutionForUiScale(out int x, out int y);
+			//ParseAndSetReferenceResolutionForUiScale();
 
 			if (UnityEngine.PlayerPrefs.HasKey(PlayerPrefKeys.ItemDropShadow) == false)
 			{
@@ -151,49 +160,32 @@ namespace US13.UI.Core.OptionsMenu
 		/// <summary>
 		/// Validates FrameRateTarget input, indicated with colored text. Use the new value if valid.
 		/// </summary>
-		public void OnFrameRateTargetEdit()
+		public static string OnFrameRateTargetEdit(int val)
 		{
-			if (int.TryParse(frameRateTarget.text, out int newTarget) &&
-			    newTarget >= DisplaySettings.Instance.Min_TargetFrameRate &&
-			    newTarget <= DisplaySettings.Instance.Max_TargetFrameRate)
+			if (val >= DisplaySettings.Instance.Min_TargetFrameRate &&
+			    val <= DisplaySettings.Instance.Max_TargetFrameRate)
 			{
-				frameRateTarget.textComponent.color = VALIDCOLOR;
-				DisplaySettings.Instance.TargetFrameRate = newTarget;
+				//frameRateTarget.textComponent.color = VALIDCOLOR;
+				DisplaySettings.Instance.TargetFrameRate = val;
+				return "";
 			}
 			else
 			{
-				frameRateTarget.textComponent.color = INVALIDCOLOR;
-				return;
+				return "Invalid number";
+				// //frameRateTarget.textComponent.color = INVALIDCOLOR;
+				// return;
 			}
 		}
 
 		public void OnZoomLevelChange()
 		{
-			int value = (int)camZoomSlider.value * 8;
-			DisplaySettings.Instance.ZoomLevel = value;
 		}
 
-		public void OnUIScaleChange()
-		{
-			ParseAndSetReferenceResolutionForUiScale(out int x, out int y);
-		}
 
-		private void ParseAndSetReferenceResolutionForUiScale(out int x, out int y)
-		{
-			if (int.TryParse(uiScaleX.text, out x) == false || int.TryParse(uiScaleY.text, out y) == false)
-			{
-				uiScaleX.text = DisplaySettings.UISCALE_DEFAULT.x.ToString();
-				uiScaleY.text = DisplaySettings.UISCALE_DEFAULT.y.ToString();
-				x = (int)DisplaySettings.UISCALE_DEFAULT.x;
-				y = (int)DisplaySettings.UISCALE_DEFAULT.y;
-				return;
-			}
 
+		public static void ParseAndSetReferenceResolutionForUiScale( int x,  int y)
+		{
 			UIManager.Instance.Scaler.referenceResolution = new Vector2(x, y);
-
-			UnityEngine.PlayerPrefs.SetInt(DisplaySettings.UISCALE_KEY + "x", x);
-			UnityEngine.PlayerPrefs.SetInt(DisplaySettings.UISCALE_KEY + "y", y);
-			UnityEngine.PlayerPrefs.Save();
 		}
 
 		public void OnScrollWheelToggle()

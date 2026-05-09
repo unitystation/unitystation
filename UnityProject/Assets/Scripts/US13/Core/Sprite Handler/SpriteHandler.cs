@@ -1031,10 +1031,10 @@ namespace US13.Core.Sprite_Handler
 			}
 
 			OnSpriteUpdated?.Invoke();
-			if (CustomNetworkManager.IsHeadless == false)
-			{
-				ParentUniversalObjectPhysics?.pickupable?.Component?.RefreshUISlotImage();
-			}
+			// if (CustomNetworkManager.IsHeadless == false)
+			// {
+			// 	ParentUniversalObjectPhysics?.pickupable?.Component?.RefreshUISlotImage();
+			// }
 		}
 
 		protected virtual bool HasSpriteInImageComponent()

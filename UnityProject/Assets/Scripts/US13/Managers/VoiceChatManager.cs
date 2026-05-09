@@ -39,9 +39,9 @@ namespace US13.Managers
 
 		public event Action OnEnabledChange;
 
-		public bool ClientEnabled = false;
+		public static bool ClientEnabled = false;
 
-		public bool ClientPushToTalk = true;
+		public static bool ClientPushToTalk = true;
 
 		public bool ClientPushToTalkPressed = true;
 

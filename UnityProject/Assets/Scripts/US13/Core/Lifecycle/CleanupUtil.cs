@@ -371,8 +371,10 @@ namespace US13.Core.Lifecycle
 
 			foreach (var a in GameObject.FindObjectsOfType<UI_ItemSlot>(true))
 			{
-				a.Image.ClearAll();
+				a.Image.ClearAll(null,true);
 			}
+
+			UI_ItemImage.UI_ItemImages.Clear();
 
 			foreach (var a in GameObject.FindObjectsOfType<UI_SlotManager>(true))
 			{

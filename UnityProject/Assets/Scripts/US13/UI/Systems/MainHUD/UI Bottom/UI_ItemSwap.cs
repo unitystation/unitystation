@@ -86,7 +86,7 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 					Validations.CanPutItemToSlot(PlayerManager.LocalPlayerScript, itemSlot.ItemSlot, item,
 						NetworkSide.Client)
 						? successOverlayColor
-						: failOverlayColor);
+						: failOverlayColor, true);
 			}
 			catch (NullReferenceException exception)
 			{
@@ -113,7 +113,6 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 					return;
 
 				// if there's an item in the target slot, try inventory apply interaction
-
 				if (targetItem != null)
 				{
 					var invApply = InventoryApply.ByLocalPlayer(itemSlot.ItemSlot, fromSlot);

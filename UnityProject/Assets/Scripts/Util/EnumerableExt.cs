@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Pool;
 using Object = UnityEngine.Object;
@@ -43,6 +44,12 @@ namespace Util
 		public static IEnumerable<T> NotNull<T>(this IEnumerable<T> source)
 		{
 			return source?.Where(obj => obj != null) ?? Enumerable.Empty<T>();
+		}
+
+
+		public static List<TMP_Dropdown.OptionData> ToOptionData(this List<string> strings)
+		{
+			return strings.Select(s => new TMP_Dropdown.OptionData(s)).ToList();
 		}
 
 		#region GameObject and Components
