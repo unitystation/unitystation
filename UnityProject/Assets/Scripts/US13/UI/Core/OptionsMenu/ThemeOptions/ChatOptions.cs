@@ -45,19 +45,19 @@ namespace US13.UI.Core.OptionsMenu.ThemeOptions
         /// </summary>
         private void PresistOptions(int GetterSetter = 0)
         {
-            if(GetterSetter == 0)
-            {
-                UnityEngine.PlayerPrefs.SetInt(PlayerPrefKeys.ChatLogSize, ChatUI.Instance.maxLogLength);
-            }
-            else
-            {
-                ChatUI.Instance.maxLogLength = UnityEngine.PlayerPrefs.GetInt(PlayerPrefKeys.ChatLogSize, 100);
-            }
+            // if(GetterSetter == 0)
+            // {
+            //     UnityEngine.PlayerPrefs.SetInt(PlayerPrefKeys.ChatLogSize, ChatUI.Instance.maxLogLength);
+            // }
+            // else
+            // {
+            //     ChatUI.Instance.maxLogLength = UnityEngine.PlayerPrefs.GetInt(PlayerPrefKeys.ChatLogSize, 100);
+            // }
         }
 
         public void UpdateChatLogMaximumSize()
         {
-            ChatUI.Instance.maxLogLength = chatLogSlider.value.RoundToLargestInt();
+            //ChatUI.Instance.maxLogLength = chatLogSlider.value.RoundToLargestInt();
             chatSliderValueLabel.text = chatLogSlider.value.ToString();
             PresistOptions();
         }

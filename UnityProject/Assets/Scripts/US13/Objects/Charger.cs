@@ -89,7 +89,7 @@ namespace US13.Objects
 			{
 				if (interaction.UsedObject.TryGetComponent<InternalBattery>(out var newBattery) == false) return;
 				batteryToCharge = newBattery;
-				electricalMagazine = newBattery.GetComponent<ElectricalMagazine>();
+				electricalMagazine = newBattery.GetComponent<GunElectrical>()?.CurrentElectricalMag;
 				Inventory.ServerTransfer(interaction.HandSlot, ChargingSlot);
 				if (newBattery != null)
 				{
@@ -160,7 +160,7 @@ namespace US13.Objects
 		public string Examine(Vector3 worldPos = default(Vector3))
 		{
 			if (batteryToCharge == null) return "The display on the charges state That there is no battery connected";
-			return $"The display on the charges state battery is at {Mathf.Round(batteryToCharge.CurrentCharge / 1000.0f)}kJ and charging at {ChargingWatts}W";
+			return $"The display on the charges state battery is at {Mathf.Round(batteryToCharge.CurrentCharge / 1000.0f)}kJ ({100 * ((float)batteryToCharge.CurrentCharge / (float)batteryToCharge.MaxCharge)}%) and charging at {ChargingWatts}W";
 		}
 	}
 }

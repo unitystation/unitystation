@@ -296,12 +296,12 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 		/// <summary>
 		/// Update the image displayed in the slot based on the slots current contents
 		/// </summary>
-		public void RefreshImage()
+		public void RefreshImage(UI_ItemImage ToUse = null)
 		{
 			try
 			{
 				if (itemSlot != null)
-					UpdateImage(ItemObject);
+					UpdateImage(ItemObject,  ToUse : ToUse);
 			}
 			catch (Exception e)
 			{
@@ -317,7 +317,7 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 		/// </summary>
 		/// <param name="item">game object to use to determine what to show in this slot</param>
 		/// <param name="colour">color tint to apply</param>
-		public void UpdateImage(GameObject item = null, Color? colour = null, bool CanFitPreview = false, bool SkipMoveAnimation = true)
+		public void UpdateImage(GameObject item = null, Color? colour = null, bool CanFitPreview = false, bool SkipMoveAnimation = true, UI_ItemImage ToUse = null)
 		{
 			if (Previewingitem == item && IsCanFitPreview == false) return;
 
@@ -348,7 +348,16 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 				//if (hasEntry)
 				//{
 					//image = UI_ItemImage.RequestItemImage(gameObject, item,CanFitPreview, colour, true);
-				image = UI_ItemImage.RequestItemImage(gameObject, item,CanFitPreview, colour, SkipMoveAnimation);
+					if (ToUse == null)
+					{
+						image = UI_ItemImage.RequestItemImage(gameObject, item,CanFitPreview, colour, SkipMoveAnimation);
+					}
+					else
+					{
+						image = ToUse;
+						image.SetParent(gameObject, false);
+					}
+
 
 				//CurrentlyOpenItems.Add((item, this));
 

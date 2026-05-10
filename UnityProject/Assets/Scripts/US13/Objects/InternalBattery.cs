@@ -47,7 +47,7 @@ namespace US13.Objects
 				bool isLoss = amountToLose > 0;
 
 				int amountToChange = isLoss ? amountToLose : -amountToLose;
-				foreach (Battery battery in batteries)
+				foreach (Battery battery in batteries.Values)
 				{
 					int batteryCap = isLoss ? battery.Watts : battery.MaxWatts - battery.Watts;
 					int chargeDifference = Math.Min(amountToChange, batteryCap);
@@ -61,8 +61,22 @@ namespace US13.Objects
 			}
 		}
 
+
+		public float MaxCharge {
+			get
+			{
+				float maxwatts = 0;
+				foreach (Battery battery in batteries.Values)
+				{
+					maxwatts += battery.MaxWatts;
+				}
+				return maxwatts;
+			}
+
+		}
+
 		public Action OnChargeChanged;
-		private List<Battery> batteries;
+		private Dictionary<ItemSlot,Battery> batteries;
 		// Start is called before the first frame update
 
 		private StandardProgressActionConfig ProgressConfig
@@ -70,15 +84,32 @@ namespace US13.Objects
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			batteries = new List<Battery>();
+			batteries = new Dictionary<ItemSlot,Battery>();
 			currentCharge = 0;
-			foreach (var slot in batteryStorage.Populater.SlotContents)
+			foreach (var slot in batteryStorage.GetItemSlots())
 			{
-				if (slot.Prefab == null) continue;
-				if (slot.Prefab.TryGetComponent<Battery>(out var battery) == false) continue;
-				batteries.Add(battery);
+				slot.OnSlotContentsChangeServer.AddListener(() =>  BatteriesChange(slot));
+			}
+			OnChargeChanged?.Invoke();
+			UpdateSprites();
+		}
+
+		public void BatteriesChange(ItemSlot slot)
+		{
+			if (slot.Item == null || slot.Item.TryGetComponent<Battery>(out var battery) == false)
+			{
+				if (batteries.ContainsKey(slot))
+				{
+					currentCharge = Math.Max(currentCharge,0) - batteries[slot].Watts;
+					batteries.Remove(slot);
+				}
+			}
+			else
+			{
+				batteries[slot] = battery;
 				currentCharge = Math.Max(currentCharge,0) + battery.Watts;
 			}
+
 			OnChargeChanged?.Invoke();
 			UpdateSprites();
 		}
@@ -139,10 +170,7 @@ namespace US13.Objects
 		{
 			if (fromSlot == null || Inventory.ServerTransfer(fromSlot, batteryStorage.GetNextEmptySlot()))
 			{
-				batteries.Add(batteryToAdd);
-				currentCharge = Math.Max(currentCharge,0) + batteryToAdd.Watts;
-				OnChargeChanged?.Invoke();
-				UpdateSprites();
+
 			}
 		}
 
@@ -154,12 +182,6 @@ namespace US13.Objects
 			Pickupable itemToRemove = slotToRemove.Item;
 
 			if(toSlot == null || Inventory.ServerTransfer(slotToRemove, toSlot) == false) Inventory.ServerDrop(slotToRemove);
-
-			itemToRemove.TryGetComponent<Battery>(out var batteryToRemove);
-			batteries.Remove(batteryToRemove);
-			currentCharge = Math.Max(currentCharge,0) - batteryToRemove.Watts;
-			OnChargeChanged?.Invoke();
-			UpdateSprites();
 		}
 
 
@@ -169,7 +191,7 @@ namespace US13.Objects
 			{
 				foreach (var battery in batteries)
 				{
-					if (battery.IsFullyCharged == false) return false;
+					if (battery.Value.IsFullyCharged == false) return false;
 				}
 				return true;
 			}
@@ -183,7 +205,7 @@ namespace US13.Objects
 		public float InternalResistanceParrallel()
 		{
 			float internalResistance = 0;
-			foreach (Battery battery in batteries)
+			foreach (Battery battery in batteries.Values)
 			{
 				internalResistance += 1 / (float)battery.InternalResistance;
 			}

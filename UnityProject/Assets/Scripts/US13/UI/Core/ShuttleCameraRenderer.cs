@@ -23,7 +23,7 @@ namespace US13.UI.Core
 
 		private Vector3 MatrixCashedPosition;
 
-		public bool RotateCamera = true;
+		public static bool RotateCamera = true;
 
 		void Start()
 		{

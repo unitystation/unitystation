@@ -16,7 +16,7 @@ namespace US13.Core.Chat
 
 		private void FillUpPool()
 		{
-			for (int i = 0; i < chatInstance.maxLogLength + 5; i++)
+			for (int i = 0; i < ChatUI.maxLogLength + 5; i++)
 			{
 				var entry = Instantiate(chatInstance.chatEntryPrefab, Vector3.zero, Quaternion.identity,
 					chatInstance.content);

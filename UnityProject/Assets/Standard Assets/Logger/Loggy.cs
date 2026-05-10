@@ -294,6 +294,7 @@ namespace Logs
 		Inventory,
 		PlayerInventory,
 		Firearms,
+		ItemTracking,
 
 		// Roles and Jobs
 		Jobs,

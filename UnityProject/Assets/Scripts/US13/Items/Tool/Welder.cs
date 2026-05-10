@@ -8,6 +8,7 @@ using US13.Core.Input_System.InteractionV2;
 using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Core.Lifecycle;
+using US13.Core.Sprite_Handler;
 using US13.HealthV2;
 using US13.Systems.Fire;
 using US13.Systems.Inventory;
@@ -192,7 +193,7 @@ namespace US13.Items.Tool
 				//itemAtts.inHandReferenceLeft = leftHandFlame;
 				//itemAtts.inHandReferenceRight = rightHandFlame;
 				isBurning = true;
-				flameRenderer.sprite = flameSprites[0];
+				flameRenderer.GetComponent<SpriteHandler>().SetSpriteNonNetworked( flameSprites[0]);
 				if (coBurnFuel == null)
 					coBurnFuel = StartCoroutine(BurnFuel());
 
@@ -207,7 +208,7 @@ namespace US13.Items.Tool
 					StopCoroutine(coBurnFuel);
 					coBurnFuel = null;
 				}
-				flameRenderer.sprite = null;
+				flameRenderer.GetComponent<SpriteHandler>().SetSpriteNonNetworked(null);
 			}
 
 			pickupable?.RefreshUISlotImage();
@@ -225,7 +226,7 @@ namespace US13.Items.Tool
 			while (isBurning)
 			{
 				//Flame animation:
-				flameRenderer.sprite = flameSprites[spriteIndex];
+				flameRenderer.GetComponent<SpriteHandler>().SetSpriteNonNetworked( flameSprites[spriteIndex]);
 				spriteIndex++;
 				if (spriteIndex == 2)
 				{
