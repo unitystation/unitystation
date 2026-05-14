@@ -388,6 +388,14 @@ namespace DynamicOptions
 					UIParameters = () => { return (new  Vector2(0f, 1f), false); },
 				}},
 
+			{Option.AnimateNewChatEntries,
+				new OptionData() {DisplayName = "Animate New Chat Entries", OptionType = OptionType.Abool, PreferenceKey = "AnimateNewChatEntries",
+					OptionCategoryType = OptionCategoryType.Theme,
+					OnChangeAction = o => { ChatUI.Instance.AnimateNewChatEntries = (bool)o; return "";  },
+					Show = () => { return true; },
+					Default = () => { return true; },
+				}},
+
 			// ========================================= Gameplay =========================================
 			{Option.PlayerExperienceLevel,
 				new OptionData() {DisplayName = "Player Experience Level", OptionType = OptionType.ADropDown, PreferenceKey = "PlayerExperienceLevel",
@@ -626,7 +634,8 @@ namespace DynamicOptions
 		PlayerExperienceLevel,
 		A3DMode,
 		StreamerMode,
-		ItemSwapSpeed
+		ItemSwapSpeed,
+		AnimateNewChatEntries,
 	}
 
 	public struct OptionData

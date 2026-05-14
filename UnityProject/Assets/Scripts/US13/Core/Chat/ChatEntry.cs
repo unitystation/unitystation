@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Text.RegularExpressions;
+using DynamicOptions;
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using US13.Managers;
 using US13.PlayerPrefs;
+using US13.UI.Core.OptionsMenu;
 using US13.UI.Core.OptionsMenu.ThemeOptions;
 using Util;
 using Event = US13.Managers.Event;
@@ -199,6 +201,11 @@ namespace US13.Core.Chat
 				messageText.raycastTarget = true;
 				messageTextDark.raycastTarget = true;
 			}
+
+			if (ChatUI.Instance.AnimateNewChatEntries)
+			{
+				AnimateNewChatEntry();
+			}
 		}
 
 		public void AddChatDuplication()
@@ -304,7 +311,7 @@ namespace US13.Core.Chat
 			// Chat may have become focused during this time. Don't fade away if now focused.
 			if (IsChatFocused) yield break;
 
-			AnimateFade(global::US13.Core.Chat.ChatUI.Instance.ChatContentMinimumAlpha, 3f);
+			AnimateFade(ChatUI.Instance.ChatContentMinimumAlpha, 3f);
 			if (isHidden == false)
 			{
 				SetHidden(true, true);
@@ -373,6 +380,13 @@ namespace US13.Core.Chat
 			{
 				entryBackground.CrossFadeAlpha(Mathf.Clamp(toAlpha, 0, maximumAlpha), time, false);
 			}
+		}
+
+		private void AnimateNewChatEntry()
+		{
+			var ogPos = messageText.transform.localPosition;
+			messageText.transform.localPosition = Vector3.left * 800;
+			LeanTween.moveLocal(messageText.gameObject, ogPos, 0.25f).setEase(LeanTweenType.easeOutCubic);
 		}
 	}
 }
