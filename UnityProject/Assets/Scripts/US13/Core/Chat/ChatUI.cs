@@ -31,8 +31,6 @@ namespace US13.Core.Chat
 {
 	public class ChatUI : SingletonManager<ChatUI>
 	{
-
-
 		public GameObject chatInputWindow = default;
 		public UnityEngine.Transform content = default;
 		public GameObject chatEntryPrefab = default;
@@ -133,6 +131,8 @@ namespace US13.Core.Chat
 
 
 		[BoxGroup("Animation"), Range(0,1)] public static float ChatContentMinimumAlpha = 0f;
+
+		public bool AnimateNewChatEntries = true;
 
 
 		public void SetPreferenceChatContent(float preference)
