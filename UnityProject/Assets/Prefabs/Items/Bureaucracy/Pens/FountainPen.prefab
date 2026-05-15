@@ -24,6 +24,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f666215462b890448b0ebf5c4815c521,
         type: 2}
+    - target: {fileID: 3202216405552181809, guid: 83442ea1bc97ef04db1f9962a2f7021d,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f666215462b890448b0ebf5c4815c521,
+        type: 2}
     - target: {fileID: 8692691054828270594, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
       propertyPath: _assetId
@@ -108,7 +114,7 @@ PrefabInstance:
     - target: {fileID: 9212969941508220628, guid: 83442ea1bc97ef04db1f9962a2f7021d,
         type: 3}
       propertyPath: initialDescription
-      value: It's a common fountain pen, with a faux wood body.
+      value: A common fountain pen with a faux wood body.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

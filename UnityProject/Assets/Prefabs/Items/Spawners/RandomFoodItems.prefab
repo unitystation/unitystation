@@ -10,11 +10,6 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
-      propertyPath: lootCount
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
-        type: 3}
       propertyPath: poolList.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -125,6 +120,12 @@ PrefabInstance:
     - target: {fileID: 8223985327567078919, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4845ca68b4640af41824fb64ecc2f3a7,
+        type: 2}
+    - target: {fileID: 8223985327567078919, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 4845ca68b4640af41824fb64ecc2f3a7,
         type: 2}

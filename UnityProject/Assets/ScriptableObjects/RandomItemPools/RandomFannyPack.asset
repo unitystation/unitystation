@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
+  m_Name: RandomFannyPack
+  m_EditorClassIdentifier: Assets::US13.Items.Others.RandomItemPool
+  foreverID: c3e4c2ccfb6e2b2ca81d6a3155915f61
+  pool:
+  - prefab: {fileID: 3970365256639679988, guid: 50df01ef60a031640b4faafe2df999ce,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4359284668368546568, guid: 80e91b3d70a3cd243bf738ab00ffb082,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 6447103961770168884, guid: 1ca0b8cb7c2d813428b5717e8cc721eb,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 14225115237960227, guid: bf311ee083a250643a687e67181bac24, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8729088196065535888, guid: 6aa99b1f0f9aebb48aabb7a0a8cb887f,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 729724248280349255, guid: f66ac565fdaae2d4db36172de4f67ed6, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 6105019826227904632, guid: 332c90e0136d060419bc6d71de66ebd3,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 7454016918822658603, guid: 1726bb63af088334cb030f9685bbd2d4,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 7880985010563460658, guid: 5591049bdeb2b7142a6e876b211f223e,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 7925963222871480549, guid: ecddea32fc7ae6b4fbb2246aafb6e2bb,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 1475465172151489637, guid: 9c351fb2a6ddfae46831b2ded6b969a7,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  RequiredTrait: {fileID: 0}

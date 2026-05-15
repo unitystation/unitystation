@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "106┼19┼0┼",
+      "Location": "7914┼8011┼0┼",
       "MatrixName": "3x3OpenTurretLight",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -13,7 +13,7 @@
             "Key": "X0Y0",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -21,7 +21,7 @@
             "Key": "X0Y1",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -29,7 +29,7 @@
             "Key": "X0Y2",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -37,7 +37,7 @@
             "Key": "X1Y0",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -45,7 +45,10 @@
             "Key": "X1Y1",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "podfloor_light"
+              },
+              {
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -53,7 +56,7 @@
             "Key": "X1Y2",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -61,7 +64,7 @@
             "Key": "X2Y0",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -69,7 +72,7 @@
             "Key": "X2Y1",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -77,7 +80,7 @@
             "Key": "X2Y2",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           }
@@ -88,88 +91,26 @@
         "CommonPrefabs": [],
         "PrefabData": [
           {
-            "GitID": "24217cb8b2338a3479aaf8d32b727ed1_1┼1┼0┼",
-            "PrefabID": "24217cb8b2338a3479aaf8d32b727ed1",
-            "Name": "LaserTurret (1)",
-            "LocalPRS": "1┼1┼0┼",
+            "GitID": "7178630252013ba41832aa94eb53d12c_0┼0┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (6)",
+            "LocalPRS": "0┼0┼0┼",
             "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Turret@0",
-                  "Data": [
-                    {
-                      "Name": "range",
-                      "Data": "14"
-                    },
-                    {
-                      "Name": "CheckSecurityRecords",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "CheckForArrest",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "CheckUnauthorisedPersonnel",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "AwayGeneric2"
-                    }
-                  ]
-                }
-              ],
+              "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,0",
                   "ClassDatas": [
                     {
-                      "ClassID": "ClearanceRestricted@0",
+                      "ClassID": "SpriteHandler@0",
                       "Data": [
                         {
-                          "Name": "requiredClearance#1",
-                          "Data": "#removed#"
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "60f6f172c3a88a84787189497c2e2d9d"
                         },
                         {
-                          "Name": "requiredClearance#0",
-                          "Data": "AwayGeneric2"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,3",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#2",
-                          "Data": "#removed#"
-                        },
-                        {
-                          "Name": "requiredClearance#1",
-                          "Data": "#removed#"
-                        },
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "AwayGeneric2"
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
                         }
                       ]
                     }
@@ -179,9 +120,115 @@
             }
           },
           {
+            "GitID": "7178630252013ba41832aa94eb53d12c_0┼1┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (1)",
+            "LocalPRS": "0┼1┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "9995f5e93b4b1614abaf93a921438c7c"
+                        },
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_0┼2┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (4)",
+            "LocalPRS": "0┼2┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "60f6f172c3a88a84787189497c2e2d9d"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_1┼0┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (2)",
+            "LocalPRS": "1┼0┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "9995f5e93b4b1614abaf93a921438c7c"
+                        },
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "29695260c1f4f8ba5868fe7fe030293a_1┼1┼0┼",
+            "PrefabID": "29695260c1f4f8ba5868fe7fe030293a",
+            "Name": "FloorLightFixture (1)",
+            "LocalPRS": "1┼1┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,3",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "730b37e5786c87b15852b3d47eac920b_1┼1┼0┼",
+            "PrefabID": "730b37e5786c87b15852b3d47eac920b",
+            "NameMatches": true,
+            "Name": "BackroomsTurretWeak",
+            "LocalPRS": "1┼1┼0┼"
+          },
+          {
             "GitID": "991d9e2b162f7ef4ca9b4fd2bdba60d2_1┼1┼0┼",
             "PrefabID": "991d9e2b162f7ef4ca9b4fd2bdba60d2",
-            "Name": "TurretControlPanel (1)",
+            "Name": "TurretControlPanel L2 Invis",
             "LocalPRS": "1┼1┼0┼",
             "Object": {
               "ClassDatas": [
@@ -216,7 +263,7 @@
                   "Data": [
                     {
                       "Name": "turrets#0",
-                      "Data": "24217cb8b2338a3479aaf8d32b727ed1_1┼1┼0┼@0@Turret@0"
+                      "Data": "730b37e5786c87b15852b3d47eac920b_1┼1┼0┼@0@Turret@0"
                     },
                     {
                       "Name": "isStun",
@@ -274,36 +321,114 @@
             }
           },
           {
-            "GitID": "dc519df8726c903b29314063476e399b_1┼1┼0┼",
-            "PrefabID": "dc519df8726c903b29314063476e399b",
-            "Name": "FloorLightFixture (1)",
-            "LocalPRS": "1┼1┼0┼",
+            "GitID": "7178630252013ba41832aa94eb53d12c_1┼2┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "NameMatches": true,
+            "Name": "newFloorDecal",
+            "LocalPRS": "1┼2┼0┼",
             "Object": {
-              "ClassDatas": [
+              "ClassDatas": [],
+              "Children": [
                 {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
+                  "ID": "0,0",
+                  "ClassDatas": [
                     {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "LightSource@0",
-                  "Data": [
-                    {
-                      "Name": "isWithoutSwitch",
-                      "Data": "True"
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "9995f5e93b4b1614abaf93a921438c7c"
+                        }
+                      ]
                     }
                   ]
                 }
-              ],
+              ]
+            }
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_2┼0┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (5)",
+            "LocalPRS": "2┼0┼0┼",
+            "Object": {
+              "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
-                  "Active": false,
-                  "ClassDatas": []
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "60f6f172c3a88a84787189497c2e2d9d"
+                        },
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_2┼1┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (3)",
+            "LocalPRS": "2┼1┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "9995f5e93b4b1614abaf93a921438c7c"
+                        },
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_2┼2┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (7)",
+            "LocalPRS": "2┼2┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "60f6f172c3a88a84787189497c2e2d9d"
+                        },
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
                 }
               ]
             }

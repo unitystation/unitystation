@@ -1,0 +1,134 @@
+{
+  "Ver": "1.0.0",
+  "MapName": "3x3HallEWFalsewall",
+  "ContainedMatrices": [
+    {
+      "Ver": "1.1.1",
+      "Location": "7902┼7983┼0┼",
+      "MatrixName": "3x3HallEWFalsewall",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X0Y0",
+            "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y1",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y2",
+            "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y0",
+            "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y1",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y2",
+            "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y0",
+            "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y1",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y2",
+            "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.5.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "74425ae81613a44b78b24737fd383d2f_1┼1┼0┼",
+            "PrefabID": "74425ae81613a44b78b24737fd383d2f",
+            "NameMatches": true,
+            "Name": "FalseWallClosed",
+            "LocalPRS": "1┼1┼0┼"
+          },
+          {
+            "GitID": "3c33de6530042374eaf54a98d52d5745_2┼1┼0┼",
+            "PrefabID": "3c33de6530042374eaf54a98d52d5745",
+            "NameMatches": true,
+            "Name": "dirty floor decal",
+            "LocalPRS": "2┼1┼0┼"
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "1,1,0",
+          "Size": "2,2,0"
+        }
+      ]
+    }
+  ]
+}

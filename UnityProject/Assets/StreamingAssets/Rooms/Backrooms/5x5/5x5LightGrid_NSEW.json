@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "0┼0┼0┼",
+      "Location": "7726┼7947┼0┼",
       "MatrixName": "5x5LightGrid_NSEW",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -16,7 +16,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -27,7 +27,7 @@
                 "Tel": "gcircuitoff"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -35,7 +35,7 @@
             "Key": "X0Y2",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -46,7 +46,7 @@
                 "Tel": "gcircuitoff"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -57,7 +57,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -68,7 +68,7 @@
                 "Tel": "gcircuitoff"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -79,7 +79,7 @@
                 "Tel": "gcircuitoff"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -90,7 +90,7 @@
                 "Tel": "gcircuitoff"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -101,7 +101,7 @@
                 "Tel": "gcircuitoff"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -112,7 +112,7 @@
                 "Tel": "gcircuitoff"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -120,7 +120,7 @@
             "Key": "X2Y0",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -131,7 +131,7 @@
                 "Tel": "gcircuitoff"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -142,7 +142,7 @@
                 "Tel": "gcircuitoff"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -153,7 +153,7 @@
                 "Tel": "gcircuitoff"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -161,7 +161,7 @@
             "Key": "X2Y4",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -172,7 +172,7 @@
                 "Tel": "gcircuitoff"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -183,7 +183,7 @@
                 "Tel": "gcircuitoff"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -194,7 +194,7 @@
                 "Tel": "gcircuitoff"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -205,7 +205,7 @@
                 "Tel": "gcircuitoff"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -216,7 +216,7 @@
                 "Tel": "gcircuitoff"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -227,7 +227,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -238,7 +238,7 @@
                 "Tel": "gcircuitoff"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -246,7 +246,7 @@
             "Key": "X4Y2",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -257,7 +257,7 @@
                 "Tel": "gcircuitoff"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -268,7 +268,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           }
@@ -279,34 +279,15 @@
         "CommonPrefabs": [],
         "PrefabData": [
           {
-            "GitID": "dc519df8726c903b29314063476e399b_0┼1┼0┼",
-            "PrefabID": "dc519df8726c903b29314063476e399b",
+            "GitID": "29695260c1f4f8ba5868fe7fe030293a_0┼1┼0┼",
+            "PrefabID": "29695260c1f4f8ba5868fe7fe030293a",
             "Name": "FloorLightFixture (12)",
             "LocalPRS": "0┼1┼0┼",
             "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "LightSource@0",
-                  "Data": [
-                    {
-                      "Name": "isWithoutSwitch",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ],
+              "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -314,34 +295,15 @@
             }
           },
           {
-            "GitID": "dc519df8726c903b29314063476e399b_0┼3┼0┼",
-            "PrefabID": "dc519df8726c903b29314063476e399b",
+            "GitID": "29695260c1f4f8ba5868fe7fe030293a_0┼3┼0┼",
+            "PrefabID": "29695260c1f4f8ba5868fe7fe030293a",
             "Name": "FloorLightFixture (11)",
             "LocalPRS": "0┼3┼0┼",
             "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "LightSource@0",
-                  "Data": [
-                    {
-                      "Name": "isWithoutSwitch",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ],
+              "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -349,34 +311,15 @@
             }
           },
           {
-            "GitID": "dc519df8726c903b29314063476e399b_1┼0┼0┼",
-            "PrefabID": "dc519df8726c903b29314063476e399b",
+            "GitID": "29695260c1f4f8ba5868fe7fe030293a_1┼0┼0┼",
+            "PrefabID": "29695260c1f4f8ba5868fe7fe030293a",
             "Name": "FloorLightFixture (5)",
             "LocalPRS": "1┼0┼0┼",
             "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "LightSource@0",
-                  "Data": [
-                    {
-                      "Name": "isWithoutSwitch",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ],
+              "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -384,34 +327,15 @@
             }
           },
           {
-            "GitID": "dc519df8726c903b29314063476e399b_1┼2┼0┼",
-            "PrefabID": "dc519df8726c903b29314063476e399b",
+            "GitID": "29695260c1f4f8ba5868fe7fe030293a_1┼2┼0┼",
+            "PrefabID": "29695260c1f4f8ba5868fe7fe030293a",
             "Name": "FloorLightFixture (3)",
             "LocalPRS": "1┼2┼0┼",
             "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "LightSource@0",
-                  "Data": [
-                    {
-                      "Name": "isWithoutSwitch",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ],
+              "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -419,34 +343,15 @@
             }
           },
           {
-            "GitID": "dc519df8726c903b29314063476e399b_1┼4┼0┼",
-            "PrefabID": "dc519df8726c903b29314063476e399b",
+            "GitID": "29695260c1f4f8ba5868fe7fe030293a_1┼4┼0┼",
+            "PrefabID": "29695260c1f4f8ba5868fe7fe030293a",
             "Name": "FloorLightFixture (10)",
             "LocalPRS": "1┼4┼0┼",
             "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "LightSource@0",
-                  "Data": [
-                    {
-                      "Name": "isWithoutSwitch",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ],
+              "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -454,34 +359,15 @@
             }
           },
           {
-            "GitID": "dc519df8726c903b29314063476e399b_2┼1┼0┼",
-            "PrefabID": "dc519df8726c903b29314063476e399b",
+            "GitID": "29695260c1f4f8ba5868fe7fe030293a_2┼1┼0┼",
+            "PrefabID": "29695260c1f4f8ba5868fe7fe030293a",
             "Name": "FloorLightFixture (4)",
             "LocalPRS": "2┼1┼0┼",
             "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "LightSource@0",
-                  "Data": [
-                    {
-                      "Name": "isWithoutSwitch",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ],
+              "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -489,34 +375,22 @@
             }
           },
           {
-            "GitID": "dc519df8726c903b29314063476e399b_2┼3┼0┼",
-            "PrefabID": "dc519df8726c903b29314063476e399b",
+            "GitID": "c2688b12db72cdc4c8c20b8647f6b587_2┼2┼0┼",
+            "PrefabID": "c2688b12db72cdc4c8c20b8647f6b587",
+            "NameMatches": true,
+            "Name": "Artifact25%",
+            "LocalPRS": "2┼2┼0┼"
+          },
+          {
+            "GitID": "29695260c1f4f8ba5868fe7fe030293a_2┼3┼0┼",
+            "PrefabID": "29695260c1f4f8ba5868fe7fe030293a",
             "Name": "FloorLightFixture (2)",
             "LocalPRS": "2┼3┼0┼",
             "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "LightSource@0",
-                  "Data": [
-                    {
-                      "Name": "isWithoutSwitch",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ],
+              "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -524,34 +398,15 @@
             }
           },
           {
-            "GitID": "dc519df8726c903b29314063476e399b_3┼0┼0┼",
-            "PrefabID": "dc519df8726c903b29314063476e399b",
+            "GitID": "29695260c1f4f8ba5868fe7fe030293a_3┼0┼0┼",
+            "PrefabID": "29695260c1f4f8ba5868fe7fe030293a",
             "Name": "FloorLightFixture (6)",
             "LocalPRS": "3┼0┼0┼",
             "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "LightSource@0",
-                  "Data": [
-                    {
-                      "Name": "isWithoutSwitch",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ],
+              "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -559,34 +414,15 @@
             }
           },
           {
-            "GitID": "dc519df8726c903b29314063476e399b_3┼2┼0┼",
-            "PrefabID": "dc519df8726c903b29314063476e399b",
+            "GitID": "29695260c1f4f8ba5868fe7fe030293a_3┼2┼0┼",
+            "PrefabID": "29695260c1f4f8ba5868fe7fe030293a",
             "Name": "FloorLightFixture (1)",
             "LocalPRS": "3┼2┼0┼",
             "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "LightSource@0",
-                  "Data": [
-                    {
-                      "Name": "isWithoutSwitch",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ],
+              "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -594,34 +430,15 @@
             }
           },
           {
-            "GitID": "dc519df8726c903b29314063476e399b_3┼4┼0┼",
-            "PrefabID": "dc519df8726c903b29314063476e399b",
+            "GitID": "29695260c1f4f8ba5868fe7fe030293a_3┼4┼0┼",
+            "PrefabID": "29695260c1f4f8ba5868fe7fe030293a",
             "Name": "FloorLightFixture (9)",
             "LocalPRS": "3┼4┼0┼",
             "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "LightSource@0",
-                  "Data": [
-                    {
-                      "Name": "isWithoutSwitch",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ],
+              "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -629,34 +446,15 @@
             }
           },
           {
-            "GitID": "dc519df8726c903b29314063476e399b_4┼1┼0┼",
-            "PrefabID": "dc519df8726c903b29314063476e399b",
+            "GitID": "29695260c1f4f8ba5868fe7fe030293a_4┼1┼0┼",
+            "PrefabID": "29695260c1f4f8ba5868fe7fe030293a",
             "Name": "FloorLightFixture (7)",
             "LocalPRS": "4┼1┼0┼",
             "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "LightSource@0",
-                  "Data": [
-                    {
-                      "Name": "isWithoutSwitch",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ],
+              "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -664,34 +462,15 @@
             }
           },
           {
-            "GitID": "dc519df8726c903b29314063476e399b_4┼3┼0┼",
-            "PrefabID": "dc519df8726c903b29314063476e399b",
+            "GitID": "29695260c1f4f8ba5868fe7fe030293a_4┼3┼0┼",
+            "PrefabID": "29695260c1f4f8ba5868fe7fe030293a",
             "Name": "FloorLightFixture (8)",
             "LocalPRS": "4┼3┼0┼",
             "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "LightSource@0",
-                  "Data": [
-                    {
-                      "Name": "isWithoutSwitch",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ],
+              "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }

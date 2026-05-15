@@ -4,8 +4,8 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "0┼0┼0┼",
-      "MatrixName": "3x3Ring3",
+      "Location": "7898┼7991┼0┼",
+      "MatrixName": "3x3Ring3_AB",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
         "XYs": [
@@ -13,10 +13,10 @@
             "Key": "X0Y0",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -24,10 +24,10 @@
             "Key": "X0Y1",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
+                "Tel": "Loose_Rock_wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -35,10 +35,10 @@
             "Key": "X0Y2",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -46,10 +46,10 @@
             "Key": "X1Y0",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
+                "Tel": "Loose_Rock_wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -57,7 +57,7 @@
             "Key": "X1Y1",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -65,10 +65,10 @@
             "Key": "X1Y2",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
+                "Tel": "Loose_Rock_wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -76,10 +76,10 @@
             "Key": "X2Y0",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -87,10 +87,10 @@
             "Key": "X2Y1",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
+                "Tel": "Loose_Rock_wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -98,10 +98,10 @@
             "Key": "X2Y2",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           }
@@ -110,7 +110,15 @@
       "CompactObjectMapData": {
         "Ver": "1.5.0",
         "CommonPrefabs": [],
-        "PrefabData": [],
+        "PrefabData": [
+          {
+            "GitID": "47707f9f72109aec4ac00b56fdca4867_1┼1┼0┼",
+            "PrefabID": "47707f9f72109aec4ac00b56fdca4867",
+            "NameMatches": true,
+            "Name": "BackroomsEnemyOrLoot",
+            "LocalPRS": "1┼1┼0┼"
+          }
+        ],
         "IDToNetIDClient": {}
       },
       "PreviewGizmos": [

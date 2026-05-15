@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "0┼0┼0┼",
+      "Location": "7914┼8007┼0┼",
       "MatrixName": "3x3OpenTable",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -13,10 +13,7 @@
             "Key": "X0Y0",
             "Value": [
               {
-                "Tel": "Plating"
-              },
-              {
-                "Tel": "table_reinforced"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -24,10 +21,7 @@
             "Key": "X0Y1",
             "Value": [
               {
-                "Tel": "Plating"
-              },
-              {
-                "Tel": "table_reinforced"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -35,10 +29,7 @@
             "Key": "X0Y2",
             "Value": [
               {
-                "Tel": "Plating"
-              },
-              {
-                "Tel": "table_reinforced"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -46,10 +37,7 @@
             "Key": "X1Y0",
             "Value": [
               {
-                "Tel": "Plating"
-              },
-              {
-                "Tel": "table_reinforced"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -57,7 +45,7 @@
             "Key": "X1Y1",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               },
               {
                 "Tel": "table_reinforced"
@@ -68,10 +56,7 @@
             "Key": "X1Y2",
             "Value": [
               {
-                "Tel": "Plating"
-              },
-              {
-                "Tel": "table_reinforced"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -79,10 +64,7 @@
             "Key": "X2Y0",
             "Value": [
               {
-                "Tel": "Plating"
-              },
-              {
-                "Tel": "table_reinforced"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -90,10 +72,7 @@
             "Key": "X2Y1",
             "Value": [
               {
-                "Tel": "Plating"
-              },
-              {
-                "Tel": "table_reinforced"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -101,10 +80,7 @@
             "Key": "X2Y2",
             "Value": [
               {
-                "Tel": "Plating"
-              },
-              {
-                "Tel": "table_reinforced"
+                "Tel": "PlatingIndestructible"
               }
             ]
           }
@@ -113,7 +89,15 @@
       "CompactObjectMapData": {
         "Ver": "1.5.0",
         "CommonPrefabs": [],
-        "PrefabData": [],
+        "PrefabData": [
+          {
+            "GitID": "4378ec3d4d96c1239bfd5e740e90f4c1_1┼1.12┼0┼",
+            "PrefabID": "4378ec3d4d96c1239bfd5e740e90f4c1",
+            "NameMatches": true,
+            "Name": "BackroomsPossibleLoot",
+            "LocalPRS": "1┼1.12┼0┼"
+          }
+        ],
         "IDToNetIDClient": {}
       },
       "PreviewGizmos": [
