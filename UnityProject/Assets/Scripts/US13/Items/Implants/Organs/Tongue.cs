@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using US13.Core.Chat;
+using US13.Core.Utils;
 using US13.HealthV2.Living;
 using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
@@ -14,6 +16,8 @@ namespace US13.Items.Implants.Organs
 {
 	public class Tongue : BodyPartFunctionality
 	{
+		public static bool SpeechAnimationEnabled = true;
+
 		private MobLanguages mobLanguages;
 
 		[SerializeField] private List<LanguageSO> languages = new List<LanguageSO>();
@@ -25,6 +29,42 @@ namespace US13.Items.Implants.Organs
 		public string VoicesName = "";
 
 		public string Voice = "";
+
+
+		public MultiInterestBool IsTalking = new MultiInterestBool();
+
+
+		public SpriteDataSO MouthAnimation;
+		public SpriteDataSO Blank;
+
+		public void SwapTalking(bool val)
+		{
+
+
+			if (val)
+			{
+				if (SpeechAnimationEnabled == false) return;
+				foreach (var Sprite in RelatedPart.RelatedPresentSprites)
+				{
+					Sprite.baseSpriteHandler.SetSpriteSO(MouthAnimation);
+				}
+			}
+			else
+			{
+				foreach (var Sprite in RelatedPart.RelatedPresentSprites)
+				{
+					Sprite.baseSpriteHandler.SetSpriteSO(Blank);
+				}
+			}
+
+
+		}
+
+		public void OnEnable()
+		{
+
+			IsTalking.OnBoolChange.AddListener(SwapTalking);
+		}
 
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
@@ -63,6 +103,8 @@ namespace US13.Items.Implants.Organs
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
+			IsTalking.RemoveAllPositions();
+
 			livingHealth.IsMute.RemovePosition(this);
 			livingHealth.SpeakCharacterLimit.RemovePosition(this);
 			foreach (var language in languages)

@@ -1,14 +1,20 @@
+using System;
+using System.Collections.Generic;
 using Chemistry;
+using Cysharp.Threading.Tasks;
 using Logs;
 using Mirror;
 using UnityEngine;
 using US13.Core.Camera;
+using US13.Core.Transform;
 using US13.Core.Utils;
 using US13.HealthV2;
 using US13.HealthV2.Living;
+using US13.Objects.Directionals;
 using US13.Systems.Inventory;
 using US13.Tilemaps.Behaviours.Objects;
 using Util;
+using Random = UnityEngine.Random;
 
 namespace US13.Items.Implants.Organs
 {
@@ -30,6 +36,48 @@ namespace US13.Items.Implants.Organs
 
 		public float EyeIrritantAmount = 0.25f;
 
+		private int _secondsUntilBlink;
+
+
+		public bool Blinks = true;
+
+
+
+
+		[Header("Blink Duration (seconds)")]
+		public float blinkDurationMin = 0.10f;
+		public float blinkDurationMax = 0.15f;
+
+		private void OnEnable()
+		{
+			_secondsUntilBlink = SampleInterval();
+		}
+
+
+
+		private async UniTaskVoid DoBlink()
+		{
+			float duration = Random.Range(blinkDurationMin, blinkDurationMax);
+
+			foreach (var Sprite in RelatedPart.RelatedPresentSprites)
+			{
+				Sprite.baseSpriteHandler.PushClear();
+			}
+
+
+			await UniTask.Delay(TimeSpan.FromSeconds(duration), cancellationToken: destroyCancellationToken);
+			await UniTask.SwitchToMainThread();
+			foreach (var Sprite in RelatedPart.RelatedPresentSprites)
+			{
+				Sprite.baseSpriteHandler.PushTexture();
+			}
+		}
+
+		private int SampleInterval()
+		{
+			return Random.Range(3, 6); // 3–5 seconds, different each time
+		}
+
 		public bool IsValidSetup(RegisterPlayer player)
 		{
 			if (player == null) return false;
@@ -50,10 +98,21 @@ namespace US13.Items.Implants.Organs
 			OnBodyID = ShowForPlayer != null ? ShowForPlayer.netId : NetId.Empty;
 		}
 
+
+
+
 		public override void ImplantPeriodicUpdate()
 		{
-			//TODO eye Protection
+			if (RelatedPart.HealthMaster.IsCrit  == false &&  RelatedPart.HealthMaster.IsDead == false && Blinks)
+			{
+				if (--_secondsUntilBlink <= 0)
+				{
+					DoBlink().Forget();
+					_secondsUntilBlink = SampleInterval();
+				}
+			}
 
+			//TODO eye Protection
 			if (EyeIrritant == null) return;
 			if (GameObjectExtensions.OrNull<LivingHealthMasterBase>(RelatedPart?.HealthMaster)?.SurfaceReagents == null) return;
 
@@ -67,7 +126,7 @@ namespace US13.Items.Implants.Organs
 
 			if (mix.reagents.Contains(EyeIrritant) == false) return;
 			float AmountOnHead = mix[EyeIrritant];
-			Loggy.Error(AmountOnHead.ToString());
+
 			if (AmountOnHead > EyeIrritantAmount)
 			{
 				if (RelatedPart.ClothingArmors.Count > 0) return;

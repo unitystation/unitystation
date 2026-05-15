@@ -31,7 +31,6 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 
 		private Stack<ImageAndHandler> usedImages = new Stack<ImageAndHandler>();
 		private Stack<ImageAndHandler> freeImages = new Stack<ImageAndHandler>();
-		private Image overlay;
 
 		private Material imgMat;
 		private bool Parentless;
@@ -80,20 +79,17 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 				}
 			}
 
-			// generate and hide overlay image
-			overlay = CreateNewImage(imgMat, "uiItemImageOverlay");
-			SetOverlay(null);
 			ShowItem(colour);
 		}
 
 
-		public static UI_ItemImage RequestItemImage(GameObject Container, GameObject ObjectCopy, bool IsCanFitPreview = false, Color? colour = null, bool MakeNewPreviewNotEmpty = false)
+		public static UI_ItemImage RequestItemImage(GameObject Container, GameObject ObjectCopy, bool IsCanFitPreview = false, Color? colour = null, bool MakeNewPreviewNotEmpty = false, bool ForceAnimationSnap = false)
 		{
 			Material imgMat = CommonMaterials.Instance.ItemSlotMaterial;
 
 			if (UI_ItemImages.ContainsKey(ObjectCopy) && IsCanFitPreview == false && MakeNewPreviewNotEmpty == false)
 			{
-				UI_ItemImages[ObjectCopy].SetParent(Container, false);
+				UI_ItemImages[ObjectCopy].SetParent(Container, ForceAnimationSnap);
 				return UI_ItemImages[ObjectCopy];
 			}
 			else
@@ -108,39 +104,59 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 		{
 			CurrentlyOn = parent;
 			//SpriteContainer.transform.SetParent(CurrentlyOn.transform);
-			var rt = SpriteContainer.GetComponent<RectTransform>();
+			RectTransform rt = SpriteContainer.GetComponent<RectTransform>();
+
+			Transform overlayParent = UIManager.Instance.transform;   // highest canvas/sorting
+			Transform targetParent  = parent.transform;
+
+			RectTransform overlayRT = UIManager.Instance.transform as RectTransform;
+			RectTransform targetRT  = targetParent as RectTransform;
 
 
+			Vector3 worldPos = targetRT.TransformPoint(Vector3.zero);
 
-			SpriteContainer.transform.SetParent(CurrentlyOn.transform, worldPositionStays: true);
-			rt.anchorMin = Vector2.zero;
-			rt.anchorMax = Vector2.one;
-			rt.sizeDelta = Vector2.zero;
-			// rt.anchoredPosition = Vector2.zero;
-			rt.localScale = Vector3.one;
+			Vector2 overlayLocalPos;
+			RectTransformUtility.ScreenPointToLocalPointInRectangle(
+				overlayRT,
+				RectTransformUtility.WorldToScreenPoint(null, worldPos),
+				null,
+				out overlayLocalPos
+			);
+
+			Vector3 targetWorldPos = targetParent.TransformPoint(Vector3.zero);
+
+			Vector3 startWorldPos = rt.position;
+			rt.SetParent(overlayParent, true);
+			rt.SetAsLastSibling();   // renders on top of other children
+			rt.position = startWorldPos;
+
 			if (Force == false)
 			{
-				LeanTween.value(SpriteContainer.gameObject,
+				LeanTween.value(rt.gameObject,
 						rt.anchoredPosition,
-						Vector2.zero,
+						overlayLocalPos,
 						AnimationSpeed)
 					.setEase(LeanTweenType.easeInCirc)
-					.setOnUpdate((Vector2 pos) =>
+					.setOnUpdate((Vector2 p) =>
 					{
-						rt.anchoredPosition = pos;
+						rt.anchoredPosition = p;
 					})
 					.setOnComplete(() =>
 					{
-						// Snap clean at the end
-						rt.anchoredPosition = Vector2.zero;
+						rt.SetParent(targetRT, true);
+
 						rt.anchorMin = Vector2.zero;
 						rt.anchorMax = Vector2.one;
 						rt.sizeDelta = Vector2.zero;
+						rt.anchoredPosition = Vector2.zero;
 						rt.localScale = Vector3.one;
 					});
 			}
 			else
 			{
+				rt.position = targetWorldPos;
+				rt.SetParent(targetParent, true);
+
 				rt.anchorMin = Vector2.zero;
 				rt.anchorMax = Vector2.one;
 				rt.sizeDelta = Vector2.zero;
@@ -231,31 +247,6 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 		}
 
 		/// <summary>
-		/// Set overlay image for item (like handcufs icon)
-		/// Null to clear sprite and hide image
-		/// </summary>
-		/// <param name="sprite"></param>
-		public void SetOverlay(Sprite overlaySprite)
-		{
-			if (overlaySprite != null)
-			{
-				overlay.sprite = overlaySprite;
-				overlay.enabled = !hidden;
-				overlay.preserveAspect = true;
-			}
-			else
-			{
-				overlay.sprite = null;
-				overlay.enabled = false;
-			}
-		}
-
-		public void IDontNeedYouAnymore()
-		{
-
-		}
-
-		/// <summary>
 		/// Disable all images and reset their sprites
 		/// </summary>
 		public void ClearAll(GameObject HolderRequesting, bool ForceDestroy = false, bool ClearOnlyPreviews = false)
@@ -300,8 +291,6 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 				//usedImage.Handler = null;
 				//usedImage.UIImage.enabled = false;
 			}
-
-			SetOverlay(null);
 		}
 
 		private Image ConnectFreeImageToHandler(SpriteHandler handler, Material imgMat)

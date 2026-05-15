@@ -138,7 +138,7 @@ namespace US13.UI.Core.OptionsMenu.ThemeOptions
 			try
 			{
 				fontDropdown.ClearOptions();
-				var fontNames = ChatUI.Instance.Fonts.Select(font => font.name).ToList();
+				var fontNames = ChatManager.Instance.Fonts.Select(font => font.name).ToList();
 				fontDropdown.AddOptions(fontNames);
 
 
@@ -148,7 +148,7 @@ namespace US13.UI.Core.OptionsMenu.ThemeOptions
 			}
 			catch (Exception e)
 			{
-				var chatUIHasNoFonts = ChatUI.Instance.Fonts?.Count == 0;
+				var chatUIHasNoFonts = ChatManager.Instance.Fonts?.Count == 0;
 				Loggy.Error($"[ThemeOptions/Refresh()] - Failed to setup font options. " +
 				                $"\n chat has no fonts: {chatUIHasNoFonts} \n {e}");
 			}

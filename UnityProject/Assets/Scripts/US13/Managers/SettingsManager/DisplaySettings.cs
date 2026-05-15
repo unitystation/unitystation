@@ -290,20 +290,7 @@ namespace US13.Managers.SettingsManager
 			get { return UnityEngine.PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleSize, DEFAULT_CHATBUBBLESIZE); }
 			set
 			{
-				if (UnityEngine.PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleSize))
-				{
-					if (value.Approx(ChatBubbleSize) == false)
-					{
-						dsEventArgs.ChatBubbleSizeChanged = true;
-						UnityEngine.PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleSize, value);
-						UnityEngine.PlayerPrefs.Save();
-					}
-				}
-				else
-				{
-					UnityEngine.PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleSize, value);
-					UnityEngine.PlayerPrefs.Save();
-				}
+				dsEventArgs.ChatBubbleSizeChanged = true;
 			}
 		}
 

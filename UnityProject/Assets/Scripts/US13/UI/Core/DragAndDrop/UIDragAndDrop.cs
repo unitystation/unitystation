@@ -23,6 +23,8 @@ namespace US13.UI.Core.DragAndDrop
 		public GameObject DraggedItem { get; private set; }
 		public Shadow shadow;
 
+		private UI_ItemImage UI_ItemImage;
+
 		Vector3 scaleCache;
 		Vector3 interactableScale;
 
@@ -62,7 +64,7 @@ namespace US13.UI.Core.DragAndDrop
 				DropInteracted = false;
 				FromSlotCache = fromSlot;
 				isDragging = true;
-				UI_ItemImage.RequestItemImage(dragDummy.gameObject, fromSlot.ItemObject, MakeNewPreviewNotEmpty : false);
+				UI_ItemImage = UI_ItemImage.RequestItemImage(dragDummy.gameObject, fromSlot.ItemObject, MakeNewPreviewNotEmpty : false, ForceAnimationSnap : true);
 				//dragDummy.enabled = true;
 				//dragDummy.sprite = fromSlot.Image.MainSprite;
 				fromSlot.Clear();
@@ -98,7 +100,7 @@ namespace US13.UI.Core.DragAndDrop
 			{
 				if (FromSlotCache.Item != null)
 				{
-					FromSlotCache.RefreshImage();
+					FromSlotCache.RefreshImage(UI_ItemImage);
 				}
 			}
 

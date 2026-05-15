@@ -684,7 +684,7 @@ namespace US13.Player
 			if ((this.gameObject.AssumedWorldPosServer() - uop.OfficialPosition ).magnitude >
 			    PlayerScript.INTERACTION_DISTANCE_EXTENDED) //If telekinesis was used play effect I assume TODO test , also return maybe because you can't Put fingerprint on something far away
 			{
-				PlayEffect.SendToAll(interactable.gameObject, "TelekinesisEffect");
+				PlayEffect.SendToAll(interactable.gameObject, "TelekinesisEffect", false, interaction.Performer );
 			}
 
 

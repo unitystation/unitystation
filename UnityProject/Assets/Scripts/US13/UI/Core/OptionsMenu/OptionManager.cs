@@ -10,6 +10,7 @@ using US13.Core.Highlight;
 using US13.Core.Initialisation;
 using US13.Core.TranslationSystem;
 using US13.Core.TTS;
+using US13.Items.Implants.Organs;
 using US13.Learning;
 using US13.Managers;
 using US13.Managers.AddressableManager;
@@ -83,7 +84,7 @@ namespace DynamicOptions
 			{Option.ShuttleRadarRotation,
 				new OptionData() {DisplayName = "Shuttle Radar Rotation", OptionType = OptionType.Abool, PreferenceKey = "ShuttleRadarRotation",
 					OptionCategoryType = OptionCategoryType.Display,
-					OnChangeAction = o => {  ShuttleCameraRenderer.instance.RotateCamera = ((bool) o);  return ""; },
+					OnChangeAction = o => {  ShuttleCameraRenderer.RotateCamera = ((bool) o);  return ""; },
 					Show = () => { return true; },
 					Default = () => { return true; }
 				}},
@@ -180,6 +181,8 @@ namespace DynamicOptions
 						AddressableCatalogueManager.LoadHostCatalogues(); return ""; },
 					Show = () => { return true; },
 				}},
+
+
 			//===================================================== Themes =====================================================
 			{Option.ChatBubbleTheme,
 				new OptionData() {DisplayName = "Chat Bubble Theme", OptionType = OptionType.ADropDown, PreferenceKey = "ChatBubbleTheme",
@@ -195,12 +198,12 @@ namespace DynamicOptions
 					OnChangeAction = o => { DisplaySettings.Instance.ChatBubbleSize = (float) o; return ""; },
 					Show = () => { return true; },
 					Default = () => { return 2f; },
-					UIParameters = () => { return (new  Vector2(1f, 5f), true); },
+					UIParameters = () => { return (new  Vector2(2f, 5f), true); },
 				}},
 			{Option.ChatBubbleCharacterSpeed,
 				new OptionData() {DisplayName = "Chat Bubble Character Pop In Speed", OptionType = OptionType.Aslider, PreferenceKey = "ChatBubbleCharacterSpeed",
 					OptionCategoryType = OptionCategoryType.Theme,
-					OnChangeAction = o => { DisplaySettings.Instance.ChatBubbleSize = (float) o; return ""; },
+					OnChangeAction = o => { DisplaySettings.Instance.ChatBubblePopInSpeed = (float) o; return ""; },
 					Show = () => { return true; },
 					Default = () => { return 0.05f; },
 					UIParameters = () => { return (new Vector2(0f, 1f), false);},
@@ -253,7 +256,7 @@ namespace DynamicOptions
 			{Option.ChatLogSizeOption,
 				new OptionData() {DisplayName = "Chat Log Maximum Size", OptionType = OptionType.Aslider, PreferenceKey = "ChatLogSizeOption",
 					OptionCategoryType = OptionCategoryType.Theme,
-					OnChangeAction = o => {ChatUI.Instance.maxLogLength = Mathf.RoundToInt((float) o); return ""; },
+					OnChangeAction = o => {ChatUI.maxLogLength = Mathf.RoundToInt((float) o); return ""; },
 					Show = () => { return true; },
 					Default = () => { return 90f; },
 					UIParameters = () => { return (new  Vector2(80f, 2500f), true); },
@@ -278,12 +281,11 @@ namespace DynamicOptions
 			{Option.ChatFontTheme,
 				new OptionData() {DisplayName = "Chat Font", OptionType = OptionType.ADropDown, PreferenceKey = "ChatFontTheme",
 					OptionCategoryType = OptionCategoryType.Theme,
-					OnChangeAction = o => { ChatUI.Instance.FontIndexToUse = (string)o; return "";  },
+					OnChangeAction = o => { ChatManager.Instance.FontIndexToUse = (string)o; return "";  },
 					Show = () => { return true; },
 					Default = () => { return "LiberationSans SDF"; },
-					UIParameters = () => { return ChatUI.Instance.Fonts.Select(font => font.name).ToList(); },
+					UIParameters = () => { return ChatManager.Instance.Fonts.Select(font => font.name).ToList(); },
 				}},
-
 			{Option.RightClickStyle,
 				new OptionData() {DisplayName = "Right Click Style", OptionType = OptionType.ADropDown, PreferenceKey = "RightClickStyle",
 					OptionCategoryType = OptionCategoryType.Theme,
@@ -346,7 +348,7 @@ namespace DynamicOptions
 			{Option.MinimumChatFadeOption,
 				new OptionData() {DisplayName = "Minimum background alpha for chat fade", OptionType = OptionType.Aslider, PreferenceKey = "MinimumChatFadeOption",
 					OptionCategoryType = OptionCategoryType.Theme,
-					OnChangeAction = o => { ChatUI.Instance.SetPreferenceChatBackground((float)o); return "";  },
+					OnChangeAction = o => { ChatUI.ChatMinimumBackgroundAlpha = (float)o; return "";  },
 					Show = () => { return true; },
 					Default = () => { return 0f; },
 					UIParameters = () => { return (new  Vector2(0f, 1f), false); },
@@ -355,7 +357,7 @@ namespace DynamicOptions
 			{Option.MinimumChatContentFadeOption,
 				new OptionData() {DisplayName = "Minimum content alpha for chat fade", OptionType = OptionType.Aslider, PreferenceKey = "MinimumChatContentFadeOption",
 					OptionCategoryType = OptionCategoryType.Theme,
-					OnChangeAction = o => { ChatUI.Instance.SetPreferenceChatContent((float)o); return "";  },
+					OnChangeAction = o => { ChatUI.ChatContentMinimumAlpha = (float)o; return "";  },
 					Show = () => { return true; },
 					Default = () => { return 0f; },
 					UIParameters = () => { return (new  Vector2(0f, 1f), false); },
@@ -387,11 +389,17 @@ namespace DynamicOptions
 					Default = () => { return 0.15f; },
 					UIParameters = () => { return (new  Vector2(0f, 1f), false); },
 				}},
-
 			{Option.AnimateNewChatEntries,
 				new OptionData() {DisplayName = "Animate New Chat Entries", OptionType = OptionType.Abool, PreferenceKey = "AnimateNewChatEntries",
 					OptionCategoryType = OptionCategoryType.Theme,
 					OnChangeAction = o => { ChatUI.Instance.AnimateNewChatEntries = (bool)o; return "";  },
+					Show = () => { return true; },
+					Default = () => { return true; },
+				}},
+			{Option.MouthAnimations,
+				new OptionData() {DisplayName = "Play mouth animations when speaking", OptionType = OptionType.Abool, PreferenceKey = "MouthAnimations",
+					OptionCategoryType = OptionCategoryType.Theme,
+					OnChangeAction = o => { Tongue.SpeechAnimationEnabled = (bool)o; return "";  },
 					Show = () => { return true; },
 					Default = () => { return true; },
 				}},
@@ -635,6 +643,7 @@ namespace DynamicOptions
 		A3DMode,
 		StreamerMode,
 		ItemSwapSpeed,
+		MouthAnimations,
 		AnimateNewChatEntries,
 	}
 

@@ -417,7 +417,7 @@ namespace US13.Core.Physics
 				if ((initiator.gameObject.AssumedWorldPosServer() - this.gameObject.AssumedWorldPosServer()).magnitude >
 				    PlayerScript.INTERACTION_DISTANCE_EXTENDED) //If telekinesis was used play effect
 				{
-					PlayEffect.SendToAll(this.gameObject, "TelekinesisEffect");
+					PlayEffect.SendToAll(this.gameObject, "TelekinesisEffect", false, PlayerManager.LocalPlayerScript.gameObject );
 				}
 
 				//client request: start/stop pulling

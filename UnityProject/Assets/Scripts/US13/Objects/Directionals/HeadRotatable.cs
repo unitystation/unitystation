@@ -96,6 +96,10 @@ namespace US13.Objects.Directionals
 			SetDirectionInternal(Cdirection, direction.ToOrientationEnum());
 		}
 
+		public void SetFaceDirection(OrientationEnum direction)
+		{
+			SetDirectionInternal(Cdirection, direction);
+		}
 
 	}
 

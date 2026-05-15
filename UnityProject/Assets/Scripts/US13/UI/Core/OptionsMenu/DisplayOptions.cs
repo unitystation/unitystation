@@ -91,12 +91,12 @@ button
 			DropShadow.isOn = bool.Parse(UnityEngine.PlayerPrefs.GetString(PlayerPrefKeys.ItemDropShadow));
 
 
-			if (UnityEngine.PlayerPrefs.HasKey(PlayerPrefKeys.ShuttleRadarRotation) == false)
-			{
-				UnityEngine.PlayerPrefs.SetString(PlayerPrefKeys.ShuttleRadarRotation,  true.ToString());
-			}
+			// if (UnityEngine.PlayerPrefs.HasKey(PlayerPrefKeys.ShuttleRadarRotation) == false)
+			// {
+			// 	UnityEngine.PlayerPrefs.SetString(PlayerPrefKeys.ShuttleRadarRotation,  true.ToString());
+			// }
 
-			ShuttleRadaRotation.isOn = bool.Parse(UnityEngine.PlayerPrefs.GetString(PlayerPrefKeys.ShuttleRadarRotation));
+			//ShuttleRadaRotation.isOn = bool.Parse(UnityEngine.PlayerPrefs.GetString(PlayerPrefKeys.ShuttleRadarRotation));
 
 			ItIsRefreshing = false;
 		}
@@ -105,8 +105,7 @@ button
 		public void SetShuttleRadaRotation(bool State)
 		{
 			if (ItIsRefreshing) return;
-			UnityEngine.PlayerPrefs.SetString(PlayerPrefKeys.ShuttleRadarRotation, State.ToString());
-			ShuttleCameraRenderer.instance.RotateCamera = State;
+			ShuttleCameraRenderer.RotateCamera = State;
 		}
 
 		public void SetItemDropShadow(bool State)

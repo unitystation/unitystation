@@ -426,7 +426,7 @@ namespace US13.Player
 				if ((playerMove.transform.position - playerMove.Pulling.Component.gameObject.AssumedWorldPosServer()).magnitude >
 				    PlayerScript.INTERACTION_DISTANCE_EXTENDED) //If telekinesis was used play effect
 				{
-					PlayEffect.SendToAll(playerMove.Pulling.Component.gameObject, "TelekinesisEffect");
+					PlayEffect.SendToAll(playerMove.Pulling.Component.gameObject, "TelekinesisEffect", false, playerMove.gameObject);
 				}
 
 				var pulling = playerMove.Pulling.Component;

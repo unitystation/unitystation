@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: Mouth
+  m_EditorClassIdentifier: RootSillys::SpriteDataSO
+  foreverID: MouthTalk
+  Variance:
+  - Frames:
+    - sprite: {fileID: -8500371682742039450, guid: 14c7fd810283e9d40b6d2393186a2a05,
+        type: 3}
+      secondDelay: 0.3
+    - sprite: {fileID: 625119291, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.15
+    - sprite: {fileID: 250910162, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.3
+    - sprite: {fileID: 625119291, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.15
+    - sprite: {fileID: -8500371682742039450, guid: 14c7fd810283e9d40b6d2393186a2a05,
+        type: 3}
+      secondDelay: 0.15
+    - sprite: {fileID: 625119291, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.15
+    - sprite: {fileID: 250910162, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.15
+    - sprite: {fileID: 625119291, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.15
+  - Frames:
+    - sprite: {fileID: 625119291, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.1
+  - Frames:
+    - sprite: {fileID: 1510832150, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.3
+    - sprite: {fileID: 625119291, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.15
+    - sprite: {fileID: 1340717117, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.3
+    - sprite: {fileID: 625119291, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.15
+    - sprite: {fileID: 1510832150, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.15
+    - sprite: {fileID: 625119291, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.15
+    - sprite: {fileID: 1340717117, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.15
+    - sprite: {fileID: 625119291, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.15
+  - Frames:
+    - sprite: {fileID: 34593890, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.3
+    - sprite: {fileID: 625119291, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.15
+    - sprite: {fileID: 843064079, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.3
+    - sprite: {fileID: 625119291, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.15
+    - sprite: {fileID: 34593890, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.15
+    - sprite: {fileID: 625119291, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.15
+    - sprite: {fileID: 843064079, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.15
+    - sprite: {fileID: 625119291, guid: 14c7fd810283e9d40b6d2393186a2a05, type: 3}
+      secondDelay: 0.15
+  IsPalette: 0
+  DisplayName: 
