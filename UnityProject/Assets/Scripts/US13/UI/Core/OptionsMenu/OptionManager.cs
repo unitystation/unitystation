@@ -389,7 +389,13 @@ namespace DynamicOptions
 					Default = () => { return 0.15f; },
 					UIParameters = () => { return (new  Vector2(0f, 1f), false); },
 				}},
-
+			{Option.AnimateNewChatEntries,
+				new OptionData() {DisplayName = "Animate New Chat Entries", OptionType = OptionType.Abool, PreferenceKey = "AnimateNewChatEntries",
+					OptionCategoryType = OptionCategoryType.Theme,
+					OnChangeAction = o => { ChatUI.Instance.AnimateNewChatEntries = (bool)o; return "";  },
+					Show = () => { return true; },
+					Default = () => { return true; },
+				}},
 			{Option.MouthAnimations,
 				new OptionData() {DisplayName = "Play mouth animations when speaking", OptionType = OptionType.Abool, PreferenceKey = "MouthAnimations",
 					OptionCategoryType = OptionCategoryType.Theme,
@@ -637,7 +643,8 @@ namespace DynamicOptions
 		A3DMode,
 		StreamerMode,
 		ItemSwapSpeed,
-		MouthAnimations
+		MouthAnimations,
+		AnimateNewChatEntries,
 	}
 
 	public struct OptionData
