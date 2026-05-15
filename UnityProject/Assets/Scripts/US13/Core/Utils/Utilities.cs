@@ -69,10 +69,6 @@ namespace US13.Core.Utils
 
 
 		public static T[] FindAll<T>(this T[] items, Predicate<T> predicate) => Array.FindAll<T>(items, predicate);
-		public static T PickRandom<T>(this IEnumerable<T> source)
-		{
-			return source.PickRandom(1).SingleOrDefault();
-		}
 
 		public static T PickRandomNonNull<T>(this IList<T> source)
 		{

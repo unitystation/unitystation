@@ -56,6 +56,13 @@ namespace US13.Core.Utils
 			RecalculateBoolCash();
 		}
 
+		public void RemoveAllPositions()
+		{
+			InterestedParties.Clear();
+			RecalculateBoolCash();
+		}
+
+
 		public void RecordPosition(object Instance, bool Position)
 		{
 			if (Position || Behaviour == RegisterBehaviour.RegisterFalse)

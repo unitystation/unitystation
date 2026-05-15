@@ -6,6 +6,8 @@ using System.Threading;
 using TMPro;
 using UnityEngine;
 using US13.Core.Chat;
+using US13.HealthV2.Living;
+using US13.Items.Implants.Organs;
 using US13.Managers.UpdateManager;
 using US13.PlayerPrefs;
 using Util;
@@ -216,6 +218,18 @@ namespace US13.UI.Core.ChatBubble
 		{
 			showingDialogue = true;
 
+			var Tongues = target.GetComponentInParent<LivingHealthMasterBase>()?.GetOrgans(typeof(Tongue));
+
+
+			if (Tongues != null)
+			{
+				foreach (var Tongue in Tongues)
+				{
+					((Tongue) Tongue).IsTalking.RecordPosition(this.gameObject, true);
+				}
+			}
+
+
 			if (msgQueue.Count == 0)
 			{
 				yield return WaitFor.EndOfFrame;
@@ -250,6 +264,17 @@ namespace US13.UI.Core.ChatBubble
 					Bubble.transform.SetSiblingIndex(Bubble.transform.parent.childCount -1);
 					Bubble.DoShowDialogue(cancelToken, msg);
 					ActiveBubbles.Add(Bubble);
+				}
+			}
+
+
+			Tongues = target.GetComponentInParent<LivingHealthMasterBase>()?.GetOrgans(typeof(Tongue));
+
+			if (Tongues != null)
+			{
+				foreach (var Tongue in Tongues)
+				{
+					((Tongue) Tongue).IsTalking.RemovePosition(this.gameObject);
 				}
 			}
 

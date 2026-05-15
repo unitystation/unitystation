@@ -10,6 +10,7 @@ using US13.Core.Highlight;
 using US13.Core.Initialisation;
 using US13.Core.TranslationSystem;
 using US13.Core.TTS;
+using US13.Items.Implants.Organs;
 using US13.Learning;
 using US13.Managers;
 using US13.Managers.AddressableManager;
@@ -180,6 +181,8 @@ namespace DynamicOptions
 						AddressableCatalogueManager.LoadHostCatalogues(); return ""; },
 					Show = () => { return true; },
 				}},
+
+
 			//===================================================== Themes =====================================================
 			{Option.ChatBubbleTheme,
 				new OptionData() {DisplayName = "Chat Bubble Theme", OptionType = OptionType.ADropDown, PreferenceKey = "ChatBubbleTheme",
@@ -195,12 +198,12 @@ namespace DynamicOptions
 					OnChangeAction = o => { DisplaySettings.Instance.ChatBubbleSize = (float) o; return ""; },
 					Show = () => { return true; },
 					Default = () => { return 2f; },
-					UIParameters = () => { return (new  Vector2(1f, 5f), true); },
+					UIParameters = () => { return (new  Vector2(2f, 5f), true); },
 				}},
 			{Option.ChatBubbleCharacterSpeed,
 				new OptionData() {DisplayName = "Chat Bubble Character Pop In Speed", OptionType = OptionType.Aslider, PreferenceKey = "ChatBubbleCharacterSpeed",
 					OptionCategoryType = OptionCategoryType.Theme,
-					OnChangeAction = o => { DisplaySettings.Instance.ChatBubbleSize = (float) o; return ""; },
+					OnChangeAction = o => { DisplaySettings.Instance.ChatBubblePopInSpeed = (float) o; return ""; },
 					Show = () => { return true; },
 					Default = () => { return 0.05f; },
 					UIParameters = () => { return (new Vector2(0f, 1f), false);},
@@ -283,7 +286,6 @@ namespace DynamicOptions
 					Default = () => { return "LiberationSans SDF"; },
 					UIParameters = () => { return ChatManager.Instance.Fonts.Select(font => font.name).ToList(); },
 				}},
-
 			{Option.RightClickStyle,
 				new OptionData() {DisplayName = "Right Click Style", OptionType = OptionType.ADropDown, PreferenceKey = "RightClickStyle",
 					OptionCategoryType = OptionCategoryType.Theme,
@@ -386,6 +388,14 @@ namespace DynamicOptions
 					Show = () => { return true; },
 					Default = () => { return 0.15f; },
 					UIParameters = () => { return (new  Vector2(0f, 1f), false); },
+				}},
+
+			{Option.MouthAnimations,
+				new OptionData() {DisplayName = "Play mouth animations when speaking", OptionType = OptionType.Abool, PreferenceKey = "MouthAnimations",
+					OptionCategoryType = OptionCategoryType.Theme,
+					OnChangeAction = o => { Tongue.SpeechAnimationEnabled = (bool)o; return "";  },
+					Show = () => { return true; },
+					Default = () => { return true; },
 				}},
 
 			// ========================================= Gameplay =========================================
@@ -626,7 +636,8 @@ namespace DynamicOptions
 		PlayerExperienceLevel,
 		A3DMode,
 		StreamerMode,
-		ItemSwapSpeed
+		ItemSwapSpeed,
+		MouthAnimations
 	}
 
 	public struct OptionData

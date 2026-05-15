@@ -68,8 +68,7 @@ namespace US13.Core.Lifecycle
 				CustomNetworkManager.Instance.SetSpawnableList();
 				//only can spawn objects that are networked
 				var spawnablePrefabs = CustomNetworkManager.Instance.spawnPrefabs
-					.Where(IsPrefab)
-					.OrderBy(go => go.name);
+					.Where(IsPrefab);
 
 				foreach (var spawnablePrefab in spawnablePrefabs)
 				{

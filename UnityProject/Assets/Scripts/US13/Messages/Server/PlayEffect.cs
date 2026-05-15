@@ -12,7 +12,9 @@ namespace US13.Messages.Server
 	{
 		public struct NetMessage : NetworkMessage
 		{
+			public uint ByPlayer;
 			public uint SpawnOn;
+			public bool LeanTweenEffect;
 			public string EffectName;
 		}
 
@@ -25,20 +27,28 @@ namespace US13.Messages.Server
 			if (localPlayer == null) return;
 
 
-			if (LoadNetworkObject(msg.SpawnOn) == false) return;
+			LoadMultipleObjects(new[] {msg.SpawnOn, msg.ByPlayer});
 
-			var windEffect = Spawn.ClientPrefab(msg.EffectName, parent:NetworkObject.gameObject.transform);
-
-			if (windEffect.Successful == false)
+			if (msg.LeanTweenEffect == false)
 			{
-				Loggy.Warning("Failed to spawn wind effect!", Category.Particles);
-				return;
+				var windEffect = Spawn.ClientPrefab(msg.EffectName, parent:NetworkObjects[0].gameObject.transform);
+
+				if (windEffect.Successful == false)
+				{
+					Loggy.Warning("Failed to spawn wind effect!", Category.Particles);
+					return;
+				}
+
+				windEffect.GameObject.transform.localPosition = Vector3.zero;
+			}
+			else
+			{
+				LeanTweenAnimations.DeEffectClient(msg.EffectName, NetworkObjects[0], NetworkObjects[1]);
 			}
 
-			windEffect.GameObject.transform.localPosition = Vector3.zero;
 		}
 
-		public static void SendToAll(GameObject SpawnOn, string EffectsName)
+		public static void SendToAll(GameObject SpawnOn, string EffectsName, bool  LeanTweenEffect, GameObject Player )
 		{
 			var NetID = SpawnOn.NetId();
 
@@ -46,8 +56,10 @@ namespace US13.Messages.Server
 
 			NetMessage msg = new NetMessage
 			{
+				ByPlayer = Player == null ? NetId.Empty :  Player.NetId(),
 				SpawnOn = NetID,
-				EffectName = EffectsName
+				EffectName = EffectsName,
+				LeanTweenEffect = LeanTweenEffect
 			};
 
 			SendToAll(msg);
