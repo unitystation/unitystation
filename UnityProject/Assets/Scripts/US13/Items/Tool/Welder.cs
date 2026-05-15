@@ -33,6 +33,8 @@ namespace US13.Items.Tool
 
 		public SpriteRenderer flameRenderer;
 
+		public SpriteHandler flameSpriteHandler;
+
 		public Chemistry.Reagent fuel;
 		public float FuelLevel
 		{
@@ -117,6 +119,8 @@ namespace US13.Items.Tool
 
 			damageOff = itemAtts.ServerHitDamage;
 
+			flameSpriteHandler = flameRenderer.GetComponent<SpriteHandler>();
+
 			//leftHandOriginal = itemAtts.inHandReferenceLeft;
 			//rightHandOriginal = itemAtts.inHandReferenceRight;
 
@@ -193,7 +197,7 @@ namespace US13.Items.Tool
 				//itemAtts.inHandReferenceLeft = leftHandFlame;
 				//itemAtts.inHandReferenceRight = rightHandFlame;
 				isBurning = true;
-				flameRenderer.GetComponent<SpriteHandler>().SetSpriteNonNetworked( flameSprites[0]);
+				flameSpriteHandler.SetSpriteNonNetworked( flameSprites[0]);
 				if (coBurnFuel == null)
 					coBurnFuel = StartCoroutine(BurnFuel());
 
@@ -208,7 +212,7 @@ namespace US13.Items.Tool
 					StopCoroutine(coBurnFuel);
 					coBurnFuel = null;
 				}
-				flameRenderer.GetComponent<SpriteHandler>().SetSpriteNonNetworked(null);
+				flameSpriteHandler.SetSpriteNonNetworked(null);
 			}
 
 			pickupable?.RefreshUISlotImage();
@@ -226,7 +230,8 @@ namespace US13.Items.Tool
 			while (isBurning)
 			{
 				//Flame animation:
-				flameRenderer.GetComponent<SpriteHandler>().SetSpriteNonNetworked( flameSprites[spriteIndex]);
+				flameSpriteHandler.SetSpriteNonNetworked( flameSprites[spriteIndex]);
+
 				spriteIndex++;
 				if (spriteIndex == 2)
 				{
