@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4726396450817676}
+  - component: {fileID: 877264431341847534}
   m_Layer: 15
   m_Name: EffectBase
   m_TagString: Untagged
@@ -32,6 +33,18 @@ Transform:
   - {fileID: 4477121353083166}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &877264431341847534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069497300762596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 181a5b4dde4eb324aa4b7559536ff75d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: RootSillys::UI.Core.MapSaverIgnoreObject
 --- !u!1 &1230737790073880
 GameObject:
   m_ObjectHideFlags: 0
@@ -82,6 +95,11 @@ SpriteRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -103,6 +121,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1085623217
   m_SortingLayer: 27
   m_SortingOrder: 45
@@ -131,12 +150,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 0
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 28aa90ef963a2134bb0d10a56a1b17d8, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 28aa90ef963a2134bb0d10a56a1b17d8,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 212268240904160500}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
-  OnSpriteUpdated:
-    m_PersistentCalls:
-      m_Calls: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 

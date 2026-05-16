@@ -11,8 +11,10 @@ using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Input_System.InteractionV2.Interactions.Internal;
 using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Core.Input_System.InteractionV2.TileInteraction;
+using US13.Core.Transform;
 using US13.HealthV2;
 using US13.Managers.NetworkManagement;
+using US13.Messages.Server;
 using US13.Player;
 using US13.Shuttles;
 using US13.Systems.Electricity;
@@ -462,8 +464,57 @@ namespace US13.Messages.Client.Interaction
 					//perform if not on cooldown
 					if (Cooldowns.TryStartServer(interaction, CommonCooldowns.Instance.Interaction))
 					{
-						interaction.PerformerPlayerScript.OnInteract(interaction as TargetedInteraction, interactable as Component);
+						var Targeted = interaction as TargetedInteraction;
+						interaction.PerformerPlayerScript.OnInteract(Targeted, interactable as Component);
 						interactable.ServerPerformInteraction(interaction);
+						if (Targeted != null && Targeted.UsedObject == null &&
+						    interaction?.PerformerPlayerScript?.playerHealth != null)
+						{
+							var Direct = interaction?.PerformerPlayerScript?.PlayerDirectional.CurrentDirection;
+
+							float Rotation = 0f;
+
+
+							if (Direct != null)
+							{
+								Rotation = Direct.Value.To360Z();
+							}
+
+							string VisualEffect = "";
+
+							switch (interaction.Intent)
+							{
+								case Intent.None:
+								case Intent.Help:
+									VisualEffect = "HandEffectHelp";
+									break;
+								case Intent.Harm:
+									VisualEffect = "HandEffectHarm";
+									break;
+								case Intent.Disarm:
+								case Intent.Grab:
+									VisualEffect = "HandEffectOther";
+									break;
+
+							}
+
+							var Colour = interaction.PerformerPlayerScript.playerHealth.GetHandColour(true);
+
+							var PositionalHandApply = interaction as PositionalHandApply;
+							if (PositionalHandApply != null)
+							{
+
+								PlayEffect.SendToAll(Targeted.TargetObject, VisualEffect, false, Targeted.Performer,
+									PositionalHandApply.TargetPosition,Rotation, Colour );
+							}
+							else
+							{
+
+								PlayEffect.SendToAll(Targeted.TargetObject, VisualEffect, false, Targeted.Performer, null,Rotation, Colour);
+							}
+
+						}
+
 					}
 					else
 					{

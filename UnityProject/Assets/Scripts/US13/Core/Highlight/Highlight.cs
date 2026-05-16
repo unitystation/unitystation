@@ -17,6 +17,8 @@ namespace US13.Core.Highlight
 {
 	public class Highlight : MonoBehaviour, IInitialise
 	{
+		public const string DontHighlightSpecial = "DontHighlightSpecial";
+
 		private const int HighlightPadding = 3;
 		public static bool HighlightEnabled;
 		public static Highlight instance;
@@ -186,7 +188,7 @@ namespace US13.Core.Highlight
 				handler.OnSpriteUpdated += (InvalidateCachedSize);
 			}
 
-			spriteRenderers = spriteRenderers.Where(x => x.sprite != null && x != instance.spriteRenderer && x.CompareTag("DontHighlightSpecial") == false).ToArray();
+			spriteRenderers = spriteRenderers.Where(x => x.sprite != null && x != instance.spriteRenderer && x.CompareTag(DontHighlightSpecial) == false).ToArray();
 			if (cachedTarget != highlightobject)
 			{
 				cachedTarget = highlightobject;
