@@ -284,7 +284,7 @@ namespace US13.Actions.V2
 
 		private void ClearCooldowns()
 		{
-			ActionCooldowns.RemoveAll(x => x.CooldownEnd <= DateTime.UtcNow);
+			ActionCooldowns.RemoveAll(x => x.GetCooldownEnd() <= DateTime.UtcNow);
 			this.cachedNetIdentity.isDirty = true;
 		}
 
@@ -303,13 +303,13 @@ namespace US13.Actions.V2
 		{
 			var isUnderCooldown = ActionCooldowns.Find(tuple => tuple.ActionId.Equals(actionId, StringComparison.InvariantCulture));
 			if (isUnderCooldown == null) return false;
-			if (isUnderCooldown.CooldownEnd <= DateTime.UtcNow)
+			if (isUnderCooldown.GetCooldownEnd() <= DateTime.UtcNow)
 			{
 				ActionCooldowns.Remove(isUnderCooldown);
 				this.cachedNetIdentity.isDirty = true;
 				return false; // Cooldown has expired
 			}
-			Chat.AddExamineMsg(gameObject, $"This action is still on cooldown, remaining time: {Math.Round((isUnderCooldown.CooldownEnd - DateTime.UtcNow).TotalSeconds, 2)} seconds.");
+			Chat.AddExamineMsg(gameObject, $"This action is still on cooldown, remaining time: {Math.Round((isUnderCooldown.GetCooldownEnd() - DateTime.UtcNow).TotalSeconds, 2)} seconds.");
             return true;
 		}
 
@@ -318,7 +318,7 @@ namespace US13.Actions.V2
 		{
 			var isUnderCooldown = ActionCooldowns.Find(tuple => tuple is { ActionId: not null } && tuple.ActionId.Equals(actionId, StringComparison.InvariantCulture));
 			if (isUnderCooldown == null) return 0.0f;
-			var remaining = (isUnderCooldown.CooldownEnd - DateTime.UtcNow).TotalSeconds;
+			var remaining = (isUnderCooldown.GetCooldownEnd() - DateTime.UtcNow).TotalSeconds;
 			return Mathf.Max((float)remaining, 0.0f);
 		}
 	}

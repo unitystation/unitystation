@@ -1,31 +1,26 @@
 ﻿using System;
 using Mirror;
+using UnityEngine;
 
 namespace US13.Actions.V2
 {
 	[Serializable]
-	public class CooldownInfo : NetworkMessage
+	public class CooldownInfo
 	{
-		public string ActionId { get; private set; }
-		public DateTime CooldownEnd { get; private set; }
+		public string ActionId;
+		public long CooldownEndTicks;
 
 		public CooldownInfo() { }
+
 		public CooldownInfo(string actionId, DateTime cooldownEnd)
 		{
 			ActionId = actionId;
-			CooldownEnd = cooldownEnd;
+			CooldownEndTicks = cooldownEnd.Ticks;
 		}
 
-		public void Serialize(NetworkWriter writer)
+		public DateTime GetCooldownEnd()
 		{
-			writer.WriteString(ActionId);
-			writer.WriteLong(CooldownEnd.Ticks);
-		}
-
-		public void Deserialize(NetworkReader reader)
-		{
-			ActionId = reader.ReadString();
-			CooldownEnd = new DateTime(reader.ReadLong());
+			return new DateTime(CooldownEndTicks);
 		}
 	}
 }
