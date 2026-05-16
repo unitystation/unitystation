@@ -467,7 +467,8 @@ namespace US13.Messages.Client.Interaction
 						var Targeted = interaction as TargetedInteraction;
 						interaction.PerformerPlayerScript.OnInteract(Targeted, interactable as Component);
 						interactable.ServerPerformInteraction(interaction);
-						if (Targeted != null && Targeted.UsedObject == null)
+						if (Targeted != null && Targeted.UsedObject == null &&
+						    interaction?.PerformerPlayerScript?.playerHealth != null)
 						{
 							var Direct = interaction?.PerformerPlayerScript?.PlayerDirectional.CurrentDirection;
 
