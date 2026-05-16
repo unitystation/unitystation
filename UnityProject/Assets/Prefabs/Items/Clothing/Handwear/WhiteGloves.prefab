@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 561975284526649177, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6522321818121649403}
+    - target: {fileID: 561975284526649177, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 26aa6c63858a72b43a2c746634b70a1f,
@@ -39,6 +44,21 @@ PrefabInstance:
         type: 3}
       propertyPath: currentClothData
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 790289613151823707, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: SpriteVisibleColour.b
+      value: 0.95294124
+      objectReference: {fileID: 0}
+    - target: {fileID: 790289613151823707, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: SpriteVisibleColour.g
+      value: 0.95294124
+      objectReference: {fileID: 0}
+    - target: {fileID: 790289613151823707, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: SpriteVisibleColour.r
+      value: 0.95294124
       objectReference: {fileID: 0}
     - target: {fileID: 790289613151823707, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
@@ -153,8 +173,30 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 26aa6c63858a72b43a2c746634b70a1f,
         type: 2}
+    - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 26aa6c63858a72b43a2c746634b70a1f,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f819cf8b4a0534ec59570563e52c8508, type: 3}
+--- !u!212 &6522321818121649403 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5799337935409317762, guid: f819cf8b4a0534ec59570563e52c8508,
+    type: 3}
+  m_PrefabInstance: {fileID: 790542277317409657}
+  m_PrefabAsset: {fileID: 0}

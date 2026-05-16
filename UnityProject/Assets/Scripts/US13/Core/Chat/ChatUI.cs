@@ -132,7 +132,7 @@ namespace US13.Core.Chat
 
 		[BoxGroup("Animation"), Range(0,1)] public static float ChatContentMinimumAlpha = 0f;
 
-		public bool AnimateNewChatEntries = true;
+		public static bool AnimateNewChatEntries = true;
 
 
 		public void SetPreferenceChatContent(float preference)

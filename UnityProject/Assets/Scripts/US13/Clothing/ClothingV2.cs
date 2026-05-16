@@ -95,6 +95,9 @@ namespace US13.Clothing
 		/// </summary>
 		public bool DisallowConsume => disallowConsume;
 
+		[Tooltip("as in what Colour Do you see when looking at it, e.g for hand interactions Sprite")]
+		public Color SpriteVisibleColour = Color.white;
+
 		private void Awake()
 		{
 			myItem = GetComponent<ItemAttributesV2>();

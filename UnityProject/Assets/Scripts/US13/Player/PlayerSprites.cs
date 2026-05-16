@@ -122,6 +122,8 @@ namespace US13.Player
 		[SerializeField]
 		private GameObject OverlaySprites;
 
+		public Color currentSurfaceColour;
+
 		protected void Awake()
 		{
 			directional = GetComponent<Rotatable>();
@@ -351,7 +353,7 @@ namespace US13.Player
 
 		public void SetSurfaceColour()
 		{
-			Color currentSurfaceColour = Color.white;
+			currentSurfaceColour = Color.white;
 			if (RaceBodyparts.Base.SkinColours.Count > 0)
 			{
 				ColorUtility.TryParseHtmlString(ThisCharacter.SkinTone, out currentSurfaceColour);

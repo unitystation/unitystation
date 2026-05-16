@@ -16,6 +16,9 @@ namespace US13.Messages.Server
 			public uint SpawnOn;
 			public bool LeanTweenEffect;
 			public string EffectName;
+			public Vector3? LocalPOS;
+			public float? z360;
+			public Color? Colour;
 		}
 
 		public override void Process(NetMessage msg)
@@ -27,11 +30,16 @@ namespace US13.Messages.Server
 			if (localPlayer == null) return;
 
 
+			if (msg.z360 == null)
+			{
+				msg.z360 = 0;
+			}
+
 			LoadMultipleObjects(new[] {msg.SpawnOn, msg.ByPlayer});
 
 			if (msg.LeanTweenEffect == false)
 			{
-				var windEffect = Spawn.ClientPrefab(msg.EffectName, parent:NetworkObjects[0].gameObject.transform);
+				var windEffect = Spawn.ClientPrefab(msg.EffectName, parent:NetworkObjects[0].gameObject.transform.parent);
 
 				if (windEffect.Successful == false)
 				{
@@ -39,7 +47,23 @@ namespace US13.Messages.Server
 					return;
 				}
 
-				windEffect.GameObject.transform.localPosition = Vector3.zero;
+				if (msg.LocalPOS != null)
+				{
+					windEffect.GameObject.transform.localPosition = msg.LocalPOS.Value;
+					windEffect.GameObject.transform.SetParent(NetworkObjects[0].gameObject.transform, true);
+				}
+				else
+				{
+					windEffect.GameObject.transform.SetParent(NetworkObjects[0].gameObject.transform, false);
+					windEffect.GameObject.transform.localPosition = Vector3.zero;
+				}
+
+				windEffect.GameObject.transform.localEulerAngles = new Vector3(0, 0, msg.z360.Value);
+
+				foreach (var wantInfo in windEffect.GameObject.GetComponents<IWantMoreEffectInfo>())
+				{
+					wantInfo.ReceiveMoreEffectInfo(msg.Colour.GetValueOrDefault(),NetworkObjects[1] );
+				}
 			}
 			else
 			{
@@ -48,7 +72,7 @@ namespace US13.Messages.Server
 
 		}
 
-		public static void SendToAll(GameObject SpawnOn, string EffectsName, bool  LeanTweenEffect, GameObject Player )
+		public static void SendToAll(GameObject SpawnOn, string EffectsName, bool  LeanTweenEffect, GameObject Player, Vector3? LocalPOS, float? RotationX, Color? Colour = null)
 		{
 			var NetID = SpawnOn.NetId();
 
@@ -59,7 +83,11 @@ namespace US13.Messages.Server
 				ByPlayer = Player == null ? NetId.Empty :  Player.NetId(),
 				SpawnOn = NetID,
 				EffectName = EffectsName,
-				LeanTweenEffect = LeanTweenEffect
+				LeanTweenEffect = LeanTweenEffect,
+				LocalPOS =  LocalPOS,
+				z360 =  RotationX,
+				Colour = Colour
+
 			};
 
 			SendToAll(msg);

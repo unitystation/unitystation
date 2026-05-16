@@ -188,7 +188,7 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 		{
 			//determine the sprites to display based on the new item
 			var spriteHandlers = Displaying.GetComponentsInChildren<SpriteHandler>(includeInactive: true);
-			spriteHandlers = spriteHandlers.Where(x => x != Highlight.instance.spriteRenderer).ToArray();
+			spriteHandlers = spriteHandlers.Where(x => x != Highlight.instance.spriteRenderer && x.CompareTag("DontHighlightSpecial") == false).ToArray();
 
 			foreach (var handler in spriteHandlers)
 			{

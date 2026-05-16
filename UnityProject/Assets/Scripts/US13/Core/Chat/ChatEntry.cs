@@ -202,7 +202,7 @@ namespace US13.Core.Chat
 				messageTextDark.raycastTarget = true;
 			}
 
-			if (ChatUI.Instance.AnimateNewChatEntries)
+			if (ChatUI.AnimateNewChatEntries)
 			{
 				AnimateNewChatEntry();
 			}

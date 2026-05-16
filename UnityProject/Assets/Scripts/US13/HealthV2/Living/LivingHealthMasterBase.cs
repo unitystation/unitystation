@@ -10,6 +10,7 @@ using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using US13.Clothing;
 using US13.Core;
 using US13.Core.Addressables;
 using US13.Core.Admin.Logs;
@@ -2519,6 +2520,26 @@ namespace US13.HealthV2.Living
 			List<TextColor> interactions = new List<TextColor>();
 			interactions.Add(CPRText);
 			return interactions;
+		}
+
+
+		public Color GetHandColour(bool IncludeGloves)
+		{
+			if (IncludeGloves)
+			{
+				var  Slot = playerScript.DynamicItemStorage.GetNamedItemSlots(NamedSlot.hands).FirstOrDefault(); //idk just pick the first one since there can be multiple
+
+				if (Slot != null && Slot.Item != null)
+				{
+					var Clothing = Slot.Item.GetComponent<ClothingV2>();
+					if (Clothing != null)
+					{
+						return Clothing.SpriteVisibleColour;
+					}
+				}
+			}
+
+			return playerSprites.currentSurfaceColour;
 		}
 	}
 

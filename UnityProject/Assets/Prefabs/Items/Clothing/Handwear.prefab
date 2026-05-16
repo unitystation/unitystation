@@ -146,9 +146,35 @@ PrefabInstance:
       propertyPath: foreverID
       value: f819cf8b4a0534ec59570563e52c8508
       objectReference: {fileID: 0}
+    - target: {fileID: 8183805690938991015, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: SpriteVisibleColour.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183805690938991015, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: SpriteVisibleColour.b
+      value: 0.3254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183805690938991015, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: SpriteVisibleColour.g
+      value: 0.3254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183805690938991015, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: SpriteVisibleColour.r
+      value: 0.3254902
+      objectReference: {fileID: 0}
     - target: {fileID: 8982871833932450213, guid: 6b5f74a79e023479cb5b30a2879621da,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3aabed9cbf8893749a18ebf6445f911b,
+        type: 2}
+    - target: {fileID: 8982871833932450213, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 3aabed9cbf8893749a18ebf6445f911b,
         type: 2}

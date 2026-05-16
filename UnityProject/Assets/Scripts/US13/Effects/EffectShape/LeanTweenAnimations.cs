@@ -1,11 +1,44 @@
 using UnityEngine;
 
+public enum LeanTweenAnimationsEnum
+{
+	TransparencyFade,
+	InteractionShake
+}
+
 public static class LeanTweenAnimations
 {
-	public static void DeEffectClient(string EffectName, GameObject TargetObject, GameObject Player )
+
+
+
+	public static void DeEffectClient(LeanTweenAnimationsEnum EffectName, GameObject TargetObject, GameObject Player,
+		LeanTweenType? useLeanTweenType = null, float? Duration = null)
+
+	{
+		DeEffectClient(EffectName.ToString(),  TargetObject, Player, useLeanTweenType, Duration);
+	}
+
+	public static void DeEffectClient(string EffectName, GameObject TargetObject, GameObject Player,
+		LeanTweenType? useLeanTweenType = null, float? Duration = null)
+
 	{
 		switch (EffectName)
 		{
+			case "TransparencyFade":
+				SpriteRenderer[] spriteRenderers = TargetObject.GetComponentsInChildren<SpriteRenderer>();
+
+				LeanTween.value(TargetObject, 1f, 0f, Duration ?? 1)
+					.setOnUpdate((float val) =>
+					{
+						foreach (SpriteRenderer sr in spriteRenderers)
+						{
+							Color c = sr.color;
+							c.a = val;
+							sr.color = c;
+						}
+					})
+					.setEase(useLeanTweenType ?? LeanTweenType.easeInOutQuad);
+				break;
 			case "InteractionShake":
 				LeanTween.cancel(TargetObject);
 				var originalLocalPos = TargetObject.transform.localPosition;
@@ -28,7 +61,7 @@ public static class LeanTweenAnimations
 
 					LeanTween.moveLocal(TargetObject, originalLocalPos + offset, step)
 						.setDelay(i * step)
-						.setEase(LeanTweenType.easeInOutQuad);
+						.setEase(useLeanTweenType ?? LeanTweenType.easeInOutQuad);
 				}
 
 // Return cleanly
