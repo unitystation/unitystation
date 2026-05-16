@@ -1,17 +1,19 @@
 using UnityEngine;
 
-public class TriggerLeanTweenClientEffect : MonoBehaviour
+namespace ClientEffecte
 {
-	[SerializeField]
-	private LeanTweenAnimationsEnum LeanTweenClientEffect;
-
-	public float Duration = 1;
-
-	public LeanTweenType LeanTweenType = LeanTweenType.easeInOutQuad;
-
-	private void OnEnable()
+	public class TriggerLeanTweenClientEffect : MonoBehaviour
 	{
-		LeanTweenAnimations.DeEffectClient(LeanTweenClientEffect, this.gameObject, null,LeanTweenType , Duration );
-	}
+		[SerializeField] private LeanTweenAnimationsEnum LeanTweenClientEffect;
 
+		public float Duration = 1;
+
+		public LeanTweenType LeanTweenType = LeanTweenType.easeInOutQuad;
+
+		private void OnEnable()
+		{
+			LeanTweenAnimations.DeEffectClient(LeanTweenClientEffect, this.gameObject, null, LeanTweenType, Duration);
+		}
+
+	}
 }
