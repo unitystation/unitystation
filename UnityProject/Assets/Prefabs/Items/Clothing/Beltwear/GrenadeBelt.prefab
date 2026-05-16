@@ -114,7 +114,7 @@ PrefabInstance:
     - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: initialName
-      value: Grenade Belt
+      value: grenade belt
       objectReference: {fileID: 0}
     - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
@@ -136,6 +136,22 @@ PrefabInstance:
     - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
         type: 3}
       propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: b5d89b10c672ecc4683144030e119ff0,
+        type: 2}
+    - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2235114152810004965, guid: 51c105fae1f0b074abf4c80745d8b129,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
       value: 
       objectReference: {fileID: 11400000, guid: b5d89b10c672ecc4683144030e119ff0,
         type: 2}

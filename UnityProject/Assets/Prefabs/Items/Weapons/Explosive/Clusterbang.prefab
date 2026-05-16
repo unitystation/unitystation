@@ -117,7 +117,7 @@ PrefabInstance:
     - target: {fileID: 2207033263415181155, guid: 1dc8ba0207acf41478d8ad69acb8fcc7,
         type: 3}
       propertyPath: initialName
-      value: Clusterbang
+      value: clusterbang
       objectReference: {fileID: 0}
     - target: {fileID: 2207033263415181155, guid: 1dc8ba0207acf41478d8ad69acb8fcc7,
         type: 3}
@@ -186,9 +186,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assets::US13.Items.Weapons.SpawnObjectGrenadeLogic
   prefabToSpawn: {fileID: 1018369158343359106, guid: 6073c845d17b695419c0095fc01be207,
     type: 3}
-  snapObjectToGrid: 0
   spawnQuantity: 3
-  spawnScatterRadius: 5
+  snapObjectToGrid: 0
 --- !u!212 &5718660744046247127 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 1926584235456324445, guid: 1dc8ba0207acf41478d8ad69acb8fcc7,
