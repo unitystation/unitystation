@@ -345,7 +345,8 @@ namespace US13.Tilemaps.Behaviours.Layers
 		{
 			lock (reagents.reagents)
 			{
-				foreach (var reagent in reagents.reagents)
+				ReagentMix toIterate = reagents.Clone();
+				foreach (var reagent in toIterate.reagents)
 				{
 					foreach (var effect in reagent.Key.OnSplatEffects)
 					{
