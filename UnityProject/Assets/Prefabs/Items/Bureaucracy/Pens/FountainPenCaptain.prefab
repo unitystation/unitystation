@@ -31,7 +31,7 @@ PrefabInstance:
     - target: {fileID: 3127653901449412208, guid: 8aed0ee99da5fca4d93befe72d7da164,
         type: 3}
       propertyPath: initialDescription
-      value: It's an expensive fountain pen. The nib is quite sharp.
+      value: An expensive fountain pen. The nib is quite sharp.
       objectReference: {fileID: 0}
     - target: {fileID: 3127653901449412208, guid: 8aed0ee99da5fca4d93befe72d7da164,
         type: 3}
@@ -132,6 +132,12 @@ PrefabInstance:
     - target: {fileID: 8704381815184353941, guid: 8aed0ee99da5fca4d93befe72d7da164,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a7c513738447e534a822fc879fb38af9,
+        type: 2}
+    - target: {fileID: 8704381815184353941, guid: 8aed0ee99da5fca4d93befe72d7da164,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: a7c513738447e534a822fc879fb38af9,
         type: 2}

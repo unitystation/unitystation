@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "0┼0┼0┼",
+      "Location": "7906┼7983┼0┼",
       "MatrixName": "3x3CrossLight",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -16,7 +16,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -24,7 +24,7 @@
             "Key": "X0Y1",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -35,7 +35,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -43,7 +43,7 @@
             "Key": "X1Y0",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -51,7 +51,7 @@
             "Key": "X1Y1",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -59,7 +59,7 @@
             "Key": "X1Y2",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -70,7 +70,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -78,7 +78,7 @@
             "Key": "X2Y1",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -89,7 +89,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           }
@@ -100,34 +100,15 @@
         "CommonPrefabs": [],
         "PrefabData": [
           {
-            "GitID": "dc519df8726c903b29314063476e399b_1┼1┼0┼",
-            "PrefabID": "dc519df8726c903b29314063476e399b",
+            "GitID": "29695260c1f4f8ba5868fe7fe030293a_1┼1┼0┼",
+            "PrefabID": "29695260c1f4f8ba5868fe7fe030293a",
             "Name": "FloorLightFixture (1)",
             "LocalPRS": "1┼1┼0┼",
             "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "LightSource@0",
-                  "Data": [
-                    {
-                      "Name": "isWithoutSwitch",
-                      "Data": "True"
-                    }
-                  ]
-                }
-              ],
+              "ClassDatas": [],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }

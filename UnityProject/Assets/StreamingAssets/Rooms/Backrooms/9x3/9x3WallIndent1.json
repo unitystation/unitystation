@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "0┼0┼0┼",
+      "Location": "7880┼8011┼0┼",
       "MatrixName": "9x3WallIndent1",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -16,7 +16,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -27,7 +27,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -38,7 +38,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -49,15 +49,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X1Y1",
-            "Value": [
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -65,10 +57,10 @@
             "Key": "X1Y2",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -79,18 +71,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X2Y1",
-            "Value": [
-              {
-                "Tel": "ReinforcedWall"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -101,23 +82,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X3Y0",
-            "Value": [
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X3Y1",
-            "Value": [
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -128,23 +93,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X4Y0",
-            "Value": [
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X4Y1",
-            "Value": [
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -155,23 +104,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X5Y0",
-            "Value": [
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X5Y1",
-            "Value": [
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -182,7 +115,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -193,18 +126,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X6Y1",
-            "Value": [
-              {
-                "Tel": "ReinforcedWall"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -215,7 +137,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -226,15 +148,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X7Y1",
-            "Value": [
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -242,10 +156,10 @@
             "Key": "X7Y2",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -256,7 +170,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -267,7 +181,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -278,7 +192,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           }
@@ -287,7 +201,21 @@
       "CompactObjectMapData": {
         "Ver": "1.5.0",
         "CommonPrefabs": [],
-        "PrefabData": [],
+        "PrefabData": [
+          {
+            "GitID": "4378ec3d4d96c1239bfd5e740e90f4c1_1┼1┼0┼",
+            "PrefabID": "4378ec3d4d96c1239bfd5e740e90f4c1",
+            "NameMatches": true,
+            "Name": "BackroomsPossibleLoot",
+            "LocalPRS": "1┼1┼0┼"
+          },
+          {
+            "GitID": "4378ec3d4d96c1239bfd5e740e90f4c1_7┼1┼0┼",
+            "PrefabID": "4378ec3d4d96c1239bfd5e740e90f4c1",
+            "Name": "BackroomsPossibleLoot (1)",
+            "LocalPRS": "7┼1┼0┼"
+          }
+        ],
         "IDToNetIDClient": {}
       },
       "PreviewGizmos": [

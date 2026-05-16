@@ -15,6 +15,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
+      propertyPath: poolList.Array.data[0].probability
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
       propertyPath: poolList.Array.data[0].randomItemPool
       value: 
       objectReference: {fileID: 11400000, guid: acd561e4e01e09b48a7436e1f7cb742a,

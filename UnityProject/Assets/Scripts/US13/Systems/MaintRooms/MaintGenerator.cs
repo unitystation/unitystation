@@ -81,6 +81,7 @@ namespace US13.Systems.MaintRooms
 		private List<GameObject> containers = new List<GameObject>();
 
 		[SerializeField] private GameObject abandonedCrate = default;
+        [SerializeField, Tooltip("Start the maze carving algorithm from a custom position within the maintgen bounds (default being 0,0 or bottom-left). Odd numbers may result in unexpected behavior.")] private Vector2Int startLocationOverride = Vector2Int.zero;
 
 		private short[] mazeArray;
 		private List<Vector2Int> possibleCells;
@@ -158,7 +159,7 @@ namespace US13.Systems.MaintRooms
 				Loggy.Warning("Maint generator has even dimensions, this might result in undesired generation!");
 			}
 
-			await CarvePath(Vector2Int.zero);
+			await CarvePath(startLocationOverride);
 
 			foreach (var room in roomGenerators)
 			{

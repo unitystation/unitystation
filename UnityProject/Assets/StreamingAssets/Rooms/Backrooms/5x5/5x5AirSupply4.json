@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "-72┼-45┼0┼",
+      "Location": "7732┼7947┼0┼",
       "MatrixName": "5x5AirSupply4",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -16,7 +16,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -24,7 +24,7 @@
             "Key": "X0Y1",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -35,7 +35,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -46,7 +46,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -57,7 +57,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -65,7 +65,7 @@
             "Key": "X1Y0",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -73,7 +73,7 @@
             "Key": "X1Y1",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -84,7 +84,7 @@
                 "Tel": "delivery"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -95,7 +95,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -103,7 +103,7 @@
             "Key": "X1Y4",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -114,7 +114,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -122,7 +122,7 @@
             "Key": "X2Y1",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -130,7 +130,7 @@
             "Key": "X2Y2",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -141,7 +141,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -152,7 +152,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -160,7 +160,7 @@
             "Key": "X3Y0",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -168,7 +168,7 @@
             "Key": "X3Y1",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -179,7 +179,7 @@
                 "Tel": "delivery"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -190,7 +190,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -198,7 +198,7 @@
             "Key": "X3Y4",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -209,7 +209,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -217,7 +217,7 @@
             "Key": "X4Y1",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -228,7 +228,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -239,7 +239,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -250,7 +250,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           }
@@ -343,7 +343,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -363,6 +363,15 @@
                     {
                       "Name": "isSelfPowered",
                       "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ClearanceRestricted@0",
+                  "Data": [
+                    {
+                      "Name": "requiredClearance#0",
+                      "Data": "AwayGeneric1"
                     }
                   ]
                 }
@@ -389,10 +398,10 @@
             }
           },
           {
-            "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_3┼4┼0┼",
-            "PrefabID": "8fb9b82aab871a54fb9bdb7e4a985821",
+            "GitID": "4378ec3d4d96c1239bfd5e740e90f4c1_3┼4┼0┼",
+            "PrefabID": "4378ec3d4d96c1239bfd5e740e90f4c1",
             "NameMatches": true,
-            "Name": "MaintLoot",
+            "Name": "BackroomsPossibleLoot",
             "LocalPRS": "3┼4┼0┼"
           }
         ],

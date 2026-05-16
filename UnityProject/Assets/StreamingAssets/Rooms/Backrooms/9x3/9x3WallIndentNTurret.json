@@ -4,7 +4,7 @@
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
-      "Location": "76┼39┼0┼",
+      "Location": "7880┼8031┼0┼",
       "MatrixName": "9x3WallIndentNTurret",
       "GitFriendlyTileMapData": {
         "Ver": "1.0.0",
@@ -16,7 +16,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -27,7 +27,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -38,7 +38,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -49,15 +49,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X1Y1",
-            "Value": [
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -68,7 +60,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -79,15 +71,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X2Y1",
-            "Value": [
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -98,7 +82,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -109,23 +93,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X3Y1",
-            "Value": [
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X3Y2",
-            "Value": [
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -136,7 +104,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -144,15 +112,10 @@
             "Key": "X4Y1",
             "Value": [
               {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X4Y2",
-            "Value": [
+                "Tel": "podfloor_light"
+              },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -163,23 +126,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X5Y1",
-            "Value": [
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X5Y2",
-            "Value": [
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -190,15 +137,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X6Y1",
-            "Value": [
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -209,7 +148,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -220,15 +159,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X7Y1",
-            "Value": [
-              {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -239,7 +170,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -250,7 +181,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -261,7 +192,7 @@
                 "Tel": "Wall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           },
@@ -272,7 +203,7 @@
                 "Tel": "ReinforcedWall"
               },
               {
-                "Tel": "Plating"
+                "Tel": "PlatingIndestructible"
               }
             ]
           }
@@ -282,93 +213,6 @@
         "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
-          {
-            "GitID": "24217cb8b2338a3479aaf8d32b727ed1_4┼1┼0┼",
-            "PrefabID": "24217cb8b2338a3479aaf8d32b727ed1",
-            "Name": "LaserTurret (1)",
-            "LocalPRS": "4┼1┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "Turret@0",
-                  "Data": [
-                    {
-                      "Name": "CheckSecurityRecords",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "CheckForArrest",
-                      "Data": "False"
-                    },
-                    {
-                      "Name": "CheckUnauthorisedPersonnel",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "isSelfPowered",
-                      "Data": "True"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "ClearanceRestricted@0",
-                  "Data": [
-                    {
-                      "Name": "requiredClearance#0",
-                      "Data": "AwayGeneric2"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,2",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#1",
-                          "Data": "#removed#"
-                        },
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "AwayGeneric2"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,3",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#2",
-                          "Data": "#removed#"
-                        },
-                        {
-                          "Name": "requiredClearance#1",
-                          "Data": "#removed#"
-                        },
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "AwayGeneric2"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          },
           {
             "GitID": "c937e0abe85aca9499d09951de736ec6_4┼1┼0┼",
             "PrefabID": "c937e0abe85aca9499d09951de736ec6",
@@ -397,7 +241,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -405,9 +249,16 @@
             }
           },
           {
+            "GitID": "e918b490e7354ca4bacd182b6b57a0ff_4┼1┼0┼",
+            "PrefabID": "e918b490e7354ca4bacd182b6b57a0ff",
+            "NameMatches": true,
+            "Name": "BackroomsTurretNusiance",
+            "LocalPRS": "4┼1┼0┼"
+          },
+          {
             "GitID": "991d9e2b162f7ef4ca9b4fd2bdba60d2_7┼2┼0┼",
             "PrefabID": "991d9e2b162f7ef4ca9b4fd2bdba60d2",
-            "Name": "TurretControlPanel (1)",
+            "Name": "TurretControlPanel L2",
             "LocalPRS": "7┼2┼0┼",
             "Object": {
               "ClassDatas": [
@@ -425,7 +276,7 @@
                   "Data": [
                     {
                       "Name": "turrets#0",
-                      "Data": "24217cb8b2338a3479aaf8d32b727ed1_4┼1┼0┼@0@Turret@0"
+                      "Data": "e918b490e7354ca4bacd182b6b57a0ff_4┼1┼0┼@0@Turret@0"
                     },
                     {
                       "Name": "isStun",

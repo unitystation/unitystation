@@ -131,14 +131,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
+      propertyPath: exportCost
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
       propertyPath: initialName
-      value: File Cabinet
+      value: file cabinet
       objectReference: {fileID: 0}
     - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: initialDescription
-      value: Stores important docs such as court documents, department budgets and
-        captain's divorce papers.
+      value: Stores important documents such as court filings, department budgets,
+        and the captain's divorce papers.
       objectReference: {fileID: 0}
     - target: {fileID: 7474997010728688467, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -163,6 +168,12 @@ PrefabInstance:
     - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 98da1500afd05064b860d7dadf5f6a62,
+        type: 2}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 98da1500afd05064b860d7dadf5f6a62,
         type: 2}
@@ -231,6 +242,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &4687198204525923257 stripped
