@@ -137,7 +137,7 @@ namespace US13.Items.Weapons.Melee
 
 			if (weaponState == WeaponState.On)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, internalBattery.HasBatteries
+				Chat.AddExamineMsgFromServer(interaction.Performer, internalBattery?.HasBatteries == true
 						? $"You switch the {gameObject.ExpensiveName()} off"
 						: $"You retract the {gameObject.ExpensiveName()}");
 				SetState(false);
