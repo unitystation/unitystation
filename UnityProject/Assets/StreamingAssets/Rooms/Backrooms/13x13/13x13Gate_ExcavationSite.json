@@ -1753,6 +1753,30 @@
                   "ClassID": "LightSwitchV2@0",
                   "Data": [
                     {
+                      "Name": "listOfLights#5",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_4┼1┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "listOfLights#4",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_8┼1┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "listOfLights#3",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_1┼4┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "listOfLights#2",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_11┼4┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "listOfLights#1",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_11┼10┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "listOfLights#0",
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_1┼10┼0┼@0@LightSource@0"
+                    },
+                    {
                       "Name": "isOn",
                       "Data": "False"
                     }
@@ -1789,6 +1813,10 @@
                 {
                   "ClassID": "LightSource@0",
                   "Data": [
+                    {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_0┼2┼0┼@0@LightSwitchV2@0"
+                    },
                     {
                       "Name": "InitialState",
                       "Data": "Off"
@@ -1839,6 +1867,10 @@
                 {
                   "ClassID": "LightSource@0",
                   "Data": [
+                    {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_0┼2┼0┼@0@LightSwitchV2@0"
+                    },
                     {
                       "Name": "InitialState",
                       "Data": "Off"
@@ -1913,6 +1945,10 @@
                 {
                   "ClassID": "LightSource@0",
                   "Data": [
+                    {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_0┼2┼0┼@0@LightSwitchV2@0"
+                    },
                     {
                       "Name": "InitialState",
                       "Data": "Off"
@@ -2018,6 +2054,10 @@
                   "ClassID": "LightSource@0",
                   "Data": [
                     {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_0┼2┼0┼@0@LightSwitchV2@0"
+                    },
+                    {
                       "Name": "InitialState",
                       "Data": "Off"
                     }
@@ -2115,6 +2155,10 @@
                   "ClassID": "LightSource@0",
                   "Data": [
                     {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_0┼2┼0┼@0@LightSwitchV2@0"
+                    },
+                    {
                       "Name": "InitialState",
                       "Data": "Off"
                     }
@@ -2171,6 +2215,10 @@
                 {
                   "ClassID": "LightSource@0",
                   "Data": [
+                    {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_0┼2┼0┼@0@LightSwitchV2@0"
+                    },
                     {
                       "Name": "InitialState",
                       "Data": "Off"
