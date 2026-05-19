@@ -1,6 +1,6 @@
 {
   "Ver": "1.0.0",
-  "MapName": "5x5Room_ThemeIngredientFridge",
+  "MapName": "5x5Room_ThemeIngredientFridge_W",
   "ContainedMatrices": [
     {
       "Ver": "1.1.1",
@@ -382,6 +382,15 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Left_By90"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "isWithoutSwitch",
+                      "Data": "True"
                     }
                   ]
                 }
