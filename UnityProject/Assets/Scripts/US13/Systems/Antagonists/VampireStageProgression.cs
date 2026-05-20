@@ -55,6 +55,8 @@ namespace US13.Systems.Antagonists
 			if (ReagentPool == null) return;
 			if (connectedPlayer.PlayerButtonedActions == null) return;
 
+			try{
+
 			//I think there's an issue as chemistry is multithreaded that when you lose blood from damage it can create a race condition on what the blood pool is supposed to be.
 			//To try fix this we gonna lock the ReagentPool.BloodPool so everyone agrees what the stages are supposed to be and we dont get a "Lose stages 1 and 2. Reagin 2" situation.
 			lock(_evolveDevolveLock)
@@ -71,6 +73,11 @@ namespace US13.Systems.Antagonists
 				if(vampireStage == currentVampirismStage) return;
 				if (vampireStage > currentVampirismStage) Evolve(vampireStage);
 				else Devolve(vampireStage);
+			}
+			}
+			catch(Exception e)
+			{
+				Loggy.Error(e.ToString());
 			}
 		}
 
