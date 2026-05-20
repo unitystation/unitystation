@@ -59,7 +59,7 @@ namespace US13.Systems.Antagonists
 
 			//I think there's an issue as chemistry is multithreaded that when you lose blood from damage it can create a race condition on what the blood pool is supposed to be.
 			//To try fix this we gonna lock the ReagentPool.BloodPool so everyone agrees what the stages are supposed to be and we dont get a "Lose stages 1 and 2. Reagin 2" situation.
-			lock(_evolveDevolveLock)
+			lock(ReagentPool.BloodPool)
 			{
 				int vampireStage;
 				if (ReagentPool.BloodPool.reagents.ContainsKey(CommonSicknesses.Instance.VampirismReagent) == false) vampireStage = -1; //Vampire stage -1 means we want to remove/add stage 0 aswell
@@ -69,7 +69,6 @@ namespace US13.Systems.Antagonists
 					float diseaseAmount = ReagentPool.BloodPool[CommonSicknesses.Instance.VampirismReagent];
 					vampireStage = vampirismReaction.GetStageIDFromReagentAmount(ReagentPool, diseaseAmount) - 1;
 				}
-
 				if(vampireStage == currentVampirismStage) return;
 				if (vampireStage > currentVampirismStage) Evolve(vampireStage);
 				else Devolve(vampireStage);
@@ -91,7 +90,7 @@ namespace US13.Systems.Antagonists
 
 		private void Devolve(int newStage)
 		{
-			if (newStage <= 0 && connectedPlayer.Mind.AntagPublic != null && connectedPlayer.Mind.AntagPublic.CurTeam.Data == vampireTeam)
+			if (newStage <= 0 && connectedPlayer.Mind?.AntagPublic != null && connectedPlayer.Mind.AntagPublic.CurTeam?.Data == vampireTeam)
 			{
 				preventCuredVampires.RemoveVampire(connectedPlayer.Mind);
 				connectedPlayer.Mind.RemoveAntag();
@@ -100,7 +99,7 @@ namespace US13.Systems.Antagonists
 			if (newStage < 3 && cloakEquipped) UnEquipCloak();
 
 			StringBuilder devolutionMessageBuilder = new StringBuilder();
-			for (int i = currentVampirismStage; i > newStage; i++)
+			for (int i = currentVampirismStage; i > newStage; i--)
 			{
 				StageAbilities abilitiesToLose = stageAbilities[i];
 				if(abilitiesToLose.onStageReachedText != null) devolutionMessageBuilder.AppendLine($"<color=red>{abilitiesToLose.onStageLostText}</color>");

@@ -65,7 +65,7 @@ namespace US13.Items.Weapons.Melee
 			if (victimReagentPool == null || attackerReagentPool == null) return;
 
 			TeamData currentTeam = victimPlayerScript.Mind?.AntagPublic?.CurTeam?.Data;
-			if (currentTeam == vampireTeam && victimReagentPool.BloodPool[CommonSicknesses.Instance.VampirismReagent] < VampireSafetyConcentration * victimReagentPool.NormalBlood) return;
+			if (currentTeam == vampireTeam && victimReagentPool.BloodPool[CommonSicknesses.Instance.VampirismReagent] < (VampireSafetyConcentration * victimReagentPool.NormalBlood)) return;
 			if (victimReagentPool.BloodPool.Total < victimReagentPool.NormalBlood * SanguineThresholdFraction) return;
 
 			ReagentMix extractedBlood = victimReagentPool.BloodPool.Take(victimReagentPool.NormalBlood * SanguineAmountFraction);
