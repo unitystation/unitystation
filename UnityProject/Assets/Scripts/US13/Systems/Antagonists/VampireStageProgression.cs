@@ -30,8 +30,6 @@ namespace US13.Systems.Antagonists
 		[BoxGroup("Required References"), SerializeField] private Antagonist vampireAntagonist = null;
 		[BoxGroup("Required References"), SerializeField] private TeamData vampireTeam = null;
 
-
-
 		[SerializeField] private List<StageAbilities> stageAbilities = new List<StageAbilities>();
 		private int currentVampirismStage = -1;
 		private int currentInGamePlayers = 0;
@@ -48,14 +46,10 @@ namespace US13.Systems.Antagonists
 			public string onStageLostText = "";
 		}
 
-		private static readonly object _evolveDevolveLock = new object();
-
 		public void Apply()
 		{
 			if (ReagentPool == null) return;
 			if (connectedPlayer.PlayerButtonedActions == null) return;
-
-			try{
 
 			//I think there's an issue as chemistry is multithreaded that when you lose blood from damage it can create a race condition on what the blood pool is supposed to be.
 			//To try fix this we gonna lock the ReagentPool.BloodPool so everyone agrees what the stages are supposed to be and we dont get a "Lose stages 1 and 2. Reagin 2" situation.
@@ -72,11 +66,6 @@ namespace US13.Systems.Antagonists
 				if(vampireStage == currentVampirismStage) return;
 				if (vampireStage > currentVampirismStage) Evolve(vampireStage);
 				else Devolve(vampireStage);
-			}
-			}
-			catch(Exception e)
-			{
-				Loggy.Error(e.ToString());
 			}
 		}
 
