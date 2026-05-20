@@ -3,6 +3,7 @@ using System.Linq;
 using Mirror;
 using UnityEngine;
 using US13.Core.Lifecycle;
+using US13.Managers;
 using US13.Managers.UpdateManager;
 using US13.Systems.Explosions.NodeTypes;
 using US13.Tilemaps.Behaviours.Layers;
@@ -16,8 +17,9 @@ namespace US13.Systems.Explosions
 		public static HashSet<ExplosionPropagationLine> CheckLines = new HashSet<ExplosionPropagationLine>();
 		private static HashSet<ExplosionPropagationLine> SubCheckLines = new HashSet<ExplosionPropagationLine>();
 
-
 		public static List<EffectDataToClean> DelayedEffectsToRemove = new List<EffectDataToClean>();
+
+		public const float DEFAULT_EXPLOSION_STEP_TIME_IN_SECONDS = 0.4f;
 
 
 		public class EffectDataToClean
@@ -75,7 +77,8 @@ namespace US13.Systems.Explosions
 		{
 			if (Application.isEditor == false && NetworkServer.active == false) return;
 
-			UpdateManager.Add(Step, 0.4f);
+			UpdateManager.Add(Step, GameConfigManager.GameConfig.ExplosionStepTimeInSeconds > 0 ?
+				GameConfigManager.GameConfig.ExplosionStepTimeInSeconds : DEFAULT_EXPLOSION_STEP_TIME_IN_SECONDS);
 		}
 
 		private void OnDisable()

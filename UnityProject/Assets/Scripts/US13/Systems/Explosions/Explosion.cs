@@ -19,7 +19,7 @@ namespace US13.Systems.Explosions
 	public class Explosion
 	{
 
-		// (Max) - why were these numbers choosen before?
+		// (Max) - why were these numbers chosen before?
 		// They may look less like magic numbers now, but there is no explanation for why they are multiples of 8.
 		public const int EXPLOSION_STRENGTH_LOW = 800;
 		public const int EXPLOSION_STRENGTH_MEDIUM = 8000;
