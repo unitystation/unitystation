@@ -37,8 +37,20 @@ PrefabInstance:
     - target: {fileID: 2447550672866220013, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: CapableMutations.Array.size
-      value: 23
+      value: 19
       objectReference: {fileID: 0}
+    - target: {fileID: 2447550672866220013, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: 'CapableMutations.Array.data[17]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d30a8633ee38fd49b6dd72e35a0dc0c,
+        type: 2}
+    - target: {fileID: 2447550672866220013, guid: e241039a7933eb347bd1a9bb67a9078a,
+        type: 3}
+      propertyPath: 'CapableMutations.Array.data[18]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 690f18a2fa4bec141971d6f5c7753177,
+        type: 2}
     - target: {fileID: 2447550672866220013, guid: e241039a7933eb347bd1a9bb67a9078a,
         type: 3}
       propertyPath: 'CapableMutations.Array.data[21]'
@@ -270,11 +282,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseReagentContainer: 0
   groundReagents:
-    m_keys:
-    - {fileID: 11400000, guid: 82692ea8680693d459ad97993dbda0f3, type: 2}
-    - {fileID: 11400000, guid: 3afb1893f74fb775d806cbc4563ed1e7, type: 2}
-    m_values: 0a00000005000000
+    m_keys: []
+    m_values: []
 --- !u!114 &3959904421835429671
 MonoBehaviour:
   m_ObjectHideFlags: 0
