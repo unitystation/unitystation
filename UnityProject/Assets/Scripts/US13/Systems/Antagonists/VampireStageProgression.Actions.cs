@@ -182,6 +182,8 @@ namespace US13.Systems.Antagonists
 					float gainedBlood = extractedBlood.Total * BloodDrainEfficiencyFraction;
 					ReagentPool.BloodPool?.Add(CommonSicknesses.Instance.VampirismReagent, gainedBlood);
 					connectedPlayer.playerHealth?.HealDamageOnAll(connectedPlayer.gameObject, gainedBlood, DamageType.Brute);
+
+					Chat.AddExamineMsgFromServer(connectedPlayer.gameObject, $"Syphoned {gainedBlood} corruption from target");
 				})
 				.ServerStartProgress(firstPlayerOnTile.RegisterPlayer, bloodDrainTime, connectedPlayer.gameObject);
 			if (bar != null)
@@ -211,9 +213,12 @@ namespace US13.Systems.Antagonists
 			var bar = StandardProgressAction.Create(progressConfig, () =>
 			{
 				Chat.AddExamineMsg(connectedPlayer.gameObject, $"You successfully to drain {firstMobOnTile.name}'s blood.");
-				ReagentPool.BloodPool.Add(CommonSicknesses.Instance.VampirismReagent, bloodToDrain * BloodDrainEfficiencyFraction * 2.5f); //this times 10 is just to make V1 mobs give some blood despite low health
-				connectedPlayer.playerHealth.HealDamageOnAll(connectedPlayer.gameObject, bloodToDrain * BloodDrainEfficiencyFraction * 2.5f, DamageType.Brute);
+				float drainedFromMob = bloodToDrain * BloodDrainEfficiencyFraction * 2.5f;
+				ReagentPool.BloodPool.Add(CommonSicknesses.Instance.VampirismReagent, drainedFromMob); //this times 10 is just to make V1 mobs give some blood despite low health
+				connectedPlayer.playerHealth.HealDamageOnAll(connectedPlayer.gameObject, drainedFromMob, DamageType.Brute);
 				firstMobOnTile.ApplyDamage(connectedPlayer.gameObject, bloodToDrain, AttackType.Internal, DamageType.Brute);
+
+				Chat.AddExamineMsgFromServer(connectedPlayer.gameObject, $"Syphoned {drainedFromMob} corruption from target");
 			})
 				.ServerStartProgress(firstMobOnTile.gameObject.RegisterTile(), bloodDrainTime, connectedPlayer.gameObject);
 			if (bar != null)
