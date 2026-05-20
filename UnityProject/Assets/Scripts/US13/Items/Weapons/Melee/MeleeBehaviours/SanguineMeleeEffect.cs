@@ -4,6 +4,7 @@ using Chemistry;
 using UnityEngine;
 using US13.Core.Addressables.Types;
 using US13.Core.Attributes;
+using US13.Core.Chat;
 using US13.HealthV2;
 using US13.HealthV2.Living.MedicalChemistry;
 using US13.HealthV2.Living.PolymorphicSystems;
@@ -64,14 +65,14 @@ namespace US13.Items.Weapons.Melee
 			if (victimReagentPool == null || attackerReagentPool == null) return;
 
 			TeamData currentTeam = victimPlayerScript.Mind?.AntagPublic?.CurTeam?.Data;
-			if (currentTeam == vampireTeam && victimReagentPool.BloodPool[CommonSicknesses.Instance.VampirismReagent] < VampireSafetyConcentration * victimReagentPool.NormalBlood) return;
+			if (currentTeam == vampireTeam && victimReagentPool.BloodPool[CommonSicknesses.Instance.VampirismReagent] < (VampireSafetyConcentration * victimReagentPool.NormalBlood)) return;
 			if (victimReagentPool.BloodPool.Total < victimReagentPool.NormalBlood * SanguineThresholdFraction) return;
 
 			ReagentMix extractedBlood = victimReagentPool.BloodPool.Take(victimReagentPool.NormalBlood * SanguineAmountFraction);
 			float gainedBlood = extractedBlood.Total * SanguineEfficiencyFraction;
 
 			attackerReagentPool.BloodPool.Add(CommonSicknesses.Instance.VampirismReagent, gainedBlood);
-
+			Chat.AddExamineMsgFromServer(attacker, $"Syphoned {gainedBlood} corruption from target");
 			if(useSound != null) SoundManager.PlayNetworkedAtPos(useSound, target.transform.position, sourceObj: target.gameObject);
 		}
 		public void OnBlockBehaviour(GameObject attacker, GameObject target, BodyPartType damageZone, WeaponNetworkActions.MeleeStats stats) { }
