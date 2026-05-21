@@ -30,6 +30,7 @@ public class LightingSystem : MonoBehaviour
 
 	private Camera mMainCamera;
 	private OcclusionMaskRenderer mOcclusionRenderer;
+	public ShadowMaskRenderer mShadowMaskRenderer;
 	private LightMaskRenderer mLightMaskRenderer;
 	private BackgroundRenderer mBackgroundRenderer;
 	private PostProcessingStack mPostProcessingStack;
@@ -332,6 +333,8 @@ public class LightingSystem : MonoBehaviour
 			mOcclusionRenderer = OcclusionMaskRenderer.InitializeMaskRenderer(gameObject, renderSettings.occlusionLayers, materialContainer.OcclusionMaskShader);
 		}
 
+		mShadowMaskRenderer.SetUp(gameObject);
+
 		if (mLightMaskRenderer == null)
 		{
 			mLightMaskRenderer = LightMaskRenderer.InitializeMaskRenderer(gameObject);
@@ -393,7 +396,7 @@ public class LightingSystem : MonoBehaviour
 
 
 
-	public void Update()
+	public void LateUpdate()
 	{
 		// Don't run lighting system on headless.
 		if (GameInfo.IsHeadlessServer)
@@ -441,6 +444,7 @@ public class LightingSystem : MonoBehaviour
 		// Possibly move to container?
 		mPostProcessingStack.ResetRenderingTextures(iParameters);
 		mBackgroundRenderer.ResetRenderingTextures(iParameters);
+		mShadowMaskRenderer.ResetRenderingTextures(iParameters);
 	}
 
 	private void OnPreRender()
@@ -530,6 +534,8 @@ public class LightingSystem : MonoBehaviour
 
 			objectOcclusionMask.renderTexture.filterMode = FilterMode.Point;
 		}
+
+
 
 		// Note: After execution of this method, MainCamera.Render will be executed and scene will be drawn.
 	}
@@ -669,7 +675,12 @@ public class LightingSystem : MonoBehaviour
 			return;
 		}
 
-		using(new DisposableProfiler("9. Blit Scene with Mixed Lights"))
+		using (new DisposableProfiler("9. Shadow Silhouette + Classify + Blur"))
+		{
+			mShadowMaskRenderer.Render(mMainCamera);
+		}
+
+		using(new DisposableProfiler("10. Blit Scene with Mixed Lights"))
 		{
 			mlightPPRT.renderTexture.filterMode = FilterMode.Bilinear;
 			obstacleLightMask.renderTexture.filterMode = FilterMode.Bilinear;
@@ -686,12 +697,16 @@ public class LightingSystem : MonoBehaviour
 			_blitMaterial.SetVector("_AmbLightBloomSA", new Vector4(renderSettings.ambient, renderSettings.lightMultiplier, renderSettings.bloomSensitivity, renderSettings.bloomAdd));
 			_blitMaterial.SetFloat("_BackgroundMultiplier", renderSettings.backgroundMultiplier);
 
+			_blitMaterial.SetTexture("_ShadowTex",   mShadowMaskRenderer._pingRT);
+			_blitMaterial.SetFloat  ("_ShadowAlpha", ShadowMaskRenderer.shadowAlpha);
+
+
 			Graphics.Blit(iSource, iDestination, _blitMaterial);
 		}
 
 
 		RenderTexture uiRenderTexture = RenderTexture.GetTemporary(Screen.width, Screen.height, 0, RenderTextureFormat.ARGB32);
-		using (new DisposableProfiler("10. Render UI Layer"))
+		using (new DisposableProfiler("11. Render UI Layer"))
 		{
 			if (DoUICamera)
 			{
@@ -704,7 +719,7 @@ public class LightingSystem : MonoBehaviour
 
 		if (DoOtherBit)
 		{
-			using (new DisposableProfiler("11. Blit Scene with UI"))
+			using (new DisposableProfiler("12. Blit Scene with UI"))
 			{
 				//TODO optimist
 				// Combine the UI render texture with the existing output.

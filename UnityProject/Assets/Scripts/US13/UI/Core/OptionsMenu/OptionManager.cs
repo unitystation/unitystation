@@ -403,6 +403,23 @@ namespace DynamicOptions
 					Default = () => { return true; },
 				}},
 
+			{Option.AmbientOcclusionAlpha,
+				new OptionData() {DisplayName = "Ambient occlusion Visibility ", OptionType = OptionType.Aslider, PreferenceKey = "AmbientOcclusionAlpha",
+					OptionCategoryType = OptionCategoryType.Theme,
+					OnChangeAction = o => { ShadowMaskRenderer.shadowAlpha = (float)o; return "";  },
+					Show = () => { return true; },
+					Default = () => { return 0.4f; },
+					UIParameters = () => { return (new  Vector2(0f, 1.5f), false); },
+				}},
+			{Option.AmbientOcclusionSpread,
+				new OptionData() {DisplayName = "Ambient occlusion Spread ", OptionType = OptionType.Aslider, PreferenceKey = "AmbientOcclusionSpread",
+					OptionCategoryType = OptionCategoryType.Theme,
+					OnChangeAction = o => { ShadowMaskRenderer.blurSpread = (float)o; return "";  },
+					Show = () => { return true; },
+					Default = () => { return 10f; },
+					UIParameters = () => { return (new  Vector2(2f, 15f), false); },
+				}},
+
 			// ========================================= Gameplay =========================================
 			{Option.PlayerExperienceLevel,
 				new OptionData() {DisplayName = "Player Experience Level", OptionType = OptionType.ADropDown, PreferenceKey = "PlayerExperienceLevel",
@@ -644,6 +661,8 @@ namespace DynamicOptions
 		ItemSwapSpeed,
 		MouthAnimations,
 		AnimateNewChatEntries,
+		AmbientOcclusionAlpha,
+		AmbientOcclusionSpread
 	}
 
 	public struct OptionData

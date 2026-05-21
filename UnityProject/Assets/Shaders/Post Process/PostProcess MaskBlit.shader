@@ -35,12 +35,14 @@
 			sampler2D _LightMask;
 			sampler2D _MainTex;
 			sampler2D _BackgroundTex;
+			sampler2D _ShadowTex;
 
 			float4 _LightTransform;
 			float4 _OcclusionTransform;
 
 			float4 _AmbLightBloomSA;
 			float _BackgroundMultiplier;
+			float _ShadowAlpha;
 			
 			v2f vert (appdata v)
 			{
@@ -104,6 +106,41 @@
 				//return backgroundMask;
 				//return invertedBackgroundColor;
 				//return screen;
+				
+		
+				float4 shadowSample = tex2D(_ShadowTex, i.uv);
+				//shadowSample.a = 1;
+				//return shadowSample;
+				float shadowMask = 0.0;
+				//shadowSample.a = 1;
+				//return shadowSample;
+				
+				//return fixed4(shadowSample.a,shadowSample.a, shadowSample.a, shadowSample.a);
+				if (shadowSample.a > 0.95)
+				{
+				
+				}
+				else if (shadowSample.a > 0.45 )
+				{
+					shadowMask = max(shadowSample.r, shadowSample.b);
+				}
+				else if (shadowSample.a > 0.1)
+				{
+				}
+				else
+				{
+					shadowMask = shadowSample.r + shadowSample.g + shadowSample.b;
+				}
+			
+				//if (shadowMask > 0)
+				//{
+				//	return fixed4(shadowMask,shadowMask, shadowMask,1);
+				//}
+				
+				
+				//return shadowMask;
+				screenLitBackground.rgb *= 1.0 - (shadowMask * _ShadowAlpha * 2);
+				
 				return screenLitBackground;
 			}
 			
