@@ -103,16 +103,11 @@ namespace US13.UI.Core
 			{
 				Camera2DFollow.followControl.SetCameraXOffset();
 			}
-
-			StartCoroutine(RefreshUI());
-		}
-
-
-		private IEnumerator RefreshUI()
-		{
-			yield return WaitFor.EndOfFrame;
 			Camera.main.GetComponent<CameraReferences>().UICamera.orthographicSize = Camera.main.orthographicSize;
 		}
+
+
+
 
 
 		public void SetZoomLevel(int _zoomLevel)

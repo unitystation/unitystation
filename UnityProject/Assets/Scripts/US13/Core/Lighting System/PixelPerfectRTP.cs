@@ -171,11 +171,18 @@ public class PixelPerfectRT
 		return _newRenderTexture;
 	}
 
-	public void Render(Camera iCamera)
+	public void Render(Camera iCamera, Shader Shader = null)
 	{
 		iCamera.targetTexture = renderTexture;
 
-		iCamera.Render();
+		if (Shader == null)
+		{
+			iCamera.Render();
+		}
+		else
+		{
+			iCamera.RenderWithShader(Shader, "RenderType");
+		}
 
 		renderPosition = iCamera.transform.position;
 	}

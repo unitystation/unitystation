@@ -59,7 +59,7 @@ namespace US13.Managers
 		public int LowPopCheckTimeAfterRoundStart = 300;
 		public int RebootOnAverageFPSOrLower = 35;
 		public string AccountAPIHost;
-		public float ExplosionStepTimeInSeconds = 0.05f;
+		public float ExplosionStepTimeInSeconds = 0.14f;
 
 		//how many rounds of logs Should be stored before they get deleted,  null = 100, -1 Do not delete (will lag admin log UI After a while so manage yourself)
 		//= n The number you want to keep

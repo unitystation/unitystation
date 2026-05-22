@@ -141,6 +141,8 @@ TilemapRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -162,6 +164,7 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -2102490269
   m_SortingLayer: 14
   m_SortingOrder: 0
@@ -279,6 +282,7 @@ MonoBehaviour:
   LocalCentreOfMass: {x: 14.395047, y: 44.293633, z: 0}
   LocalTotalMasslocations: {x: 0, y: 0, z: 0}
   Mass: 0
+  ClientReceivedTiles: 0
   ffLayersValues: []
   matrix: {fileID: 14563883357125824}
 --- !u!114 &14563883357125824
@@ -298,6 +302,7 @@ MonoBehaviour:
   PresentPlayers: []
   UpdatedPlayerFrame: 0
   HasGravity: 1
+  EnteringSounds: {fileID: 0}
 --- !u!114 &5974532078461232833
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,7 +341,7 @@ GameObject:
   - component: {fileID: 7016304238515855081}
   - component: {fileID: 7023703254635005638}
   - component: {fileID: 779830935216974591}
-  m_Layer: 10
+  m_Layer: 24
   m_Name: ElectricalLayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -416,6 +421,8 @@ TilemapRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -437,6 +444,7 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 776718967
   m_SortingLayer: 1
   m_SortingOrder: 3
@@ -557,6 +565,8 @@ TilemapRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -578,6 +588,7 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 149917821
   m_SortingLayer: 9
   m_SortingOrder: 0
@@ -710,6 +721,8 @@ TilemapRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -731,6 +744,7 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 776718967
   m_SortingLayer: 1
   m_SortingOrder: 0
@@ -944,7 +958,7 @@ GameObject:
   - component: {fileID: 1605165132907514244}
   - component: {fileID: 2452851191309071678}
   - component: {fileID: 806961011800791432}
-  m_Layer: 10
+  m_Layer: 24
   m_Name: DisposalsLayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1024,6 +1038,8 @@ TilemapRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1045,6 +1061,7 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 776718967
   m_SortingLayer: 1
   m_SortingOrder: 1
@@ -1084,7 +1101,7 @@ GameObject:
   - component: {fileID: 1214447512303304267}
   - component: {fileID: 7741488093286471504}
   - component: {fileID: 6770036028901593525}
-  m_Layer: 10
+  m_Layer: 24
   m_Name: PipeLayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1164,6 +1181,8 @@ TilemapRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1185,6 +1204,7 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 776718967
   m_SortingLayer: 1
   m_SortingOrder: 2
@@ -1225,7 +1245,7 @@ GameObject:
   - component: {fileID: 1057214681857912709}
   - component: {fileID: 1195458359892676195}
   - component: {fileID: 3787310871015907832}
-  m_Layer: 0
+  m_Layer: 27
   m_Name: Tables
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1305,6 +1325,8 @@ TilemapRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1326,6 +1348,7 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -24161425
   m_SortingLayer: 8
   m_SortingOrder: 0
@@ -1458,6 +1481,8 @@ TilemapRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1479,6 +1504,7 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -2102490269
   m_SortingLayer: 14
   m_SortingOrder: -5
@@ -1610,6 +1636,8 @@ TilemapRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1631,6 +1659,7 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 1085623217
   m_SortingLayer: 27
   m_SortingOrder: 10
@@ -1750,6 +1779,8 @@ TilemapRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1771,6 +1802,7 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 853167107
   m_SortingLayer: 7
   m_SortingOrder: -10
@@ -1810,7 +1842,7 @@ GameObject:
   - component: {fileID: 7908902530549393196}
   - component: {fileID: 8528280996259170692}
   - component: {fileID: 7171664791714375866}
-  m_Layer: 10
+  m_Layer: 24
   m_Name: UnderFloor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1890,6 +1922,8 @@ TilemapRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1911,6 +1945,7 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 776718967
   m_SortingLayer: 1
   m_SortingOrder: 4
@@ -1951,7 +1986,7 @@ GameObject:
   - component: {fileID: 3565318677537474057}
   - component: {fileID: 1588481547520834903}
   - component: {fileID: 4742834374804104961}
-  m_Layer: 10
+  m_Layer: 22
   m_Name: Floors
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2031,6 +2066,8 @@ TilemapRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -2052,6 +2089,7 @@ TilemapRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 322132419
   m_SortingLayer: 2
   m_SortingOrder: 0

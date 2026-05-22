@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1195305884334883205}
   - component: {fileID: 4397289304270860350}
   - component: {fileID: 3431779693841004074}
-  m_Layer: 10
+  m_Layer: 22
   m_Name: SpritePipe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -52,6 +52,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -73,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 776718967
   m_SortingLayer: 1
   m_SortingOrder: 70
@@ -101,12 +105,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 4b9517bdeea788140abc850f18e4a32d, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 4b9517bdeea788140abc850f18e4a32d,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &7498943208734113070
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,7 +127,7 @@ GameObject:
   - component: {fileID: 8105506691123192018}
   - component: {fileID: 7804335436803724497}
   - component: {fileID: 2206299048531075066}
-  m_Layer: 10
+  m_Layer: 22
   m_Name: SpriteCap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -159,6 +168,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -180,6 +192,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 776718967
   m_SortingLayer: 1
   m_SortingOrder: 71
@@ -208,12 +221,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: c59c5e3dd182a7649a161ea1d0bbc672, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: c59c5e3dd182a7649a161ea1d0bbc672,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &653810697508814765
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -411,5 +429,13 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 3
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 0
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 1
   doNotResetOtherSpriteOptions: 0
