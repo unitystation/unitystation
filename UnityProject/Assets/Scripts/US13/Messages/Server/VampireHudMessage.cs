@@ -4,6 +4,7 @@ using US13.Clothing.Eyewear;
 using US13.Managers;
 using US13.Player;
 using US13.Player.HUDData;
+using VampireHUD = US13.Clothing.Eyewear.VampireHUD;
 
 namespace US13.Messages.Server
 {
@@ -11,18 +12,12 @@ namespace US13.Messages.Server
 	{
 		public struct NetMessage : NetworkMessage
 		{
-			public uint netId;
 			public bool hudState;
 		}
 
 		public override void Process(NetMessage msg)
 		{
-			LoadNetworkObject(msg.netId);
-			if(NetworkObject == null) return;
-			if(NetworkObject.TryGetComponent<PlayerScript>(out var playerScript) == false) return;
-			if(playerScript.TryGetComponent<VampireHUD>(out var vampireHud) == false) return;
-
-			var hudType = typeof(MedicalHUD);
+			var hudType = typeof(VampireHUD);
 			if (HUDHandler.Categorys.ContainsKey(hudType))
 			{
 				var Listy = HUDHandler.Categorys[hudType];
@@ -34,11 +29,10 @@ namespace US13.Messages.Server
 			HUDHandler.CategoryEnabled[hudType] = msg.hudState;
 		}
 
-		public static void SendTo(NetworkConnectionToClient conn, PlayerScript vampirePlayer, bool _hudState)
+		public static void SendTo(NetworkConnectionToClient conn, bool _hudState)
 		{
 			var msg = new NetMessage
 			{
-				netId = vampirePlayer.netId,
 				hudState = _hudState
 			};
 			SendTo(conn, msg);

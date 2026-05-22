@@ -108,7 +108,7 @@ namespace US13.Systems.Antagonists
 		{
 			preventCuredVampires.RemoveVampire(connectedPlayer.Mind);
 			connectedPlayer.Mind.RemoveAntag();
-			VampireHudMessage.SendTo(connectedPlayer.connectionToClient, connectedPlayer, false);
+			VampireHudMessage.SendTo(connectedPlayer.connectionToClient, false);
 		}
 
 		private void CreateVampire()
@@ -116,7 +116,7 @@ namespace US13.Systems.Antagonists
 			AntagManager.Instance.GetFirstTeamOrCreate(vampireTeam);
 			preventCuredVampires.AddNewVampire(connectedPlayer.Mind);
 			AntagManager.Instance.ServerFinishAntag(vampireAntagonist, connectedPlayer.Mind);
-			VampireHudMessage.SendTo(connectedPlayer.connectionToClient, connectedPlayer, true);
+			VampireHudMessage.SendTo(connectedPlayer.connectionToClient, true);
 		}
 
 		private void Evolve(int newStage)
