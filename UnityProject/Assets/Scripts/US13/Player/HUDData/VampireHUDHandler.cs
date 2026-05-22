@@ -17,7 +17,7 @@ namespace US13.Player.HUDData
 		public void UpdateStage(int vampirismStage)
 		{
 			int variantIndex = Mathf.Clamp(vampirismStage, 0, 3);
-			iconSymbol.SetSpriteVariant(variantIndex);
+			iconSymbol.SetSpriteVariant(variantIndex, false);
 		}
 
 	}

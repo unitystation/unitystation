@@ -1,11 +1,5 @@
-using Chemistry;
 using Mirror;
 using UnityEngine;
-using US13.HealthV2;
-using US13.HealthV2.Living;
-using US13.HealthV2.Living.MedicalChemistry;
-using US13.HealthV2.Living.PolymorphicSystems;
-using US13.Managers.NetworkManagement;
 using US13.Player;
 using US13.Player.HUDData;
 using Util;
@@ -28,7 +22,7 @@ namespace US13.Clothing.Eyewear
 
 		public void Awake()
 		{
-			playerScript =  this.GetCachedComponent<PlayerScript>();	
+			playerScript =  this.GetCachedComponent<PlayerScript>();
 			HUDHandler = this.GetCachedComponent<HUDHandler>();
 			HUDHandler.AddNewHud(this);
 		}
