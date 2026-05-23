@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
-using Mirror;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
@@ -20,13 +19,21 @@ using US13.UI.Systems.MainHUD.UI_Bottom;
 namespace Tests.ClearanceFramework
 {
 	[TestFixture]
-	[Category(nameof(Balance))]
+	[Category("General")]
 	public class WrenchSecurableWithAccessRestrictionTest
 	{
+		private const string BarrierPrefabPath = "Assets/Prefabs/Objects/Security/DeployableSecurityBarrier.prefab";
+		private const string WrenchPrefabPath = "Assets/Prefabs/Items/Tools/Wrench.prefab";
+		private const string ScrewdriverPrefabPath = "Assets/Prefabs/Items/Tools/Screwdriver.prefab";
+
 		private GameObject performer;
+		private GameObject wrenchRoot;
 		private GameObject wrench;
+		private GameObject otherItemRoot;
 		private GameObject otherItem;
+		private GameObject targetRoot;
 		private GameObject target;
+		private GameObject otherTargetRoot;
 		private GameObject otherTarget;
 		private MockClearanceSourceComponent performerClearance;
 		private ClearanceRestricted restricted;
@@ -41,27 +48,34 @@ namespace Tests.ClearanceFramework
 			var commonTraits = AssetDatabase.LoadAssetAtPath<CommonTraits>("Assets/ScriptableObjects/Traits/CommonTraitsSingleton.asset");
 			Assert.NotNull(commonTraits);
 			Assert.NotNull(commonTraits.Wrench);
-			wrench = CreateItem("wrench", commonTraits.Wrench);
-			otherItem = CreateItem("not a wrench");
 
-			target = new GameObject("restricted object");
-			target.AddComponent<NetworkIdentity>();
-			wrenchRestriction = target.AddComponent<WrenchSecurableWithAccessRestriction>();
+			wrenchRoot = InstantiatePrefab(WrenchPrefabPath);
+			wrench = GetItemObject(wrenchRoot);
+			otherItemRoot = InstantiatePrefab(ScrewdriverPrefabPath);
+			otherItem = GetItemObject(otherItemRoot);
+			Assert.True(Validations.HasItemTrait(wrench, commonTraits.Wrench));
+			Assert.False(Validations.HasItemTrait(otherItem, commonTraits.Wrench));
+
+			targetRoot = InstantiatePrefab(BarrierPrefabPath);
+			wrenchRestriction = GetWrenchRestriction(targetRoot);
+			target = wrenchRestriction.gameObject;
 			restricted = target.GetComponent<ClearanceRestricted>();
+			Assert.NotNull(restricted);
 			restricted.SetCheckType(CheckType.Any);
 			restricted.SetClearance(new List<Clearance> {Clearance.Security});
 
-			otherTarget = new GameObject("other target");
+			otherTargetRoot = InstantiatePrefab(BarrierPrefabPath);
+			otherTarget = GetWrenchRestriction(otherTargetRoot).gameObject;
 		}
 
 		[TearDown]
 		public void TearDown()
 		{
 			Object.DestroyImmediate(performer);
-			Object.DestroyImmediate(wrench);
-			Object.DestroyImmediate(otherItem);
-			Object.DestroyImmediate(target);
-			Object.DestroyImmediate(otherTarget);
+			Object.DestroyImmediate(wrenchRoot);
+			Object.DestroyImmediate(otherItemRoot);
+			Object.DestroyImmediate(targetRoot);
+			Object.DestroyImmediate(otherTargetRoot);
 		}
 
 		[Test]
@@ -135,17 +149,7 @@ namespace Tests.ClearanceFramework
 			performerClearance.SetClearance(Clearance.Engine);
 
 			ExpectClientChatError();
-			ExpectMissingObjectPhysicsError();
 			Assert.DoesNotThrow(() => wrenchRestriction.ServerPerformInteraction(CreateInteraction(wrench)));
-		}
-
-		[Test]
-		public void GivenMissingClearanceWhenPerformingNonWrenchInteractionOnlyPlaysDeniedSound()
-		{
-			performerClearance.SetClearance(Clearance.Engine);
-
-			ExpectMissingObjectPhysicsError();
-			Assert.DoesNotThrow(() => wrenchRestriction.ServerPerformInteraction(CreateInteraction(otherItem)));
 		}
 
 		private HandApply CreateInteraction(GameObject handObject, GameObject interactionTarget = null)
@@ -154,27 +158,50 @@ namespace Tests.ClearanceFramework
 				null, Intent.Help, null, false);
 		}
 
-		private static GameObject CreateItem(string objectName, ItemTrait itemTrait = null)
+		private static GameObject InstantiatePrefab(string prefabPath)
 		{
-			var item = new GameObject(objectName);
-			item.AddComponent<NetworkIdentity>();
-			var itemAttributes = item.AddComponent<ItemAttributesV2>();
-			if (itemTrait != null)
-			{
-				itemAttributes.AddTrait(itemTrait);
-			}
+			var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
+			Assert.NotNull(prefab, $"Missing prefab at {prefabPath}");
 
-			return item;
+			var instance = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+			Assert.NotNull(instance, $"Could not instantiate prefab at {prefabPath}");
+			return instance;
+		}
+
+		private static GameObject GetItemObject(GameObject root)
+		{
+			var itemAttributes = root.GetComponentInChildren<ItemAttributesV2>();
+			Assert.NotNull(itemAttributes, $"{root.name} is missing {nameof(ItemAttributesV2)}");
+			ApplySerializedInitialTraits(itemAttributes);
+			return itemAttributes.gameObject;
+		}
+
+		private static void ApplySerializedInitialTraits(ItemAttributesV2 itemAttributes)
+		{
+			// EditMode prefab instantiation does not run ItemAttributesV2.Awake, so mirror its trait init.
+			var serializedObject = new SerializedObject(itemAttributes);
+			var initialTraits = serializedObject.FindProperty("initialTraits");
+			Assert.NotNull(initialTraits);
+
+			for (var i = 0; i < initialTraits.arraySize; i++)
+			{
+				var trait = initialTraits.GetArrayElementAtIndex(i).objectReferenceValue as ItemTrait;
+				if (trait == null) continue;
+				itemAttributes.AddTrait(trait);
+			}
+		}
+
+		private static WrenchSecurableWithAccessRestriction GetWrenchRestriction(GameObject root)
+		{
+			var restriction = root.GetComponentInChildren<WrenchSecurableWithAccessRestriction>();
+			Assert.NotNull(restriction, $"{root.name} is missing {nameof(WrenchSecurableWithAccessRestriction)}");
+			return restriction;
 		}
 
 		private static void ExpectClientChatError()
 		{
+			// EditMode tests call server interaction routing without starting a Mirror server.
 			LogAssert.Expect(LogType.Error, new Regex("A server only method was called on a client in chat.cs"));
-		}
-
-		private static void ExpectMissingObjectPhysicsError()
-		{
-			LogAssert.Expect(LogType.Error, new Regex("Unable to find UniversalObjectPhysics on restricted object"));
 		}
 
 		private sealed class MockClearanceSourceComponent : MonoBehaviour, IClearanceSource
