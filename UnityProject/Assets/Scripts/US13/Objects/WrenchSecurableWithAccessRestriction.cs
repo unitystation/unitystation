@@ -21,9 +21,6 @@ namespace US13.Objects
 		private WrenchSecurable wrenchSecurable;
 		private ClearanceRestricted clearanceRestricted;
 
-		private WrenchSecurable WrenchSecurable => wrenchSecurable ??= GetComponent<WrenchSecurable>();
-		private ClearanceRestricted ClearanceRestricted => clearanceRestricted ??= GetComponent<ClearanceRestricted>();
-
 		private void Awake()
 		{
 			wrenchSecurable = GetComponent<WrenchSecurable>();
@@ -48,14 +45,15 @@ namespace US13.Objects
 			if (HasClearanceToWrench(interaction.Performer))
 			{
 				// Delegate successful attempts so WrenchSecurable remains authoritative for anchor state and messages.
-				WrenchSecurable.ServerPerformInteraction(interaction);
+				wrenchSecurable.ServerPerformInteraction(interaction);
 				return;
 			}
 
 			if (IsWrenchInteraction(interaction))
 			{
 				var objectName = gameObject.ExpensiveName();
-				Chat.AddActionMsgToChat(interaction, $"You try to wrench down the {objectName}, clearance is denied", "");
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+					$"You don't have clearance to use a wrench on the {objectName}.");
 			}
 
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.AccessDenied,
@@ -64,7 +62,7 @@ namespace US13.Objects
 
 		internal bool HasClearanceToWrench(GameObject performer)
 		{
-			return ClearanceRestricted.HasClearance(performer);
+			return clearanceRestricted.HasClearance(performer);
 		}
 	}
 }

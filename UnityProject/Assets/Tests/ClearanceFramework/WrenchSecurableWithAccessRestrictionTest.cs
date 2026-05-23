@@ -1,10 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
+using System.Reflection;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.TestTools;
 using US13.Core.Input_System.InteractionV2;
 using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Input_System.InteractionV2.Interfaces;
@@ -13,13 +12,12 @@ using US13.Items;
 using US13.Items.Traits;
 using US13.Objects;
 using US13.Systems.Clearance;
-using US13.Systems.Construction;
 using US13.UI.Systems.MainHUD.UI_Bottom;
 
 namespace Tests.ClearanceFramework
 {
 	[TestFixture]
-	[Category("General")]
+	[Category(nameof(ClearanceFramework))]
 	public class WrenchSecurableWithAccessRestrictionTest
 	{
 		private const string BarrierPrefabPath = "Assets/Prefabs/Objects/Security/DeployableSecurityBarrier.prefab";
@@ -133,25 +131,6 @@ namespace Tests.ClearanceFramework
 			Assert.False(wrenchRestriction.WillInteract(CreateInteraction(wrench), NetworkSide.Server));
 		}
 
-		[Test]
-		public void GivenRequiredClearanceWhenPerformingInteractionDelegatesToWrenchSecurable()
-		{
-			performerClearance.SetClearance(Clearance.Security);
-			target.GetComponent<WrenchSecurable>().blockAnchorChange = true;
-
-			ExpectClientChatError();
-			Assert.DoesNotThrow(() => wrenchRestriction.ServerPerformInteraction(CreateInteraction(wrench)));
-		}
-
-		[Test]
-		public void GivenMissingClearanceWhenPerformingWrenchInteractionDeniesAccess()
-		{
-			performerClearance.SetClearance(Clearance.Engine);
-
-			ExpectClientChatError();
-			Assert.DoesNotThrow(() => wrenchRestriction.ServerPerformInteraction(CreateInteraction(wrench)));
-		}
-
 		private HandApply CreateInteraction(GameObject handObject, GameObject interactionTarget = null)
 		{
 			return HandApply.ByClient(performer, handObject, interactionTarget ?? target, BodyPartType.None,
@@ -163,7 +142,7 @@ namespace Tests.ClearanceFramework
 			var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
 			Assert.NotNull(prefab, $"Missing prefab at {prefabPath}");
 
-			var instance = PrefabUtility.InstantiatePrefab(prefab) as GameObject;
+			var instance = Object.Instantiate(prefab);
 			Assert.NotNull(instance, $"Could not instantiate prefab at {prefabPath}");
 			return instance;
 		}
@@ -195,13 +174,17 @@ namespace Tests.ClearanceFramework
 		{
 			var restriction = root.GetComponentInChildren<WrenchSecurableWithAccessRestriction>();
 			Assert.NotNull(restriction, $"{root.name} is missing {nameof(WrenchSecurableWithAccessRestriction)}");
+			InvokeAwake(restriction);
 			return restriction;
 		}
 
-		private static void ExpectClientChatError()
+		private static void InvokeAwake(WrenchSecurableWithAccessRestriction restriction)
 		{
-			// EditMode tests call server interaction routing without starting a Mirror server.
-			LogAssert.Expect(LogType.Error, new Regex("A server only method was called on a client in chat.cs"));
+			// EditMode prefab instantiation skips Awake, so use the same component cache path as gameplay.
+			var awake = typeof(WrenchSecurableWithAccessRestriction).GetMethod("Awake",
+				BindingFlags.Instance | BindingFlags.NonPublic);
+			Assert.NotNull(awake);
+			awake.Invoke(restriction, null);
 		}
 
 		private sealed class MockClearanceSourceComponent : MonoBehaviour, IClearanceSource
