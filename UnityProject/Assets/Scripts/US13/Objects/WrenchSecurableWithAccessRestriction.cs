@@ -16,40 +16,43 @@ namespace US13.Objects
 	[RequireComponent(typeof(ClearanceRestricted))]
 	[RequireComponent(typeof(ObjectAttributes))]
 	[RequireComponent(typeof(WrenchSecurable))]
-	public class WrenchSecurableWithAccessRestriction : MonoBehaviour, ICheckedInteractable<HandApply>
+	public class WrenchSecurableWithAccessRestriction : MonoBehaviour, IFirstInteractable<HandApply>
 	{
-		private ClearanceRestricted clearanceRestrictions;
-
-		private ObjectAttributes objectAttributes;
-
-		void Awake()
-		{
-			objectAttributes = GetComponent<ObjectAttributes>();
-			clearanceRestrictions = GetComponent<ClearanceRestricted>();
-		}
-
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			//start with the default HandApply WillInteract logic.
-			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-
-			return !(clearanceRestrictions.HasClearance(interaction.Performer) && Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench));
+			return DefaultWillInteract.Default(interaction, side) && IsWrenchInteraction(interaction);
 		}
 
-		//invoked when the server recieves the interaction request and WIllinteract returns true
+		internal bool IsWrenchInteraction(HandApply interaction)
+		{
+			if (interaction.TargetObject != gameObject) return false;
+
+			return Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench);
+		}
+
+		// Invoked when the server receives the interaction request and WillInteract returns true.
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
+			if (HasClearanceToWrench(interaction.Performer))
 			{
-				string objectName = objectAttributes.name;
-				//Notify player that they are unable to wrench down barrier
-				Chat.AddActionMsgToChat(interaction, "You try to wrench down the " + objectName + ", access is denied", "");
+				// Delegate successful attempts so WrenchSecurable remains authoritative for anchor state and messages.
+				GetComponent<WrenchSecurable>().ServerPerformInteraction(interaction);
+				return;
 			}
-			else {
-				Chat.AddActionMsgToChat(interaction, "ACCESS DENIED","");
+
+			if (IsWrenchInteraction(interaction))
+			{
+				var objectName = gameObject.ExpensiveName();
+				Chat.AddActionMsgToChat(interaction, "You try to wrench down the " + objectName + ", clearance is denied", "");
 			}
+
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.AccessDenied,
 				gameObject.AssumedWorldPosServer(), sourceObj: gameObject);
+		}
+
+		internal bool HasClearanceToWrench(GameObject performer)
+		{
+			return GetComponent<ClearanceRestricted>().HasClearance(performer);
 		}
 	}
 }
