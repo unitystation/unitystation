@@ -21,3 +21,17 @@
 <!-- CL: [Balance] For any change on an existing feature done in the sake of improving game balance. It's the only exception to the rule above. -->
 
 <!-- CL: [Fix] For any change that fixes a bug. -->
+
+### Was AI used to create any part of this PR? including its description?
+
+<!--
+US13 requires AI-assisted and AI-generated contributions to be disclosed.
+If Yes, please explain in detail the extent of your usage of generative AI software while working on this PR.
+
+We only allow Large Langauge Models (LLMs) to assist programmers with spoken language translations, boilerplate writing, expanding already existing documentation, small-scale refactors, and autocompletions.
+Any other use-cases for LLMs, or use of other generative AI tools for any kind of assets, is explicitly not allowed.
+
+US13 has zero-tolerance for AI slop. If you're unable to explain or maintain your changes, follow current code standards that the project employes, or write code that's sensetive to UnityStation's performance and stability needs; your pull request will be automatically rejected.
+
+WARNING. If you're a new contributor, and do not add an answer to this in your PR description, or lie about anything related to it, it will be closed. NO EXCEPTIONS.
+-->
