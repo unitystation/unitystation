@@ -92,7 +92,7 @@ Please take note of the difference between a TODO and Feature
 US13 requires AI-assisted and AI-generated contributions to be disclosed. 
 
 We only allow Large Langauge Models (LLMs) to assist programmers with spoken language translations, boilerplate writing, expanding already existing documentation, small-scale refactors, and autocompletions.
-Any other use-cases for LLMs, or use of other generative AI tools for any kind of assets/content, is **explicitly not allowed**.
+Any other use-cases for LLMs, or use of other generative AI tools for any kind of assets/content, are **explicitly not allowed**.
 
 US13 has zero-tolerance for AI slop. If you're unable to explain or maintain your changes, follow current code standards that the project employs, or write code that's sensitive to UnityStation's performance and stability needs; your pull request will be automatically rejected.
 
