@@ -36,6 +36,11 @@ namespace US13.Core.Chat
 		public GameObject chatEntryPrefab = default;
 		public static int maxLogLength = 90;
 
+        [SerializeField]
+        [Range(0, 6)]
+        [Tooltip("Number of entries back from most recent to scan for duplicate messages to stack. The chatlog won't always preserve an accurate order of events at values >1. 0 to disable.")]
+        private int duplicateLookbackDepth = 1;
+
 		[SerializeField]
 		private TMP_Text chatInputLabel = null;
 		[SerializeField]
@@ -349,7 +354,7 @@ namespace US13.Core.Chat
 		private bool WillUpdateStack(ref string message)
 		{
 			if (allEntries.Count <= 5) return false;
-			for (int i = 0; i < 6; i++)
+			for (int i = 0; i < duplicateLookbackDepth; i++)
 			{
 				var entryToCheck = allEntries[allEntries.Count - i - 1];
 				string cleanedEntryMessage = Regex.Replace(entryToCheck.Message, @"<size=[^>]+>|</size>", string.Empty);
