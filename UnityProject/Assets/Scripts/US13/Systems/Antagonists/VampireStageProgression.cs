@@ -1,21 +1,21 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Chemistry;
-using Logs;
 using Mirror;
 using NaughtyAttributes;
 using SecureStuff;
 using UnityEngine;
 using US13.Actions.V2;
+using US13.Clothing.Eyewear;
 using US13.Core.Chat;
 using US13.HealthV2.Living;
 using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.MedicalChemistry;
 using US13.HealthV2.Living.PolymorphicSystems;
 using US13.Managers;
+using US13.Messages.Server;
 using US13.Player;
+using US13.Player.HUDData;
 using US13.Systems.Antagonists.Objectives.TeamObjectives;
 using Util;
 
@@ -29,6 +29,7 @@ namespace US13.Systems.Antagonists
 		[BoxGroup("Required References"), SerializeField] private PlayerScript connectedPlayer;
 		[BoxGroup("Required References"), SerializeField] private Antagonist vampireAntagonist = null;
 		[BoxGroup("Required References"), SerializeField] private TeamData vampireTeam = null;
+		[BoxGroup("Required References"), SerializeField] private VampireHUD vampireHud = null;
 
 		[SerializeField] private List<StageAbilities> stageAbilities = new List<StageAbilities>();
 		private int currentVampirismStage = -1;
@@ -79,12 +80,7 @@ namespace US13.Systems.Antagonists
 
 		private void Devolve(int newStage)
 		{
-			if (newStage <= 0 && connectedPlayer.Mind?.AntagPublic != null && connectedPlayer.Mind.AntagPublic.CurTeam?.Data == vampireTeam)
-			{
-				preventCuredVampires.RemoveVampire(connectedPlayer.Mind);
-				connectedPlayer.Mind.RemoveAntag();
-			}
-
+			if (newStage <= 0 && connectedPlayer.Mind?.AntagPublic != null && connectedPlayer.Mind.AntagPublic.CurTeam?.Data == vampireTeam) RemoveVampire();
 			if (newStage < 3 && cloakEquipped) UnEquipCloak();
 
 			StringBuilder devolutionMessageBuilder = new StringBuilder();
@@ -105,17 +101,28 @@ namespace US13.Systems.Antagonists
 			}
 			Chat.AddWarningMsgFromServer(connectedPlayer.gameObject, devolutionMessageBuilder.ToString());
 			currentVampirismStage = newStage;
+			vampireHud.SyncCurrentStage(currentVampirismStage, newStage);
+		}
+
+		private void RemoveVampire()
+		{
+			preventCuredVampires.RemoveVampire(connectedPlayer.Mind);
+			connectedPlayer.Mind.RemoveAntag();
+			VampireHudMessage.SendTo(connectedPlayer.connectionToClient, false);
+		}
+
+		private void CreateVampire()
+		{
+			AntagManager.Instance.GetFirstTeamOrCreate(vampireTeam);
+			preventCuredVampires.AddNewVampire(connectedPlayer.Mind);
+			AntagManager.Instance.ServerFinishAntag(vampireAntagonist, connectedPlayer.Mind);
+			VampireHudMessage.SendTo(connectedPlayer.connectionToClient, true);
 		}
 
 		private void Evolve(int newStage)
 		{
 			TeamData currentTeam = connectedPlayer.Mind?.AntagPublic?.CurTeam?.Data;
-			if (newStage > 0 && currentTeam != vampireTeam)
-			{
-				AntagManager.Instance.GetFirstTeamOrCreate(vampireTeam);
-				preventCuredVampires.AddNewVampire(connectedPlayer.Mind);
-				AntagManager.Instance.ServerFinishAntag(vampireAntagonist, connectedPlayer.Mind);
-			}
+			if (newStage > 0 && currentTeam != vampireTeam) CreateVampire();
 
 			StringBuilder evolutionMessageBuilder = new StringBuilder();
 			for (int i = currentVampirismStage + 1; i <= newStage; i++)
@@ -134,6 +141,7 @@ namespace US13.Systems.Antagonists
 			}
 			Chat.AddExamineMsgFromServer(connectedPlayer.gameObject, evolutionMessageBuilder.ToString());
 			currentVampirismStage = newStage;
+			vampireHud.SyncCurrentStage(currentVampirismStage, newStage);
 		}
 
 		private void ApplyMutationsToBodyPart(BodyPart bodyPart, StageAbilities stage)

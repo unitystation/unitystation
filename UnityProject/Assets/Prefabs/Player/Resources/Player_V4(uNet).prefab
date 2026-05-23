@@ -497,6 +497,7 @@ GameObject:
   - component: {fileID: 6363338118611276038}
   - component: {fileID: 5754329967401393357}
   - component: {fileID: 4201909151401612127}
+  - component: {fileID: 5915852362449181356}
   - component: {fileID: 5323151696653614753}
   - component: {fileID: 6182295504772674896}
   - component: {fileID: 6835177244151955954}
@@ -772,6 +773,7 @@ MonoBehaviour:
   RootBodyPartsLoaded: 0
   IsOldCustomPrefab: 0
   OverlaySprites: {fileID: 9164488584065593561}
+  currentSurfaceColour: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &114413669770135258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1490,12 +1492,6 @@ MonoBehaviour:
   syncInterval: 0.1
   BuckledToObject: {fileID: 0}
   BuckleOffset: {x: 0, y: 0, z: 0}
-  DEBUG: 0
-  isNotPushable: 0
-  Pushing: []
-  CanBeWindPushed: 1
-  canResetRotationFromRightClick: 0
-  rotationTarget: {fileID: 4962232741225816}
   LocalDifferenceNeeded: {x: 0, y: 0}
   newtonianMovement: {x: 0, y: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
@@ -1542,6 +1538,12 @@ MonoBehaviour:
   OnEnteredNewMatrix:
     m_PersistentCalls:
       m_Calls: []
+  DEBUG: 0
+  isNotPushable: 0
+  Pushing: []
+  CanBeWindPushed: 1
+  canResetRotationFromRightClick: 0
+  rotationTarget: {fileID: 4962232741225816}
   IsPressedCashed: 0
   IsPressedServer: 0
   HardcodedSpeed: 0
@@ -1810,6 +1812,24 @@ MonoBehaviour:
   CurrentState: 0
   CurrentJob: 24
   HasImplant: 0
+--- !u!114 &5915852362449181356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 502b8a52255da3445993693db5c4335a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Clothing.Eyewear.VampireHUD
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  <Prefab>k__BackingField: {fileID: 3773905765040299103, guid: d872d2c8cd70fc1469183946db69b338,
+    type: 3}
+  HUDHandler: {fileID: 6363338118611276038}
 --- !u!114 &5323151696653614753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2246,6 +2266,7 @@ MonoBehaviour:
   connectedPlayer: {fileID: 114617133355526680}
   vampireAntagonist: {fileID: 11400000, guid: 4f52429999025fe4f948ae027370d6ec, type: 2}
   vampireTeam: {fileID: 11400000, guid: 378c1481706515e41b287a6ca870ca62, type: 2}
+  vampireHud: {fileID: 5915852362449181356}
   stageAbilities:
   - <ActivatedAbilities>k__BackingField:
       m_keys: []
