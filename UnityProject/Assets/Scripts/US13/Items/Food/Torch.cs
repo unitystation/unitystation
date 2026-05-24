@@ -8,6 +8,7 @@ using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Core.Lifecycle;
 using US13.Core.Sprite_Handler;
 using US13.Items.Traits;
+using US13.Player;
 using US13.Systems.Fire;
 using US13.Systems.Inventory;
 using US13.UI.Systems.MainHUD.UI_Bottom;
@@ -35,6 +36,10 @@ namespace US13.Items.Food
 		[SerializeField]
 		private ItemTrait LightableSurface = null;
 
+		[SerializeField]
+		[Tooltip("Light to cast while the torch is active")]
+		public ItemLightControl lightControl;
+
 		[SyncVar]
 		private bool isLit = false;
 
@@ -47,6 +52,10 @@ namespace US13.Items.Food
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			fireSource = GetComponent<FireSource>();
 			pickupable = GetComponent<Pickupable>();
+			if (lightControl == null)
+			{
+				lightControl = GetComponent<ItemLightControl>();
+			}
 		}
 
 		public void OnDespawnServer(DespawnInfo info)
@@ -98,6 +107,11 @@ namespace US13.Items.Food
 			{
 				var newSpriteID = isLitNow ? LIT_SPRITE : DEFAULT_SPRITE;
 				spriteHandler.SetCatalogueIndexSprite(newSpriteID);
+			}
+
+			if (lightControl != null)
+			{
+				lightControl.Toggle(isLitNow);
 			}
 
 			// toggle flame from match

@@ -211,6 +211,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7357085494083097413, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
+      propertyPath: Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e8bc21567b9a7c774b3f3ff609b0abf3,
+        type: 3}
+    - target: {fileID: 7357085494083097413, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
       propertyPath: Color.b
       value: 1
       objectReference: {fileID: 0}
@@ -227,6 +233,11 @@ PrefabInstance:
     - target: {fileID: 7357085494083097413, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
       propertyPath: InitialColour.b
+      value: 0.87058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 7357085494083097413, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
+      propertyPath: InitialColour.g
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7357085494083097413, guid: b05f31cc06e66ee43a22ce2771dba99d,
@@ -252,6 +263,11 @@ PrefabInstance:
     - target: {fileID: 8351188953273862774, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
       propertyPath: colour.b
+      value: 0.87058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 8351188953273862774, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
+      propertyPath: colour.g
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8351188953273862774, guid: b05f31cc06e66ee43a22ce2771dba99d,

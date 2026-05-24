@@ -10,6 +10,7 @@ using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Core.Lifecycle;
 using US13.Core.Sprite_Handler;
 using US13.HealthV2;
+using US13.Player;
 using US13.Systems.Fire;
 using US13.Systems.Inventory;
 using US13.Tilemaps.Behaviours.Objects;
@@ -34,6 +35,8 @@ namespace US13.Items.Tool
 		public SpriteRenderer flameRenderer;
 
 		public SpriteHandler flameSpriteHandler;
+
+		public ItemLightControl lightControl;
 
 		public Chemistry.Reagent fuel;
 		public float FuelLevel
@@ -100,6 +103,7 @@ namespace US13.Items.Tool
 		void Awake()
 		{
 			EnsureInit();
+			lightControl = GetComponent<ItemLightControl>();
 		}
 
 		private void EnsureInit()
@@ -198,6 +202,10 @@ namespace US13.Items.Tool
 				//itemAtts.inHandReferenceRight = rightHandFlame;
 				isBurning = true;
 				flameSpriteHandler.SetSpriteNonNetworked( flameSprites[0]);
+				if (lightControl != null)
+				{
+					lightControl.Toggle(true);
+				}
 				if (coBurnFuel == null)
 					coBurnFuel = StartCoroutine(BurnFuel());
 
@@ -213,6 +221,10 @@ namespace US13.Items.Tool
 					coBurnFuel = null;
 				}
 				flameSpriteHandler.SetSpriteNonNetworked(null);
+				if (lightControl != null)
+				{
+					lightControl.Toggle(false);
+				}
 			}
 
 			pickupable?.RefreshUISlotImage();

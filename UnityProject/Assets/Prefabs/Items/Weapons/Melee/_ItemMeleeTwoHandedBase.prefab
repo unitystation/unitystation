@@ -23,16 +23,6 @@ PrefabInstance:
       propertyPath: _assetId
       value: 3993012145
       objectReference: {fileID: 0}
-    - target: {fileID: 5810504842801530893, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: m_AssetId
-      value: c22c01b8dd3a9e34388453bd0bdf4b0f
-      objectReference: {fileID: 0}
-    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -147,6 +137,16 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  canActivate:
+    InitialState: 1
+    OnBoolChange:
+      m_PersistentCalls:
+        m_Calls: []
+  canDeactivate:
+    InitialState: 1
+    OnBoolChange:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!114 &5307899996920088384
 MonoBehaviour:
   m_ObjectHideFlags: 0

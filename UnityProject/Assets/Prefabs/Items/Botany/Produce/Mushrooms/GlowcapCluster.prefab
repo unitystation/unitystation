@@ -101,14 +101,55 @@ PrefabInstance:
       value: 'Mycena Ruthenia: This species of mushroom glows in the dark, but isn''t
         actually bioluminescent. They''re warm to the touch...'
       objectReference: {fileID: 0}
+    - target: {fileID: 1982297633517944968, guid: af405bc87f41b6240ac29b45b235181a,
+        type: 3}
+      propertyPath: colour.a
+      value: 0.16470589
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982297633517944968, guid: af405bc87f41b6240ac29b45b235181a,
+        type: 3}
+      propertyPath: colour.b
+      value: 0.85882354
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982297633517944968, guid: af405bc87f41b6240ac29b45b235181a,
+        type: 3}
+      propertyPath: colour.g
+      value: 0.84313726
+      objectReference: {fileID: 0}
+    - target: {fileID: 1982297633517944968, guid: af405bc87f41b6240ac29b45b235181a,
+        type: 3}
+      propertyPath: colour.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2575445152680022151, guid: af405bc87f41b6240ac29b45b235181a,
         type: 3}
       propertyPath: BasePurity
       value: 43
       objectReference: {fileID: 0}
+    - target: {fileID: 2666282665775632631, guid: af405bc87f41b6240ac29b45b235181a,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.8605769
+      objectReference: {fileID: 0}
+    - target: {fileID: 2666282665775632631, guid: af405bc87f41b6240ac29b45b235181a,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.84134614
+      objectReference: {fileID: 0}
+    - target: {fileID: 2666282665775632631, guid: af405bc87f41b6240ac29b45b235181a,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4920848234185996460, guid: af405bc87f41b6240ac29b45b235181a,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: bb92ccb8ac2bdbe48adc8ec4368885be,
+        type: 2}
+    - target: {fileID: 4920848234185996460, guid: af405bc87f41b6240ac29b45b235181a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: bb92ccb8ac2bdbe48adc8ec4368885be,
         type: 2}
