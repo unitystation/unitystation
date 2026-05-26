@@ -408,7 +408,7 @@ namespace DynamicOptions
 					OptionCategoryType = OptionCategoryType.Theme,
 					OnChangeAction = o => { ShadowMaskRenderer.shadowAlpha = (float)o; return "";  },
 					Show = () => { return true; },
-					Default = () => { return 0.4f; },
+					Default = () => { return 0.5f; },
 					UIParameters = () => { return (new  Vector2(0f, 1.5f), false); },
 				}},
 			{Option.AmbientOcclusionSpread,
@@ -416,7 +416,7 @@ namespace DynamicOptions
 					OptionCategoryType = OptionCategoryType.Theme,
 					OnChangeAction = o => { ShadowMaskRenderer.blurSpread = (float)o; return "";  },
 					Show = () => { return true; },
-					Default = () => { return 10f; },
+					Default = () => { return 12f; },
 					UIParameters = () => { return (new  Vector2(2f, 15f), false); },
 				}},
 
