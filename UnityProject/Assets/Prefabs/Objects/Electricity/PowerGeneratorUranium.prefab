@@ -49,6 +49,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 66d1cd8016198e74c92a755f9b2bdeb0,
         type: 2}
+    - target: {fileID: 2952610514931748297, guid: 93d1f95a33757fe4fa3e2771e3f5bd67,
+        type: 3}
+      propertyPath: VoltageFluctuationPercentage
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2973511242914761374, guid: 93d1f95a33757fe4fa3e2771e3f5bd67,
         type: 3}
       propertyPath: _assetId
@@ -184,7 +189,7 @@ PrefabInstance:
     - target: {fileID: 6672603410258477052, guid: 93d1f95a33757fe4fa3e2771e3f5bd67,
         type: 3}
       propertyPath: m_Name
-      value: New PowerGeneratorUranium
+      value: PowerGeneratorUranium
       objectReference: {fileID: 0}
     - target: {fileID: 6915811152775355371, guid: 93d1f95a33757fe4fa3e2771e3f5bd67,
         type: 3}
@@ -201,11 +206,6 @@ PrefabInstance:
         type: 3}
       propertyPath: SupplyingVoltage
       value: 1260000
-      objectReference: {fileID: 0}
-    - target: {fileID: 8704923215026597471, guid: 93d1f95a33757fe4fa3e2771e3f5bd67,
-        type: 3}
-      propertyPath: InternalResistance
-      value: 1e+10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
