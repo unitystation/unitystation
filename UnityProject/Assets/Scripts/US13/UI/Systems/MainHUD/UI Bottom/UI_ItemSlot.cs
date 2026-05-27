@@ -319,52 +319,9 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 		/// <param name="colour">color tint to apply</param>
 		public void UpdateImage(GameObject item = null, Color? colour = null, bool CanFitPreview = false, bool SkipMoveAnimation = true, UI_ItemImage ToUse = null)
 		{
-			if (Previewingitem == item && IsCanFitPreview == false) return;
-
-			bool nullItem = item == null;
-
-			if (nullItem && Item != null)
+			bool ClearSubIcons = false;
+			if (item != null)
 			{
-				// Case for when we have a hovered image and insert, then stop hovering
-				return;
-			}
-
-			// If player is cuffed, a special icon appears on his hand slots, exit without changing it.
-			if ((namedSlot == NamedSlot.leftHand || namedSlot == NamedSlot.rightHand) &&
-			    PlayerManager.LocalPlayerScript.playerMove.IsCuffed)
-			{
-				return;
-			}
-
-			Clear(true);
-
-			Previewingitem = item;
-			IsCanFitPreview = CanFitPreview;
-
-			if (!nullItem)
-			{
-				//var hasEntry = CurrentlyOpenItems.Any(x => x.Item1 == Previewingitem);
-
-				//if (hasEntry)
-				//{
-					//image = UI_ItemImage.RequestItemImage(gameObject, item,CanFitPreview, colour, true);
-					if (ToUse == null)
-					{
-						image = UI_ItemImage.RequestItemImage(gameObject, item,CanFitPreview, colour, SkipMoveAnimation);
-					}
-					else
-					{
-						image = ToUse;
-						image.SetParent(gameObject, false);
-					}
-
-
-				//CurrentlyOpenItems.Add((item, this));
-
-
-				if (placeholderImage)
-					placeholderImage.color = new Color(1, 1, 1, 0);
-
 				//determine if we should show an amount
 				var stack = item.GetComponent<Stackable>();
 				if (stack != null && ((stack.Amount > 1 && amountText) || stack.IsRepresentationOfStack))
@@ -400,6 +357,59 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 			}
 			else
 			{
+				ClearSubIcons = true;
+			}
+
+			if (Previewingitem == item && IsCanFitPreview == false) return;
+
+			bool nullItem = item == null;
+
+			if (nullItem && Item != null)
+			{
+				// Case for when we have a hovered image and insert, then stop hovering
+				return;
+			}
+
+			// If player is cuffed, a special icon appears on his hand slots, exit without changing it.
+			if ((namedSlot == NamedSlot.leftHand || namedSlot == NamedSlot.rightHand) &&
+			    PlayerManager.LocalPlayerScript.playerMove.IsCuffed)
+			{
+				return;
+			}
+
+			Clear(true, ClearSubIcons);
+
+			Previewingitem = item;
+			IsCanFitPreview = CanFitPreview;
+
+			if (!nullItem)
+			{
+				//var hasEntry = CurrentlyOpenItems.Any(x => x.Item1 == Previewingitem);
+
+				//if (hasEntry)
+				//{
+					//image = UI_ItemImage.RequestItemImage(gameObject, item,CanFitPreview, colour, true);
+					if (ToUse == null)
+					{
+						image = UI_ItemImage.RequestItemImage(gameObject, item,CanFitPreview, colour, SkipMoveAnimation);
+					}
+					else
+					{
+						image = ToUse;
+						image.SetParent(gameObject, false);
+					}
+
+
+				//CurrentlyOpenItems.Add((item, this));
+
+
+				if (placeholderImage)
+					placeholderImage.color = new Color(1, 1, 1, 0);
+
+
+			}
+			else
+			{
 				//no object was passed, so clear out the sprites
 				Clear();
 			}
@@ -408,7 +418,7 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 		/// <summary>
 		/// Clears the displayed image.
 		/// </summary>
-		public void Clear(bool ClearOnlyPreviews = false)
+		public void Clear(bool ClearOnlyPreviews = false, bool ClearSubIcons = true)
 		{
 			PlayerScript lps = PlayerManager.LocalPlayerScript;
 			if (!lps)
@@ -426,24 +436,27 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 
 
 
-			if (amountText)
+			if (ClearSubIcons)
 			{
-				amountText.enabled = false;
-			}
+				if (amountText)
+				{
+					amountText.enabled = false;
+				}
 
-			if (placeholderImage)
-			{
-				placeholderImage.color = Color.white;
-			}
+				if (placeholderImage)
+				{
+					placeholderImage.color = Color.white;
+				}
 
-			if (HasSubInventory)
-			{
-				HasSubInventory.itemStorage = null;
-			}
+				if (HasSubInventory)
+				{
+					HasSubInventory.itemStorage = null;
+				}
 
-			if (MoreInventoryImage)
-			{
-				MoreInventoryImage.enabled = false;
+				if (MoreInventoryImage)
+				{
+					MoreInventoryImage.enabled = false;
+				}
 			}
 		}
 
