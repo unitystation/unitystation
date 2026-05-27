@@ -218,15 +218,12 @@ namespace US13.UI.Core.ChatBubble
 		{
 			showingDialogue = true;
 
-			var Tongues = target.GetComponentInParent<LivingHealthMasterBase>()?.GetOrgans(typeof(Tongue));
+			var Tongues = target.GetComponentInParent<LivingHealthMasterBase>()?.GetComponentInChildren<TongueSprites>();
 
 
 			if (Tongues != null)
 			{
-				foreach (var Tongue in Tongues)
-				{
-					((Tongue) Tongue).IsTalking.RecordPosition(this.gameObject, true);
-				}
+				Tongues.IsTalking.RecordPosition(this.gameObject, true);
 			}
 
 
@@ -268,14 +265,12 @@ namespace US13.UI.Core.ChatBubble
 			}
 
 
-			Tongues = target.GetComponentInParent<LivingHealthMasterBase>()?.GetOrgans(typeof(Tongue));
+			Tongues = target.GetComponentInParent<LivingHealthMasterBase>()?.GetComponentInChildren<TongueSprites>();
+
 
 			if (Tongues != null)
 			{
-				foreach (var Tongue in Tongues)
-				{
-					((Tongue) Tongue).IsTalking.RemovePosition(this.gameObject);
-				}
+				Tongues.IsTalking.RemovePosition(this.gameObject);
 			}
 
 			showingDialogue = false;
