@@ -40,11 +40,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -103,11 +98,6 @@ PrefabInstance:
       propertyPath: _assetId
       value: 2709119002
       objectReference: {fileID: 0}
-    - target: {fileID: 2388022189226633715, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: m_AssetId
-      value: a74082718c5a6d34b924357788ca381c
-      objectReference: {fileID: 0}
     - target: {fileID: 2469720285121718043, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: m_Sprite
@@ -128,7 +118,7 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: Designed to protect its wearer from the vacuum of space and the anomalies
-        within it
+        within it.
       objectReference: {fileID: 0}
     - target: {fileID: 2763621013712894757, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
@@ -141,52 +131,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4f5b7ce1cca0a644cba934af14ea4b2c,
         type: 2}
-    - target: {fileID: 2932610463863930541, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: colour.b
-      value: 0.57254905
-      objectReference: {fileID: 0}
-    - target: {fileID: 2932610463863930541, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: colour.g
-      value: 0.89411765
-      objectReference: {fileID: 0}
-    - target: {fileID: 4417545188675512222, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: d889f81f1d032fc4aac62153542b2700,
-        type: 3}
-    - target: {fileID: 4417545188675512222, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: Color.a
-      value: 0.29803923
-      objectReference: {fileID: 0}
-    - target: {fileID: 4417545188675512222, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: Color.b
-      value: 0.5707547
-      objectReference: {fileID: 0}
-    - target: {fileID: 4417545188675512222, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: Color.g
-      value: 0.8939422
-      objectReference: {fileID: 0}
-    - target: {fileID: 4417545188675512222, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: InitialColour.a
-      value: 0.29803923
-      objectReference: {fileID: 0}
-    - target: {fileID: 4417545188675512222, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: InitialColour.b
-      value: 0.5707547
-      objectReference: {fileID: 0}
-    - target: {fileID: 4417545188675512222, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: InitialColour.g
-      value: 0.8939422
-      objectReference: {fileID: 0}
     - target: {fileID: 5751436736299566491, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: m_IsActive

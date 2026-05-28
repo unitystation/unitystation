@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8802187374493042737}
   - component: {fileID: 2773210845582108163}
   - component: {fileID: 7924132058881386001}
+  - component: {fileID: 5742972020443514002}
   m_Layer: 21
   m_Name: Light2D
   m_TagString: Untagged
@@ -46,8 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitialColour: {r: 1, g: 0.99215686, b: 0.95686275, a: 0.5882353}
-  Sprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
+  InitialColour: {r: 1, g: 0.99215686, b: 0.95686275, a: 0.5294118}
+  Sprite: {fileID: 21300000, guid: b9446940f98f6724ba50044e05258cee, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
@@ -109,6 +110,31 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1486373985054979391}
   m_Mesh: {fileID: 0}
+--- !u!114 &5742972020443514002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486373985054979391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6510c9b95b6fa3498b97083dcdd5e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Core.Sprite_Handler.LightSpriteHandler
+  NetworkThis: 1
+  SubCatalogue: []
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 5b9e43fcfba83694b8a633782b33d2c1,
+    type: 2}
+  randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
+  doReverseAnimation: 0
+  pushTextureOnStartUp: 1
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 0.99215686, b: 0.95686275, a: 0.5294118}
+  palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &4205732087212553671
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -456,7 +482,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lightControl: {fileID: 7140864852053075427}
-  Color: {r: 0.98039216, g: 0.50980395, b: 0.50980395, a: 0.50980395}
+  Color: {r: 0.98039216, g: 0.50980395, b: 0.50980395, a: 0.5294118}
 --- !u!114 &7524183173055825683
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -37,7 +37,7 @@ PrefabInstance:
     - target: {fileID: 3569492402775372663, guid: 3764f753024ec0048919856bf816c6f8,
         type: 3}
       propertyPath: initialDescription
-      value: Use these to keep prisoner in line.
+      value: Used to keep prisoners in line.
       objectReference: {fileID: 0}
     - target: {fileID: 3569492402775372663, guid: 3764f753024ec0048919856bf816c6f8,
         type: 3}
@@ -65,6 +65,18 @@ PrefabInstance:
     - target: {fileID: 3569492402775372663, guid: 3764f753024ec0048919856bf816c6f8,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 02e6bc36215a3d242ab09dfe81b1e08a,
+        type: 2}
+    - target: {fileID: 3569492402775372663, guid: 3764f753024ec0048919856bf816c6f8,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 049e2e7d2553cda479c41c3766ae0d46,
+        type: 2}
+    - target: {fileID: 3569492402775372663, guid: 3764f753024ec0048919856bf816c6f8,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 02e6bc36215a3d242ab09dfe81b1e08a,
         type: 2}

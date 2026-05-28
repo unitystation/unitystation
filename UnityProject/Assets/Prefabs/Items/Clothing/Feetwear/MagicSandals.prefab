@@ -145,7 +145,7 @@ PrefabInstance:
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: initialName
-      value: Magic Sandals
+      value: magic sandals
       objectReference: {fileID: 0}
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
@@ -176,6 +176,22 @@ PrefabInstance:
     - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: e1ebb0b47d9dad24a96a288493278660,
+        type: 2}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
       value: 
       objectReference: {fileID: 11400000, guid: e1ebb0b47d9dad24a96a288493278660,
         type: 2}

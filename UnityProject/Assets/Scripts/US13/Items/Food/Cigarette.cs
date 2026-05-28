@@ -191,7 +191,7 @@ namespace US13.Items.Food
 			if (smoker != null)
 			{
 				smoker.PlayerScript.playerHealth.reagentPoolSystem.BloodPool.Add(burnReagent);
-				Chat.AddExamineMsg(smoker.PlayerScript.gameObject, $"You take a drag out of the {gameObject.ExpensiveName()}");
+				Chat.AddExamineMsg(smoker.PlayerScript.gameObject, $"You take a drag of the {gameObject.ExpensiveName()}");
 			}
 			if (gasProduct.Count > 0)
 			{

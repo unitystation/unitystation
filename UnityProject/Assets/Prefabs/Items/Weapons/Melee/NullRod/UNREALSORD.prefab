@@ -24,6 +24,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7bb103675d0df4a4680f954700a6fb01,
         type: 2}
+    - target: {fileID: 4520221803203555702, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 7bb103675d0df4a4680f954700a6fb01,
+        type: 2}
     - target: {fileID: 7569679527290075565, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
       propertyPath: m_Sprite
@@ -169,7 +175,7 @@ PrefabInstance:
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
       propertyPath: 'attackVerbs.Array.data[4]'
-      value: torn
+      value: tore
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
@@ -201,6 +207,18 @@ PrefabInstance:
     - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 456c8ec370104594a9568a2dbe0fc9b9,
+        type: 2}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d8f224435b1c593449983d3067d34590,
+        type: 2}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 456c8ec370104594a9568a2dbe0fc9b9,
         type: 2}

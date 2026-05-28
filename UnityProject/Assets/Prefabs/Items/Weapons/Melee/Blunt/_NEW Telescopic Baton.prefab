@@ -1,0 +1,318 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7229502440467918998
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4004427330241738355}
+    - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 37e8f63b806ee5148ad48b6993be8452,
+        type: 2}
+    - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 37e8f63b806ee5148ad48b6993be8452,
+        type: 2}
+    - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 2fd51e1b6b5b34140b81077d7ebae47e,
+        type: 2}
+    - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 37e8f63b806ee5148ad48b6993be8452,
+        type: 2}
+    - target: {fileID: 688350503109327316, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: foreverID
+      value: d3359d829785d186ab92fdef9d1864d4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5810504842801530893, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: _assetId
+      value: 959086641
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_Name
+      value: _NEW Telescopic Baton
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036740337081534181, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 65365615fcd65b3449f6b93fef1a194a,
+        type: 3}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: hitDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: exportCost
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: exportName
+      value: tele baton
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: initialName
+      value: telescopic baton
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: initialSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: throwDamage
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: initialDescription
+      value: A compact yet robust personal defense weapon. Can be concealed when
+        folded.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
+        type: 2}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: CustomMeleeBehaviours.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: acc5a8d5a79d56d478349575c9f63456,
+        type: 2}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 9cbb1b26048cd7b42aff39b6982412c2,
+        type: 2}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: 'CustomMeleeBehaviours.Array.data[0]'
+      value: 4317661658594148415
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: 'managedReferences[4317661658594148415]'
+      value: Assets US13.Items.Weapons.Melee.StunMeleeEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: 'managedReferences[4317661658594148417]'
+      value: Assets US13.Items.Weapons.Melee.CooldownTime
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148415].allowPacify
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148415].stopMovement
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148415].stunDuration
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148417].cooldownTime
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148415].forceDropItem
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148415].checkForArmour
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148417].hitRequirement
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148415].useSound.AssetAddress
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148415].hitRequirements.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: 'managedReferences[4317661658594148415].hitRequirements.Array.data[0]'
+      value: 4317661658594148417
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148415].useSound.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148415].useSound.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148415].useSound.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148415].useSound.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148415].useSound.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5191945588792944165}
+  m_SourcePrefab: {fileID: 100100000, guid: 93af1c166793efb498012ddc7370f8ec, type: 3}
+--- !u!1 &3847025073739892015 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
+    type: 3}
+  m_PrefabInstance: {fileID: 7229502440467918998}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5191945588792944165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3847025073739892015}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44299057457244141b47ddc650ae68be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  effectingBehaviourIDs: 00000000
+  spriteHandler: {fileID: 0}
+  attributes: {fileID: 0}
+  internalBattery: {fileID: 0}
+  ToggleSound:
+    AssetAddress: Assets/Prefabs/Weapons/BatonExtend.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  initialState: 0
+--- !u!212 &4004427330241738355 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6036740337081534181, guid: 93af1c166793efb498012ddc7370f8ec,
+    type: 3}
+  m_PrefabInstance: {fileID: 7229502440467918998}
+  m_PrefabAsset: {fileID: 0}
