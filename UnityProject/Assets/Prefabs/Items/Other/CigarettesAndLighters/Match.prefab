@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6210794570081007043}
   - component: {fileID: 7760969863439956737}
   - component: {fileID: 8165550866228349627}
+  - component: {fileID: 3802567936545507414}
   m_Layer: 21
   m_Name: Light
   m_TagString: Untagged
@@ -27,8 +28,8 @@ Transform:
   m_GameObject: {fileID: 637022993697736321}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 4}
+  m_LocalPosition: {x: 0, y: 0.125, z: 0}
+  m_LocalScale: {x: 3, y: 3, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 8490405046320373381}
@@ -52,6 +53,9 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -73,6 +77,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -89,13 +94,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 0.8773585, g: 0.72005075, b: 0.3517711, a: 1}
-  Sprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
+  InitialColour: {r: 1, g: 0.81960785, b: 0.26666668, a: 0.50980395}
+  Sprite: {fileID: 21300000, guid: 77dec0be2e676214aac82240280e21e2, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
   Shape: 0
   GivenID: 0
+--- !u!114 &3802567936545507414
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 637022993697736321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6510c9b95b6fa3498b97083dcdd5e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Core.Sprite_Handler.LightSpriteHandler
+  NetworkThis: 1
+  SubCatalogue: []
+  InitialPresentSpriteSet: {fileID: 11400000, guid: db0f93ccfdb32454ebd8652216ecf3b4,
+    type: 2}
+  randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
+  doReverseAnimation: 0
+  pushTextureOnStartUp: 1
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 0.81960785, b: 0.26666668, a: 0.50980395}
+  palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &8485889606324625227
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -107,10 +137,6 @@ PrefabInstance:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_Name
       value: Match
-      objectReference: {fileID: 0}
-    - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalPosition.x
@@ -156,16 +182,6 @@ PrefabInstance:
         type: 3}
       propertyPath: _assetId
       value: 1540280718
-      objectReference: {fileID: 0}
-    - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: m_AssetId
-      value: c94f0c553fec1af4cb4d7289fcaf0701
-      objectReference: {fileID: 0}
-    - target: {fileID: 114776788309089574, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: customNetTransform
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -226,7 +242,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 8588801936623227053}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d5b43729654a9c7458b61d1e189a653b,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d5b43729654a9c7458b61d1e189a653b,
         type: 2}
@@ -300,10 +327,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseReagentContainer: 0
   groundReagents:
-    m_keys:
-    - {fileID: 11400000, guid: 05a7d0a1d347f6c21a6bace25e4e03ff, type: 2}
-    m_values: 02000000
+    m_keys: []
+    m_values: []
 --- !u!114 &-7688275746107830249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,7 +350,7 @@ MonoBehaviour:
   LightEmission: {fileID: 0}
   objectLightEmission: {fileID: 637022993697736321}
   IsOn: 0
-  colour: {r: 0.9811321, g: 0.731546, b: 0.33784264, a: 0}
+  colour: {r: 1, g: 0.81960785, b: 0.26666668, a: 0.50980395}
   objectLightSprite: {fileID: 0}
   commonComponents: {fileID: 0}
   SpriteShape: 0
@@ -363,11 +390,18 @@ MonoBehaviour:
   syncInterval: 0.1
   burntOutPrefab: {fileID: 9060380378923672138, guid: 079d2b7c1bf7fca48af7deb2c5d98539,
     type: 3}
-  burnTimeSeconds: 30
+  burnTimeSeconds: 18
   LightableSurface: {fileID: 11400000, guid: 7410b4f6e26235e4f93aa1ebcbab0cec, type: 2}
+  lightControl: {fileID: -7688275746107830249}
 --- !u!4 &8490405046320373381 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 8485889606324625227}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &8588801936623227053 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
     type: 3}
   m_PrefabInstance: {fileID: 8485889606324625227}
   m_PrefabAsset: {fileID: 0}

@@ -62,12 +62,12 @@ namespace US13.Detective
 
 			if (appliedDetails == null || appliedDetails.Details.Count == 0)
 			{
-				StringBuilder.AppendLine($"The scanner Beeps and Boops, Not finding anything on {ScanningName}");
+				StringBuilder.AppendLine($"The scanner beeps and boops... but detects nothing on {ScanningName}");
 			}
 			else
 			{
 				StringBuilder.AppendLine(
-					$"The scanner Beeps and Boops Finding on {ScanningName} ");
+					$"The scanner beeps and boops, finding on {ScanningName} ");
 
 				foreach (var detail in appliedDetails.Details.Take(ScannerDetail))
 				{

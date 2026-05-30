@@ -37,8 +37,8 @@ PrefabInstance:
     - target: {fileID: 6497486799853410176, guid: 84d17485093438f4990e06fcb52fb851,
         type: 3}
       propertyPath: initialDescription
-      value: Plastic, disposable zipties that can be used to restrain temporarily
-        but are destroyed after use.
+      value: Disposable plastic ties that can be used to restrain temporarily but
+        are destroyed after use.
       objectReference: {fileID: 0}
     - target: {fileID: 6497486799853410176, guid: 84d17485093438f4990e06fcb52fb851,
         type: 3}
@@ -49,6 +49,18 @@ PrefabInstance:
     - target: {fileID: 6497486799853410176, guid: 84d17485093438f4990e06fcb52fb851,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 2767e3a037e80b84a9c610c94dfe227d,
+        type: 2}
+    - target: {fileID: 6497486799853410176, guid: 84d17485093438f4990e06fcb52fb851,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f53ebba54849c824bb5490cb7d3b1aae,
+        type: 2}
+    - target: {fileID: 6497486799853410176, guid: 84d17485093438f4990e06fcb52fb851,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 2767e3a037e80b84a9c610c94dfe227d,
         type: 2}

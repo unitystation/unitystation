@@ -15,7 +15,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3871032415882939504, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2290304407820703849}
+    - target: {fileID: 3871032415882939504, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 021fbc96a1b8e7248b9e3ab122e719f9,
+        type: 2}
+    - target: {fileID: 3871032415882939504, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 021fbc96a1b8e7248b9e3ab122e719f9,
         type: 2}
@@ -32,23 +43,36 @@ PrefabInstance:
     - target: {fileID: 4591132913751966026, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
       propertyPath: flameSprites.Array.size
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4591132913751966026, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
       propertyPath: welderSprites.Array.size
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4591132913751966026, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: 'flameSprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 937703056, guid: faf6ac92d44618b4aa10598fc359c12d,
+        type: 3}
+    - target: {fileID: 4591132913751966026, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: 'flameSprites.Array.data[1]'
+      value: 
+      objectReference: {fileID: -1266819436, guid: faf6ac92d44618b4aa10598fc359c12d,
+        type: 3}
     - target: {fileID: 5931002827534279771, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
       propertyPath: BasePurity
       value: 40
       objectReference: {fileID: 0}
-    - target: {fileID: 6984298448623192707, guid: b735ab74dab174a4f90c79558cd51e43,
+    - target: {fileID: 6120423163433110244, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c3fd932f54dbc104c8aae0fb5e3f9eeb,
+        type: 3}
     - target: {fileID: 6984298448623192707, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -109,22 +133,12 @@ PrefabInstance:
       propertyPath: _assetId
       value: 2285999441
       objectReference: {fileID: 0}
-    - target: {fileID: 7019565730922564163, guid: b735ab74dab174a4f90c79558cd51e43,
-        type: 3}
-      propertyPath: m_AssetId
-      value: ae1035aa6a0a89d449b49518b87e10b7
-      objectReference: {fileID: 0}
     - target: {fileID: 7065938717226960043, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 3d1355e9e0f393e4fb7dc608f3a349fb,
         type: 3}
-    - target: {fileID: 7095945559787729905, guid: b735ab74dab174a4f90c79558cd51e43,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
       propertyPath: initialName
@@ -150,8 +164,25 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9182518269629492315, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2970007519580444198}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b735ab74dab174a4f90c79558cd51e43, type: 3}
+--- !u!212 &2290304407820703849 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7065938717226960043, guid: b735ab74dab174a4f90c79558cd51e43,
+    type: 3}
+  m_PrefabInstance: {fileID: 9063364966791519426}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &2970007519580444198 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6120423163433110244, guid: b735ab74dab174a4f90c79558cd51e43,
+    type: 3}
+  m_PrefabInstance: {fileID: 9063364966791519426}
+  m_PrefabAsset: {fileID: 0}

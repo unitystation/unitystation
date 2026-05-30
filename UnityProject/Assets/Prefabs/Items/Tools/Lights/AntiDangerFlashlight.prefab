@@ -11,22 +11,22 @@ PrefabInstance:
     - target: {fileID: 1196572930025409697, guid: 06fa88552c4d5c84a9356cc79c6d43c6,
         type: 3}
       propertyPath: InitialColour.a
-      value: 0.8156863
+      value: 0.49019608
       objectReference: {fileID: 0}
     - target: {fileID: 1204190447635680029, guid: 06fa88552c4d5c84a9356cc79c6d43c6,
         type: 3}
       propertyPath: colour.a
-      value: 0.8862745
+      value: 0.49019608
       objectReference: {fileID: 0}
     - target: {fileID: 1204190447635680029, guid: 06fa88552c4d5c84a9356cc79c6d43c6,
         type: 3}
       propertyPath: colour.b
-      value: 0.57254905
+      value: 0.7137255
       objectReference: {fileID: 0}
     - target: {fileID: 1204190447635680029, guid: 06fa88552c4d5c84a9356cc79c6d43c6,
         type: 3}
       propertyPath: colour.g
-      value: 0.89411765
+      value: 0.9529412
       objectReference: {fileID: 0}
     - target: {fileID: 1204190447635680029, guid: 06fa88552c4d5c84a9356cc79c6d43c6,
         type: 3}
@@ -201,19 +201,24 @@ MonoBehaviour:
       Description: Point at who you want to lose vision.
       TriggerType: 0
       Type: 1
-      AnimatedIconCatalogue:
-      - {fileID: 11400000, guid: 59de24d96dbfbe1448bce7fff9ed1751, type: 2}
       CooldownTime: 30
       CanUseWhileGhosting: 0
+      AnimatedIconCatalogue:
+      - {fileID: 11400000, guid: 59de24d96dbfbe1448bce7fff9ed1751, type: 2}
+      TryToGrabSpritesFromRelatedObject: 0
+      HasCustomCursorOffset: 0
       HasCustomCursor: 1
       OffsetType: 1
       CursorOffset: {x: 0, y: 0}
       CursorTexture: {fileID: 11400000, guid: f3e23c8b0ccd0334ca8b9d4b92bdff65, type: 2}
       TrackingObject: {fileID: 0}
+      ObjectRelatedToThisAction: {fileID: 0}
     m_values:
     - target: {fileID: 3062049238634827698}
       methodName: AttemptBlind
       parameterType: 
+  requiresSpecificSlots: 0
+  possibleSlots: 9
 --- !u!114 &3062049238634827698
 MonoBehaviour:
   m_ObjectHideFlags: 0
