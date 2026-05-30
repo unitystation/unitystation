@@ -3,40 +3,44 @@ using US13.Core.Sprite_Handler;
 using US13.Core.Utils;
 using US13.Items.Implants.Organs;
 
-public class TongueSprites : MonoBehaviour
+namespace BodyParts
 {
-
-	public SpriteHandler  SpriteHandler;
-
-
-	public SpriteDataSO MouthAnimation;
-	public SpriteDataSO Blank;
-
-
-	public MultiInterestBool IsTalking = new MultiInterestBool();
-
-	public void OnEnable()
+	public class TongueSprites : MonoBehaviour
 	{
 
-		IsTalking.OnBoolChange.AddListener(SwapTalking);
-	}
-
-	public void SwapTalking(bool val)
-	{
+		public SpriteHandler  SpriteHandler;
 
 
-		if (val)
+		public SpriteDataSO MouthAnimation;
+		public SpriteDataSO Blank;
+
+
+		public MultiInterestBool IsTalking = new MultiInterestBool();
+
+		public void OnEnable()
 		{
-			if (Tongue.SpeechAnimationEnabled == false) return;
 
-			SpriteHandler.SetSpriteSO(MouthAnimation, networked: false);
-
-		}
-		else
-		{
-			SpriteHandler.SetSpriteSO(Blank, networked: false);
+			IsTalking.OnBoolChange.AddListener(SwapTalking);
 		}
 
+		public void SwapTalking(bool val)
+		{
+
+
+			if (val)
+			{
+				if (Tongue.SpeechAnimationEnabled == false) return;
+
+				SpriteHandler.SetSpriteSO(MouthAnimation, networked: false);
+
+			}
+			else
+			{
+				SpriteHandler.SetSpriteSO(Blank, networked: false);
+			}
+
+
+		}
 
 	}
 
