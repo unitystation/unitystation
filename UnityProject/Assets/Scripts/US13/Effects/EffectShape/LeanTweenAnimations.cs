@@ -1,9 +1,12 @@
+using Logs;
 using UnityEngine;
 
 public enum LeanTweenAnimationsEnum
 {
 	TransparencyFade,
-	InteractionShake
+	InteractionShake,
+	HitDustSplatter
+
 }
 
 public static class LeanTweenAnimations
@@ -67,6 +70,20 @@ public static class LeanTweenAnimations
 // Return cleanly
 				LeanTween.moveLocal(TargetObject, originalLocalPos, 0.08f)
 					.setDelay(shakes * step);
+				break;
+			case "HitDustSplatter":
+
+				float radians = (TargetObject.transform.localRotation.eulerAngles.z +45) * Mathf.Deg2Rad;
+				Vector3 localDirection = new Vector3(Mathf.Cos(radians), Mathf.Sin(radians), 0f) * 0.25f;
+
+
+
+				Vector3 targetPos = TargetObject.transform.localPosition + localDirection;
+
+				targetPos.z = 0;
+				Loggy.Error(targetPos.ToString());
+
+				LeanTween.moveLocal(TargetObject, targetPos, Duration ?? 0.3f).setEase( useLeanTweenType ?? LeanTweenType.easeOutQuad);
 				break;
 		}
 	}

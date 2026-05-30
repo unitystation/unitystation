@@ -10,7 +10,7 @@ namespace ClientEffecte
 
 		public LeanTweenType LeanTweenType = LeanTweenType.easeInOutQuad;
 
-		private void OnEnable()
+		private void Start()
 		{
 			LeanTweenAnimations.DeEffectClient(LeanTweenClientEffect, this.gameObject, null, LeanTweenType, Duration);
 		}

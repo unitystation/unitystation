@@ -16,6 +16,7 @@ namespace US13.Projectiles.Behaviours
 		[Tooltip("Living time of decal.")]
 		[SerializeField] private float animationTime = 0;
 
+
 		public bool OnHit(MatrixManager.CustomPhysicsHit hit)
 		{
 			if (decal == null)

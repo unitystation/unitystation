@@ -69,7 +69,7 @@
 				// Mix Background.
 				half4 background = tex2D(_BackgroundTex, i.uv);
 
-
+			
 				
 				half4 mixedLight = lightSample;
 				//Times the light so it's a little bit brighter, this is from the reduced range we have 0 to 0.66 = normal light 0.66 to 1 blown out light
@@ -90,6 +90,7 @@
 				half3 BalanceLight = clamp(normaliseColour * clamp( occLightSample.a +  mixedLight.a + 0.55, 0,1), 0, 1);
 
 			
+			
 				
 				//Adding the occlusion and wall stuff
 				BalanceLight = BalanceLight + (( occLightSample * 0.75 ) * (_obstacleMask));
@@ -99,7 +100,8 @@
 				// Blend light with scene.
 				half4 screenLit =  fixed4( ((screen.rgb*BalanceLight+balancedMixLight)) , screen.a);
 				
-		
+				
+				//return screen;
 				float backgroundMask = clamp(occlusionSample.g-(screen.a * 2), 0, 1);
 				half4 screenLitBackground = background * backgroundMask + screenLit;
 				//fixed4 invertedBackgroundColor = 1-saturate((background)*10);
