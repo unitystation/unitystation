@@ -15,6 +15,7 @@ using US13.Messages.Client.Interaction;
 using US13.Player;
 using US13.Systems.Inventory;
 using US13.UI.Core;
+using Util;
 
 namespace US13.UI.Systems.MainHUD.UI_Bottom
 {
@@ -22,7 +23,17 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 		IPointerEnterHandler, IPointerExitHandler, IDragHandler, IEndDragHandler
 	{
 		private UI_ItemSlot itemSlot;
-		public override string Tooltip => itemSlot.NamedSlot.ToString();
+		public override string Tooltip
+		{
+			get
+			{
+				if (itemSlot.Item != null)
+				{
+					return itemSlot.Item?.gameObject?.ExpensiveName();
+				}
+				return itemSlot.NamedSlot.ToString();
+			}
+		}
 
 		private Color32 successOverlayColor = new Color32(0, 255, 0, 92);
 		private Color32 failOverlayColor = new Color32(255, 0, 0, 92);

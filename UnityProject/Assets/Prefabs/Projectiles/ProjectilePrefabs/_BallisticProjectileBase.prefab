@@ -82,5 +82,34 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1560634355228308, guid: 5858b89c4790c084bb1915952309853d,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7978154888639018242}
   m_SourcePrefab: {fileID: 100100000, guid: 5858b89c4790c084bb1915952309853d, type: 3}
+--- !u!1 &2511337419890708861 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1560634355228308, guid: 5858b89c4790c084bb1915952309853d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2512898024177749993}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7978154888639018242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2511337419890708861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36a8965dca76e724a86347f5c807dda0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Projectiles.Behaviours.ProjectileDecalOnDespawn
+  decal: {fileID: 0}
+  animationTime: 0
+  isTriggeredOnHit: 1
+  UsePlayEffect: 1
+  OnlyTriggerOnPlayer: 1
+  PlayEffectObject: {fileID: 6724671660614268249, guid: d08a91813f91a4f4f918955c4cee9713,
+    type: 3}

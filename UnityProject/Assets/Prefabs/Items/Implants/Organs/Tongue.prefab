@@ -167,7 +167,7 @@ PrefabInstance:
         type: 3}
       propertyPath: SpritePrefab
       value: 
-      objectReference: {fileID: 542051147916053027, guid: aadfd0746c354f94bb3ee7869978af3b,
+      objectReference: {fileID: 5234337306621321731, guid: c1e10ccf6ce72c645aa6021915602f30,
         type: 3}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -249,10 +249,5 @@ MonoBehaviour:
   maximumCharactersCanBeSpokenInOneMessage: 1600
   VoicesName: 
   Voice: 
-  IsTalking:
-    InitialState: 0
-    OnBoolChange:
-      m_PersistentCalls:
-        m_Calls: []
   MouthAnimation: {fileID: 11400000, guid: c393e6142ef47b644a8a2d5009c615df, type: 2}
   Blank: {fileID: 11400000, guid: e4eb608982005d94e9d3ab683cd83d7f, type: 2}

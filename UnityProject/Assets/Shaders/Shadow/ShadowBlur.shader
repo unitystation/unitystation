@@ -90,8 +90,9 @@ Shader "Custom/ShadowBlur"
                 fixed rawAlpha = tex2D(_MainTex, i.uv).a;
                 
                 fixed4 occSample   = tex2D(_WallFloorOcclusionTex, i.uv);
-                fixed  isWall      = step(0.01, occSample.r);   
-                
+                //return occSample;
+                fixed  isWall      = step(0.01, occSample.a);   
+                //return (isWall,isWall,isWall,isWall);
                 fixed  isTable     = step(0.01, tex2D(_TableOcclusionTex, i.uv).a);
 
                 //return (isTable,isTable,isTable,isTable);

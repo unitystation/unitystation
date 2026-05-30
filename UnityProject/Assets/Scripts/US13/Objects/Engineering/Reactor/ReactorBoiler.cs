@@ -11,6 +11,7 @@ using US13.Managers.NetworkManagement;
 using US13.Managers.UpdateManager;
 using US13.Objects.Pipes;
 using US13.ScriptableObjects;
+using US13.Tilemaps.Behaviours.Meta.Atmospherics;
 using US13.Tilemaps.Behaviours.Meta.Atmospherics.Data.Reactions;
 using US13.Tilemaps.Behaviours.Objects;
 using Util;
@@ -51,15 +52,15 @@ namespace US13.Objects.Engineering.Reactor
 		private void OnEnable()
 		{
 			if (CustomNetworkManager.IsServer == false) return;
+			AtmosManager.Instance.AddUpdate(CycleUpdate);
 
-			UpdateManager.Add(CycleUpdate, 1);
 		}
 
 		private void OnDisable()
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
+			AtmosManager.Instance.RemoveUpdate(CycleUpdate);
 		}
 
 		/// <summary>
