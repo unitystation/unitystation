@@ -81,6 +81,11 @@ namespace US13.Core.Camera
 		public bool ODDeven = false;
 		public Vector2 Previous = Vector2.zero;
 
+		// Reference-counted suspension of world rendering
+		private int renderSuspendCount;
+		private int savedCullingMask;
+		private bool savedLightingEnabled;
+
 		private void Awake()
 		{
 			if (followControl == null)
@@ -114,6 +119,45 @@ namespace US13.Core.Camera
 		private void OnDisable()
 		{
 			UpdateManager.SetCameraUpdate(null);
+		}
+
+		/// <summary>
+		/// Stop rendering the world (follow camera + lighting mask cameras).
+		/// Use if you want to turn off the world camera (for full screen menus or effects).
+		/// </summary>
+		public void SuspendRendering()
+		{
+			if (renderSuspendCount++ == 0)
+			{
+				if (cam != null)
+				{
+					savedCullingMask = cam.cullingMask;
+					cam.cullingMask = 0;
+				}
+				if (lightingSystem != null)
+				{
+					savedLightingEnabled = lightingSystem.enabled;
+					lightingSystem.enabled = false;
+				}
+			}
+		}
+
+		/// <summary>
+		/// Resume world rendering. Only restores once the last suspender has released.
+		/// </summary>
+		public void ResumeRendering()
+		{
+			if (renderSuspendCount > 0 && --renderSuspendCount == 0)
+			{
+				if (cam != null)
+				{
+					cam.cullingMask = savedCullingMask;
+				}
+				if (lightingSystem != null)
+				{
+					lightingSystem.enabled = savedLightingEnabled;
+				}
+			}
 		}
 
 		//idk I don't know probably should look into the sometime TODO look into this
