@@ -2,12 +2,14 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
+using IngameDebugConsole.Scripts;
 using Logs;
 using Shared.Managers;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using US13.Core.Addressables;
+using US13.Core.Camera;
 using US13.Core.Chat;
 using US13.Core.Networking.AsyncMessageQueue;
 using US13.Managers;
@@ -42,6 +44,7 @@ namespace US13.UI.Systems.PreRound
 		private Button characterButton;
 		private Button adminStartButton;
 
+		private bool worldRenderingSuspended;
 
 		private void OnEnable()
 		{
@@ -51,6 +54,14 @@ namespace US13.UI.Systems.PreRound
 			CountdownArea.OnFinishedCountingDown.AddListener(CheckForRoundStatusForTitle);
 			CountdownArea.OnFinishedCountingDown.AddListener(ChangeJoinButtonForRoundStarted);
 			OnClientLoadUpdateStatus += UpdateLoadingStatus;
+
+			//Do not render the player follow camera and lighting cameras when in pre-game menu to reduce unneeded draw calls
+			if (Camera2DFollow.followControl != null)
+			{
+				Camera2DFollow.followControl.SuspendRendering();
+				worldRenderingSuspended = true;
+			}
+
 			_ = DelayedCheck();
 		}
 
@@ -81,6 +92,13 @@ namespace US13.UI.Systems.PreRound
 			CountdownArea.OnFinishedCountingDown.RemoveListener(ChangeJoinButtonForRoundStarted);
 			GameManager.Instance.OnCurrentRoundStateChange -= ChangeJoinButtonForRoundStarted;
 			OnClientLoadUpdateStatus -= UpdateLoadingStatus;
+
+			//Restore player follow camera and lighting when round starts
+			if (worldRenderingSuspended)
+			{
+				Camera2DFollow.followControl?.ResumeRendering();
+				worldRenderingSuspended = false;
+			}
 		}
 
 		private void UpdateMe()
