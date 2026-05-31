@@ -63,15 +63,15 @@ namespace US13.Player
 
 		private void Awake()
 		{
-			if (objectLightSprite == null)
-			{
-				objectLightSprite = objectLightEmission.GetComponentInChildren<LightSprite>();
-			}
-
 			if (objectLightEmission == null)
 			{
 				Loggy.Error($"{this} field objectLightEmission is null, please check {gameObject} prefab.", Category.Lighting);
 				return;
+			}
+
+			if (objectLightSprite == null)
+			{
+				objectLightSprite = objectLightEmission.GetComponentInChildren<LightSprite>();
 			}
 
 			if (netIdentity == null)
