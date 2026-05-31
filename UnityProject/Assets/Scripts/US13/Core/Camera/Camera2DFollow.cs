@@ -127,18 +127,19 @@ namespace US13.Core.Camera
 		/// </summary>
 		public void SuspendRendering()
 		{
-			if (renderSuspendCount++ == 0)
+			renderSuspendCount++;
+			if (renderSuspendCount > 1) return; // already suspended by another caller
+
+			if (cam != null)
 			{
-				if (cam != null)
-				{
-					savedCullingMask = cam.cullingMask;
-					cam.cullingMask = 0;
-				}
-				if (lightingSystem != null)
-				{
-					savedLightingEnabled = lightingSystem.enabled;
-					lightingSystem.enabled = false;
-				}
+				savedCullingMask = cam.cullingMask;
+				cam.cullingMask = 0;
+			}
+
+			if (lightingSystem != null)
+			{
+				savedLightingEnabled = lightingSystem.enabled;
+				lightingSystem.enabled = false;
 			}
 		}
 
@@ -147,16 +148,19 @@ namespace US13.Core.Camera
 		/// </summary>
 		public void ResumeRendering()
 		{
-			if (renderSuspendCount > 0 && --renderSuspendCount == 0)
+			if (renderSuspendCount == 0) return; // nothing to resume
+
+			renderSuspendCount--;
+			if (renderSuspendCount > 0) return; // other callers still want it suspended
+
+			if (cam != null)
 			{
-				if (cam != null)
-				{
-					cam.cullingMask = savedCullingMask;
-				}
-				if (lightingSystem != null)
-				{
-					lightingSystem.enabled = savedLightingEnabled;
-				}
+				cam.cullingMask = savedCullingMask;
+			}
+
+			if (lightingSystem != null)
+			{
+				lightingSystem.enabled = savedLightingEnabled;
 			}
 		}
 
