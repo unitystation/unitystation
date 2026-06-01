@@ -84,7 +84,7 @@ namespace US13.Systems.Inventory.Populators.Storage
 
 				if (ItemStorage.CanFit(spawn.GameObject)== false)
 				{
-					Loggy.Error($"Your initial contents spawn for ItemStorage {component.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
+					Loggy.Trace($"Your initial contents spawn for ItemStorage {component.name} for {spawn.GameObject} Is bypassing the Can fit requirements", Category.Inventory);
 				}
 
 				ItemStorage.ServerTryAdd(spawn.GameObject, IgnoreRestraints: true);
