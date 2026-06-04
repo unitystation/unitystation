@@ -44,6 +44,11 @@ namespace US13.Systems.Construction
 
 		[PlayModeOnly] public bool hasPower = false;
 
+		[Tooltip("Toggles an optional component on this console to enabled/disabled with power state. For enabling miscellaneous functionality when the console is on.")]
+		[SerializeField]
+		private Behaviour enableComponentWhenPowered;
+
+
 		[Tooltip("Time taken to screwdrive to deconstruct this.")]
 		[SerializeField]
 		private float secondsToScrewdrive = 2f;
@@ -175,6 +180,10 @@ namespace US13.Systems.Construction
 				hasPower = true;
 			}
 			GetComponent<ConsoleScreenAnimator>().ToggleOn(hasPower);
+			if (enableComponentWhenPowered != null)
+			{
+				enableComponentWhenPowered.enabled = (hasPower);
+			}
 		}
 
 		public bool CanOpenNetTab(GameObject playerObject, NetTabType netTabType)

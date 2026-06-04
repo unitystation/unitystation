@@ -1,13 +1,19 @@
 fileFormatVersion: 2
-guid: 7ec720e9d63366274ac22d7f0ca7b331
+guid: 0d00392783b7df114a5d77a3c2c7b13b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -1178390333303913187
-    second: vending_donkvendor-light-mask_0
+      213: 6077789454063738490
+    second: emitter_advanced_open_0
   - first:
-      213: 5798038597160559694
-    second: vending_donkvendor-light-mask_1
+      213: -3579781680245915933
+    second: emitter_advanced_open_1
+  - first:
+      213: -285383942961569766
+    second: emitter_advanced_open_2
+  - first:
+      213: -4540872959514059802
+    second: emitter_advanced_open_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -27,7 +33,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 1
+  isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -40,7 +46,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -49,12 +55,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 32
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -77,7 +83,7 @@ TextureImporter:
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
-    textureFormat: 4
+    textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
@@ -103,13 +109,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: vending_donkvendor-light-mask_0
+      name: emitter_advanced_open_0
       rect:
         serializedVersion: 2
         x: 5
-        y: 12
-        width: 21
-        height: 10
+        y: 0
+        width: 22
+        height: 29
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,20 +124,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: d158aa83c3485afe0800000000000000
-      internalID: -1178390333303913187
+      spriteID: a7e95159e45a85450800000000000000
+      internalID: 6077789454063738490
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: vending_donkvendor-light-mask_1
+      name: emitter_advanced_open_1
       rect:
         serializedVersion: 2
-        x: 7
-        y: 4
-        width: 17
-        height: 6
+        x: 37
+        y: 0
+        width: 22
+        height: 29
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -140,8 +146,52 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: e4462c18265c67050800000000000000
-      internalID: 5798038597160559694
+      spriteID: 3eebd7f378f025ec0800000000000000
+      internalID: -3579781680245915933
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: emitter_advanced_open_2
+      rect:
+        serializedVersion: 2
+        x: 67
+        y: 0
+        width: 28
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a10ec2fd0dc1a0cf0800000000000000
+      internalID: -285383942961569766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: emitter_advanced_open_3
+      rect:
+        serializedVersion: 2
+        x: 97
+        y: 0
+        width: 28
+        height: 29
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6ebdcf51a149bf0c0800000000000000
+      internalID: -4540872959514059802
       vertices: []
       indices: 
       edges: []
@@ -150,7 +200,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -160,8 +210,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      vending_donkvendor-light-mask_0: -1178390333303913187
-      vending_donkvendor-light-mask_1: 5798038597160559694
+      emitter_advanced_open_0: 6077789454063738490
+      emitter_advanced_open_1: -3579781680245915933
+      emitter_advanced_open_2: -285383942961569766
+      emitter_advanced_open_3: -4540872959514059802
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

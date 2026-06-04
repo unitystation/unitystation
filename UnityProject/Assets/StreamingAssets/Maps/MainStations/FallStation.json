@@ -94357,7 +94357,17 @@
             "GitID": "b735ab74dab174a4f90c79558cd51e43_33.1┼95.94┼0┼",
             "PrefabID": "b735ab74dab174a4f90c79558cd51e43",
             "Name": "WeldingTool (1)",
-            "LocalPRS": "33.1┼95.94┼0┼"
+            "LocalPRS": "33.1┼95.94┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,3",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "iKNN8B2RpF9kLZjYhO2C_33.15┼97.27┼0┼",
@@ -95721,7 +95731,79 @@
                   "Data": [
                     {
                       "Name": "CurrentDirection",
-                      "Data": "Right_By270"
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,2",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "LightSpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,3",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,4",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "ID": "0,5",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "LightSpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -125542,24 +125624,7 @@
             "GitID": "872a07241939db44a92aae9b275b6063_72┼69┼0┼",
             "PrefabID": "872a07241939db44a92aae9b275b6063",
             "Name": "BartendersSkirt (1)",
-            "LocalPRS": "72┼69┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "72┼69┼0┼"
           },
           {
             "GitID": "9310e3a7aaa16614e87e410f00c9ec13_72┼69┼0┼",
@@ -125572,24 +125637,7 @@
             "GitID": "c842b429251c54792a95e292b838d034_72┼69┼0┼",
             "PrefabID": "c842b429251c54792a95e292b838d034",
             "Name": "BartendersUniform (1)",
-            "LocalPRS": "72┼69┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "72┼69┼0┼"
           },
           {
             "GitID": "74f1764f9ae8c6146a627626bfa4c6c0_72┼71┼0┼",
@@ -136791,7 +136839,17 @@
             "GitID": "d0c4b52b477e35e44a7e0c0a6876892c_84.94┼26.96┼0┼",
             "PrefabID": "d0c4b52b477e35e44a7e0c0a6876892c",
             "Name": "UpgradedIndustrialWeldingTool (1)",
-            "LocalPRS": "84.94┼26.96┼0┼"
+            "LocalPRS": "84.94┼26.96┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,3",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "91d832be818283a4188516804e8d5ef0_85┼24┼0┼",
@@ -149749,28 +149807,8 @@
                   "ID": "0,2",
                   "ClassDatas": [
                     {
-                      "ClassID": "SpriteHandler@0",
+                      "ClassID": "LightSpriteHandler@0",
                       "Data": [
-                        {
-                          "Name": "NetworkThis",
-                          "Data": "True"
-                        },
-                        {
-                          "Name": "randomInitialSprite",
-                          "Data": "False"
-                        },
-                        {
-                          "Name": "spriteRenderer",
-                          "Data": "NULL"
-                        },
-                        {
-                          "Name": "doReverseAnimation",
-                          "Data": "False"
-                        },
-                        {
-                          "Name": "pushTextureOnStartUp",
-                          "Data": "True"
-                        },
                         {
                           "Name": "initialVariantIndex",
                           "Data": "2"
@@ -149778,14 +149816,6 @@
                         {
                           "Name": "InitialColour",
                           "Data": "ÿÿÿÿ"
-                        },
-                        {
-                          "Name": "initialSortingOrder",
-                          "Data": "-1"
-                        },
-                        {
-                          "Name": "initialSortingLayerName",
-                          "Data": ""
                         }
                       ]
                     }
@@ -154477,24 +154507,7 @@
             "GitID": "771a0ac9953472f439625fb33efcfecc_102┼92┼0┼",
             "PrefabID": "771a0ac9953472f439625fb33efcfecc",
             "Name": "CaptainsParadeUniform (1)",
-            "LocalPRS": "102┼92┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "102┼92┼0┼"
           },
           {
             "GitID": "a340b01570aae8349b6c47fabfe0d4a3_102┼92┼0┼",
@@ -158715,47 +158728,13 @@
             "GitID": "42b8312937564f84ca906c22a8aa23b7_107.98┼60.95┼0┼",
             "PrefabID": "42b8312937564f84ca906c22a8aa23b7",
             "Name": "MedicalScrubsBlue (1)",
-            "LocalPRS": "107.98┼60.95┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "107.98┼60.95┼0┼"
           },
           {
             "GitID": "b7293f2ee1e4b5b408a9c76ca1f03f0a_107.99┼61.02┼0┼",
             "PrefabID": "b7293f2ee1e4b5b408a9c76ca1f03f0a",
             "Name": "MedicalScrubsGreen (1)",
-            "LocalPRS": "107.99┼61.02┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "107.99┼61.02┼0┼"
           },
           {
             "GitID": "c21551dd992a57349973e4b5af103ca6_108┼17┼0┼",
@@ -159042,24 +159021,7 @@
             "GitID": "1c4a4e2e7d6a9ce4e9135ceb57d872b8_108┼61┼0┼",
             "PrefabID": "1c4a4e2e7d6a9ce4e9135ceb57d872b8",
             "Name": "MedicalScrubsPurple (1)",
-            "LocalPRS": "108┼61┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "108┼61┼0┼"
           },
           {
             "GitID": "69b2a032b40410c4aace843d93130385_108┼61┼0┼",

@@ -12,8 +12,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
   m_Name: solarpanel
   m_EditorClassIdentifier: 
+  _PreviewSprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 98ce64ae76b028b45b96e795219ac021, type: 3}
+  Sprites: []
+  spriteSheet:
+    Texture: {fileID: 0}
+    Sprites: []
+    EquippedData: {fileID: 0}
+  spriteSheets: []
+  connectCategory: 4
+  connectType: 0
+  texturePath: 
+  Blacklist: []
+  WhiteList: []
+  AnimationSpeed: 1
+  AnimationStartTime: 0
+  randomizeStartTime: 0
+  TileAnimationFlags: 0
   <ForeverID>k__BackingField: 3b56f6d0e9a8a3749a92f1231bd9abf1
-  displayName: 
+  displayName: solar panel
   description: 
   LayerType: 3
   TileType: 3
@@ -29,7 +46,7 @@ MonoBehaviour:
   mineable: 0
   miningTime: 5
   miningHardness: 1
-  constructable: 1
+  constructable: 0
   RadiationPassability: 1
   ThermalConductivity: 0.05
   HeatCapacity: 10000
@@ -68,18 +85,18 @@ MonoBehaviour:
     type: 3}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 11400000, guid: 1a4a35c7013779a469d67421e3cb501d, type: 2}
-  toTileWhenDestroyed: {fileID: 0}
+  toTileWhenDestroyed: {fileID: 11400000, guid: e8a2685c8a14b7043bf58bde4374c6b1,
+    type: 2}
   spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 0}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []
-  sprite: {fileID: 21300000, guid: 98ce64ae76b028b45b96e795219ac021, type: 3}
   CanBeHighlightedThroughScanners: 0
   HighlightObject: {fileID: 0}

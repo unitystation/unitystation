@@ -37,7 +37,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 2533950271148896099, guid: 4fc13c6b91e9dfb45808450b84b66303,
+      objectReference: {fileID: 21300000, guid: acf88d35ee6536c4fb4bfe32fd85ab99,
         type: 3}
     - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -114,6 +114,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 19
       objectReference: {fileID: 0}
+    - target: {fileID: 1967541263607019703, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: apcPoweredDevice
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2444135299207855093, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: parentID
@@ -169,7 +174,7 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialPresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: cff3483ac7074d84181e8e3545d42242,
+      objectReference: {fileID: 11400000, guid: 5f733e544ea45274e9dc04846cda4500,
         type: 2}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
