@@ -152,8 +152,8 @@ namespace US13.Tilemaps.Behaviours.Layers
 				new HighlightScanManager.UninitialisedHighlightScan()
 				{
 					LocalPOS = position,
-					Layer = this
-
+					Layer = this,
+					Tile = (SimpleTile)tile
 				});
 
 		}

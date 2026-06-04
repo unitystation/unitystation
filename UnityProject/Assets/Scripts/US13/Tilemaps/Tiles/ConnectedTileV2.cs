@@ -30,8 +30,6 @@ namespace US13.Tilemaps.Tiles
 			public Sprite Sprite;
 		}
 
-		public override Sprite PreviewSprite => connectionData != null && connectionData.Count > 0 ? connectionData[0].Sprite : null;
-
 		[SerializeField]
 		private List<ConnectionData> connectionData = new List<ConnectionData>();
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Util;
@@ -22,7 +23,7 @@ namespace US13.Tilemaps.Tiles
 				{
 					return Sprites[0];
 				}
-				else if (spriteSheet != null && spriteSheet?.Sprites?.Length > 0)
+				else if (spriteSheet != null && spriteSheet?.Sprites?.Length > 0 && (spriteSheets?.Count > 0) == false)
 				{
 					return spriteSheet.Sprites[0];
 				}
@@ -71,7 +72,14 @@ namespace US13.Tilemaps.Tiles
 				if (_sprites == null || _sprites.Length == 0)
 				{
 
-					_sprites = spriteSheet.Sprites;
+					if (spriteSheets.Count > 0)
+					{
+						_sprites =  spriteSheets[0].Sprites;
+					}
+					else
+					{
+						_sprites = spriteSheet.Sprites;
+					}
 					//Loggy.Log(texturePath + "/" + spriteSheet.name);
 				}
 				return _sprites;
@@ -96,7 +104,7 @@ namespace US13.Tilemaps.Tiles
 		public override bool GetTileAnimationData(Vector3Int position, ITilemap tilemap,
 			ref TileAnimationData tileAnimationData)
 		{
-			if ((Sprites==null ||  Sprites.Length == 0)&& spriteSheets.Count == 0)
+			if ((Sprites==null ||  Sprites.Length == 0) && spriteSheets.Count == 0)
 			{
 				tileAnimationData.animatedSprites = new []{PreviewSprite};
 				tileAnimationData.animationSpeed = AnimationSpeed;
@@ -181,7 +189,6 @@ namespace US13.Tilemaps.Tiles
 
 		public override void GetTileData(Vector3Int position, ITilemap tilemap, ref TileData tileData)
 		{
-
 			if (spriteSheet?.Texture == null && spriteSheets?.Count == 0)
 			{
 				tileData.sprite = PreviewSprite;
