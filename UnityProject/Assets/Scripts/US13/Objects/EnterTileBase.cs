@@ -45,6 +45,7 @@ namespace US13.Objects
 
 		public void OnLocalPositionChangedServer(Vector3Int oldLocalPos, Vector3Int newLocalPos)
 		{
+			if (objectPhysics.registerTile.Matrix == null) return; // not registered to a matrix yet (e.g. during map-load spawn)
 			if (objectPhysics.registerTile.Matrix.MetaTileMap.ObjectLayer.EnterTileBaseList == null) return;
 			if (previousMatrix != null)
 			{
