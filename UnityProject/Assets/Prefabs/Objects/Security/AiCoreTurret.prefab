@@ -15,11 +15,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1530055412931709374, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1530055412931709374, guid: 24217cb8b2338a3479aaf8d32b727ed1,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -68,16 +63,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1586561495887623337, guid: 24217cb8b2338a3479aaf8d32b727ed1,
-        type: 3}
-      propertyPath: restriction
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
-        type: 3}
-      propertyPath: aiTurret
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}
       propertyPath: turretType
@@ -90,18 +75,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}
-      propertyPath: defaultShootSpeed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
-        type: 3}
       propertyPath: CheckSecurityRecords
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
-        type: 3}
-      propertyPath: shootSpeedMultiplier
-      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}
@@ -137,11 +112,6 @@ PrefabInstance:
         type: 3}
       propertyPath: _assetId
       value: 2883961224
-      objectReference: {fileID: 0}
-    - target: {fileID: 6986135575158340102, guid: 24217cb8b2338a3479aaf8d32b727ed1,
-        type: 3}
-      propertyPath: m_AssetId
-      value: f10c70de452d8b84ba9d9fd4c169f205
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -50,18 +50,18 @@ namespace US13.Objects.Other
 	public class Turret : NetworkBehaviour, ICheckedInteractable<HandApply>, IMultitoolSlaveable, IExaminable, IServerSpawn, ICanOpenNetTab
 	{
 		[SerializeField]
-		[Tooltip("Used to get the lethal bullet and spawn the gun when deconstructed")]
+		[Tooltip("Determines the projectile when set to lethal mode, its base fire delay, and gun to spawn when deconstructed")]
 		private GameObject spawnGun = null;
 
 		[SerializeField]
 		private int range = 7;
 
 		[SerializeField]
-		[Tooltip("Used as back up if cant find bullet from mapped gun or gun put in")]
-		private Bullet laserBullet = null;
+		[Tooltip("Used as backup if no gun installed or installed gun's bullet can't be found")]
+		private Bullet defaultProjectile = null;
 
 		[SerializeField]
-		[Tooltip("Used as the stun mode bullet")]
+		[Tooltip("Projectile the turret fires when set to stun mode")]
 		private Bullet stunBullet = null;
 
 		[SerializeField]
@@ -70,14 +70,14 @@ namespace US13.Objects.Other
 		private int gunLossChance = 30;
 
 		[SerializeField]
-		[Range(0.1f,10f)]
-		[Tooltip("Multiplies on the default fire delay of the gun inside, lower is quicker")]
-		private float shootSpeedMultiplier = 1f;
+		[Range(0.1f,30f)]
+		[Tooltip("Multiplier applied to the fire delay of all guns/assigned projectiles fired by this turret (Lower is quicker; Minimum final fire delay bound of 0.5)")]
+		private float fireDelayMultiplier = 1.5f;
 
 		[SerializeField]
-		[Range(0.1f,10f)]
-		[Tooltip("Used for taser or default laser when theres no gun inside, multiplied by shootSpeedMultiplier")]
-		private float defaultShootSpeed = 1.5f;
+		[Range(0.5f,30f)]
+		[Tooltip("Base fire delay for stun mode projectile/assigned lethal mode projectile if no gun installed, multiplied by Fire Delay Multiplier (Lower is quicker)")]
+		private float defaultFireDelay = 1f;
 
 		[SerializeField]
 		private GameObject framePrefab = null;
@@ -97,7 +97,7 @@ namespace US13.Objects.Other
 		[SerializeField] private LayerMask lineOfSightMask = new();
 
 		[SerializeField]
-		[Tooltip("If turret not normal, then will always target mobs, if turret is Ai then will ignore all other checks and always fire")]
+		[Tooltip("If turret not normal, then will always target mobs, if turret is AI then will ignore all other checks and always fire")]
 		//If turret not normal, then will always target mobs, if turret is Ai then will ignore all other checks and
 		//always fire
 		private TurretType turretType = TurretType.Normal;
@@ -117,32 +117,31 @@ namespace US13.Objects.Other
 		}
 
 		//Check for Weapon Authorization:
-		//No/Yes - neutralizes people who have a weapon out but are not Heads or Security staff.
-		[Tooltip("Neutralize people who have a weapon out but are not Heads or Security staff")]
+		[Tooltip("Fire at individuals holding a weapon (currently checks for Gun trait) without displaying a clearance that passes AllowedWeaponBearersRestrictions")]
 		public bool CheckWeaponAuthorisation;
 
 		[SerializeField] private ClearanceRestricted weaponAuthorisationClearance;
 
 		//Check Security Records:
 		//Yes/No - searches Security Records for criminals.
-		[Tooltip("Search Security Records for criminals")]
+		[Tooltip("Fire at individuals set to Criminal in the Security Records")]
 		public bool CheckSecurityRecords = true;
 
 		//Neutralize Identified Criminals:
-		//Yes/No - neutralizes crew members set to Arrest on the Security Records.
-		[Tooltip("Neutralize crew members set to Arrest on the Security Records")]
+		//Yes/No - neutralizes crew members set to Arrest in the Security Records.
+		[Tooltip("Fire at individuals set to Arrest in the Security Records")]
 		public bool CheckForArrest = true;
 
-		//Neutralize All Non-Security and Non-Command Personnel:
+		//Fire at individuals not displaying a clearance that passes AllowedCrewRestrictions list conditions
 		//No/Yes - self explanatory.
-		[Tooltip("Neutralize All Non-Security and Non-Command Personnel")]
+		[Tooltip("Fire at individuals not displaying a clearance that passes AllowedCrewRestrictions")]
 		public bool CheckUnauthorisedPersonnel;
 
 		[SerializeField] private ClearanceRestricted authorisedClearance;
 
 		//Neutralize All Unidentified Life Signs:
-		//Yes/No - neutralizes aliens.
-		[Tooltip("Neutralize All Unidentified Life Signs")]
+		//Yes/No - neutralizes aliens. <= this might no longer be true w/r/t MobV1s
+		[Tooltip("Neutralize all unidentified life signs")]
 		public bool CheckUnidentifiedLifeSigns = true;
 
 		private RegisterTile registerTile;
@@ -344,10 +343,10 @@ namespace US13.Objects.Other
 				{
 					var handItem = script.Equipment.GetClothingItem(slot);
 					if (handItem == null) return true;
-
+					//TODO: add melee weapons, grenades, etc., using traits as most appropriate
 					if (Validations.HasItemTrait(handItem.ServerGameObjectReference, CommonTraits.Instance.Gun))
 					{
-						//Only allow authorised people to have guns
+						//Only allow authorised people to have weapons
 						bool allowed = weaponAuthorisationClearance.HasClearance(script.gameObject);
 						//Check for failure
 						if (allowed == false) return false;
@@ -365,7 +364,7 @@ namespace US13.Objects.Other
 				//Check to see if we have record
 				if (record.characterSettings.Name.Equals(script.visibleName) == false) continue;
 
-				//Check Security Records For Criminals
+				//Check Security Records For Criminals (and shoot at them)
 				if (CheckSecurityRecords && record.Status == SecurityStatus.Criminal) return false;
 
 				//Neutralize Identified Criminals
@@ -463,55 +462,51 @@ namespace US13.Objects.Other
 			gunSprite.SetCatalogueIndexSprite(newState == TurretState.Stun ? 1 : 2);
 		}
 
-		private void SetUpBullet()
-		{
-			shootSpeed = defaultShootSpeed;
+        private void SetUpBullet()
+        {
+            if (turretState == TurretState.Stun)
+            {
+                bulletName = stunBullet.name;
+                bulletSound = taserSound;
+                // Limit the final shot cooldown to 0.5sec minimum
+                shootSpeed = Mathf.Max(defaultFireDelay * fireDelayMultiplier, 0.5f);
+                return;
+            }
 
-			if (turretState == TurretState.Stun)
-			{
-				bulletName = stunBullet.name;
-				bulletSound = taserSound;
-				shootSpeed *= shootSpeedMultiplier;
-				return;
-			}
+            shootSpeed = defaultFireDelay;
 
-			if (gun != null)
-			{
-				if (gun is GunElectrical electrical && electrical.firemodeProjectiles.Count > 0 && electrical.firemodeFiringSound.Count > 0)
-				{
-					bulletName = electrical.firemodeProjectiles[0].GetComponent<Bullet>().name;
-					bulletSound = electrical.firemodeFiringSound[0];
-
-					//Min shoot speed 0.5
-					shootSpeed = Mathf.Max((float)electrical.FireDelay, 0.5f);
-				}
-				else if (gun.CurrentMagazine != null)
-				{
-					bulletName = gun.CurrentMagazine.initalProjectile.GetComponent<Bullet>().name;
-					bulletSound = gun.FiringSoundA;
-
-					//Min shoot speed 0.5
-					shootSpeed = Mathf.Max((float)gun.FireDelay, 0.5f);
-				}
-				else
-				{
-					//Default to laser otherwise
-					bulletName = laserBullet.name;
-					bulletSound = gun.FiringSoundA;
-				}
-			}
-			else
-			{
-				bulletName = laserBullet.name;
-				if (spawnGun != null)
-				{
-					bulletSound = spawnGun.GetComponent<Gun>().FiringSoundA;
-				}
-			}
-
-			shootSpeedMultiplier = Mathf.Clamp(shootSpeedMultiplier, 0.1f, 10f);
-			shootSpeed *= shootSpeedMultiplier;
-			shootSpeed = Mathf.Min(0.5f, shootSpeed);
+            if (gun != null)
+            {
+                if (gun is GunElectrical electrical && electrical.firemodeProjectiles.Count > 0 && electrical.firemodeFiringSound.Count > 0)
+                {
+                    bulletName = electrical.firemodeProjectiles[0].GetComponent<Bullet>().name;
+                    bulletSound = electrical.firemodeFiringSound[0];
+                    shootSpeed = (float)electrical.FireDelay;
+                }
+                else if (gun.CurrentMagazine != null)
+                {
+                    bulletName = gun.CurrentMagazine.initalProjectile.GetComponent<Bullet>().name;
+                    bulletSound = gun.FiringSoundA;
+                    shootSpeed = (float)gun.FireDelay;
+                }
+                else
+                {
+                    // Default to assigned projectile otherwise
+                    // Do we actually want to let the turret fire an arbitrary projectile if the installed gun exists but has no magazine? -FD
+                    bulletName = defaultProjectile != null ? defaultProjectile.name : "MissingDefaultProjectile";
+                    bulletSound = gun.FiringSoundA;
+                }
+            }
+            else
+            {
+	            bulletName = defaultProjectile != null ? defaultProjectile.name : "MissingDefaultProjectile";
+                if (spawnGun != null)
+                {
+                    bulletSound = spawnGun.GetComponent<Gun>().FiringSoundA;
+                }
+            }
+            // Limit the final shot cooldown to 0.5sec minimum
+            shootSpeed = Mathf.Max(shootSpeed * fireDelayMultiplier, 0.5f);
 		}
 
 		private void ChangeCoverState()

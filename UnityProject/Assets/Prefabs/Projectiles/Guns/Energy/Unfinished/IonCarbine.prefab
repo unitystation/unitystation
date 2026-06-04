@@ -179,6 +179,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3102764330273990652, guid: 1a6abc720c22574468cb49e878c0119a,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c2084704ba38b44d80a9187b599d5a1,
+        type: 2}
+    - target: {fileID: 3102764330273990652, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 4
       objectReference: {fileID: 0}
@@ -216,6 +222,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f644c5538ea35794ab5ce57fe813bad1,
         type: 2}
+    - target: {fileID: 5384039202584509065, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f644c5538ea35794ab5ce57fe813bad1,
+        type: 2}
     - target: {fileID: 6610351354510358930, guid: 1a6abc720c22574468cb49e878c0119a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -243,11 +255,6 @@ PrefabInstance:
       propertyPath: chargeSprite
       value: 
       objectReference: {fileID: 7841939704382098874}
-    - target: {fileID: 9107503913382923326, guid: 1a6abc720c22574468cb49e878c0119a,
-        type: 3}
-      propertyPath: firemodeName.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 9107503913382923326, guid: 1a6abc720c22574468cb49e878c0119a,
         type: 3}
       propertyPath: firemodeProjectiles.Array.size
