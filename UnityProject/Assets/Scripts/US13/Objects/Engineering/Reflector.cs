@@ -193,7 +193,7 @@ namespace US13.Objects.Engineering
 		{
 			if (Validations.HasUsedActiveWelder(interaction) == false)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, "The welder needs to be turn on first");
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The welder needs to be turned on first.");
 				return;
 			}
 
@@ -202,7 +202,7 @@ namespace US13.Objects.Engineering
 				//Unweld
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 5,
 					$"You begin to unweld the {gameObject.ExpensiveName()}...",
-					$"{interaction.Performer.ExpensiveName()} starts unweld the {gameObject.ExpensiveName()} from the floor...",
+					$"{interaction.Performer.ExpensiveName()} starts to unweld the {gameObject.ExpensiveName()} from the floor...",
 					$"You unweld the {gameObject.ExpensiveName()}",
 					$"{interaction.Performer.ExpensiveName()} unwelds the {gameObject.ExpensiveName()}",
 					() =>
@@ -220,7 +220,7 @@ namespace US13.Objects.Engineering
 				//Weld to floor if not base
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 5,
 					$"You begin to weld the {gameObject.ExpensiveName()}...",
-					$"{interaction.Performer.ExpensiveName()} starts weld the {gameObject.ExpensiveName()} to the floor...",
+					$"{interaction.Performer.ExpensiveName()} starts to weld the {gameObject.ExpensiveName()} to the floor...",
 					$"You weld the {gameObject.ExpensiveName()}",
 					$"{interaction.Performer.ExpensiveName()} welds the {gameObject.ExpensiveName()}",
 					() =>
@@ -234,7 +234,7 @@ namespace US13.Objects.Engineering
 			}
 
 			//Needs to be fully constructed before weld
-			Chat.AddExamineMsgFromServer(interaction.Performer, "The reflector needs to be constructed first");
+			Chat.AddExamineMsgFromServer(interaction.Performer, "The reflector needs to be constructed first.");
 		}
 
 		//Deconstruction
@@ -243,7 +243,7 @@ namespace US13.Objects.Engineering
 			if (isWelded)
 			{
 				//Needs to be unwelded before deconstruction
-				Chat.AddExamineMsgFromServer(interaction.Performer, "The reflector needs to be unwelded first");
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The reflector needs to be unwelded first.");
 				return;
 			}
 
@@ -261,14 +261,14 @@ namespace US13.Objects.Engineering
 			if (isWelded == false)
 			{
 				//Needs to be unwelded before deconstruction
-				Chat.AddExamineMsgFromServer(interaction.Performer, "The reflector needs to be unwelded first");
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The reflector needs to be unwelded first.");
 				return;
 			}
 
 			if (currentState == ReflectorType.Base)
 			{
 				//Needs to be constructed first
-				Chat.AddExamineMsgFromServer(interaction.Performer, "The reflector needs to be constructed first");
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The reflector needs to be constructed first.");
 				return;
 			}
 
@@ -293,7 +293,7 @@ namespace US13.Objects.Engineering
 			}
 
 			SyncRotation(rotation, NewRotate);
-			Chat.AddExamineMsgFromServer(interaction.Performer, $"You rotate the reflector to {rotation - 90} degrees");
+			Chat.AddExamineMsgFromServer(interaction.Performer, $"You rotate the reflector to {rotation - 90} degrees.");
 		}
 
 		private void DownGradeState()
@@ -388,8 +388,8 @@ namespace US13.Objects.Engineering
 					currentState = ReflectorType.Box;
 
 					Chat.AddActionMsgToChat(interaction.Performer,
-						$"You add {diamondsNeeded} glass sheets to the reflector.",
-						$"{interaction.Performer.ExpensiveName()} adds {diamondsNeeded} diamond to the reflector.");
+						$"You add {diamondsNeeded} diamond sheets to the reflector.",
+						$"{interaction.Performer.ExpensiveName()} adds {diamondsNeeded} diamond sheets to the reflector.");
 					return true;
 				}
 

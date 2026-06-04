@@ -10,6 +10,8 @@ namespace US13.Objects
 	/// </summary>
 	public class MessageOnInteract : MonoBehaviour, IInteractable<HandApply>
 	{
+		[SerializeField]
+		[TextArea(3,5)]
 		public string Message;
 
 		public void ServerPerformInteraction(HandApply interaction)

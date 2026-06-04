@@ -82,7 +82,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: c2d3e9aa5b173d346aa7a96879bafc01,
+      objectReference: {fileID: 21300006, guid: c2d3e9aa5b173d346aa7a96879bafc01,
         type: 3}
     - target: {fileID: 568615522949731916, guid: 6ca88a64b87d2bf4abed2f9f8922d47d,
         type: 3}
@@ -101,19 +101,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5103964832746084481, guid: 6ca88a64b87d2bf4abed2f9f8922d47d,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6586637495117804124}
+    - target: {fileID: 5103964832746084481, guid: 6ca88a64b87d2bf4abed2f9f8922d47d,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e22a60a85df18eb4195545f443bb2656,
+        type: 2}
+    - target: {fileID: 5103964832746084481, guid: 6ca88a64b87d2bf4abed2f9f8922d47d,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: e22a60a85df18eb4195545f443bb2656,
         type: 2}
     - target: {fileID: 6927065987115953515, guid: 6ca88a64b87d2bf4abed2f9f8922d47d,
         type: 3}
       propertyPath: initialName
-      value: security Holosign
+      value: security holosign
       objectReference: {fileID: 0}
     - target: {fileID: 6927065987115953515, guid: 6ca88a64b87d2bf4abed2f9f8922d47d,
         type: 3}
       propertyPath: initialDescription
-      value: Caution! Restrictions in place! Walk to Pass
+      value: Caution! Restrictions in place! Walk to pass.
       objectReference: {fileID: 0}
     - target: {fileID: 7789338044214006691, guid: 6ca88a64b87d2bf4abed2f9f8922d47d,
         type: 3}
@@ -156,3 +167,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6ca88a64b87d2bf4abed2f9f8922d47d, type: 3}
+--- !u!212 &6586637495117804124 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 568615522949731916, guid: 6ca88a64b87d2bf4abed2f9f8922d47d,
+    type: 3}
+  m_PrefabInstance: {fileID: 6668792188760155152}
+  m_PrefabAsset: {fileID: 0}

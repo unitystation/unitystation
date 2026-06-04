@@ -141,7 +141,7 @@ namespace US13.Systems.Antagonists
 			}
 			if (CurTeam != null)
 			{
-				objSB.AppendLine($"You are member of {CurTeam.GetTeamName()}.");
+				objSB.AppendLine($"You are a member of {CurTeam.GetTeamName()}.");
 				if (CurTeam.TeamObjectives.Count > 0)
 				{
 					objSB.AppendLine($"And {CurTeam.GetTeamName()} objectives are:");
