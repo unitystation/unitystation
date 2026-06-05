@@ -154,6 +154,7 @@ namespace US13.Objects.Other
 
 		private const float UpdateTimer = 0.1f;
 		private const float DetectTime = 1.5f;
+		private const float MinimumShotCooldown = 0.5f;
 
 		private float shootingTimer = 0;
 		private float detectTimer = 0;
@@ -468,8 +469,8 @@ namespace US13.Objects.Other
             {
                 bulletName = stunBullet.name;
                 bulletSound = taserSound;
-                // Limit the final shot cooldown to 0.5sec minimum
-                shootSpeed = Mathf.Max(defaultFireDelay * fireDelayMultiplier, 0.5f);
+                // Limit the final shot cooldown to the minimum floor constant
+                shootSpeed = Mathf.Max(defaultFireDelay * fireDelayMultiplier, MinimumShotCooldown);
                 return;
             }
 
@@ -505,8 +506,8 @@ namespace US13.Objects.Other
                     bulletSound = spawnGun.GetComponent<Gun>().FiringSoundA;
                 }
             }
-            // Limit the final shot cooldown to 0.5sec minimum
-            shootSpeed = Mathf.Max(shootSpeed * fireDelayMultiplier, 0.5f);
+            // Limit the final shot cooldown to the minimum floor constant
+            shootSpeed = Mathf.Max(shootSpeed * fireDelayMultiplier, MinimumShotCooldown);
 		}
 
 		private void ChangeCoverState()
