@@ -44,7 +44,5 @@ namespace US13.Player.HUDData
 				Categorys[type].Remove(HUD);
 			}
 		}
-
-
 	}
 }

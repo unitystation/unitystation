@@ -60,12 +60,15 @@ namespace US13.Items.Bureaucracy
 
 		public bool PrintBook = false;
 
-		public bool CanAddPageToTray(GameObject page) =>
-			page != null
-			&& page.GetComponent<Paper>() != null
-			&& page.GetComponent<Paper>().ServerString.Length == 0
-			&& TrayOpen
-			&& TrayCount < TrayCapacity;
+		public bool CanAddPageToTray(GameObject page)
+		{
+			var Paper = page?.GetComponent<Paper>();
+
+			return Paper != null
+			       && Paper.ServerString.Length == 0
+			       && TrayOpen
+			       && TrayCount < TrayCapacity;
+		}
 
 		public bool CanPlaceDocument(GameObject page)
 		{
