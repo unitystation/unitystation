@@ -198,7 +198,7 @@ namespace DynamicOptions
 					OnChangeAction = o => { DisplaySettings.Instance.ChatBubbleSize = (float) o; return ""; },
 					Show = () => { return true; },
 					Default = () => { return 2f; },
-					UIParameters = () => { return (new  Vector2(2f, 5f), true); },
+					UIParameters = () => { return (new  Vector2(1f, 5f), true); },
 				}},
 			{Option.ChatBubbleCharacterSpeed,
 				new OptionData() {DisplayName = "Chat Bubble Character Pop In Speed", OptionType = OptionType.Aslider, PreferenceKey = "ChatBubbleCharacterSpeed",

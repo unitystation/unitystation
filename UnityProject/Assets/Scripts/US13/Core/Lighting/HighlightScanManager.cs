@@ -7,6 +7,7 @@ using US13.Managers.NetworkManagement;
 using US13.Player;
 using US13.Tilemaps.Behaviours.Layers;
 using US13.Tilemaps.Tiles;
+using Util;
 
 namespace US13.Core.Lighting
 {
@@ -70,7 +71,7 @@ namespace US13.Core.Lighting
 				totalScanned++;
 				if (totalScanned > MaximumHighlightCallsPerFrame)
 				{
-					yield return WaitFor.EndOfFrame;
+					yield return    WaitFor.EndOfFrame;
 					totalScanned = 0;
 				}
 				if(Vector3.Distance(PlayerManager.LocalPlayerObject.transform.position, scan.gameObject.transform.position) > MaximumDistanceBetweenPlayerAndScanObjects ) continue;
@@ -86,7 +87,7 @@ namespace US13.Core.Lighting
 					yield return WaitFor.EndOfFrame;
 					totalScanned = 0;
 				}
-				if(Vector3.Distance(PlayerManager.LocalPlayerObject.transform.position, scan.LocalPOS) > MaximumDistanceBetweenPlayerAndScanObjects ) continue;
+				if(Vector3.Distance(PlayerManager.LocalPlayerObject.transform.position, scan.LocalPOS.ToWorld(scan.Layer.Matrix)) > MaximumDistanceBetweenPlayerAndScanObjects ) continue;
 				scan.Layer.AddHighlight(scan);
 				UninitialisedHighlightScans.Remove(scan);
 			}

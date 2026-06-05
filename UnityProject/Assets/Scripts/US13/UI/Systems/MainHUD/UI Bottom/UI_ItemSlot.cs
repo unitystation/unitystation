@@ -290,7 +290,7 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 				return;
 			}
 
-			RefreshImage();
+			RefreshImage(image);
 		}
 
 		/// <summary>
@@ -319,6 +319,8 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 		/// <param name="colour">color tint to apply</param>
 		public void UpdateImage(GameObject item = null, Color? colour = null, bool CanFitPreview = false, bool SkipMoveAnimation = true, UI_ItemImage ToUse = null)
 		{
+			if (Item == null && CanFitPreview && image?.IsCanFitPreview == false) return;
+
 			bool ClearSubIcons = false;
 			if (item != null)
 			{
@@ -432,7 +434,16 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 			//CurrentlyOpenItems.Remove(Entry);
 
 			image?.ClearAll( this.gameObject, ClearOnlyPreviews: ClearOnlyPreviews);
-			image = null;
+			if (ClearOnlyPreviews == false)
+			{
+				image = null;
+			}
+			else if (image?.IsCanFitPreview == false)
+			{
+				image = null;
+			}
+
+
 
 
 

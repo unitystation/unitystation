@@ -371,7 +371,7 @@ namespace US13.Core.Lifecycle
 
 			foreach (var a in GameObject.FindObjectsOfType<UI_ItemSlot>(true))
 			{
-				a.Image.ClearAll(null,true);
+				a.Image?.ClearAll(null,true);
 			}
 
 			UI_ItemImage.UI_ItemImages.Clear();
@@ -384,6 +384,7 @@ namespace US13.Core.Lifecycle
 			HUDHandler.Categorys.Clear();
 			HUDHandler.CategoryEnabled.Clear();
 			CrewManifestManager.Instance.OnRoundRestart();
+
 
 
 		}

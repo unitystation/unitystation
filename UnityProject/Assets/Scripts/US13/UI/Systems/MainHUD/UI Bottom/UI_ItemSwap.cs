@@ -109,7 +109,7 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 		{
 			base.OnPointerExit(eventData);
 
-			itemSlot.UpdateImage(null);
+			itemSlot.UpdateImage(null, CanFitPreview : true);
 		}
 
 		public void OnDrop(PointerEventData data)

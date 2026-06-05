@@ -34,7 +34,7 @@ namespace US13.UI.Systems.MainHUD.UI_Bottom
 
 		private Material imgMat;
 		private bool Parentless;
-		private bool IsCanFitPreview;
+		public bool IsCanFitPreview;
 
 		/// <summary>
 		/// The first sprite in rendered item

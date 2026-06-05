@@ -1,6 +1,7 @@
 ﻿using Logs;
 using UnityEngine;
 using US13.Core.Lifecycle;
+using US13.HealthV2.Living;
 using US13.Managers.MatrixManager;
 using US13.Managers.NetworkManagement;
 using US13.Messages.Server;
@@ -59,6 +60,10 @@ namespace US13.Projectiles.Behaviours
 				if (Collider != null)
 				{
 
+					if (OnlyTriggerOnPlayer)
+					{
+						if (Collider.GetComponent<LivingHealthMasterBase>() == null) return;
+					}
 					float radians = (transform.localRotation.eulerAngles.z + 90) * Mathf.Deg2Rad;
 					Vector3 localDirection = new Vector3(Mathf.Cos(radians), Mathf.Sin(radians), 0f) * 0.75f;
 					//Loggy.Error((Collider.transform.localPosition + localDirection).ToString());
