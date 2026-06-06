@@ -139,9 +139,37 @@ namespace US13.Shuttles
 
 		public bool ApplyDrag => (SpinneyMode == false || DragSpinneyCoolDown == 0);
 
-		public bool SpinneyMode => WorldCurrentVelocity.magnitude >= SpinneyThreshold;
+		private bool SecretSpinneyMode = false;
+
+		public bool SpinneyMode
+		{
+			get
+			{
+				var NewSpinney =  WorldCurrentVelocity.magnitude >= SpinneyThreshold;
+
+				if (NewSpinney != SecretSpinneyMode)
+				{
+					SecretSpinneyMode = NewSpinney;
+					if (NewSpinney == false)
+					{
+						TheReusingSet.Clear();
+						TheReusingSetVisited.Clear();
+						var Matrixes = GetAllNetworkedMatrixMove(TheReusingSet, true, this, TheReusingSetVisited);
+						foreach (var move in Matrixes)
+						{
+							move.InternalSetThrusterStrength(Thruster.ThrusterDirectionClassification.Right, 0);
+							move.InternalSetThrusterStrength(Thruster.ThrusterDirectionClassification.Left, 0);
+						}
+					}
+				}
+
+				return NewSpinney;
+			}
+		}
 
 		public Vector3 WorldCurrentVelocity;
+
+		public float RCSDragMovement = 0.4f;
 
 		public float CurrentTorque;
 
@@ -611,7 +639,11 @@ namespace US13.Shuttles
 
 		public void RcsMove(OrientationEnum GlobalMoveDirection)
 		{
-			if (IsMoving) return;
+			if (WorldCurrentVelocity.magnitude > RCSDragMovement || Mathf.Abs(CurrentTorque) > RCSDragMovement||
+			    TargetOrientation != OrientationEnum.Default)
+			{
+				return;
+			}
 
 			bool HasThrusterDirection = false;
 			TheReusingSet.Clear();

@@ -1,16 +1,20 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Logs;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using US13.Core.Input_System.InteractionV2;
 using US13.Managers;
+using US13.Managers.NetworkManagement;
 using US13.Managers.UpdateManager;
 using US13.Objects.Consoles;
 using US13.Shuttles;
 using US13.UI.Core;
 using US13.UI.Core.Net;
 using US13.UI.Core.Net.Elements;
+using US13.UI.Objects.Atmospherics.Canister;
 
 namespace US13.UI.Objects.Shuttles
 {
@@ -40,6 +44,8 @@ namespace US13.UI.Objects.Shuttles
 
 		public NetToggle ReverseButton;
 
+		public Wheel Wheel;
+
 		public override void OnEnable()
 		{
 			base.OnEnable();
@@ -62,6 +68,11 @@ namespace US13.UI.Objects.Shuttles
 		public void OnDestroy()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+			if (CustomNetworkManager.IsServer == false)
+			{
+				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe2);
+			}
+
 		}
 
 		private IEnumerator WaitForProvider()
@@ -143,6 +154,24 @@ namespace US13.UI.Objects.Shuttles
 				}
 			}
 		}
+
+		public void UpdateMe2()
+		{
+			if (matrixMove.NetworkedMatrixMove.SpinneyMode == false && IsMasterTab == false && Wheel.windowDrag.disableDrag == false )
+			{
+
+				Wheel.SetRotation(90);
+			}
+		}
+
+		public void Awake()
+		{
+			if (CustomNetworkManager.IsServer == false)
+			{
+				UpdateManager.Add(CallbackType.UPDATE, UpdateMe2);
+			}
+		}
+
 
 		public void OnStateChange(ShuttleConsoleState newState)
 		{
@@ -276,6 +305,8 @@ namespace US13.UI.Objects.Shuttles
 		public void SetLeftAndRightThrusters(float LeftAndRightMultiplier)
 		{
 			if (shuttleConsole.EngineOn == false) return;
+
+
 			if (LeftAndRightMultiplier is < 95 and > 85)
 			{
 				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Right,  0, true);
@@ -284,11 +315,22 @@ namespace US13.UI.Objects.Shuttles
 			}
 			else if (LeftAndRightMultiplier > 95)
 			{
+				if (matrixMove.NetworkedMatrixMove.SpinneyMode == false)
+				{
+					Wheel.degrees = 0;
+				}
+
 				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Right,  0, true);
 				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Left ,(LeftAndRightMultiplier - 90f) / 90, true);
 			}
 			else
 			{
+				if (matrixMove.NetworkedMatrixMove.SpinneyMode == false)
+				{
+					Wheel.degrees = 0;
+				}
+
+
 				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Left,  0, true);
 				matrixMove.NetworkedMatrixMove.SetThrusterStrength( Thruster.ThrusterDirectionClassification.Right ,(90f - LeftAndRightMultiplier) / 90f, true);
 			}

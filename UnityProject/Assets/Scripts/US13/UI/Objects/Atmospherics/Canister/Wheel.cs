@@ -33,7 +33,7 @@ namespace US13.UI.Objects.Atmospherics.Canister
 		private Vector2? previousDrag;
 		public float RotationSpeed = 0.2f;
 		public GameObject[] UprightSprites;
-		private WindowDrag windowDrag;
+		public WindowDrag windowDrag;
 		private Shadow shadow;
 		// degrees of rotation
 		public float degrees;
@@ -67,7 +67,7 @@ namespace US13.UI.Objects.Atmospherics.Canister
 			SetRotation(kPA / KPAPerDegree);
 		}
 
-		private void SetRotation(float newRotation)
+		public void SetRotation(float newRotation)
 		{
 			newRotation = Mathf.Clamp(newRotation, 0, MaxValue / KPAPerDegree);
 
