@@ -254,7 +254,7 @@ PrefabInstance:
     - target: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_Name
-      value: LaserTurret
+      value: TurretBase
       objectReference: {fileID: 0}
     - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
@@ -514,6 +514,7 @@ MonoBehaviour:
   gunLossChance: 30
   fireDelayMultiplier: 1.5
   defaultFireDelay: 1
+  stunFireDelay: 1.5
   framePrefab: {fileID: 4949295524855822690, guid: d6457d17134225b4db0c2857b5012c94,
     type: 3}
   gunSprite: {fileID: 6304648460530296254}

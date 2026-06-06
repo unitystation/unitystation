@@ -50,7 +50,7 @@ namespace US13.Objects.Other
 	public class Turret : NetworkBehaviour, ICheckedInteractable<HandApply>, IMultitoolSlaveable, IExaminable, IServerSpawn, ICanOpenNetTab
 	{
 		[SerializeField]
-		[Tooltip("Determines the projectile when set to lethal mode, its base fire delay, and gun to spawn when deconstructed")]
+		[Tooltip("Installed gun, determining projectile fired and base fire delay when set to lethal mode and gun to spawn when deconstructed")]
 		private GameObject spawnGun = null;
 
 		[SerializeField]
@@ -71,13 +71,18 @@ namespace US13.Objects.Other
 
 		[SerializeField]
 		[Range(0.1f,30f)]
-		[Tooltip("Multiplier applied to the fire delay of all guns/assigned projectiles fired by this turret (Lower is quicker; Minimum final fire delay bound of 0.5)")]
+		[Tooltip("Multiplier applied to the fire delay of the gun installed in this turret (Lower is quicker; Minimum final fire delay bound of 0.5). Not applied to Default or Stun projectiles.")]
 		private float fireDelayMultiplier = 1.5f;
 
 		[SerializeField]
-		[Range(0.5f,30f)]
-		[Tooltip("Base fire delay for stun mode projectile/assigned lethal mode projectile if no gun installed, multiplied by Fire Delay Multiplier (Lower is quicker)")]
-		private float defaultFireDelay = 1f;
+		[Range(0.5f,60f)]
+		[Tooltip("Fire delay for assigned lethal mode projectile if no gun installed (Lower is quicker)")]
+		private float defaultFireDelay = 1.5f;
+
+		[SerializeField]
+		[Range(0.5f,60f)]
+		[Tooltip("Fire delay for assigned stun mode projectile (Lower is quicker)")]
+		private float stunFireDelay = 1.5f;
 
 		[SerializeField]
 		private GameObject framePrefab = null;
@@ -151,12 +156,13 @@ namespace US13.Objects.Other
 		private bool shootingTarget;
 
 		private Gun gun;
+		private string cachedDefaultProjectileName;
 
 		private const float UpdateTimer = 0.1f;
 		private const float DetectTime = 1.5f;
 		private const float MinimumShotCooldown = 0.5f;
 
-		private const string MissingProjectile = "MissingDefaultProjectile";
+		private const string MISSING_PROJECTILE = "MissingDefaultProjectile";
 
 		private float shootingTimer = 0;
 		private float detectTimer = 0;
@@ -204,7 +210,8 @@ namespace US13.Objects.Other
 			apcPoweredDevice = GetComponent<APCPoweredDevice>();
 			integrity = GetComponent<Integrity>();
 			lineRenderer = GetComponentInChildren<LineRenderer>();
-			cachedDefaultProjectileName = defaultProjectile != null ? defaultProjectile.name : MissingProjectile;
+			cachedDefaultProjectileName = defaultProjectile != null ? defaultProjectile.name : MISSING_PROJECTILE;
+
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -466,51 +473,49 @@ namespace US13.Objects.Other
 			gunSprite.SetCatalogueIndexSprite(newState == TurretState.Stun ? 1 : 2);
 		}
 
-        private void SetUpBullet()
-        {
-            if (turretState == TurretState.Stun)
-            {
-                bulletName = stunBullet.name;
-                bulletSound = taserSound;
-                // Limit the final shot cooldown to the minimum floor constant
-                shootSpeed = Mathf.Max(defaultFireDelay * fireDelayMultiplier, MinimumShotCooldown);
-                return;
-            }
+		private void SetUpBullet()
+		{
+			if (turretState == TurretState.Stun)
+			{
+				bulletName = stunBullet.name;
+				bulletSound = taserSound;
+				// Limit the final shot cooldown to the minimum floor constant
+				shootSpeed = stunFireDelay;
+				return;
+			}
 
-            shootSpeed = defaultFireDelay;
+			shootSpeed = defaultFireDelay;
 
-            if (gun != null)
-            {
-                if (gun is GunElectrical electrical && electrical.firemodeProjectiles.Count > 0 && electrical.firemodeFiringSound.Count > 0)
-                {
-                    bulletName = electrical.firemodeProjectiles[0].GetComponent<Bullet>().name;
-                    bulletSound = electrical.firemodeFiringSound[0];
-                    shootSpeed = (float)electrical.FireDelay;
-                }
-                else if (gun.CurrentMagazine != null)
-                {
-                    bulletName = gun.CurrentMagazine.initalProjectile.GetComponent<Bullet>().name;
-                    bulletSound = gun.FiringSoundA;
-                    shootSpeed = (float)gun.FireDelay;
-                }
-                else
-                {
-                    // Default to assigned projectile otherwise
-                    // Do we actually want to let the turret fire an arbitrary projectile if the installed gun exists but has no magazine? -FD
-                    bulletName = defaultProjectile != null ? defaultProjectile.name : MissingProjectile;
-                    bulletSound = gun.FiringSoundA;
-                }
-            }
-            else
-            {
-	            bulletName = defaultProjectile != null ? defaultProjectile.name : MissingProjectile;
-                if (spawnGun != null)
-                {
-                    bulletSound = spawnGun.GetComponent<Gun>().FiringSoundA;
-                }
-            }
-            // Limit the final shot cooldown to the minimum floor constant
-            shootSpeed = Mathf.Max(shootSpeed * fireDelayMultiplier, MinimumShotCooldown);
+			if (gun != null)
+			{
+				if (gun is GunElectrical electrical && electrical.firemodeProjectiles.Count > 0 && electrical.firemodeFiringSound.Count > 0)
+				{
+					bulletName = electrical.firemodeProjectiles[0].GetComponent<Bullet>().name;
+					bulletSound = electrical.firemodeFiringSound[0];
+					shootSpeed = Mathf.Max((float)electrical.FireDelay * fireDelayMultiplier, MinimumShotCooldown);
+					return;
+				}
+				else if (gun.CurrentMagazine != null)
+				{
+					bulletName = gun.CurrentMagazine.initalProjectile.GetComponent<Bullet>().name;
+					bulletSound = gun.FiringSoundA;
+					shootSpeed = Mathf.Max((float)gun.FireDelay * fireDelayMultiplier, MinimumShotCooldown);
+					return;
+				}
+				else
+				{
+					// Default to assigned projectile otherwise
+					// Do we actually want to let the turret fire an arbitrary projectile if the installed gun exists but has no magazine? -FD
+					bulletName = cachedDefaultProjectileName;
+					bulletSound = gun.FiringSoundA;
+				}
+			}
+			else
+			{
+				bulletName = cachedDefaultProjectileName;
+			}
+			// Limit the final shot cooldown to the minimum floor constant
+			shootSpeed = Mathf.Max(shootSpeed, MinimumShotCooldown);
 		}
 
 		private void ChangeCoverState()
