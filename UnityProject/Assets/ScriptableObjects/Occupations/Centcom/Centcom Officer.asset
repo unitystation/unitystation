@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Centcom Officer
   m_EditorClassIdentifier: 
   jobType: 37
+  jobCategory: 0
   isCrewmember: 0
   lateSpawnIsArrivals: 0
   inventoryPopulator: {fileID: 11400000, guid: dcabf42211b7bc9418c19bbd5bdcb47b, type: 2}
@@ -27,7 +28,7 @@ MonoBehaviour:
   progress: 75
   choiceColor: {r: 0.8, g: 0.8, b: 1, a: 1}
   previewSprite: {fileID: 21300000, guid: b28046094f565534fb33fd7c050a3f22, type: 3}
-  displayName: Centcomm Officer
+  displayName: Centcom Officer
   difficulty: 4
   descriptionShort: "\u2022 Manage the station\n\u2022 Manage your staff\n\u2022
     Keep the crew alive"
