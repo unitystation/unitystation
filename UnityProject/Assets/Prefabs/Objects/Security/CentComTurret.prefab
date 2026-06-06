@@ -15,11 +15,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1530055412931709374, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1530055412931709374, guid: 24217cb8b2338a3479aaf8d32b727ed1,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -68,15 +63,31 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1586561495887623337, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}
-      propertyPath: restriction
-      value: 81
+      propertyPath: range
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: spawnGun
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}
       propertyPath: CheckForArrest
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: defaultProjectile
+      value: 
+      objectReference: {fileID: 4147392567169886566, guid: fad2d9fb6ebaa1345a8c30814120e083,
+        type: 3}
+    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: fireDelayMultiplier
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}
@@ -98,46 +109,6 @@ PrefabInstance:
       propertyPath: CheckUnidentifiedLifeSigns
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
-        type: 3}
-      propertyPath: authorisedAccess.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
-        type: 3}
-      propertyPath: 'authorisedAccess.Array.data[0]'
-      value: 81
-      objectReference: {fileID: 0}
-    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
-        type: 3}
-      propertyPath: authorisedClearance.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
-        type: 3}
-      propertyPath: weaponAuthorisation.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
-        type: 3}
-      propertyPath: 'authorisedClearance.Array.data[0]'
-      value: 64
-      objectReference: {fileID: 0}
-    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
-        type: 3}
-      propertyPath: 'weaponAuthorisation.Array.data[0]'
-      value: 81
-      objectReference: {fileID: 0}
-    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
-        type: 3}
-      propertyPath: weaponAuthorisationClearance.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1598609385433514140, guid: 24217cb8b2338a3479aaf8d32b727ed1,
-        type: 3}
-      propertyPath: 'weaponAuthorisationClearance.Array.data[0]'
-      value: 64
-      objectReference: {fileID: 0}
     - target: {fileID: 2476844167198961965, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}
       propertyPath: parentID
@@ -153,15 +124,30 @@ PrefabInstance:
       propertyPath: isSelfPowered
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2953874713575829681, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: requiredClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953874713575829681, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: 'requiredClearance.Array.data[0]'
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 6986135575158340102, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}
       propertyPath: _assetId
       value: 3757586470
       objectReference: {fileID: 0}
-    - target: {fileID: 6986135575158340102, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+    - target: {fileID: 7670922418104730739, guid: 24217cb8b2338a3479aaf8d32b727ed1,
         type: 3}
-      propertyPath: m_AssetId
-      value: b5ad133516f9c7a4d957505a336aa1f7
+      propertyPath: requiredClearance.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7670922418104730739, guid: 24217cb8b2338a3479aaf8d32b727ed1,
+        type: 3}
+      propertyPath: 'requiredClearance.Array.data[0]'
+      value: 64
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

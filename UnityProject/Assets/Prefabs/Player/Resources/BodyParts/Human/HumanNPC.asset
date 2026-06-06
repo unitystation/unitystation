@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e3145566f967d4e9706a88c0917052, type: 3}
+  m_Name: HumanNPC
+  m_EditorClassIdentifier: Assets::US13.Player.PlayerHealthData
+  Base:
+    Head:
+      Elements:
+      - {fileID: 7981218701979444075, guid: ac8d3bb9b5d0fdb38939bdad4ee3c44e, type: 3}
+    Torso:
+      Elements:
+      - {fileID: 8910782054479282841, guid: cc032f91cda505e44b066c36db32760d, type: 3}
+    ArmRight:
+      Elements:
+      - {fileID: 7468114191605762846, guid: ba9a875c31908af4ab3749cd127a2edb, type: 3}
+    ArmLeft:
+      Elements:
+      - {fileID: 1766215212362074963, guid: 719377fefb0114b448fc6ca9f7a5a6df, type: 3}
+    LegRight:
+      Elements:
+      - {fileID: 6498312071342856297, guid: 51326f2264a075148a8aaa6bf95604c7, type: 3}
+    LegLeft:
+      Elements:
+      - {fileID: 2689983249500970802, guid: 2e6f2ff9beb985749940d242877d84f0, type: 3}
+    allowedToChangeling: 0
+    CustomisationSettings: []
+    bodyTypeSettings:
+      AvailableBodyTypes:
+      - bodyType: 1
+        Name: Male
+      - bodyType: 2
+        Name: Female
+      - bodyType: 0
+        Name: NonBinary
+    SkinColours:
+    - {r: 0.77254903, g: 0.54901963, b: 0.52156866, a: 1}
+    - {r: 0.9254902, g: 0.7372549, b: 0.7058824, a: 1}
+    - {r: 0.81960785, g: 0.6392157, b: 0.6431373, a: 1}
+    - {r: 0.6313726, g: 0.4, b: 0.36862746, a: 1}
+    - {r: 0.3137255, g: 0.2, b: 0.20784314, a: 1}
+    - {r: 0.34901962, g: 0.18431373, b: 0.16470589, a: 1}
+    - {r: 0.40392157, g: 0.26666668, b: 0.16862746, a: 1}
+    - {r: 0.47058824, g: 0.34117648, b: 0.24705882, a: 1}
+    - {r: 0.6117647, g: 0.45490196, b: 0.34509805, a: 1}
+    - {r: 0.8117647, g: 0.6901961, b: 0.6, a: 1}
+    - {r: 1, g: 0.827451, b: 0.627451, a: 1}
+    - {r: 1, g: 0.9607843, b: 0.8235294, a: 1}
+    RootImplantProcedure: {fileID: 11400000, guid: 3de247ed9ca572941975e45430051197,
+      type: 2}
+    BodyPartsThatShareTheSkinTone: []
+    ClueString: a long piece of hair
+    MeatProduce: {fileID: 5155784515580247650, guid: 82854d05a642eb841b438f039ae33cb5,
+      type: 3}
+    SkinProduce: {fileID: 6495706577167429729, guid: d8939ebf8b82f5e4cbb20bfbead306c1,
+      type: 3}
+    SkinningItemTrait: {fileID: 11400000, guid: 4fd46b7ca0066174bb16d0435eef3baa,
+      type: 2}
+    CanBeEmagged: 0
+    CanBePlayerChosen: 0
+    PreviewSprite: {fileID: 11400000, guid: 2f4ed06eb37f4c645a274b500687e360, type: 2}
+    SystemSettings: []
+    StartingMutations: []
+  references:
+    version: 2
+    RefIds: []
