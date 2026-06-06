@@ -134,12 +134,14 @@ namespace US13.Objects.Directionals
 		private void UpdateSubsystems()
 		{
 			if(ObjectPhysics.HasComponent == false) return;
+			if(Matrix == null) return; // not registered to a matrix yet (e.g. during map load spawn)
 			Matrix.TileChangeManager.SubsystemManager.UpdateAt(ObjectPhysics.Component.OfficialPosition.ToLocalInt(Matrix));
 		}
 
 		private void UpdateSubsystemsAt(Vector3Int localPos)
 		{
 			if(ObjectPhysics.HasComponent == false) return;
+			if(Matrix == null) return; // not registered to a matrix yet (e.g. during map load spawn)
 			Matrix.TileChangeManager.SubsystemManager.UpdateAt(ObjectPhysics.Component.OfficialPosition.ToLocalInt(Matrix));
 		}
 
