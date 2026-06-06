@@ -156,6 +156,8 @@ namespace US13.Objects.Other
 		private const float DetectTime = 1.5f;
 		private const float MinimumShotCooldown = 0.5f;
 
+		private const string MissingProjectile = "MissingDefaultProjectile";
+
 		private float shootingTimer = 0;
 		private float detectTimer = 0;
 
@@ -202,6 +204,7 @@ namespace US13.Objects.Other
 			apcPoweredDevice = GetComponent<APCPoweredDevice>();
 			integrity = GetComponent<Integrity>();
 			lineRenderer = GetComponentInChildren<LineRenderer>();
+			cachedDefaultProjectileName = defaultProjectile != null ? defaultProjectile.name : MissingProjectile;
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
@@ -494,13 +497,13 @@ namespace US13.Objects.Other
                 {
                     // Default to assigned projectile otherwise
                     // Do we actually want to let the turret fire an arbitrary projectile if the installed gun exists but has no magazine? -FD
-                    bulletName = defaultProjectile != null ? defaultProjectile.name : "MissingDefaultProjectile";
+                    bulletName = defaultProjectile != null ? defaultProjectile.name : MissingProjectile;
                     bulletSound = gun.FiringSoundA;
                 }
             }
             else
             {
-	            bulletName = defaultProjectile != null ? defaultProjectile.name : "MissingDefaultProjectile";
+	            bulletName = defaultProjectile != null ? defaultProjectile.name : MissingProjectile;
                 if (spawnGun != null)
                 {
                     bulletSound = spawnGun.GetComponent<Gun>().FiringSoundA;
