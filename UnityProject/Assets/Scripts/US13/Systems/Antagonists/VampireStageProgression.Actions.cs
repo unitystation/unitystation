@@ -327,7 +327,7 @@ namespace US13.Systems.Antagonists
 
 				victimReagentPool.BloodPool.Add(CommonSicknesses.Instance.VampirismReagent, corruptionAmount);
 				ReagentPool.BloodPool.Add(CommonSicknesses.Instance.VampirismReagent, selfCorruptionAmount);
-				Chat.AddExamineMsgFromServer(connectedPlayer.gameObject, $"Syphoned {selfCorruptionAmount} corruption from target");
+				Chat.AddExamineMsgFromServer(connectedPlayer.gameObject, $"Gained {selfCorruptionAmount} corruption from converting target");
 			}).ServerStartProgress(firstPlayerOnTile.RegisterPlayer, corruptTime, connectedPlayer.gameObject);
 			if (bar != null) Chat.AddExamineMsg(connectedPlayer.gameObject, $"You begin to corrupt {firstPlayerOnTile.visibleName}'s blood.");
 
