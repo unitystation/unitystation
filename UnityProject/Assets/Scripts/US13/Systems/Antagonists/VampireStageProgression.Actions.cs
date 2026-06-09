@@ -343,6 +343,10 @@ namespace US13.Systems.Antagonists
 
 				victimReagentPool.BloodPool.Add(CommonSicknesses.Instance.VampirismReagent, corruptionAmount);
 				ReagentPool.BloodPool.Add(CommonSicknesses.Instance.VampirismReagent, selfCorruptionAmount);
+<<<<<<< HEAD
+=======
+				Chat.AddExamineMsgFromServer(connectedPlayer.gameObject, $"Gained {selfCorruptionAmount} corruption from converting target");
+>>>>>>> 30cd133ec6 (beep[)
 			}).ServerStartProgress(firstPlayerOnTile.RegisterPlayer, corruptTime, connectedPlayer.gameObject);
 
 			return true;
