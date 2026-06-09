@@ -181,7 +181,7 @@ namespace US13.Systems.Inventory.Populators.Storage
 
 				if (Validations.CanFit(ItemSlot, spawn.GameObject, NetworkSide.Server) == false)
 				{
-					Loggy.Error($"Your initial contents spawn for Storage {gameObject.name} for {spawn.GameObject} Is bypassing the Can fit requirements");
+					Loggy.Trace($"Your initial contents spawn for Storage {gameObject.name} for {spawn.GameObject} Is bypassing the Can fit requirements", Category.Inventory);
 				}
 
 				Inventory.ServerAdd(spawn.GameObject, ItemSlot, namedSlotPopulatorEntry.ReplacementStrategy, true);
