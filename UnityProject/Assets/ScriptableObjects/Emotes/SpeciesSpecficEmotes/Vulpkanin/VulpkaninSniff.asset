@@ -38,13 +38,13 @@ MonoBehaviour:
     version: 2
     RefIds:
     - rid: 5340615159334567991
-      type: {class: SniffOnEmote, ns: ScriptableObjects.RP.EmoteBehaviors, asm: Assets}
+      type: {class: SniffOnEmote, ns: US13.ScriptableObjects.RP.EmoteBehaviors, asm: Assets}
       data:
         Blacklist:
         - {fileID: 11400000, guid: d7d4e6085864f9f4e83593f63d102d08, type: 2}
         - {fileID: 11400000, guid: ac2834f2705dcbc4da8731a53d3076fc, type: 2}
         - {fileID: 11400000, guid: b466ee2bb3ca27941b3c2393555d4fab, type: 2}
     - rid: 5340615164327100417
-      type: {class: InhaleOnEmote, ns: ScriptableObjects.RP.EmoteBehaviors, asm: Assets}
+      type: {class: InhaleOnEmote, ns: US13.ScriptableObjects.RP.EmoteBehaviors, asm: Assets}
       data:
         Efficiency: 0.2

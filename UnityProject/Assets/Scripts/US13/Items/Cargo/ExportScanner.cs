@@ -1,0 +1,94 @@
+using System;
+using UnityEngine;
+using US13.Clothing.BackPack;
+using US13.Core.Chat;
+using US13.Core.Input_System.InteractionV2;
+using US13.Core.Input_System.InteractionV2.Interactions;
+using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Objects;
+using Util;
+
+namespace US13.Items.Cargo
+{
+	public class ExportScanner : MonoBehaviour, ICheckedInteractable<HandApply>
+	{
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side))
+			{
+				return false;
+			}
+
+			if (interaction.HandObject != gameObject)
+			{
+				return false;
+			}
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			var (containedContents, price) = GetPrice(interaction.TargetObject);
+			var exportName = interaction.TargetObject.ExpensiveName();
+			var message = price > 0
+				? $"Scanned {exportName}, value: {price} credits."
+				: $"Scanned {exportName}, no export value.";
+
+			if (containedContents)
+			{
+				message += " (contents included)";
+			}
+
+			Chat.AddExamineMsg(interaction.Performer, message);
+		}
+
+		private Tuple<bool, int> GetPrice(GameObject pricedObject)
+		{
+			var attributes = pricedObject.GetComponent<Attributes>();
+			var price = attributes ? attributes.ExportCost : 0;
+
+			var containedContents = false;
+			var storage = pricedObject.GetComponent<InteractableStorage>();
+			if (storage)
+			{
+				foreach (var slot in storage.ItemStorage.GetItemSlots())
+				{
+					if (!slot.Item)
+					{
+						continue;
+					}
+
+					containedContents = true;
+					price += GetPrice(slot.Item.gameObject).Item2;
+				}
+			}
+
+			if (pricedObject.TryGetComponent<ObjectContainer>(out var container))
+			{
+				container.TrySpawnInitialContents( true);
+				foreach (var obj in container.GetStoredObjects())
+				{
+					containedContents = true;
+					price += GetPrice(obj).Item2;
+				}
+			}
+
+			// Add value of mole inside gas container
+			if (pricedObject.TryGetComponent<GasContainer>(out var gasContainer) && gasContainer.CargoSealApproved)
+			{
+				lock (gasContainer.GasMixLocal.GasesArray) //no Double lock
+				{
+					foreach (var gas in gasContainer.GasMixLocal.GasesArray) //doesn't appear to modify list while iterating
+					{
+						int gasValue = (int) gas.Moles * gas.GasSO.ExportPrice;
+						price += gasValue;
+					}
+				}
+			}
+
+
+			return new Tuple<bool, int>(containedContents, price);
+		}
+	}
+}

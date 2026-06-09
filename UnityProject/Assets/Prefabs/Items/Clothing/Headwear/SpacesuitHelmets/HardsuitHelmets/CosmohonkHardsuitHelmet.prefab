@@ -172,6 +172,26 @@ PrefabInstance:
       value: A special helmet designed for work in a hazardous, low-humor environment.
         Has radiation shielding.
       objectReference: {fileID: 0}
+    - target: {fileID: 2932610463863930541, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: colour.g
+      value: 0.4392157
+      objectReference: {fileID: 0}
+    - target: {fileID: 4417545188675512222, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4417545188675512222, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.43739235
+      objectReference: {fileID: 0}
+    - target: {fileID: 4417545188675512222, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: PresentSpriteSet

@@ -1,9 +1,12 @@
 ﻿using UnityEngine;
 
-public class DisableOnPlay : MonoBehaviour
+namespace Util
 {
-	private void Start()
+	public class DisableOnPlay : MonoBehaviour
 	{
-		gameObject.SetActive(false);
+		private void Start()
+		{
+			gameObject.SetActive(false);
+		}
 	}
 }

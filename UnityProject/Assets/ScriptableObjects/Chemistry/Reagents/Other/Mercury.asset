@@ -17,6 +17,10 @@ MonoBehaviour:
   description: A curious metal that's a liquid at room temperature. Neurodegenerative
     and very bad for the mind.
   color: {r: 0.28235295, g: 0.28235295, b: 0.28235295, a: 1}
-  state: 0
+  state: 1
   heatDensity: 5
   indexInSingleton: 399
+  OnSplatEffects: []
+  references:
+    version: 2
+    RefIds: []

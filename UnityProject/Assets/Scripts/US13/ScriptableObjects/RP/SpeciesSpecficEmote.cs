@@ -1,0 +1,35 @@
+﻿using System.Collections.Generic;
+using UnityEngine;
+using US13.Clothing;
+using US13.Core.Chat;
+using US13.Player;
+
+namespace US13.ScriptableObjects.RP
+{
+	[CreateAssetMenu(fileName = "SpeciesSpecificEmote", menuName = "ScriptableObjects/RP/Emotes/SpeciesSpecificEmote")]
+	public class SpeciesSpecificEmote : GenderedEmote
+	{
+
+		[SerializeField] private List<PlayerHealthData> allowedSpecies = new List<PlayerHealthData>();
+		[SerializeField] private string wrongSpeciesText = "Your species can't do that!";
+
+		public override void Do(GameObject actor)
+		{
+			if (IsSameSpecies(actor) == false)
+			{
+				Chat.AddExamineMsg(actor, wrongSpeciesText);
+				return;
+			}
+			base.Do(actor);
+		}
+
+		public bool IsSameSpecies(GameObject mobToCheck)
+		{
+			if (mobToCheck.TryGetComponent<PlayerScript>(out var playerScript) == false) return false;
+
+			if (RaceSOSingleton.TryGetRaceByName(playerScript.characterSettings.Species, out var race) == false) return false;
+
+			return allowedSpecies.Contains(race);
+		}
+	}
+}

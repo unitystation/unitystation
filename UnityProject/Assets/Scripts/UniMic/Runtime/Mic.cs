@@ -1,13 +1,11 @@
 using System;
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Initialisation;
 using SecureStuff;
+using UnityEngine;
 
-namespace Adrenak.UniMic {
+namespace UniMic.Runtime {
     public class Mic : MonoBehaviour {
         // ================================================
         #region MEMBERS

@@ -52,6 +52,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -73,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 42
@@ -101,12 +105,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 502919bc4e09ee34295e27012c544287, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 502919bc4e09ee34295e27012c544287,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &999569588493334617
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -119,6 +128,11 @@ PrefabInstance:
         type: 3}
       propertyPath: ammoType
       value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1324267755354293044, guid: 24274bda3be42c049b4bbb150f6e1220,
+        type: 3}
+      propertyPath: FireDelay
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 1324267755354293044, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}
@@ -157,6 +171,21 @@ PrefabInstance:
         type: 3}
       propertyPath: FiringSoundA.AssetAddress
       value: Assets/Prefabs/Weapons/Gun/SyringeShot.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 1324267755354293044, guid: 24274bda3be42c049b4bbb150f6e1220,
+        type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0.04
+      objectReference: {fileID: 0}
+    - target: {fileID: 1324267755354293044, guid: 24274bda3be42c049b4bbb150f6e1220,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoilDuration
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 1324267755354293044, guid: 24274bda3be42c049b4bbb150f6e1220,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoveryDuration
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1426280140011400311, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}
@@ -242,7 +271,7 @@ PrefabInstance:
     - target: {fileID: 2730685772635794717, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}
       propertyPath: initialName
-      value: donksoft LMG
+      value: Donksoft LMG
       objectReference: {fileID: 0}
     - target: {fileID: 2730685772635794717, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}

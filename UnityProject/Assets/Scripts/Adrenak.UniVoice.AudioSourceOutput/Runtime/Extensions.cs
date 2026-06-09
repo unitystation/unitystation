@@ -1,9 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Adrenak.UniVoice.AudioSourceOutput {
+namespace Adrenak.UniVoice.AudioSourceOutput.Runtime {
     public static class Extensions {
         /// <summary>
         /// Returns the normalized position of the AudioSource on its AudioClip

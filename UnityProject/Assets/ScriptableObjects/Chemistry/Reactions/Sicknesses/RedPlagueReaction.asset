@@ -14,38 +14,42 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredients:
     m_keys:
-    - {fileID: 11400000, guid: 71f3eb7fc3909074a9f91b4dac0d9b91, type: 2}
-    m_values: 01000000
+    - {fileID: 11400000, guid: b0d244ad6284333a1b4962f309f7f593, type: 2}
+    - {fileID: 11400000, guid: a353f355495400bf5b38e4b7f9315591, type: 2}
+    - {fileID: 11400000, guid: 2945ad40ab95234498cac68e72a6940a, type: 2}
+    m_values: 010000000100000005000000
   useExactAmounts: 0
-  MinimumReactionMultiple: 0
+  MinimumReactionMultiple: 0.005
   catalysts:
     m_keys: []
     m_values: 
   inhibitors:
-    m_keys: []
-    m_values: 
+    m_keys:
+    - {fileID: 11400000, guid: 3a54c19300dc2022cb0d10a8e5883ea7, type: 2}
+    - {fileID: 11400000, guid: 4d31620644b580ae09c87962a41d1369, type: 2}
+    m_values: 0100000001000000
   hasMinTemp: 0
   serializableTempMin: 0
   hasMaxTemp: 0
   serializableTempMax: 0
   results:
-    m_keys:
-    - {fileID: 11400000, guid: 2945ad40ab95234498cac68e72a6940a, type: 2}
-    m_values: 01000000
+    m_keys: []
+    m_values: 
   effectDict:
     m_keys: []
     m_values: 
   overrideDisplayName: Red Plague Growth
-  indexInSingleton: 507
+  indexInSingleton: 511
   ReagentMetabolismMultiplier: 1
   InternalAllRequired: []
   InternalBlacklist: []
   ExternalAllRequired: []
   ExternalBlacklist: []
+  immuneResponseMultiplier: 1
   sicknessGrowthCharacteristic:
     SicknessGrowthChancePercent: 85
-    SicknessGrowthBaseRate: 0.025
-    SicknessGrowthRelativeRate: 0.004
+    SicknessGrowthBaseRate: 0.04
+    SicknessGrowthRelativeRate: 0.0055
   stages:
   - StageConcentrationThreshold: 0
     StageEffects:
@@ -58,11 +62,16 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 45793ea50437e4a4e80170ec5fd0c3c6, type: 2}
   - StageConcentrationThreshold: 4
     StageEffects:
-    - {fileID: 11400000, guid: 5d0b7b3efbb3a33418ee59eb52ef4e14, type: 2}
-    - {fileID: 11400000, guid: ce00514859fcfbf4ebc18904aa14dcde, type: 2}
-    - {fileID: 11400000, guid: 4b495bfd5e5a6174db5e66d2c4ee407c, type: 2}
-    - {fileID: 11400000, guid: 1efd831ebaa972e43b93dbcbc1382783, type: 2}
+    - {fileID: 11400000, guid: c1ed547e609ed734ea50a13a8e35f6f4, type: 2}
+    - {fileID: 11400000, guid: 686e61ed159f74341a43a89072dc5bfe, type: 2}
+    - {fileID: 11400000, guid: 45793ea50437e4a4e80170ec5fd0c3c6, type: 2}
   - StageConcentrationThreshold: 8
+    StageEffects:
+    - {fileID: 11400000, guid: 5d0b7b3efbb3a33418ee59eb52ef4e14, type: 2}
+    - {fileID: 11400000, guid: c1ed547e609ed734ea50a13a8e35f6f4, type: 2}
+    - {fileID: 11400000, guid: 4b495bfd5e5a6174db5e66d2c4ee407c, type: 2}
+    - {fileID: 11400000, guid: 984515492f6b0834cb46b0d02c72699f, type: 2}
+  - StageConcentrationThreshold: 14
     StageEffects:
     - {fileID: 11400000, guid: cd22551c247e5d14dbef9724f827fe5a, type: 2}
   DiseaseMaxConcentrationPercent: 16

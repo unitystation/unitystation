@@ -103,6 +103,26 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 19dd1cfccb59c8245a70c4923037c950
       objectReference: {fileID: 0}
+    - target: {fileID: 2712468360772368645, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.a
+      value: 0.75686276
+      objectReference: {fileID: 0}
+    - target: {fileID: 2712468360772368645, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2712468360772368645, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.6784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 2712468360772368645, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.2784314
+      objectReference: {fileID: 0}
     - target: {fileID: 3166760548704001533, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: NetTabType
@@ -119,12 +139,33 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: cf3ac8d73e1de944999126bb2ffbbbc9,
         type: 2}
+    - target: {fileID: 3806105522999988684, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: cf3ac8d73e1de944999126bb2ffbbbc9,
+        type: 2}
     - target: {fileID: 4381392260290605791, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 76a04967956a3504d813cd6ff06fb4db,
         type: 3}
+    - target: {fileID: 4440120190223384322, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4440120190223384322, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.6784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 4440120190223384322, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.2784314
+      objectReference: {fileID: 0}
     - target: {fileID: 4571869433525098128, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
@@ -227,6 +268,41 @@ PrefabInstance:
       propertyPath: Color.r
       value: 0.143
       objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.a
+      value: 0.75686276
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.6784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.2784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 6422803871620661103, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6422803871620661103, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.6784314
+      objectReference: {fileID: 0}
+    - target: {fileID: 6422803871620661103, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.2784314
+      objectReference: {fileID: 0}
     - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: parentID
@@ -322,6 +398,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1c0c170344de05a40b12ac22bcc1c950,
         type: 2}
+    - target: {fileID: 8201155816690774842, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1c0c170344de05a40b12ac22bcc1c950,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -397,4 +479,5 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}

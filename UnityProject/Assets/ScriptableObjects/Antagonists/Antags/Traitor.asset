@@ -13,14 +13,16 @@ MonoBehaviour:
   m_Name: Traitor
   m_EditorClassIdentifier: 
   antagName: Traitor
+  team: {fileID: 0}
+  addTeamAtInit: 0
   antagJobType: 48
   playSound: 1
   spawnSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/AmbientTracks/SpawnSounds/Tatoralert.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   textColor: {r: 1, g: 0, b: 0, a: 1}

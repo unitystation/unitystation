@@ -29,6 +29,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6a7fbd92dda74934d8a87f90daf98ba7,
         type: 2}
+    - target: {fileID: 2400272013911209609, guid: 23a0b694284152342b2ec0817fade0d6,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6a7fbd92dda74934d8a87f90daf98ba7,
+        type: 2}
     - target: {fileID: 3221160594119065955, guid: 23a0b694284152342b2ec0817fade0d6,
         type: 3}
       propertyPath: parentID
@@ -41,8 +47,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8279022589428523628, guid: 23a0b694284152342b2ec0817fade0d6,
         type: 3}
+      propertyPath: initialName
+      value: station intercom
+      objectReference: {fileID: 0}
+    - target: {fileID: 8279022589428523628, guid: 23a0b694284152342b2ec0817fade0d6,
+        type: 3}
       propertyPath: initialSize
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8279022589428523628, guid: 23a0b694284152342b2ec0817fade0d6,
+        type: 3}
+      propertyPath: initialDescription
+      value: A trusty station intercom, ready to spring into action even when the
+        headsets go silent.
       objectReference: {fileID: 0}
     - target: {fileID: 8361325896675593486, guid: 23a0b694284152342b2ec0817fade0d6,
         type: 3}
@@ -214,5 +231,13 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0

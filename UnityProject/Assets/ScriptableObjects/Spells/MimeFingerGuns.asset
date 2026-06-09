@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 527d04810ffb4855b86689bf64eb71a2, type: 3}
+  m_Name: MimeFingerGuns
+  m_EditorClassIdentifier: Assets::US13.Systems.Spells.SpellData
+  actionType: 0
+  activeSpriteIndex: 1
+  callOnClient: 1
+  callOnServer: 1
+  actionName: Finger Guns
+  description: Shoot bullets from your fingers
+  Sprites:
+  - {fileID: 11400000, guid: 294e4155f902820448f80ed64c0225e1, type: 2}
+  - {fileID: 11400000, guid: f5affc40c3db8df4a856e00e05bb5b02, type: 2}
+  - {fileID: 11400000, guid: 31a044b82bbb3c14abd836927df89520, type: 2}
+  Backgrounds:
+  - {fileID: 11400000, guid: cd061aeadba774a4396e72bdab2b52f3, type: 2}
+  PreventBeingControlledBy: 
+  DisableOnEvent: 
+  isAimable: 0
+  useCustomCursor: 0
+  cursorTexture: {fileID: 0}
+  cursorOffsetType: 0
+  cursorOffset: {x: 0, y: 0}
+  RequireLivingHealth: 0
+  spellImplementation: {fileID: 3793104292376101403, guid: 5dae70d8fbfd28a418ad9d20472d5651,
+    type: 3}
+  chargeType: 0
+  cooldownTime: 30
+  startingCharges: 10
+  castSound:
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  range: 0
+  stillRechargingMessage: The spell is still recharging!
+  affectedMessage: 
+  invocationType: 1
+  invocationMessage: '{0} makes their hand into a finger gun'
+  invocationMessageSelf: you make your hand into a finger gun
+  summonType: 0
+  summonObjects: []
+  summonTiles: []
+  summonPosition: 1
+  summonLifespan: 10
+  replaceExisting: 0
+  AllowSoftCriticalUses: 1

@@ -1,0 +1,448 @@
+{
+  "Ver": "1.0.0",
+  "MapName": "3x3OpenNusianceTurretLight",
+  "ContainedMatrices": [
+    {
+      "Ver": "1.1.1",
+      "Location": "7918┼8011┼0┼",
+      "MatrixName": "3x3OpenNusianceTurretLight",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X0Y0",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y1",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y2",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y0",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y1",
+            "Value": [
+              {
+                "Tel": "podfloor_light"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y2",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y0",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y1",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y2",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.5.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_0┼0┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (6)",
+            "LocalPRS": "0┼0┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "60f6f172c3a88a84787189497c2e2d9d"
+                        },
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_0┼1┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (1)",
+            "LocalPRS": "0┼1┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "9995f5e93b4b1614abaf93a921438c7c"
+                        },
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "2"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_0┼2┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (4)",
+            "LocalPRS": "0┼2┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "60f6f172c3a88a84787189497c2e2d9d"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_1┼0┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (2)",
+            "LocalPRS": "1┼0┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "9995f5e93b4b1614abaf93a921438c7c"
+                        },
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "29695260c1f4f8ba5868fe7fe030293a_1┼1┼0┼",
+            "PrefabID": "29695260c1f4f8ba5868fe7fe030293a",
+            "Name": "FloorLightFixture (1)",
+            "LocalPRS": "1┼1┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,3",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "991d9e2b162f7ef4ca9b4fd2bdba60d2_1┼1┼0┼",
+            "PrefabID": "991d9e2b162f7ef4ca9b4fd2bdba60d2",
+            "Name": "TurretControlPanel L2 Invis",
+            "LocalPRS": "1┼1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "RegisterObject@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentsortingGroup",
+                      "Data": "NULL"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "SortingGroup@0",
+                  "Removed": true
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Removed": true
+                },
+                {
+                  "ClassID": "TurretSwitch@0",
+                  "Data": [
+                    {
+                      "Name": "turrets#0",
+                      "Data": "e918b490e7354ca4bacd182b6b57a0ff_1┼1┼0┼@0@Turret@0"
+                    },
+                    {
+                      "Name": "isStun",
+                      "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "WallmountBehavior@0",
+                  "Removed": true
+                },
+                {
+                  "ClassID": "ClearanceRestricted@0",
+                  "Data": [
+                    {
+                      "Name": "requiredClearance#0",
+                      "Data": "AwayGeneric2"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ObjectLayer": 28,
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "SubCatalogue#3",
+                          "Data": "7d2de9c440cedfa4a855277fac47f8d0"
+                        },
+                        {
+                          "Name": "SubCatalogue#2",
+                          "Data": "7d2de9c440cedfa4a855277fac47f8d0"
+                        },
+                        {
+                          "Name": "SubCatalogue#1",
+                          "Data": "7d2de9c440cedfa4a855277fac47f8d0"
+                        },
+                        {
+                          "Name": "SubCatalogue#0",
+                          "Data": "7d2de9c440cedfa4a855277fac47f8d0"
+                        },
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "7d2de9c440cedfa4a855277fac47f8d0"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "e918b490e7354ca4bacd182b6b57a0ff_1┼1┼0┼",
+            "PrefabID": "e918b490e7354ca4bacd182b6b57a0ff",
+            "NameMatches": true,
+            "Name": "BackroomsTurretNusiance",
+            "LocalPRS": "1┼1┼0┼"
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_1┼2┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "NameMatches": true,
+            "Name": "newFloorDecal",
+            "LocalPRS": "1┼2┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "9995f5e93b4b1614abaf93a921438c7c"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_2┼0┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (5)",
+            "LocalPRS": "2┼0┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "60f6f172c3a88a84787189497c2e2d9d"
+                        },
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_2┼1┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (3)",
+            "LocalPRS": "2┼1┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "9995f5e93b4b1614abaf93a921438c7c"
+                        },
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "7178630252013ba41832aa94eb53d12c_2┼2┼0┼",
+            "PrefabID": "7178630252013ba41832aa94eb53d12c",
+            "Name": "newFloorDecal (7)",
+            "LocalPRS": "2┼2┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "60f6f172c3a88a84787189497c2e2d9d"
+                        },
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "3"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "1,1,0",
+          "Size": "2,2,0"
+        }
+      ]
+    }
+  ]
+}

@@ -112,7 +112,13 @@ PrefabInstance:
       propertyPath: foreverID
       value: 1162a9966a460f940a18b4d183b04c30
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 6578957487127773165, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: dormantReagentContainer
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6471482627474267981, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -180,9 +186,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 85b46608a403da74892b9bb16d3b712c, type: 2}
   - {fileID: 11400000, guid: ebd5df789d07f8141ab3534b7fa87618, type: 2}
   - {fileID: 11400000, guid: 4ee12f11044a2b742867f1431ca8bf77, type: 2}
+  StartingMutations: []
   ActiveMutationsSO: []
   Stability: 0
   SecondsForSpeciesMutation: 150
+  MutationRestriction: 0
+  MutationRestrictionItemTrait: {fileID: 0}
   PlayerHealthData: {fileID: 0}
   TOMutateBodyPart: {fileID: 0}
 --- !u!114 &2314801526373061764
@@ -224,11 +233,6 @@ MonoBehaviour:
   optionalOrgans: []
   OptionalReplacementOrgan: []
   IsSurface: 0
-  TotalModified: 1
-  SurgeryProcedureBase:
-  - {fileID: 11400000, guid: b6fd9e69eadae4148bbd6a85d785f16a, type: 2}
-  - {fileID: 11400000, guid: 3a60d21cb4e18b14ba0387530f2dccd5, type: 2}
-  - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}
   CanNotBeHealedByExternalHealingPack: 0
   SelfArmor:
     Melee: 0
@@ -266,6 +270,11 @@ MonoBehaviour:
   DamageContributesToOverallHealth: 1
   maxHealth: 100
   Severity: 50
+  TotalModified: 1
+  SurgeryProcedureBase:
+  - {fileID: 11400000, guid: b6fd9e69eadae4148bbd6a85d785f16a, type: 2}
+  - {fileID: 11400000, guid: 3a60d21cb4e18b14ba0387530f2dccd5, type: 2}
+  - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}
 --- !u!114 &2719098251223779414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -306,10 +315,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fed226d36f0fdcd40a51a7bfbf8fb6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   ReactionSounds: 1
   maxCapacity: 30
   DEBUGReagent: {fileID: 0}
   DEBUGAmount: 0
+  StopReactions: 0
   reactionSet: {fileID: 11400000, guid: 9635f48a9fe17f742aee13832a4ed6c2, type: 2}
   AdditionalReactions: []
   initialReagentMix:
@@ -321,13 +334,20 @@ MonoBehaviour:
   destroyOnEmpty: 0
   ContentsSet: 0
   menuOptions: -1
+  currentReagentMix:
+    temperature: 0
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []
   spriteHandler: {fileID: 0}
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
   traitWhitelist: []
   reagentWhitelist: []
-  transferMode: 0
+  transferMode: 4
+  onlyAllowSyringeFilling: 0
   SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 20

@@ -1,0 +1,396 @@
+using System;
+using System.Collections.Generic;
+using Logs;
+using Mirror;
+using UnityEngine;
+using UnityEngine.Profiling;
+using US13.Core;
+using US13.Core.Chat;
+using US13.Core.Input_System;
+using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Core.Lifecycle;
+using US13.Effects.Fire;
+using US13.HealthV2;
+using US13.HealthV2.Living;
+using US13.Managers;
+using US13.Managers.MatrixManager;
+using US13.Managers.NetworkManagement;
+using US13.Managers.UpdateManager;
+using US13.Messages.Client.Admin;
+using US13.ScriptableObjects;
+using US13.Systems.Inventory;
+using US13.Tilemaps;
+using US13.Tilemaps.Behaviours.Meta;
+using US13.Tilemaps.Behaviours.Meta.Atmospherics;
+using US13.Tilemaps.Behaviours.Meta.Atmospherics.Data;
+using US13.Tilemaps.Behaviours.Objects;
+using US13.Tilemaps.Tiles;
+using US13.Tilemaps.Utils;
+using US13.UI.Systems.Tooltips.HoverTooltips;
+using Util;
+using Util.Independent.FluentRichText;
+using Random = UnityEngine.Random;
+
+namespace US13.Health.Objects
+{
+	[RequireComponent(typeof(Integrity))]
+	[RequireComponent(typeof(RegisterTile))]
+	public class Flammable : NetworkBehaviour, IServerSpawn, IHoverTooltip, IExaminable
+	{
+		private Integrity integrity;
+		public Integrity Integrity => integrity;
+		private RegisterTile registerTile;
+
+		[SyncVar(hook = nameof(SyncOnFire))]
+		private int fireStacks = 0;
+		private BurningOverlay burningObjectOverlay;
+
+		public bool IsOnFire => fireStacks > 0;
+
+		private static GameObject SMALL_BURNING_PREFAB;
+		private static GameObject LARGE_BURNING_PREFAB;
+		[SerializeField] private GameObject fireParticlePrefab;
+		private ParticleSystem fireParticle;
+
+		private static OverlayTile SMALL_ASH;
+		private static OverlayTile LARGE_ASH;
+
+		// damage incurred each tick while an object is on fire
+		private static float BURNING_DAMAGE_PER_STACK = 0.08f;
+		private static float HOT_IN_KELVIN = 750f;
+		private static readonly float BURN_RATE = 2.25f;
+
+		private bool isLarge = false;
+
+		[SerializeField] private float minimumFireDamageForStack = 12;
+		[SerializeField, SyncVar] private float chanceToSpread = 20;
+		[SerializeField] private int maxStacks = 20;
+		[SerializeField, SyncVar] private bool skipFlammableCheck = false;
+
+		[SyncVar] private long lastBurnStackTickTime = 0;
+		private const long BURN_STACK_TICK_INTERVAL = 60 * TimeSpan.TicksPerSecond; // 60 seconds in ticks
+
+		private bool isUpdating = false;
+
+		private void Awake()
+		{
+			integrity = GetComponent<Integrity>();
+			ComponentsTracker<Flammable>.Instances.Add(this);
+			EnsureInit();
+		}
+
+		private void OnDestroy()
+		{
+			ComponentsTracker<Flammable>.Instances.Remove(this);
+		}
+
+		private void OnEnable()
+		{
+			EnableIntegrityObserver();
+		}
+
+		private void OnDisable()
+		{
+			if (CustomNetworkManager.IsServer && isUpdating)
+			{
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdateBurn);
+			}
+			DisableIntegrityObserver();
+		}
+
+		private void EnableIntegrityObserver()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			if (!integrity) return;
+			integrity.OnDestruction.AddListener(ExtingushFireAndDestroy);
+			integrity.OnApplyDamage += OnDamageReceived;
+		}
+
+		private void DisableIntegrityObserver()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			if (!integrity) return;
+			integrity.OnDestruction.RemoveListener(ExtingushFireAndDestroy);
+			integrity.OnApplyDamage -= OnDamageReceived;
+		}
+
+		private void EnsureInit()
+		{
+			if (SMALL_BURNING_PREFAB == null)
+			{
+				SMALL_BURNING_PREFAB = CommonPrefabs.Instance.BurningSmall;
+				LARGE_BURNING_PREFAB = CommonPrefabs.Instance.BurningLarge;
+			}
+
+			if (SMALL_ASH == null)
+			{
+				SMALL_ASH = TileManager.GetTile(TileType.Effects, "SmallAsh") as OverlayTile;
+				LARGE_ASH = TileManager.GetTile(TileType.Effects, "LargeAsh") as OverlayTile;
+			}
+			//this is just a guess - large items can't be picked up
+			isLarge = GetComponent<Pickupable>() == null;
+		}
+
+		public override void OnStartClient()
+		{
+			SyncOnFire(fireStacks, fireStacks);
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			if (info.SpawnType == SpawnType.Clone)
+			{
+				//cloned
+				var clonedIntegrity = info.ClonedFrom.GetComponent<Flammable>();
+				SyncOnFire(fireStacks, clonedIntegrity.fireStacks);
+			}
+			if (integrity.Resistances.Flammable)
+			{
+				//preloads the burning stuff for flammable objects
+				PreheatSprites();
+			}
+		}
+
+		private void PeriodicUpdateBurn()
+		{
+			//Instantly stop burning if there's no oxygen at this location
+			MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionServer);
+			if (node?.GasMixLocal.GetMoles(Gas.Oxygen) < 1)
+			{
+				SyncOnFire(fireStacks, 0);
+				return;
+			}
+			node?.GasMixLocal.AddGasWithTemperature(Gas.Smoke, BURNING_DAMAGE_PER_STACK * 25, Kelvin.FromC(100f));
+
+			if (integrity.Resistances.Flammable || skipFlammableCheck)
+			{
+				integrity.ApplyDamage(BURNING_DAMAGE_PER_STACK * fireStacks, AttackType.Fire, DamageType.Burn);
+			}
+
+			long currentTickTime = DateTime.UtcNow.Ticks;
+			long timeElapsed = currentTickTime - lastBurnStackTickTime;
+			ToggleOverlay(true);
+			if (timeElapsed >= BURN_STACK_TICK_INTERVAL)
+			{
+				lastBurnStackTickTime = currentTickTime;
+				// we only do this every 60 seconds to avoid constant GC stutters when there's hundreds of objects on fire.
+				CreateHotSpot(registerTile.LocalPosition, HOT_IN_KELVIN + fireStacks);
+				SyncOnFire(fireStacks, fireStacks - 1);
+				Spread();
+			}
+		}
+
+		private void Spread()
+		{
+			if (DMMath.Prob(chanceToSpread) == false) return;
+			var flammables = MatrixManager.GetAdjacent<Flammable>(gameObject.AssumedWorldPosServer().CutToInt(), true);
+			var healths = MatrixManager.GetAdjacent<LivingHealthMasterBase>(gameObject.AssumedWorldPosServer().CutToInt(), true);
+			foreach (var flammable in flammables)
+			{
+				if (flammable.gameObject == gameObject) continue;
+				if (flammable.Integrity.Resistances.Flammable == false) continue;
+				flammable.SyncOnFire(flammable.fireStacks, flammable.fireStacks + Random.Range(1, 4));
+			}
+			foreach (var health in healths)
+			{
+				health.ChangeFireStacks(health.FireStacks + Random.Range(1, 5));
+			}
+		}
+
+		private void SyncOnFire(int oldStacks, int newStacks)
+		{
+			fireStacks = Mathf.Clamp(newStacks, 0, maxStacks);
+			ToggleProcessing(isUpdating, IsOnFire);
+		}
+
+		[Client]
+		private void ToggleOverlay(bool state)
+		{
+			PreheatSprites();
+			if (burningObjectOverlay == null)
+			{
+				Loggy.Error("[Flammable/ToggleOverlay] - Failed to instantiate burning object overlay");
+				return;
+			}
+			burningObjectOverlay.SetActive(state);
+			if (state)
+			{
+				burningObjectOverlay.Burn();
+			}
+			else
+			{
+				burningObjectOverlay.StopBurning();
+			}
+			HandleFireParticles();
+		}
+
+		private void PreheatSprites()
+		{
+			if (burningObjectOverlay == null)
+			{
+				burningObjectOverlay = Instantiate(isLarge ? LARGE_BURNING_PREFAB : SMALL_BURNING_PREFAB, transform).GetComponent<BurningOverlay>();
+				burningObjectOverlay.Burn();
+			}
+		}
+
+		[Client]
+		private void HandleFireParticles()
+		{
+			if (fireParticlePrefab == null) return;
+			if (fireStacks == maxStacks)
+			{
+				if (fireParticle == null)
+				{
+					fireParticle = Instantiate(fireParticlePrefab, transform).GetComponent<ParticleSystem>();
+				}
+				fireParticle.Play();
+				fireParticle.SetActive(true);
+			}
+			else
+			{
+				if (fireParticle != null)
+				{
+					fireParticle.Stop();
+					fireParticle.SetActive(false);
+				}
+			}
+		}
+
+		private void ToggleProcessing(bool oldState, bool newState)
+		{
+			isUpdating = newState;
+			if (newState == true && oldState == false)
+			{
+				lastBurnStackTickTime = DateTime.UtcNow.Ticks;
+				UpdateManager.Add(PeriodicUpdateBurn, BURN_RATE);
+				Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} catches on fire!".Color(Color.red));
+				registerTile = gameObject.RegisterTile();
+				CreateHotSpot(registerTile.LocalPosition, HOT_IN_KELVIN + fireStacks);
+				ToggleOverlay(true);
+				PeriodicUpdateBurn();
+				return;
+			}
+			if (oldState == true && newState == false)
+			{
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdateBurn);
+				Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} is no longer on fire..");
+				ToggleOverlay(false);
+			}
+		}
+
+		public void ExtingushFireAndDestroy()
+		{
+			if (IsOnFire == false) return;
+			DefaultBurnUp();
+		}
+
+		[Server]
+		private void DefaultBurnUp()
+		{
+			Profiler.BeginSample("DefaultBurnUp");
+			registerTile = gameObject.RegisterTile();
+			if (LARGE_ASH == null || SMALL_ASH == null)
+			{
+				Loggy.Error("[Flammable/DefaultBurnUp] - HEY SHITASS, Failed to find burning object overlay");
+				return;
+			}
+			else
+			{
+				registerTile.TileChangeManager.MetaTileMap.AddOverlay(registerTile.LocalPosition, isLarge ? LARGE_ASH : SMALL_ASH);
+			}
+			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " burnt to ash.", gameObject);
+			Loggy.Trace().Format("{0} burning up, onfire is {1} (burningObject enabled {2})", Category.Health, name, this.fireStacks, burningObjectOverlay?.enabled);
+			Profiler.EndSample();
+		}
+
+		[Server]
+		public void AddFireStacks(int stacksToAdd)
+		{
+			fireStacks = Mathf.Clamp(fireStacks + stacksToAdd, 0, maxStacks);
+		}
+
+		public void OnDamageReceived(DamageInfo info)
+		{
+			if (integrity.Resistances.Flammable == false) return;
+			if (info.Damage < minimumFireDamageForStack) return;
+			if (info.DamageType == DamageType.Burn || info.AttackType == AttackType.Fire)
+			{
+				fireStacks += 1;
+			}
+		}
+
+		/// <summary>
+		/// EXPENSIVE, DO NOT SPAM THIS EVERY FRAME.
+		/// creates a hotspot for a given position (duh) which spreads around to nearby tiles by default, temprature can be defined for that spot.
+		/// </summary>
+		/// <param name="tilePos">I.e: registerTile.LocalPosition</param>
+		/// <param name="fireHotspotTemperature">In kelvin, 310 is 36.85'c.</param>
+		/// <param name="changeTemperatureOnHotspot">True by default, causes temperature to change for that spot.</param>
+		public static void CreateHotSpot(Vector3Int tilePos, float fireHotspotTemperature, bool changeTemperatureOnHotspot = true)
+		{
+			var reactionManager = MatrixManager.AtPoint(tilePos, true).ReactionManager;
+			reactionManager.ExposeHotspotWorldPosition(tilePos.To2Int(), fireHotspotTemperature, changeTemperatureOnHotspot);
+		}
+
+		private void DebugAddStacks()
+		{
+			SyncOnFire(fireStacks, fireStacks + 20);
+		}
+
+		private void ResetFireStacks()
+		{
+			SyncOnFire(fireStacks, 0);
+		}
+
+		private void DebugMakeItAlwaysSpread()
+		{
+			chanceToSpread = 100;
+		}
+
+		private void DebugSkipFlammableCheck()
+		{
+			skipFlammableCheck = true;
+		}
+
+
+		public string HoverTip()
+		{
+			if (IsOnFire == false) return null;
+
+			if (PlayerList.HasTAGClient(TAG.OBJECT_INFO) == false  && KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
+			{
+				long currentTickTime = DateTime.UtcNow.Ticks;
+				long timeElapsed = currentTickTime - lastBurnStackTickTime;
+				return $"Firestacks: {fireStacks}\n last tick: {lastBurnStackTickTime}\n timeElapsed: {timeElapsed}\n spreadChance: {chanceToSpread}%".Color(RichTextColor.Yellow);
+			}
+			return "It's on fire!".Color(Color.red).Bold();
+		}
+
+		public string CustomTitle()
+		{
+			return null;
+		}
+
+		public Sprite CustomIcon()
+		{
+			return null;
+		}
+
+		public List<Sprite> IconIndicators()
+		{
+			return null;
+		}
+
+		public List<TextColor> InteractionsStrings()
+		{
+			if (IsOnFire == false) return null;
+			return new List<TextColor> { new TextColor() { Text = "Find and use a fire extingusher!", Color = Color.red } };
+		}
+
+		public string Examine(Vector3 worldPos = default)
+		{
+			if (IsOnFire == false) return null;
+			return "It's on fire!".Color(Color.red).Bold();
+		}
+	}
+}

@@ -1,0 +1,112 @@
+﻿using System;
+using System.Collections.Generic;
+using Logs;
+using UnityEngine;
+using US13.Core.Chat;
+using US13.Core.Lifecycle;
+using US13.HealthV2.Living.BodyParts;
+using US13.HealthV2.Living.CirculatorySystem;
+using US13.Items.Weapons;
+using US13.Managers.MatrixManager;
+using US13.Objects.Engineering;
+using US13.Player;
+using US13.Systems.InGameEvents;
+using US13.Systems.Occupations;
+using Util;
+
+namespace US13.Systems.Faith.FaithProperties
+{
+	public class Transhumanist : IFaithProperty
+	{
+		[SerializeField] private Occupation chaplainOccupation;
+		[SerializeField] private string chaplainBecomeBorgText;
+		[SerializeField] private List<BodyPart> bodyPartsToMakeTranshumanist = new List<BodyPart>();
+		[SerializeField] private Grenade pettyLeave;
+
+		[SerializeField] private string faithPropertyName = "Transhumanist";
+		[SerializeField] private string faithPropertyDesc = "This faith believes the certainty of steel, and worship is unlocked via body modifications that unlocks one's true potential.";
+		[SerializeField] private Sprite propertyIcon;
+
+		string IFaithProperty.FaithPropertyName
+		{
+			get => faithPropertyName;
+			set => faithPropertyName = value;
+		}
+
+		string IFaithProperty.FaithPropertyDesc
+		{
+			get => faithPropertyDesc;
+			set => faithPropertyDesc = value;
+		}
+
+		Sprite IFaithProperty.PropertyIcon
+		{
+			get => propertyIcon;
+			set => propertyIcon = value;
+		}
+
+		public FaithData AssociatedFaith { get; set; }
+
+		public void Setup(FaithData associatedFaith)
+		{
+			//Todo: Finish transhumanist setup to include checks for body status
+			((IFaithProperty)this).AssociatedFaith = associatedFaith;
+		}
+
+		public void OnJoinFaith(PlayerScript newMember)
+		{
+			HandleChaplain(newMember);
+		}
+
+		private void HandleChaplain(PlayerScript newMember)
+		{
+			try
+			{
+				if (newMember.Mind.occupation != chaplainOccupation) return;
+				foreach (var parts in bodyPartsToMakeTranshumanist)
+				{
+					var newPart = Spawn.ClientPrefab(parts.gameObject).GameObject;
+					newMember.playerHealth.AddingBodyPart(newPart.GetComponent<BodyPart>());
+				}
+				Chat.AddExamineMsg(newMember.GameObject, chaplainBecomeBorgText);
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+			}
+		}
+
+		public void OnLeaveFaith(PlayerScript member)
+		{
+			if (DMMath.Prob(50) == false) return;
+			var EMP = Spawn.ServerPrefab(pettyLeave.gameObject, member.gameObject.AssumedWorldPosServer());
+			EMP.GameObject.GetComponent<Grenade>()?.Explode();
+		}
+
+		public void RandomEvent()
+		{
+			List<Action> randomEvents = new List<Action>()
+			{
+				EventKillerFish,
+				EventBlessedGenerators
+			};
+			randomEvents.PickRandom().Invoke();
+		}
+
+		private void EventBlessedGenerators()
+		{
+			Chat.AddGameWideSystemMsgToChat("<color=#e6b800>The generators are blessed with fuel..</color>");
+			var generators = MatrixManager.MainStationMatrix.GameObject.GetComponentsInChildren<PowerGenerator>();
+			foreach (var generator in generators)
+			{
+				generator.SetFuel(generator.FuelAmount + 50f);
+				generator.ToggleOn();
+			}
+		}
+
+		private void EventKillerFish()
+		{
+			InGameEventsManager.Instance.TriggerSpecificEvent("Carp Migration", DMMath.Prob(50), DMMath.Prob(50));
+		}
+	}
+}

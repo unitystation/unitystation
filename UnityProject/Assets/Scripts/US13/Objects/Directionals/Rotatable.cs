@@ -1,0 +1,564 @@
+﻿using System;
+using System.Collections.Generic;
+using Mirror;
+using NaughtyAttributes;
+using SecureStuff;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Rendering;
+using UnityEngine.Serialization;
+using US13.Core.Highlight;
+using US13.Core.Sprite_Handler;
+using US13.Core.Transform;
+using US13.Managers.NetworkManagement;
+using US13.Shuttles;
+using US13.Tilemaps.Behaviours.Objects;
+using Util;
+using Util.Debug;
+#if UNITY_EDITOR
+#endif
+
+namespace US13.Objects.Directionals
+{
+	public class Rotatable : NetworkBehaviour, IMatrixRotation90, INewMappedOnSpawn
+	{
+		public enum RotationMethod
+		{
+			None,
+			Parent,
+			Sprites,
+			ParentLockSprite
+		}
+
+		public RotationMethod MethodRotation = RotationMethod.None;
+
+
+		public bool ChangeSprites = false;
+
+		[ShowIf(nameof(ChangeSprites))] public bool isChangingSO;
+
+		[FormerlySerializedAs("InitialDirection")]
+		public OrientationEnum CurrentDirection;
+
+		public Vector2 WorldDirection
+		{
+			get
+			{
+				return CurrentDirection.ToLocalVector3().DirectionLocalToWorld(RegisterTile.Matrix);
+			}
+		}
+
+		[HideInInspector, SyncVar(hook = nameof(SyncServerDirection))]
+		public OrientationEnum SynchroniseCurrentDirection;
+
+		[SyncVar(hook = nameof(SyncServerLockAndDirection))]
+		private LockAndDirection SynchroniseCurrentLockAndDirection;
+
+		[SerializeField]
+		[Tooltip("If active will Make it so only If this gameobject is Local player It won't get updates")]
+		private bool IgnoreServerUpdatesIfLocalPlayer= false;
+
+		[SerializeField]
+		[Tooltip("Should this rotate when Matrix rotate?")]
+		private bool MatrixRotateUpdate = true;
+
+		[SerializeField]
+		[Tooltip("Should the Sprite order change with the rotation")]
+		private bool SetOrder = false;
+
+		[ShowIf(nameof(SetOrder))] public List<int> Orders = new List<int>(){0, 0, 0, 0};
+
+		[SerializeField]
+		[Tooltip("Should the SetLayer change with the rotation")]
+		private bool SetLayer= false;
+
+		[ShowIf(nameof(SetLayer))] public List<string > Layers = new List<string >(){"Rename me 1", "Rename me 2","Rename me 3", "Rename me 4"};
+
+
+		private SpriteRenderer[] spriteRenderers = Array.Empty<SpriteRenderer>();
+		private SpriteHandler[] spriteHandlers = Array.Empty<SpriteHandler>();
+
+
+		public bool IsAtmosphericDevice = false;
+		public bool doNotResetOtherSpriteOptions = false;
+
+		private RegisterTile RegisterTile;
+
+		private SortingGroup SortingGroup;
+
+		/// <summary>
+		/// Invoked when this object's sprites should be updated to indicate it is facing the
+		/// specified direction. Components listening for this event don't need to worry about
+		/// client prediction or server sync, just update sprites and assume this is the correct direction.
+		/// </summary>
+		public RotationChangeEvent OnRotationChange = new RotationChangeEvent();
+
+		private void SetDirection(OrientationEnum dir)
+		{
+			if (SynchroniseCurrentLockAndDirection.Locked)
+			{
+				SetDirectionInternal(SynchroniseCurrentDirection, SynchroniseCurrentLockAndDirection.LockedTo);
+			}
+			else
+			{
+				SetDirectionInternal(SynchroniseCurrentDirection, dir);
+			}
+		}
+
+		public void LockDirectionTo(bool Lock, OrientationEnum Dir)
+		{
+			SyncServerLockAndDirection(SynchroniseCurrentLockAndDirection,
+				new LockAndDirection() {Locked = Lock, LockedTo = Dir});
+		}
+
+		private void SyncServerLockAndDirection(LockAndDirection oldDir, LockAndDirection dir)
+		{
+			SynchroniseCurrentLockAndDirection = dir;
+			SetDirection(SynchroniseCurrentLockAndDirection.LockedTo);
+		}
+
+		private void SetDirectionInternal(OrientationEnum oldDir, OrientationEnum dir)
+		{
+			CurrentDirection = dir;
+			SynchroniseCurrentDirection = dir;
+			RotateObject(dir);
+
+			if (oldDir != dir)
+			{
+				if (
+#if UNITY_EDITOR
+					Application.isPlaying &&
+#endif
+					CustomNetworkManager.IsServer == false && isOwned)
+				{
+					CmdChangeDirection(dir);
+				}
+
+				OnRotationChange?.Invoke(dir);
+				Highlight.UpdateCurrentHighlight();
+			}
+		}
+
+		public void OnNewMappedOnSpawn()
+		{
+			if (Application.isPlaying == false)
+			{
+				OnValidate();
+			}
+		}
+
+		public void OnValidate()
+		{
+			if (Application.isPlaying) return;
+#if UNITY_EDITOR
+			if (Selection.activeGameObject != this.gameObject) return;
+			EditorApplication.delayCall -= ValidateLate;
+			EditorApplication.delayCall += ValidateLate;
+#endif
+
+		}
+
+		public void ValidateLate()
+		{
+
+			// ValidateLate might be called after this object is already destroyed.
+			if (this == null || Application.isPlaying) return;
+#if UNITY_EDITOR
+			if (Selection.activeGameObject != this.gameObject) return;
+#endif
+			Awake();
+			CurrentDirection = CurrentDirection;
+			RotateObject(CurrentDirection);
+			SynchroniseCurrentDirection = CurrentDirection;
+			ResitOthers();
+		}
+
+		private void SyncServerDirection(OrientationEnum oldDir, OrientationEnum dir)
+		{
+			if (IgnoreServerUpdatesIfLocalPlayer && isOwned)
+			{
+				return;
+			}
+			//Seems like headless is running the hook when it shouldn't be
+			//(Mirror bug or our custom code broke something?)
+			if (CustomNetworkManager.IsHeadless) return;
+
+
+			SetDirectionInternal(oldDir, dir);
+		}
+
+		public void SetFaceDirectionRotationZ(float direction)
+		{
+			if (45f > direction)
+			{
+				SetDirection(OrientationEnum.Up_By0);
+			}
+			else if (135f > direction)
+			{
+				SetDirection(OrientationEnum.Left_By90);
+			}
+			else if (225f > direction)
+			{
+				SetDirection(OrientationEnum.Down_By180);
+			}
+			else if (315f > direction)
+			{
+				SetDirection(OrientationEnum.Right_By270);
+			}
+			else //Wrapped around
+			{
+				SetDirection(OrientationEnum.Up_By0);
+			}
+		}
+
+		public void SetFaceDirectionLocalVector(Vector2Int direction)
+		{
+			SetDirection(direction.ToOrientationEnum());
+		}
+
+		public void FaceDirection(OrientationEnum newDir)
+		{
+			SetDirection(newDir);
+		}
+
+		public void RotateBy(byte inInt)
+		{
+			var SetInt = inInt + (int) CurrentDirection;
+			while (SetInt > 3)
+			{
+				SetInt = SetInt - 4;
+			}
+
+			FaceDirection((OrientationEnum) SetInt);
+		}
+
+		[NaughtyAttributes.Button()]
+		public void Refresh()
+		{
+			Awake();
+			SetDirection(CurrentDirection);
+			ResitOthers();
+		}
+
+		public override void OnStartClient()
+		{
+			if (CustomNetworkManager.IsServer) return;
+			SyncServerDirection(SynchroniseCurrentDirection, SynchroniseCurrentDirection);
+		}
+
+		private void Start()
+		{
+			Refresh();
+		}
+
+		private void Awake()
+		{
+			if (spriteRenderers == null || spriteRenderers.Length == 0 )
+			{
+				spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+			}
+
+			if (spriteHandlers == null || spriteHandlers.Length == 0)
+			{
+				spriteHandlers = GetComponentsInChildren<SpriteHandler>();
+			}
+
+			RegisterTile = this.GetComponent<RegisterTile>();
+			SortingGroup = this.GetComponent<SortingGroup>();
+		}
+
+		public Quaternion ByDegreesToQuaternion(OrientationEnum dir, Quaternion Quant)
+		{
+			var eulerAngles = Quant.eulerAngles;
+			switch (dir)
+			{
+				case OrientationEnum.Up_By0:
+					eulerAngles.z = 0;
+					break;
+				case OrientationEnum.Right_By270:
+					eulerAngles.z = -90f;
+					break;
+				case OrientationEnum.Down_By180:
+					eulerAngles.z =  -180f;
+					break;
+				case OrientationEnum.Left_By90:
+					eulerAngles.z =  -270f;
+					break;
+			}
+
+			return Quaternion.Euler(eulerAngles);
+		}
+
+		public void RotateObject(OrientationEnum dir)
+		{
+#if UNITY_EDITOR
+			if (Application.isPlaying == false)
+			{
+				if (spriteHandlers == null || spriteHandlers.Length == 0)
+				{
+					spriteHandlers = GetComponentsInChildren<SpriteHandler>();
+				}
+
+				if (spriteRenderers == null || spriteRenderers.Length == 0 )
+				{
+					spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+				}
+			}
+#endif
+
+			int spriteVariant = 0;
+			switch (dir)
+			{
+				case OrientationEnum.Up_By0:
+					spriteVariant = 1;
+					break;
+				case OrientationEnum.Right_By270:
+					spriteVariant = 2;
+					break;
+				case OrientationEnum.Down_By180:
+					spriteVariant = 0;
+					break;
+				case OrientationEnum.Left_By90:
+					spriteVariant = 3;
+					break;
+			}
+
+			if (SortingGroup != null)
+			{
+				if (SetOrder)
+				{
+					SortingGroup.sortingOrder = Orders[spriteVariant];
+				}
+
+				if (SetLayer)
+				{
+					SortingGroup.sortingLayerName = Layers[spriteVariant];
+				}
+			}
+			else
+			{
+				foreach (var spriteHandler in spriteHandlers)
+				{
+					if (spriteHandler.SpriteRenderer == null) continue;
+
+					if (SetOrder)
+					{
+						spriteHandler.SpriteRenderer.sortingOrder = Orders[spriteVariant];
+					}
+
+					if (SetLayer)
+					{
+						spriteHandler.SpriteRenderer.sortingLayerName = Layers[spriteVariant];
+					}
+				}
+			}
+
+
+			if (MethodRotation is RotationMethod.Parent or RotationMethod.ParentLockSprite)
+			{
+				transform.localRotation = ByDegreesToQuaternion(dir,transform.localRotation);
+			}
+			else if (MethodRotation == RotationMethod.Sprites)
+			{
+				var toQuaternion = ByDegreesToQuaternion(dir,transform.localRotation);
+
+				foreach (var spriteRenderer in spriteRenderers)
+				{
+					spriteRenderer.transform.localRotation = toQuaternion;
+				}
+			}
+
+			if (MethodRotation == RotationMethod.ParentLockSprite)
+			{
+				var toQuaternion = ByDegreesToQuaternion(dir,transform.localRotation);
+				toQuaternion = Quaternion.Inverse(toQuaternion);
+
+				foreach (var spriteRenderer in spriteRenderers)
+				{
+					spriteRenderer.transform.localRotation = toQuaternion;
+				}
+			}
+
+			if (ChangeSprites == false) return;
+
+			foreach (var spriteHandler in spriteHandlers)
+			{
+				if (isChangingSO)
+				{
+					spriteHandler.SetCatalogueIndexSprite(spriteVariant, false);
+				}
+				else
+				{
+					spriteHandler.SetSpriteVariant(spriteVariant, false);
+				}
+			}
+
+
+		}
+
+		//client requests the server to change serverDirection
+		[Command]
+		private void CmdChangeDirection(OrientationEnum direction)
+		{
+			SetDirection(direction);
+		}
+
+
+		public struct LockAndDirection
+		{
+			public bool Locked;
+			public OrientationEnum LockedTo;
+		}
+
+		public void ResitOthers()
+		{
+			if (doNotResetOtherSpriteOptions) return;
+
+			var dir = OrientationEnum.Up_By0;
+			if (IsAtmosphericDevice)
+			{
+				dir = OrientationEnum.Down_By180;
+			}
+
+
+			if (MethodRotation != RotationMethod.Parent && MethodRotation != RotationMethod.ParentLockSprite)
+			{
+				transform.localRotation = ByDegreesToQuaternion(dir,transform.localRotation);
+			}
+
+			if (MethodRotation != RotationMethod.Sprites && MethodRotation != RotationMethod.ParentLockSprite)
+			{
+				var quaternion = ByDegreesToQuaternion(dir,transform.localRotation);
+
+				foreach (var spriteRenderer in spriteRenderers)
+				{
+					spriteRenderer.transform.localRotation = quaternion;
+				}
+			}
+
+			if (ChangeSprites == false && IsAtmosphericDevice == false)
+			{
+				foreach (var spriteHandler in spriteHandlers)
+				{
+					if (isChangingSO)
+					{
+						spriteHandler.SetCatalogueIndexSprite(0, false);
+					}
+					else
+					{
+						spriteHandler.SetSpriteVariant(0, false);
+					}
+				}
+			}
+
+#if UNITY_EDITOR
+			else if (Application.isPlaying == false &&
+			         (this.gameObject.scene.path == null || this.gameObject.scene.path.Contains("Scenes") == false) ==
+			         false)
+			{
+				if (MethodRotation != RotationMethod.Parent)
+				{
+					SerializedObject serializedObject = new UnityEditor.SerializedObject(transform);
+
+
+					var localRotation = serializedObject.FindProperty("m_LocalRotation");
+					PrefabUtility.RevertPropertyOverride(localRotation, InteractionMode.AutomatedAction);
+					EditorUtility.SetDirty(this);
+				}
+
+				if (MethodRotation != RotationMethod.Sprites)
+				{
+					foreach (var spriteRenderer in spriteRenderers)
+					{
+						SerializedObject serializedObject = new UnityEditor.SerializedObject(spriteRenderer.transform);
+						var localRotation = serializedObject.FindProperty("m_LocalRotation");
+						PrefabUtility.RevertPropertyOverride(localRotation, InteractionMode.AutomatedAction);
+						EditorUtility.SetDirty(this);
+					}
+				}
+
+				if (ChangeSprites == false)
+				{
+					foreach (var spriteHandler in spriteHandlers)
+					{
+						SerializedObject serializedspriteHandler = new UnityEditor.SerializedObject(spriteHandler);
+						var initialVariantIndex = serializedspriteHandler.FindProperty("initialVariantIndex");
+						PrefabUtility.RevertPropertyOverride(initialVariantIndex, InteractionMode.AutomatedAction);
+
+						var SpriteRenderer = spriteHandler.GetComponent<SpriteRenderer>();
+
+						if (SpriteRenderer == null) continue;
+
+						SerializedObject serializedSpriteRenderer = new UnityEditor.SerializedObject(SpriteRenderer);
+						var sprite = serializedSpriteRenderer.FindProperty("m_Sprite");
+						PrefabUtility.RevertPropertyOverride(sprite, InteractionMode.AutomatedAction);
+						EditorUtility.SetDirty(this);
+					}
+				}
+			}
+#endif
+		}
+
+		public void OnMatrixRotate90(OrientationEnum orientation)
+		{
+			if (CustomNetworkManager.IsHeadless) return;
+			if (MatrixRotateUpdate == false) return;
+
+			var NewRotation =  SynchroniseCurrentDirection.AddDirectionsTogether(orientation);
+
+			RotateObject(NewRotation);
+		}
+
+		private void OnDrawGizmosSelected()
+		{
+			Gizmos.color = Color.green;
+
+			if (Application.isEditor && !Application.isPlaying)
+			{
+				DebugGizmoUtils.DrawArrow(transform.position, CurrentDirection.ToLocalVector3());
+			}
+			else
+			{
+				DebugGizmoUtils.DrawArrow(transform.position, CurrentDirection.ToLocalVector3());
+			}
+		}
+
+		public Vector3Int GetOppositeVectorToDirection()
+		{
+			var position = gameObject.AssumedWorldPosServer().CutToInt();
+			switch (CurrentDirection.GetOppositeDirection())
+			{
+				case OrientationEnum.Default:
+					position.y -= 1;
+					return position;
+				case OrientationEnum.Right_By270:
+					position.x += 1;
+					return position;
+				case OrientationEnum.Up_By0:
+					position.y += 1;
+					return position;
+				case OrientationEnum.Left_By90:
+					position.x -= 1;
+					return position;
+				case OrientationEnum.Down_By180:
+					position.y -= 1;
+					return position;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
+		}
+
+		/// <summary>
+		/// Event which indicates a direction change has occurred.
+		/// </summary>
+		public class RotationChangeEvent : UnityEvent<OrientationEnum>
+		{
+		}
+
+		public interface IOnRotationChangeEditor
+		{
+			public void OnRotationChangeEditor(OrientationEnum newDir);
+		}
+	}
+}

@@ -31,11 +31,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -94,11 +89,6 @@ PrefabInstance:
       propertyPath: _assetId
       value: 402849142
       objectReference: {fileID: 0}
-    - target: {fileID: 1669872684171752052, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
-        type: 3}
-      propertyPath: m_AssetId
-      value: c719369bf54a9534ebb5c67d4c8be937
-      objectReference: {fileID: 0}
     - target: {fileID: 2772890753714954696, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
       propertyPath: itemStorageCapacity
@@ -112,10 +102,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
-      propertyPath: Projectile
-      value: 
-      objectReference: {fileID: 3824486057130847694, guid: 9287d438528b5ee41a03791cf9fcebb0,
-        type: 3}
+      propertyPath: FireDelay
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
       propertyPath: ammoPrefab
@@ -127,9 +116,20 @@ PrefabInstance:
       propertyPath: FiringSoundA.AssetAddress
       value: Assets/Prefabs/Weapons/Gun/Pistol/PistolShotAlt.prefab
       objectReference: {fileID: 0}
+    - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0.18
+      objectReference: {fileID: 0}
     - target: {fileID: 4899563401211278407, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0879389d9f803a0429052017923440e3,
+        type: 2}
+    - target: {fileID: 4899563401211278407, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 0879389d9f803a0429052017923440e3,
         type: 2}
@@ -152,6 +152,12 @@ PrefabInstance:
     - target: {fileID: 6534465197878010292, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f61029e8343ded345b3700ed426b1c3f,
+        type: 2}
+    - target: {fileID: 6534465197878010292, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: f61029e8343ded345b3700ed426b1c3f,
         type: 2}

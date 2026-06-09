@@ -8,6 +8,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 692714727590216888, guid: cda7add5dd20d954085fa9cc4264ac75,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.50980395
+      objectReference: {fileID: 0}
+    - target: {fileID: 692714727590216888, guid: cda7add5dd20d954085fa9cc4264ac75,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.50980395
+      objectReference: {fileID: 0}
+    - target: {fileID: 692714727590216888, guid: cda7add5dd20d954085fa9cc4264ac75,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.98039216
+      objectReference: {fileID: 0}
     - target: {fileID: 4292656370289085150, guid: cda7add5dd20d954085fa9cc4264ac75,
         type: 3}
       propertyPath: initialName
@@ -32,6 +47,18 @@ PrefabInstance:
     - target: {fileID: 4292656370289085150, guid: cda7add5dd20d954085fa9cc4264ac75,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ec094f53b40d92948bbdeded2381e8f5,
+        type: 2}
+    - target: {fileID: 4292656370289085150, guid: cda7add5dd20d954085fa9cc4264ac75,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 73268b4e91b57f64e94eb1668b2e7c7d,
+        type: 2}
+    - target: {fileID: 4292656370289085150, guid: cda7add5dd20d954085fa9cc4264ac75,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: ec094f53b40d92948bbdeded2381e8f5,
         type: 2}
@@ -109,8 +136,44 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 103ca3a41d991ef48b40e200b9740209,
+      objectReference: {fileID: 21300002, guid: 103ca3a41d991ef48b40e200b9740209,
         type: 3}
+    - target: {fileID: 5253156844178647506, guid: cda7add5dd20d954085fa9cc4264ac75,
+        type: 3}
+      propertyPath: Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8b482f33f911feb4ea6d0c9f178aab80,
+        type: 3}
+    - target: {fileID: 5253156844178647506, guid: cda7add5dd20d954085fa9cc4264ac75,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.50980395
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253156844178647506, guid: cda7add5dd20d954085fa9cc4264ac75,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.50980395
+      objectReference: {fileID: 0}
+    - target: {fileID: 5253156844178647506, guid: cda7add5dd20d954085fa9cc4264ac75,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.98039216
+      objectReference: {fileID: 0}
+    - target: {fileID: 5958573218485135227, guid: cda7add5dd20d954085fa9cc4264ac75,
+        type: 3}
+      propertyPath: colour.b
+      value: 0.50980395
+      objectReference: {fileID: 0}
+    - target: {fileID: 5958573218485135227, guid: cda7add5dd20d954085fa9cc4264ac75,
+        type: 3}
+      propertyPath: colour.g
+      value: 0.50980395
+      objectReference: {fileID: 0}
+    - target: {fileID: 5958573218485135227, guid: cda7add5dd20d954085fa9cc4264ac75,
+        type: 3}
+      propertyPath: colour.r
+      value: 0.98039216
+      objectReference: {fileID: 0}
     - target: {fileID: 7333469232245533137, guid: cda7add5dd20d954085fa9cc4264ac75,
         type: 3}
       propertyPath: parentID
@@ -124,6 +187,12 @@ PrefabInstance:
     - target: {fileID: 7510053344426679867, guid: cda7add5dd20d954085fa9cc4264ac75,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: cd1329917bf085648918067279c8911f,
+        type: 2}
+    - target: {fileID: 7510053344426679867, guid: cda7add5dd20d954085fa9cc4264ac75,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: cd1329917bf085648918067279c8911f,
         type: 2}

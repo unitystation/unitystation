@@ -148,34 +148,34 @@ namespace Logs
 			}
 		}
 
-		public static FluentFormatter Trace(string msg = null, Category category = Category.Unknown, [CallerMemberName] string methodName = null, [CallerFilePath] string fileName = null, [CallerLineNumber] int lineNo = -1)
+		public static FluentFormatter Trace(string msg = null, Category category = Category.Unknown,LogOption LogOption = LogOption.None , [CallerMemberName] string methodName = null, [CallerFilePath] string fileName = null, [CallerLineNumber] int lineNo = -1)
 		{
 			FluentFormatter formatter = new(LogLevel.Info, methodName, fileName, lineNo);
 			if (string.IsNullOrEmpty(msg) == false)
 			{
-				LogMessage(LogLevel.Trace, msg, methodName, fileName, lineNo, category);
+				LogMessage(LogLevel.Trace, msg, methodName, fileName, lineNo, category, LogOption);
 			}
 
 			return formatter;
 		}
 
-		public static FluentFormatter Info(string msg = null, Category category = Category.Unknown, [CallerMemberName] string methodName = null, [CallerFilePath] string fileName = null, [CallerLineNumber] int lineNo = -1)
+		public static FluentFormatter Info(string msg = null, Category category = Category.Unknown, LogOption LogOption = LogOption.None, [CallerMemberName] string methodName = null, [CallerFilePath] string fileName = null, [CallerLineNumber] int lineNo = -1)
 		{
 			FluentFormatter formatter = new(LogLevel.Info, methodName, fileName, lineNo);
 			if (string.IsNullOrEmpty(msg) == false)
 			{
-				LogMessage(LogLevel.Info, msg, methodName, fileName, lineNo, category);
+				LogMessage(LogLevel.Info, msg, methodName, fileName, lineNo, category, LogOption);
 			}
 
 			return formatter;
 		}
 
-		public static FluentFormatter Warning(string msg = null, Category category = Category.Unknown, [CallerMemberName] string methodName = null, [CallerFilePath] string fileName = null, [CallerLineNumber] int lineNo = -1)
+		public static FluentFormatter Warning(string msg = null, Category category = Category.Unknown,LogOption LogOption = LogOption.None, [CallerMemberName] string methodName = null, [CallerFilePath] string fileName = null, [CallerLineNumber] int lineNo = -1)
 		{
 			FluentFormatter formatter = new(LogLevel.Info, methodName, fileName, lineNo);
 			if (string.IsNullOrEmpty(msg) == false)
 			{
-				LogMessage(LogLevel.Warning, msg, methodName, fileName, lineNo, category);
+				LogMessage(LogLevel.Warning, msg, methodName, fileName, lineNo, category, LogOption);
 			}
 
 			return formatter;
@@ -294,6 +294,7 @@ namespace Logs
 		Inventory,
 		PlayerInventory,
 		Firearms,
+		ItemTracking,
 
 		// Roles and Jobs
 		Jobs,

@@ -1,0 +1,202 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2974623582315617237
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 338430958433800353, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: '<ActionData>k__BackingField.m_keys.Array.data[0].AnimatedIconCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 40a6ca6c335501f47a3a1cc1eeab9f4c,
+        type: 2}
+    - target: {fileID: 2394567818253216056, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cf3f7c8f58cd55242bf9143eb892e4e7,
+        type: 3}
+    - target: {fileID: 2476688126581123024, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: _assetId
+      value: 1625952022
+      objectReference: {fileID: 0}
+    - target: {fileID: 2579088290442746468, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_Name
+      value: NightVisionMedHud
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2583167340972730128, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2612598377055572914, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2612598377055572914, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: ea2e2181c2248734590978fff503f6a2,
+        type: 2}
+    - target: {fileID: 2612598377055572914, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 762f67ac8bbe8f24da65ae84f93aec5c,
+        type: 2}
+    - target: {fileID: 2612598377055572914, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 40478afa0f5909a4a92674a224a5dcf1,
+        type: 2}
+    - target: {fileID: 2612598377055572914, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 34f83afdf4c496144a5f3e5734200364,
+        type: 2}
+    - target: {fileID: 2612598377055572914, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2612598377055572914, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2612598377055572914, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[3].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2677207007311197446, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: initialName
+      value: night vision medical HUD
+      objectReference: {fileID: 0}
+    - target: {fileID: 2677207007311197446, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: initialDescription
+      value: 'Allows for sight in the dark.
+
+        DIsplays the health status of
+        organics.'
+      objectReference: {fileID: 0}
+    - target: {fileID: 4014275074474256822, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: shaderColour.b
+      value: 0.7647059
+      objectReference: {fileID: 0}
+    - target: {fileID: 4014275074474256822, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: shaderColour.g
+      value: 0.60769695
+      objectReference: {fileID: 0}
+    - target: {fileID: 4014275074474256822, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: shaderColour.r
+      value: 0.15686274
+      objectReference: {fileID: 0}
+    - target: {fileID: 8542444576367387107, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 40a6ca6c335501f47a3a1cc1eeab9f4c,
+        type: 2}
+    - target: {fileID: 8894744257401591305, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: foreverID
+      value: 02850781d993bb344b2a6ee5208fbcef
+      objectReference: {fileID: 0}
+    - target: {fileID: 8914868493469207009, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      propertyPath: 'allClothingData.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7afbd1c7332b3614bb3e3855b2037c70,
+        type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2579088290442746468, guid: 5668f8777ce1a794980fbd35aa58f56b,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6168064762855872297}
+  m_SourcePrefab: {fileID: 100100000, guid: 5668f8777ce1a794980fbd35aa58f56b, type: 3}
+--- !u!1 &760333464667521457 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2579088290442746468, guid: 5668f8777ce1a794980fbd35aa58f56b,
+    type: 3}
+  m_PrefabInstance: {fileID: 2974623582315617237}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6168064762855872297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 760333464667521457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 02e83aa9366712048aa9f6159a7133b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  OnBodyID: 0

@@ -1,24 +1,41 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using AdminCommands;
-using Core;
-using UnityEngine;
-using UnityEditor;
-using Systems.Atmospherics;
-using Random = UnityEngine.Random;
-using Core.Accounts;
-using HealthV2;
-using Learning;
+using System.Text;
 using Logs;
-using Messages.Server;
-using Messages.Server.HealthMessages;
-using ScriptableObjects;
-using Systems.Character;
-using Systems.Score;
-using UniversalObjectPhysics = Core.Physics.UniversalObjectPhysics;
+using SecureStuff;
+using UnityEditor;
+using UnityEngine;
+using US13.Core.Chat;
+using US13.Core.Lifecycle;
+using US13.Health.Objects;
+using US13.HealthV2;
+using US13.HealthV2.Living;
+using US13.HealthV2.Living.PolymorphicSystems.Hunger;
+using US13.Items.Implants.Organs;
+using US13.Learning;
+using US13.Managers;
+using US13.Managers.MatrixManager;
+using US13.Managers.NetworkManagement;
+using US13.Messages.Server;
+using US13.Messages.Server.HealthMessages;
+using US13.Player;
+using US13.ScriptableObjects;
+using US13.Shuttles;
+using US13.Systems.Antagonists;
+using US13.Systems.Inventory;
+using US13.Systems.Lobby;
+using US13.Systems.Occupations;
+using US13.Systems.Score;
+using US13.Systems.StatusesAndEffects;
+using US13.Tilemaps.Behaviours.Meta.Atmospherics;
+using US13.Tilemaps.Behaviours.Meta.Atmospherics.Data;
+using US13.UI.Systems;
+using Util;
+using Random = UnityEngine.Random;
+using UniversalObjectPhysics = US13.Core.Physics.UniversalObjectPhysics;
 
-namespace IngameDebugConsole
+namespace IngameDebugConsole.Scripts
 {
 	/// <summary>
 	/// Contains all the custom defined commands for the IngameDebugLogger
@@ -487,6 +504,25 @@ namespace IngameDebugConsole
 		}
 
 #if UNITY_EDITOR
+		[MenuItem("Networking/Give me a tool belt!")]
+#endif
+		private static void GiveToolBelt()
+		{
+			if (CustomNetworkManager.IsServer)
+			{
+				foreach ( PlayerInfo player in PlayerList.Instance.InGamePlayers )
+				{
+					foreach (var itemSlot in player.Script.DynamicItemStorage.GetNamedItemSlots(NamedSlot.belt))
+					{
+						var InsulatedGloves = Spawn.ServerPrefab("ToolbeltCaravanFull").GameObject;
+						Inventory.ServerAdd(InsulatedGloves,itemSlot, ReplacementStrategy.DropOther);
+					}
+				}
+
+			}
+		}
+
+#if UNITY_EDITOR
 		[MenuItem("Networking/Incinerate local player")]
 #endif
 		private static void Incinerate()
@@ -564,7 +600,7 @@ namespace IngameDebugConsole
 				return;
 			}
 
-			Antagonists.AntagManager.Instance.ObjectiveEndAndShowAntagStatusReport();
+			AntagManager.Instance.ObjectiveEndAndShowAntagStatusReport();
 		}
 
 		[ConsoleMethod("antag-remind", "Remind all antags of their own objectives. Server only command")]
@@ -576,7 +612,7 @@ namespace IngameDebugConsole
 				return;
 			}
 
-			Antagonists.AntagManager.Instance.RemindAntags();
+			AntagManager.Instance.RemindAntags();
 		}
 
 #if UNITY_EDITOR
@@ -705,5 +741,88 @@ namespace IngameDebugConsole
 			Loggy.Info("[Console Command] - Movement Reset Successfully. " +
 			           "If you're still stuck, please report this and any errors you might find in the console on github/discord.", Category.DebugConsole);
 		}
+
+		[ConsoleMethod("bodyfat.becomeskinny", "Sets the body fat absorbed amount to 0 for everything.")]
+		public static void MakeEveryoneSkinny()
+		{
+			if (CustomNetworkManager.IsServer == false)
+			{
+				Loggy.Error("Cannot execute this command from client.", Category.DebugConsole);
+				return;
+			}
+			var fats = GameObject.FindObjectsByType<BodyFat>(sortMode: FindObjectsSortMode.InstanceID);
+			foreach (var fat in fats)
+			{
+				if (fat == null) continue;
+				fat.BecomeSkinny();
+			}
+			Loggy.Info($"{fats.Length} BodyFat components have executed BecomeSkinny()", Category.DebugConsole);
+		}
+
+		[ConsoleMethod("check-all-status-effects", "Prints all status effects on the StatusEffectsManager on MobV2s.")]
+		public static void CheckAllStatusEffects()
+		{
+			if (CustomNetworkManager.IsServer == false)
+			{
+				Loggy.Error("Cannot execute this command from client.", Category.DebugConsole);
+				return;
+			}
+			var managers = GameObject.FindObjectsByType<StatusEffectManager>(sortMode: FindObjectsSortMode.InstanceID);
+			StringBuilder sb = new StringBuilder();
+			foreach (var effectManager in managers)
+			{
+				if (effectManager == null) continue;
+				sb.AppendLine($"Status effects on {effectManager.gameObject.name} (ID: {effectManager.gameObject.GetInstanceID()}):");
+				if (effectManager.Statuses.Count == 0)
+				{
+					sb.AppendLine("- None");
+					continue;
+				}
+				foreach (var statusEffect in effectManager.Statuses)
+				{
+					sb.AppendLine($"- {statusEffect.name}");
+				}
+			}
+			Loggy.Info($"{sb}", Category.DebugConsole);
+		}
+
+		[ConsoleMethod("starve", "Sets stomach contests, blood contents, and fat contents to 0.")]
+		public static void MakeLocalPlayerStarving()
+		{
+			var health = PlayerManager.LocalPlayerScript?.playerHealth;
+			if (health == null)
+			{
+				Loggy.Error("Cannot execute this command due to null health component.", Category.DebugConsole);
+				return;
+			}
+			if (health.ActiveSystems.Find(x => x is HungerSystem) is HungerSystem hunger)
+			{
+				hunger.MakeStarving();
+			}
+		}
+#if UNITY_EDITOR
+		[ConsoleMethod("replace-hunger-calc", "Replaces the hunger calculation method with a new one.")]
+		public static void ReplaceHungerSystem(string newHungerSystem)
+		{
+			var health = PlayerManager.LocalPlayerScript?.playerHealth;
+			if (health == null)
+			{
+				Loggy.Error("Cannot execute this command due to null health component.", Category.DebugConsole);
+				return;
+			}
+
+			if (health.ActiveSystems.Find(x => x is HungerSystem) is HungerSystem hunger)
+			{
+				hunger.HungerCalculationMethod = null;
+				var newMethod = Type.GetType(newHungerSystem);
+				if (newMethod == null)
+				{
+					Loggy.Error($"Could not find type {newHungerSystem}. Make sure you include the namespace and assembly if it's not in the default assembly.", Category.DebugConsole);
+					return;
+				}
+				hunger.HungerCalculationMethod = newMethod as IHungerCalculation;
+			}
+		}
+#endif
 	}
 }

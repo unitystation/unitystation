@@ -52,6 +52,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -73,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
@@ -103,10 +107,14 @@ MonoBehaviour:
   SubCatalogue: []
   InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 96014042515403583}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &2220118134753059110
 GameObject:
   m_ObjectHideFlags: 0
@@ -159,6 +167,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -180,6 +191,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
@@ -210,10 +222,14 @@ MonoBehaviour:
   SubCatalogue: []
   InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 1848979366670267442}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &6227234703256324225
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,6 +282,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -287,6 +306,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
@@ -317,10 +337,14 @@ MonoBehaviour:
   SubCatalogue: []
   InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 2719026976851437719}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &8546303518654307076
 GameObject:
   m_ObjectHideFlags: 0
@@ -373,6 +397,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -394,6 +421,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
@@ -424,10 +452,14 @@ MonoBehaviour:
   SubCatalogue: []
   InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 617012563949353989}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &5533974169584468468
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -442,6 +474,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6b5f254be9fd647e6a3dc1399aa47aeb,
         type: 2}
+    - target: {fileID: 2619834082358948637, guid: da85b7a590e7c8444af73629fcb5dd22,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4548863991441914418}
     - target: {fileID: 3001407139512993015, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
       propertyPath: parentID
@@ -475,12 +512,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
-      propertyPath: genericInternalMag
-      value: 
-      objectReference: {fileID: 2422759989583602921, guid: d819938d5d7681c4ba69845f60102a8c,
-        type: 3}
-    - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
-        type: 3}
       propertyPath: allowMagazineRemoval
       value: 0
       objectReference: {fileID: 0}
@@ -488,16 +519,6 @@ PrefabInstance:
         type: 3}
       propertyPath: _assetId
       value: 806525295
-      objectReference: {fileID: 0}
-    - target: {fileID: 8109205671878849838, guid: da85b7a590e7c8444af73629fcb5dd22,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 143d3926d4a5fa84f95f987c152b33a2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
@@ -628,6 +649,18 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6648593666208859230}
   m_SourcePrefab: {fileID: 100100000, guid: da85b7a590e7c8444af73629fcb5dd22, type: 3}
+--- !u!114 &942046851822298982 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -4477014874976573806, guid: da85b7a590e7c8444af73629fcb5dd22,
+    type: 3}
+  m_PrefabInstance: {fileID: 5533974169584468468}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4454405483554457966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &4450321759764526106 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
@@ -652,6 +685,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 088b05d8e3804e948a69579df536c570, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  batteryStorage: {fileID: 942046851822298982}
+  <isRemovableBattery>k__BackingField: 1
+  removeBatteryTime: 5
+  ChangeSprites: 0
+  EffectedHandler: {fileID: 0}
+  UseVariants: 0
 --- !u!114 &6648593666208859230
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -670,6 +709,7 @@ MonoBehaviour:
   AllowSuicide: 0
   pinPrefab: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
     type: 3}
+  useFiringPin: 1
   allowPinSwap: 1
   FireDelay: 0.5
   isSuppressed: 0
@@ -677,9 +717,9 @@ MonoBehaviour:
   MaxRecoilVariance: 0
   ProjectileVelocity: 20
   CameraRecoilConfig:
-    Distance: 0.2
-    RecoilDuration: 0.05
-    RecoveryDuration: 0.6
+    Distance: 0.1
+    RecoilDuration: 0.08
+    RecoveryDuration: 0.25
   ammoPrefab: {fileID: 5999901686547831408, guid: bd07fb3945875634685790190ea8decc,
     type: 3}
   ammoType: 14
@@ -691,58 +731,64 @@ MonoBehaviour:
   attachmentPrefabs: []
   allowedAttachments: 6
   loadMagSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Weapons/KineticReload.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   unloadMagSound:
-    SetLoadSetting: 0
     AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   FiringSoundA:
-    SetLoadSetting: 0
     AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SuppressedSoundA:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Weapons/Gun/General/GeneralHeavyShotSuppressed.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   DryFireSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Weapons/Gun/General/GeneralDryFire.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   firemodeProjectiles:
   - {fileID: 3294328072042417454, guid: 49a8364f6515be34bac52c48c9214d85, type: 3}
   firemodeFiringSound:
-  - SetLoadSetting: 0
-    AssetAddress: null
+  - AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   firemodeName:
   - Kill
-  firemodeUsage: 3e030000
+  firemodeUsage: 38440100
   chargeSprite: {fileID: 0}
   ammoSprite: {fileID: 0}
   allowScrewdriver: 1
+--- !u!212 &4548863991441914418 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8353174128348429254, guid: da85b7a590e7c8444af73629fcb5dd22,
+    type: 3}
+  m_PrefabInstance: {fileID: 5533974169584468468}
+  m_PrefabAsset: {fileID: 0}

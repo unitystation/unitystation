@@ -53,6 +53,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -74,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 42
@@ -194,8 +197,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitialColour: {r: 0.99215686, g: 0.96862745, b: 0.88235295, a: 0.4}
-  Sprite: {fileID: 21300000, guid: d889f81f1d032fc4aac62153542b2700, type: 3}
+  InitialColour: {r: 1, g: 0.97817296, b: 0.88235295, a: 0.1882353}
+  Sprite: {fileID: 21300000, guid: a828e6a68684fc7d497b89b61dbac737, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
@@ -221,6 +224,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -242,6 +247,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -308,6 +314,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -329,6 +337,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
@@ -421,6 +430,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -442,6 +453,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
@@ -534,6 +546,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -555,6 +569,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
@@ -647,6 +662,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -668,6 +685,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
@@ -985,6 +1003,8 @@ MonoBehaviour:
   hidesSlots: 0
   hideClothingFlags: 0
   disallowConsume: 0
+  Colour: {r: 1, g: 1, b: 1, a: 1}
+  SpriteVisibleColour: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &-2461206429612825053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1004,14 +1024,14 @@ MonoBehaviour:
   LightEmission: {fileID: 0}
   objectLightEmission: {fileID: 5359090116188643623}
   IsOn: 0
-  colour: {r: 0.99215686, g: 0.96862745, b: 0.88235295, a: 0.5019608}
+  colour: {r: 1, g: 0.9764706, b: 0.88235295, a: 0.1882353}
   objectLightSprite: {fileID: 1769808791634081217}
   commonComponents: {fileID: 2845395725340097187}
   SpriteShape: 0
-  Size: 6
-  weakenOnGround: 0
+  Size: 4
+  weakenOnGround: 1
   revertToOldConsistencyBehavior: 0
-  weakenStrength: 1.45
+  weakenStrength: 1.3333
 --- !u!114 &1293357877581254245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1136,19 +1156,24 @@ MonoBehaviour:
       Description: Light the way!
       TriggerType: 0
       Type: 0
-      AnimatedIconCatalogue:
-      - {fileID: 11400000, guid: f319abe1054c0a44f818e35c9ab66460, type: 2}
       CooldownTime: 0
       CanUseWhileGhosting: 0
+      AnimatedIconCatalogue:
+      - {fileID: 11400000, guid: f319abe1054c0a44f818e35c9ab66460, type: 2}
+      TryToGrabSpritesFromRelatedObject: 1
+      HasCustomCursorOffset: 0
       HasCustomCursor: 0
       OffsetType: 0
       CursorOffset: {x: 0, y: 0}
       CursorTexture: {fileID: 0}
       TrackingObject: {fileID: 0}
+      ObjectRelatedToThisAction: {fileID: 0}
     m_values:
     - target: {fileID: 1293357877581254245}
       methodName: ToggleFlashlight
       parameterType: 
+  requiresSpecificSlots: 0
+  possibleSlots: 9
 --- !u!4 &239048463826641235 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,

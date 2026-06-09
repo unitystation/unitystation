@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Systems.Clearance;
 using NUnit.Framework;
 using UnityEngine;
+using US13.Systems.Clearance;
 
 namespace Tests.ClearanceFramework
 {
+	[Category(nameof(Balance))]
 	public class MockClearanceSource : IClearanceSource
 	{
 		private List<Clearance> issuedClearance = new();
@@ -25,6 +26,7 @@ namespace Tests.ClearanceFramework
 	}
 
 	[TestFixture]
+	[Category(nameof(Balance))]
 	public class HasClearanceTest
 	{
 		private ClearanceRestricted restricted;

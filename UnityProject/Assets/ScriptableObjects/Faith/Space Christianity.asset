@@ -23,6 +23,22 @@ MonoBehaviour:
     <ToleranceToOtherFaiths>k__BackingField: 1
     FaithProperties: []
     FaithMiracles: []
+    ProclamationTextGenerator:
+      rid: 1407928419411034175
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 1407928419411034175
+      type: {class: CodedProclamationText, ns: US13.Systems.Faith.ProclamationGen, asm: Assets}
+      data:
+        inputStrings:
+        - Deus
+        - Laudem
+        - Salvator
+        - Ex Sin
+        - Vivam
+        - Vivam
+        - ego ero
+        - ego ero
+        - anima stella
+        length: 3

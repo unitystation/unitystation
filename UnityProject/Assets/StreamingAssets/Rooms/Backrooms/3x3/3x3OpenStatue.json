@@ -1,0 +1,129 @@
+{
+  "Ver": "1.0.0",
+  "MapName": "3x3OpenStatue",
+  "ContainedMatrices": [
+    {
+      "Ver": "1.1.1",
+      "Location": "7918┼8031┼0┼",
+      "MatrixName": "3x3OpenStatue",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X0Y0",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y1",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y2",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y0",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y1",
+            "Value": [
+              {
+                "Tel": "podfloor_light"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y2",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y0",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y1",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y2",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.5.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "29695260c1f4f8ba5868fe7fe030293a_1┼1┼0┼",
+            "PrefabID": "29695260c1f4f8ba5868fe7fe030293a",
+            "NameMatches": true,
+            "Name": "FloorLightFixtureBackrooms",
+            "LocalPRS": "1┼1┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,3",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "39293f98c2d32c14a962c032bdb02bd6_1┼1┼0┼",
+            "PrefabID": "39293f98c2d32c14a962c032bdb02bd6",
+            "NameMatches": true,
+            "Name": "RandomStatue",
+            "LocalPRS": "1┼1┼0┼"
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "1,1,0",
+          "Size": "2,2,0"
+        }
+      ]
+    }
+  ]
+}

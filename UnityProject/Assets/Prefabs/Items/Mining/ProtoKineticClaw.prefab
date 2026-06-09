@@ -35,6 +35,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1939338352935450630, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4313209182427230278}
+    - target: {fileID: 1939338352935450630, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 2b260dd6fbd13853e819f3c4935a61c4,
@@ -72,7 +77,12 @@ PrefabInstance:
       value: Truly the most compact version of the crusher ever made, it's small
         enough to fit in your backpack and still function as a crusher.  Best used
         when attacking from behind, rewarding those capable of landing what we call
-        a 'critical hit
+        a 'critical hit'.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: 'managedReferences[-2]'
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}
@@ -112,10 +122,20 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
       propertyPath: itemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 0bbc0e6de7d51a889bdfdacb769c5ad7,
         type: 2}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: CustomMeleeBehaviours.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}
       propertyPath: InitialitemSprites.SpriteLeftHand
@@ -128,6 +148,92 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0bbc0e6de7d51a889bdfdacb769c5ad7,
         type: 2}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: 'CustomMeleeBehaviours.Array.data[0]'
+      value: 4317661658594148423
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: 'managedReferences[4317661658594148423]'
+      value: Assets US13.Items.Weapons.Melee.MarkedMelee
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: 'managedReferences[4317661658594148424]'
+      value: Assets US13.Items.Weapons.Melee.ConsumeBatteryCharge
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: 'managedReferences[4317661658594148425]'
+      value: Assets US13.Items.Weapons.Melee.CooldownTime
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148423].doPush
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148423].reqWield
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148423].pushForce
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148424].chargeUsage
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148423].statusEffect
+      value: 
+      objectReference: {fileID: 11400000, guid: 04a6d019e2cbb81cdb0bb5390f4091e1,
+        type: 2}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148425].cooldownTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148423].backstabBonus
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148423].markedHitBonus
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148425].hitRequirement
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148424].internalBattery
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148424].shouldConsumeCharge
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148423].hitRequirements.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2952853855190462870, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
+      propertyPath: 'managedReferences[4317661658594148423].hitRequirements.Array.data[0]'
+      value: 4317661658594148425
+      objectReference: {fileID: 0}
     - target: {fileID: 3235497439635828136, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}
       propertyPath: m_Sprite
@@ -201,6 +307,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8885920287978841459, guid: 3f3c69eb80c13d439a7659f6834b091a,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 894887004575479409}
+    - target: {fileID: 8885920287978841459, guid: 3f3c69eb80c13d439a7659f6834b091a,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 1947099a6a3e050de98d91f9a04e6813,
@@ -220,7 +331,20 @@ PrefabInstance:
     - {fileID: 8127772774069969631, guid: 3f3c69eb80c13d439a7659f6834b091a, type: 3}
     - {fileID: 5975586456323971994, guid: 3f3c69eb80c13d439a7659f6834b091a, type: 3}
     - {fileID: 8986662425810040325, guid: 3f3c69eb80c13d439a7659f6834b091a, type: 3}
+    - {fileID: -3052719004654847166, guid: 3f3c69eb80c13d439a7659f6834b091a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f3c69eb80c13d439a7659f6834b091a, type: 3}
+--- !u!212 &894887004575479409 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3235497439635828136, guid: 3f3c69eb80c13d439a7659f6834b091a,
+    type: 3}
+  m_PrefabInstance: {fileID: 2345686261931989977}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &4313209182427230278 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1969785921733618591, guid: 3f3c69eb80c13d439a7659f6834b091a,
+    type: 3}
+  m_PrefabInstance: {fileID: 2345686261931989977}
+  m_PrefabAsset: {fileID: 0}

@@ -52,6 +52,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -73,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 12
@@ -103,12 +107,16 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 97f07cb954e3e6e47a2ed1ea2b508b96, type: 2}
   - {fileID: 11400000, guid: 2aa4e176185f75f4c926728760c8fab3, type: 2}
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &4303483376002105739
 GameObject:
   m_ObjectHideFlags: 0
@@ -161,6 +169,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -182,6 +193,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 12
@@ -217,12 +229,17 @@ MonoBehaviour:
   - {fileID: 11400000, guid: f5a6c338f08d5b041ad2fec73e7fa477, type: 2}
   - {fileID: 11400000, guid: cb2803022da7c7d4f947ad0ef8c30e42, type: 2}
   - {fileID: 11400000, guid: 419196fa4b0786b47b232f1b90ccacef, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 419196fa4b0786b47b232f1b90ccacef, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 419196fa4b0786b47b232f1b90ccacef,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &7139750000503073243
 GameObject:
   m_ObjectHideFlags: 0
@@ -275,6 +292,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -296,6 +316,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 13
@@ -325,12 +346,16 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue:
   - {fileID: 11400000, guid: 28c54210dc4de3d4eb66c05f314554e1, type: 2}
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &7290149908648227996
 GameObject:
   m_ObjectHideFlags: 0
@@ -383,6 +408,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -404,6 +432,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 12
@@ -433,12 +462,16 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue:
   - {fileID: 11400000, guid: ca9478d224a5a1740b087437d7052b6d, type: 2}
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &8387653848795343260
 GameObject:
   m_ObjectHideFlags: 0
@@ -491,6 +524,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -512,6 +548,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 11
@@ -546,12 +583,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5d40de174111c2d45b19ef28e9c0208b, type: 2}
   - {fileID: 11400000, guid: 41ca67d7574e27747af6ce62161c708f, type: 2}
   - {fileID: 11400000, guid: a630f4c1c7d07544ca2a375985e00775, type: 2}
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 0
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &71571786451086626
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -569,6 +610,11 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: c0e96760c016b6140ba8c3979e9213f7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2527555977638791209, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: hudHandler
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3183634417709993560, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
@@ -645,6 +691,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5360118459378231826, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: exportCost
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 5360118459378231826, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
@@ -725,6 +776,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a74c48b29b9c0c14f9919e8aa98be14d,
+        type: 2}
+    - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -740,7 +797,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ece3554a33a7c7849894088ccea47d78,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6856715388576214251, guid: 5d7892c86699e21499ad5f872fd4d512, type: 3}
+    - {fileID: 2527555977638791209, guid: 5d7892c86699e21499ad5f872fd4d512, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
@@ -836,7 +895,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   GasSO: {fileID: 0}
-  StoredGasMix:
+  StoredInitialGasMix:
     GasData:
       GasesArray: []
     pressure: 0
@@ -846,6 +905,8 @@ MonoBehaviour:
   ReleasePressure: 101.325
   CargoSealApproved: 1
   explodeOnTooMuchDamage: 1
+  ignoreInternals: 0
+  canToggleIgnoreInternals: 1
 --- !u!114 &3744673748159336733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -931,9 +992,13 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue:
   - {fileID: 11400000, guid: ca9478d224a5a1740b087437d7052b6d, type: 2}
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 

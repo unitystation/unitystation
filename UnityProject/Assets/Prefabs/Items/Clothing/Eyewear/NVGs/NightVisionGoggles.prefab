@@ -1,0 +1,332 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &731076568007370822
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2917070610764782940, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: OnItemSlotChanged.target
+      value: 
+      objectReference: {fileID: 4014275074474256822}
+    - target: {fileID: 2917128564446547862, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: _assetId
+      value: 2947863460
+      objectReference: {fileID: 0}
+    - target: {fileID: 2917128564446547862, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 28c72054b1f484ed4a6253c4feee3eb4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2917169708539712446, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: CurrentsortingGroup
+      value: 
+      objectReference: {fileID: 8610514420878023722}
+    - target: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: m_Name
+      value: NightVisionGoggles
+      objectReference: {fileID: 0}
+    - target: {fileID: 3025309822768713558, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3025309822768713558, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3025309822768713558, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3025309822768713558, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3025309822768713558, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3025309822768713558, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3025309822768713558, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3025309822768713558, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3025309822768713558, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3025309822768713558, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3025309822768713558, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3107053823204540798, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9ba50cb42ef758247b5fa5d205049de6,
+        type: 3}
+    - target: {fileID: 3342970693868862452, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3342970693868862452, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 34f83afdf4c496144a5f3e5734200364,
+        type: 2}
+    - target: {fileID: 3342970693868862452, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 40478afa0f5909a4a92674a224a5dcf1,
+        type: 2}
+    - target: {fileID: 3342970693868862452, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 762f67ac8bbe8f24da65ae84f93aec5c,
+        type: 2}
+    - target: {fileID: 3342970693868862452, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3342970693868862452, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[1].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3342970693868862452, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[2].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: exportCost
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: initialName
+      value: night vision goggles
+      objectReference: {fileID: 0}
+    - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: initialSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: initialDescription
+      value: Allows for sight in the dark.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3387296074795883840, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: a2402731d72264ec4a2baec0351f6858,
+        type: 2}
+    - target: {fileID: 8166491247120154191, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: parentID
+      value: 6b5f74a79e023479cb5b30a2879621da
+      objectReference: {fileID: 0}
+    - target: {fileID: 8166491247120154191, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: foreverID
+      value: 5668f8777ce1a794980fbd35aa58f56b
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183805690938991015, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: allClothingData.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183805690938991015, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: 'allClothingData.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 9432e762f9381444081eba2dbcd3dc8b,
+        type: 2}
+    - target: {fileID: 8982871833932450213, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2394567818253216056}
+    - target: {fileID: 8982871833932450213, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: be4056d73ecd47243826e80e6e520a0a,
+        type: 2}
+    - target: {fileID: 8982871833932450213, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1ca2a5a031a189c468542f51a5787f1f,
+        type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 17149628174355491}
+    - targetCorrespondingSourceObject: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4014275074474256822}
+    - targetCorrespondingSourceObject: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 338430958433800353}
+  m_SourcePrefab: {fileID: 100100000, guid: 6b5f74a79e023479cb5b30a2879621da, type: 3}
+--- !u!212 &2394567818253216056 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 3107053823204540798, guid: 6b5f74a79e023479cb5b30a2879621da,
+    type: 3}
+  m_PrefabInstance: {fileID: 731076568007370822}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2579088290442746468 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3021789324208599586, guid: 6b5f74a79e023479cb5b30a2879621da,
+    type: 3}
+  m_PrefabInstance: {fileID: 731076568007370822}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &17149628174355491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2579088290442746468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3307020aa3640594a870e4961a6de749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  slot: 9
+  CompatibleSlots: 09000000
+  armoredBodyParts:
+  - armoringBodyPartType: 7
+    armor:
+      Melee: 0
+      Bullet: 0
+      Laser: 0
+      Energy: 0
+      Bomb: 0
+      Rad: 0
+      Fire: 0
+      Acid: 0
+      Magic: 0
+      Bio: 0
+      Anomaly: 0
+      DismembermentProtectionChance: 0
+      StunImmunity: 0
+      TemperatureProtectionInK: {x: 268.15, y: 313.15}
+      PressureProtectionInKpa: {x: 30, y: 300}
+--- !u!114 &4014275074474256822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2579088290442746468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e8deecf3238eac4597c33d91991c2c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  darknessVisibilityMultiplier: 2
+  dimLightColour: {r: 1, g: 1, b: 1, a: 0.11764706}
+  shaderColour: {r: 0.15686275, g: 0.7660377, b: 0.15686275, a: 1}
+  nightVisionToggleSound:
+    AssetAddress: Assets/Prefabs/Effects/light_on.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  OnBodyID: 0
+  isOn: 0
+--- !u!114 &338430958433800353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2579088290442746468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c2172f034464a4b8382d375cd7d70ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ActionData>k__BackingField:
+    m_keys:
+    - ID: toggle_nvg
+      DisplayName: Toggle Night Vision
+      Description: Toggle your night vision goggles on/off.
+      TriggerType: 0
+      Type: 0
+      AnimatedIconCatalogue:
+      - {fileID: 11400000, guid: 1ca2a5a031a189c468542f51a5787f1f, type: 2}
+      CooldownTime: 1
+      CanUseWhileGhosting: 0
+      HasCustomCursor: 0
+      OffsetType: 0
+      CursorOffset: {x: 0, y: 0}
+      CursorTexture: {fileID: 0}
+      TrackingObject: {fileID: 0}
+    m_values:
+    - target: {fileID: 4014275074474256822}
+      methodName: OnButtonPress
+      parameterType: 
+  requiresSpecificSlots: 1
+  possibleSlots: 9
+--- !u!210 &8610514420878023722 stripped
+SortingGroup:
+  m_CorrespondingSourceObject: {fileID: 9033094390735762540, guid: 6b5f74a79e023479cb5b30a2879621da,
+    type: 3}
+  m_PrefabInstance: {fileID: 731076568007370822}
+  m_PrefabAsset: {fileID: 0}

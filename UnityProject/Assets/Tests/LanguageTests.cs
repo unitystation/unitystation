@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Managers;
 using NUnit.Framework;
-using Player.Language;
-using Systems.CraftingV2;
+using US13.Managers;
+using US13.Player.Language;
 
 namespace Tests
 {
+	[Category(nameof(Asset))]
 	public class LanguageTests
 	{
 		[Test]

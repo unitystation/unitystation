@@ -29,7 +29,7 @@ MonoBehaviour:
   miningTime: 5
   miningHardness: 1
   constructable: 1
-  RadiationPassability: 1
+  RadiationPassability: 0.8
   ThermalConductivity: 0.05
   HeatCapacity: 10000
   doesReflectBullet: 0
@@ -72,19 +72,19 @@ MonoBehaviour:
   spawnOnDestroy: {fileID: 11400000, guid: 23e18374069b6f64e9074e7fd4327b71, type: 2}
   damageOverlayList: {fileID: 0}
   soundOnHit:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GrillHit.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/GrillHit.prefab
+  - AssetAddress: Assets/Prefabs/Effects/GrillHit.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   sprite: {fileID: 21300000, guid: 10623b9787a8d384b8d9825b3337ea04, type: 3}

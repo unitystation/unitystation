@@ -48,7 +48,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialColour: {r: 1, g: 0.96197814, b: 0.5905733, a: 0.84313726}
-  Sprite: {fileID: 21300000, guid: 03ced3fa0e8cb854a8f70bb3064f8097, type: 3}
+  Sprite: {fileID: 21300000, guid: 2be444078395d6e49a5e96cb401fd695, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
   LightOrigin: {x: 0, y: 0, z: 1}
@@ -74,6 +74,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -95,6 +97,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -121,14 +124,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  InitialPresentSpriteSet: {fileID: 11400000, guid: fc22d71c1c3167245ad53699c82a0a3f,
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 6b83e3e738d779a769f7abb710b3bdb8,
     type: 2}
   randomInitialSprite: 0
   spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
-  InitialColour: {r: 1, g: 1, b: 1, a: 1}
+  InitialColour: {r: 1, g: 0.9607843, b: 0.5921569, a: 0.84313726}
   palette: []
   initialSortingOrder: -1
   initialSortingLayerName: 
@@ -143,7 +146,7 @@ PrefabInstance:
     - target: {fileID: 3047997598811481740, guid: adb0df071fda80345a84874ad1b69b85,
         type: 3}
       propertyPath: lifeTime
-      value: 0.48
+      value: 0.924
       objectReference: {fileID: 0}
     - target: {fileID: 4134233870614292426, guid: adb0df071fda80345a84874ad1b69b85,
         type: 3}
@@ -154,13 +157,13 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialPresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 689a4a29e5faaaa4fbbf1a1c313b60ec,
+      objectReference: {fileID: 11400000, guid: 07d1395b95e0572039ebb1b2d920b4e1,
         type: 2}
     - target: {fileID: 5195770179465892449, guid: adb0df071fda80345a84874ad1b69b85,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: 98d9416f48b71dd49b0e063c23a39831,
+      objectReference: {fileID: -4009157606203222040, guid: eaf308159f6953e959aa1fca9fd15c93,
         type: 3}
     - target: {fileID: 5398400983743228273, guid: adb0df071fda80345a84874ad1b69b85,
         type: 3}
@@ -217,6 +220,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8624643942337532878, guid: adb0df071fda80345a84874ad1b69b85,
+        type: 3}
+      propertyPath: mIntensity
+      value: 0.12
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -224,11 +232,7 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6173998169371754231}
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 5399089165182216845, guid: adb0df071fda80345a84874ad1b69b85,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4056898498065445652}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: adb0df071fda80345a84874ad1b69b85, type: 3}
 --- !u!4 &2706252824512286407 stripped
 Transform:
@@ -236,27 +240,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8032017785819651806}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2709512638299042899 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5399089165182216845, guid: adb0df071fda80345a84874ad1b69b85,
-    type: 3}
-  m_PrefabInstance: {fileID: 8032017785819651806}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4056898498065445652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2709512638299042899}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mIntensity: 0.6
-  mAdditionalEmission: 0
-  mScale: 1.2
 --- !u!212 &2840752039221759167 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 5195770179465892449, guid: adb0df071fda80345a84874ad1b69b85,

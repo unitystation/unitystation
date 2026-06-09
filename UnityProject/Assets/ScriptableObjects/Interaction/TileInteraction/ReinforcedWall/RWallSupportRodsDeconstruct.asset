@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RWallSupportRodsDeconstruct
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: aaed69546e98a47d8b488a046d00ebe7, type: 2}
-  harmIntentRequired: 0
+  requiredIntent: 1
   performerStartActionMessage: You begin slicing through the support rods...
   othersStartActionMessage: '{performer} begins slicing through the support rods...'
   seconds: 10

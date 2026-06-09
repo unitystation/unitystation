@@ -121,7 +121,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6595474460572830946}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d014f618625ce1d499f30f051d9d0bd6,
+        type: 2}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d014f618625ce1d499f30f051d9d0bd6,
         type: 2}
@@ -185,6 +196,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8632938316192302950}
+    - targetCorrespondingSourceObject: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1649168676584916963}
   m_SourcePrefab: {fileID: 100100000, guid: b06b702714bab49b9ad949eab1ca4534, type: 3}
 --- !u!1 &6406346259585755381 stripped
 GameObject:
@@ -214,6 +229,14 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &-7507215922892034232
@@ -251,6 +274,8 @@ MonoBehaviour:
   isEMPResistant: 0
   mustBeUnanchored: 0
   secondsToScrewdrive: 2
+  PartsStorage: {fileID: 1649168676584916963}
+  MapSpawned: 0
 --- !u!114 &-1824006485459751206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -266,6 +291,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  itemStorage: {fileID: 7719044269284788720}
   ThisState: 0
 --- !u!114 &2887353635162774965
 MonoBehaviour:
@@ -299,6 +325,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  objectBehaviour: {fileID: 0}
   isSecuredStateExaminable: 1
   isExposedFloorPlatingRequired: 0
   secondsToSecure: 0
@@ -346,6 +373,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &8632938316192302950
 MonoBehaviour:
@@ -367,7 +395,8 @@ MonoBehaviour:
   maximumWorkingVoltage: 300
   deviceType: 0
   isSelfPowered: 0
-  wattusage: 300
+  mappingNotNeedToLink: 0
+  initialwattusage: 300
   InitialResistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
@@ -379,3 +408,37 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   <CanRelink>k__BackingField: 1
+--- !u!114 &1649168676584916963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6406346259585755381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: f040b5dae3721f542a7d43c31febfba8,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 411b6b7a74c524a91b9a38a0c692761b,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  ManuallySpawnContent: 0
+  dropItemsOnDespawn: 1
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
+  ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
+    type: 3}
+--- !u!212 &6595474460572830946 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 5972872610322709877}
+  m_PrefabAsset: {fileID: 0}

@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7515447646317242015
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8692784595269801368}
+  m_Layer: 0
+  m_Name: HudHandler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8692784595269801368
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7515447646317242015}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7621189723697302952}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &7192913138366226162
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -101,7 +132,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 7689454971185803109}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 47af3c9e8f6b4f749bdcef590d328ea3,
+        type: 2}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 47af3c9e8f6b4f749bdcef590d328ea3,
         type: 2}
@@ -185,7 +227,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8692784595269801368}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
@@ -215,7 +261,21 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5049598380141041155}
+    - targetCorrespondingSourceObject: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8967876511514991164}
+    - targetCorrespondingSourceObject: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5407900727555589120}
   m_SourcePrefab: {fileID: 100100000, guid: b06b702714bab49b9ad949eab1ca4534, type: 3}
+--- !u!4 &7621189723697302952 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 7192913138366226162}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7626373619265571698 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
@@ -274,6 +334,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  objectBehaviour: {fileID: 0}
   isSecuredStateExaminable: 1
   isExposedFloorPlatingRequired: 0
   secondsToSecure: 0
@@ -393,3 +454,43 @@ MonoBehaviour:
       Resistance:
         Ohms: 1000
         ResistanceAvailable: 1
+--- !u!114 &8967876511514991164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7626373619265571698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9f3d7ab1c0b4cc4ba891fe740e0c79f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Clothing.Eyewear.DiagnosticsHUDPowerState
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  <Prefab>k__BackingField: {fileID: 3773905765040299103, guid: 012264fb418c6fe43ae4558b434e6ac9,
+    type: 3}
+  hudHandler: {fileID: 5407900727555589120}
+  powerSource: 1
+  apcPoweredDevice: {fileID: 0}
+  powerNodeMono: {fileID: -434670522804980446}
+--- !u!114 &5407900727555589120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7626373619265571698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b52d3a61bf76e84c8b41c9b93981876, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Player.HUDData.HUDHandler
+  HudContainer: {fileID: 7515447646317242015}
+--- !u!212 &7689454971185803109 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 7192913138366226162}
+  m_PrefabAsset: {fileID: 0}

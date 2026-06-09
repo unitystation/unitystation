@@ -32,6 +32,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2390451913235129161, guid: ab9dcb5010b8e354b83cc955b97b263f,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 24836d0bac0d9f444915764673b40863,
+        type: 2}
+    - target: {fileID: 2390451913235129161, guid: ab9dcb5010b8e354b83cc955b97b263f,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 24836d0bac0d9f444915764673b40863,
@@ -133,6 +139,11 @@ PrefabInstance:
         type: 3}
       propertyPath: restriction
       value: 42
+      objectReference: {fileID: 0}
+    - target: {fileID: 8405821311022618877, guid: ab9dcb5010b8e354b83cc955b97b263f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 17
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

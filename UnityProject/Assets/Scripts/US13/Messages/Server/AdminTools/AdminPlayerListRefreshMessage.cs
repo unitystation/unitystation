@@ -1,0 +1,49 @@
+﻿using Mirror;
+using Newtonsoft.Json;
+using UnityEngine;
+using US13.UI.Systems;
+using US13.UI.Systems.AdminTools;
+
+namespace US13.Messages.Server.AdminTools
+{
+	public class AdminPlayerListRefreshMessage : ServerMessage<AdminPlayerListRefreshMessage.NetMessage>
+	{
+		public struct NetMessage : NetworkMessage
+		{
+			public string JsonData;
+			public uint Recipient;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+
+			LoadNetworkObject(msg.Recipient);
+			var listData = JsonConvert.DeserializeObject<AdminPlayersList>(msg.JsonData);
+
+			foreach (var v in UIManager.Instance.adminChatWindows.playerListViews)
+			{
+				if (v.gameObject.activeInHierarchy)
+				{
+					v.ReceiveUpdatedPlayerList(listData);
+				}
+			}
+		}
+
+		public static NetMessage Send(GameObject recipient, string adminID, bool ShowIp )
+		{
+			AdminPlayersList playerList = new AdminPlayersList
+			{
+				//Player list info:
+				players = AdminToolRefreshMessage.GetAllPlayerStates(adminID, true,ShowIp)
+			};
+
+			var data = JsonConvert.SerializeObject(playerList);
+
+			NetMessage  msg =
+				new NetMessage  {Recipient = recipient.GetComponent<NetworkIdentity>().netId, JsonData = data};
+
+			SendTo(recipient, msg);
+			return msg;
+		}
+	}
+}

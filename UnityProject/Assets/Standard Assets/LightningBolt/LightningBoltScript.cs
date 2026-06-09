@@ -8,10 +8,10 @@
 //
 
 using System;
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
-namespace DigitalRuby.LightningBolt
+namespace Standard_Assets.LightningBolt
 {
     /// <summary>
     /// Types of animations for lightning bolts

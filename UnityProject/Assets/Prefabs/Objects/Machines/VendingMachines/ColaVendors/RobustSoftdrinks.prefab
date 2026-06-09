@@ -29,6 +29,21 @@ PrefabInstance:
       propertyPath: Color.r
       value: 0.33333334
       objectReference: {fileID: 0}
+    - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.4742268
+      objectReference: {fileID: 0}
+    - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.43814433
+      objectReference: {fileID: 0}
     - target: {fileID: 854479238589397880, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: _assetId
@@ -52,6 +67,12 @@ PrefabInstance:
     - target: {fileID: 4347831001461171392, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b9a471368d57fcf40bad1180eae27f6e,
+        type: 2}
+    - target: {fileID: 4347831001461171392, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: b9a471368d57fcf40bad1180eae27f6e,
         type: 2}
@@ -298,6 +319,27 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[13].ItemName
       value: Solzara Brewing Company Mushi Kombucha
+      objectReference: {fileID: 0}
+    - target: {fileID: 4998327886754794683, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ce26d3b8f9ec4d641a7a21fa7bde3766,
+        type: 3}
+    - target: {fileID: 4998327886754794683, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4998327886754794683, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.7369226
+      objectReference: {fileID: 0}
+    - target: {fileID: 4998327886754794683, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.71925324
       objectReference: {fileID: 0}
     - target: {fileID: 5293842515076411475, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}

@@ -18,6 +18,22 @@ PrefabInstance:
       propertyPath: foreverID
       value: b04d0f9770ef17c459a1af178889e3ba
       objectReference: {fileID: 0}
+    - target: {fileID: 7647633790861723258, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: relatedRecipes.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7647633790861723258, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: ce92bcc66c6e7b5488aff693efe82fae,
+        type: 2}
+    - target: {fileID: 7647633790861723258, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[0].ingredientIndex
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
       propertyPath: initialName
@@ -148,11 +164,11 @@ MonoBehaviour:
   spriteHandler: {fileID: 0}
   destroyThisComponentOnOpen: 1
   openingNoise:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GenHit.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   openedSprite: {fileID: 0}

@@ -1,0 +1,74 @@
+﻿using System.Collections;
+using Mirror;
+using US13.Core.Transform;
+using US13.Managers;
+using US13.Managers.NetworkManagement;
+using US13.Tilemaps.Behaviours.Meta;
+using Random = UnityEngine.Random;
+
+namespace US13.Map
+{
+	public class Asteroid : ItemMatrixSystemInit
+	{
+
+
+
+		// TODO Find a use for these variables or delete them.
+		/*
+	private float asteroidDistance = 550; //How far can asteroids be spawned
+
+	private float distanceFromStation = 175; //Offset from station so it doesnt spawn into station
+	*/
+
+
+		public override void Start()
+		{
+			base.Start();
+			if (CustomNetworkManager.IsServer)
+			{
+				StartCoroutine(Init());
+			}
+		}
+
+		[Server]
+		public void SpawnNearStation()
+		{
+			//Request a position from GameManager and cache the object in SpaceBodies List
+			GameManager.Instance.ServerSetSpaceBody(matrixMove);
+		}
+
+		[Server] //Asigns random rotation to each asteroid at startup for variety.
+		public void RandomRotation()
+		{
+			int rand = Random.Range(0, 4);
+
+			 switch (rand)
+			 {
+			 	case 0:
+				    matrixMove.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Up_By0;
+			 		break;
+			 	case 1:
+				    matrixMove.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Down_By180;
+			 		break;
+			 	case 2:
+				    matrixMove.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Right_By270;
+			 		break;
+			 	case 3:
+				    matrixMove.NetworkedMatrixMove.TargetOrientation = OrientationEnum.Left_By90;
+			 		break;
+			 }
+		}
+
+		//Wait for MatrixMove init on the server:
+		IEnumerator Init()
+		{
+			yield return WaitFor.EndOfFrame;
+			SpawnNearStation();
+			yield return null;
+			yield return null;
+			yield return null;
+			RandomRotation();
+		}
+
+	}
+}

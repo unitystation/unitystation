@@ -15,6 +15,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 907881595092742429, guid: 2f3aabfd381d24d618e5ea35f4acce60,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 3968671077315126830}
+    - target: {fileID: 907881595092742429, guid: 2f3aabfd381d24d618e5ea35f4acce60,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 11b2dd5815b0c3f6e865f615f9666423,
@@ -46,7 +51,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -7911330205131717244, guid: 1aeefde167b46d909bdacd6f67cc2e24,
+      objectReference: {fileID: 943581271, guid: 1aeefde167b46d909bdacd6f67cc2e24,
         type: 3}
     - target: {fileID: 947600527991202436, guid: 2f3aabfd381d24d618e5ea35f4acce60,
         type: 3}
@@ -167,6 +172,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
         type: 2}
+    - target: {fileID: 4508693543616126485, guid: 2f3aabfd381d24d618e5ea35f4acce60,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1889383567620076220}
+    - target: {fileID: 5174203837748374833, guid: 2f3aabfd381d24d618e5ea35f4acce60,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2750423977539350041}
+    - target: {fileID: 5847823524989839040, guid: 2f3aabfd381d24d618e5ea35f4acce60,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4527948013197273364}
     - target: {fileID: 6481261187635780319, guid: 2f3aabfd381d24d618e5ea35f4acce60,
         type: 3}
       propertyPath: chargeSprite
@@ -180,7 +200,7 @@ PrefabInstance:
     - target: {fileID: 6481261187635780319, guid: 2f3aabfd381d24d618e5ea35f4acce60,
         type: 3}
       propertyPath: 'firemodeUsage.Array.data[0]'
-      value: 10000
+      value: 1000000
       objectReference: {fileID: 0}
     - target: {fileID: 6481261187635780319, guid: 2f3aabfd381d24d618e5ea35f4acce60,
         type: 3}
@@ -205,6 +225,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7863769940400434280, guid: 2f3aabfd381d24d618e5ea35f4acce60,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 45971998713487385}
+    - target: {fileID: 7863769940400434280, guid: 2f3aabfd381d24d618e5ea35f4acce60,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d8f93a4beec0ea1c7bd722b2b9a1a1fe,
@@ -220,6 +245,24 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f3aabfd381d24d618e5ea35f4acce60, type: 3}
+--- !u!212 &45971998713487385 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4221653732035781811, guid: 2f3aabfd381d24d618e5ea35f4acce60,
+    type: 3}
+  m_PrefabInstance: {fileID: 4194259700539147434}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &1889383567620076220 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2309626023155283478, guid: 2f3aabfd381d24d618e5ea35f4acce60,
+    type: 3}
+  m_PrefabInstance: {fileID: 4194259700539147434}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &2750423977539350041 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2026189857649093299, guid: 2f3aabfd381d24d618e5ea35f4acce60,
+    type: 3}
+  m_PrefabInstance: {fileID: 4194259700539147434}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &3939648541227578807 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 907881595092742429, guid: 2f3aabfd381d24d618e5ea35f4acce60,
@@ -232,3 +275,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!212 &3968671077315126830 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 947600527991202436, guid: 2f3aabfd381d24d618e5ea35f4acce60,
+    type: 3}
+  m_PrefabInstance: {fileID: 4194259700539147434}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &4527948013197273364 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 352266224913116606, guid: 2f3aabfd381d24d618e5ea35f4acce60,
+    type: 3}
+  m_PrefabInstance: {fileID: 4194259700539147434}
+  m_PrefabAsset: {fileID: 0}

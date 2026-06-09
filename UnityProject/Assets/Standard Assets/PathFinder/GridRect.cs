@@ -1,4 +1,4 @@
-/*! 
+/*!
 @file GridRect.cs
 @author Woong Gyu La a.k.a Chris. <juhgiyo@gmail.com>
 		<http://github.com/juhgiyo/eppathfinding.cs>
@@ -35,11 +35,8 @@ THE SOFTWARE.
 An Interface for the GridRect Struct.
 
 */
-using System;
-using System.Collections.Generic;
-using System.Collections;
 
-namespace EpPathFinding.cs
+namespace Standard_Assets.PathFinder
 {
     public class GridRect
     {

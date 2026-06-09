@@ -1,0 +1,133 @@
+﻿using System;
+using System.Collections.Generic;
+using Mirror;
+using UnityEngine;
+using US13.Clothing;
+using US13.Core.Addressables.Types;
+using US13.Core.Chat;
+using US13.Core.Input_System.InteractionV2.Interactions;
+using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Core.Sprite_Handler;
+using US13.Items.Traits;
+using US13.Managers;
+using US13.Managers.NetworkManagement;
+using Util;
+
+namespace US13.Items.Tool
+{
+	/// <summary>
+	/// Allows an item to change traits when it is activated. For example, the Jaws of Life.
+	/// </summary>
+	public class ToolSwapComponent : NetworkBehaviour, IExaminable, IInteractable<HandActivate>
+	{
+		[Tooltip("Set the clothing sprite")]
+		[SerializeField]
+		private bool SetClothingSprite = false;
+
+		[Tooltip("Set the clothing sprite")]
+		[SerializeField]
+		private bool SetdisallowConsume = false;
+
+		[Tooltip("The initial state the tool is in.")]
+		[SerializeField]
+		private int initialStateIndex = 0;
+
+		[Tooltip("The tool states which this item will be able to represent via a HandActivate toggle in-game. " +
+				"Effectively, you'll want this list to be at least 2 entries large.")]
+		[SerializeField]
+		private List<ToolState> states = default;
+
+		private ItemAttributesV2 itemAttributes;
+		private SpriteHandler spriteHandler;
+
+		private ClothingV2 ClothingV2;
+
+
+		[SyncVar(hook = nameof(SyncState))]
+		private int currentStateIndex = 0;
+		public ToolState CurrentState => states[currentStateIndex];
+
+		#region Lifecycle
+
+		private void Awake()
+		{
+			itemAttributes = GetComponent<ItemAttributesV2>();
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
+			ClothingV2 = this.GetCachedComponent<ClothingV2>();
+		}
+
+		private void Start()
+		{
+			if (!CustomNetworkManager.IsServer) return;
+			currentStateIndex = initialStateIndex;
+		}
+
+		#endregion Lifecycle
+
+		public string Examine(Vector3 worldPos = default)
+		{
+			return CurrentState.ExamineMessage;
+		}
+
+		public void ServerPerformInteraction(HandActivate interaction)
+		{
+			if (currentStateIndex + 1 < states.Count)
+			{
+				currentStateIndex++;
+			}
+			else
+			{
+				currentStateIndex = 0;
+			}
+
+			spriteHandler.SetCatalogueIndexSprite(CurrentState.spriteIndex);
+			if (SetClothingSprite)
+			{
+				ClothingV2.ChangeSprite(states[currentStateIndex].clothingV2Index);
+			}
+
+			if (SetdisallowConsume)
+			{
+				ClothingV2.disallowConsume = states[currentStateIndex].disallowConsumeState;
+			}
+
+			SoundManager.PlayNetworkedAtPos(CurrentState.changeSound, interaction.PerformerPlayerScript.WorldPos);
+			Chat.AddExamineMsgFromServer(interaction.Performer, CurrentState.changeMessage);
+		}
+
+		private void SyncState(int oldStateIndex, int newStateIndex)
+		{
+			currentStateIndex = newStateIndex;
+			SetTraitState(oldStateIndex, newStateIndex);
+		}
+
+		private void SetTraitState(int oldStateIndex, int newStateIndex)
+		{
+			// Remove the current traits as part of the old state.
+			foreach (ItemTrait trait in states[oldStateIndex].traits)
+			{
+				itemAttributes.RemoveTrait(trait);
+			}
+
+			// Add the new traits from the new state.
+			foreach (ItemTrait trait in states[newStateIndex].traits)
+			{
+				itemAttributes.AddTrait(trait);
+			}
+
+		}
+
+		[Serializable]
+		public struct ToolState
+		{
+			public string ExamineMessage;
+			public string changeMessage;
+			public AddressableAudioSource changeSound;
+			public int spriteIndex;
+			public ItemTrait[] traits;
+			public AddressableAudioSource usingSound;
+			public int clothingV2Index;
+			public bool disallowConsumeState;
+		}
+	}
+}

@@ -97,7 +97,12 @@ PrefabInstance:
     - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
       propertyPath: exportCost
-      value: 100
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: exportName
+      value: emergency oxygen tank
       objectReference: {fileID: 0}
     - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
@@ -139,6 +144,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0e9e44a5f04fb98448f5bdd79e66bb67,
         type: 2}
+    - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c510c855d4f9655409995942b5203990,
+        type: 2}
+    - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 6e18312d02e687248ad625b0b5ec3ca8,
+        type: 2}
+    - target: {fileID: 2849320339179502146, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 0e9e44a5f04fb98448f5bdd79e66bb67,
+        type: 2}
     - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
       propertyPath: Volume
@@ -176,12 +199,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
+      propertyPath: StoredInitialGasMix.Volume
+      value: 0.100054
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: StoredInitialGasMix.pressure
+      value: 1096.2307
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
       propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].Moles
       value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
         type: 3}
       propertyPath: StoredGasMix.GasData.GasesArray.Array.data[0].moles
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 7575452727574476451, guid: 48d3c058a9e5a42418875499b82cc5e3,
+        type: 3}
+      propertyPath: StoredInitialGasMix.GasData.GasesArray.Array.data[0].moles
       value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 8368062230162943655, guid: 48d3c058a9e5a42418875499b82cc5e3,
@@ -248,6 +286,7 @@ MonoBehaviour:
   hidesSlots: 0
   hideClothingFlags: 0
   disallowConsume: 0
+  Colour: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &7416259717188023732
 MonoBehaviour:
   m_ObjectHideFlags: 0

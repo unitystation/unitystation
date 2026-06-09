@@ -123,6 +123,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -144,10 +146,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: b5191cf54f9e01d4d9ac14dc228024e6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -155,7 +158,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &1879030153370423799
@@ -172,7 +175,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 0
   SubCatalogue: []
-  InitialPresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 531dea593ef508f4abc5b76a73fd82a8,
+    type: 2}
   randomInitialSprite: 0
   spriteRenderer: {fileID: 5026448041578801434}
   doReverseAnimation: 0

@@ -17,7 +17,17 @@ MonoBehaviour:
   description: A historical fire suppressant. Originally believed to simply displace
     oxygen to starve fires, it actually interferes with the combustion reaction itself.
     Vastly superior to the cheap water-based extinguishers found on NT vessels.
-  color: {r: 0.98039216, g: 1, b: 0.33333334, a: 1}
+  color: {r: 0.98058784, g: 0.98490566, b: 0.83809894, a: 1}
   state: 1
   heatDensity: 5
-  indexInSingleton: 479
+  indexInSingleton: 480
+  OnSplatEffects:
+  - rid: 3457065890737553470
+  references:
+    version: 2
+    RefIds:
+    - rid: 3457065890737553470
+      type: {class: ExtinguishOnSplat, ns: US13.ChemistryComponents.SplatEffects,
+        asm: Assets}
+      data:
+        stacksPerUnit: 1.5

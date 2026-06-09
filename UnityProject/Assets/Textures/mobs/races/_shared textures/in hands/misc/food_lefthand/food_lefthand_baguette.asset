@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: food_lefthand_baguette
+  m_EditorClassIdentifier: RootSillys::SpriteDataSO
+  foreverID: 86341332b9ce7a400aa5f258c67d8d9a
+  Variance:
+  - Frames:
+    - sprite: {fileID: -7964998303712589564, guid: 5948e4f29c4d6135999ebbcc1ea7e885,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 9187785928277290400, guid: 5948e4f29c4d6135999ebbcc1ea7e885,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -7877627207493198856, guid: 5948e4f29c4d6135999ebbcc1ea7e885,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 4583861585990965134, guid: 5948e4f29c4d6135999ebbcc1ea7e885,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 

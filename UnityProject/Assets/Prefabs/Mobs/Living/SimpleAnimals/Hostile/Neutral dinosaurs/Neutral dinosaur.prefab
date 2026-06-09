@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 228721429395525721, guid: 3b255a0fd9be64644a636021b434902f,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2754028161940518094}
+    - target: {fileID: 228721429395525721, guid: 3b255a0fd9be64644a636021b434902f,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: dfde079c4445fb7498edbda8a08e929a,
@@ -190,6 +195,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1571065936590550709}
   m_SourcePrefab: {fileID: 100100000, guid: 3b255a0fd9be64644a636021b434902f, type: 3}
+--- !u!212 &2754028161940518094 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2186353682590328640, guid: 3b255a0fd9be64644a636021b434902f,
+    type: 3}
+  m_PrefabInstance: {fileID: 4066533940151391118}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7340964971422062010 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6741716765903521332, guid: 3b255a0fd9be64644a636021b434902f,
@@ -215,9 +226,12 @@ MonoBehaviour:
   GrowingStages:
   - SpriteSizeScale: 0.5
     FoodRefreshTime: 120
-  - SpriteSizeScale: 0.7
+  - SpriteSizeScale: 0.666666
+    FoodRefreshTime: 120
+  - SpriteSizeScale: 0.833333
     FoodRefreshTime: 120
   - SpriteSizeScale: 1
     FoodRefreshTime: 120
   StageSynchronise: 0
   HungryAndWantsToGrow: 0
+  ScaleSync: {fileID: 0}

@@ -53,6 +53,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -74,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
@@ -188,17 +191,17 @@ PrefabInstance:
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: CameraRecoilConfig.Distance
-      value: 0.001
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: CameraRecoilConfig.RecoilDuration
-      value: 0
+      value: 0.08
       objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: CameraRecoilConfig.RecoveryDuration
-      value: 0
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}

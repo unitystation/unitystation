@@ -8,6 +8,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1487292090815827991}
+    - target: {fileID: 3184919532380354304, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: dormantReagentContainer
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3442741923849517114, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: parentID
@@ -114,7 +124,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: _CrayonBase
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3364592044955228064, guid: c9c58a9243d494537abcb4ee470efab0, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -129,12 +140,14 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8610225452865205335, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4307700051978835402}
-    - targetCorrespondingSourceObject: {fileID: 8610225452865205335, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 9130876904203733421}
   m_SourcePrefab: {fileID: 100100000, guid: c9c58a9243d494537abcb4ee470efab0, type: 3}
+--- !u!212 &1487292090815827991 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8470250495983453963, guid: c9c58a9243d494537abcb4ee470efab0,
+    type: 3}
+  m_PrefabInstance: {fileID: 7003013532031178524}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1608376441554494283 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8610225452865205335, guid: c9c58a9243d494537abcb4ee470efab0,
@@ -153,10 +166,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseReagentContainer: 0
   groundReagents:
-    m_keys:
-    - {fileID: 11400000, guid: db8af52d41a15deb984ce9d9a732f9be, type: 2}
-    m_values: 05000000
+    m_keys: []
+    m_values: []
 --- !u!114 &1438471213590705318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -180,41 +193,14 @@ MonoBehaviour:
   graffitiListsWalls: {fileID: 11400000, guid: 6b22e9fd96237144b94ee30e9468e752, type: 2}
   isCan: 0
   spraySound:
-    SetLoadSetting: 0
     AssetAddress: null
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   crayonBoxCapacity: {fileID: 11400000, guid: b6ebe68a2fe70094e8f9113df20cc0a6, type: 2}
---- !u!114 &4307700051978835402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1608376441554494283}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d615ebf88d63a9a46b66b45d3fffe353, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  consumeTime: 0.1
-  leavings: {fileID: 0}
-  sound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/EatFood.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  StartingNutrients: 1
-  Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
 --- !u!114 &9130876904203733421
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,10 +213,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   ReactionSounds: 1
   maxCapacity: 50
   DEBUGReagent: {fileID: 0}
   DEBUGAmount: 0
+  StopReactions: 0
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   AdditionalReactions: []
   initialReagentMix:
@@ -242,6 +232,12 @@ MonoBehaviour:
   destroyOnEmpty: 0
   ContentsSet: 0
   menuOptions: 0
+  currentReagentMix:
+    temperature: 0
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []
   spriteHandler: {fileID: 0}
   UseStandardExamine: 0
   ExamineAmount: 0
@@ -249,6 +245,7 @@ MonoBehaviour:
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 4
+  onlyAllowSyringeFilling: 0
   SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 5

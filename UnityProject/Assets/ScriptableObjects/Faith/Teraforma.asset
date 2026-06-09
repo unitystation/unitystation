@@ -40,22 +40,33 @@ MonoBehaviour:
     - rid: 6780799869738287117
     - rid: 6780799869738287119
     - rid: 6780799869738287121
+    ProclamationTextGenerator:
+      rid: 1407928419411034171
   references:
     version: 2
     RefIds:
+    - rid: 1407928419411034171
+      type: {class: CodedProclamationText, ns: US13.Systems.Faith.ProclamationGen, asm: Assets}
+      data:
+        inputStrings:
+        - ROCK AND STONE
+        - WE SHALL
+        - DIGGY DIGGY HOLE
+        length: 2
     - rid: 2708802213016240155
-      type: {class: RockAndStone, ns: Systems.Faith.FaithProperties, asm: Assets}
+      type: {class: RockAndStone, ns: US13.Systems.Faith.FaithProperties, asm: Assets}
       data:
         propertyIcon: {fileID: 21300008, guid: 321c51faef850244aa8d67229f4f4a42, type: 3}
+        pointsMultiplier: 1.35
     - rid: 2708802213016240158
-      type: {class: Darkness, ns: Systems.Faith.FaithProperties, asm: Assets}
+      type: {class: Darkness, ns: US13.Systems.Faith.FaithProperties, asm: Assets}
       data:
         faithPropertyName: Darkness
         faithPropertyDesc: People of this faith like to lurk in the darkness.
         propertyIcon: {fileID: 21300000, guid: 562b5450772949847ba8dc04b0d6f679, type: 3}
         minimumAlphaForDarkness: 0.65
     - rid: 6780799869738287107
-      type: {class: BestowThePowerOfGod, ns: Systems.Faith.Miracles, asm: Assets}
+      type: {class: BestowThePowerOfGod, ns: US13.Systems.Faith.Miracles, asm: Assets}
       data:
         faithMiracleName: Bestow the power of god
         faithMiracleDesc: Give all faith leaders a golden weapon that holds the power
@@ -64,28 +75,28 @@ MonoBehaviour:
         goldenRevolver: {fileID: 5110185232032146699, guid: 04e181bad9e993944bf2465d48cb41d4,
           type: 3}
         summonSound:
-          SetLoadSetting: 0
           AssetAddress: Assets/Prefabs/Magic/Blind.prefab
           AssetReference:
             m_AssetGUID: 
             m_SubObjectName: 
+            m_SubObjectGUID: 
             m_SubObjectType: 
             m_EditorAssetChanged: 0
     - rid: 6780799869738287109
-      type: {class: BlessCrops, ns: Systems.Faith.Miracles, asm: Assets}
+      type: {class: BlessCrops, ns: US13.Systems.Faith.Miracles, asm: Assets}
       data:
         faithMiracleName: Bless Crops
         faithMiracleDesc: Pray for a blessing upon nearby crops.
         miracleIcon: {fileID: 11400000, guid: d5451bed7f332b14890f5e2a247209d3, type: 2}
     - rid: 6780799869738287111
-      type: {class: CurseWithDrunkness, ns: Systems.Faith.Miracles, asm: Assets}
+      type: {class: CurseWithDrunkness, ns: US13.Systems.Faith.Miracles, asm: Assets}
       data:
         faithMiracleName: Curse with Drunkness.
         faithMiracleDesc: Causes all humanoids within a small circle oh all faith
           leaders to become drunk.
         miracleIcon: {fileID: 11400000, guid: 47b303f3d752c264d901d6388cf649e5, type: 2}
     - rid: 6780799869738287113
-      type: {class: FreeBooze, ns: Systems.Faith.Miracles, asm: Assets}
+      type: {class: FreeBooze, ns: US13.Systems.Faith.Miracles, asm: Assets}
       data:
         faithMiracleName: Free Booze!
         faithMiracleDesc: The god(s) gift booze to the world.
@@ -95,7 +106,7 @@ MonoBehaviour:
         - {fileID: 633885524599903587, guid: cde76a9bba668784bbed55588e194852, type: 3}
         - {fileID: 684254245239768240, guid: 1f332585069499e49a1f8f8bd17f486d, type: 3}
     - rid: 6780799869738287115
-      type: {class: GhostOfCarmenMiranda, ns: Systems.Faith.Miracles, asm: Assets}
+      type: {class: GhostOfCarmenMiranda, ns: US13.Systems.Faith.Miracles, asm: Assets}
       data:
         faithMiracleName: Call upon Space Station 3's ghost
         faithMiracleDesc: "The best odds say she likes the rhythms of the stations
@@ -124,21 +135,21 @@ MonoBehaviour:
         - {fileID: 4795735908449438376, guid: 37e025654ce3f9b43bd61c6caf0f79dc, type: 3}
         spawnPointCategory: 37
     - rid: 6780799869738287117
-      type: {class: MakeFoodBigger, ns: Systems.Faith.Miracles, asm: Assets}
+      type: {class: MakeFoodBigger, ns: US13.Systems.Faith.Miracles, asm: Assets}
       data:
         faithMiracleName: Make food bigger
         faithMiracleDesc: Bleses (or curses) nearby food to become bigger, allowing
           for a feast.
         miracleIcon: {fileID: 11400000, guid: 72c76cdea6656f54b97ccf520f34a409, type: 2}
     - rid: 6780799869738287119
-      type: {class: MakeLeadersBigger, ns: Systems.Faith.Miracles, asm: Assets}
+      type: {class: MakeLeadersBigger, ns: US13.Systems.Faith.Miracles, asm: Assets}
       data:
         faithMiracleName: Enlarge Leaders
         faithMiracleDesc: Makes faith leaders bigger physically. Who's the short
           dwarf now?
         miracleIcon: {fileID: 11400000, guid: 32e95c8e6839de549a4d4186fb8a75ca, type: 2}
     - rid: 6780799869738287121
-      type: {class: RigObjects, ns: Systems.Faith.Miracles, asm: Assets}
+      type: {class: RigObjects, ns: US13.Systems.Faith.Miracles, asm: Assets}
       data:
         faithMiracleName: Rig Objects
         faithMiracleDesc: Causes objects nearby faith members to be <i>slightly</i>

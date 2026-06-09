@@ -94,6 +94,18 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A cute soft plush depicting some kind of strange slug with ears.
       objectReference: {fileID: 0}
+    - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c819d8a72ab14b1489b3790e18c4dc54,
+        type: 2}
+    - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c819d8a72ab14b1489b3790e18c4dc54,
+        type: 2}
     - target: {fileID: 6236086576208570426, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
       propertyPath: spriteRenderer

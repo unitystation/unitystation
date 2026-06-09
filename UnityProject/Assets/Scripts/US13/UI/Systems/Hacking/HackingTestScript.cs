@@ -1,0 +1,56 @@
+using Logs;
+using NaughtyAttributes;
+using UnityEngine;
+using US13.Systems.Hacking.HackingProcesses;
+
+namespace US13.UI.Systems.Hacking
+{
+	/// <summary>
+	/// Good example script if you need to use HackingProcessBase, note It's up to you to call the open UI stuff
+	/// </summary>
+	public class HackingTestScript : MonoBehaviour
+	{
+		public HackingProcessBase HackingProcessBase;
+
+		private void Start()
+		{
+			HackingProcessBase.RegisterPort(Bob2, this.GetType());
+			HackingProcessBase.RegisterPort(Jane2, this.GetType());
+			HackingProcessBase.RegisterPort(Cat2, this.GetType());
+		}
+
+		[Button]
+		public void Bob()
+		{
+			HackingProcessBase.ImpulsePort(Bob2);
+		}
+
+		public void Bob2()
+		{
+			Loggy.Info("BOB");
+		}
+
+		[Button]
+		public void Jane()
+		{
+			HackingProcessBase.ImpulsePort(Jane2);
+		}
+
+		public void Jane2()
+		{
+			Loggy.Info("Jane");
+		}
+
+
+		[Button]
+		public void Cat()
+		{
+			HackingProcessBase.ImpulsePort(Cat2);
+		}
+
+		public void Cat2()
+		{
+			Loggy.Info("Cat");
+		}
+	}
+}

@@ -4,7 +4,7 @@ using System.Linq;
 using Chemistry;
 using NUnit.Framework;
 using UnityEngine;
-using Chemistry.Components;
+using US13.ChemistryComponents;
 
 namespace Tests.Chemistry
 {

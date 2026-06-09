@@ -117630,12 +117630,6 @@
             }
           },
           {
-            "GitID": "thegrinderhaha_4.81┼63.19┼-0.2┼",
-            "PrefabID": "thegrinderhaha",
-            "Name": "All-In-One Grinder (1)",
-            "LocalPRS": "4.81┼63.19┼-0.2┼"
-          },
-          {
             "GitID": "1796036e10808334798ef3fb0f911623_4.99┼59.07┼0┼",
             "PrefabID": "1796036e10808334798ef3fb0f911623",
             "Name": "BlueprintMonkey (1)",
@@ -117809,6 +117803,12 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "All-In-One Grinder_5┼63┼0┼",
+            "PrefabID": "All-In-One Grinder",
+            "Name": "All-In-One Grinder (1)",
+            "LocalPRS": "5┼63┼0┼"
           },
           {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_5┼63┼0┼",
@@ -121239,6 +121239,18 @@
             "LocalPRS": "14.07┼83.24┼0┼"
           },
           {
+            "GitID": "0af3fb6f8543f0b4b914da932bd18ea0_14.79┼56.26┼0┼",
+            "PrefabID": "0af3fb6f8543f0b4b914da932bd18ea0",
+            "Name": "CyborgRightArm (1)",
+            "LocalPRS": "14.79┼56.26┼0┼"
+          },
+          {
+            "GitID": "0af3fb6f8543f0b4b914da932bd18ea0_14.8┼55.86┼0┼",
+            "PrefabID": "0af3fb6f8543f0b4b914da932bd18ea0",
+            "Name": "CyborgRightArm (4)",
+            "LocalPRS": "14.8┼55.86┼0┼"
+          },
+          {
             "GitID": "a3073526fd40c7d42b394e3def74809b_14.94┼61.97┼0┼",
             "PrefabID": "a3073526fd40c7d42b394e3def74809b",
             "Name": "ComputerBoardCloningConsole (1)",
@@ -121823,6 +121835,18 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "0af3fb6f8543f0b4b914da932bd18ea0_15.22┼55.86┼0┼",
+            "PrefabID": "0af3fb6f8543f0b4b914da932bd18ea0",
+            "Name": "CyborgRightArm (3)",
+            "LocalPRS": "15.22┼55.86┼0┼"
+          },
+          {
+            "GitID": "0af3fb6f8543f0b4b914da932bd18ea0_15.22┼56.26┼0┼",
+            "PrefabID": "0af3fb6f8543f0b4b914da932bd18ea0",
+            "Name": "CyborgRightArm (2)",
+            "LocalPRS": "15.22┼56.26┼0┼"
           },
           {
             "GitID": "0fbbae3a2eb179546a6cbd7c92b4a1cb_15.43┼62.25┼0┼",
@@ -124377,7 +124401,17 @@
             "GitID": "6f371050bff8b32438f91c7c680900bb_20.52┼88.33┼0┼",
             "PrefabID": "6f371050bff8b32438f91c7c680900bb",
             "Name": "Flashlight (1)",
-            "LocalPRS": "20.52┼88.33┼0┼"
+            "LocalPRS": "20.52┼88.33┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "10603003756653a4d9ee543456987de7_20.96┼88.17┼0┼",
@@ -127364,10 +127398,6 @@
                     {
                       "Name": "NewdoorControllers#0",
                       "Data": "54a552cbe4002ac44ae29b958a90e545_24┼56┼0┼@0@DoorMasterController@0"
-                    },
-                    {
-                      "Name": "channel",
-                      "Data": "DoorTimer"
                     }
                   ]
                 }
@@ -127397,10 +127427,6 @@
                     {
                       "Name": "NewdoorControllers#0",
                       "Data": "54a552cbe4002ac44ae29b958a90e545_24┼60┼0┼@0@DoorMasterController@0"
-                    },
-                    {
-                      "Name": "channel",
-                      "Data": "DoorTimer"
                     }
                   ]
                 }
@@ -128703,12 +128729,6 @@
             }
           },
           {
-            "GitID": "thegrinderhaha_26.93┼75.3┼-0.2┼",
-            "PrefabID": "thegrinderhaha",
-            "Name": "All-In-One Grinder (1)",
-            "LocalPRS": "26.93┼75.3┼-0.2┼"
-          },
-          {
             "GitID": "11c3adf2fac4de349b072587d490a5dc_26.98┼76.1┼0┼",
             "PrefabID": "11c3adf2fac4de349b072587d490a5dc",
             "Name": "MushroomBowl (1)",
@@ -129327,6 +129347,12 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "All-In-One Grinder_27┼75┼0┼",
+            "PrefabID": "All-In-One Grinder",
+            "Name": "All-In-One Grinder (1)",
+            "LocalPRS": "27┼75┼0┼"
           },
           {
             "GitID": "cbae9a210d638ba4b9402e836c970fa2_27┼79┼0┼",
@@ -130140,10 +130166,6 @@
                     {
                       "Name": "NewdoorControllers#0",
                       "Data": "54a552cbe4002ac44ae29b958a90e545_27┼56┼0┼@0@DoorMasterController@0"
-                    },
-                    {
-                      "Name": "channel",
-                      "Data": "DoorTimer"
                     }
                   ]
                 }
@@ -130173,10 +130195,6 @@
                     {
                       "Name": "NewdoorControllers#0",
                       "Data": "54a552cbe4002ac44ae29b958a90e545_27┼60┼0┼@0@DoorMasterController@0"
-                    },
-                    {
-                      "Name": "channel",
-                      "Data": "DoorTimer"
                     }
                   ]
                 }
@@ -132094,10 +132112,6 @@
                     {
                       "Name": "NewdoorControllers#0",
                       "Data": "54a552cbe4002ac44ae29b958a90e545_30┼56┼0┼@0@DoorMasterController@0"
-                    },
-                    {
-                      "Name": "channel",
-                      "Data": "DoorTimer"
                     }
                   ]
                 }
@@ -132127,10 +132141,6 @@
                     {
                       "Name": "NewdoorControllers#0",
                       "Data": "54a552cbe4002ac44ae29b958a90e545_30┼60┼0┼@0@DoorMasterController@0"
-                    },
-                    {
-                      "Name": "channel",
-                      "Data": "DoorTimer"
                     }
                   ]
                 }
@@ -144864,7 +144874,17 @@
             "GitID": "6f371050bff8b32438f91c7c680900bb_48.15┼35.33┼0┼",
             "PrefabID": "6f371050bff8b32438f91c7c680900bb",
             "Name": "Flashlight (2)",
-            "LocalPRS": "48.15┼35.33┼0┼"
+            "LocalPRS": "48.15┼35.33┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "48215d170df22564f8730864a0fc91e2_48.15┼35.56┼0┼",
@@ -147949,6 +147969,34 @@
             "LocalPRS": "52┼78.98┼0┼"
           },
           {
+            "GitID": "6?ZZVFykWa9Kw$v9FhX-_52┼83┼0┼",
+            "PrefabID": "6?ZZVFykWa9Kw$v9FhX-",
+            "Name": "CureTester (1)",
+            "LocalPRS": "52┼83┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_54┼85┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "CureTester@0",
+                  "Data": [
+                    {
+                      "Name": "connectedSequenceAnalyzer",
+                      "Data": "4c3b9b1d349b58541830995579dd8d18_52┼84┼0┼@0@SequenceAnalyzer@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "0d553281bdfc0fd438b3f6c7db58688c_52┼84┼0┼",
             "PrefabID": "0d553281bdfc0fd438b3f6c7db58688c",
             "Name": "Vent - Virology - vllbq",
@@ -147979,6 +148027,25 @@
                     {
                       "Name": "Controller",
                       "Data": "a50474d976314462a79602e20a762520_56┼80┼0┼@0@AirController@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "4c3b9b1d349b58541830995579dd8d18_52┼84┼0┼",
+            "PrefabID": "4c3b9b1d349b58541830995579dd8d18",
+            "Name": "SequenceAnalyzer (1)",
+            "LocalPRS": "52┼84┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_54┼85┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -149275,6 +149342,14 @@
                 {
                   "ClassID": "APC@0",
                   "Data": [
+                    {
+                      "Name": "connectedDevices#9",
+                      "Data": "6?ZZVFykWa9Kw$v9FhX-_52┼83┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#8",
+                      "Data": "4c3b9b1d349b58541830995579dd8d18_52┼84┼0┼@0@APCPoweredDevice@0"
+                    },
                     {
                       "Name": "connectedDevices#7",
                       "Data": "a50474d976314462a79602e20a762520_57┼73┼0┼@0@APCPoweredDevice@0"
@@ -159184,7 +159259,24 @@
             "GitID": "e9197b807d4768e45bf9af095eb9d575_89.82┼51.85┼0┼",
             "PrefabID": "e9197b807d4768e45bf9af095eb9d575",
             "Name": "PirateOutfit (1)",
-            "LocalPRS": "89.82┼51.85┼0┼"
+            "LocalPRS": "89.82┼51.85┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ItemSlotActionTracker@0",
+                  "Data": [
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "SecureStuff.SerializedAction"
+                    },
+                    {
+                      "Name": "<ActionData>k__BackingField#Actions.V2.ActionButtonData",
+                      "Data": "#removed#"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "53f4aae14f6dbf24f831146d4c4fb2b7_89.93┼52.23┼0┼",
@@ -160266,7 +160358,17 @@
             "GitID": "abe9c13902b62ce449fdfec99db8f554_96.94┼42.48┼0┼",
             "PrefabID": "abe9c13902b62ce449fdfec99db8f554",
             "Name": "Lantern (1)",
-            "LocalPRS": "96.94┼42.48┼0┼"
+            "LocalPRS": "96.94┼42.48┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "74c59d7cb720be945a7c5606d962c05a_97┼45┼0┼",

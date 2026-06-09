@@ -42,6 +42,54 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 748ac891cd195d145b7386127b0de87b, type: 2}
   - {fileID: 11400000, guid: 7bea1ef82dee8264aabacb465d9a7946, type: 2}
   extraHealthForBrothers: 550
-  paranoiaSickness: {fileID: 8177265969630170377, guid: ad489c5a66fec7f418fa5935feb9efa2,
-    type: 3}
   initialTC: 8
+  BloodBrotherAbilities:
+  - rid: 6592296116545126588
+  - rid: 6592296116545126590
+  - rid: 6592296116545126592
+  - rid: 6592296116545126594
+  - rid: 6592296116545126596
+  - rid: 6592296116545126598
+  references:
+    version: 2
+    RefIds:
+    - rid: 6592296116545126588
+      type: {class: ImmuneToAllExplosions, ns: US13.Systems.Antagonists.Antags.BloodBrothers.Abilities,
+        asm: Assets}
+      data: 
+    - rid: 6592296116545126590
+      type: {class: ImmuneToAllHeat, ns: US13.Systems.Antagonists.Antags.BloodBrothers.Abilities,
+        asm: Assets}
+      data: 
+    - rid: 6592296116545126592
+      type: {class: ImmuneToStuns, ns: US13.Systems.Antagonists.Antags.BloodBrothers.Abilities,
+        asm: Assets}
+      data: 
+    - rid: 6592296116545126594
+      type: {class: StartParanoid, ns: US13.Systems.Antagonists.Antags.BloodBrothers.Abilities,
+        asm: Assets}
+      data: 
+    - rid: 6592296116545126596
+      type: {class: StartWithBlinding, ns: US13.Systems.Antagonists.Antags.BloodBrothers.Abilities,
+        asm: Assets}
+      data:
+        _serverAddAction:
+          ID: BB_BlindingLight
+          DisplayName: Blinding Light
+          Description: Release a bright shining light that temporarily blinds everyone
+            that's near a blood brother.
+          TriggerType: 0
+          Type: 0
+          AnimatedIconCatalogue:
+          - {fileID: 11400000, guid: 5237e15d52676fb46b8120299a044759, type: 2}
+          CooldownTime: 225
+          CanUseWhileGhosting: 1
+          HasCustomCursor: 0
+          OffsetType: 0
+          CursorOffset: {x: 0, y: 0}
+          CursorTexture: {fileID: 0}
+          TrackingObject: {fileID: 0}
+    - rid: 6592296116545126598
+      type: {class: StartWithRandomSpell, ns: US13.Systems.Antagonists.Antags.BloodBrothers.Abilities,
+        asm: Assets}
+      data: 

@@ -1,0 +1,184 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8373001583921321418
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1193114179089621995, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: Color.a
+      value: 0.3137255
+      objectReference: {fileID: 0}
+    - target: {fileID: 1637920947562625228, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: activatedBlockChance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1822721962999607035, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: activatedAttackVerbs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1822721962999607035, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: 'activatedAttackVerbs.Array.data[0]'
+      value: tapped
+      objectReference: {fileID: 0}
+    - target: {fileID: 1822721962999607035, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: 'activatedAttackVerbs.Array.data[1]'
+      value: poked
+      objectReference: {fileID: 0}
+    - target: {fileID: 1822721962999607035, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: 'activatedAttackVerbs.Array.data[2]'
+      value: bonked
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695110123352835740, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: parentID
+      value: bb89e4eb0756de04b8ab904221c23296
+      objectReference: {fileID: 0}
+    - target: {fileID: 3695110123352835740, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: foreverID
+      value: 41e0ac9a8c075b4448f636dcb03d7d3a
+      objectReference: {fileID: 0}
+    - target: {fileID: 4520221803203555702, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2107130439784344679}
+    - target: {fileID: 6176213448508576191, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5284257535482f34b9c8eefcbf35ea3b,
+        type: 3}
+    - target: {fileID: 6176213448508576191, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: InitialColour.a
+      value: 0.3137255
+      objectReference: {fileID: 0}
+    - target: {fileID: 7136416583791394276, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: InitialColour.a
+      value: 0.3137255
+      objectReference: {fileID: 0}
+    - target: {fileID: 7136416583791394276, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f9a49a9cc01c8754bbdb629c745d2fdc,
+        type: 2}
+    - target: {fileID: 7667703169655306053, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: _assetId
+      value: 2476502406
+      objectReference: {fileID: 0}
+    - target: {fileID: 7746192409284162169, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: activatedHitDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7746192409284162169, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: activatedThrowDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7781396554342910705, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: m_Name
+      value: Toy Sword
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: hitDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: initialName
+      value: toy sword
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: throwDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: initialDescription
+      value: A cheap, plastic replica of an energy sword. Realistic sounds! Ages
+        8 and up.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bb89e4eb0756de04b8ab904221c23296, type: 3}
+--- !u!212 &2107130439784344679 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7569679527290075565, guid: bb89e4eb0756de04b8ab904221c23296,
+    type: 3}
+  m_PrefabInstance: {fileID: 8373001583921321418}
+  m_PrefabAsset: {fileID: 0}

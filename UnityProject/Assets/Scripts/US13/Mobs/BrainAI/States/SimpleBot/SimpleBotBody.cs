@@ -1,0 +1,56 @@
+using Logs;
+using UnityEngine;
+using US13.Clothing;
+using US13.HealthV2.Living;
+using US13.Items.Implants.Organs;
+
+namespace US13.Mobs.BrainAI.States.SimpleBot
+{
+	public class SimpleBotBody : BodyPartFunctionality
+	{
+		private SimpleBotTaskAi _taskAi = null;
+		private int _currentSpriteIndex = 0;
+
+		[SerializeField, Tooltip("Sprites are: (0) Regular-Idle, (1) Regular-Performing,\n (2) Emagged-Idle, (3) Emagged-Performing")]
+		private SpriteDataSO[] possibleSprites = new SpriteDataSO[4];
+
+		public override void OnAddedToBody(LivingHealthMasterBase addedToBody)
+		{
+			base.OnAddedToBody(addedToBody);
+
+			if(LivingHealthMaster.brain != null) AttachToBrain(LivingHealthMaster.brain);
+			LivingHealthMaster.OnBrainAdded += AttachToBrain;
+		}
+
+		private void AttachToBrain(Brain brain)
+		{
+			if (_taskAi != null) _taskAi.OnSpriteChange -= UpdateBodySprites;
+			if (LivingHealthMaster.brain.TryGetComponent<SimpleBotTaskAi>(out _taskAi) == false)
+			{
+				Loggy.Error($"SimpleBotBody/OnAddedToBody(): Could not find SimpleBotTaskAi script on LivingHealthMaster Brain");
+				return;
+			}
+
+			_taskAi.OnSpriteChange += UpdateBodySprites;
+		}
+
+		public override void OnRemovedFromBody(LivingHealthMasterBase addedToBody, GameObject source = null)
+		{
+			base.OnRemovedFromBody(addedToBody, source);
+
+			addedToBody.OnBrainAdded -= AttachToBrain;
+			if (_taskAi == false) return;
+			_taskAi.OnSpriteChange -= UpdateBodySprites;
+		}
+
+		private void UpdateBodySprites(bool isEmagged, bool isPerformingTask)
+		{
+			if (RelatedPart.RelatedPresentSprites.Count == 0) return;
+
+			_currentSpriteIndex = isEmagged ? 2 : 0;
+			_currentSpriteIndex += isPerformingTask ? 1 : 0;
+
+			RelatedPart.RelatedPresentSprites[0].UpdateSpritesForImplant(RelatedPart, ClothingHideFlags.HIDE_NONE, possibleSprites[_currentSpriteIndex], RelatedPart.SpritePrefab.SpriteOrder);
+		}
+	}
+}

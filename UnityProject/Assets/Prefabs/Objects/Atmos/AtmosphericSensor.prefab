@@ -24,6 +24,12 @@ PrefabInstance:
       propertyPath: pushTextureOnStartUp
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 774114496202381458, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c1f458ac2062a44797c56b28f9253ff,
+        type: 2}
     - target: {fileID: 3191706476142505336, guid: 8e4c205a853b5d44bb1b793530feaefe,
         type: 3}
       propertyPath: initialName
@@ -168,6 +174,8 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 8771971882506116196, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
     - {fileID: 6115845058236176073, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
+    - {fileID: 4111290745443543937, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
+    - {fileID: 4988406958183288643, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -219,6 +227,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  objectBehaviour: {fileID: 0}
   isSecuredStateExaminable: 1
   isExposedFloorPlatingRequired: 1
   secondsToSecure: 0

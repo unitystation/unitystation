@@ -5,9 +5,11 @@ using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
+using US13.Managers.SubSceneManager;
 
 namespace Tests
 {
+	[Category(nameof(Scenes))]
 	public class SubsceneTests
 	{
 		[Test]

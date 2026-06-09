@@ -1,0 +1,287 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7359744463065994927
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3695110123352835740, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: foreverID
+      value: 91a9e6c29b24f834abffe39c775c8a61
+      objectReference: {fileID: 0}
+    - target: {fileID: 4520221803203555702, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1094365865594957570}
+    - target: {fileID: 4520221803203555702, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f9ae8b49ecb6a4f41bc230704bb33550,
+        type: 2}
+    - target: {fileID: 7569679527290075565, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: af430d8542aeed6419f1cd9069c0a515,
+        type: 3}
+    - target: {fileID: 7667703169655306053, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: _assetId
+      value: 2499075642
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7781396554342910705, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: m_Name
+      value: SanguineDagger
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: hitDamage
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: initialName
+      value: sanguine dagger
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: initialDescription
+      value: Unholy dagger formed from the blood of its host. Corrupts the user when
+        attacking living creatures.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: 'managedReferences[-2]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: CustomMeleeBehaviours.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 608fcb55ed9e93e4b9db9e1442319e13,
+        type: 2}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: a84dfff9a6cb93642a2b191c4d1fe8c0,
+        type: 2}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: 'CustomMeleeBehaviours.Array.data[0]'
+      value: 4317661658594148435
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: 'managedReferences[4317661658594148434]'
+      value: Assets US13.Items.Weapons.Melee.ElectrocuteMeleeEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: 'managedReferences[4317661658594148435]'
+      value: Assets US13.Items.Weapons.Melee.SanguineMeleeEffect
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148434].voltage
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148435].vampireTeam
+      value: 
+      objectReference: {fileID: 11400000, guid: 378c1481706515e41b287a6ca870ca62,
+        type: 2}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148435].sanguineEfficiency
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148435].sanguineDrainAmount
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148434].useSound.AssetAddress
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148435].useSound.AssetAddress
+      value: Assets/Prefabs/Magic/enter_blood.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148435].sanguineDrainThreshold
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148434].hitRequirements.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148435].hitRequirements.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148435].vampireSafetyConcentration
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148434].useSound.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148435].useSound.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148434].useSound.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148434].useSound.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148434].useSound.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148435].useSound.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148435].useSound.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148435].useSound.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148434].useSound.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      propertyPath: managedReferences[4317661658594148435].useSound.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7781396554342910705, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3450914666307502945}
+  m_SourcePrefab: {fileID: 100100000, guid: 229f1c93e0e4ada439cfe4b781f65997, type: 3}
+--- !u!1 &999238813840350302 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7781396554342910705, guid: 229f1c93e0e4ada439cfe4b781f65997,
+    type: 3}
+  m_PrefabInstance: {fileID: 7359744463065994927}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3450914666307502945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999238813840350302}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f4e1e8165c9dae44b76ec1a4ea9b613, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::SanguineDagger
+  shatterSound:
+    AssetAddress: Assets/Prefabs/Effects/GlassBreak01.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+--- !u!212 &1094365865594957570 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7569679527290075565, guid: 229f1c93e0e4ada439cfe4b781f65997,
+    type: 3}
+  m_PrefabInstance: {fileID: 7359744463065994927}
+  m_PrefabAsset: {fileID: 0}

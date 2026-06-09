@@ -115,25 +115,25 @@ MonoBehaviour:
   allowOnlyOneReader: 1
   remarks: []
   pageturnSfx:
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/PageTurn1.prefab
+  - AssetAddress: Assets/Prefabs/Effects/PageTurn1.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/PageTurn2.prefab
+  - AssetAddress: Assets/Prefabs/Effects/PageTurn2.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  - SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/PageTurn3.prefab
+  - AssetAddress: Assets/Prefabs/Effects/PageTurn3.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   spell: {fileID: 0}

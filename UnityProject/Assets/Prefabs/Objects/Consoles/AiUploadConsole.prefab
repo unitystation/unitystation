@@ -17,7 +17,7 @@ PrefabInstance:
     - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: initialName
-      value: AI Upload Console
+      value: AI upload console
       objectReference: {fileID: 0}
     - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -34,10 +34,40 @@ PrefabInstance:
       propertyPath: _assetId
       value: 2283120987
       objectReference: {fileID: 0}
-    - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
+    - target: {fileID: 2712468360772368645, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: m_AssetId
-      value: 71484dc6293e4474e8b16b794b7c42c4
+      propertyPath: InitialColour.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2712468360772368645, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.83049744
+      objectReference: {fileID: 0}
+    - target: {fileID: 2712468360772368645, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.59854645
+      objectReference: {fileID: 0}
+    - target: {fileID: 4440120190223384322, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.a
+      value: 0.078431375
+      objectReference: {fileID: 0}
+    - target: {fileID: 4440120190223384322, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4440120190223384322, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.7019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 4440120190223384322, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.29411766
       objectReference: {fileID: 0}
     - target: {fileID: 4571869433525098128, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -45,6 +75,41 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 5bb1b9de6842054479314f18633f111b,
         type: 3}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.83137256
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6422803871620661103, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.a
+      value: 0.078431375
+      objectReference: {fileID: 0}
+    - target: {fileID: 6422803871620661103, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6422803871620661103, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.7019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 6422803871620661103, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0.29411766
+      objectReference: {fileID: 0}
     - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: parentID
@@ -59,11 +124,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AiUploadConsole
-      objectReference: {fileID: 0}
-    - target: {fileID: 7762584330458228387, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7762584330458228387, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}

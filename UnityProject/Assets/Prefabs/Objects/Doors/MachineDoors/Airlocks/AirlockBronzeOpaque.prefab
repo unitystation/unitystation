@@ -32,6 +32,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3040769641053860294, guid: d17a3dd9833a3ad479599a753de686ed,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 63d2639df7a8e464a81d1c361ab5eb4f,
+        type: 2}
+    - target: {fileID: 3040769641053860294, guid: d17a3dd9833a3ad479599a753de686ed,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 63d2639df7a8e464a81d1c361ab5eb4f,
@@ -170,6 +176,11 @@ PrefabInstance:
       value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 7257582468809553721, guid: d17a3dd9833a3ad479599a753de686ed,
+        type: 3}
+      propertyPath: m_Layer
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 9203410727106218610, guid: d17a3dd9833a3ad479599a753de686ed,
         type: 3}
       propertyPath: m_Layer
       value: 17

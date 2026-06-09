@@ -16,7 +16,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2335991647453887416, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 128792283226194090}
+    - target: {fileID: 2335991647453887416, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f8e5906beaf34d64082ced62c1ae3392,
+        type: 2}
+    - target: {fileID: 2335991647453887416, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: f8e5906beaf34d64082ced62c1ae3392,
         type: 2}
@@ -70,6 +81,18 @@ PrefabInstance:
     - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 06e0ef0ba0ee3ac4e9132e77e383c345,
+        type: 2}
+    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: a2a7e033c5e5958419415cb5f2d41c2d,
+        type: 2}
+    - target: {fileID: 8340835308478918493, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: 06e0ef0ba0ee3ac4e9132e77e383c345,
         type: 2}
@@ -177,7 +200,17 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5336027159625183590}
+    - targetCorrespondingSourceObject: {fileID: 8443408387443916863, guid: b56fec0300832ce48ade0ddf2e577ee7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7481548228129016208}
   m_SourcePrefab: {fileID: 100100000, guid: b56fec0300832ce48ade0ddf2e577ee7, type: 3}
+--- !u!212 &128792283226194090 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8637049411140268899, guid: b56fec0300832ce48ade0ddf2e577ee7,
+    type: 3}
+  m_PrefabInstance: {fileID: 8508840436582937545}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &232070049008415734 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8443408387443916863, guid: b56fec0300832ce48ade0ddf2e577ee7,
@@ -204,10 +237,27 @@ MonoBehaviour:
     itemCost: 2
     timeToPlace: 1
   placeSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GlassHit.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+--- !u!114 &7481548228129016208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 232070049008415734}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104d9a22603dba440a2d901daf048fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::MaterialMakeUp
+  MakeUp:
+    m_keys:
+    - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+    - {fileID: 11400000, guid: 78dc359894fa18744acf5862e480dd75, type: 2}
+    m_values: d0070000e8030000

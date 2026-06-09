@@ -12,6 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
   m_Name: platingdmg2
   m_EditorClassIdentifier: 
+  _PreviewSprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 23a4433bf90de214887588f2c141cb5e, type: 3}
+  Sprites: []
+  spriteSheet:
+    Texture: {fileID: 0}
+    Sprites: []
+    EquippedData: {fileID: 0}
+  spriteSheets: []
+  connectCategory: 4
+  connectType: 0
+  texturePath: 
+  Blacklist: []
+  WhiteList: []
+  AnimationSpeed: 1
+  AnimationStartTime: 0
+  randomizeStartTime: 0
+  TileAnimationFlags: 0
   <ForeverID>k__BackingField: platingdmg2
   displayName: plating
   description: 
@@ -22,7 +39,7 @@ MonoBehaviour:
   floorTileSounds: {fileID: 11400000, guid: b6656d824eea91648b8ada5f88db78ca, type: 2}
   CanSoundOverride: 0
   atmosPassable: 1
-  isSealed: 1
+  isSealed: 0
   SpawnWithNoAir: 0
   passable: 1
   mineable: 0
@@ -58,16 +75,16 @@ MonoBehaviour:
     TemperatureProtectionInK: {x: 268.15, y: 313.15}
     PressureProtectionInKpa: {x: 30, y: 300}
   tileInteractions:
-  - {fileID: 11400000, guid: 20594944fdc1e8c4f926faf5d0653dae, type: 2}
-  - {fileID: 11400000, guid: 26cde2c683404c491be3a9225eb5aafc, type: 2}
+  - {fileID: 11400000, guid: 96c53b74147688a09bff81067e86f31e, type: 2}
+  - {fileID: 11400000, guid: 72543a8a859dfb9d69489c78cc70444f, type: 2}
   <OnTileStartMining>k__BackingField: []
   <OnTileFinishMining>k__BackingField: []
   tileStepInteractions: []
-  spawnOnDeconstruct: {fileID: 5331286249588652700, guid: 29ecbf5a1d918574cbcf5853927e0944,
-    type: 3}
+  spawnOnDeconstruct: {fileID: 0}
   spawnAmountOnDeconstruct: 1
-  lootOnDespawn: {fileID: 0}
-  toTileWhenDestroyed: {fileID: 0}
+  lootOnDespawn: {fileID: 11400000, guid: 82af59386fd508fedb61447a8bbdec11, type: 2}
+  toTileWhenDestroyed: {fileID: 11400000, guid: e8a2685c8a14b7043bf58bde4374c6b1,
+    type: 2}
   spawnOnDestroy: {fileID: 0}
   damageOverlayList: {fileID: 0}
   soundOnHit:
@@ -79,6 +96,5 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   SoundOnDestroy: []
-  sprite: {fileID: 21300000, guid: 23a4433bf90de214887588f2c141cb5e, type: 3}
   CanBeHighlightedThroughScanners: 0
   HighlightObject: {fileID: 0}

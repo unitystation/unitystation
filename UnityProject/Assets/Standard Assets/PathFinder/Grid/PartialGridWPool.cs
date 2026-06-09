@@ -1,4 +1,4 @@
-/*! 
+/*!
 @file PartialGridWPool.cs
 @author Woong Gyu La a.k.a Chris. <juhgiyo@gmail.com>
 		<http://github.com/juhgiyo/eppathfinding.cs>
@@ -35,11 +35,10 @@ THE SOFTWARE.
 An Interface for the PartialGrid with Pool Class.
 
 */
-using System;
-using System.Collections.Generic;
-using System.Collections;
 
-namespace EpPathFinding.cs
+using System.Collections.Generic;
+
+namespace Standard_Assets.PathFinder.Grid
 {
     public class PartialGridWPool : BaseGrid
     {
@@ -85,7 +84,7 @@ namespace EpPathFinding.cs
         {
             m_nodePool = b.m_nodePool;
         }
-       
+
         public void SetGridRect(GridRect iGridRect)
         {
             m_gridRect = iGridRect;

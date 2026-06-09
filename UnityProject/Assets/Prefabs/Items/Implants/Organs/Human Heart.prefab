@@ -10,7 +10,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2958057004479724332}
+    - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b12bf42278e116845b8d25886a048590,
+        type: 2}
+    - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: b12bf42278e116845b8d25886a048590,
         type: 2}
@@ -98,7 +109,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 281ded51826ff60438fade5e58403490,
+      objectReference: {fileID: 21300002, guid: 281ded51826ff60438fade5e58403490,
         type: 3}
     - target: {fileID: 4859781159729634365, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -163,6 +174,17 @@ PrefabInstance:
       propertyPath: 'initialTraits.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 892f0c642e2049640b08d738517bb0f5,
+        type: 2}
+    - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: MutationRestriction
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: MutationRestrictionItemTrait
+      value: 
+      objectReference: {fileID: 11400000, guid: 8e3a656a9a75c0a4d826681427d5d901,
         type: 2}
     - target: {fileID: 6638208500181761376, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
@@ -231,6 +253,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 4157872649963469067}
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+--- !u!212 &2958057004479724332 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4859781159729634365, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+    type: 3}
+  m_PrefabInstance: {fileID: 7673087146983204625}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &3169642092305287280 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
@@ -275,13 +303,13 @@ MonoBehaviour:
     NormalBlood: 500
     bloodReagent: {fileID: 0}
     PumpingDevices: []
-    RegenBloodPool:
+    TempBloodReservoir:
       temperature: 273.15
       reagents:
         m_keys: []
         m_values: []
       reagentKeys: []
-    RegenEfficiency: 0.15
+    ReservoirReturnMultiplier: 0.15
   ForcedBeats: 0
   isEMPVunerable: 0
   EMPResistance: 2

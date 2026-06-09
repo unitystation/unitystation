@@ -1,0 +1,61 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9d639585f97bb841bc468b21539740e, type: 3}
+  m_Name: MimeBigWall
+  m_EditorClassIdentifier: Assets::US13.Systems.Spells.WizardSpellData
+  actionType: 0
+  activeSpriteIndex: 1
+  callOnClient: 1
+  callOnServer: 1
+  actionName: Temporary Invisible 3xWall
+  description: The mime's performance transmutates a big wall into physical reality.
+  Sprites:
+  - {fileID: 11400000, guid: 8b92ab85dc317064bb146c9c20c04871, type: 2}
+  Backgrounds:
+  - {fileID: 11400000, guid: cd061aeadba774a4396e72bdab2b52f3, type: 2}
+  PreventBeingControlledBy: 
+  DisableOnEvent: 
+  isAimable: 0
+  useCustomCursor: 0
+  cursorTexture: {fileID: 0}
+  cursorOffsetType: 0
+  cursorOffset: {x: 0, y: 0}
+  RequireLivingHealth: 0
+  spellImplementation: {fileID: 6344511261145046837, guid: 99cc8a8af5b50c544abfb92dda91b8d4,
+    type: 3}
+  chargeType: 0
+  cooldownTime: 30
+  startingCharges: 10
+  castSound:
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  range: 0
+  stillRechargingMessage: The spell is still recharging!
+  affectedMessage: 
+  invocationType: 1
+  invocationMessage: '{0} looks as if a barrage is in front of {1}'
+  invocationMessageSelf: You form a barrage in front of yourself.
+  summonType: 0
+  summonObjects: []
+  summonTiles: []
+  summonPosition: 1
+  summonLifespan: 10
+  replaceExisting: 0
+  AllowSoftCriticalUses: 1
+  requireWizardGarb: 0
+  tierCount: 1
+  cooldownModifierPC: 20

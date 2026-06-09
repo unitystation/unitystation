@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4c94f09266fb5c840ac902fef267ae5c,
         type: 2}
+    - target: {fileID: 514345970168333904, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c94f09266fb5c840ac902fef267ae5c,
+        type: 2}
     - target: {fileID: 783613402110013882, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: parentID
@@ -174,6 +180,18 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: e1b6fc280be6fac4e972be5e68ed1fd2, type: 3}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 784110f607f2dc54a99186fcd4949f85,
+        type: 2}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: e5f2fbbf1c076124ea2a56df0a6f1bc3,
+        type: 2}
     - target: {fileID: 6191990561276589057, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: hasSimpleRelatedRecipe
@@ -208,6 +226,16 @@ PrefabInstance:
     - target: {fileID: 8026742801534802552, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: 'stacksWith.Array.data[0]'
+      value: 
+      objectReference: {fileID: 9177804066296137559}
+    - target: {fileID: 8026742801534802552, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: InitialstacksWith.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8026742801534802552, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: 'InitialstacksWith.Array.data[0]'
       value: 
       objectReference: {fileID: 9177804066296137559}
     - target: {fileID: 8026742801534802552, guid: 8a023982b9ee4fd40b87f69c23492dd6,
@@ -273,4 +301,6 @@ MonoBehaviour:
   groundReagents:
     m_keys:
     - {fileID: 11400000, guid: 3f8ba0db83a8157ae8fbb3c4115580e7, type: 2}
-    m_values: 14000000
+    m_values:
+    - 1000
+  UseReagentContainer: 0

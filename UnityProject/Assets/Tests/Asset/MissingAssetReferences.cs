@@ -6,6 +6,7 @@ using System.Text;
 using System.Linq;
 using System.IO;
 using Logs;
+using Util;
 
 namespace Tests.Asset
 {

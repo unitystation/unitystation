@@ -1,0 +1,374 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Mirror;
+using NaughtyAttributes;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
+using US13.Core;
+using US13.Core.Highlight;
+using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Core.Lifecycle;
+using US13.Core.TranslationSystem;
+using US13.Detective;
+using US13.Health.Objects;
+using US13.Items.Others;
+using US13.Items.Traits;
+using US13.Managers;
+using US13.MapSaver;
+using US13.Messages.Client.Interaction;
+using US13.Player;
+using US13.Systems.Inventory;
+using US13.UI.Core.RightClick;
+using US13.UI.Systems;
+using Util;
+
+namespace US13.Items
+{
+	[RequireComponent(typeof(Integrity))]
+	public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServerSpawn, IHighlightable
+	{
+
+		[Tooltip("Display name of this item when spawned.")]
+		[SerializeField]
+		private string initialName = null;
+
+		[Tooltip("Display name of this item when spawned. Randomly chosen from this list")]
+		[SerializeField]
+		private List<string> initialNames = new List<string>();
+
+		[SyncVar(hook = nameof(SyncArticleName))]
+		private string articleName;
+		/// <summary>
+		/// Current name
+		/// </summary>
+		public string ArticleName => articleName; //Shoulld already be translated
+
+		public string InitialName => TS.T( initialName);
+
+		public string InitialDescription =>  TS.T(initialDescription);
+
+		// This examine message has priority over everything. If you make yours have higher priority, I will cut your ears.
+		public int ExaminablePriority => 10_000_000;
+
+		[Tooltip("Description of this item when spawned.")]
+		[SerializeField]
+		[TextArea(3,5)]
+		private string initialDescription = null;
+
+		[Tooltip("Will this item highlight on mouseover?")]
+		[SerializeField ]
+		private bool willHighlight = true;
+
+		[Tooltip("How much does one of these sell for when shipped on the cargo shuttle?")]
+		[SerializeField, BoxGroup("Cargo") ]
+		private int exportCost = 0;
+
+		public class ExportEvent : UnityEvent<string, string> { }
+
+		/// <summary>
+		/// Server-side event invoked when this object is sold at cargo
+		/// </summary>
+		[NonSerialized]
+		public ExportEvent onExport = new ExportEvent();
+
+		public int ExportCost
+		{
+			get
+			{
+				if (TryGetComponent<Stackable>(out var stackable))
+				{
+					int amount = (Application.isEditor && Application.isPlaying == false) ? stackable.InitialAmount : stackable.Amount;
+					return exportCost * amount;
+				}
+
+				return exportCost;
+			}
+		}
+
+		[SerializeField, BoxGroup("Cargo")]
+		[Tooltip("Can this be sold while oboard a cargo shuttle?")]
+		public bool CanBeSoldInCargo = true;
+
+		[Tooltip("Should an alternate name be used when displaying this in the cargo console report?")]
+		[SerializeField, BoxGroup("Cargo") ]
+		private string exportName = "";
+		public string ExportName => TS.T( exportName);
+
+		[Tooltip("Additional message to display in the cargo console report.")]
+		[SerializeField, BoxGroup("Cargo") ]
+		[TextArea(3,5)]
+		private string exportMessage = null;
+		public string ExportMessage => TS.T(exportMessage);
+
+
+		[FormerlySerializedAs("noItemHighlight")] [SerializeField]
+		private bool noMouseHighlight = false;
+		public bool NoMouseHighlight => noMouseHighlight;
+
+		[SerializeField]
+		[Tooltip("Initial traits of this item on spawn.")]
+		protected List<ItemTrait> initialTraits = new List<ItemTrait>();
+		public List<ItemTrait> InitialTraits => initialTraits;
+
+
+		[Server]
+		public void SetExportCost(int value)
+		{
+			exportCost = value;
+		}
+
+
+		[Server]
+		public void OnExport()
+		{
+			onExport.Invoke(ExportName, ExportMessage);
+		}
+
+		[SyncVar(hook = nameof(SyncArticleDescription))]
+		private string articleDescription;
+
+
+		[HideInInspector] [SyncVar(hook = nameof(SyncIsMapped))] public bool IsMapped = false;
+
+		/// <summary>
+		/// Sizes:
+		/// Tiny - pen, coin, pills. Anything you'd easily lose in a couch.
+		/// Small - Pocket-sized items. You could hold a couple in one hand, but ten would be a hassle without a bag. Apple, phone, drinking glass etc.
+		/// Medium - default size. Fairly bulky but stuff you could carry in one hand and stuff into a backpack. Most tools would fit this size.
+		/// Large - particularly long or bulky items that would need a specialised bag to carry them. A shovel, a snowboard etc or wall mounts, kitchen appliance.
+		/// Huge - Think, like, a fridge. Absolute unit. You aren't stuffing this into anything less than a shipping crate or plasma generator.
+		/// Massive - Particle accelerator piece, takes up the entire tile.
+		/// Humongous - Multi-block/Sprite stretches across multiple tiles structures such as the gateway
+		/// </summary>
+		[Tooltip("Size of this item when spawned. Is medium by default, which you should change if needed.")]
+		[SerializeField]
+		private Size initialSize = global::US13.Systems.Inventory.Size.Medium;
+
+		/// <summary>
+		/// Current size.
+		/// </summary>
+		[SyncVar(hook = nameof(SyncSize))]
+		private Size size;
+
+		/// <summary>
+		/// Current size
+		/// </summary>
+		public Size Size => size;
+
+		/// <summary>
+		/// Current description
+		/// </summary>
+		public string ArticleDescription => articleDescription;
+
+
+		/// <summary>
+		/// For the detectives Scanner
+		/// </summary>
+		public AppliedDetails AppliedDetails = new AppliedDetails();
+
+		private const float MINIMUM_HIGHLIGHT_DISTANCE = 6f;
+
+
+		public override void OnStartClient()
+		{
+			SyncArticleName(articleName, ArticleName);
+			SyncArticleDescription(articleDescription, articleDescription);
+			SyncSize(size, this.size);
+			base.OnStartClient();
+		}
+
+
+		private void Start()
+		{
+			SyncIsMapped(IsMapped, this.GetComponent<RuntimeSpawned>() == null);
+			if (gameObject.HasComponent<EtherealThing>() == false) ComponentsTracker<Attributes>.Instances.Add(this);
+		}
+
+		private void OnDestroy()
+		{
+			if (gameObject.HasComponent<EtherealThing>() == false) ComponentsTracker<Attributes>.Instances.Remove(this);
+		}
+
+		private void SyncSize(Size oldSize, Size newSize)
+		{
+			size = newSize;
+		}
+
+		/// <summary>
+		/// Change this item's size and sync it to clients.
+		/// </summary>
+		/// <param name="newSize"></param>
+		[Server]
+		public void ServerSetSize(Size newSize)
+		{
+			SyncSize(size, newSize);
+		}
+
+		private void SyncArticleName(string oldName, string newName)
+		{
+			articleName = newName;
+		}
+
+		private void SyncArticleDescription(string oldDescription, string newDescription)
+		{
+			articleDescription = newDescription;
+		}
+
+		public void SyncIsMapped(bool oldIsMapped, bool NewIsMapped)
+		{
+			IsMapped = NewIsMapped;
+			bool hasRuntimeSpawned = this.TryGetCachedComponent<RuntimeSpawned>(out var RuntimeSpawned);
+			if (NewIsMapped && hasRuntimeSpawned)
+			{
+				Destroy(RuntimeSpawned);
+			}
+			else if (NewIsMapped == false && hasRuntimeSpawned == false)
+			{
+				gameObject.AddComponent<RuntimeSpawned>();
+			}
+		}
+
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			size = initialSize;
+			if (initialNames.Count > 0)
+			{
+				SyncArticleName(articleName,  TS.T(initialNames.PickRandom()));
+			}
+			else
+			{
+				SyncArticleName(articleName, InitialName);
+			}
+
+
+			SyncArticleDescription(articleDescription, InitialDescription);
+		}
+
+		/// <summary>
+		/// When hovering over an object or item its name and description is shown as a tooltip on the bottom-left of the screen.
+		/// The first letter of the object's name is always capitalized if the object has been given a name.
+		/// If there is description it is shown in parentheses.
+		/// </summary>
+		public void OnHoverStart()
+		{
+			//failsafe - don't highlight hidden / despawned stuff
+			if (gameObject.IsAtHiddenPos()) return;
+
+			if (willHighlight)
+			{
+				Highlight.HighlightThis(gameObject);
+			}
+			string displayName = null;
+			if (string.IsNullOrWhiteSpace(ArticleName))
+			{
+				displayName = gameObject.ExpensiveName();
+			}
+			else
+			{
+				displayName = ArticleName;
+			}
+			//failsafe
+			if (string.IsNullOrWhiteSpace(displayName)) displayName = "error";
+
+			UIManager.SetToolTip =
+				displayName.First().ToString().ToUpper() + displayName.Substring(1);
+			UIManager.SetHoverToolTip = gameObject;
+		}
+
+		public void OnHoverEnd()
+		{
+			Highlight.DeHighlight();
+
+			UIManager.SetToolTip = string.Empty;
+			UIManager.SetHoverToolTip = null;
+		}
+
+		// Sends examine event to all monobehaviors on gameobject - keep for now - TODO: integrate w shift examine
+		public void SendExamine()
+		{
+			SendMessage("OnExamine");
+		}
+
+		private void OnExamine()
+		{
+			RequestExamineMessage.Send(netId);
+		}
+
+		private void OnPointTo()
+		{
+			PlayerManager.LocalPlayerScript.PlayerNetworkActions.CmdPoint(gameObject, gameObject.AssumedWorldPosServer());
+		}
+
+		// Initial implementation of shift examine behaviour
+		public string Examine(Vector3 worldPos)
+		{
+			string displayName = "<error>";
+			if (string.IsNullOrWhiteSpace(ArticleName))
+			{
+				displayName = gameObject.ExpensiveName();
+			}
+			else
+			{
+				displayName = ArticleName;
+			}
+
+			string str = "This is a " + displayName + ".";
+
+			if (!string.IsNullOrEmpty(ArticleDescription))
+			{
+				str = str + " " + ArticleDescription;
+			}
+			return str;
+		}
+
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			return RightClickableResult.Create()
+				.AddElement("Examine", OnExamine)
+				.AddElement("PointTo", OnPointTo);
+		}
+
+		public void ServerSetArticleName(string newName)
+		{
+			if (gameObject.TryGetComponent<Stackable>(out var stack))
+			{
+				newName = $"{newName} ({stack.Amount})";
+			}
+			newName = newName.Replace("[item]", $"{InitialName}");
+			SyncArticleName(ArticleName, newName);
+		}
+
+		[Server]
+		public void ServerSetArticleDescription(string desc)
+		{
+			SyncArticleDescription(articleDescription, desc);
+		}
+
+		public List<string> SearchableString()
+		{
+			var names = new List<string>();
+			names.Add(InitialName);
+			names.Add(ArticleName);
+			if (this is ItemAttributesV2 c)
+			{
+				names.AddRange(c.GetTraits().Select(trait => trait.name));
+			}
+			return names;
+		}
+
+		public void HighlightObject()
+		{
+			if (PlayerManager.LocalPlayerObject == null || gameObject.IsAtHiddenPos()) return;
+			if (Vector2.Distance(gameObject.AssumedWorldPosServer(), PlayerManager.LocalPlayerObject.AssumedWorldPosServer()) > MINIMUM_HIGHLIGHT_DISTANCE) return;
+			Instantiate(GlobalHighlighterManager.HighlightObject, this.transform, false);
+		}
+
+		public void SetInitialName(string Name)
+		{
+			initialName = Name;
+		}
+	}
+}

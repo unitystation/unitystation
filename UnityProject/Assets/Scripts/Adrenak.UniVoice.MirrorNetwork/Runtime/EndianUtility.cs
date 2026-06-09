@@ -1,8 +1,6 @@
 using System;
 
-
-
-namespace Adrenak.BRW {
+namespace Adrenak.UniVoice.MirrorNetwork.Runtime {
 
 	/// <summary>
 

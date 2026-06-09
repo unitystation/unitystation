@@ -1,0 +1,119 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2566512494240753672
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 588077646763270681, guid: dbed9c12e46f71a49967067922745323,
+        type: 3}
+      propertyPath: _assetId
+      value: 3313168494
+      objectReference: {fileID: 0}
+    - target: {fileID: 697761319150314201, guid: dbed9c12e46f71a49967067922745323,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697761319150314201, guid: dbed9c12e46f71a49967067922745323,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697761319150314201, guid: dbed9c12e46f71a49967067922745323,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697761319150314201, guid: dbed9c12e46f71a49967067922745323,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 697761319150314201, guid: dbed9c12e46f71a49967067922745323,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697761319150314201, guid: dbed9c12e46f71a49967067922745323,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697761319150314201, guid: dbed9c12e46f71a49967067922745323,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697761319150314201, guid: dbed9c12e46f71a49967067922745323,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697761319150314201, guid: dbed9c12e46f71a49967067922745323,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 697761319150314201, guid: dbed9c12e46f71a49967067922745323,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 701840369948696493, guid: dbed9c12e46f71a49967067922745323,
+        type: 3}
+      propertyPath: m_Name
+      value: FloorLightFixtureFrameItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 814172442186951921, guid: dbed9c12e46f71a49967067922745323,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1e310a048104c0cdeb009e6e51f7bfbb,
+        type: 3}
+    - target: {fileID: 1103639937776873679, guid: dbed9c12e46f71a49967067922745323,
+        type: 3}
+      propertyPath: initialName
+      value: floor light fixture frame
+      objectReference: {fileID: 0}
+    - target: {fileID: 4031923367078210111, guid: dbed9c12e46f71a49967067922745323,
+        type: 3}
+      propertyPath: IsWallProtrusion
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4031923367078210111, guid: dbed9c12e46f71a49967067922745323,
+        type: 3}
+      propertyPath: WallMountToSpawn
+      value: 
+      objectReference: {fileID: 2374647771018349113, guid: dc519df8726c903b29314063476e399b,
+        type: 3}
+    - target: {fileID: 5838857531207291840, guid: dbed9c12e46f71a49967067922745323,
+        type: 3}
+      propertyPath: foreverID
+      value: cc9ad5eb903ce554aa1d485a13a8fcb6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6700071116958901290, guid: dbed9c12e46f71a49967067922745323,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2941571863020913913}
+    - target: {fileID: 6700071116958901290, guid: dbed9c12e46f71a49967067922745323,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 966f923b37366e2c49aa037b1be14052,
+        type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: dbed9c12e46f71a49967067922745323, type: 3}
+--- !u!212 &2941571863020913913 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 814172442186951921, guid: dbed9c12e46f71a49967067922745323,
+    type: 3}
+  m_PrefabInstance: {fileID: 2566512494240753672}
+  m_PrefabAsset: {fileID: 0}

@@ -1,0 +1,82 @@
+﻿using US13.Core.Chat;
+using US13.Core.Input_System.InteractionV2;
+using US13.Core.Input_System.InteractionV2.Interactions;
+using US13.Items.Traits;
+using US13.Systems.Fluids;
+using Util;
+
+namespace US13.Objects.Pipes
+{
+	public class PipeRun : PipeItemTile
+	{
+		public int BentVariantLocation = 4;
+		public int StraightVariantLocation = 0;
+		public bool IsBent = false;
+
+		public PipeTile StraightPipe;
+		public PipeTile BentPipe;
+
+		public override void ServerPerformInteraction(HandApply interaction)
+		{
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Crowbar))
+			{
+				if (IsBent)//This assumes that the connections never get changed around/rotated
+				{
+					IsBent = false;
+					SpriteHandler.SetSpriteVariant(StraightVariantLocation);
+					Chat.AddExamineMsgFromServer(interaction.Performer,
+						"You straighten the pipe with the " + interaction.UsedObject.ExpensiveName());
+					return;
+				}
+				else
+				{
+					IsBent = true;
+					SpriteHandler.SetSpriteVariant(BentVariantLocation);
+					Chat.AddExamineMsgFromServer(interaction.Performer,
+						"You Bend the pipe with the " + interaction.UsedObject.ExpensiveName());
+					return;
+				}
+
+			}
+			base.ServerPerformInteraction(interaction);
+		}
+
+		public override void Setsprite()
+		{
+			if (IsBent)//This assumes that the connections never get changed around/rotated
+			{
+				SpriteHandler.SetSpriteVariant(BentVariantLocation);
+
+			}
+			else
+			{
+				SpriteHandler.SetSpriteVariant(StraightVariantLocation);
+
+			}
+		}
+
+		public override PipeTile GetPipeTile()
+		{
+			if (IsBent)
+			{
+				return (BentPipe);
+			}
+			else
+			{
+				return (StraightPipe);
+			}
+		}
+
+		public override Connections GetConnections()
+		{
+			if (IsBent)
+			{
+				return (BentPipe.Connections.Copy());
+			}
+			else
+			{
+				return (StraightPipe.Connections.Copy());
+			}
+		}
+	}
+}

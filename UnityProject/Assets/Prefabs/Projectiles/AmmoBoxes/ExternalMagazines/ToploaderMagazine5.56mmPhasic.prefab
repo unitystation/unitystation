@@ -105,8 +105,42 @@ PrefabInstance:
       propertyPath: initialName
       value: toploader magazine (5.56mm phasic)
       objectReference: {fileID: 0}
+    - target: {fileID: 8286114984853069416, guid: 5a643a1e715e7bd42af8563fcac22ee2,
+        type: 3}
+      propertyPath: magazine
+      value: 
+      objectReference: {fileID: 3069629361354629494}
+    - target: {fileID: 8286114984853069416, guid: 5a643a1e715e7bd42af8563fcac22ee2,
+        type: 3}
+      propertyPath: spriteHandler
+      value: 
+      objectReference: {fileID: 1745275334113669520}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a643a1e715e7bd42af8563fcac22ee2, type: 3}
+--- !u!114 &1745275334113669520 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4346656739029592059, guid: 5a643a1e715e7bd42af8563fcac22ee2,
+    type: 3}
+  m_PrefabInstance: {fileID: 2623940438413940331}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3069629361354629494 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1077372200217278237, guid: 5a643a1e715e7bd42af8563fcac22ee2,
+    type: 3}
+  m_PrefabInstance: {fileID: 2623940438413940331}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

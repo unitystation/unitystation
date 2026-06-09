@@ -4801,6 +4801,9 @@ ParticleSystemRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -4822,6 +4825,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 35
@@ -4904,7 +4908,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 1, g: 0, b: 1, a: 1}
+  InitialColour: {r: 1, g: 0, b: 1, a: 1}
   Sprite: {fileID: 21300000, guid: 9e9f6c63bf3334c8791e01efff5c16fb, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -4930,6 +4934,9 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -4951,6 +4958,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -4977,12 +4985,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  InitialPresentSpriteSet: {fileID: 0}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
-  variantIndex: 0
+  initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &8199986393446477853
 GameObject:
   m_ObjectHideFlags: 0
@@ -5026,10 +5038,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 774114496202381458, guid: 8e4c205a853b5d44bb1b793530feaefe,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 5997160378838374448}
+    - target: {fileID: 774114496202381458, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 26583260609e5724f84ec5212e5c0d63,
         type: 2}
+    - target: {fileID: 774114496202381458, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 26583260609e5724f84ec5212e5c0d63,
+        type: 2}
+    - target: {fileID: 3191706476142505336, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: initialName
+      value: engine
+      objectReference: {fileID: 0}
+    - target: {fileID: 3191706476142505336, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: initialDescription
+      value: A bluespace engine used to make shuttles move.
+      objectReference: {fileID: 0}
     - target: {fileID: 3473242624798872064, guid: 8e4c205a853b5d44bb1b793530feaefe,
         type: 3}
       propertyPath: AtmosPassable
@@ -5145,6 +5178,8 @@ PrefabInstance:
     - {fileID: 8771971882506116196, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
     - {fileID: 8353694130705612946, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
     - {fileID: 6115845058236176073, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
+    - {fileID: 4988406958183288643, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
+    - {fileID: 4111290745443543937, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 5258920263574484114, guid: 8e4c205a853b5d44bb1b793530feaefe,
@@ -5230,6 +5265,7 @@ MonoBehaviour:
     CustomLogic: 0
     NetCompatible: 0
     SelfSufficient: 0
+    MappingNotRequiresLink: 0
     mixAndVolume:
       mix:
         temperature: 273.15
@@ -5247,24 +5283,25 @@ MonoBehaviour:
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spawnedFromItem: 0
   directional: {fileID: 4385658394677474732}
-  RelatedMove: {fileID: 0}
+  InitialVolume: 0.05
   Rotatable: {fileID: 4385658394677474732}
   ThisThrusterDirectionClassification: 0
   MaxMolesUseda: 1
   PrefabThrusterMultiplier: 1
   ThrusterMultiplier: 100
-  AThrusterUseMultiplier: 0.072975
+  AThrusterUseMultiplier: 0.364875
+  ThrusterMolesConsumptionRate: 2
   ThrustPower: 0
   SelfPowered: 0
   MaxEngineParticles: 70
   EffectFraction: 0
   AtmosphericCurrentFraction: 0
   RunningAudio:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/machinehum4.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   InletPressure: 0
@@ -5290,6 +5327,14 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 1
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 0
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 1
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &3181916494043302486
@@ -5307,6 +5352,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  objectBehaviour: {fileID: 0}
   isSecuredStateExaminable: 1
   isExposedFloorPlatingRequired: 1
   secondsToSecure: 0
@@ -5347,3 +5393,9 @@ MonoBehaviour:
   syncInterval: 0.1
   NetTabType: 65
   aiInteractable: 1
+--- !u!212 &5997160378838374448 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5444563050315388511, guid: 8e4c205a853b5d44bb1b793530feaefe,
+    type: 3}
+  m_PrefabInstance: {fileID: 1780268378526666351}
+  m_PrefabAsset: {fileID: 0}

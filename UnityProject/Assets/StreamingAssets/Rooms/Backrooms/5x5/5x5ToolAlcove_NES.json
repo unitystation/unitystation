@@ -1,0 +1,315 @@
+{
+  "Ver": "1.0.0",
+  "MapName": "5x5ToolAlcove",
+  "ContainedMatrices": [
+    {
+      "Ver": "1.1.1",
+      "Location": "7732┼7929┼0┼",
+      "MatrixName": "5x5ToolAlcove",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X0Y0",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y1",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y2",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y3",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y4",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y0",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y1",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y2",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y3",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y4",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y0",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y1",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y2",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y3",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y4",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y0",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y1",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y2",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y3",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y4",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y0",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y1",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y2",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y3",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y4",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.5.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "fd24ddc02f2fe5847aebda20f2e87e4a_0.75┼1.75┼0┼",
+            "PrefabID": "fd24ddc02f2fe5847aebda20f2e87e4a",
+            "NameMatches": true,
+            "Name": "Toolbelt",
+            "LocalPRS": "0.75┼1.75┼0┼"
+          },
+          {
+            "GitID": "1d35052f4fc2cad4d8226d1a63e4a1b3_1┼2┼0┼",
+            "PrefabID": "1d35052f4fc2cad4d8226d1a63e4a1b3",
+            "Name": "CrateBase (1)",
+            "LocalPRS": "1┼2┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "032e150131f53a64fbf6048aca6a879a_1.12┼2┼0┼",
+            "PrefabID": "032e150131f53a64fbf6048aca6a879a",
+            "Name": "RandomToolSpawner (4)",
+            "LocalPRS": "1.12┼2┼0┼"
+          },
+          {
+            "GitID": "032e150131f53a64fbf6048aca6a879a_1.12┼2.12┼0┼",
+            "PrefabID": "032e150131f53a64fbf6048aca6a879a",
+            "Name": "RandomToolSpawner (2)",
+            "LocalPRS": "1.12┼2.12┼0┼"
+          },
+          {
+            "GitID": "032e150131f53a64fbf6048aca6a879a_1.12┼2.25┼0┼",
+            "PrefabID": "032e150131f53a64fbf6048aca6a879a",
+            "Name": "RandomToolSpawner (3)",
+            "LocalPRS": "1.12┼2.25┼0┼"
+          },
+          {
+            "GitID": "29695260c1f4f8ba5868fe7fe030293a_2┼2┼0┼",
+            "PrefabID": "29695260c1f4f8ba5868fe7fe030293a",
+            "NameMatches": true,
+            "Name": "FloorLightFixtureBackrooms",
+            "LocalPRS": "2┼2┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,3",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "2,2,0",
+          "Size": "4,4,0"
+        }
+      ]
+    }
+  ]
+}

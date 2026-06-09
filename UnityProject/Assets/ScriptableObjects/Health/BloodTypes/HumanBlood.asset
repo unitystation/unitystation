@@ -18,7 +18,9 @@ MonoBehaviour:
   color: {r: 0.8773585, g: 0, b: 0, a: 0.9647059}
   state: 1
   heatDensity: 5
-  indexInSingleton: 546
+  indexInSingleton: 547
+  OnSplatEffects:
+  - rid: 3457065890737553472
   PercentageNeededInBloodFlow: 0.1
   CirculatedReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
   WasteCarryReagent: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4, type: 2}
@@ -28,3 +30,9 @@ MonoBehaviour:
   BLOOD_REAGENT_SATURATION_OKAY: 0.8
   BLOOD_REAGENT_SATURATION_BAD: 0.7
   BLOOD_REAGENT_SATURATION_CRITICAL: 0.5
+  references:
+    version: 2
+    RefIds:
+    - rid: 3457065890737553472
+      type: {class: PaintBlood, ns: US13.ChemistryComponents.SplatEffects, asm: Assets}
+      data: 

@@ -1,0 +1,171 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &503435888531884301
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3784158830486218459, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: foreverID
+      value: 6e4acfd4ba7fe3690ad7f847badc596c
+      objectReference: {fileID: 0}
+    - target: {fileID: 4141251978523103537, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 7508578466169032935}
+    - target: {fileID: 5065207517541776824, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: highReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 16bdefd1a024c1992a1af5dfef5340f6,
+        type: 2}
+    - target: {fileID: 5065207517541776824, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: drunkReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 04af0125ed6e69723a72d56c754e56a8,
+        type: 2}
+    - target: {fileID: 7794943344085702594, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7794943344085702594, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7794943344085702594, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7794943344085702594, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7794943344085702594, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7794943344085702594, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7794943344085702594, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7794943344085702594, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7794943344085702594, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7794943344085702594, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7799866819818449590, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: m_Name
+      value: BrainSimpleHumanNPC
+      objectReference: {fileID: 0}
+    - target: {fileID: 7902273717657163522, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: _assetId
+      value: 2793569819
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7799866819818449590, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3016816605638723701}
+    - targetCorrespondingSourceObject: {fileID: 7799866819818449590, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -5077740043765071377}
+  m_SourcePrefab: {fileID: 100100000, guid: 221b6b5f05c64124cb6bab0dbfc5f103, type: 3}
+--- !u!114 &4663384108051166389 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5065207517541776824, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+    type: 3}
+  m_PrefabInstance: {fileID: 503435888531884301}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7692748264524882875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840609453e4bf334cbd14cd7999c6fb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!212 &7508578466169032935 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7984675503133383146, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+    type: 3}
+  m_PrefabInstance: {fileID: 503435888531884301}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7692748264524882875 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7799866819818449590, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+    type: 3}
+  m_PrefabInstance: {fileID: 503435888531884301}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3016816605638723701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7692748264524882875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f14e9b5b4498704cb98ada2d5271d86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Mobs.BrainAI.BrainMobAI
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  RelatedPart: {fileID: 0}
+  <CurrentActiveStates>k__BackingField: []
+  <MobStates>k__BackingField: []
+  <thinkingState>k__BackingField: {fileID: -5077740043765071377}
+  Brain: {fileID: 4663384108051166389}
+  DEBUGoverride: 0
+  Body: {fileID: 0}
+--- !u!114 &-5077740043765071377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7692748264524882875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e047f4bf88aaba14eb4509ad4da4d9fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Mobs.BrainAI.States.BrainWanderState
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  RelatedPart: {fileID: 0}
+  <Blacklist>k__BackingField: []
+  <UpdateType>k__BackingField: 3
+  <PeriodicUpdateInterval>k__BackingField: 1.5
+  <master>k__BackingField: {fileID: 3016816605638723701}

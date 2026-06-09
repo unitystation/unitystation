@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 324d2cc0777c8204f859d8701a475683,
         type: 2}
+    - target: {fileID: 514345970168333904, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 324d2cc0777c8204f859d8701a475683,
+        type: 2}
     - target: {fileID: 783613402110013882, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: parentID
@@ -164,6 +170,18 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: 81c33674da4dde3459a17aa2d2b07b54, type: 3}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 05171cb729f3d9d448977d67c86814fa,
+        type: 2}
+    - target: {fileID: 6091355358778282677, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 29194730b1ba5f24abbb391e785dc686,
+        type: 2}
     - target: {fileID: 8026742801534802552, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: stackSprites.Array.size
@@ -232,4 +250,6 @@ MonoBehaviour:
   groundReagents:
     m_keys:
     - {fileID: 11400000, guid: 720afa3a7185df33baf0d79d93739983, type: 2}
-    m_values: 14000000
+    m_values:
+    - 1000
+  UseReagentContainer: 0

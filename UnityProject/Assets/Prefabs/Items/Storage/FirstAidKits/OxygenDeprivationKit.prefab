@@ -10,9 +10,20 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2490630288303511261, guid: d0eb5dacbdcd4844e8c76aabde50434f,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6263156293938270333}
+    - target: {fileID: 2490630288303511261, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 2f3a9bdc3bfd07949b2433693a52c4f1,
+        type: 2}
+    - target: {fileID: 2490630288303511261, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6f9e4407198c2d842921387da21d4485,
         type: 2}
     - target: {fileID: 3417345767468294455, guid: d0eb5dacbdcd4844e8c76aabde50434f,
         type: 3}
@@ -34,11 +45,23 @@ PrefabInstance:
       propertyPath: initialDescription
       value: It's an emergency medical kit for treating victims of suffocation.
       objectReference: {fileID: 0}
+    - target: {fileID: 8159390639885615672, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b39cc60faf3dabf408dff2e8efcb8e4c,
+        type: 2}
+    - target: {fileID: 8159390639885615672, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 55485a969b6318347b69f114bdde5272,
+        type: 2}
     - target: {fileID: 8441880568126201350, guid: d0eb5dacbdcd4844e8c76aabde50434f,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 701c5653af493b9468577c085eac7a6a,
+      objectReference: {fileID: 21300000, guid: a820f6bf825345e4f8d0e4d36cb21a57,
         type: 3}
     - target: {fileID: 8521467601672753390, guid: d0eb5dacbdcd4844e8c76aabde50434f,
         type: 3}
@@ -121,3 +144,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0eb5dacbdcd4844e8c76aabde50434f, type: 3}
+--- !u!212 &6263156293938270333 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8441880568126201350, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+    type: 3}
+  m_PrefabInstance: {fileID: 2579620104960347771}
+  m_PrefabAsset: {fileID: 0}

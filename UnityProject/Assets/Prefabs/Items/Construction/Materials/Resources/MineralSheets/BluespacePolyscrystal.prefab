@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9cd825648398ed448ab430a14a0dd6b0,
         type: 2}
+    - target: {fileID: 514345970168333904, guid: 8a023982b9ee4fd40b87f69c23492dd6,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9cd825648398ed448ab430a14a0dd6b0,
+        type: 2}
     - target: {fileID: 783613402110013882, guid: 8a023982b9ee4fd40b87f69c23492dd6,
         type: 3}
       propertyPath: parentID
@@ -195,7 +201,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseReagentContainer: 0
   groundReagents:
     m_keys:
     - {fileID: 11400000, guid: c8b0a877670e84d8aa73864eb8152aa5, type: 2}
-    m_values: 14000000
+    m_values:
+    - 1000

@@ -95,9 +95,32 @@ PrefabInstance:
       value: An adorable plushie of the clockwork justiciar himself with new and
         improved spring arm action.
       objectReference: {fileID: 0}
+    - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 5344ab2b589e16b4182a7b1f1cebdbe6,
+        type: 2}
+    - target: {fileID: 369438315475188959, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 5344ab2b589e16b4182a7b1f1cebdbe6,
+        type: 2}
+    - target: {fileID: 6236086576208570426, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 3318430672749393627}
     - target: {fileID: 6236086576208570426, guid: 75421751b31ee7f49b1adb8b70cd2375,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5344ab2b589e16b4182a7b1f1cebdbe6,
+        type: 2}
+    - target: {fileID: 6236086576208570426, guid: 75421751b31ee7f49b1adb8b70cd2375,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 5344ab2b589e16b4182a7b1f1cebdbe6,
         type: 2}
@@ -116,3 +139,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 75421751b31ee7f49b1adb8b70cd2375, type: 3}
+--- !u!212 &3318430672749393627 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 89206780398788833, guid: 75421751b31ee7f49b1adb8b70cd2375,
+    type: 3}
+  m_PrefabInstance: {fileID: 3400642153469515322}
+  m_PrefabAsset: {fileID: 0}

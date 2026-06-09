@@ -17,7 +17,7 @@ MonoBehaviour:
     at 10 and 20 pop respectively
   canRespawn: 0
   minPlayers: 1
-  antagRatio: 0.2
+  antagRatio: 0.3
   minAntags: 1
   maxAntags: 100
   hardNumberOfAntagsToSpawn: 0
@@ -31,26 +31,32 @@ MonoBehaviour:
   randomSicknesses: 1
   possibleSicknesses:
   - {fileID: 11400000, guid: c277cb2e90e88e743ab2494b395ca8fa, type: 2}
-  randomSicknessRatio: 0.01
-  mainStations: {fileID: 11400000, guid: 9b0018951af67314ca9e85705e0d2ce4, type: 2}
+  - {fileID: 11400000, guid: 663b67816c62a694b94fc771e7e91efd, type: 2}
+  - {fileID: 11400000, guid: eea29c4c2e4ea5e41b8ae15a911b5479, type: 2}
+  randomSicknessRatio: 0.05
+  MainStations: {fileID: 11400000, guid: 9b0018951af67314ca9e85705e0d2ce4, type: 2}
+  AsteroidList: {fileID: 11400000, guid: b1d9059b8db83ab479c9dffdc939b281, type: 2}
+  AdditionalSceneList: {fileID: 11400000, guid: 6370dfaa39db5574aa7cc451537de4f1,
+    type: 2}
+  AwayWorldList: {fileID: 11400000, guid: 9336c6ca9dac2d94eb90f703a23a7484, type: 2}
   AntagonistDatas:
   - ratio: 0.75
     Antagonist: {fileID: 11400000, guid: c060c33698c0f81449f0735a800740ca, type: 2}
     UniqueOne: 0
     OneTimechance: 0
     MinPop: 1
-  - ratio: 0.25
-    Antagonist: {fileID: 11400000, guid: 054c3003e031e0a4c9146f6b0f806940, type: 2}
-    UniqueOne: 0
-    OneTimechance: 0
-    MinPop: 1
   - ratio: 1
     Antagonist: {fileID: 11400000, guid: 613f4c1efe110a34e858e8ccbdea6b04, type: 2}
     UniqueOne: 1
-    OneTimechance: 0.5
+    OneTimechance: 0.25
     MinPop: 3
   - ratio: 1
     Antagonist: {fileID: 11400000, guid: 7977e2d7465279a419fe55b27ecca5df, type: 2}
+    UniqueOne: 1
+    OneTimechance: 0.25
+    MinPop: 3
+  - ratio: 1
+    Antagonist: {fileID: 11400000, guid: 4f52429999025fe4f948ae027370d6ec, type: 2}
     UniqueOne: 1
     OneTimechance: 0.25
     MinPop: 3

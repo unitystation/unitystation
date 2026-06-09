@@ -176,9 +176,27 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a0b9474c1437f6f4cb8e29626079733b,
         type: 2}
+    - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b23a4b1a5d286e84eb1330dc417b8608,
+        type: 2}
+    - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: a0b9474c1437f6f4cb8e29626079733b,
+        type: 2}
     - target: {fileID: 5169367590891271744, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d85073114394f948a0e6bfb1c0d4a24,
+        type: 2}
+    - target: {fileID: 5169367590891271744, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 2d85073114394f948a0e6bfb1c0d4a24,
         type: 2}
@@ -194,18 +212,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7146114630749491127, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
+      propertyPath: maxBites
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7146114630749491127, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
       propertyPath: NutritionLevel
       value: 165
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7146114630749491127, guid: eaf8c1f2a0f9374488e16061fd5b4dcd, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1367782950990450119, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 4845489334075017082}
+      addedObject: {fileID: 7217057866216378677}
   m_SourcePrefab: {fileID: 100100000, guid: eaf8c1f2a0f9374488e16061fd5b4dcd, type: 3}
 --- !u!1 &162704264883279580 stripped
 GameObject:
@@ -213,7 +235,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1205097671078976283}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4845489334075017082
+--- !u!114 &7217057866216378677
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -222,28 +244,58 @@ MonoBehaviour:
   m_GameObject: {fileID: 162704264883279580}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b7223a9d9050db4385529fbdade4a3f, type: 3}
+  m_Script: {fileID: 11500000, guid: 7b4b4c5e337c48f0b597170a20b66351, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  consumeTime: 0.1
-  leavings: {fileID: 0}
-  currentBites: 0
-  maxBites: 1
-  forceFeedTime: 3
-  setCurrentBitesToMaxBitesOnServerSpawn: 1
-  sound:
-    SetLoadSetting: 0
-    AssetAddress: Assets/Prefabs/Effects/EatFood.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  healBruteDamage: 5
-  healableJobs: 1700000021000000110000002a00000029000000
+  m_EditorClassIdentifier: Assets::US13.Items.Food.EffectOnConsumed
+  consumptionEffect:
+    rid: 1092627703294328920
+  condition:
+    rid: 1092627703294328979
+  references:
+    version: 2
+    RefIds:
+    - rid: 1092627703294328920
+      type: {class: HealAllBodyPartsEffect, ns: US13.Items.Food.ConsumptionEffect,
+        asm: Assets}
+      data:
+        heals:
+        - <DamageType>k__BackingField: 0
+          <Amount>k__BackingField: 5
+    - rid: 1092627703294328979
+      type: {class: AnyOfCondition, ns: US13.Items.Food.ConsumptionEffect.Conditions,
+        asm: Assets}
+      data:
+        conditions:
+        - rid: 1092627703294329069
+        - rid: 1092627703294329158
+        - rid: 1092627703294329247
+        - rid: 1092627703294329336
+        - rid: 1092627703294329425
+    - rid: 1092627703294329069
+      type: {class: JobIsEqualToCondition, ns: US13.Items.Food.ConsumptionEffect.Conditions,
+        asm: Assets}
+      data:
+        requiredJob: 23
+    - rid: 1092627703294329158
+      type: {class: JobIsEqualToCondition, ns: US13.Items.Food.ConsumptionEffect.Conditions,
+        asm: Assets}
+      data:
+        requiredJob: 33
+    - rid: 1092627703294329247
+      type: {class: JobIsEqualToCondition, ns: US13.Items.Food.ConsumptionEffect.Conditions,
+        asm: Assets}
+      data:
+        requiredJob: 17
+    - rid: 1092627703294329336
+      type: {class: JobIsEqualToCondition, ns: US13.Items.Food.ConsumptionEffect.Conditions,
+        asm: Assets}
+      data:
+        requiredJob: 42
+    - rid: 1092627703294329425
+      type: {class: JobIsEqualToCondition, ns: US13.Items.Food.ConsumptionEffect.Conditions,
+        asm: Assets}
+      data:
+        requiredJob: 41
 --- !u!210 &6266328658070900882 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 5066309082529041289, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,

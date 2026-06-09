@@ -3,16 +3,12 @@
 #else
 using System.Threading.Tasks;
 #endif
-using C5;
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using C5;
+using Standard_Assets.PathFinder.Grid;
 
-
-
-
-
-namespace EpPathFinding.cs
+namespace Standard_Assets.PathFinder
 {
     public class AStarParam : ParamBase
     {

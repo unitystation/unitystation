@@ -1,4 +1,4 @@
-﻿/*! 
+﻿/*!
 @file DynamicGridWPool.cs
 @author Woong Gyu La a.k.a Chris. <juhgiyo@gmail.com>
 		<http://github.com/juhgiyo/eppathfinding.cs>
@@ -35,12 +35,10 @@ THE SOFTWARE.
 An Interface for the DynamicGrid with Pool Class.
 
 */
-using System;
+
 using System.Collections.Generic;
-using System.Collections;
 
-
-namespace EpPathFinding.cs
+namespace Standard_Assets.PathFinder.Grid
 {
     public class DynamicGridWPool : BaseGrid
     {
@@ -144,7 +142,7 @@ namespace EpPathFinding.cs
             {
                 if (iX == m_gridRect.minX || iX == m_gridRect.maxX || iY == m_gridRect.minY || iY == m_gridRect.maxY)
                     m_notSet = true;
-                
+
             }
             return true;
         }

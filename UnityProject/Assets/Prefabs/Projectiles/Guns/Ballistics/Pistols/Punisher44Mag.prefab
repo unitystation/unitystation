@@ -36,11 +36,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
-        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -99,27 +94,12 @@ PrefabInstance:
       propertyPath: _assetId
       value: 1112115501
       objectReference: {fileID: 0}
-    - target: {fileID: 1669872684171752052, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
-        type: 3}
-      propertyPath: m_AssetId
-      value: d9c42e1e7b801ab408872be5bb5b1264
-      objectReference: {fileID: 0}
-    - target: {fileID: 1727733384395167259, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 2772890753714954696, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
       propertyPath: itemStorageCapacity
       value: 
       objectReference: {fileID: 11400000, guid: 28f6bad958f1332fa9b40626ef2c8bb7,
         type: 2}
-    - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
-        type: 3}
-      propertyPath: FireRate
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
       propertyPath: ammoType
@@ -132,29 +112,34 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
-      propertyPath: Projectile
-      value: 
-      objectReference: {fileID: 21396104557255652, guid: b050e4c5d57a78745b27d25436f42c04,
-        type: 3}
-    - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
-        type: 3}
       propertyPath: ammoPrefab
       value: 
       objectReference: {fileID: 1364949176953076022, guid: a65c9499c9842d84798d2b981cc16662,
         type: 3}
     - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
-      propertyPath: FiringSound
-      value: ShootGun04
+      propertyPath: FiringSoundA.AssetAddress
+      value: Assets/Prefabs/Weapons/Gun/Rifle/RifleShot.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
-      propertyPath: FiringSoundA.AssetAddress
-      value: Assets/Prefabs/Weapons/Gun/Rifle/RifleShot.prefab
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoilDuration
+      value: 0.04
       objectReference: {fileID: 0}
     - target: {fileID: 4899563401211278407, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a869b4331500c5438510afcaf8fe8c9,
+        type: 2}
+    - target: {fileID: 4899563401211278407, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 8a869b4331500c5438510afcaf8fe8c9,
         type: 2}
@@ -180,11 +165,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: bc5f5d73200816a4eae7e2d152bd43be,
         type: 2}
-    - target: {fileID: 8978966730138838452, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+    - target: {fileID: 6534465197878010292, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
         type: 3}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: bc5f5d73200816a4eae7e2d152bd43be,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

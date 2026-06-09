@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: DeconstructWhenCrowbarUsedBase
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
-  performerStartActionMessage: You begin prying up the floor plating...
-  othersStartActionMessage: '{performer} begins prying up the floor plating...'
-  seconds: 30
+  performerStartActionMessage: You begin prying up the plating...
+  othersStartActionMessage: '{performer} begins prying up the plating...'
+  seconds: 3
   objectsToSpawn: {fileID: 0}
-  performerFinishActionMessage: You pry up the floor plating.
-  othersFinishActionMessage: '{performer} pries up the floor plating.'
+  performerFinishActionMessage: You pry up the plating.
+  othersFinishActionMessage: '{performer} pries up the plating.'

@@ -52,3 +52,11 @@ MonoBehaviour:
     spawnAmount: 1
     onePerTile: 1
     facePlayerDirectionOnConstruction: 0
+  - name: SAnd Floor Tile (x4)
+    prefab: {fileID: 4500716660327369090, guid: 775ec6d8cc11fe04788e872cc857cf8d,
+      type: 3}
+    cost: 1
+    buildTime: 1
+    spawnAmount: 4
+    onePerTile: 0
+    facePlayerDirectionOnConstruction: 0

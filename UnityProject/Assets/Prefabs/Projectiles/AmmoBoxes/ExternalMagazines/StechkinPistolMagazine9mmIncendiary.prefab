@@ -83,6 +83,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: StechkinPistolMagazine9mmIncendiary
       objectReference: {fileID: 0}
+    - target: {fileID: 1532596344699116731, guid: 623189688b8953843aa87c899f5b0c31,
+        type: 3}
+      propertyPath: magazine
+      value: 
+      objectReference: {fileID: 9007791111686210099}
+    - target: {fileID: 1532596344699116731, guid: 623189688b8953843aa87c899f5b0c31,
+        type: 3}
+      propertyPath: spriteHandler
+      value: 
+      objectReference: {fileID: 5738693420978016981}
     - target: {fileID: 6334790055244281200, guid: 623189688b8953843aa87c899f5b0c31,
         type: 3}
       propertyPath: parentID
@@ -104,3 +114,27 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 623189688b8953843aa87c899f5b0c31, type: 3}
+--- !u!114 &5738693420978016981 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6491119926274294426, guid: 623189688b8953843aa87c899f5b0c31,
+    type: 3}
+  m_PrefabInstance: {fileID: 1564711065584799823}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9007791111686210099 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7544903932459635324, guid: 623189688b8953843aa87c899f5b0c31,
+    type: 3}
+  m_PrefabInstance: {fileID: 1564711065584799823}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e3145566f967d4e9706a88c0917052, type: 3}
+  m_Name: poltergeist
+  m_EditorClassIdentifier: Assets::PlayerHealthData
+  Base:
+    Head:
+      Elements:
+      - {fileID: 6007750433557553635, guid: f3f6536b403b6d94394290469b52d3a4, type: 3}
+    Torso:
+      Elements: []
+    ArmRight:
+      Elements: []
+    ArmLeft:
+      Elements: []
+    LegRight:
+      Elements: []
+    LegLeft:
+      Elements: []
+    allowedToChangeling: 0
+    CustomisationSettings: []
+    bodyTypeSettings:
+      AvailableBodyTypes: []
+    SkinColours: []
+    RootImplantProcedure: {fileID: 0}
+    BodyPartsThatShareTheSkinTone: []
+    ClueString: 
+    MeatProduce: {fileID: 0}
+    SkinProduce: {fileID: 0}
+    SkinningItemTrait: {fileID: 0}
+    CanBeEmagged: 0
+    CanBePlayerChosen: 0
+    PreviewSprite: {fileID: 11400000, guid: 9e37dceedaeefba45b56429a031db56e, type: 2}
+    SystemSettings: []
+    StartingMutations: []
+  references:
+    version: 2
+    RefIds: []

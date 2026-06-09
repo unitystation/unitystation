@@ -27,29 +27,45 @@ MonoBehaviour:
     - rid: 6780799841507999746
     - rid: 6780799720538505217
     - rid: 6780799869738287123
+    ProclamationTextGenerator:
+      rid: 1407928419411034170
   references:
     version: 2
     RefIds:
+    - rid: 1407928419411034170
+      type: {class: CodedProclamationText, ns: US13.Systems.Faith.ProclamationGen, asm: Assets}
+      data:
+        inputStrings:
+        - ixa
+        - parta
+        - lara
+        - mama
+        - oia
+        - fai
+        - ma
+        - ka
+        - ta
+        length: 3
     - rid: 2708802425784369153
-      type: {class: HighLife, ns: Systems.Faith.FaithProperties, asm: Assets}
+      type: {class: HighLife, ns: US13.Systems.Faith.FaithProperties, asm: Assets}
       data:
         propertyIcon: {fileID: 21300000, guid: 6fe052b4495d1984094aa7a5e650fc63, type: 3}
     - rid: 6780799720538505217
-      type: {class: HealFaithMembers, ns: Systems.Faith.Miracles, asm: Assets}
+      type: {class: HealFaithMembers, ns: US13.Systems.Faith.Miracles, asm: Assets}
       data:
         faithMiracleName: Heal all believers.
         faithMiracleDesc: Heal all alive believers to max health. This does not cure
           sicknesses, cure trauma or re-grow limbs.
         miracleIcon: {fileID: 11400000, guid: ce46bc3807a375b44a80688b4f4dbe19, type: 2}
     - rid: 6780799841507999746
-      type: {class: CurseWithDrunkness, ns: Systems.Faith.Miracles, asm: Assets}
+      type: {class: CurseWithDrunkness, ns: US13.Systems.Faith.Miracles, asm: Assets}
       data:
         faithMiracleName: Curse with Drunkness.
         faithMiracleDesc: Causes all humanoids within a small circle oh all faith
           leaders to become drunk.
         miracleIcon: {fileID: 11400000, guid: 5bbf20940998fda4baf45177c699fd6c, type: 2}
     - rid: 6780799869738287123
-      type: {class: MakeFoodBigger, ns: Systems.Faith.Miracles, asm: Assets}
+      type: {class: MakeFoodBigger, ns: US13.Systems.Faith.Miracles, asm: Assets}
       data:
         faithMiracleName: Make food bigger
         faithMiracleDesc: Bleses (or curses) nearby food to become bigger, allowing

@@ -85,7 +85,7 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialName
-      value: Mining Scanner
+      value: mining scanner
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -95,7 +95,7 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialDescription
-      value: Highlights ores around you
+      value: Highlights ores around you.
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -114,6 +114,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 64d8345817ee7c5439b2703d3b8a4d45,
         type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 64d8345817ee7c5439b2703d3b8a4d45,
+        type: 2}
     - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: parentID
@@ -122,7 +128,7 @@ PrefabInstance:
     - target: {fileID: 6393191727481188567, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: foreverID
-      value: OPQ0C59Qi61@EcYkTJHR
+      value: 70403efb456973040a63651bdcb72ca1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

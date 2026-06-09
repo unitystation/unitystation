@@ -53,9 +53,13 @@ PrefabInstance:
       value: ambiatmos
       objectReference: {fileID: 0}
     - target: {fileID: 3578133899281180658, guid: dc2ffb971d5eb3a4fb81e40c1563a528, type: 3}
-      propertyPath: m_audioClip
+      propertyPath: m_Resource
       value: 
       objectReference: {fileID: 8300000, guid: 5e0f175670213b840b6af9cddf428186, type: 3}
+    - target: {fileID: 3578133899281180658, guid: dc2ffb971d5eb3a4fb81e40c1563a528, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

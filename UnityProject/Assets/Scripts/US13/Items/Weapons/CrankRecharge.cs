@@ -1,0 +1,121 @@
+using System;
+using System.Collections;
+using Logs;
+using UnityEngine;
+using US13.Core.Addressables;
+using US13.Core.Addressables.Types;
+using US13.Core.Chat;
+using US13.Core.Input_System.InteractionV2;
+using US13.Core.Input_System.InteractionV2.Interactions;
+using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Managers;
+using US13.Systems.Construction.Parts;
+using US13.Systems.Inventory;
+using Util;
+
+namespace US13.Items.Weapons
+{
+	public class CrankRecharge : MonoBehaviour, ICheckedInteractable<HandActivate>, IServerInventoryMove
+	{
+
+		[SerializeField] private float crankTime = 2f;
+
+		[SerializeField] private string rechargeVerb = "recharging";
+
+		[SerializeField] private AddressableAudioSource rechargeSound;
+
+		private Gun gunComp;
+
+		private GameObject serverHolder;
+
+		private bool isCharging = false;
+
+		private void Awake()
+		{
+			gunComp = GetComponent<Gun>();
+		}
+
+		public bool WillInteract(HandActivate interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			return true;
+		}
+
+		public void ServerPerformInteraction(HandActivate interaction)
+		{
+			if (isCharging) return;
+
+			Chat.AddActionMsgToChat(serverHolder,
+				$"You start {rechargeVerb} the {gameObject.ExpensiveName()}.",
+				$"{serverHolder.ExpensiveName()} starts {rechargeVerb} the {gameObject.ExpensiveName()}.");
+
+			StartCoroutine(Recharging());
+			isCharging = true;
+		}
+
+		public void OnInventoryMoveServer(InventoryMove info)
+		{
+			if (gameObject != info.MovedObject.gameObject) return;
+
+			StopAllCoroutines();
+			isCharging = false;
+			serverHolder = info.ToPlayer != null ? info.ToPlayer.gameObject : null;
+		}
+
+		private IEnumerator Recharging()
+		{
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Wrench, gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
+			yield return WaitFor.Seconds(crankTime);
+			AddCharge();
+		}
+
+		private void AddCharge()
+		{
+			try
+			{
+				if (serverHolder == null)
+				{
+					isCharging = false;
+					return;
+				}
+
+				var mag = gunComp.magSlot.Item;
+				if (mag != null)
+				{
+					var battery = mag.GetComponent<Battery>();
+					if (battery != null)
+					{
+						battery.Watts = battery.MaxWatts;
+					}
+
+					var electricalMagazine = mag.GetComponent<ElectricalMagazine>();
+					if (electricalMagazine != null)
+					{
+						electricalMagazine.AddCharge();
+					}
+
+					var GunElectrical = gameObject.GetComponent<GunElectrical>();
+					if (GunElectrical != null)
+					{
+						GunElectrical.UpdateChargeSprite();
+					}
+				}
+
+				if (rechargeSound != null)
+				{
+					SoundManager.PlayNetworkedAtPos(rechargeSound, gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
+				}
+
+				Chat.AddActionMsgToChat(serverHolder,
+					$"You finish {rechargeVerb} the {gameObject.ExpensiveName()}.",
+					$"{serverHolder.ExpensiveName()} finishes {rechargeVerb} the {gameObject.ExpensiveName()}.");
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+			}
+
+			isCharging = false;
+		}
+	}
+}

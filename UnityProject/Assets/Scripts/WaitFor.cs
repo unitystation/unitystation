@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using US13.Managers;
+using Event = US13.Managers.Event;
 
 public static class WaitFor
 {

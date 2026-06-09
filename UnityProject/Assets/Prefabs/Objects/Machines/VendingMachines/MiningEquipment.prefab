@@ -13,6 +13,21 @@ PrefabInstance:
       propertyPath: CurrentsortingGroup
       value: 
       objectReference: {fileID: 5779498140240239309}
+    - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.45335358
+      objectReference: {fileID: 0}
+    - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.89422256
+      objectReference: {fileID: 0}
+    - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 854479238589397880, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: _assetId
@@ -26,17 +41,23 @@ PrefabInstance:
     - target: {fileID: 1919541056858231082, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: initialName
-      value: Mining equipment vendor
+      value: mining equipment vendor
       objectReference: {fileID: 0}
     - target: {fileID: 1919541056858231082, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: initialDescription
-      value: An equipment vendor for miners, points collected at an ore redemption
+      value: An equipment vendor for miners. Points collected at an ore redemption
         machine can be spent here.
       objectReference: {fileID: 0}
     - target: {fileID: 4347831001461171392, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d03d262ab7838bc49870a54711f8cb2c,
+        type: 2}
+    - target: {fileID: 4347831001461171392, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d03d262ab7838bc49870a54711f8cb2c,
         type: 2}
@@ -155,7 +176,7 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[16].Item
       value: 
-      objectReference: {fileID: 3431291279286482953, guid: 5668f8777ce1a794980fbd35aa58f56b,
+      objectReference: {fileID: 2579088290442746468, guid: 5668f8777ce1a794980fbd35aa58f56b,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -512,6 +533,27 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[17].ItemName
       value: Mining Scanner
+      objectReference: {fileID: 0}
+    - target: {fileID: 4998327886754794683, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 977098930ef572d47b803018b7e9ae12,
+        type: 3}
+    - target: {fileID: 4998327886754794683, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.5921285
+      objectReference: {fileID: 0}
+    - target: {fileID: 4998327886754794683, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.9237075
+      objectReference: {fileID: 0}
+    - target: {fileID: 4998327886754794683, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5293842515076411475, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}

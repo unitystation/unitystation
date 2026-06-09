@@ -63,6 +63,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0c1ae0b934019034bafd63ac8db14537,
         type: 2}
+    - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 994ccc5a83d8b6047a51f421335b5d28,
+        type: 2}
+    - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 0c1ae0b934019034bafd63ac8db14537,
+        type: 2}
     - target: {fileID: 3301342883353866999, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: m_Sprite
@@ -209,6 +221,6 @@ MonoBehaviour:
   sawnSize: 3
   sawnMaxRecoilVariance: 0.1
   SawnCameraRecoilConfig:
-    Distance: 0.5
-    RecoilDuration: 0.1
+    Distance: 0.28
+    RecoilDuration: 0.03
     RecoveryDuration: 0.6

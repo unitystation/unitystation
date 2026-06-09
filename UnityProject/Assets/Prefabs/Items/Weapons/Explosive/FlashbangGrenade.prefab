@@ -16,6 +16,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2450954382432651964, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 768dd751540d35142a72e32044033c45,
+        type: 2}
+    - target: {fileID: 2450954382432651964, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
       propertyPath: 'SubCatalogue.Array.data[2]'
       value: 
       objectReference: {fileID: 11400000, guid: 768dd751540d35142a72e32044033c45,
@@ -54,7 +60,7 @@ PrefabInstance:
     - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
       propertyPath: initialName
-      value: Flashbang
+      value: flashbang
       objectReference: {fileID: 0}
     - target: {fileID: 8189812989746650713, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
@@ -154,6 +160,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
         type: 3}
+      propertyPath: fuseLength
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
+      propertyPath: fuseMinimum
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9197874253917913631, guid: 838a4732b2dece64497d074b7a700be6,
+        type: 3}
       propertyPath: explosionPrefab
       value: 
       objectReference: {fileID: 0}
@@ -229,11 +245,11 @@ MonoBehaviour:
   stunExtraTime: 8
   flashCooldown: 24
   flashSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/FlashbangBoom.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   stunsPlayers: 1

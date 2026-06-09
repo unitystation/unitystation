@@ -1,6 +1,7 @@
 using System;
+using Adrenak.UniVoice.Runtime.Types;
 
-namespace Adrenak.UniVoice {
+namespace Adrenak.UniVoice.Runtime.Interfaces {
     /// <summary>
     /// Responsible for playing audio that is sent to it.
     /// You'd normally want a <see cref="UnityEngine.AudioSource"/>

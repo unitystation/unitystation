@@ -49,17 +49,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ae24776c5fc9a7428296895e16ca510, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <traumaTypes>k__BackingField: 0
-  deadlyDamageInOneHit: 25
+  <traumaTypes>k__BackingField: 16
+  deadlyDamageInOneHit: 5
   bodyPart: {fileID: 1673759363237950006}
   onTakeDamageSounds: []
   playTraumaNoise: 0
   stages:
     m_keys: 
     m_values: 
-  afflictionReductionFactor: 200
-  MinThresholdDamage: 2
-  CancerPercentage: 0.5
+  afflictionReductionFactor: 4
+  MinThresholdDamage: 0.5
 --- !u!114 &2728592379231489674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,7 +318,7 @@ PrefabInstance:
     - target: {fileID: 1644590815055589727, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: CapableMutations.Array.size
-      value: 16
+      value: 17
       objectReference: {fileID: 0}
     - target: {fileID: 1644590815055589727, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -392,6 +391,12 @@ PrefabInstance:
       propertyPath: 'CapableMutations.Array.data[15]'
       value: 
       objectReference: {fileID: 11400000, guid: 93463c37a4972ce4aa1104392aa3cc33,
+        type: 2}
+    - target: {fileID: 1644590815055589727, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'CapableMutations.Array.data[16]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 56cbe9be4b5bf1e468b4552f58ca679d,
         type: 2}
     - target: {fileID: 2314801526373061764, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -603,8 +608,14 @@ MonoBehaviour:
   RelatedPart: {fileID: 0}
   Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
   HealingNutrimentMultiplier: 2
+  ActualHealingNutrimentMultiplier: 5
   HungerState: 1
   reagentCirculatedComponent: {fileID: 0}
+  FullMultiplier: 1.1
+  NormalMultiplier: 1
+  HungaryMultiplier: 1
+  MalnourishedMultiplier: 0.9
+  StarvingMultiplier: 0.9
 --- !u!4 &2815555166148818142 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1168521912962732652, guid: 1162a9966a460f940a18b4d183b04c30,

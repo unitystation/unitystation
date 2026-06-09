@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: HUD_hudvampire
+  m_EditorClassIdentifier: RootSillys::SpriteDataSO
+  foreverID: 72d90ba9d3ee834429f5a24706dc69d5
+  Variance:
+  - Frames:
+    - sprite: {fileID: -1294866831, guid: c5630b9a9c38b4b40a31cd1576198776, type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 409120216, guid: c5630b9a9c38b4b40a31cd1576198776, type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 1425814335, guid: c5630b9a9c38b4b40a31cd1576198776, type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 785142050, guid: c5630b9a9c38b4b40a31cd1576198776, type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  DisplayName: 

@@ -1,0 +1,77 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e3145566f967d4e9706a88c0917052, type: 3}
+  m_Name: GiantSpider-Viper
+  m_EditorClassIdentifier: 
+  Base:
+    Head:
+      Elements: []
+    Torso:
+      Elements:
+      - {fileID: 6001157976894637259, guid: 4f049912d5312a741856fc1f130ec4c9, type: 3}
+    ArmRight:
+      Elements:
+      - {fileID: 8881283787001539679, guid: c0376b9f996666546920fa3f92d5ffa7, type: 3}
+    ArmLeft:
+      Elements:
+      - {fileID: 2420867826776429639, guid: cf41cdaa69216904997b13029a99fbbc, type: 3}
+    LegRight:
+      Elements:
+      - {fileID: 2976051592678521684, guid: da4110dc0ebb9734faf1cd12b47221af, type: 3}
+      - {fileID: 2976051592678521684, guid: da4110dc0ebb9734faf1cd12b47221af, type: 3}
+      - {fileID: 2976051592678521684, guid: da4110dc0ebb9734faf1cd12b47221af, type: 3}
+    LegLeft:
+      Elements:
+      - {fileID: 381602405784793583, guid: 29f46f9349de9404298001e072127b86, type: 3}
+      - {fileID: 381602405784793583, guid: 29f46f9349de9404298001e072127b86, type: 3}
+      - {fileID: 381602405784793583, guid: 29f46f9349de9404298001e072127b86, type: 3}
+    allowedToChangeling: 0
+    CustomisationSettings: []
+    bodyTypeSettings:
+      AvailableBodyTypes: []
+    SkinColours: []
+    RootImplantProcedure: {fileID: 0}
+    BodyPartsThatShareTheSkinTone: []
+    ClueString: 
+    MeatProduce: {fileID: 0}
+    SkinProduce: {fileID: 0}
+    SkinningItemTrait: {fileID: 0}
+    CanBeEmagged: 0
+    CanBePlayerChosen: 0
+    PreviewSprite: {fileID: 11400000, guid: d2e7ec96de320d54cb2784982665ba69, type: 2}
+    SystemSettings:
+    - rid: 3557079718172033086
+    StartingMutations: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 3557079718172033086
+      type: {class: ReagentPoolSystem, ns: HealthV2.Living.PolymorphicSystems, asm: Assets}
+      data:
+        Base: {fileID: 0}
+        BloodPool:
+          temperature: 273.15
+          reagents:
+            m_keys: []
+            m_values: []
+          reagentKeys: []
+        StartingBlood: 500
+        NormalBlood: 500
+        bloodReagent: {fileID: 11400000, guid: c7943c0995bc04a49b55b22064796666, type: 2}
+        PumpingDevices: []
+        TempBloodReservoir:
+          temperature: 273.15
+          reagents:
+            m_keys: []
+            m_values: []
+          reagentKeys: []
+        ReservoirReturnMultiplier: 0.15

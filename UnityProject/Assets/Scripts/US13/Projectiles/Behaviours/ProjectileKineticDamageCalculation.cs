@@ -1,0 +1,37 @@
+﻿using System;
+using UnityEngine;
+using US13.HealthV2;
+using US13.Items.Weapons;
+using US13.Managers.MatrixManager;
+
+namespace US13.Projectiles.Behaviours
+{
+	public class ProjectileKineticDamageCalculation: MonoBehaviour, IOnShoot
+	{
+		private float pressure;
+
+		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone = BodyPartType.Chest, GameObject Target = null)
+		{
+			pressure = GetPressureOnPoint(shooter);
+		}
+
+		private static float GetPressureOnPoint(GameObject shooter)
+		{
+			var localPosition = shooter.transform.localPosition;
+
+			float pressure = MatrixManager.AtPoint(
+				localPosition.RoundToInt(), true
+			).MetaDataLayer.Get(localPosition.RoundToInt()).GasMixLocal.Pressure;
+
+			return pressure;
+		}
+
+		public float DamageByPressureModifier(float maxDamage)
+		{
+			float newDamage = maxDamage - (maxDamage * (pressure / 135));
+			newDamage = (float)Math.Round(newDamage);
+
+			return Mathf.Clamp(newDamage, 0, maxDamage);
+		}
+	}
+}

@@ -148,9 +148,27 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4ce4bb557f8010e43ab8c8039cda4496,
         type: 2}
+    - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 837c44216b08c6545a61f88559aaabc7,
+        type: 2}
+    - target: {fileID: 1447570747421811365, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ce4bb557f8010e43ab8c8039cda4496,
+        type: 2}
     - target: {fileID: 5169367590891271744, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 191b489a5fd0fe543942fe52c7097879,
+        type: 2}
+    - target: {fileID: 5169367590891271744, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 191b489a5fd0fe543942fe52c7097879,
         type: 2}
@@ -180,7 +198,8 @@ PrefabInstance:
       propertyPath: StartingNutrients
       value: 38
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7146114630749491127, guid: eaf8c1f2a0f9374488e16061fd5b4dcd, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -211,17 +230,18 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   consumeTime: 0.1
-  leavings: {fileID: 0}
+  leavings: {fileID: 4288812248974762331, guid: d226d67161fbb874db2ebfa36a3e6020,
+    type: 3}
   currentBites: 0
-  maxBites: 1
+  maxBites: 3
   forceFeedTime: 3
   setCurrentBitesToMaxBitesOnServerSpawn: 1
   sound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/EatFood.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   larvae: {fileID: 2515321529866027611, guid: cd0a7f50aede9e84599a86e571f388bb, type: 3}

@@ -20,10 +20,15 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ef9c80e276a52b041aab524824be377e,
         type: 2}
+    - target: {fileID: 2042917163300801230, guid: 8e4c205a853b5d44bb1b793530feaefe,
+        type: 3}
+      propertyPath: 'commonComponentsToRegister.Array.data[2]'
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3191706476142505336, guid: 8e4c205a853b5d44bb1b793530feaefe,
         type: 3}
       propertyPath: initialName
-      value: tiny Fan
+      value: tiny fan
       objectReference: {fileID: 0}
     - target: {fileID: 3191706476142505336, guid: 8e4c205a853b5d44bb1b793530feaefe,
         type: 3}
@@ -175,6 +180,8 @@ PrefabInstance:
     - {fileID: 6115845058236176073, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
     - {fileID: 8771971882506116196, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
     - {fileID: 3473242624798872064, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
+    - {fileID: 4988406958183288643, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
+    - {fileID: 4111290745443543937, guid: 8e4c205a853b5d44bb1b793530feaefe, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

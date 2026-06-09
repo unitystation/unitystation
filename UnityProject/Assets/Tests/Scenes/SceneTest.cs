@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using MapSaver;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using SecureStuff;
@@ -10,14 +9,23 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Pool;
 using UnityEngine.SceneManagement;
+using US13.MapSaver;
 
 namespace Tests.Scenes
 {
-	public record SceneTestData(string File)
+	public enum BluePrintType
+	{
+		Map,
+		Room
+	}
+
+	public record SceneTestData(string File, BluePrintType Type)
 	{
 		// This allows the tests to show the name of the scene rather than the file location
 		public override string ToString() => Path.GetFileNameWithoutExtension(File);
 		public string File { get; } = File;
+
+		public BluePrintType Type { get; } = Type;
 	}
 
 	[Ignore("For scene testing subclasses")]
@@ -25,7 +33,7 @@ namespace Tests.Scenes
 	[TestFixtureSource(typeof(SceneTest), nameof(Scenes))]
 	public abstract class SceneTest
 	{
-		public static IEnumerable<SceneTestData> Scenes => Utils.NonDevScenes.Select(scene => new SceneTestData(scene));
+		public static IEnumerable<SceneTestData> Scenes => Utils.NonDevScenes.Select(scene => new SceneTestData(scene, BluePrintType.Map));
 
 		private List<GameObject> rootObjects;
 
@@ -46,10 +54,16 @@ namespace Tests.Scenes
 			if (Data.File.Contains("json"))
 			{
 				Scene = EditorSceneManager.OpenScene("Assets/Scenes/DevScenes/EmptyMap.unity");
-				MapSaver.MapSaver.CodeClass.ThisCodeClass.Reset();
-				MapSaver.MapSaver.MapData mapData = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(AccessFile.Load(Data.File, FolderType.Maps));
+				MapSaver.CodeClass.ThisCodeClass.Reset();
+				MapSaver.MapData mapData;
+				if(Data.Type == BluePrintType.Map) mapData = JsonConvert.DeserializeObject<MapSaver.MapData>(AccessFile.Load(Data.File, FolderType.Maps));
+				else mapData = JsonConvert.DeserializeObject<MapSaver.MapData>(AccessFile.Load(Data.File, FolderType.Rooms));
+				//TODO: Make some way to handle all of the rooms
+				//TODO: Rooms don't require all the same tests as full maps. Figure out which ones are redundant and skip them. That being said, rooms are only really 1s each
+				//TODO: Consider Loading all rooms at once and doing one large check
+
 				List<IEnumerator> PreviousLevels = new List<IEnumerator>();
-				var Imnum = MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData);
+				var Imnum = MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData, TestLoad: true);
 				bool Loop = true;
 				while (Loop && PreviousLevels.Count == 0)
 				{

@@ -105,6 +105,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: adbdef125a686514493be17e27714a75,
         type: 2}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: adbdef125a686514493be17e27714a75,
+        type: 2}
     - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: exportCost
@@ -139,6 +145,11 @@ PrefabInstance:
         type: 3}
       propertyPath: damageDeflection
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Resistances.LightningDamageProof
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9126875148826136434, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
@@ -204,6 +215,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  objectBehaviour: {fileID: 0}
   isSecuredStateExaminable: 1
   isExposedFloorPlatingRequired: 0
   secondsToSecure: 5

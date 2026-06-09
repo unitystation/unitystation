@@ -24,6 +24,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1ab24fdd83efb3f41b5abf80b8c9ee96,
         type: 2}
+    - target: {fileID: 753497164315285278, guid: c8af057edecfa6c4f877ae1b042d6ead,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1ab24fdd83efb3f41b5abf80b8c9ee96,
+        type: 2}
     - target: {fileID: 6476018133687174139, guid: c8af057edecfa6c4f877ae1b042d6ead,
         type: 3}
       propertyPath: initialName
@@ -53,9 +59,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6476018133687174139, guid: c8af057edecfa6c4f877ae1b042d6ead,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: a78da6e07c30e9247b2d62b5eb3f555d,
+        type: 2}
+    - target: {fileID: 6476018133687174139, guid: c8af057edecfa6c4f877ae1b042d6ead,
+        type: 3}
       propertyPath: inventoryRemoveSound.AssetAddress
       value: null
       objectReference: {fileID: 0}
+    - target: {fileID: 6476018133687174139, guid: c8af057edecfa6c4f877ae1b042d6ead,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 985f61a0445a4b04a8289bffba0aed9c,
+        type: 2}
     - target: {fileID: 6573704770868306816, guid: c8af057edecfa6c4f877ae1b042d6ead,
         type: 3}
       propertyPath: prefabVariant
@@ -190,5 +208,13 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0

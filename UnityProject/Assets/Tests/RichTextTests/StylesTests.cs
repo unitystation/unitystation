@@ -1,11 +1,13 @@
 ﻿using System;
 using NUnit.Framework;
 using UnityEngine.TestTools;
+using US13.Core.Chat;
 using Util.Independent.FluentRichText;
 using Util.Independent.FluentRichText.Styles;
 
 namespace Tests.RichTextTests
 {
+	[Category(nameof(Chat))]
 	public class StylesTests
 	{
 		[Test]

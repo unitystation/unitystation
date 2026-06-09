@@ -83,7 +83,7 @@ PrefabInstance:
     - target: {fileID: 4097308122355289166, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
         type: 3}
       propertyPath: isNotPushable
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4131257631443374883, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
         type: 3}
@@ -173,6 +173,11 @@ PrefabInstance:
         to obtain research data surrounding various objects. A staple of any high-energy
         lab.
       objectReference: {fileID: 0}
+    - target: {fileID: 8101110277099909253, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
+        type: 3}
+      propertyPath: powerNodeMono
+      value: 
+      objectReference: {fileID: 1090558377515816039}
     - target: {fileID: 8675587485970357742, guid: fb2c1c5d5f027eb45bb342edeb5a3d8f,
         type: 3}
       propertyPath: PresentSpriteSet

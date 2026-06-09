@@ -1,5 +1,6 @@
-﻿using Systems.StatusesAndEffects;
-using Systems.StatusesAndEffects.Interfaces;
+﻿using UnityEngine;
+using US13.Systems.StatusesAndEffects;
+using US13.Systems.StatusesAndEffects.Interfaces;
 
 namespace Tests.StatusAndEffectsFramework
 {
@@ -12,7 +13,7 @@ namespace Tests.StatusAndEffectsFramework
 	{
 		public bool DidEffect { get; private set; } = false;
 
-		public override void DoEffect()
+		public override void DoEffect(GameObject target)
 		{
 			DidEffect = true;
 		}

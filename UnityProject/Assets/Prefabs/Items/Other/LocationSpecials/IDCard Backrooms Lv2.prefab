@@ -1,0 +1,158 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5267060138413224949
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3531092301667903924, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: clearance.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3531092301667903924, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: 'clearance.Array.data[0]'
+      value: 81
+      objectReference: {fileID: 0}
+    - target: {fileID: 3531092301667903924, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: 'clearance.Array.data[1]'
+      value: 83
+      objectReference: {fileID: 0}
+    - target: {fileID: 3531092301667903924, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: 'clearance.Array.data[2]'
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 3531092301667903924, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: 'clearance.Array.data[3]'
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 3531092301667903924, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: 'clearance.Array.data[4]'
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 3531092301667903924, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: 'clearance.Array.data[5]'
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3531092301667903924, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: 'clearance.Array.data[6]'
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 3919912269377075248, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: foreverID
+      value: 8137a1d81f990426da530c9f0ef8ba9b
+      objectReference: {fileID: 0}
+    - target: {fileID: 4295015276143136730, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2681124205534754036}
+    - target: {fileID: 4295015276143136730, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 7402688f994588a41a1288011f405560,
+        type: 2}
+    - target: {fileID: 7507905339166825279, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: initialName
+      value: identification card
+      objectReference: {fileID: 0}
+    - target: {fileID: 7507905339166825279, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: initialDescription
+      value: A card used to provide identification and access to secure electronics.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7578181041766054938, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: initialJobTitle
+      value: L2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7794920650562651905, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4dc4c96b52f30e446981e3b04720cbd1,
+        type: 3}
+    - target: {fileID: 7984715788846467369, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984715788846467369, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984715788846467369, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984715788846467369, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984715788846467369, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984715788846467369, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984715788846467369, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984715788846467369, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984715788846467369, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984715788846467369, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7988517763050239069, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: m_Name
+      value: IDCard Backrooms Lv2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8018904381531343337, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+        type: 3}
+      propertyPath: _assetId
+      value: 2175210901
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2ead1535ea74c758192243c3a1d6a9ef, type: 3}
+--- !u!212 &2681124205534754036 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7794920650562651905, guid: 2ead1535ea74c758192243c3a1d6a9ef,
+    type: 3}
+  m_PrefabInstance: {fileID: 5267060138413224949}
+  m_PrefabAsset: {fileID: 0}

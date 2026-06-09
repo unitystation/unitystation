@@ -122,6 +122,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 73c178cf8e99aeb42933f26e2a62801c,
         type: 2}
+    - target: {fileID: 6842057026420969930, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 73c178cf8e99aeb42933f26e2a62801c,
+        type: 2}
     - target: {fileID: 7601794184611008114, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
       propertyPath: sceneId
@@ -206,6 +212,7 @@ MonoBehaviour:
   <CanRelink>k__BackingField: 1
   PoweredState: 0
   storedRP: 0
+  itemStorage: {fileID: 6968773950907503096}
   sampleTrait: {fileID: 11400000, guid: 31ece548e0e55e3499cb92bb19f4c068, type: 2}
 --- !u!114 &6968773950907503096
 MonoBehaviour:
@@ -232,6 +239,6 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
-  ignoreRoundstartGrabObjects: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}

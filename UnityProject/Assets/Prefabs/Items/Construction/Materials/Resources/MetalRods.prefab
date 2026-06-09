@@ -31,6 +31,17 @@ PrefabInstance:
         type: 3}
     - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
+      propertyPath: InitialstacksWith.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: 'InitialstacksWith.Array.data[0]'
+      value: 
+      objectReference: {fileID: 4262771051628408145, guid: 2ad28c1a2176ed34cae99b7b955816d2,
+        type: 3}
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
       propertyPath: stackSprites.Array.data[0].SpriteSO
       value: 
       objectReference: {fileID: 11400000, guid: 49f578709c4c65c4eb705af98a116726,
@@ -243,6 +254,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 98d95e3662439394593e47ebc644ebe6,
         type: 2}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b6c820d2598784e41b8d70aa2159a530,
+        type: 2}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 98d95e3662439394593e47ebc644ebe6,
+        type: 2}
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: hasSimpleRelatedRecipe
@@ -251,7 +274,7 @@ PrefabInstance:
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: relatedRecipes.Array.size
-      value: 14
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
@@ -339,6 +362,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
+      propertyPath: relatedRecipes.Array.data[14].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d37b6741258faf4e9f81ad9eeb04379,
+        type: 2}
+    - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: relatedRecipes.Array.data[15].recipe
+      value: 
+      objectReference: {fileID: 11400000, guid: ce92bcc66c6e7b5488aff693efe82fae,
+        type: 2}
+    - target: {fileID: 2258033352175129733, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
       propertyPath: relatedRecipes.Array.data[0].ingredientIndex
       value: 0
       objectReference: {fileID: 0}
@@ -389,7 +424,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5592108624515032788, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6995426355376287334}
+    - target: {fileID: 5592108624515032788, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 49f578709c4c65c4eb705af98a116726,
+        type: 2}
+    - target: {fileID: 5592108624515032788, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 49f578709c4c65c4eb705af98a116726,
         type: 2}
@@ -409,10 +455,20 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 4483220012042811674}
+    - targetCorrespondingSourceObject: {fileID: 1791647728409730387, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5116861371243164183}
   m_SourcePrefab: {fileID: 100100000, guid: c3138c3e8a46444199668b85070b1a39, type: 3}
 --- !u!210 &3986029492502748020 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 5506006793603177245, guid: c3138c3e8a46444199668b85070b1a39,
+    type: 3}
+  m_PrefabInstance: {fileID: 8878983786138796137}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &6995426355376287334 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1886097303314001423, guid: c3138c3e8a46444199668b85070b1a39,
     type: 3}
   m_PrefabInstance: {fileID: 8878983786138796137}
   m_PrefabAsset: {fileID: 0}
@@ -466,11 +522,11 @@ MonoBehaviour:
     itemCost: 2
     timeToPlace: 1
   placeSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/GenHit.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
 --- !u!114 &4483220012042811674
@@ -490,3 +546,19 @@ MonoBehaviour:
   syncInterval: 0.1
   metalSpawnCount: 1
   minimumRods: 2
+--- !u!114 &5116861371243164183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7198241665461443898}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 104d9a22603dba440a2d901daf048fdf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::MaterialMakeUp
+  MakeUp:
+    m_keys:
+    - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+    m_values: e8030000

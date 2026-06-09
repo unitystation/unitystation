@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿#if UNITY_EDITOR
+using Standard_Assets.HSVPicker.UtilityScripts;
+using UnityEditor;
+using UnityEditor.UI;
 
-#if UNITY_EDITOR
-namespace UnityEditor.UI
+namespace Standard_Assets.Editor
 {
 	[CustomEditor(typeof(BoxSlider), true)]
 	[CanEditMultipleObjects]

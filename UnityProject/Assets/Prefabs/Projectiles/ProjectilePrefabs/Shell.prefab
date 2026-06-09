@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2ba1feab414afda4399df4be302d558e,
         type: 2}
+    - target: {fileID: 3846077716074979931, guid: 23e6e4c96a5d0b049bb6d1af9f2de6e7,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2ba1feab414afda4399df4be302d558e,
+        type: 2}
     - target: {fileID: 4079317459117069745, guid: 23e6e4c96a5d0b049bb6d1af9f2de6e7,
         type: 3}
       propertyPath: parentID
@@ -103,12 +109,12 @@ PrefabInstance:
     - target: {fileID: 7407162229551707838, guid: 23e6e4c96a5d0b049bb6d1af9f2de6e7,
         type: 3}
       propertyPath: initialName
-      value: Spend shell
+      value: spent shell
       objectReference: {fileID: 0}
     - target: {fileID: 7407162229551707838, guid: 23e6e4c96a5d0b049bb6d1af9f2de6e7,
         type: 3}
       propertyPath: initialDescription
-      value: A spent shotgun shell
+      value: A spent shotgun shell.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

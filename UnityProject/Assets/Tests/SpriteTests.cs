@@ -2,9 +2,11 @@ using System.Text;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
+using US13.Core.Sprite_Handler;
 
 namespace Tests
 {
+	[Category(nameof(Asset))]
 	public class SpriteTests
 	{
 		[Test]

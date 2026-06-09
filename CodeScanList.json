@@ -73,7 +73,10 @@
             "IDeserializationCallback": {
                 "All": true
             },
-            "StreamingContext": {}
+            "StreamingContext": {},
+            "IgnoreDataMemberAttribute": {
+                "All": true
+            }
         },
         "System.Security.Principal": {
             "IIdentity": {
@@ -537,6 +540,10 @@
                     "string Combine(string, string, string)",
                     "string Combine(string, string, string, string)",
                     "string GetFileName(string)"
+                ],
+                "Fields": [
+                    "char DirectorySeparatorChar",
+                    "char AltDirectorySeparatorChar"
                 ]
             },
             "StringReader": {
@@ -823,6 +830,9 @@
                 "All": true
             },
             "ConfiguredTaskAwaitable/ConfiguredTaskAwaiter": {
+                "All": true
+            },
+            "CallerFilePathAttribute": {
                 "All": true
             }
         },
@@ -2468,7 +2478,8 @@
                     "void set_runInBackground(bool)",
                     "void Quit()",
                     "void remove_logMessageReceived(UnityEngine.Application/LogCallback)",
-                    "void add_logMessageReceived(UnityEngine.Application/LogCallback)"
+                    "void add_logMessageReceived(UnityEngine.Application/LogCallback)",
+                    "UnityEngine.SystemLanguage get_systemLanguage()"
                 ],
                 "NestedTypes": {
                     "LogCallback": {
@@ -2572,6 +2583,15 @@
                 "All": true
             },
             "LogOption": {
+                "All": true
+            },
+            "SystemLanguage": {
+                "All": true
+            },
+            "GeometryUtility": {
+                "All": true
+            },
+            "FindObjectsSortMode": {
                 "All": true
             }
         },
@@ -2791,6 +2811,9 @@
             },
             "Tile": {
                 "All": true
+            },
+            "TileAnimationFlags": {
+                "All": true
             }
         },
         "UnityEngine.Video": {
@@ -2937,6 +2960,12 @@
         },
         "JetBrains.Annotations": {
             "CanBeNullAttribute": {
+                "All": true
+            },
+            "NotNullAttribute": {
+                "All": true
+            },
+            "UsedImplicitlyAttribute": {
                 "All": true
             }
         },
@@ -3133,7 +3162,6 @@
         "Mirror.BouncyCastle.Crypto.Parameters": {
             "RsaKeyParameters": {},
             "RsaPrivateCrtKeyParameters": {}
-
         },
         "Mirror.BouncyCastle.Crypto.Generators": {
             "RsaKeyPairGenerator": {
@@ -3194,14 +3222,14 @@
             }
         },
         "Mirror.Transports": {
-            "PubKeyInfo": {},
+            "PubKeyInfo": {}
         },
         "Mirror.Transports.Encryption": {
             "EncryptionTransport": {
                 "Methods": [
                     "byte[] get_EncryptionPublicKey()"
                 ],
-				"Fields": [
+                "Fields": [
                     "System.Func`2<Mirror.BouncyCastle.Crypto.PubKeyInfo, bool> OnClientValidateServerPubKey"
                 ]
             }
@@ -3215,7 +3243,6 @@
             "SecureRandom": {
                 "ALL": true
             }
-
         },
         "Mirror.BouncyCastle.OpenSsl": {
             "PemWriter": {
@@ -3619,6 +3646,75 @@
                 "All": true
             },
             "PlayerLoopTiming": {
+                "All": true
+            },
+            "UniTaskExtensions": {
+                "All": true
+            },
+            "SwitchToThreadPoolAwaitable": {
+                "All": true
+            },
+            "SwitchToMainThreadAwaitable": {
+                "All": true
+            },
+            "SwitchToThreadPool": {
+                "All": true
+            },
+            "SwitchToMainThread": {
+                "All": true
+            },
+            "YieldAwaitable": {
+                "All": true
+            },
+            "UniTaskCompletionSource": {
+                "All": true
+            },
+            "UniTaskCompletionSource`1": {
+                "All": true
+            },
+            "AutoResetUniTaskCompletionSource": {
+                "All": true
+            },
+            "AutoResetUniTaskCompletionSource`1": {
+                "All": true
+            },
+            "IUniTaskSource": {
+                "All": true
+            },
+            "IUniTaskSource`1": {
+                "All": true
+            },
+            "UniTaskStatus": {
+                "All": true
+            },
+            "UniTaskScheduler": {
+                "All": true
+            },
+            "DelayType": {
+                "All": true
+            },
+            "AsyncLazy": {
+                "All": true
+            },
+            "AsyncLazy`1": {
+                "All": true
+            },
+            "Channel`1": {
+                "All": true
+            },
+            "TimeoutController": {
+                "All": true
+            },
+            "CancellationTokenExtensions": {
+                "All": true
+            },
+            "AsyncReactiveProperty`1": {
+                "All": true
+            },
+            "ReadOnlyAsyncReactiveProperty`1": {
+                "All": true
+            },
+            "ReturnToMainThread": {
                 "All": true
             }
         },

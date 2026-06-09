@@ -177,9 +177,20 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: MutationRestriction
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: CapableMutations.Array.size
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: MutationRestrictionItemTrait
+      value: 
+      objectReference: {fileID: 11400000, guid: 9d0fcfd4288eade4ea93e0741695756b,
+        type: 2}
     - target: {fileID: 5149497101896790310, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: 'CapableMutations.Array.data[0]'
@@ -226,6 +237,12 @@ PrefabInstance:
       propertyPath: BodyPartType
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: SpritePrefab
+      value: 
+      objectReference: {fileID: 542051147916053027, guid: aadfd0746c354f94bb3ee7869978af3b,
+        type: 3}
     - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: bloodThroughput

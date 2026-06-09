@@ -1,0 +1,108 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Mirror;
+using Newtonsoft.Json;
+using UnityEngine;
+using US13.Managers;
+using US13.Managers.MatrixManager;
+using US13.Managers.SubSceneManager;
+using US13.MapSaver;
+using US13.Messages.Client.Admin;
+using US13.Tilemaps.Behaviours.Layers;
+using US13.Tilemaps.Utils;
+using Util;
+
+namespace US13.Messages.Client.mapping
+{
+	public class ClientRequestLoadMap : ClientMessage<ClientRequestLoadMap.NetMessage>
+	{
+		public static Dictionary<PlayerInfo, List<string>> SaveDatas = new Dictionary<PlayerInfo, List<string>>();
+
+		public struct NetMessage : NetworkMessage
+		{
+			public Vector3 Offset00; //the off set In the data so objects will appear at 0,0
+			public Vector3 Offset; //Offset to apply 0,0 to get the position you want
+			public string Data;
+			public bool end;
+			public int? MatrixID;
+			public LayerType[] LoadLayers;
+			public bool LoadObjects;
+			public string MatrixName;
+			public LoadType LoadType;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			if (HasPermission(TAG.MAP_LOAD) == false) return;
+
+			if (SaveDatas.ContainsKey(SentByPlayer) == false)
+			{
+				SaveDatas[SentByPlayer] = new List<string>();
+			}
+
+			SaveDatas[SentByPlayer].Add(msg.Data);
+
+			if (msg.end) //NOTE presume they come in order?
+			{
+				var data = String.Join("", SaveDatas[SentByPlayer]);
+				SaveDatas.Remove(SentByPlayer);
+
+				HashSet<LayerType> LoadLayers = null;
+				if (msg.LoadLayers != null)
+				{
+					LoadLayers = msg.LoadLayers.ToHashSet();
+				}
+
+				MatrixInfo MatrixInfo = null;
+				if (msg.MatrixID != null)
+				{
+					MatrixInfo = MatrixManager.Get(msg.MatrixID.Value);
+				}
+
+				switch (msg.LoadType)
+				{
+					case LoadType.LoadMatrix:
+						var mapdataMatrix = JsonConvert.DeserializeObject<MapSaver.MapSaver.MatrixData>(data);
+						MapLoader.ServerLoadSectionNoCoRoutine(MatrixInfo,  msg.Offset00, msg.Offset, mapdataMatrix, null, LoadLayers, msg.LoadObjects, msg.MatrixName);
+						return;
+					case LoadType.LoadMap:
+						var mapdata = JsonConvert.DeserializeObject<MapSaver.MapSaver.MapData>(data);
+						MapLoader.ServerLoadMapNoCoRoutine(msg.Offset00, msg.Offset , mapdata, SceneType.AdditionalScenes, LoadLayers,  msg.LoadObjects);
+						return;
+				}
+			}
+
+		}
+
+		public static void Send(string data, Matrix Matrix,  Vector3 Offset00,Vector3 Offset, HashSet<LayerType> Layers = null, bool LoadObjects = true, string NewMatrixName = "", LoadType LoadType = LoadType.LoadMatrix)
+		{
+
+			var StringDatas = data.Chunk(5000).ToList();
+			for (int i = 0; i < StringDatas.Count; i++)
+			{
+				NetMessage  msg = new NetMessage
+				{
+					MatrixID =  Matrix?.Id,
+					Data = new string(StringDatas[i].ToArray()),
+					end = (i + 1) >= StringDatas.Count,
+					Offset = Offset,
+					Offset00 = Offset00,
+					LoadLayers = Layers?.ToArray(),
+					LoadObjects = LoadObjects,
+					MatrixName = NewMatrixName,
+					LoadType = LoadType
+				};
+
+				Send(msg);
+			}
+
+		}
+
+		public enum LoadType
+		{
+			LoadMatrix,
+			LoadMap
+		}
+	}
+}

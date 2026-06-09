@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Adrenak.UniVoice.AudioSourceOutput {
+namespace Adrenak.UniVoice.AudioSourceOutput.Runtime {
     /// <summary>
     /// Used to arrange irregular, out of order and skipped audio segments for better playback.
     /// </summary>

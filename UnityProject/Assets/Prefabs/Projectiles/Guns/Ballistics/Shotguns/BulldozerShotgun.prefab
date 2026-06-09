@@ -52,6 +52,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -73,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
@@ -104,10 +108,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 969f370ba378d7e479e68212bf295e8f,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1 &8897308059029132826
 GameObject:
   m_ObjectHideFlags: 0
@@ -160,6 +168,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -181,6 +192,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 41
@@ -212,10 +224,14 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 6345ccfc8983cdd489aa04c42d86260c,
     type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &5984584776123358415
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -248,7 +264,7 @@ PrefabInstance:
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: FireDelay
-      value: 0.2
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
@@ -318,6 +334,18 @@ PrefabInstance:
     - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: dc212bdd1c009e54facfad0baf16a9ab,
+        type: 2}
+    - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: e3e8f19fd2f79864c8c06abd17fc42c2,
+        type: 2}
+    - target: {fileID: 3012018597040680649, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: dc212bdd1c009e54facfad0baf16a9ab,
         type: 2}

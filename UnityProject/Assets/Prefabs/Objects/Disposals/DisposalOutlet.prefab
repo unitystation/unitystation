@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 643326484729671418, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: isNotPushable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_Sprite
@@ -106,6 +111,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2006165096988870516}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 60a1d05f140abf148a564c6f25e7571c,
@@ -115,6 +125,12 @@ PrefabInstance:
       propertyPath: Sprites.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 60a1d05f140abf148a564c6f25e7571c,
+        type: 2}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: SubCatalogue.Array.size
@@ -224,12 +240,13 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  installState: 0
   ejectionAlarmSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/DisposalMachines/DisposalMachineBuzzer.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
 --- !u!114 &5007995467691140660
@@ -254,6 +271,14 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &5517418206864134799
@@ -287,6 +312,12 @@ MonoBehaviour:
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
   RotateParent: {fileID: 0}
+--- !u!212 &2006165096988870516 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 1347533324463388387}
+  m_PrefabAsset: {fileID: 0}
 --- !u!210 &3925827565069146067 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 2650422487074349360, guid: b06b702714bab49b9ad949eab1ca4534,

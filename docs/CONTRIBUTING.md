@@ -87,9 +87,18 @@ Please take note of the difference between a TODO and Feature
 * Todo: When you come across something that needs tweaking/adding during development, is not an unexpected behavior
 * Feature: When you, out of personal preference, want something added or changed.
 
+### AI Disclosure
+
+US13 requires AI-assisted and AI-generated contributions to be disclosed. 
+
+We only allow Large Langauge Models (LLMs) to assist programmers with spoken language translations, boilerplate writing, expanding already existing documentation, small-scale refactors, and autocompletions.
+Any other use-cases for LLMs, or use of other generative AI tools for any kind of assets/content, are **explicitly not allowed**.
+
+US13 has zero-tolerance for AI slop. If you're unable to explain or maintain your changes, follow current code standards that the project employs, or write code that's sensitive to UnityStation's performance and stability needs; your pull request will be automatically rejected.
+
+Failure to disclose usage of AI - or lying about anything related to its usage - will result in an automatic rejection of all current contributions.
+
 ### That's it!
 ***
 Someone will come along and review the changes. If everything looks good then they will merge it with the main repo. If you need any help don't be afraid to ask in the discord channel: [https://discord.gg/tFcTpBp](https://discord.gg/tFcTpBp)
-
-
 

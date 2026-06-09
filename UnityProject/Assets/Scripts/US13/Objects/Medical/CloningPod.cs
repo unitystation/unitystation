@@ -1,0 +1,139 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using Mirror;
+using SecureStuff;
+using UnityEngine;
+using UnityEngine.Serialization;
+using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Core.Lifecycle;
+using US13.Core.Sprite_Handler;
+using US13.Health.Objects;
+using US13.HealthV2;
+using US13.HealthV2.Living;
+using US13.Items.Traits;
+using US13.Systems.Construction;
+
+namespace US13.Objects.Medical
+{
+	public class CloningPod : NetworkBehaviour, IRefreshParts, IExaminable
+	{
+		public CloningPodStatus statusSync;
+		public SpriteHandler SpriteHandler;
+		[PlayModeOnly] public string statusString;
+		public CloningConsole console;
+
+		[FormerlySerializedAs("LimbCloningDamage"), SerializeField] private float internalLimbCloningDamage = 25;
+
+		[SerializeField] private float internalCloningTime = 180;
+
+
+		private float LimbCloningDamage = 25;
+
+		private float CloningTime = 180;
+
+		[SerializeField] private ItemTrait UpgradePart;
+
+		private Machine Machine;
+
+		public float CloningStartTime;
+
+		#region Examine
+
+		public string Examine(Vector3 worldPos = default)
+		{
+			switch (statusSync)
+			{
+				case CloningPodStatus.Cloning:
+					return "Remaining time cloning " + Mathf.RoundToInt((CloningTime - (Time.time - CloningStartTime))) + " seconds";
+				default:
+					return statusString;
+			}
+		}
+
+		/// <summary>
+		/// Higher priority will ensure this text is displayed first when constructing the examine message.
+		/// </summary>
+		int ExaminablePriority => 10;
+		#endregion
+
+		public enum CloningPodStatus
+		{
+			Empty,
+			Cloning
+		}
+
+		public override void OnStartServer()
+		{
+			statusString = "Inactive.";
+		}
+
+
+		public void ServerStartCloning(CloningRecord record)
+		{
+			statusSync = CloningPodStatus.Cloning;
+			SpriteHandler.SetCatalogueIndexSprite(1);
+			statusString = "Cloning cycle in progress.";
+			StartCoroutine(ServerProcessCloning(record));
+		}
+
+		private IEnumerator ServerProcessCloning(CloningRecord record)
+		{
+			CloningStartTime = Time.time;
+			yield return WaitFor.Seconds(CloningTime);
+			statusSync = CloningPodStatus.Empty;
+			SpriteHandler.SetCatalogueIndexSprite(0);
+			statusString = "Cloning process complete.";
+			if (console)
+			{
+				console.UpdateDisplay();
+			}
+			if (record.mind.IsOnline())
+			{
+				var playerBody = PlayerSpawn.ClonePlayerAt(record.mind,  record.mind.occupation,  record.mind.CurrentCharacterSettings, transform.position.CutToInt()).GetComponent<LivingHealthMasterBase>();
+				playerBody.ApplyDamageAll(this.gameObject, LimbCloningDamage, AttackType.Internal, DamageType.Clone, false);
+			}
+
+		}
+
+		public bool CanClone()
+		{
+			return statusSync == CloningPodStatus.Empty;
+		}
+
+		/// <summary>
+		/// Updates the cloning pod's status string according to a mind's state
+		/// </summary>
+		public void UpdateStatusString(CloneableStatus status)
+		{
+			statusString = statusStrings[status];
+		}
+
+		private static Dictionary<CloneableStatus, string> statusStrings =
+			new Dictionary<CloneableStatus, string>
+			{
+			{ CloneableStatus.Cloneable, "Cloning will commence shortly." },
+			{ CloneableStatus.OldRecord, "Outdated record." },
+			{ CloneableStatus.DenyingCloning, "Spirit is denying cloning." },
+			{ CloneableStatus.StillAlive, "Person is still alive." },
+			{ CloneableStatus.Offline, "Spirit cannot be found." }
+			};
+
+
+		public void RefreshParts(List<PartReference> partsInFrame, Machine Frame)
+		{
+			var Multiplier = Frame.GetCertainPartMultiplier(UpgradePart);
+			var DamageMultiplier = 1f / Multiplier;
+			if (DamageMultiplier == 0.25f)
+			{
+				LimbCloningDamage = 0;
+			}
+			else
+			{
+				LimbCloningDamage = DamageMultiplier * internalLimbCloningDamage;
+			}
+
+			CloningTime = DamageMultiplier * internalCloningTime;
+		}
+
+	}
+}

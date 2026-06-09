@@ -8,12 +8,27 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 859153990715057728, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.03125
+      objectReference: {fileID: 0}
+    - target: {fileID: 859153990715057728, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.21875
+      objectReference: {fileID: 0}
     - target: {fileID: 1149402479745122159, guid: d05e6959c655a704783a7df68cd10435,
         type: 3}
       propertyPath: openedSprite
       value: 
       objectReference: {fileID: 11400000, guid: a53497d0b78777b449dde714f9f04ff5,
         type: 2}
+    - target: {fileID: 1149402479745122159, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: runsOutOverSeconds
+      value: 480
+      objectReference: {fileID: 0}
     - target: {fileID: 1666505115895660852, guid: d05e6959c655a704783a7df68cd10435,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -53,6 +68,21 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: c64084b1907ae104f865326930718ec0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4148211850803477239, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.26666668
+      objectReference: {fileID: 0}
+    - target: {fileID: 4148211850803477239, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.81960785
+      objectReference: {fileID: 0}
+    - target: {fileID: 4148211850803477239, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4654319829746092527, guid: d05e6959c655a704783a7df68cd10435,
         type: 3}
@@ -133,7 +163,7 @@ PrefabInstance:
     - target: {fileID: 4939067879421793745, guid: d05e6959c655a704783a7df68cd10435,
         type: 3}
       propertyPath: initialName
-      value: Torch
+      value: torch
       objectReference: {fileID: 0}
     - target: {fileID: 4939067879421793745, guid: d05e6959c655a704783a7df68cd10435,
         type: 3}
@@ -153,6 +183,52 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 448c9f91cc815d94c8d5181c27d1f468,
         type: 2}
+    - target: {fileID: 5177685982098649451, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 77dec0be2e676214aac82240280e21e2,
+        type: 3}
+    - target: {fileID: 5177685982098649451, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: InitialColour.a
+      value: 0.50980395
+      objectReference: {fileID: 0}
+    - target: {fileID: 5177685982098649451, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.26666668
+      objectReference: {fileID: 0}
+    - target: {fileID: 5177685982098649451, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.81960785
+      objectReference: {fileID: 0}
+    - target: {fileID: 5177685982098649451, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5185865969733433047, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: colour.a
+      value: 0.50980395
+      objectReference: {fileID: 0}
+    - target: {fileID: 5185865969733433047, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: colour.b
+      value: 0.26666668
+      objectReference: {fileID: 0}
+    - target: {fileID: 5185865969733433047, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: colour.g
+      value: 0.81960785
+      objectReference: {fileID: 0}
+    - target: {fileID: 5185865969733433047, guid: d05e6959c655a704783a7df68cd10435,
+        type: 3}
+      propertyPath: colour.r
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

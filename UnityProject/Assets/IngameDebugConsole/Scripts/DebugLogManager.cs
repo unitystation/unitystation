@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
 using Logs;
+using RCON;
+using SecureStuff;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Mirror;
-using SecureStuff;
 using UnityEngine.UI;
+using US13.Core.Input_System;
+using US13.Managers.NetworkManagement;
+using US13.UI.Core.Info;
 
-namespace IngameDebugConsole
+namespace IngameDebugConsole.Scripts
 {
 	/// <summary>
 	/// An enum to represent filtered log types
@@ -357,6 +360,7 @@ namespace IngameDebugConsole
 				if (text.Length > 0)
 				{
 					// Execute the command
+					DebugLogConsole.InitializeAsync();
 					DebugLogConsole.ExecuteCommand(text);
 
 					// Snap to bottom and select the latest entry

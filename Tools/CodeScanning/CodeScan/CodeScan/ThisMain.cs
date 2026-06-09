@@ -21,7 +21,7 @@ public static class ThisMain
 
 	public static async Task Main(string[] args)
 	{
-		// Get the location of the executable
+		// Get the location of the executable.
 		string executablePath = Assembly.GetEntryAssembly().Location.Replace("CodeScan.dll", "");
 
 		try

@@ -63,9 +63,31 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A small wall mounted cabinet designed to hold a fire extinguisher.
       objectReference: {fileID: 0}
+    - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cd98e1bc8bcab7e40a694886dbae5973,
+        type: 2}
+    - target: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 289515211895536920}
     - target: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: dd6b907e4d87b644fbc22a5256ce14b8,
+        type: 2}
+    - target: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: dd6b907e4d87b644fbc22a5256ce14b8,
         type: 2}
@@ -254,7 +276,17 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8847796060487267526}
+    - targetCorrespondingSourceObject: {fileID: 338588115043544032, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4318470127868460112}
   m_SourcePrefab: {fileID: 100100000, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}
+--- !u!212 &289515211895536920 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 8312543595778916565}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &532740209742371087 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8374648283101600218, guid: a7af28adb717b4c44b8b2002b27670bd,
@@ -279,11 +311,11 @@ MonoBehaviour:
   IsClosed: 1
   spriteHandler: {fileID: 4986712641889203157}
   OpenCloseSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/OpenClose.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
 --- !u!114 &3367540288689315794
@@ -312,6 +344,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &7441945920298257138
 MonoBehaviour:
@@ -348,6 +381,14 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 3
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!210 &3001811145825185215 stripped
@@ -362,9 +403,27 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 8312543595778916565}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 8642124298889145141}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &8642124298889145141 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 338588115043544032, guid: a7af28adb717b4c44b8b2002b27670bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 8312543595778916565}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4318470127868460112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8642124298889145141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ed94c89426884e758facbd072bbf0ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::Objects.Wallmounts.WallmountSpriteBehavior

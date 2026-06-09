@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RustyRWallCoverDeconstruct
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: aaed69546e98a47d8b488a046d00ebe7, type: 2}
-  harmIntentRequired: 0
+  requiredIntent: 1
   performerStartActionMessage: You begin slicing through the metal cover...
   othersStartActionMessage: '{performer} begins slicing through the metal cover...'
   seconds: 6

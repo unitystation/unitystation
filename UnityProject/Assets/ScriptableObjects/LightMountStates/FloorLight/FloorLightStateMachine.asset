@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec9e64dc9ec847c4837c5a67a2e29325, type: 3}
+  m_Name: FloorLightStateMachine
+  m_EditorClassIdentifier: 
+  LightMountStates:
+    m_keys: 010000000200000003000000040000000500000006000000
+    m_values:
+    - {fileID: 11400000, guid: 51db56fce9ca1818bbaa1094074a49bd, type: 2}
+    - {fileID: 11400000, guid: 1c7718765f2263f129c3d52509d35fed, type: 2}
+    - {fileID: 11400000, guid: ce1d3f12e84fd8811be708fd17811b02, type: 2}
+    - {fileID: 11400000, guid: 9a2125105d00cf48e81922f42f83a44b, type: 2}
+    - {fileID: 11400000, guid: 8e0204d70fcdcd57e9b979dd35a8c025, type: 2}
+    - {fileID: 11400000, guid: 7c83c5aac80ce2336be0e84aeb85cc19, type: 2}

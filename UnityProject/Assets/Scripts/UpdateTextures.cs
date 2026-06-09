@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEditor;
 using UnityEngine.UI;
+using US13.UI;
+using US13.UI.Core;
 
 public class UpdateTextures : MonoBehaviour
 {

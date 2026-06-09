@@ -1,0 +1,36 @@
+{
+    "name": "Editor",
+    "rootNamespace": "",
+    "references": [
+        "Mirror",
+        "Mirror.Components",
+        "Unity.TextMeshPro",
+        "Assets",
+        "Logger",
+        "NaughtyAttributes.Editor",
+        "Unity.Addressables",
+        "Unity.Addressables.Editor",
+        "Unity.ResourceManager",
+        "NaughtyAttributes.Core",
+        "SerializableDictionary",
+        "NewAssembly",
+        "Shared",
+        "NuGetForUnity",
+        "SecureStuff",
+        "RootSillys",
+        "Chemistry",
+        "Lighting",
+        "Attributes"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

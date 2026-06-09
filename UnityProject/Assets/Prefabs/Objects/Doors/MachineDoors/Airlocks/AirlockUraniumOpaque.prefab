@@ -63,6 +63,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 17
       objectReference: {fileID: 0}
+    - target: {fileID: 3955562306515913674, guid: 33207669c86e2714fbc8c8e6689198fc,
+        type: 3}
+      propertyPath: m_Layer
+      value: 17
+      objectReference: {fileID: 0}
     - target: {fileID: 5129406594229127334, guid: 33207669c86e2714fbc8c8e6689198fc,
         type: 3}
       propertyPath: parentID
@@ -82,6 +87,12 @@ PrefabInstance:
     - target: {fileID: 7164967926316888190, guid: 33207669c86e2714fbc8c8e6689198fc,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 41bb9dc41a49db542adbb5dc7a967f03,
+        type: 2}
+    - target: {fileID: 7164967926316888190, guid: 33207669c86e2714fbc8c8e6689198fc,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 41bb9dc41a49db542adbb5dc7a967f03,
         type: 2}

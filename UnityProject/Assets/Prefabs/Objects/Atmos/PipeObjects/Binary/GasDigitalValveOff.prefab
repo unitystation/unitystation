@@ -122,6 +122,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6323048891065173547, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: fe962ea5af2fe97489faad0dd643324c,
+        type: 2}
+    - target: {fileID: 6323048891065173547, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -162,7 +168,7 @@ PrefabInstance:
     - target: {fileID: 8163608160046166977, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
       propertyPath: initialName
-      value: digital Valve
+      value: digital valve
       objectReference: {fileID: 0}
     - target: {fileID: 8163608160046166977, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
@@ -172,6 +178,12 @@ PrefabInstance:
     - target: {fileID: 8913505815451129662, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c59c5e3dd182a7649a161ea1d0bbc672,
+        type: 2}
+    - target: {fileID: 8913505815451129662, guid: 40b91fa71481bb54cbec1e89fa1ff1d2,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: c59c5e3dd182a7649a161ea1d0bbc672,
         type: 2}
@@ -236,6 +248,7 @@ MonoBehaviour:
     CustomLogic: 0
     NetCompatible: 0
     SelfSufficient: 0
+    MappingNotRequiresLink: 0
     mixAndVolume:
       mix:
         temperature: 273.15
@@ -253,6 +266,7 @@ MonoBehaviour:
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spawnedFromItem: 1
   directional: {fileID: 8567674339427443990}
+  InitialVolume: 0.05
   spriteHandlerValve: {fileID: 7433545283390725197}
   isOn: 0
 --- !u!114 &6747545386735802079 stripped

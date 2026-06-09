@@ -28,7 +28,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f4b29a15c4846d24d829d1f4071b90d5,
+      objectReference: {fileID: 21300000, guid: 063d0a496f561fb4f8ede01b292e6d40,
         type: 3}
     - target: {fileID: 1533349136993711858, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
         type: 3}
@@ -107,9 +107,37 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4823467634323291689, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 8836709479145199615}
+    - target: {fileID: 4823467634323291689, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 1c7a995e702f0bd45b4b524d35c4767e,
+        type: 2}
+    - target: {fileID: 4823467634323291689, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ece62e5f11b1ed045be198d29cc80230,
+        type: 2}
+    - target: {fileID: 4823467634323291689, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4823467634323291689, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ece62e5f11b1ed045be198d29cc80230,
+        type: 2}
+    - target: {fileID: 4823467634323291689, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b5acb79f13d6ca4bbd0bf02d5531b61,
         type: 2}
     - target: {fileID: 5696139363908831683, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
         type: 3}
@@ -129,5 +157,64 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1708686657731708334, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7497124118231105895}
   m_SourcePrefab: {fileID: 100100000, guid: 8e8424eb1a0a54f4380ff97f6a51d872, type: 3}
+--- !u!114 &2284543064393322434 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8093411948979334863, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
+    type: 3}
+  m_PrefabInstance: {fileID: 8063062472530043149}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8670478144276522147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3248686156040199972 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4823467634323291689, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
+    type: 3}
+  m_PrefabInstance: {fileID: 8063062472530043149}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &8670478144276522147 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1708686657731708334, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
+    type: 3}
+  m_PrefabInstance: {fileID: 8063062472530043149}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7497124118231105895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8670478144276522147}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 503137a9c2df915449ef2c006742d816, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::DynamicMagazineSprite
+  magazine: {fileID: 2284543064393322434}
+  spriteHandler: {fileID: 3248686156040199972}
+  thresholds:
+  - AmmoCount: 8
+    CatalogueIndex: 0
+  - AmmoCount: 0
+    CatalogueIndex: 1
+--- !u!212 &8836709479145199615 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 1533349136993711858, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
+    type: 3}
+  m_PrefabInstance: {fileID: 8063062472530043149}
+  m_PrefabAsset: {fileID: 0}

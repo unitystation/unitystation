@@ -1,4 +1,4 @@
-/*! 
+/*!
 @file NodePool.cs
 @author Woong Gyu La a.k.a Chris. <juhgiyo@gmail.com>
 		<http://github.com/juhgiyo/eppathfinding.cs>
@@ -35,11 +35,11 @@ THE SOFTWARE.
 An Interface for the NodePool Class.
 
 */
-using System;
-using System.Collections.Generic;
-using System.Collections;
 
-namespace EpPathFinding.cs
+using System.Collections.Generic;
+using Standard_Assets.PathFinder.Grid;
+
+namespace Standard_Assets.PathFinder
 {
     public class NodePool
     {

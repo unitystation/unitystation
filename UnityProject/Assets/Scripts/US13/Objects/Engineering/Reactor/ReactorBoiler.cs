@@ -1,0 +1,139 @@
+﻿using System.Collections.Generic;
+using UnityEngine;
+using US13.Core.Input_System.InteractionV2;
+using US13.Core.Input_System.InteractionV2.Interactions;
+using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Core.Lifecycle;
+using US13.Core.ObjectConnection;
+using US13.Items.Tool;
+using US13.Items.Traits;
+using US13.Managers.NetworkManagement;
+using US13.Managers.UpdateManager;
+using US13.Objects.Pipes;
+using US13.ScriptableObjects;
+using US13.Tilemaps.Behaviours.Meta.Atmospherics;
+using US13.Tilemaps.Behaviours.Meta.Atmospherics.Data.Reactions;
+using US13.Tilemaps.Behaviours.Objects;
+using Util;
+
+namespace US13.Objects.Engineering.Reactor
+{
+	public class ReactorBoiler : MonoBehaviour, IMultitoolMasterable, ICheckedInteractable<HandApply>, IServerDespawn
+	{
+		public decimal MaxPressureInput = 130000M;
+		private decimal AdsorbedEnergy = 0;
+
+		public float BoilerPressure { get; private set; } = 0;
+		public float TurbinePressure { get; private set; } = 0;
+
+		public decimal OutputEnergy;
+		public decimal TotalEnergyInput;
+
+		public decimal Efficiency = 1M; //0.825M
+		private const int BOILING_TEMP = 100;
+
+		public ReactorPipe ReactorPipe;
+
+		public List<ReactorGraphiteChamber> Chambers;
+		// Start is called before the first frame update
+		[field: SerializeField] public bool CanRelink { get; set; } = true;
+		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
+
+		[SerializeField, Range(0, 1), Tooltip("The % cooling of this boiler per update. 100% cools input gas immediately to 100 degrees. 0% doesn't cool the gas.")]
+		private float coolingRate = 0.5f;
+
+		#region Lifecycle
+
+		public void Awake()
+		{
+			ReactorPipe = GetComponent<ReactorPipe>();
+		}
+
+		private void OnEnable()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			AtmosManager.Instance.AddUpdate(CycleUpdate);
+
+		}
+
+		private void OnDisable()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+
+			AtmosManager.Instance.RemoveUpdate(CycleUpdate);
+		}
+
+		/// <summary>
+		/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
+		/// </summary>
+		void IServerDespawn.OnDespawnServer(DespawnInfo info)
+		{
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, this.GetComponent<RegisterObject>().WorldPositionServer,
+				count: 15);
+		}
+
+		#endregion
+
+		public void CycleUpdate()
+		{
+			//Maybe change equation later to something cool
+			AdsorbedEnergy = 0;
+
+			var ExpectedInternalEnergy = ReactorPipe.pipeData.mixAndVolume.WholeHeatCapacity * (Reactions.KOffsetC + BOILING_TEMP);
+			var InternalEnergy = ReactorPipe.pipeData.mixAndVolume.InternalEnergy;
+
+			BoilerPressure = ReactorPipe.pipeData.mixAndVolume.Temperature * ReactorPipe.pipeData.mixAndVolume.Total.x;
+			TurbinePressure = BoilerPressure * coolingRate;
+
+			AdsorbedEnergy = (decimal)(InternalEnergy - ExpectedInternalEnergy) * (decimal)coolingRate;
+
+			if (AdsorbedEnergy > 0)
+			{
+				//Loggy.Log("CurrentPressureInput " + CurrentPressureInput);
+				// if (CurrentPressureInput > MaxPressureInput)
+				// {
+				// 	CurrentPressureInput = MaxPressureInput;
+				// 	//Loggy.LogError(" ReactorBoiler !!!booommmm!!", Category.Editor);
+				// 	//Explosions.Explosion.StartExplosion(registerObject.LocalPosition, 800, registerObject.Matrix);
+				// }
+
+
+				ReactorPipe.pipeData.mixAndVolume.InternalEnergy = InternalEnergy - (float)AdsorbedEnergy;
+				OutputEnergy = AdsorbedEnergy * Efficiency; //Only half of the energy is converted into useful energy
+			}
+			else
+			{
+				OutputEnergy = 0;
+			}
+		}
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (DefaultWillInteract.Default(interaction, side) == false) return false;
+			if (!Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder)) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder))
+			{
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 10,
+					"You start to deconstruct the ReactorBoiler..",
+					$"{interaction.Performer.ExpensiveName()} starts to deconstruct the ReactorBoiler...",
+					"You deconstruct the ReactorBoiler",
+					$"{interaction.Performer.ExpensiveName()} deconstructs the ReactorBoiler.",
+					() => { _ = Despawn.ServerSingle(gameObject); });
+			}
+		}
+
+		#region Multitool Interaction
+
+		public MultitoolConnectionType ConType => MultitoolConnectionType.BoilerTurbine;
+		public bool MultiMaster => false;
+		int IMultitoolMasterable.MaxDistance => int.MaxValue;
+
+		#endregion
+	}
+}

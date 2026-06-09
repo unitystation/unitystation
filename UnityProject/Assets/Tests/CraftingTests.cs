@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
-using Systems.CraftingV2;
 using NUnit.Framework;
 using Shared.Util;
 using UnityEngine;
 using UnityEngine.Pool;
+using US13.Systems.CraftingV2;
 using Util;
 
 namespace Tests
 {
+	[Category(nameof(Balance))]
 	public class CraftingTests
 	{
 		private readonly string recipesPath = "ScriptableObjects/Crafting/Recipes";

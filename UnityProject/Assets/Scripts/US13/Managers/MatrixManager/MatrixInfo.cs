@@ -1,0 +1,165 @@
+using System;
+using System.Collections.Generic;
+using Logs;
+using Mirror;
+using UnityEngine;
+using US13.Shuttles;
+using US13.Tilemaps.Behaviours.Layers;
+using US13.Tilemaps.Behaviours.Meta;
+using US13.Tilemaps.Behaviours.Meta.Atmospherics;
+using Util;
+
+namespace US13.Managers.MatrixManager
+{
+	/// Class that helps identify matrices
+	public class MatrixInfo : IEquatable<MatrixInfo>
+	{
+		public readonly int Id;
+		public Matrix Matrix;
+		public MetaTileMap MetaTileMap;
+		public MetaDataLayer MetaDataLayer;
+		public MatrixSystemManager SubsystemManager;
+		public TileChangeManager TileChangeManager;
+		public ReactionManager ReactionManager;
+		public GameObject GameObject;
+		public Vector3Int CachedOffset;
+
+		// position we were at when offset was last cached, to check if it is invalid
+		private Vector3 cachedPosition;
+
+		// Transform containing all the physical objects on the map
+		public Transform Objects;
+		public MatrixMove MatrixMove => Matrix.MatrixMove;
+
+		private Vector3Int initialOffset;
+		private uint netId;
+
+		public BetterBoundsInt LocalBounds => MetaTileMap.GetLocalBounds();
+
+		//Warning slow
+		public BetterBounds WorldBounds => MetaTileMap.GetWorldBounds();
+
+		public BetterBounds? WorldMatrixCollisionBounds => MetaTileMap.GeWorldMatrixCollisionBounds();
+
+		public Transform ObjectParent => MetaTileMap.ObjectLayer.transform;
+
+		public Color Color => IsMovable ? Matrix.Color : Color.red;
+
+		public float Speed => 0f;
+
+		public string Name => Matrix.gameObject.name;
+
+		public bool IsMovable => Matrix.IsMovable;
+
+		public Vector2Int MovementVector =>  Matrix.MatrixMove.NetworkedMatrixMove.SynchronisedVelocity.NormalizeTo2Int();
+
+		public Vector3Int InitialOffset
+		{
+			get { return initialOffset; }
+			set
+			{
+				initialOffset = value;
+			}
+		}
+
+
+		public uint NetID
+		{
+			get
+			{
+				//late init, because server is not yet up during InitMatrices()
+				if (netId == NetId.Invalid || netId == NetId.Empty)
+				{
+					netId = getNetId(Matrix);
+				}
+
+				return netId;
+			}
+		}
+
+		/// Null object
+		public static readonly MatrixInfo Invalid = new MatrixInfo(-1);
+
+		public MatrixInfo(int id)
+		{
+			Id = id;
+		}
+
+		public override string ToString()
+		{
+			if(Equals(Invalid))
+			{
+				return "[Invalid matrix]";
+			}
+			else
+			{
+				string objectName = "MatrixInfo";
+				if(GameObject != null)
+					objectName = GameObject.name;
+
+				string pivot = "pivot";
+				string state = "state";
+				return $"[({Id}){objectName},pivot={pivot},state={state},netId={NetID}]";
+			}
+		}
+
+		public bool Equals(MatrixInfo other) => other is null == false && Id == other.Id;
+
+		public override bool Equals(object obj) => obj is MatrixInfo other && Equals(other);
+
+		public override int GetHashCode() => Id;
+
+		///Figuring out netId. NetworkIdentity is located on the pivot (parent) gameObject for MatrixMove-equipped matrices
+		private static uint getNetId(Matrix matrix)
+		{
+			var netId = NetId.Invalid;
+			if (!matrix)
+			{
+				return netId;
+			}
+
+			NetworkedMatrix networkedMatrix = matrix.gameObject.GetComponentInParent<NetworkedMatrix>();
+
+			if (networkedMatrix.OrNull()?.MatrixSync == null)
+			{
+				//Try to find if null
+				networkedMatrix.BackUpSetMatrixSync();
+			}
+
+			NetworkIdentity component = networkedMatrix.OrNull()?.MatrixSync.OrNull()?.GetComponent<NetworkIdentity>();
+
+			if (component && component.netId != NetId.Invalid && component.netId != NetId.Empty)
+			{
+				netId = component.netId;
+			}
+
+			if (netId == NetId.Invalid)
+			{
+				Loggy.Warning($"Invalid NetID for matrix {matrix.gameObject.name}!", Category.Matrix);
+			}
+
+			return netId;
+		}
+
+		private sealed class IdEqualityComparer : IEqualityComparer<MatrixInfo>
+		{
+			public bool Equals(MatrixInfo x, MatrixInfo y) => x?.Id == y?.Id;
+
+			public int GetHashCode(MatrixInfo obj) => obj.Id;
+		}
+
+		public static IEqualityComparer<MatrixInfo> IdComparer { get; } = new IdEqualityComparer();
+
+		public static bool operator ==(MatrixInfo left, MatrixInfo right)
+		{
+			if (left is null)
+			{
+				return right is null;
+			}
+
+			return left.Equals(right);
+		}
+
+		public static bool operator !=(MatrixInfo left, MatrixInfo right) => left == right == false;
+	}
+}

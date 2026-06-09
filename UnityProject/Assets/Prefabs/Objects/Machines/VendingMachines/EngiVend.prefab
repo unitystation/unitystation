@@ -8,12 +8,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 396145836350701281, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: db345b7773849e04d8cc24a5a672cc72,
-        type: 2}
     - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: Color.b
@@ -31,33 +25,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: InitialColour.a
+      value: 0.10980392
+      objectReference: {fileID: 0}
+    - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: InitialColour.b
-      value: 0.10980393
+      value: 0.13207549
       objectReference: {fileID: 0}
     - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialColour.g
-      value: 0.654902
+      value: 0.7877358
       objectReference: {fileID: 0}
     - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialColour.r
-      value: 0.8313726
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 854479238589397880, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: _assetId
       value: 2264850074
-      objectReference: {fileID: 0}
-    - target: {fileID: 854479238589397880, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_AssetId
-      value: c5b5d7ad69b7bfc4cbf90bac4b998450
-      objectReference: {fileID: 0}
-    - target: {fileID: 1251273808921218093, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: restriction
-      value: 32
       objectReference: {fileID: 0}
     - target: {fileID: 1919541056858231082, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -319,6 +308,32 @@ PrefabInstance:
       propertyPath: InitialVendorContent.Array.data[12].ItemName
       value: Atmospheric Grenade
       objectReference: {fileID: 0}
+    - target: {fileID: 4998327886754794683, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0f7e9205a4a66872dbc9d5ebbc4d13bc,
+        type: 3}
+    - target: {fileID: 4998327886754794683, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.a
+      value: 0.60784316
+      objectReference: {fileID: 0}
+    - target: {fileID: 4998327886754794683, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0.59438455
+      objectReference: {fileID: 0}
+    - target: {fileID: 4998327886754794683, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0.90089035
+      objectReference: {fileID: 0}
+    - target: {fileID: 4998327886754794683, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5293842515076411475, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: parentID
@@ -339,17 +354,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 798e43e6e9c66a74986dd43558ce9017,
+      objectReference: {fileID: 21300004, guid: 798e43e6e9c66a74986dd43558ce9017,
         type: 3}
     - target: {fileID: 9081061823247388186, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: m_Name
       value: EngiVend
-      objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}

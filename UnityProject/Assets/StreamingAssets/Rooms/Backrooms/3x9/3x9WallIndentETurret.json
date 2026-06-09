@@ -1,0 +1,329 @@
+{
+  "Ver": "1.0.0",
+  "MapName": "3x9WallIndentETurret",
+  "ContainedMatrices": [
+    {
+      "Ver": "1.1.1",
+      "Location": "7832┼7973┼0┼",
+      "MatrixName": "3x9WallIndentETurret",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X0Y0",
+            "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y1",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y2",
+            "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y3",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y4",
+            "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y5",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y6",
+            "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y7",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y8",
+            "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y0",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y4",
+            "Value": [
+              {
+                "Tel": "podfloor_light"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y8",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y0",
+            "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y1",
+            "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y2",
+            "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y6",
+            "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y7",
+            "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y8",
+            "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.5.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "c937e0abe85aca9499d09951de736ec6_1┼4┼0┼",
+            "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "Name": "LightBulbFixture (1)",
+            "LocalPRS": "1┼4┼0┼0ø0ø270ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "isWithoutSwitch",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,3",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "e918b490e7354ca4bacd182b6b57a0ff_1┼4┼0┼",
+            "PrefabID": "e918b490e7354ca4bacd182b6b57a0ff",
+            "NameMatches": true,
+            "Name": "BackroomsTurretNusiance",
+            "LocalPRS": "1┼4┼0┼"
+          },
+          {
+            "GitID": "991d9e2b162f7ef4ca9b4fd2bdba60d2_2┼1┼0┼",
+            "PrefabID": "991d9e2b162f7ef4ca9b4fd2bdba60d2",
+            "Name": "TurretControlPanel L2",
+            "LocalPRS": "2┼1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "TurretSwitch@0",
+                  "Data": [
+                    {
+                      "Name": "turrets#0",
+                      "Data": "e918b490e7354ca4bacd182b6b57a0ff_1┼4┼0┼@0@Turret@0"
+                    },
+                    {
+                      "Name": "isStun",
+                      "Data": "False"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ClearanceRestricted@0",
+                  "Data": [
+                    {
+                      "Name": "requiredClearance#0",
+                      "Data": "AwayGeneric2"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "1,4,0",
+          "Size": "2,8,0"
+        }
+      ]
+    }
+  ]
+}

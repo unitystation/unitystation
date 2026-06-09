@@ -10,6 +10,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
+      propertyPath: spawnedItem
+      value: 
+      objectReference: {fileID: 5390694360463465295, guid: e8ba246ef937e1b4e8694d8f62eb04ca,
+        type: 3}
+    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
       propertyPath: poolList.Array.size
       value: 13
       objectReference: {fileID: 0}
@@ -56,7 +62,7 @@ PrefabInstance:
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: poolList.Array.data[8].probability
-      value: 80
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
@@ -71,11 +77,16 @@ PrefabInstance:
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: poolList.Array.data[11].probability
-      value: 100
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: poolList.Array.data[12].probability
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
+      propertyPath: poolList.Array.data[13].probability
       value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
@@ -130,7 +141,7 @@ PrefabInstance:
         type: 3}
       propertyPath: poolList.Array.data[8].randomItemPool
       value: 
-      objectReference: {fileID: 11400000, guid: 834fd2e77374a9846890391442dfcff3,
+      objectReference: {fileID: 11400000, guid: de596418d301ffc46b3c7355bded1f9b,
         type: 2}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
@@ -148,11 +159,17 @@ PrefabInstance:
         type: 3}
       propertyPath: poolList.Array.data[11].randomItemPool
       value: 
-      objectReference: {fileID: 11400000, guid: de596418d301ffc46b3c7355bded1f9b,
+      objectReference: {fileID: 11400000, guid: 576dd718b6d10de4ebe4e61fa9080ef2,
         type: 2}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
       propertyPath: poolList.Array.data[12].randomItemPool
+      value: 
+      objectReference: {fileID: 11400000, guid: 9c7382ea99182bf41a9b5847d4ba00d5,
+        type: 2}
+    - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
+      propertyPath: poolList.Array.data[13].randomItemPool
       value: 
       objectReference: {fileID: 11400000, guid: 576dd718b6d10de4ebe4e61fa9080ef2,
         type: 2}
@@ -238,6 +255,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8223985327567078919, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 4042765451423220547}
+    - target: {fileID: 8223985327567078919, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 3767d790c7352d640907b37e4211e696,
@@ -257,3 +279,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abff3ae0227731244b0814b2055fa6f0, type: 3}
+--- !u!212 &4042765451423220547 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2708525666452541148, guid: abff3ae0227731244b0814b2055fa6f0,
+    type: 3}
+  m_PrefabInstance: {fileID: 2129169617399254431}
+  m_PrefabAsset: {fileID: 0}

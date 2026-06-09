@@ -1,0 +1,78 @@
+﻿using System.Collections.Generic;
+
+namespace US13.Systems.Clearance.Utils
+{
+	public static class MigrationData
+	{
+		public static readonly Dictionary<Objects.Doors.Access, Clearance> Translation = new Dictionary<Objects.Doors.Access, Clearance>
+		{
+			//No restriction
+			{0, 0},
+
+			{Objects.Doors.Access.ai_upload, Clearance.AIUpload},
+			{Objects.Doors.Access.armory, Clearance.Armory},
+			{Objects.Doors.Access.atmospherics, Clearance.Atmospherics},
+			{Objects.Doors.Access.bar, Clearance.Bar},
+			{Objects.Doors.Access.brig, Clearance.Brig},
+			{Objects.Doors.Access.captain, Clearance.Captain},
+			{Objects.Doors.Access.cargo, Clearance.Cargo},
+			{Objects.Doors.Access.cargo_bot, Clearance.Cargo},
+			{Objects.Doors.Access.ce, Clearance.Ce},
+			{Objects.Doors.Access.change_ids, Clearance.ChangeIds},
+			{Objects.Doors.Access.chapel_office, Clearance.ChapelOffice},
+			{Objects.Doors.Access.chemistry, Clearance.Chemistry},
+			{Objects.Doors.Access.clown, Clearance.ClownOffice},
+			{Objects.Doors.Access.cmo, Clearance.Cmo},
+			{Objects.Doors.Access.construction, Clearance.Construction},
+			{Objects.Doors.Access.court, Clearance.Court},
+			{Objects.Doors.Access.crematorium, Clearance.Crematorium},
+			{Objects.Doors.Access.engine_room, Clearance.Engine },
+			{Objects.Doors.Access.engineering, Clearance.Engine},
+			{Objects.Doors.Access.eva, Clearance.Eva},
+			{Objects.Doors.Access.external_airlocks, Clearance.ExternalAirlocks},
+			{Objects.Doors.Access.forensics_lockers, Clearance.ForensicsLockers},
+			{Objects.Doors.Access.gateway, Clearance.Gateway},
+			{Objects.Doors.Access.genetics, Clearance.Genetics},
+			{Objects.Doors.Access.heads, Clearance.Heads},
+			{Objects.Doors.Access.heads_vault, Clearance.Vault},
+			{Objects.Doors.Access.hop, Clearance.Hop},
+			{Objects.Doors.Access.hos, Clearance.Hos},
+			{Objects.Doors.Access.hydroponics, Clearance.Hydroponics},
+			{Objects.Doors.Access.janitor, Clearance.Janitor},
+			{Objects.Doors.Access.keycard_auth, Clearance.KeycardAuth},
+			{Objects.Doors.Access.kitchen, Clearance.Kitchen},
+			{Objects.Doors.Access.lawyer, Clearance.Lawyer},
+			{Objects.Doors.Access.library, Clearance.Library},
+			{Objects.Doors.Access.mailsorting, Clearance.Mailsorting},
+			{Objects.Doors.Access.maint_tunnels, Clearance.MaintTunnels},
+			{Objects.Doors.Access.medical, Clearance.Medical},
+			{Objects.Doors.Access.mime, Clearance.MimeOffice},
+			{Objects.Doors.Access.mining, Clearance.Mining},
+			{Objects.Doors.Access.mining_office, Clearance.Cargo},
+			{Objects.Doors.Access.mining_station, Clearance.MiningStation},
+			{Objects.Doors.Access.morgue, Clearance.Morgue},
+			{Objects.Doors.Access.psychiatrist, Clearance.Psychology},
+			{Objects.Doors.Access.qm, Clearance.Qm},
+			{Objects.Doors.Access.RC_announce, Clearance.RcAnnounce},
+			{Objects.Doors.Access.rd, Clearance.Rd},
+			{Objects.Doors.Access.rnd_lab, Clearance.Rnd},
+			{Objects.Doors.Access.robotics, Clearance.Robotics},
+			{Objects.Doors.Access.science, Clearance.Research},
+			{Objects.Doors.Access.sec_doors, Clearance.SecDoors},
+			{Objects.Doors.Access.security, Clearance.Security},
+			{Objects.Doors.Access.surgery, Clearance.Surgery},
+			{Objects.Doors.Access.syndicate, Clearance.Syndicate},
+			{Objects.Doors.Access.tcomsat, Clearance.Tcomsat},
+			{Objects.Doors.Access.tech_storage, Clearance.TechStorage},
+			{Objects.Doors.Access.teleporter, Clearance.Teleporter},
+			{Objects.Doors.Access.theatre, Clearance.Theatre},
+			{Objects.Doors.Access.tox_storage, Clearance.ToxinsStorage},
+			{Objects.Doors.Access.virology, Clearance.Virology},
+			{Objects.Doors.Access.weapons, Clearance.Weapons},
+			{Objects.Doors.Access.xenobiology, Clearance.Xenobiology},
+			{Objects.Doors.Access.centcom, Clearance.CentGeneral},
+			{Objects.Doors.Access.cent_specops, Clearance.CentSpecops},
+			{Objects.Doors.Access.cent_ert, Clearance.CentSpecops}
+		};
+	}
+}

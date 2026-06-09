@@ -69,28 +69,25 @@ PrefabInstance:
         type: 3}
       propertyPath: Populater.SlotContents.Array.data[0].Prefab
       value: 
-      objectReference: {fileID: 8757147694328139899, guid: fc119ff3427177845a9f6b00860cb249,
+      objectReference: {fileID: 9071303715355454255, guid: 6f4d4ee0f4ff1c04a95e598920201768,
         type: 3}
     - target: {fileID: 6531057722140503110, guid: 05787e2f1fe67be439a463d6cc2fd304,
         type: 3}
       propertyPath: Populater.SlotContents.Array.data[1].Prefab
       value: 
-      objectReference: {fileID: 8757147694328139899, guid: fc119ff3427177845a9f6b00860cb249,
+      objectReference: {fileID: 1342295621226366984, guid: 8dbbbb2e528f19d4fa232f02fc6ac148,
         type: 3}
     - target: {fileID: 7754085594501416255, guid: 05787e2f1fe67be439a463d6cc2fd304,
         type: 3}
       propertyPath: initialName
-      value: SpaceCleaner Grenade
+      value: space cleaner grenade
       objectReference: {fileID: 0}
     - target: {fileID: 7754085594501416255, guid: 05787e2f1fe67be439a463d6cc2fd304,
         type: 3}
       propertyPath: initialDescription
-      value: 'A small metal casing able to be filled with reagent containers to be
-        mixed gradually over time once triggered.
-
-        Fill the casing with two
-        beakers and then use a screwdriver to secure the casing. Use a multitool
-        to adjust the mix amount;'
+      value: A small metal casing able to be filled with reagent containers to be
+        mixed gradually over time once triggered. Comes pre-filled for the application
+        of space cleaner.
       objectReference: {fileID: 0}
     - target: {fileID: 7846859276370368489, guid: 05787e2f1fe67be439a463d6cc2fd304,
         type: 3}

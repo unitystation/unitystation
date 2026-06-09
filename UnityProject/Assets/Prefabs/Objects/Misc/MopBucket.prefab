@@ -51,6 +51,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -72,6 +75,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 142874271
   m_SortingLayer: 12
   m_SortingOrder: 1
@@ -121,7 +125,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 3474780278587912969}
+    - target: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d39b222e9773a7044b5fbd38612e11eb,
+        type: 2}
+    - target: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d39b222e9773a7044b5fbd38612e11eb,
         type: 2}
@@ -210,6 +225,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: MopBucket
       objectReference: {fileID: 0}
+    - target: {fileID: 8561688399768036000, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: isNotPushable
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_Sprite
@@ -238,6 +258,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 6518687807546949369}
   m_SourcePrefab: {fileID: 100100000, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}
+--- !u!212 &3474780278587912969 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 5143216972850319044}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3696733337431445956 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
@@ -262,10 +288,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   ReactionSounds: 1
   maxCapacity: 100
   DEBUGReagent: {fileID: 0}
   DEBUGAmount: 0
+  StopReactions: 0
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   AdditionalReactions: []
   initialReagentMix:
@@ -277,6 +307,12 @@ MonoBehaviour:
   destroyOnEmpty: 0
   ContentsSet: 0
   menuOptions: -1
+  currentReagentMix:
+    temperature: 0
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []
   spriteHandler: {fileID: 0}
   UseStandardExamine: 1
   ExamineAmount: 0
@@ -284,6 +320,7 @@ MonoBehaviour:
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 0
+  onlyAllowSyringeFilling: 0
   SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 5

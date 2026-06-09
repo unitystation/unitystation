@@ -1,0 +1,71 @@
+﻿using Logs;
+using UnityEngine;
+using US13.Core.Chat;
+using US13.HealthV2;
+using US13.Items.Weapons;
+using US13.Managers.MatrixManager;
+using US13.Systems.Explosions;
+using US13.Tilemaps.Behaviours.Objects;
+using Util;
+
+namespace US13.Projectiles.Behaviours
+{
+	public class ProjectileStun : MonoBehaviour, IOnShoot, IOnHit
+	{
+		private GameObject shooter;
+		private Gun weapon;
+		private BodyPartType targetZone;
+		private GameObject target;
+
+		[Tooltip("How long the player hit by this will be stunned")]
+		[SerializeField] private float stunTime = 4.0f;
+
+		[Tooltip("Do you want to ignore armor stun immunity?")]
+		[SerializeField] private bool passThroughStunImmunity = false;
+
+		[Tooltip("Will this stun disarm.")]
+		[SerializeField] private bool willDisarm = true;
+
+		[Tooltip("Will the projectile create a hitmsg")]
+		[SerializeField] private bool doMsg = false;
+
+		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, MagazineBehaviour MagazineBehaviour, BodyPartType targetZone = BodyPartType.Chest, GameObject Target = null)
+		{
+			this.shooter = shooter;
+			this.weapon = weapon;
+			this.targetZone = targetZone;
+			this.target = Target;
+		}
+
+		public bool OnHit(MatrixManager.CustomPhysicsHit hit)
+		{
+			return TryStun(hit);
+		}
+
+		private bool TryStun(MatrixManager.CustomPhysicsHit hit)
+		{
+			var coll = hit.CollisionHit.GameObject;
+			if (coll == null) return false;
+			var player = coll.GetComponent<RegisterPlayer>();
+			if (player == null) return false;
+
+			if (player.PlayerScript.playerHealth.Hitble(target) == false) return false;
+
+			player.ServerStun(stunTime, willDisarm, passThroughStunImmunity == false, true, () => SparkUtil.TrySpark(gameObject,  IsInGameItemSuppressedLog :false));
+
+			if (doMsg)
+			{
+				Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
+			}
+			Loggy.Trace().Format($"{shooter} stunned {player.gameObject.name} for {stunTime} seconds with {weapon.OrNull()?.name}", Category.Firearms);
+
+			return true;
+		}
+
+		private void OnDisable()
+		{
+			shooter = null;
+			weapon = null;
+		}
+	}
+}

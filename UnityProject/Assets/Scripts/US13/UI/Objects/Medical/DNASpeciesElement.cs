@@ -1,0 +1,178 @@
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Serialization;
+using US13.Clothing;
+using US13.Core.Sprite_Handler;
+using US13.HealthV2.Living.BodyParts;
+using US13.HealthV2.Living.CirculatorySystem;
+using US13.Player;
+using US13.UI.Core.Net.Elements;
+using US13.UI.Core.Net.Elements.Dynamic;
+using Util;
+
+namespace US13.UI.Objects.Medical
+{
+	public class DNASpeciesElement : DynamicEntry
+	{
+
+		public PlayerHealthData PlayerHealthData;
+
+		public Transform BodyPartContainer;
+
+		public List<BodyPart> StoredBodyParts = new List<BodyPart>();
+		public List<GameObject> SpawnedBodyParts = new List<GameObject>();
+
+		[FormerlySerializedAs("NetSyncString")] public NetServerSyncString netServerSyncString;
+
+
+		public NetClientSyncString netClientSyncString;
+
+		public GameObject SubPrefab;
+
+		public GUI_DNAConsole GUI_DNAConsole;
+
+		public Transform WindowPanel;
+
+
+		public NetSpriteHandler NetSpriteHandler;
+
+
+		public void GenerateOption(string BodyPartName)
+		{
+			if (GUI_DNAConsole != null && GUI_DNAConsole.IsMasterTab)
+			{
+				foreach (var Part in StoredBodyParts)
+				{
+					if (Part.name == BodyPartName)
+					{
+						GUI_DNAConsole.GenerateSpeciesTarget(Part.gameObject, PlayerHealthData);
+						CloseSection();
+						return;
+					}
+				}
+			}
+		}
+
+
+
+		public void CloseSection()
+		{
+			WindowPanel.SetActive(false);
+		}
+		public void OpenSection()
+		{
+			if (WindowPanel.gameObject.activeSelf)
+			{
+				WindowPanel.SetActive(false);
+			}
+			else
+			{
+				WindowPanel.SetActive(true);
+			}
+
+		}
+
+		public void Awake()
+		{
+			netServerSyncString.OnChange.AddListener(TargetSpecies);
+			netClientSyncString.OnChange.AddListener(GenerateOption);
+
+		}
+
+
+		public void TargetSpecies(string SpeciesName)
+		{
+			if (RaceSOSingleton.TryGetRaceByName(SpeciesName, out PlayerHealthData))
+			{
+				StoredBodyParts.Clear();
+				foreach (var gameObject in SpawnedBodyParts)
+				{
+					Destroy(gameObject);
+				}
+
+
+				foreach (var Part in PlayerHealthData.Base.Torso.Elements) //See this code, if you don't like it then fix it yourself, This is what quick implementing is about
+				{
+					var BodyPart = Part.GetComponent<BodyPart>();
+					StoredBodyParts.Add(BodyPart);
+					RecursivePopulate(BodyPart);
+				}
+
+				foreach (var Part in PlayerHealthData.Base.Head.Elements)
+				{
+					var BodyPart = Part.GetComponent<BodyPart>();
+					StoredBodyParts.Add(BodyPart);
+					RecursivePopulate(BodyPart);
+				}
+
+				foreach (var Part in PlayerHealthData.Base.ArmLeft.Elements)
+				{
+					var BodyPart = Part.GetComponent<BodyPart>();
+					StoredBodyParts.Add(BodyPart);
+					RecursivePopulate(BodyPart);
+				}
+
+				foreach (var Part in PlayerHealthData.Base.ArmRight.Elements)
+				{
+					var BodyPart = Part.GetComponent<BodyPart>();
+					StoredBodyParts.Add(BodyPart);
+					RecursivePopulate(BodyPart);
+				}
+
+				foreach (var Part in PlayerHealthData.Base.LegLeft.Elements)
+				{
+					var BodyPart = Part.GetComponent<BodyPart>();
+					StoredBodyParts.Add(BodyPart);
+					RecursivePopulate(BodyPart);
+				}
+
+				foreach (var Part in PlayerHealthData.Base.LegRight.Elements)
+				{
+					var BodyPart = Part.GetComponent<BodyPart>();
+					StoredBodyParts.Add(BodyPart);
+					RecursivePopulate(BodyPart);
+				}
+
+				foreach (var StoredBodyPart in StoredBodyParts)
+				{
+					var  newOb =  Instantiate(SubPrefab, BodyPartContainer);
+					var img = newOb.GetComponentInChildren<SpriteHandler>();
+					var  button =  newOb.GetComponent<DNAButtonData>();
+					button.BodyPartName = StoredBodyPart.name;
+					button.RelatedDNASpeciesElement = this;
+					img.SetSpriteSO(StoredBodyPart.GetComponentInChildren<SpriteHandler>().initialPresentSpriteSet);
+					SpawnedBodyParts.Add(newOb);
+				}
+			}
+		}
+
+		public void SetValues(PlayerHealthData InPlayerHealthData, GUI_DNAConsole  InGUI_DNAConsole)
+		{
+			PlayerHealthData = InPlayerHealthData;
+			netServerSyncString.SetValue(InPlayerHealthData.name);
+			GUI_DNAConsole = InGUI_DNAConsole;
+			if (InPlayerHealthData.OrNull()?.Base?.PreviewSprite != null)
+			{
+				NetSpriteHandler.MasterSetValue(InPlayerHealthData.Base.PreviewSprite.SetID);
+			}
+
+
+			TargetSpecies(InPlayerHealthData.name);
+		}
+
+		public void RecursivePopulate(BodyPart BodyPart)
+		{
+			var BodyParts =  BodyPart.OrganStorage.Populater.GetFirstLayerDeprecatedAndNew();
+
+			foreach (var bodyPart in BodyParts)
+			{
+				if (bodyPart == null) continue;
+				var Part_body = bodyPart.GetComponent<BodyPart>();
+				StoredBodyParts.Add(Part_body);
+				RecursivePopulate(Part_body);
+			}
+
+		}
+
+	}
+}

@@ -14,6 +14,10 @@
 	"RoundsPerMap": 10,
 
 	"InitialGameMode": "Carousel",
+  
+    "AllowedExtendedGameMode": false,
+  
+    "ForceExtendedGameMode": false,
 
 	"RespawnAllowed": false,
 
@@ -39,5 +43,7 @@
 
 	"RebootOnAverageFPSOrLower" : 20,
 	
-	"AccountAPIHost" : "prod-api.unitystation.org"
+	"AccountAPIHost" : "prod-api.unitystation.org", 
+  
+    "ExplosionStepTimeInSeconds" : 0.14
 }

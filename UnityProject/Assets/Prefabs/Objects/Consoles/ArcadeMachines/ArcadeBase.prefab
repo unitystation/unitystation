@@ -11,33 +11,27 @@ PrefabInstance:
     - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: initialName
-      value: random arcade
+      value: arcade machine
       objectReference: {fileID: 0}
     - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: initialDescription
-      value: random arcade machine
+      value: An arcade game cabinet.
       objectReference: {fileID: 0}
-    - target: {fileID: 1213303998874603650, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: 143b4de7d1a46b24a8a5dc43371baeb3,
-        type: 2}
     - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: _assetId
       value: 3242372840
       objectReference: {fileID: 0}
-    - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
+    - target: {fileID: 2712468360772368645, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: m_AssetId
-      value: ad5e3e73630862d4c9c3424d5a308a43
+      propertyPath: InitialColour.a
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2867936510710272081, guid: b46887a995abc224aab70e21b9e53697,
+    - target: {fileID: 2712468360772368645, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: spriteHandlers.Array.size
-      value: 2
+      propertyPath: InitialColour.g
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3026269723606354595, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -45,11 +39,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 143b4de7d1a46b24a8a5dc43371baeb3,
         type: 2}
+    - target: {fileID: 3026269723606354595, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 143b4de7d1a46b24a8a5dc43371baeb3,
+        type: 2}
     - target: {fileID: 4571869433525098128, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -7536518680135635946, guid: c05944a94a971b643961cef4ad06ed2d,
+      objectReference: {fileID: 2728226187863975051, guid: c05944a94a971b643961cef4ad06ed2d,
         type: 3}
     - target: {fileID: 4571869433525098128, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -59,6 +59,21 @@ PrefabInstance:
     - target: {fileID: 4823608803993123803, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821743376341986250, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821743376341986250, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5821743376341986250, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_LocalRotation.z
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
@@ -76,6 +91,26 @@ PrefabInstance:
       propertyPath: Color.r
       value: 0.39215687
       objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialColour.r
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6691892461727964720, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: parentID
@@ -86,14 +121,9 @@ PrefabInstance:
       propertyPath: foreverID
       value: ad5e3e73630862d4c9c3424d5a308a43
       objectReference: {fileID: 0}
-    - target: {fileID: 7000245469298529140, guid: b46887a995abc224aab70e21b9e53697,
+    - target: {fileID: 7410584208186429367, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
-      propertyPath: m_LocalScale.x
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 7000245469298529140, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: m_LocalScale.y
+      propertyPath: SynchroniseCurrentDirection
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7552453495883301998, guid: b46887a995abc224aab70e21b9e53697,
@@ -121,11 +151,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ArcadeBase
-      objectReference: {fileID: 0}
-    - target: {fileID: 7762584330458228387, guid: b46887a995abc224aab70e21b9e53697,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7762584330458228387, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -163,9 +188,40 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3b7b6aec72294f44b9ca60951a962dc5,
         type: 2}
+    - target: {fileID: 8201155816690774842, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3b7b6aec72294f44b9ca60951a962dc5,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 3509344053301837447, guid: b46887a995abc224aab70e21b9e53697, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7539245200769727917, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4252443242733236387}
   m_SourcePrefab: {fileID: 100100000, guid: b46887a995abc224aab70e21b9e53697, type: 3}
+--- !u!1 &8028631088854165549 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7539245200769727917, guid: b46887a995abc224aab70e21b9e53697,
+    type: 3}
+  m_PrefabInstance: {fileID: 561730461106034048}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4252443242733236387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8028631088854165549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 967620e59e52cc14c89c22c4176bac09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Lighting::LightEmissionBehaviour
+  mIntensity: 0.3
+  mAdditionalEmission: 0
+  mScale: 1

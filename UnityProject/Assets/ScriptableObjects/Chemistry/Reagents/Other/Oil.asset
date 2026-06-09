@@ -15,7 +15,18 @@ MonoBehaviour:
   foreverID: Oil
   displayName: Oil
   description: Burns in a small smoky fire, mostly used to get Ash.
-  color: {r: 0.78431374, g: 0.64705884, b: 0.8627451, a: 1}
+  color: {r: 0.10440331, g: 0.09559979, b: 0.10943389, a: 1}
   state: 1
   heatDensity: 5
   indexInSingleton: 410
+  OnSplatEffects:
+  - rid: 3457065941616033849
+  references:
+    version: 2
+    RefIds:
+    - rid: 3457065941616033849
+      type: {class: MakeSlipperyOnSplat, ns: US13.ChemistryComponents.SplatEffects,
+        asm: Assets}
+      data:
+        isSuperSlippery: 0
+        canDryUp: 0

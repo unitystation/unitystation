@@ -35,7 +35,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1762630675659964}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0.7071066, w: -0.70710695}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 16, y: 16, z: 12}
   m_ConstrainProportionsScale: 0
@@ -54,7 +54,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  InitialColour: {r: 0.7735849, g: 0.20882004, b: 0, a: 0.8}
+  InitialColour: {r: 0.7735849, g: 0.20882004, b: 0, a: 0.6901961}
   Sprite: {fileID: 21300000, guid: 77dec0be2e676214aac82240280e21e2, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -81,6 +81,8 @@ MeshRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -102,6 +104,7 @@ MeshRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -172,14 +175,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 0
   SubCatalogue: []
-  InitialPresentSpriteSet: {fileID: 11400000, guid: 1c5634ade123e2543afaa807c01a0ffb,
+  InitialPresentSpriteSet: {fileID: 11400000, guid: 4308782497813cd4bbd8d5acec692d14,
     type: 2}
   randomInitialSprite: 0
   spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
-  InitialColour: {r: 0.77254903, g: 0.20784314, b: 0, a: 0.8}
+  InitialColour: {r: 0.77254903, g: 0.20784314, b: 0, a: 0.6901961}
   palette: []
   initialSortingOrder: -1
   initialSortingLayerName: 
@@ -228,6 +231,7 @@ MonoBehaviour:
   ObjectBouncyness: 0.75
   tileMoveSpeed: 1
   HasOwnGravity: 0
+  isVisible: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
@@ -237,6 +241,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
+  OnHit:
+    target: {fileID: 0}
+    methodName: 
+    parameterType: 
   Hits: []
   isFlyingSliding: 0
   IsMoving: 0

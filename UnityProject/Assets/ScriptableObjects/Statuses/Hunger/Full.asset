@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57ba74246e3a41e2b0a713c2ba3d28d8, type: 3}
+  m_Name: Full
+  m_EditorClassIdentifier: Assets::Systems.StatusesAndEffects.Implementations.Hunger.BaseHungerStatusEffect
+  CustomBehaviors:
+  - rid: 4619252273578246202
+  StatusAlert: {fileID: 11400000, guid: 9dcf0f63efe865449a8efde4713b5348, type: 2}
+  MessageOnEnteringStatus: Your stomach feels bloated and full.
+  references:
+    version: 2
+    RefIds:
+    - rid: 4619252273578246202
+      type: {class: ControlLimbEfficiency, ns: US13.Systems.StatusesAndEffects.Implementations.HorizontalStatusEffectBehaviors,
+        asm: Assets}
+      data:
+        LimbEfficiency: 0.75
+        <ExtensionConditions>k__BackingField:
+        - rid: 4619252407159488577
+    - rid: 4619252407159488577
+      type: {class: ConditionEnableIfHungerMethodActive, ns: US13.HealthV2.Modular.Implementation,
+        asm: Assets}
+      data:
+        HungerCalculationToCheck:
+          rid: 4619252407159488578
+        InvertCheck: 1
+    - rid: 4619252407159488578
+      type: {class: DefaultUnityStationHungerCalculation, ns: US13.HealthV2.Living.PolymorphicSystems.Hunger.HungerCalculationMethods,
+        asm: Assets}
+      data:
+        MinutesThresholdForHunger: 5
+        MinutesThresholdForNormal: 10

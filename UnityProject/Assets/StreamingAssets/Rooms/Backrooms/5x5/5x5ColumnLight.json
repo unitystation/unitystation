@@ -1,0 +1,316 @@
+{
+  "Ver": "1.0.0",
+  "MapName": "5x5ColumnLight",
+  "ContainedMatrices": [
+    {
+      "Ver": "1.1.1",
+      "Location": "7732┼7941┼0┼",
+      "MatrixName": "5x5ColumnLight",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X0Y0",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y1",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y2",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y3",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y4",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y0",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y1",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y2",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y3",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y4",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y0",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y1",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y2",
+            "Value": [
+              {
+                "Tel": "ReinforcedWall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y3",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X2Y4",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y0",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y1",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y2",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y3",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X3Y4",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y0",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y1",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y2",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y3",
+            "Value": [
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          },
+          {
+            "Key": "X4Y4",
+            "Value": [
+              {
+                "Tel": "Wall"
+              },
+              {
+                "Tel": "PlatingIndestructible"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.5.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "f2432d244a6b7774ea00ff013beb7dcb_2┼2┼0┼",
+            "PrefabID": "f2432d244a6b7774ea00ff013beb7dcb",
+            "Name": "LightSwitch (1)",
+            "LocalPRS": "2┼2┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSwitchV2@0",
+                  "Data": [
+                    {
+                      "Name": "listOfLights#0",
+                      "Data": "c937e0abe85aca9499d09951de736ec6_2┼3┼0┼@0@LightSource@0"
+                    },
+                    {
+                      "Name": "isOn",
+                      "Data": "False"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "c937e0abe85aca9499d09951de736ec6_2┼3┼0┼",
+            "PrefabID": "c937e0abe85aca9499d09951de736ec6",
+            "Name": "LightBulbFixture (1)",
+            "LocalPRS": "2┼3┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_2┼2┼0┼@0@LightSwitchV2@0"
+                    },
+                    {
+                      "Name": "InitialState",
+                      "Data": "Off"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,3",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "2,2,0",
+          "Size": "4,4,0"
+        }
+      ]
+    }
+  ]
+}

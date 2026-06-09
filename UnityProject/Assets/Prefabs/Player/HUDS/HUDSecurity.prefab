@@ -11,13 +11,13 @@ GameObject:
   - component: {fileID: 7023396407017301390}
   - component: {fileID: 8690229326222893230}
   - component: {fileID: 2847870594669773660}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: StatusIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &7023396407017301390
 Transform:
   m_ObjectHideFlags: 0
@@ -87,7 +87,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -130,13 +130,13 @@ GameObject:
   - component: {fileID: 4027011960341475273}
   - component: {fileID: 1413903687203588568}
   - component: {fileID: 3436643012773090244}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Implanted
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4027011960341475273
 Transform:
   m_ObjectHideFlags: 0
@@ -202,7 +202,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -244,7 +244,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2074338894421403608}
   - component: {fileID: 2774544434548301542}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: HUDSecurity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -295,13 +295,13 @@ GameObject:
   - component: {fileID: 607734796324817558}
   - component: {fileID: 174863769346172751}
   - component: {fileID: 519543029209916075}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: JobIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &607734796324817558
 Transform:
   m_ObjectHideFlags: 0
@@ -403,7 +403,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: c122dd7923e087c48bf08da9da455514, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

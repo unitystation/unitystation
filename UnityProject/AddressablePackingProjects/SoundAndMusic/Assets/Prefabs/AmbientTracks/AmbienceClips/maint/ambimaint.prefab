@@ -53,9 +53,13 @@ PrefabInstance:
       value: ambimaint
       objectReference: {fileID: 0}
     - target: {fileID: 3578133899281180658, guid: dc2ffb971d5eb3a4fb81e40c1563a528, type: 3}
-      propertyPath: m_audioClip
+      propertyPath: m_Resource
       value: 
       objectReference: {fileID: 8300000, guid: ff68435f9a2ce464290a15044b2318ee, type: 3}
+    - target: {fileID: 3578133899281180658, guid: dc2ffb971d5eb3a4fb81e40c1563a528, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

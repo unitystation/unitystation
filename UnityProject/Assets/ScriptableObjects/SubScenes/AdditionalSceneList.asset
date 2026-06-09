@@ -29,6 +29,8 @@ MonoBehaviour:
     DependentScene: MainStations/PogStation.json
   - SyndicateSceneName: AdditionalScenes/Syndicate/Ministation Syndicate.json
     DependentScene: MainStations/MiniStation.json
+  - SyndicateSceneName: AdditionalScenes/Syndicate/CaveStationSyndicate.json
+    DependentScene: MainStations/CaveStation.json
   WizardScenes:
   - AdditionalScenes/Wizard/WizardAsteroid.json
   - AdditionalScenes/Wizard/WizardShip.json

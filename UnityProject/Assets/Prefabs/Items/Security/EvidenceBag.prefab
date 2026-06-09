@@ -52,6 +52,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -73,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 40
@@ -102,12 +106,17 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue:
   - {fileID: 11400000, guid: e4eb608982005d94e9d3ab683cd83d7f, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: e4eb608982005d94e9d3ab683cd83d7f, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: e4eb608982005d94e9d3ab683cd83d7f,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &3378201859417991199
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -184,13 +193,13 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialName
-      value: Evidence Bag
+      value: evidence bag
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialDescription
-      value: ' A good way of picking up items without leaving your fingerprints 
-        all over of them'
+      value: A means of picking up pieces of evidence without getting your fingerprints
+        all over them.
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -206,6 +215,12 @@ PrefabInstance:
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0caf6ba670e25d244a49283c8515e5b9,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 0caf6ba670e25d244a49283c8515e5b9,
         type: 2}
@@ -292,6 +307,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &4041784709639774001
@@ -332,6 +348,7 @@ MonoBehaviour:
   canQuickEmpty: 1
   TopLevelAlt: 0
   NoInteractionIfInventoryFull: 1
+  actAsOpenInventory: 0
   actionData: {fileID: 0}
   DoNotShowInventoryOnUI: 1
 --- !u!114 &6131948184426959290

@@ -27,17 +27,17 @@ PrefabInstance:
     - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: CameraRecoilConfig.Distance
-      value: 2
+      value: 0.22
       objectReference: {fileID: 0}
     - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: CameraRecoilConfig.RecoilDuration
-      value: 0.2
+      value: 0.03
       objectReference: {fileID: 0}
     - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: CameraRecoilConfig.RecoveryDuration
-      value: 0.45
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 4092814885568586395, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
@@ -133,7 +133,7 @@ PrefabInstance:
     - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: initialName
-      value: Advanced Proto-kinetic accelerator
+      value: advanced proto-kinetic accelerator
       objectReference: {fileID: 0}
     - target: {fileID: 7053223090983703362, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
@@ -148,6 +148,12 @@ PrefabInstance:
     - target: {fileID: 7790862161162773672, guid: ad527ba4de069794796e314f236794f4,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d7f01fed8a3bc58468007f93cc2344d9,
+        type: 2}
+    - target: {fileID: 7790862161162773672, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d7f01fed8a3bc58468007f93cc2344d9,
         type: 2}

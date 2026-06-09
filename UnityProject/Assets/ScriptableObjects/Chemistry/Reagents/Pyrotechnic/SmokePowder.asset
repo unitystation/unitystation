@@ -16,6 +16,10 @@ MonoBehaviour:
   displayName: Smoke Powder
   description: Makes a large cloud of smoke that can carry reagents.
   color: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-  state: 1
+  state: 0
   heatDensity: 5
-  indexInSingleton: 486
+  indexInSingleton: 487
+  OnSplatEffects: []
+  references:
+    version: 2
+    RefIds: []

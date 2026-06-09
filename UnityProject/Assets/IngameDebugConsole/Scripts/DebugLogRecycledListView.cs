@@ -1,8 +1,7 @@
-﻿using UnityEngine;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-
-namespace IngameDebugConsole
+namespace IngameDebugConsole.Scripts
 {
 	/// <summary>
 	/// Handles the log items in an optimized way such that existing log items are

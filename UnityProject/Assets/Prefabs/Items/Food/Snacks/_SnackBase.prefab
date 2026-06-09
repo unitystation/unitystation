@@ -130,6 +130,11 @@ PrefabInstance:
       propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 16.666666
       objectReference: {fileID: 0}
+    - target: {fileID: 5885778368289030096, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: dormantEdible
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5934183858157482218, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
         type: 3}
       propertyPath: parentID
@@ -147,6 +152,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1481962708363400442, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3, type: 3}
+    - {fileID: 3353089463247613406, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

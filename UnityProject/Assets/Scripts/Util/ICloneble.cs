@@ -1,9 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public interface ICloneble
+namespace Util
 {
-	public void CloneTo(GameObject InCloneTo);
+	public interface ICloneble
+	{
+		public void CloneTo(GameObject InCloneTo);
 
+	}
 }

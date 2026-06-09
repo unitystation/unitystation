@@ -52,6 +52,7 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -103,12 +104,17 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: ce21b73b5871e53458c587d56498f940, type: 2}
   - {fileID: 11400000, guid: 017f48424060c3e40ad9f951b6b7262b, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: ce21b73b5871e53458c587d56498f940, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: ce21b73b5871e53458c587d56498f940,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 0}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!1001 &157762337711357078
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -211,12 +217,12 @@ PrefabInstance:
     - target: {fileID: 1851616424243757961, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
       propertyPath: watts
-      value: 100
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 1851616424243757961, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
       propertyPath: MaxWatts
-      value: 300
+      value: 30000
       objectReference: {fileID: 0}
     - target: {fileID: 6315500071468813385, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
@@ -231,6 +237,12 @@ PrefabInstance:
     - target: {fileID: 6510392005750913955, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a15490f7000a1c34e9e066d61477bb70,
+        type: 2}
+    - target: {fileID: 6510392005750913955, guid: a910878bd30ff5d439b94cd12e623762,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: a15490f7000a1c34e9e066d61477bb70,
         type: 2}

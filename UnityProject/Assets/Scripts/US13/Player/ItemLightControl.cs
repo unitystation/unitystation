@@ -1,0 +1,215 @@
+﻿using System;
+using System.Collections.Generic;
+using Light2D;
+using Logs;
+using Mirror;
+using NaughtyAttributes;
+using UnityEngine;
+using UnityEngine.Serialization;
+using US13.Core.Lighting;
+using US13.Core.Utils;
+using US13.HealthV2.Living;
+using US13.Systems.Inventory;
+using US13.Tilemaps.Behaviours.Objects;
+
+namespace US13.Player
+{
+	public interface ILightControl
+	{
+		public LightSprite ObjectLightSprite { get; }
+	}
+	[RequireComponent(typeof(Pickupable))]
+	public class ItemLightControl : BodyPartFunctionality, IItemInOutMovedPlayer, ILightControl
+	{
+		[Tooltip("Controls the light the player emits if they have this object equipped.")]
+		public LightsHolder LightEmission;
+
+		[Tooltip("Controls the light the object emits while out of a player's or other object's inventory.")]
+		public GameObject objectLightEmission;
+
+		[SyncVar(hook = nameof(SyncState))]
+		public bool IsOn = true;
+
+		[FormerlySerializedAs("Colour")] [SerializeField] private Color colour = default;
+		[SerializeField] private LightSprite objectLightSprite;
+		public LightSprite ObjectLightSprite => objectLightSprite;
+		[SerializeField] private CommonComponents commonComponents;
+
+		public HashSet<NamedSlot> CompatibleSlots = new HashSet<NamedSlot>() {
+			NamedSlot.leftHand,
+			NamedSlot.rightHand,
+			NamedSlot.suitStorage,
+			NamedSlot.belt,
+			NamedSlot.back,
+			NamedSlot.storage01, NamedSlot.storage02, NamedSlot.storage03, NamedSlot.storage04,
+			NamedSlot.storage05, NamedSlot.storage06, NamedSlot.storage07, NamedSlot.storage08,
+			NamedSlot.storage09, NamedSlot.storage10,
+			NamedSlot.suitStorage,
+			NamedSlot.head,
+			NamedSlot.id // PDA in ID slot
+		};
+
+		public LightSprite.LightShape SpriteShape;
+		public float Size;
+		private LightData playerLightData;
+		private int lightID;
+		[SerializeField] private bool weakenOnGround = false;
+		[SerializeField] private bool revertToOldConsistencyBehavior = false;
+		[SerializeField, ShowIf(nameof(weakenOnGround))] private float weakenStrength = 1.45f;
+
+		public RegisterPlayer CurrentlyOn { get; set; }
+		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
+
+
+		private void Awake()
+		{
+			if (objectLightEmission == null)
+			{
+				Loggy.Error($"{this} field objectLightEmission is null, please check {gameObject} prefab.", Category.Lighting);
+				return;
+			}
+
+			if (objectLightSprite == null)
+			{
+				objectLightSprite = objectLightEmission.GetComponentInChildren<LightSprite>();
+			}
+
+			if (netIdentity == null)
+			{
+				Loggy.Error($"Mirror will not accept {this} while syncing in the LightsHolder syncList " +
+				            $"because it is missing a net identity component.");
+				return;
+			}
+
+			lightID = Guid.NewGuid().GetHashCode();
+			playerLightData = new LightData()
+			{
+				lightColor = colour,
+				size = Size,
+				lightShape = SpriteShape,
+				lightSpriteObject = netIdentity,
+				Id = lightID,
+			};
+			LightConsistency();
+			commonComponents ??= GetComponent<CommonComponents>();
+			commonComponents.RegisterTile.OnAppearClient.AddListener(StateHiddenChange);
+			commonComponents.RegisterTile.OnDisappearClient.AddListener(StateHiddenChange);
+			commonComponents.UniversalObjectPhysics.OnVisibilityChange += StateHiddenChange;
+		}
+
+		private void LightConsistency()
+		{
+			if (revertToOldConsistencyBehavior) return;
+			objectLightSprite.Color = playerLightData.lightColor;
+			objectLightSprite.transform.localScale = weakenOnGround ?
+				new Vector3(Size / weakenStrength, Size / weakenStrength, Size / weakenStrength)
+				: new Vector3(Size, Size, Size);
+		}
+
+		public bool IsValidSetup(RegisterPlayer player)
+		{
+			if (player == null) return false;
+			//more logic stuff here
+			//if (CompatibleSlots.Contains(player.NamedSlot.GetValueOrDefault(NamedSlot.none)) == false) return true;
+			return true;
+		}
+
+		void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
+		{
+			if (HideForPlayer != null)
+			{
+				var aLight = HideForPlayer.GetComponent<LightsHolder>();
+				aLight.RemoveLight(playerLightData);
+				LightEmission = null;
+			}
+
+			if (ShowForPlayer != null)
+			{
+				LightEmission = ShowForPlayer.GetComponent<LightsHolder>();
+				if (IsOn == false || LightEmission.Lights.Contains(playerLightData)) return;
+				LightEmission.AddLight(playerLightData);
+			}
+
+		}
+
+
+		/// <summary>
+		/// Allows you to toggle the light
+		/// </summary>
+		public void Toggle(bool on)
+		{
+			if (IsOn == on) return;
+
+			IsOn = on; // Will trigger SyncState.
+			UpdateLights();
+		}
+
+
+		/// <summary>
+		/// Set the color for this GameObject's Light2D object's LightSprite component world color.
+		/// </summary>
+		/// <param name="color"></param>
+		public void SetColor(Color color)
+		{
+			colour = color;
+			playerLightData.lightColor = color;
+			objectLightSprite.Color = color;
+			SetDataOnHolder();
+		}
+
+		private void SetDataOnHolder()
+		{
+			if (LightEmission != null && IsOn)
+			{
+				int index = LightEmission.Lights.FindIndex(x => x.Id == lightID);
+				LightEmission.Lights[index] = (playerLightData);
+				LightEmission.SetDirty();
+				LightEmission.UpdateLights();
+			}
+		}
+
+		public void SetSize(int Size)
+		{
+			this.Size = Size;
+			playerLightData.size = Size;
+			SetDataOnHolder();
+		}
+
+		private void SyncState(bool oldState, bool newState)
+		{
+			IsOn = newState;
+			if (commonComponents.UniversalObjectPhysics.IsVisible == false)
+			{
+				objectLightEmission.SetActive(newState);
+			}
+		}
+
+
+		private void UpdateLights()
+		{
+			if (IsOn)
+			{
+				LightEmission?.AddLight(playerLightData);
+				objectLightEmission.SetActive(true);
+			}
+			else
+			{
+				LightEmission?.RemoveLight(playerLightData);
+				objectLightEmission.SetActive(false);
+			}
+		}
+
+
+		private void StateHiddenChange()
+		{
+			if (commonComponents.UniversalObjectPhysics.IsVisible == false)
+			{
+				objectLightEmission.SetActive(false);
+			}
+			else
+			{
+				objectLightEmission.SetActive(IsOn);
+			}
+		}
+	}
+}

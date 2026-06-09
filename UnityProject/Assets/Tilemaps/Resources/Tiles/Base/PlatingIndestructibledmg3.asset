@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
+  m_Name: PlatingIndestructibledmg3
+  m_EditorClassIdentifier: 
+  _PreviewSprite: {fileID: 0}
+  sprite: {fileID: 21300000, guid: 319df32ceba3c6c41827cf4b2187af00, type: 3}
+  Sprites: []
+  spriteSheet:
+    Texture: {fileID: 0}
+    Sprites: []
+    EquippedData: {fileID: 0}
+  spriteSheets: []
+  connectCategory: 4
+  connectType: 0
+  texturePath: 
+  Blacklist: []
+  WhiteList: []
+  AnimationSpeed: 1
+  AnimationStartTime: 0
+  randomizeStartTime: 0
+  TileAnimationFlags: 0
+  <ForeverID>k__BackingField: 2780082ff46ed2d53a87533a4ec17e8b
+  displayName: plating
+  description: 
+  LayerType: 4
+  TileType: 7
+  RequiredTiles: []
+  Mass: 1
+  floorTileSounds: {fileID: 11400000, guid: b6656d824eea91648b8ada5f88db78ca, type: 2}
+  CanSoundOverride: 0
+  atmosPassable: 1
+  isSealed: 1
+  SpawnWithNoAir: 0
+  passable: 1
+  mineable: 0
+  miningTime: 5
+  miningHardness: 1
+  constructable: 1
+  RadiationPassability: 1
+  ThermalConductivity: 0.05
+  HeatCapacity: 10000
+  doesReflectBullet: 0
+  indestructible: 0
+  ExplosionImpassable: 0
+  BlocksTileInteractionsUnder: 1
+  passableException:
+    m_keys: 01000000
+    m_values: 00
+  maxHealth: 100
+  damageDeflection: 0
+  armor:
+    Melee: 50
+    Bullet: 40
+    Laser: 10
+    Energy: 50
+    Bomb: 40
+    Rad: 100
+    Fire: 80
+    Acid: 50
+    Magic: 0
+    Bio: 50
+    Anomaly: 0
+    DismembermentProtectionChance: 0
+    StunImmunity: 0
+    TemperatureProtectionInK: {x: 268.15, y: 313.15}
+    PressureProtectionInKpa: {x: 30, y: 300}
+  tileInteractions:
+  - {fileID: 11400000, guid: 2402eab1edede892e8a0d3ab2bb05bd2, type: 2}
+  <OnTileStartMining>k__BackingField: []
+  <OnTileFinishMining>k__BackingField: []
+  tileStepInteractions: []
+  spawnOnDeconstruct: {fileID: 0}
+  spawnAmountOnDeconstruct: 0
+  lootOnDespawn: {fileID: 11400000, guid: 82af59386fd508fedb61447a8bbdec11, type: 2}
+  toTileWhenDestroyed: {fileID: 11400000, guid: 9ec6d60f561b5039cbb1c9a237a99e45,
+    type: 2}
+  spawnOnDestroy: {fileID: 0}
+  damageOverlayList: {fileID: 0}
+  soundOnHit:
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SoundOnDestroy: []
+  CanBeHighlightedThroughScanners: 0
+  HighlightObject: {fileID: 0}

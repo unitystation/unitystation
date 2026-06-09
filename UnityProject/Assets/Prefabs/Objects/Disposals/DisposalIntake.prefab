@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 643326484729671418, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: isNotPushable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_Sprite
@@ -106,6 +111,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 2006165096988870516}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: f07145802fad622419c4092f91dc468e,
@@ -115,6 +125,12 @@ PrefabInstance:
       propertyPath: Sprites.Array.size
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f07145802fad622419c4092f91dc468e,
+        type: 2}
     - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: SubCatalogue.Array.size
@@ -142,6 +158,11 @@ PrefabInstance:
       propertyPath: Sprites.Array.data[1].Texture
       value: 
       objectReference: {fileID: 2800000, guid: ef71f988504843345a2d17ec0c9f4981, type: 3}
+    - target: {fileID: 6823847909419183366, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: 'commonComponentsToRegister.Array.data[2]'
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: initialName
@@ -271,12 +292,13 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
+  installState: 0
   disposalFlushSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/DisposalMachines/DisposalMachineFlush.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
 --- !u!114 &4324874224188435965
@@ -294,6 +316,13 @@ MonoBehaviour:
   initialContents: {fileID: 0}
   spawnContentsAtRoundstart: 1
   registerTile: {fileID: 0}
+  ObjectPhysics: {fileID: 0}
+  OnObjectStored:
+    m_PersistentCalls:
+      m_Calls: []
+  OnObjectRetrieved:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4328151964050515424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,6 +361,14 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &8957056455312658134
@@ -365,7 +402,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   GasSO: {fileID: 0}
-  StoredGasMix:
+  StoredInitialGasMix:
     GasData:
       GasesArray:
       - GasSO: {fileID: 11400000, guid: ac2834f2705dcbc4da8731a53d3076fc, type: 2}
@@ -379,6 +416,14 @@ MonoBehaviour:
   ReleasePressure: 101.325
   CargoSealApproved: 0
   explodeOnTooMuchDamage: 1
+  ignoreInternals: 0
+  canToggleIgnoreInternals: 1
+--- !u!212 &2006165096988870516 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 1347533324463388387}
+  m_PrefabAsset: {fileID: 0}
 --- !u!210 &3925827565069146067 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 2650422487074349360, guid: b06b702714bab49b9ad949eab1ca4534,

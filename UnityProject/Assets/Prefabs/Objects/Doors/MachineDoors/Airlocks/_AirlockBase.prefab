@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4239543482026874
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6862883692063242840}
+  m_Layer: 0
+  m_Name: HudHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6862883692063242840
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4239543482026874}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.00064, y: 0.0074, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8242232534866279461}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &46041202269146236
 GameObject:
   m_ObjectHideFlags: 0
@@ -54,6 +85,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -75,6 +108,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1825689229
   m_SortingLayer: 24
   m_SortingOrder: 2
@@ -194,6 +228,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -215,6 +251,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1825689229
   m_SortingLayer: 24
   m_SortingOrder: 1
@@ -324,6 +361,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -345,6 +384,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1825689229
   m_SortingLayer: 24
   m_SortingOrder: 1
@@ -442,6 +482,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -463,6 +505,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1825689229
   m_SortingLayer: 24
   m_SortingOrder: 3
@@ -575,6 +618,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -596,6 +641,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1825689229
   m_SortingLayer: 24
   m_SortingOrder: 1
@@ -695,6 +741,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -716,6 +764,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1825689229
   m_SortingLayer: 24
   m_SortingOrder: 1
@@ -824,6 +873,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weldTime: 5
+  repairTime: 10
 --- !u!114 &2208254417731680457
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -837,14 +887,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pryTime: 4.5
-  prySound:
-    AssetAddress: Assets/Prefabs/Doors/DoorPry.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
   crowbarRequiresNoPower: 1
 --- !u!114 &934849774931252631
 MonoBehaviour:
@@ -901,22 +943,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IDToggleCard: {fileID: 11400000, guid: cf3b09017623921439e0c774d656f53f, type: 2}
   needsClosedToLight: 1
-  boltsUpSound:
-    AssetAddress: Assets/Prefabs/Doors/AirlockBoltUp.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  boltsDownSound:
-    AssetAddress: Assets/Prefabs/Doors/AirlockBoltDown.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
 --- !u!114 &5426044163123208281
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -968,7 +994,7 @@ GameObject:
   - component: {fileID: 3016747720727347819}
   - component: {fileID: 6311369837043129362}
   - component: {fileID: 4263715659423690969}
-  m_Layer: 0
+  m_Layer: 18
   m_Name: electrifiedSprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1010,6 +1036,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1031,6 +1059,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1964781063
   m_SortingLayer: 25
   m_SortingOrder: 100
@@ -1178,6 +1207,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 18
       objectReference: {fileID: 0}
+    - target: {fileID: 3688123999568366041, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: HudContainer
+      value: 
+      objectReference: {fileID: 4239543482026874}
     - target: {fileID: 3968779613111739762, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
       propertyPath: _assetId
@@ -1335,7 +1369,8 @@ PrefabInstance:
     - {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
     - {fileID: 720260447592516819, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
     - {fileID: 857808102172117800, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 2256672254017660780, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
@@ -1369,6 +1404,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3016747720727347819}
+    - targetCorrespondingSourceObject: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6862883692063242840}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4813822218561835024, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
@@ -1390,6 +1429,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8100574057695213285}
+    - targetCorrespondingSourceObject: {fileID: 4813822218561835024, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5522157268011426574}
   m_SourcePrefab: {fileID: 100100000, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
 --- !u!1 &215518841633704133 stripped
 GameObject:
@@ -1487,40 +1530,10 @@ MonoBehaviour:
   closingAnimationTime: 0.6
   deniedAnimationTime: 0.6
   warningAnimationTime: 0.6
-  SyncDoorUpdateType: 1
+  slipThroughScaler: 0.5
+  SyncDoorUpdateType: 0
   PanelOpen: 0
-  openingSFX:
-    AssetAddress: Assets/Prefabs/Doors/AirlockOpen.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  closingSFX:
-    AssetAddress: Assets/Prefabs/Doors/AirlockClose.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  deniedSFX:
-    AssetAddress: Assets/Prefabs/Effects/AccessDenied.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  warningSFX:
-    AssetAddress: Assets/Prefabs/Doors/TripleBeep.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
+  LightsWork: 0
 --- !u!114 &2268823939221595730
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1541,13 +1554,15 @@ MonoBehaviour:
   isAutomatic: 1
   allowInteraction: 1
   ignorePassableChecks: 0
+  closingPushesEntities: 0
   maxTimeOpen: 5
-  blockAutoClose: 0
+  BlockAutoClose: 0
   clickDisablesAutoClose: 0
   isWindowedDoor: 0
-  UseMachinesForOpenLayeer: 0
   HackingProcessBase: {fileID: 2590545318543294087}
   ConstructibleDoor: {fileID: 2423441889713074305}
+  UseMachinesForOpenLayer: 0
+  IsFireLockEngaged: 0
   <CanRelink>k__BackingField: 1
   conType: 7
   requireLink: 0
@@ -1570,6 +1585,17 @@ MonoBehaviour:
     type: 3}
   Reinforced: 0
   allowHackingPanel: 1
+  AllowTampering: 1
+  DeconstructionMethods:
+  - rid: 5438197799948386367
+  references:
+    version: 2
+    RefIds:
+    - rid: 5438197799948386367
+      type: {class: AirlockDeconstruction, ns: US13.Objects.Doors.DoorDeconstruction.DeconstructionMethods,
+        asm: Assets}
+      data:
+        deconstructTime: 2.5
 --- !u!114 &8100574057695213285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1587,3 +1613,98 @@ MonoBehaviour:
   syncInterval: 0.1
   paintOptions: {fileID: 11400000, guid: 66526f6aeacae7142ad335ada420e378, type: 2}
   animatorV2: {fileID: 2243806384905767094}
+--- !u!114 &5522157268011426574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8248341723222571775}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf2e268504fc274392eb3c6232bcc34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  openingSFX:
+    AssetAddress: Assets/Prefabs/Doors/AirlockOpen.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  closingSFX:
+    AssetAddress: Assets/Prefabs/Doors/AirlockClose.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  forcedSFX:
+    AssetAddress: Assets/Prefabs/Effects/smash.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  deniedSFX:
+    AssetAddress: Assets/Prefabs/Effects/AccessDenied.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  warningSFX:
+    AssetAddress: Assets/Prefabs/Doors/TripleBeep.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  toolPrySFX:
+    AssetAddress: Assets/Prefabs/Doors/DoorPry.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  jawsPrySFX:
+    AssetAddress: Assets/Prefabs/Items/JawsPry.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  handPrySFX:
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  boltsDownSFX:
+    AssetAddress: Assets/Prefabs/Doors/AirlockBoltDown.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  boltsUpSFX:
+    AssetAddress: Assets/Prefabs/Doors/AirlockBoltUp.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0

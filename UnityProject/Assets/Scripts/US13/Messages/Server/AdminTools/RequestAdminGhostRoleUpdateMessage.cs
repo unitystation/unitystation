@@ -1,0 +1,43 @@
+using System.Collections.Generic;
+using Mirror;
+using Newtonsoft.Json;
+using US13.Messages.Client;
+using US13.Messages.Client.Admin;
+using US13.UI.Systems.AdminTools.GhostRolesManager;
+
+namespace US13.Messages.Server.AdminTools
+{
+	public class RequestAdminGhostRoleUpdateMessage : ClientMessage<RequestAdminGhostRoleUpdateMessage.NetMessage>
+	{
+		public struct NetMessage : NetworkMessage
+		{
+			public string json;
+		}
+
+		public override void Process(NetMessage msg)
+		{
+			if (HasPermission(TAG.MANAGE_GHOST_ROLES))
+			{
+				var information = JsonConvert.DeserializeObject<GhostRolesInfo>(msg.json);
+
+				GhostRoleAdminPage.ProceedGhostRolesUpdate(information);
+			}
+		}
+
+		public static NetMessage Send(List<GhostRoleInfo> info)
+		{
+			var objs = new GhostRolesInfo()
+			{
+				Roles = info
+			};
+
+			NetMessage msg = new NetMessage
+			{
+				json = JsonConvert.SerializeObject(objs)
+			};
+
+			Send(msg);
+			return msg;
+		}
+	}
+}

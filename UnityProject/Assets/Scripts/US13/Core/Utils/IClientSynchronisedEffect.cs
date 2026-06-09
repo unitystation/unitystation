@@ -1,0 +1,54 @@
+using US13.Core.Lifecycle;
+using US13.Player;
+using US13.Systems;
+using Util;
+
+namespace US13.Core.Utils
+{
+	public interface IClientSynchronisedEffect : IClientPlayerLeaveBody, IClientPlayerTransferProcess
+	{
+		public uint OnPlayerID { get; }
+
+		public bool IsOnLocalPlayer => ClientSynchronisedEffectsManager.CurrentlyOns.Contains(OnPlayerID);
+
+		void IClientPlayerLeaveBody.ClientOnPlayerLeaveBody()
+		{
+			ApplyDefaultOrCurrentValues(true);
+		}
+
+		void IClientPlayerTransferProcess.ClientOnPlayerTransferProcess()
+		{
+			ApplyDefaultOrCurrentValues(false);
+		}
+
+		/// <summary>
+		/// Applies the correct synced values on a player based on a event. (I.e: player ghost leaving it's body)
+		/// </summary>
+		/// <param name="Default"></param>
+		public void ApplyDefaultOrCurrentValues(bool Default);
+
+		public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn);
+
+		public void ImplementationSyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)
+		{
+			if (NetId.Empty != PreviouslyOn && NetId.Invalid != PreviouslyOn)
+			{
+				ClientSynchronisedEffectsManager.Instance.ClientUnRegisterOnBody(PreviouslyOn, this);
+				if (PlayerManager.LocalMindScript.OrNull()?.CurrentlyControllingObject != null && PlayerManager.LocalMindScript.CurrentlyControllingObject.NetId() == PreviouslyOn)
+				{
+					ApplyDefaultOrCurrentValues(true);
+				}
+			}
+
+			if (NetId.Empty != CurrentlyOn && NetId.Invalid != CurrentlyOn)
+			{
+				ClientSynchronisedEffectsManager.Instance.ClientRegisterOnBody(CurrentlyOn, this);
+				if (ClientSynchronisedEffectsManager.CurrentlyOns.Contains(CurrentlyOn))
+				{
+					ApplyDefaultOrCurrentValues(false);
+				}
+			}
+
+		}
+	}
+}

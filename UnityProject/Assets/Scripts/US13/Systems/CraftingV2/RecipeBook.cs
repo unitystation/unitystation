@@ -1,0 +1,32 @@
+﻿using System.Collections.Generic;
+using NaughtyAttributes;
+using UnityEngine;
+using US13.Items.Bureaucracy;
+using US13.Managers;
+
+namespace US13.Systems.CraftingV2
+{
+	/// <summary>
+	/// 	The book that can teach players new recipes.
+	/// </summary>
+	public class RecipeBook : SimpleBook
+	{
+		[SerializeField, ReorderableList] [Tooltip("The recipes that a player will learn " +
+		                                           "when the player have read the book.")]
+		private List<CraftingRecipe> containsRecipes = new List<CraftingRecipe>();
+
+		protected override void FinishReading(PlayerInfo player)
+		{
+			base.FinishReading(player);
+			LearnRecipes(player);
+		}
+
+		private void LearnRecipes(PlayerInfo player)
+		{
+			foreach (CraftingRecipe recipe in containsRecipes)
+			{
+				player.Script.PlayerCrafting.LearnRecipe(recipe);
+			}
+		}
+	}
+}

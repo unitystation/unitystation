@@ -1,22 +1,22 @@
-
 using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters.Binary;
-
-using UnityEngine;
-
-using Mirror;
-
-using Adrenak.BRW;
-using Initialisation;
+using System.Linq;
+using Adrenak.UniVoice.Runtime.Interfaces;
+using Adrenak.UniVoice.Runtime.Types;
 using Logs;
-using Messages.Client;
-using Messages.Server;
+using Mirror;
+using UnityEngine.UIElements;
+using US13.Core.Initialisation;
+using US13.Core.Input_System;
+using US13.HealthV2;
+using US13.Managers;
+using US13.Managers.NetworkManagement;
+using US13.Messages.Client;
+using US13.Messages.Server;
+using US13.Player;
+using Util;
 
-namespace Adrenak.UniVoice.MirrorNetwork {
+namespace Adrenak.UniVoice.MirrorNetwork.Runtime {
     public class UniVoiceMirrorNetwork : IChatroomNetwork {
         // Packet tags
         const string NEW_CLIENT_INIT = "NEW_CLIENT_INIT";
@@ -321,6 +321,9 @@ namespace Adrenak.UniVoice.MirrorNetwork {
 
             if (tag.Equals(AUDIO_SEGMENT)) {
 
+	            var Info = PlayerList.Instance.GetOnline(connection);
+	            if (Info.Mind.isGhosting) return;
+	            if (Info.Script.playerHealth.ConsciousState is ConsciousState.DEAD or  ConsciousState.UNCONSCIOUS) return;
                 var audioSender = message.audioSender;
                 var recipient = message.recipient;
 
@@ -328,7 +331,7 @@ namespace Adrenak.UniVoice.MirrorNetwork {
                 if (recipient == OwnID || recipient == -1) {
 	                if (CustomNetworkManager.IsHeadless == false)
 	                {
-		                var Info = PlayerList.Instance.GetOnline(connection);
+
 		                var segment = message.data;
 		                OnAudioReceived?.Invoke(audioSender, segment , Info.GameObject.NetId());
 	                }
@@ -337,7 +340,7 @@ namespace Adrenak.UniVoice.MirrorNetwork {
                 // we forward it to the intended recipient.
 	            if (PeerIDs.Contains(recipient) || recipient == -1)
                 {
-	                var Info = PlayerList.Instance.GetOnline(connection);
+
 	                try
 	                {
 		                SendToClient( new ServerVoiceData.UniVoiceMessage()

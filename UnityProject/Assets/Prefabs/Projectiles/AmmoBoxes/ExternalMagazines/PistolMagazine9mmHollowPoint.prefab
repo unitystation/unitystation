@@ -8,6 +8,24 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2434735188447524412, guid: 678d8623073f29f4cb23d4cb26359cd4,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 7e38d992b06eb354eaf583cdeaf9cdac,
+        type: 2}
+    - target: {fileID: 2434735188447524412, guid: 678d8623073f29f4cb23d4cb26359cd4,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 7e38d992b06eb354eaf583cdeaf9cdac,
+        type: 2}
+    - target: {fileID: 2434735188447524412, guid: 678d8623073f29f4cb23d4cb26359cd4,
+        type: 3}
+      propertyPath: 'SubCatalogue.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: c27c97b82302800419f3236b101e67ac,
+        type: 2}
     - target: {fileID: 3185535953976934870, guid: 678d8623073f29f4cb23d4cb26359cd4,
         type: 3}
       propertyPath: parentID
@@ -103,7 +121,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 04727509e2ec2f246a52c5cf199bfb2c,
+      objectReference: {fileID: 21300000, guid: 528fc53c4b7ac48438efae1e191a730f,
         type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

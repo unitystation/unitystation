@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7181786134445355985}
   - component: {fileID: 4562542710625501896}
   - component: {fileID: 3917532995848785121}
+  - component: {fileID: 1685549477955216103}
   m_Layer: 19
   m_Name: ScreenSprite
   m_TagString: Untagged
@@ -53,6 +54,9 @@ SpriteRenderer:
   m_RayTraceProcedural: 0
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -74,10 +78,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1618464505
   m_SortingLayer: 19
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300000, guid: 8644f93b57e95e7489842a0988657d2b, type: 3}
+  m_Sprite: {fileID: 21300002, guid: 8644f93b57e95e7489842a0988657d2b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -106,12 +111,17 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  PresentSpriteSet: {fileID: 11400000, guid: ef212a545b6dd294f8d0d6cdfb382dba, type: 2}
+  InitialPresentSpriteSet: {fileID: 11400000, guid: ef212a545b6dd294f8d0d6cdfb382dba,
+    type: 2}
   randomInitialSprite: 0
+  spriteRenderer: {fileID: 7181786134445355985}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
+  InitialColour: {r: 1, g: 1, b: 1, a: 1}
   palette: []
+  initialSortingOrder: -1
+  initialSortingLayerName: 
 --- !u!114 &3917532995848785121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,6 +137,18 @@ MonoBehaviour:
   mIntensity: 0.5
   mAdditionalEmission: 0
   mScale: 1.1
+--- !u!114 &1685549477955216103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9053875397184046594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ed94c89426884e758facbd072bbf0ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::Objects.Wallmounts.WallmountSpriteBehavior
 --- !u!1001 &3691865198508416630
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -318,6 +340,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A control terminal for the area's electrical systems.
       objectReference: {fileID: 0}
+    - target: {fileID: 5091487934060065553, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5091487934060065553, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: cd98e1bc8bcab7e40a694886dbae5973,
+        type: 2}
     - target: {fileID: 6327756969131596099, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
       propertyPath: isDirty
@@ -360,7 +393,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1319971976938477120}
+    - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f1bcb2daa03658143aaa426140d76d4d,
+        type: 2}
+    - target: {fileID: 6943869364395329275, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: f1bcb2daa03658143aaa426140d76d4d,
         type: 2}
@@ -413,6 +457,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8342472905829387893}
+    - targetCorrespondingSourceObject: {fileID: 2453728123087481889, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2323981158416549393}
+    - targetCorrespondingSourceObject: {fileID: 5946781879348633115, guid: f9025da3beb40304cb15babfc0a6cafa,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5225905200819999225}
   m_SourcePrefab: {fileID: 100100000, guid: f9025da3beb40304cb15babfc0a6cafa, type: 3}
 --- !u!4 &1235378994494485645 stripped
 Transform:
@@ -448,6 +500,14 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 3
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &6024105162665196456
@@ -488,6 +548,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 2957035178188790827, guid: 9ac6968a3f3ed54428662c9aae5a4b32,
     type: 3}
 --- !u!114 &6203834163477203450
@@ -528,12 +589,15 @@ MonoBehaviour:
   powerMachinery: 1
   powerLights: 1
   powerEnvironment: 1
+  lowVoltageThreshold: 100
+  overVoltageThreshold: 270
+  nominalVoltageThreshold: 219
   NoPowerSound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Machines/APCPowerOff.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   <CanRelink>k__BackingField: 1
@@ -567,6 +631,33 @@ MonoBehaviour:
   APCFrameObj: {fileID: 260239628808517242, guid: 7cd3db9e6e27eb8448654d61b83c960a,
     type: 3}
   multiMaster: 1
+--- !u!114 &2323981158416549393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238849902553559639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9f3d7ab1c0b4cc4ba891fe740e0c79f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Clothing.Eyewear.DiagnosticsHUDPowerState
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  <Prefab>k__BackingField: {fileID: 3773905765040299103, guid: 012264fb418c6fe43ae4558b434e6ac9,
+    type: 3}
+  hudHandler: {fileID: 6976567979192626078}
+  powerSource: 1
+  apcPoweredDevice: {fileID: 0}
+  powerNodeMono: {fileID: 8342472905829387893}
+--- !u!212 &1319971976938477120 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2408678487295248438, guid: f9025da3beb40304cb15babfc0a6cafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 3691865198508416630}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4174387146121027881 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 779761725270966111, guid: f9025da3beb40304cb15babfc0a6cafa,
@@ -585,3 +676,33 @@ SortingGroup:
     type: 3}
   m_PrefabInstance: {fileID: 3691865198508416630}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &6976567979192626078 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6047661722252916200, guid: f9025da3beb40304cb15babfc0a6cafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 3691865198508416630}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238849902553559639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b52d3a61bf76e84c8b41c9b93981876, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Player.HUDData.HUDHandler
+--- !u!1 &7042245853401481325 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5946781879348633115, guid: f9025da3beb40304cb15babfc0a6cafa,
+    type: 3}
+  m_PrefabInstance: {fileID: 3691865198508416630}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5225905200819999225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7042245853401481325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ed94c89426884e758facbd072bbf0ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::Objects.Wallmounts.WallmountSpriteBehavior

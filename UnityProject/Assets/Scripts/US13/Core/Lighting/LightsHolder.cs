@@ -1,0 +1,219 @@
+﻿using System;
+using System.Linq;
+using Light2D;
+using Logs;
+using Mirror;
+using UnityEngine;
+using US13.Core.Lifecycle;
+using US13.Core.Sprite_Handler;
+using US13.Core.Transform;
+using US13.Managers.NetworkManagement;
+using US13.Objects.Directionals;
+using US13.Player;
+
+namespace US13.Core.Lighting
+{
+	public class LightsHolder : NetworkBehaviour
+	{
+		[HideInInspector] public readonly SyncList<LightData> Lights = new SyncList<LightData>();
+
+		[SerializeField] private UnityEngine.Transform lightsParent;
+		[SerializeField] private GameObject lightSpriteObject;
+		[SerializeField] private Rotatable rotatable;
+
+		private OrientationEnum currentOrientation = OrientationEnum.Default;
+
+		public override void OnStartClient()
+		{
+			base.OnStartClient();
+			Lights.Callback += OnLightsListChange;
+
+			// Process initial SyncList payload
+			for (int index = 0; index < Lights.Count; index++)
+				OnLightsListChange(SyncList<LightData>.Operation.OP_ADD, index, new LightData(), Lights[index]);
+		}
+
+		public override void OnStopClient()
+		{
+			base.OnStopClient();
+			Lights.Callback -= OnLightsListChange;
+		}
+
+		private void OnDisable()
+		{
+			Lights.Callback -= OnLightsListChange;
+		}
+
+		private void Start()
+		{
+			rotatable ??= GetComponent<Rotatable>();
+			UpdateLights(); //you still need to update on start because Mirror does not invoke the OnLightsListChanged event when the list gets first populated.
+			rotatable.OnRotationChange.AddListener(OnRotate);
+		}
+
+		private void OnDestroy()
+		{
+			rotatable.OnRotationChange.RemoveListener(OnRotate);
+		}
+
+		private void OnRotate(OrientationEnum orientation)
+		{
+			currentOrientation = orientation;
+			//We add 90 to deal with the texture's own origin/pivot.
+			var rotation = Quaternion.Euler(0f, 0f, (float)orientation * 90 + 90);
+			foreach (UnityEngine.Transform child in lightsParent)
+			{
+				if (CustomNetworkManager.IsHeadless)
+				{
+					child.rotation = rotation;
+				}
+				else
+				{
+					LeanTween.rotate(child.gameObject, rotation.eulerAngles, 0.24f).
+						setEaseInCubic().setEase(LeanTweenType.easeSpring);
+				}
+			}
+		}
+
+		public void AddLight(LightData data)
+		{
+			if (isServer == false) return;
+			if (Lights.Any(lightSprite => lightSprite.Id == data.Id))
+			{
+				return;
+			}
+			Lights.Add(data);
+			netIdentity.isDirty = true;
+		}
+
+		public void RemoveLight(LightData data)
+		{
+			if (Lights.Contains(data) == false)
+			{
+				ClearHeldLights();
+				UpdateLights();
+				return;
+			}
+
+			//this gets called on the server
+			RemoveLightObject(data.Id);
+
+			if (Lights.Count == 1)
+			{
+				Lights.Clear();
+			}
+			else
+			{
+				Lights.Remove(data);
+			}
+
+
+			netIdentity.isDirty = true;
+		}
+
+		private void RemoveLightObject(int id)
+		{
+			foreach (var sprite in lightsParent.GetComponentsInChildren<LightSprite>())
+			{
+				if (sprite.GivenID == id)
+				{
+					var Handler = sprite.gameObject.GetComponent<SpriteHandler>();
+					Handler?.UnregisterFromManager();
+					Despawn.ClientSingle(sprite.gameObject);
+				}
+			}
+		}
+
+		private void OnLightsListChange(SyncList<LightData>.Operation op, int index, LightData oldItem,
+			LightData newItem)
+		{
+			switch (op)
+			{
+				case SyncList<LightData>.Operation.OP_CLEAR:
+					ClearHeldLights();
+					break;
+				case SyncList<LightData>.Operation.OP_REMOVEAT:
+					//this gets called on the client
+					RemoveLightObject(oldItem.Id);
+					break;
+				default:
+					UpdateLights();
+					break;
+			}
+		}
+
+		public void UpdateLights()
+		{
+
+			for (int i = 0; i < Lights.Count; i++)
+			{
+				if (lightsParent.childCount <= i || lightsParent.GetChild(i) == null)
+				{
+					lightSpriteObject.name = i + "Light spread2D";
+					var newLight = Instantiate(lightSpriteObject, parent: lightsParent);
+					// Add the LightSprite component to the new game object
+					LightSprite lightSprite = newLight.GetComponent<LightSprite>();
+					// Set the properties of the LightSprite component based on the corresponding data in the Lights list
+					SetLightData(Lights[i], lightSprite);
+					lightSprite.transform.localPosition = Vector3.zero;
+					// Set the correct facing direction so that the light sprite doesn't look in a different direction when it gets added to the player.
+					lightSprite.transform.rotation = Quaternion.Euler(0f, 0f, (float)currentOrientation * 90 + 90);
+					lightSprite.gameObject.SetActive(true);
+				}
+				else
+				{
+					LightSprite lightSprite = lightsParent.GetChild(i).gameObject.GetComponent<LightSprite>();
+					SetLightData(Lights[i], lightSprite);
+				}
+			}
+		}
+
+		private void SetLightData(LightData data, LightSprite lightSprite)
+		{
+			lightSprite.gameObject.SetActive(true);
+			lightSprite.Color = data.lightColor;
+			lightSprite.Shape = data.lightShape;
+			if (data.lightSpriteObject != null)
+			{
+				lightSprite.Sprite = data.lightSpriteObject.GetComponent<ILightControl>()?.ObjectLightSprite.Sprite;
+				var Handler =  lightSprite?.GetComponent<LightSpriteHandler>();
+				var SourceHandler = data.lightSpriteObject.GetComponent<ILightControl>()?.ObjectLightSprite?.GetComponent<LightSpriteHandler>();
+				if (Handler != null && SourceHandler != null)
+				{
+					Handler.SetSpriteSO(SourceHandler.GetCurrentSpriteSO());
+				}
+			}
+			lightSprite.transform.localScale = new Vector3(data.size, data.size, data.size);
+			if (data.Id != 0)
+			{
+				lightSprite.GivenID = data.Id;
+				return;
+			}
+			Loggy.Warning("No id was given to lightSprite, assigning random one.", Category.Lighting);
+			var newId = Guid.NewGuid().GetHashCode();
+			data.Id = newId;
+			lightSprite.GivenID = newId;
+		}
+
+		private void ClearHeldLights()
+		{
+			foreach (var sprite in lightsParent.GetComponentsInChildren<LightSprite>())
+			{
+				var Handler = sprite.gameObject.GetComponent<SpriteHandler>();
+				Handler?.UnregisterFromManager();
+				Despawn.ClientSingle(sprite.gameObject);
+			}
+		}
+	}
+
+	[System.Serializable]
+	public struct LightData
+	{
+		public int Id;
+		public Color lightColor;
+		public Light2D.LightSprite.LightShape lightShape;
+		public NetworkIdentity lightSpriteObject;
+		public float size;
+	}
+}
+

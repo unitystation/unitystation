@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Shared.Editor
+namespace EditorButInAssetsAssembly.Editor
 {
 	/// <summary>
 	/// An assortment of useful, generic methods for Unity editor tool construction

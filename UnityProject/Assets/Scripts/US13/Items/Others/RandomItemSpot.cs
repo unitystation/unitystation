@@ -1,0 +1,207 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Logs;
+using Mirror;
+using NaughtyAttributes;
+using UnityEngine;
+using US13.Core.Input_System.InteractionV2;
+using US13.Core.Input_System.InteractionV2.Interactions;
+using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Core.Lifecycle;
+using US13.Core.ObjectConnection;
+using US13.Managers.MatrixManager;
+using US13.Objects.Engineering;
+using US13.Objects.Traps;
+using US13.Systems.Clearance;
+using US13.Systems.Inventory;
+using US13.UI.Core.ProgressBar;
+using Util;
+using Random = UnityEngine.Random;
+using UniversalObjectPhysics = US13.Core.Physics.UniversalObjectPhysics;
+
+namespace US13.Items.Others
+{
+	public class RandomItemSpot : NetworkBehaviour, IServerSpawn, ICheckedInteractable<HandActivate>, IGenericTrigger
+	{
+		public APCPoweredDevice APCtoSet;
+
+		[Tooltip("Amount of items we could get from this pool"), MinValue(1)] [SerializeField]
+		private int lootCount = 1;
+
+		[Tooltip("Should we spread the items in the tile once spawned?")] [SerializeField]
+		private bool fanOut = false;
+
+		[Tooltip("List of possible pools of items to choose from")] [SerializeField]
+		private List<PoolData> poolList = null;
+
+		[HideInInspector]
+		public GameObject spawnedItem = null;
+
+		private const int MaxAmountRolls = 5;
+
+		[SerializeField] private bool triggerManually = false;
+		[SerializeField] private bool automaticallyShoveIntoContainerBelowSpawnedItem = true;
+		[SerializeField] private bool deleteAfterUse = true;
+
+		[SerializeField] private TriggerType triggerType = TriggerType.Active;
+		TriggerType IGenericTrigger.TriggerType => triggerType;
+		private bool triggerState = false;
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			APCtoSet = this.GetComponent<APCPoweredDevice>();
+			RollRandomPool(true, false);
+		}
+
+		public void RollRandomPool(bool UnrestrictedAndspawn, bool overrideTrigger = false)
+		{
+			if (overrideTrigger == false && triggerManually) return;
+			SpawnRandomItems(UnrestrictedAndspawn);
+			APCtoSet.OrNull()?.RemoveFromAPC();
+
+		}
+
+		public void OnTrigger()
+		{
+			switch (triggerType)
+			{
+				case TriggerType.Active:
+					triggerState = true;
+					RollRandomPool(true, true);
+					break;
+				case TriggerType.Toggle:
+					triggerState = !triggerState;
+					if(triggerState) RollRandomPool(true, true);
+					break;
+				case TriggerType.HoldState:
+					if(triggerState == false) RollRandomPool(true, true);
+					triggerState = true;
+					break;
+			}
+		}
+
+		public void OnTriggerWithClearance(IClearanceSource source) => OnTrigger();
+		public void OnTriggerEnd()
+		{
+			if (triggerType == TriggerType.Active) triggerState = false;
+		}
+
+		[Button]
+		public void SpawnRandomItems(bool unrestrictedAndSpawn = true)
+		{
+			var spawnAmount = 0;
+			for (int i = 0; i < lootCount; i++)
+			{
+				PoolData pool = GrabRandomPool();
+				if (pool == null) continue;
+				GenerateItem(pool, unrestrictedAndSpawn);
+				spawnAmount++;
+				if (unrestrictedAndSpawn == false) break; // what the fuck does UnrestrictedAndspawn mean? What's the point? terrible name
+			}
+		}
+
+		private PoolData GrabRandomPool()
+		{
+			// Roll attempt is a safe check in the case the mapper did tables with low % and we can't find
+			// anything to spawn in 5 attempts
+			PoolData pool = null;
+			int rollAttempt = 0;
+			while (pool == null)
+			{
+				if (rollAttempt >= MaxAmountRolls)
+				{
+					break;
+				}
+				var tryPool = poolList.PickRandom();
+				if (DMMath.Prob(tryPool.Probability))
+				{
+					pool = tryPool;
+				}
+				else
+				{
+					rollAttempt++;
+				}
+			}
+			return pool;
+		}
+
+		private void GenerateItem(PoolData poolData, bool spawn)
+		{
+			if (poolData == null) return;
+
+			var itemPool = poolData.RandomItemPool;
+
+			if (itemPool == null)
+			{
+				Loggy.Error($"Item pool was null in {gameObject.name}", Category.ItemSpawn);
+				return;
+			}
+
+			var item = poolData.RandomItemPool.Pool.PickRandom();
+			var spread = fanOut ? Random.Range(0, 0.5f) : (float?) null;
+
+			if (DMMath.Prob(item.Probability) == false)
+			{
+				return;
+			}
+
+			var maxAmt = Random.Range(1, item.MaxAmount + 1);
+
+			this.spawnedItem = item.Prefab;
+			if (spawn == false) return;
+
+			var worldPos = gameObject.AssumedWorldPosServer();
+			var pushPull = GetComponent<UniversalObjectPhysics>();
+			var Newobjt = Spawn.ServerPrefab(item.Prefab, worldPos, count: maxAmt, scatterRadius: spread,
+				sharePosition: pushPull).GameObject;
+			ShoveIntoStorage(Newobjt);
+			if (APCtoSet != null && APCtoSet.RelatedAPC != null)
+			{
+				var newAPCtoSet = Newobjt.GetComponent<APCPoweredDevice>();
+				if (newAPCtoSet != null)
+				{
+					((IMultitoolSlaveable) newAPCtoSet).TrySetMaster(null, APCtoSet.RelatedAPC);
+				}
+			}
+		}
+
+		private void ShoveIntoStorage(GameObject obj)
+		{
+			if (automaticallyShoveIntoContainerBelowSpawnedItem == false) return;
+			if (obj.GetUniversalObjectPhysics().ContainedInObjectContainer != null) return;
+			var storages = MatrixManager.GetAt<IUniversalInventoryAPI>(gameObject.AssumedWorldPosServer().CutToInt(), true);
+			if (storages == null) return;
+			var storageList = storages.ToList();
+			if (storageList.Count == 0 || storageList[0] is null) return;
+			storageList[0].GrabObjects(new List<GameObject>{obj});
+		}
+
+		public bool WillInteract(HandActivate interaction, NetworkSide side)
+		{
+			return DefaultWillInteract.Default(interaction, side);
+		}
+
+		public void ServerPerformInteraction(HandActivate interaction)
+		{
+			var progress = StandardProgressAction.Create(
+				new StandardProgressActionConfig(StandardProgressActionType.Construction),
+				() => RollRandomPool(true, true));
+			progress.ServerStartProgress(interaction.PerformerPlayerScript.ObjectPhysics.registerTile, 1.25f,
+				interaction.Performer);
+		}
+	}
+
+	[Serializable]
+	public class PoolData
+	{
+		[Tooltip("Probabilities of spawning from this pool when chosen")] [SerializeField] [Range(0, 100)]
+		private int probability = 100;
+
+		[Tooltip("The pool from which we will try to get items")] [SerializeField]
+		private RandomItemPool randomItemPool = null;
+
+		public int Probability => probability;
+		public RandomItemPool RandomItemPool => randomItemPool;
+	}
+}
