@@ -54,7 +54,7 @@ namespace US13.Systems.Antagonists
 		[SerializeField, BoxGroup("Corrupt")] private float corruptRange = 1.5f;
 		[SerializeField, BoxGroup("Corrupt")] private float corruptTime = 1.5f;
 		[SerializeField, BoxGroup("Corrupt")] private float corruptionAmount = 2.5f;
-		[SerializeField, BoxGroup("Corrupt")] private float selfCorruptionAmount = 10.0f;
+		[SerializeField, BoxGroup("Corrupt")] private float selfCorruptionAmount = 20.0f;
 
 		[SerializeField, BoxGroup("Hypnotic Stare")] private float hypnoticStareDuration = 10.0f;
 		[SerializeField, BoxGroup("Hypnotic Stare")] private float hypnoticStareRange = 4.5f;
@@ -323,13 +323,13 @@ namespace US13.Systems.Antagonists
 			{
 				Chat.AddExamineMsg(connectedPlayer.gameObject, $"You successfully corrupt {firstPlayerOnTile.visibleName}'s blood.");
 				Chat.AddWarningMsgFromServer(firstPlayerOnTile.gameObject, "You feel a small prick on your neck.");
-			}).ServerStartProgress(firstPlayerOnTile.RegisterPlayer, corruptTime, connectedPlayer.gameObject);
-			if (bar != null)
-			{
-				Chat.AddExamineMsg(connectedPlayer.gameObject, $"You begin to corrupt {firstPlayerOnTile.visibleName}'s blood.");
+
+
 				victimReagentPool.BloodPool.Add(CommonSicknesses.Instance.VampirismReagent, corruptionAmount);
 				ReagentPool.BloodPool.Add(CommonSicknesses.Instance.VampirismReagent, selfCorruptionAmount);
-			}
+				Chat.AddExamineMsgFromServer(connectedPlayer.gameObject, $"Gained {selfCorruptionAmount} corruption from converting target");
+			}).ServerStartProgress(firstPlayerOnTile.RegisterPlayer, corruptTime, connectedPlayer.gameObject);
+			if (bar != null) Chat.AddExamineMsg(connectedPlayer.gameObject, $"You begin to corrupt {firstPlayerOnTile.visibleName}'s blood.");
 
 			return true;
 		}
