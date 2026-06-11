@@ -63,6 +63,12 @@ namespace US13.Managers.MatrixManager
 						CollideBeforeStop( matrixInfo, participatingIntersections );
 						movingMatrices.Remove( matrixInfo );
 						trackedIntersections.RemoveAll( intersection => intersection.Matrix1 == matrixInfo );
+						foreach (var Intersection in participatingIntersections)
+						{
+							Intersection.Matrix1.Matrix.RelatedIntersections.Remove(Intersection);
+							Intersection.Matrix2.Matrix.RelatedIntersections.Remove( Intersection );
+						}
+
 					}
 				} );
 			}
@@ -86,6 +92,12 @@ namespace US13.Managers.MatrixManager
 			{
 				if ( trackedIntersections.Count > 0 )
 				{
+					foreach (var Intersection in trackedIntersections)
+					{
+						Intersection.Matrix1.Matrix.RelatedIntersections.Remove(Intersection);
+						Intersection.Matrix2.Matrix.RelatedIntersections.Remove( Intersection );
+					}
+
 					trackedIntersections.Clear();
 				}
 				return;
@@ -126,7 +138,11 @@ namespace US13.Managers.MatrixManager
 					foreach ( var updateMe in toUpdate )
 					{
 						trackedIntersections.Remove( updateMe );
+						updateMe.Matrix1.Matrix.RelatedIntersections.Remove(updateMe);
+						updateMe.Matrix2.Matrix.RelatedIntersections.Remove(updateMe);
 						trackedIntersections.Add( updateMe );
+						updateMe.Matrix1.Matrix.RelatedIntersections.Add(updateMe);
+						updateMe.Matrix2.Matrix.RelatedIntersections.Add(updateMe);
 					}
 				}
 
@@ -134,6 +150,8 @@ namespace US13.Managers.MatrixManager
 				{
 					foreach ( var removeMe in toRemove )
 					{
+						removeMe.Matrix1.Matrix.RelatedIntersections.Remove(removeMe);
+						removeMe.Matrix2.Matrix.RelatedIntersections.Remove(removeMe);
 						trackedIntersections.Remove( removeMe );
 					}
 				}
@@ -156,7 +174,8 @@ namespace US13.Managers.MatrixManager
 						{
 							continue;
 						}
-
+						intersection.Matrix1.Matrix.RelatedIntersections.Add(intersection);
+						intersection.Matrix2.Matrix.RelatedIntersections.Add(intersection);
 						trackedIntersections.Add( intersection );
 					}
 				}

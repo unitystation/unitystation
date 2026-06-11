@@ -14,7 +14,7 @@ public class ShadowMaskRenderer : MonoBehaviour
 	private RenderTexture m_pongRT;
 	private RenderTexture m_tableRT;
 	private RenderTexture m_WallRT;
-
+	private RenderTexture m_itemRT;
 
 
 	public RenderTexture _WallRT
@@ -37,7 +37,7 @@ public class ShadowMaskRenderer : MonoBehaviour
 	}
 
 
-	public RenderTexture _pingRT
+	private RenderTexture _pingRT
 	{
 		get
 		{
@@ -57,8 +57,26 @@ public class ShadowMaskRenderer : MonoBehaviour
 	}
 
 
+	public RenderTexture _ItemRT
+	{
+		get
+		{
+			return m_itemRT;
+		}
 
-	private RenderTexture _pongRT
+		set
+		{
+			// Release old texture.
+			if (m_itemRT != null)
+			{
+				m_itemRT.Release();
+			}
+
+			m_itemRT = value;
+		}
+	}
+
+	public RenderTexture _pongRT
 	{
 		get
 		{
@@ -123,6 +141,7 @@ public class ShadowMaskRenderer : MonoBehaviour
 		int _textureWidth = iParameters.screenSize.x;
 		int _textureHeight = iParameters.screenSize.y;
 
+
 		var _newRenderTexture = new RenderTexture(_textureWidth, _textureHeight, 0, RenderTextureFormat.Default);
 		_newRenderTexture.name = "Table Mask";
 		_newRenderTexture.autoGenerateMips = false;
@@ -130,6 +149,13 @@ public class ShadowMaskRenderer : MonoBehaviour
 
 		_tableRT = _newRenderTexture;
 
+
+		_newRenderTexture = new RenderTexture(_textureWidth, _textureHeight, 0, RenderTextureFormat.Default);
+		_newRenderTexture.name = "Item";
+		_newRenderTexture.autoGenerateMips = false;
+		_newRenderTexture.useMipMap = false;
+
+		_ItemRT = _newRenderTexture;
 
 		_newRenderTexture = new RenderTexture(_textureWidth, _textureHeight, 0, RenderTextureFormat.Default);
 		_newRenderTexture.name = "pong";
@@ -156,8 +182,8 @@ public class ShadowMaskRenderer : MonoBehaviour
 
 
 
-		mTableMaskCamera.orthographicSize = iParameters.cameraOrthographicSize; // * 1.003f;
-		mShadowCamera.orthographicSize = iParameters.cameraOrthographicSize; //* 1.003f;
+		mTableMaskCamera.orthographicSize = iParameters.cameraOrthographicSize;
+		mShadowCamera.orthographicSize = iParameters.cameraOrthographicSize;
 		mWallMaskCamera.orthographicSize = iParameters.cameraOrthographicSize;
 	}
 
@@ -177,31 +203,32 @@ public class ShadowMaskRenderer : MonoBehaviour
 		mWallMaskCamera.aspect             = iCameraToMatch.aspect;
 
 
-		mShadowCamera.targetTexture = _pingRT;
-		mShadowCamera.RenderWithShader(silhouetteShader, "RenderType");
+		mShadowCamera.targetTexture = _ItemRT;
+		//mShadowCamera.RenderWithShader(silhouetteShader, "RenderType");
+		mShadowCamera.Render();
+
 
 		mTableMaskCamera.targetTexture = _tableRT;
-		mTableMaskCamera.RenderWithShader(silhouetteShader, "RenderType");
-
+		//mTableMaskCamera.RenderWithShader(silhouetteShader, "RenderType");
+		mTableMaskCamera.Render();
 
 		mWallMaskCamera.targetTexture = _WallRT;
-		mWallMaskCamera.RenderWithShader(silhouetteShader, "RenderType");
+		//mWallMaskCamera.RenderWithShader(silhouetteShader, "RenderType");
+		mWallMaskCamera.Render();
 
 		blurMaterial.SetTexture("_WallFloorOcclusionTex", _WallRT);
 		blurMaterial.SetTexture("_TableOcclusionTex",     _tableRT);
 
-		Graphics.Blit(_pingRT, _pongRT, blurMaterial, 1);
-
-		Graphics.Blit(_pongRT, _pingRT);
+		Graphics.Blit(_ItemRT, _pongRT, blurMaterial, 1);
 
 		for (int i = 0; i < blurPasses; i++)
 		{
 			blurMaterial.SetVector("_Direction", new Vector4(1, 0, 0, 0));
 			blurMaterial.SetFloat ("_Spread",    blurSpread /iCameraToMatch.orthographicSize );
-			Graphics.Blit(_pingRT, _pongRT, blurMaterial, 0);
+			Graphics.Blit(_pongRT, _pingRT, blurMaterial, 0);
 
 			blurMaterial.SetVector("_Direction", new Vector4(0, 1, 0, 0));
-			Graphics.Blit(_pongRT, _pingRT, blurMaterial, 0);
+			Graphics.Blit(_pingRT, _pongRT, blurMaterial, 0);
 		}
 
 

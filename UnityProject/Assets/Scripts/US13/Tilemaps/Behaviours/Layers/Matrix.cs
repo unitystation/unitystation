@@ -117,6 +117,8 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 		public AudioClipsArray EnteringSounds = null;
 
+		public List<MatrixIntersection> RelatedIntersections = new List<MatrixIntersection>();
+
 		public void Awake()
 		{
 			metaTileMap = GetComponent<MetaTileMap>();
