@@ -141,6 +141,8 @@ namespace US13.Shuttles
 
 		private bool SecretSpinneyMode = false;
 
+		public bool Handbrake;
+
 		public bool SpinneyMode
 		{
 			get
@@ -170,7 +172,7 @@ namespace US13.Shuttles
 		public Vector3 WorldCurrentVelocity;
 
 		public float RCSDragMovement = 0.4f;
-
+		public float HandbrakeDrag = -0.5f;
 		public float CurrentTorque;
 
 		public Vector3 currentLocalPivot;
@@ -721,6 +723,7 @@ namespace US13.Shuttles
 			TheReusingSetVisited.Clear();
 			var Matrixes = GetAllNetworkedMatrixMove(TheReusingSet, false, this, TheReusingSetVisited);
 
+
 			if (DoneMasterAlready == false)
 			{
 				NetworkedMatrixMove ControllingMatrix = null;
@@ -931,6 +934,22 @@ namespace US13.Shuttles
 				{
 					MoveCoolDown = 0;
 				}
+			}
+
+			bool Handbrake = false;
+
+			foreach (var Matrix in Matrixes)
+			{
+				if (Matrix.Handbrake)
+				{
+					Handbrake = true;
+					break;
+				}
+			}
+
+			if (Handbrake && WorldCurrentVelocity.magnitude > SpinneyThreshold -1)
+			{
+				WorldCurrentVelocity = WorldCurrentVelocity - (((WorldCurrentVelocity.normalized * ((SpinneyThreshold -1))) - WorldCurrentVelocity ) * HandbrakeDrag);
 			}
 
 
