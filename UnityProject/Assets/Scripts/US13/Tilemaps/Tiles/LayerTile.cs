@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
@@ -46,6 +47,32 @@ namespace US13.Tilemaps.Tiles
 
 		public LayerType LayerType;
 		public TileType TileType;
+
+		[SerializeField]
+		private List<TileTrait> tileTraits = new List<TileTrait>();
+
+		/// <summary>
+		/// Checks whether this tile has the given trait. A null trait returns false.
+		/// </summary>
+		public bool HasTrait(TileTrait toCheck)
+		{
+			if (toCheck == null) return false;
+			return tileTraits.Contains(toCheck);
+		}
+
+		/// <summary>
+		/// Checks whether this tile has any of the given traits. A null or empty list returns false.
+		/// </summary>
+		public bool HasAnyTrait(List<TileTrait> toCheck)
+		{
+			if (toCheck == null) return false;
+
+			foreach (var trait in toCheck)
+			{
+				if (trait != null && tileTraits.Contains(trait)) return true;
+			}
+			return false;
+		}
 
 		public LayerTile[] RequiredTiles = { };
 
