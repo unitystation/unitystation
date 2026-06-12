@@ -52,14 +52,7 @@ namespace US13.Items
 
 			foreach (var entry in waysToPlace)
 			{
-				//open space
-				if (tileAtPosition == null && entry.placeableOn == LayerType.None && entry.placeableOnlyOnTile == null)
-				{
-					return true;
-				}
-				// placing on an existing tile
-				else if (tileAtPosition.LayerType == entry.placeableOn &&
-						 (entry.placeableOnlyOnTile == null || entry.placeableOnlyOnTile == tileAtPosition))
+				if (EntryMatches(entry, tileAtPosition))
 				{
 					return true;
 				}
@@ -179,20 +172,30 @@ namespace US13.Items
 				if (entry.itemCost > itemAmount)
 					continue;
 
-				//open space
-				if (tileAtPosition == null && entry.placeableOn == LayerType.None && entry.placeableOnlyOnTile == null)
-				{
-					return entry;
-				}
-
-				// placing on an existing tile
-				else if (tileAtPosition.LayerType == entry.placeableOn &&
-						 (entry.placeableOnlyOnTile == null || entry.placeableOnlyOnTile == tileAtPosition))
+				if (EntryMatches(entry, tileAtPosition))
 				{
 					return entry;
 				}
 			}
 			return null;
+		}
+
+		private static bool EntryMatches(PlaceableTileEntry entry, LayerTile tileAtPosition)
+		{
+			bool noTileRestriction = entry.placeableOnlyOnTile == null && entry.placeableOnTilesWithTraits.Count == 0;
+
+			//open space
+			if (tileAtPosition == null)
+			{
+				return entry.placeableOn == LayerType.None && noTileRestriction;
+			}
+
+			if (tileAtPosition.LayerType != entry.placeableOn) return false;
+
+			//no specific tile or trait required, any tile on this layer matches
+			if (noTileRestriction) return true;
+
+			return entry.placeableOnlyOnTile == tileAtPosition || tileAtPosition.HasAnyTrait(entry.placeableOnTilesWithTraits);
 		}
 
 		/// <summary>
@@ -211,6 +214,10 @@ namespace US13.Items
 			[Tooltip("Particular tile this is placeable on. Leave empty to allow placing on any tile.")]
 			[SerializeField]
 			public LayerTile placeableOnlyOnTile = null;
+
+			[Tooltip("Tile traits this is placeable on, matches any tile with any of these traits.")]
+			[SerializeField]
+			public List<TileTrait> placeableOnTilesWithTraits = new List<TileTrait>();
 
 			[Tooltip("The amount of this item required to place tile.")]
 			[SerializeField]
