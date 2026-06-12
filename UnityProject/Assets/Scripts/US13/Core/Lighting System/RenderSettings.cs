@@ -31,6 +31,12 @@ public class RenderSettings
 	[Tooltip("Layer Names for objects will be rendered as Background.")]
 	public LayerMask backgroundLayers;
 
+	[Tooltip("Layers for the main camera to use when the lighting system  disabled")]
+	public LayerMask LightingDisabledMainCameraLayers;
+
+	[Tooltip("Layers for the main camera to use when the lighting system Enabled")]
+	public LayerMask LightingEnabledMainCameraLayers;
+
 	[Tooltip("Number of passes for blur post-effect. Higher values will improve quality but has a negative performance impact. 1 is reasonable.")]
 	public int fovBlurIterations;
 

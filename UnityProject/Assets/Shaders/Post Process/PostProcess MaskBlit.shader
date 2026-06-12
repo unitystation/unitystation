@@ -36,6 +36,7 @@
 			sampler2D _MainTex;
 			sampler2D _BackgroundTex;
 			sampler2D _ShadowTex;
+			sampler2D _ItemTex;
 
 			float4 _LightTransform;
 			float4 _OcclusionTransform;
@@ -65,11 +66,15 @@
 				float _obstacleMask = occlusionSample.r;
 			
 				fixed4 screen = tex2D(_MainTex, i.uv);
-				
+				fixed4 Item = tex2D(_ItemTex, i.uv);
+				fixed hasData = step(0.0001, Item.a); 
+				screen = lerp(screen, Item, hasData);
 				// Mix Background.
 				half4 background = tex2D(_BackgroundTex, i.uv);
+				//return  tex2D(_MainTex, i.uv);
+				//return tex2D(_ItemTex, i.uv);
+				//screen = screen + tex2D(_ItemTex, i.uv); //so We only do the item render once when it's doing shadows
 
-			
 				
 				half4 mixedLight = lightSample;
 				//Times the light so it's a little bit brighter, this is from the reduced range we have 0 to 0.66 = normal light 0.66 to 1 blown out light

@@ -202,6 +202,13 @@ namespace US13.Managers.MatrixManager
 			ActiveMatricesList.Clear();
 			movingMatrices.Clear();
 			wallsTileMaps.Clear();
+
+			foreach (var Intersection in trackedIntersections)
+			{
+				Intersection.Matrix1?.Matrix?.RelatedIntersections?.Remove(Intersection);
+				Intersection.Matrix2?.Matrix?.RelatedIntersections?.Remove(Intersection);
+			}
+
 			trackedIntersections.Clear();
 			InitializingMatrixes.Clear();
 		}
@@ -409,7 +416,8 @@ namespace US13.Managers.MatrixManager
 				return possibleMatrix;
 			}
 
-			for (int i = 0; i < Instance.ActiveMatricesList.Count; i++)
+			var ActiveMatricesCount = Instance.ActiveMatricesList.Count;
+			for (int i = 0; i < ActiveMatricesCount; i++)
 			{
 				var matrixInfo = Instance.ActiveMatricesList[i];
 				if (IsInMatrix(worldPos, isServer, matrixInfo))
@@ -440,7 +448,18 @@ namespace US13.Managers.MatrixManager
 			return null;
 		}
 
-		private static bool IsInMatrix(Vector3 worldPos, bool isServer, MatrixInfo matrixInfo)
+		public static bool IsInMatrixBound(Vector3 worldPos, MatrixInfo matrixInfo)
+		{
+			if (matrixInfo.WorldBounds.Contains(worldPos) == false)
+				return false;
+
+			if (matrixInfo.Matrix == Instance.spaceMatrix)
+				return false;
+
+			return true;
+		}
+
+		public static bool IsInMatrix(Vector3 worldPos, bool isServer, MatrixInfo matrixInfo)
 		{
 			if (matrixInfo.WorldBounds.Contains(worldPos) == false)
 				return false;

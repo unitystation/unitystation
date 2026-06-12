@@ -532,11 +532,19 @@ namespace US13.Tilemaps.Behaviours.Meta
 
 		private void ServerUpdateMe()
 		{
-			if (matrix.MatrixMove != null && matrix.MatrixMove.NetworkedMatrixMove.IsMoving)
+			if (matrix.MatrixMove.NetworkedMatrixMove.IsMoving && matrix.RelatedIntersections.Count > 0)
 			{
+				bool update = false;
+
 				foreach (MetaDataNode node in externalNodes.Keys)
 				{
-					subsystemManager.UpdateAt(node.LocalPosition);
+					foreach (var Intersection in matrix.RelatedIntersections)
+					{
+						if (Intersection.Rect.Contains(node.WorldPosition))
+						{
+							subsystemManager.UpdateAt(node.LocalPosition);
+						}
+					}
 				}
 			}
 		}

@@ -1123,7 +1123,7 @@ PrefabInstance:
         type: 3}
       propertyPath: CurrentsortingGroup
       value: 
-      objectReference: {fileID: 6682145752921394767}
+      objectReference: {fileID: 0}
     - target: {fileID: 44702923082529482, guid: 1291a5cb15d008c41bf0a373403f56b2,
         type: 3}
       propertyPath: spriteRenderer
@@ -1369,6 +1369,7 @@ PrefabInstance:
     - {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
     - {fileID: 720260447592516819, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
     - {fileID: 857808102172117800, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
+    - {fileID: 7782817179362649248, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
     m_RemovedGameObjects:
     - {fileID: 2256672254017660780, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
     m_AddedGameObjects:
@@ -1464,12 +1465,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!210 &6682145752921394767 stripped
-SortingGroup:
-  m_CorrespondingSourceObject: {fileID: 7782817179362649248, guid: 1291a5cb15d008c41bf0a373403f56b2,
-    type: 3}
-  m_PrefabInstance: {fileID: 3511082394880060143}
-  m_PrefabAsset: {fileID: 0}
 --- !u!212 &8149197489328545512 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 4732752304642126855, guid: 1291a5cb15d008c41bf0a373403f56b2,

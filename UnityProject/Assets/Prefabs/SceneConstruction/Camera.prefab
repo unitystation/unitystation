@@ -305,7 +305,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 694157223
+    m_Bits: 155452038
   m_RenderingPath: 1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -388,6 +388,12 @@ MonoBehaviour:
     backgroundLayers:
       serializedVersion: 2
       m_Bits: 16
+    LightingDisabledMainCameraLayers:
+      serializedVersion: 2
+      m_Bits: 694157191
+    LightingEnabledMainCameraLayers:
+      serializedVersion: 2
+      m_Bits: 155452038
     fovBlurIterations: 1
     fovBlurInterpolation: 6
     fovOcclusionSpread: 0.1
@@ -1386,7 +1392,7 @@ Camera:
   m_Depth: -3
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 32
   m_RenderingPath: 1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1470,7 +1476,7 @@ Camera:
   m_Depth: -3
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 3841
+    m_Bits: 538705665
   m_RenderingPath: 1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -1625,7 +1631,7 @@ Camera:
   m_Depth: -3
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 139776
+    m_Bits: 1180160
   m_RenderingPath: 1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

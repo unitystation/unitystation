@@ -945,6 +945,7 @@ namespace US13.Tilemaps.Behaviours.Objects
 		public void SetNewSortingLayer(int newLayerId, bool BoolReorderSorting = true)
 		{
 			if (Manager3D.Is3D) return;
+			if (CurrentsortingGroup == null) return;
 			CurrentsortingGroup.sortingLayerID = newLayerId;
 			if (BoolReorderSorting)
 			{

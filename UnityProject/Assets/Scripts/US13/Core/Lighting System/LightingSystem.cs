@@ -328,6 +328,8 @@ public class LightingSystem : MonoBehaviour
 		// Now validate other settings
 		ValidateMainCamera(mMainCamera, renderSettings);
 
+		mMainCamera.cullingMask = renderSettings.LightingEnabledMainCameraLayers;
+
 		if (mOcclusionRenderer == null)
 		{
 			mOcclusionRenderer = OcclusionMaskRenderer.InitializeMaskRenderer(gameObject, renderSettings.occlusionLayers, materialContainer.OcclusionMaskShader);
@@ -377,7 +379,7 @@ public class LightingSystem : MonoBehaviour
 		}
 
 		OnLightingSystemEnabled?.Invoke(false);
-
+		mMainCamera.cullingMask = renderSettings.LightingDisabledMainCameraLayers;
 		// Set object occlusion white, so occlusion dependent shaders will show appropriately while system is off.
 		Shader.SetGlobalTexture("_ObjectFovMask", Texture2D.whiteTexture);
 
@@ -445,6 +447,8 @@ public class LightingSystem : MonoBehaviour
 		mPostProcessingStack.ResetRenderingTextures(iParameters);
 		mBackgroundRenderer.ResetRenderingTextures(iParameters);
 		mShadowMaskRenderer.ResetRenderingTextures(iParameters);
+		UICamera.orthographicSize = iParameters.cameraOrthographicSize;
+		mMainCamera.orthographicSize = iParameters.cameraOrthographicSize;
 	}
 
 	private void OnPreRender()
@@ -697,7 +701,8 @@ public class LightingSystem : MonoBehaviour
 			_blitMaterial.SetVector("_AmbLightBloomSA", new Vector4(renderSettings.ambient, renderSettings.lightMultiplier, renderSettings.bloomSensitivity, renderSettings.bloomAdd));
 			_blitMaterial.SetFloat("_BackgroundMultiplier", renderSettings.backgroundMultiplier);
 
-			_blitMaterial.SetTexture("_ShadowTex",   mShadowMaskRenderer._pingRT);
+			_blitMaterial.SetTexture("_ItemTex",   mShadowMaskRenderer._ItemRT);
+			_blitMaterial.SetTexture("_ShadowTex",   mShadowMaskRenderer._pongRT);
 			_blitMaterial.SetFloat  ("_ShadowAlpha", ShadowMaskRenderer.shadowAlpha);
 
 

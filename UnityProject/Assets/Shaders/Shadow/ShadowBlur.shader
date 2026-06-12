@@ -100,7 +100,7 @@ Shader "Custom/ShadowBlur"
 
                 isTable = isTable - isWall - isObject;
                 //return (isTable,isTable,isTable,isTable);
-                fixed rWall   = rawAlpha * isWall;
+                fixed rWall   = isWall;
                
                 fixed bObject = rawAlpha * isObject;
                 
