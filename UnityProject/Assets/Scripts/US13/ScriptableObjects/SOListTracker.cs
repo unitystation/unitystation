@@ -1,13 +1,7 @@
 using System.Collections.Generic;
-using Chemistry;
 using ScriptableObjects;
 using UnityEditor;
 using UnityEngine;
-using US13.Items.Others;
-using US13.Items.Traits;
-using US13.ScriptableObjects.Atmospherics;
-using US13.ScriptableObjects.Audio;
-using US13.Systems.Ore_Generation;
 
 namespace US13.ScriptableObjects
 {
@@ -21,15 +15,8 @@ namespace US13.ScriptableObjects
 		[NaughtyAttributes.Button]
 		public void FindAllSOTrackers()
 		{
-			SOTrackers = new List<SOTracker>();
-			SOTrackers.AddRange(FindAssetsByType<SpriteDataSO>());
-			SOTrackers.AddRange(FindAssetsByType<ItemTrait>());
-			SOTrackers.AddRange(FindAssetsByType<GasSO>());
-			SOTrackers.AddRange(FindAssetsByType<Reagent>());
-			SOTrackers.AddRange(FindAssetsByType<RandomItemPool>());
-			SOTrackers.AddRange(FindAssetsByType<GasMixesSO>());
-			SOTrackers.AddRange(FindAssetsByType<OreGeneratorConfig>());
-			SOTrackers.AddRange(FindAssetsByType<AudioClipsArray>());
+			// t: matches derived types, so this picks up every SOTracker subclass automatically
+			SOTrackers = FindAssetsByType<SOTracker>();
 		}
 
 		public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object
