@@ -18,7 +18,7 @@ namespace US13.Clothing.Eyewear
 
 		public HUDHandler HUDHandler;
 
-		[SyncVar(hook = nameof(SyncCurrentStage))] private int currentStage;
+		[SyncVar(hook = nameof(SyncCurrentStage))] public int CurrentStage;
 
 		public void Awake()
 		{
@@ -54,7 +54,7 @@ namespace US13.Clothing.Eyewear
 		public void SyncCurrentStage(int oldStage, int newStage)
 		{
 			vampireHUDHandler.UpdateStage(newStage);
-			currentStage = newStage;
+			CurrentStage = newStage;
 		}
 
 		public void OnDestroy()
