@@ -17,6 +17,8 @@ MonoBehaviour:
   description: Upon closer examination, it's still dirt.
   LayerType: 4
   TileType: 7
+  tileTraits:
+  - {fileID: 11400000, guid: 006726278985403b9c6432779ce61539, type: 2}
   RequiredTiles: []
   Mass: 1
   floorTileSounds: {fileID: 11400000, guid: 8a557bb6a08766c489c5b59f51354498, type: 2}
