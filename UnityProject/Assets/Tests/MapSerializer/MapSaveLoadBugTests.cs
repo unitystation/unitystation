@@ -83,7 +83,7 @@ namespace Tests.MapSerializer
 			MapSerializerTestUtils.OpenEmptyMap();
 			MapSerializerTestUtils.LoadIntoFreshMatrix(MapSerializerTestUtils.DeserializeJson(json));
 
-			var loadedSwitch = Object.FindObjectsByType<GenericTriggerOutput>(FindObjectsSortMode.None).FirstOrDefault();
+			var loadedSwitch = Object.FindObjectsByType<GenericSwitch>(FindObjectsSortMode.None).FirstOrDefault();
 			Assert.IsNotNull(loadedSwitch, "Switch not found after reload");
 			var loadedSo = new SerializedObject(loadedSwitch);
 			var triggerProp = loadedSo.FindProperty("genericTriggerObjects");
