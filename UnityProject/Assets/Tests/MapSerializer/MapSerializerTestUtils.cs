@@ -57,10 +57,10 @@ namespace Tests.MapSerializer
 			return JsonConvert.SerializeObject(map, SaveSettings);
 		}
 
-		public static GameObject SpawnPrefab(string prefabPath)
+		public static GameObject SpawnPrefab(string prefabPath, Transform parent = null)
 		{
 			var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
-			return (GameObject)PrefabUtility.InstantiatePrefab(prefab);
+			return (GameObject)PrefabUtility.InstantiatePrefab(prefab, parent);
 		}
 
 		public static void RunCoroutineInEditor(IEnumerator coroutine)

@@ -115,11 +115,29 @@ namespace SecureStuff
 			FieldData ModField, int Index,
 			IPopulateIDRelation IPopulateIDRelation, bool IsServer = true, string AdditionalJumps = "")
 		{
-			var List = (Field.GetValue(Object) as IList);
+			bool isArray = Field.FieldType.IsArray;
+			var ListType = isArray
+				? Field.FieldType.GetElementType()
+				: Field.FieldType.GetGenericArguments()[0];
+
+			IList List;
+			if (isArray)
+			{
+				var existing = Field.GetValue(Object) as Array;
+				int newSize = (existing == null || existing.Length <= Index) ? Index + 1 : existing.Length;
+				var resized = Array.CreateInstance(ListType, newSize);
+				if (existing != null) Array.Copy(existing, resized, existing.Length);
+				Field.SetValue(Object, resized);
+				List = resized;
+			}
+			else
+			{
+				List = Field.GetValue(Object) as IList;
+			}
 
 			if (ModField.Data is "#removed#")
 			{
-				if (List.Count > Index)
+				if (!isArray && List.Count > Index)
 				{
 					List.RemoveAt(Index);
 				}
@@ -129,11 +147,9 @@ namespace SecureStuff
 
 			if (ModField.Data is "NULL" && string.IsNullOrEmpty(AdditionalJumps))
 			{
-				List[Index] = null; // never have to worry about value type because It can never be null on the map to
+				List[Index] = null;
 				return;
 			}
-
-			var ListType = Field.FieldType.GetGenericArguments()[0];
 
 			bool ScriptObject = typeof(ScriptableObject).IsAssignableFrom(ListType) &&
 			                    typeof(IHaveForeverID).IsAssignableFrom(ListType);
@@ -147,18 +163,11 @@ namespace SecureStuff
 			               && ListType.IsGenericType == false
 			               && ListType.IsDefined(typeof(System.SerializableAttribute));
 
-			while (List.Count <= Index)
-				//TODO Could be exploited? well You could just have a map with a million objects so idk xD
+			while (!isArray && List.Count <= Index)
 			{
 				if ((GameObject == false && Component == false && ScriptObject == false && IsClass) ||
 				    ListType.IsValueType)
 				{
-					//NOTEE is dangerous
-					//Is needed if it's a List of a class,
-					//so let's say some settings in a List, and you want to set an int inside of it,
-					//You have to make it to set it
-					//This is also to get to the right index value, And if it's nonnullble the level
-					//E,G if it's an int, You can't have a null int
 					List.Add(Activator.CreateInstance(ListType));
 				}
 				else
@@ -176,7 +185,14 @@ namespace SecureStuff
 				}
 				else
 				{
-					Loggy.Error($"List, object In a list with no Forever ID unknown modification ModField.name {ModField.Name} ModField.Data {ModField.Data} on Component {Root} ");
+					var Resolved = GetGameObjectPath(ModField.Data, IPopulateIDRelation, out bool AllLoaded);
+					if (AllLoaded == false)
+					{
+						IPopulateIDRelation.FlagSaveKey(RootID, Root, ModField);
+						return;
+					}
+
+					List[Index] = Resolved;
 				}
 			}
 			else if (Component)
@@ -806,28 +822,29 @@ namespace SecureStuff
 
 			bool IsReferencedObject = false;
 
-			if (typeof(GameObject).IsAssignableFrom(Field.FieldType.GetGenericArguments()[0]))
+			var ListType = Field.FieldType.IsArray
+				? Field.FieldType.GetElementType()
+				: Field.FieldType.GetGenericArguments()[0];
+
+			if (typeof(GameObject).IsAssignableFrom(ListType))
 			{
 				IsComponent = false;
 				isScriptableObject = false;
 				IsReferencedObject = true;
 			}
-			else if (typeof(Component).IsAssignableFrom(Field.FieldType.GetGenericArguments()[0]))
+			else if (typeof(Component).IsAssignableFrom(ListType))
 			{
 				IsComponent = true;
 				isScriptableObject = false;
 				IsReferencedObject = true;
 			}
-			else if (typeof(ScriptableObject).IsAssignableFrom(Field.FieldType.GetGenericArguments()[0]) &&
-			         typeof(IHaveForeverID).IsAssignableFrom(Field.FieldType.GetGenericArguments()[0]))
+			else if (typeof(ScriptableObject).IsAssignableFrom(ListType) &&
+			         typeof(IHaveForeverID).IsAssignableFrom(ListType))
 			{
 				IsComponent = false;
 				isScriptableObject = true;
 				IsReferencedObject = true;
 			}
-
-
-			var ListType = Field.FieldType.GetGenericArguments()[0];
 
 			bool IsClass = IsReferencedObject == false
 			               && ListType.IsValueType == false
@@ -1120,10 +1137,10 @@ namespace SecureStuff
 				}
 
 
-				if (Field.FieldType.IsGenericType && typeof(IEnumerable).IsAssignableFrom(Field.FieldType) &&
+				if ((Field.FieldType.IsArray ||
+				    (Field.FieldType.IsGenericType && typeof(IEnumerable).IsAssignableFrom(Field.FieldType) &&
 				    Field.FieldType.GetGenericTypeDefinition() != typeof(Dictionary<,>) &&
-				    Field.FieldType.GetGenericTypeDefinition() != typeof(HashSet<>))
-
+				    Field.FieldType.GetGenericTypeDefinition() != typeof(HashSet<>))))
 				{
 					ListHandleLoad(RootID, root, Field, Object, ModField, int.Parse(Index), IPopulateIDRelation,
 						IsServer, AdditionalJumps);
@@ -1419,12 +1436,12 @@ namespace SecureStuff
 
 					IEnumerable list = null;
 
-					if (Field.FieldType.IsGenericType &&
+					if (Field.FieldType.IsArray ||
+					    (Field.FieldType.IsGenericType &&
 					    typeof(IEnumerable).IsAssignableFrom(Field.FieldType) &&
 					    Field.FieldType.GetGenericTypeDefinition() != typeof(Dictionary<,>) &&
 					    typeof(IDictionary).IsAssignableFrom(Field.FieldType) == false &&
-					    Field.FieldType.GetGenericTypeDefinition() != typeof(HashSet<>))
-
+					    Field.FieldType.GetGenericTypeDefinition() != typeof(HashSet<>)))
 					{
 						ListHandleSave(AMonoSet, APrefabDefault, Field, FieldDatas, Prefix, UseInstance,
 							IPopulateIDRelation, OnGameObjectComponents,
@@ -1490,8 +1507,6 @@ namespace SecureStuff
 						}
 
 						var MonoSet = Field.GetValue(SpawnedInstance);
-						if (MonoSet == null) continue;
-
 
 						if (CheckAreSame(PrefabDefault, MonoSet, OnGameObjectComponents,
 							    AllGameObjectOnObject) == false)
@@ -1729,7 +1744,9 @@ namespace SecureStuff
 						}
 						else
 						{
-							//TODO Support game objects
+							IPopulateIDRelation.PopulateIDRelation(FieldDatas, FieldData,
+								GameObjectModified.transform, UseInstance);
+							return;
 						}
 					}
 				}

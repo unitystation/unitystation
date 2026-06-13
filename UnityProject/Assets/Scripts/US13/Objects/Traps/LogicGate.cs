@@ -3,6 +3,7 @@ using Logs;
 using Mirror;
 using UnityEngine;
 using US13.Core.Chat;
+using US13.Systems.Clearance;
 using US13.Core.Input_System.InteractionV2;
 using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Input_System.InteractionV2.Interfaces;
@@ -11,7 +12,7 @@ using US13.UI.Systems.Tooltips.HoverTooltips;
 
 namespace US13.Objects.Traps
 {
-	public class LogicGate : GenericTriggerOutput, ICheckedInteractable<HandApply>, IHoverTooltip
+	public class LogicGate : GenericTriggerOutput, ICheckedInteractable<HandApply>, IHoverTooltip, IGenericTrigger
 	{
 		[SerializeField] private LogicInput inputA, inputB;
 		[SerializeField] private LogicGateType gateType = LogicGateType.AND;
@@ -72,6 +73,23 @@ namespace US13.Objects.Traps
 			else ReleaseOutput();
 
 			outputHandler.SetSpriteVariant(state == !negateOutput ? 1 : 0);
+		}
+
+		public TriggerType TriggerType => TryRetrieveTrigger(out var t) ? t.TriggerType : TriggerType.Toggle;
+
+		public void OnTrigger()
+		{
+			if (TryRetrieveTrigger(out var trigger)) trigger.OnTrigger();
+		}
+
+		public void OnTriggerWithClearance(IClearanceSource source)
+		{
+			if (TryRetrieveTrigger(out var trigger)) trigger.OnTriggerWithClearance(source);
+		}
+
+		public void OnTriggerEnd()
+		{
+			if (TryRetrieveTrigger(out var trigger)) trigger.OnTriggerEnd();
 		}
 
 		public bool TryRetrieveTrigger(out IGenericTrigger trigger)
