@@ -255,9 +255,9 @@ namespace US13.UI.Objects.Shuttles
 		}
 
 
-		public void ToggleShuttleHandbrake(bool EngineSupport)
+		public void ToggleShuttleHandbrake(bool Handbrake)
 		{
-			shuttleConsole.EngineSupport = EngineSupport;
+			shuttleConsole.ShuttleMatrixMove.NetworkedMatrixMove.Handbrake = Handbrake;
 		}
 
 

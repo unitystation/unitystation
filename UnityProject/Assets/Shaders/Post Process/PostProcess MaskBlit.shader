@@ -67,8 +67,8 @@
 			
 				fixed4 screen = tex2D(_MainTex, i.uv);
 				fixed4 Item = tex2D(_ItemTex, i.uv);
-				screen.rgb = Item.rgb + screen.rgb * (1 - Item.a);
-				screen.a = saturate(Item.a + screen.a * (1 - Item.a));
+				fixed hasData = step(0.0001, Item.a); 
+				screen = lerp(screen, Item, hasData);
 				// Mix Background.
 				half4 background = tex2D(_BackgroundTex, i.uv);
 				//return  tex2D(_MainTex, i.uv);
