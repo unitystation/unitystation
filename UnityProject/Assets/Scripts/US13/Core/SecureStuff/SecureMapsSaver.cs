@@ -164,10 +164,17 @@ namespace SecureStuff
 			               && ListType.IsDefined(typeof(System.SerializableAttribute));
 
 			while (!isArray && List.Count <= Index)
+				//TODO Could be exploited? well You could just have a map with a million objects so idk xD
 			{
 				if ((GameObject == false && Component == false && ScriptObject == false && IsClass) ||
 				    ListType.IsValueType)
 				{
+					//NOTEE is dangerous
+					//Is needed if it's a List of a class,
+					//so let's say some settings in a List, and you want to set an int inside of it,
+					//You have to make it to set it
+					//This is also to get to the right index value, And if it's nonnullble the level
+					//E,G if it's an int, You can't have a null int
 					List.Add(Activator.CreateInstance(ListType));
 				}
 				else
