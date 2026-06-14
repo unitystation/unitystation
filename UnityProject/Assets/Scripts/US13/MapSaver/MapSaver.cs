@@ -2165,6 +2165,7 @@ namespace US13.MapSaver
 
 							individualObject.Children.Add(AnewindividualObject);
 							PrefabIndex++;
+							IDLocation++;
 						}
 						else
 						{
