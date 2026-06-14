@@ -34,16 +34,23 @@ namespace US13.Objects
 		public bool HasBatteries => batteries.Any();
 		public bool IsFull => batteryStorage.GetNextEmptySlot() == null;
 
-		private int currentCharge = 0;
-
 		public int CurrentCharge
 		{
-			get => currentCharge;
+			get
+			{
+				var watts = 0;
+				foreach (Battery battery in batteries.Values)
+				{
+					watts += battery.Watts;
+				}
+				return watts;
+			}
 			set
 			{
-				if (currentCharge == value) return;
+				var CurrentChargeCashing = CurrentCharge;
+				if (CurrentChargeCashing == value) return;
 
-				int amountToLose = currentCharge - value;
+				int amountToLose = CurrentChargeCashing - value;
 				bool isLoss = amountToLose > 0;
 
 				int amountToChange = isLoss ? amountToLose : -amountToLose;
@@ -56,7 +63,6 @@ namespace US13.Objects
 					if (amountToChange <= 0) break;
 				}
 
-				currentCharge = Math.Max(0, value);
 				OnChargeChanged?.Invoke();
 			}
 		}
@@ -85,7 +91,6 @@ namespace US13.Objects
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			batteries = new Dictionary<ItemSlot,Battery>();
-			currentCharge = 0;
 			foreach (var slot in batteryStorage.GetItemSlots())
 			{
 				slot.OnSlotContentsChangeServer.AddListener(() =>  BatteriesChange(slot));
@@ -100,14 +105,12 @@ namespace US13.Objects
 			{
 				if (batteries.ContainsKey(slot))
 				{
-					currentCharge = Math.Max(currentCharge,0) - batteries[slot].Watts;
 					batteries.Remove(slot);
 				}
 			}
 			else
 			{
 				batteries[slot] = battery;
-				currentCharge = Math.Max(currentCharge,0) + battery.Watts;
 			}
 
 			OnChargeChanged?.Invoke();

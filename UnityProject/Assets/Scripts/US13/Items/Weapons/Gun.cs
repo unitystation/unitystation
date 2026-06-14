@@ -978,10 +978,14 @@ namespace US13.Items.Weapons
 			}
 			else
 			{
-				LoadMagSound();
+
 				var magazine = mag;
 				var fromSlot = magazine.GetComponent<Pickupable>().ItemSlot;
-				Inventory.ServerTransfer(fromSlot, magSlot);
+				var Successful = Inventory.ServerTransfer(fromSlot, magSlot);
+				if (Successful)
+				{
+					LoadMagSound();
+				}
 			}
 		}
 

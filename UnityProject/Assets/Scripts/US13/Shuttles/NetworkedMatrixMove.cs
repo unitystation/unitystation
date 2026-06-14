@@ -172,6 +172,7 @@ namespace US13.Shuttles
 		public Vector3 WorldCurrentVelocity;
 
 		public float RCSDragMovement = 0.4f;
+		public float AIRCSDragMovement = 0.1f;
 		public float HandbrakeDrag = -0.5f;
 		public float CurrentTorque;
 
@@ -639,13 +640,26 @@ namespace US13.Shuttles
 			RcsMove(GlobalMoveDirection.LocalVector.ToOrientationEnum());
 		}
 
-		public void RcsMove(OrientationEnum GlobalMoveDirection)
+		public void RcsMove(OrientationEnum GlobalMoveDirection, bool ISAImove = false)
 		{
-			if (WorldCurrentVelocity.magnitude > RCSDragMovement || Mathf.Abs(CurrentTorque) > RCSDragMovement||
-			    TargetOrientation != OrientationEnum.Default)
+			if (ISAImove)
 			{
-				return;
+				if (WorldCurrentVelocity.magnitude >  AIRCSDragMovement || Mathf.Abs(CurrentTorque) > AIRCSDragMovement||
+				    TargetOrientation != OrientationEnum.Default)
+				{
+					return;
+				}
 			}
+			else
+			{
+				if (WorldCurrentVelocity.magnitude >  RCSDragMovement || Mathf.Abs(CurrentTorque) > RCSDragMovement||
+				    TargetOrientation != OrientationEnum.Default)
+				{
+					return;
+				}
+			}
+
+
 
 			bool HasThrusterDirection = false;
 			TheReusingSet.Clear();
@@ -1473,7 +1487,7 @@ namespace US13.Shuttles
 
 				if (Different.magnitude > 0.5f)
 				{
-					RcsMove(Different.normalized.ToOrientationEnum());
+					RcsMove(Different.normalized.ToOrientationEnum(), true);
 				}
 				else
 				{
