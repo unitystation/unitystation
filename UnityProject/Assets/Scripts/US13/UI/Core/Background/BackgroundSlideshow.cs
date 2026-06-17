@@ -1,4 +1,6 @@
-using System.Collections;
+using System;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace US13.UI.Core.Background
@@ -18,7 +20,7 @@ namespace US13.UI.Core.Background
 		[SerializeField] private bool randomOrder = true;
 
 		private int currentIndex = -1;
-		private Coroutine slideshowRoutine;
+		private CancellationTokenSource slideshowCancellation;
 
 		private void OnEnable()
 		{
@@ -26,35 +28,39 @@ namespace US13.UI.Core.Background
 			frontGroup.alpha = 1f;
 			backGroup.alpha = 0f;
 			frontLayer.Show(PickNextBackground());
-			slideshowRoutine = StartCoroutine(RunSlideshow());
+			slideshowCancellation = new CancellationTokenSource();
+			RunSlideshow(slideshowCancellation.Token).Forget();
 		}
 
 		private void OnDisable()
 		{
-			if (slideshowRoutine != null) StopCoroutine(slideshowRoutine);
+			slideshowCancellation?.Cancel();
+			slideshowCancellation?.Dispose();
+			slideshowCancellation = null;
 		}
 
-		private IEnumerator RunSlideshow()
+		private async UniTaskVoid RunSlideshow(CancellationToken cancellationToken)
 		{
-			while (true)
+			while (cancellationToken.IsCancellationRequested == false)
 			{
-				yield return WaitFor.Seconds(secondsPerImage);
-				yield return AdvanceToNextBackground();
+				await UniTask.Delay(TimeSpan.FromSeconds(secondsPerImage), cancellationToken: cancellationToken);
+				await AdvanceToNextBackground(cancellationToken);
 			}
 		}
 
-		private IEnumerator AdvanceToNextBackground()
+		private async UniTask AdvanceToNextBackground(CancellationToken cancellationToken)
 		{
 			backLayer.Show(PickNextBackground());
 			float time = 0f;
-			while (time < crossfadeSeconds)
+			while (time < crossfadeSeconds && cancellationToken.IsCancellationRequested == false)
 			{
 				time += Time.deltaTime;
 				float t = crossfadeSeconds > 0f ? Mathf.Clamp01(time / crossfadeSeconds) : 1f;
 				frontGroup.alpha = 1f - t;
 				backGroup.alpha = t;
-				yield return null;
+				await UniTask.Yield();
 			}
+			if (cancellationToken.IsCancellationRequested) return;
 			SwapLayers();
 		}
 
