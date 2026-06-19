@@ -4,7 +4,7 @@ using System.Collections;
  
 public class PlayerPrefsEditor : EditorWindow {
  
-    [MenuItem("Tools/Player Prefs Editor")]
+    [MenuItem("Tools/Windows/Player Prefs Editor")]
     public static void openWindow() {
  
         PlayerPrefsEditor window = (PlayerPrefsEditor)EditorWindow.GetWindow(typeof(PlayerPrefsEditor));

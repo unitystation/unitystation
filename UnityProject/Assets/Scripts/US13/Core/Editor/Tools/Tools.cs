@@ -421,7 +421,7 @@ namespace Core.Editor.Tools
 		}
 
 		//this is just for migrating from old way of setting wallmount directions to the new way
-		[MenuItem("Tools/Set Wallmount Directionals from Transforms")]
+		[MenuItem("Tools/Scene/Set Wallmount Directionals from Transforms")]
 		private static void FixWallmountDirectionals()
 		{
 			foreach (GameObject gameObject in SceneManager.GetActiveScene().GetRootGameObjects())
@@ -441,7 +441,7 @@ namespace Core.Editor.Tools
 		}
 
 		//this is just for migrating from old way of setting wall protrusion directions to the new way
-		[MenuItem("Tools/Set WallProtrusion Directionals from Transforms")]
+		[MenuItem("Tools/Scene/Set WallProtrusion Directionals from Transforms")]
 		private static void FixWallProtrusionDirectionals()
 		{
 			foreach (GameObject gameObject in SceneManager.GetActiveScene().GetRootGameObjects())
@@ -467,7 +467,7 @@ namespace Core.Editor.Tools
 		///
 		/// This is a script for making sure that's the case
 		/// </summary>
-		[MenuItem("Tools/Set All Object Local Rotations to Upright")]
+		[MenuItem("Tools/Scene/Set All Object Local Rotations to Upright")]
 		private static void SetAllObjectLocalRotationsUpright()
 		{
 			foreach (GameObject gameObject in SceneManager.GetActiveScene().GetRootGameObjects())
@@ -483,7 +483,7 @@ namespace Core.Editor.Tools
 		}
 
 		//they should always be upright unless they are directional.
-		[MenuItem("Tools/Set All non-directional Wallmount Sprite Rotations to Upright")]
+		[MenuItem("Tools/Scene/Set All non-directional Wallmount Sprite Rotations to Upright")]
 		private static void SetAllNonDirectionalWallmountSpriteRotationsUpright()
 		{
 			foreach (GameObject gameObject in SceneManager.GetActiveScene().GetRootGameObjects())
@@ -609,7 +609,7 @@ namespace Core.Editor.Tools
 		}
 
 
-		[MenuItem("Tools/Remove Missing Scripts")]
+		[MenuItem("Tools/Scene/Remove Missing Scripts")]
 		/// Courtesy of <see cref="https://answers.unity.com/questions/15225/how-do-i-remove-null-components-ie-missingmono-scr.html?childToView=1614734#answer-1614734"/>
 		private static void RemoveMissingScripts()
 		{

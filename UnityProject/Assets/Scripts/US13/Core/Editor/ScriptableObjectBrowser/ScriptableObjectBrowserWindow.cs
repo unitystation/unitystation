@@ -25,7 +25,7 @@ namespace US13.Core.Editor.ScriptableObjectBrowser
 		private const float DIVIDER_WIDTH = 4f;
 		private const float MIN_PANEL_WIDTH = 150f;
 
-		[MenuItem("Tools/ScriptableObject Browser %#o")] // Ctrl+Shift+O
+		[MenuItem("Tools/Windows/ScriptableObject Browser %#o")] // Ctrl+Shift+O
 		public static void OpenWindow()
 		{
 			// Capture the focused window before GetWindow shifts focus

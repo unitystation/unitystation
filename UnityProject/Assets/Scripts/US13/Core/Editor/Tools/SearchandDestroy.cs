@@ -15,7 +15,7 @@ public class SearchAndDestroy : EditorWindow
 	private Vector2 scroll;
 	private MonoScript targetComponent, lastChecked;
 
-	[MenuItem("Tools/Components: Search and Destroy")]
+	[MenuItem("Tools/Scene/Components: Search and Destroy")]
 	private static void Init()
 	{
 		SearchAndDestroy window = (SearchAndDestroy) GetWindow(typeof(SearchAndDestroy));

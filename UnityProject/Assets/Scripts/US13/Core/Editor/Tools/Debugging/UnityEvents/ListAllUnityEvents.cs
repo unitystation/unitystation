@@ -67,7 +67,7 @@ namespace US13.Core.Editor.Tools.Debugging.UnityEvents
 		private static readonly Color HeaderSepColor = new(0.35f, 0.35f, 0.35f);
 
 
-		[MenuItem("Tools/UnityEvent Scanner")]
+		[MenuItem("Tools/Windows/UnityEvent Scanner")]
 		public static void ShowWindow()
 		{
 			var win = GetWindow<UnityEventScanner>("UnityEvent Scanner");
