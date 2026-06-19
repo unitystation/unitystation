@@ -15,7 +15,7 @@ public class PrefabToAddressable : EditorWindow
 	private Dictionary<string, bool> labels;
 	private string[] assetsPaths;
 
-	[MenuItem("Tools/Prefab to Addressable Converter")]
+	[MenuItem("Tools/Assets/Prefab to Addressable Converter")]
 	private static void Init()
 	{
 		// Get existing open window or if none, make a new one:

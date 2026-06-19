@@ -23,7 +23,7 @@ namespace Assets.Scripts.Editor.Tools
 		GameObject rootObject;
 		private string[] assetsPaths;
 
-		[MenuItem("Tools/Addressables to GameObject Tree Converter")]
+		[MenuItem("Tools/Assets/Addressables to GameObject Tree Converter")]
 		private static void Init()
 		{
 			// Get existing open window or if none, make a new one:

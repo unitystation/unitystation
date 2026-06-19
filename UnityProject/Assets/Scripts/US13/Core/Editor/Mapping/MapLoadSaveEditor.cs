@@ -247,7 +247,7 @@ public class FileSelectorWindow : EditorWindow
                 GUILayout.Space(22);
             }
 
-            GUILayout.Label(MakeDisplayLabel(abs), GUILayout.Width(360));
+            GUILayout.Label(MakeDisplayLabel(abs), GUILayout.MinWidth(80), GUILayout.ExpandWidth(true));
             if (GUILayout.Button("Load", GUILayout.Width(50)))
             {
                 LoadFile(abs);

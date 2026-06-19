@@ -22,7 +22,7 @@ public static class PaletteGenerator
 	// Palettes are GameObjects that have two pieces: the parent GameObject that defines a grid, and a child
 	// GameObject (Layer1) that has a tilemap component.
 	// Code adapted from connect.unity.com/o/programmatically-generate-a-tilemap-palette
-	[MenuItem("Tools/Generate Tile Palettes")]
+	[MenuItem("Tools/Assets/Generate Tile Palettes")]
 	public static void GenerateTileMapPalette()
 	{
 		var basePath = Application.dataPath + "/Resources/Prefabs/";

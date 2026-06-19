@@ -44,7 +44,7 @@ namespace Util
 
 		public static SpriteCatalogue spriteCatalogue;
 
-		[MenuItem("Tools/Delete All Root GameObjects ^#q")]
+		[MenuItem("Tools/Scene/Delete All Root GameObjects ^#q")]
 		public static void DeleteAllRootGameObjects()
 		{
 			// Get all root GameObjects in the scene
@@ -560,7 +560,7 @@ UnityEngine";
 			AddressablePicker.Refresh();
 		}
 
-		[MenuItem("Tools/regenerateID parents of prefabs")]
+		[MenuItem("Tools/Assets/Regenerate ID Parents of Prefabs")]
 		public static void RegenerateIDparents()
 		{
 			var prefabs = LoadAllPrefabsOfType<PrefabTracker>("");
@@ -587,7 +587,7 @@ UnityEngine";
 
 		}
 
-		[MenuItem("Tools/---CompiledDammit!!!!!!!!! #&q")]
+		[MenuItem("Tools/Build/Force Recompile #&q")]
 		public static void CompiledDammit()
 		{
 			EditorPrefs.SetInt("kAutoRefresh", 1);
@@ -606,7 +606,7 @@ UnityEngine";
 		}
 
 
-		[MenuItem("Tools/𓀠 - 𓀠 - ConvertBuildToGoodFiles 𓀂 - 𓀂 -")]
+		[MenuItem("Tools/Build/Convert Build To Good Files")]
 		public static void ConvertBuildToGoodFiles()
 		{
 			PrepareWindows();
@@ -614,7 +614,7 @@ UnityEngine";
 			PrepareLinux();
 		}
 
-		[MenuItem("Tools/𓀠 𓀠 𓀠 𓀠 GenGoodFiles 𓀂 𓀂 𓀂 𓀂")]
+		[MenuItem("Tools/Build/Generate Good Files")]
 		public static void GenGoodFiles()
 		{
 
@@ -789,13 +789,13 @@ UnityEngine";
 			}
 		}
 
-		[MenuItem("Tools/StopAssetEditing")]
+		[MenuItem("Tools/Assets/Stop Asset Editing")]
 		public static void StopAssetEditing()
 		{
 			AssetDatabase.StopAssetEditing();
 		}
 
-		[MenuItem("Tools/StartAssetEditing")]
+		[MenuItem("Tools/Assets/Start Asset Editing")]
 		public static void StartAssetEditing()
 		{
 			AssetDatabase.StartAssetEditing();
