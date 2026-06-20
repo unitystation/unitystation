@@ -40,7 +40,7 @@ namespace US13.ChemistryComponents
 
 			var color = CurrentReagentMix.MixColor;
 			var colorDesc = TextUtils.ColorToString(color);
-			var units = Mathf.RoundToInt(ReagentMixTotal);
+			var units = Mathf.RoundToInt(Total);
 			var name = CurrentReagentMix.MixName;
 
 			if (ExamineAmount == ExamineAmountMode.APROXIMATE_AMOUNT)

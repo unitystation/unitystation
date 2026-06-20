@@ -51,7 +51,7 @@ namespace US13.Items.Tool
 			//just in case
 			if (reagentContainer == null) return;
 
-			if (reagentContainer.ReagentMixTotal < reagentsPerUse)
+			if (reagentContainer.Total < reagentsPerUse)
 			{
 				return;
 			}
@@ -73,7 +73,7 @@ namespace US13.Items.Tool
 
 		private IEnumerator Fire(List<Vector3Int> positionList, BodyPartType bodyPartAim)
 		{
-			if (reagentContainer != null && reagentContainer.ReagentMixTotal > 0.1)
+			if (reagentContainer != null && reagentContainer.Total > 0.1)
 			{
 				var Taking = reagentContainer.TakeReagents(reagentsPerUse);
 				Taking.Divide(positionList.Count);

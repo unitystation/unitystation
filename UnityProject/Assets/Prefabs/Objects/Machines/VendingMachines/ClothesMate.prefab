@@ -542,6 +542,12 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
+      propertyPath: InitialVendorContent.Array.data[101].Item
+      value: 
+      objectReference: {fileID: 620293813931578471, guid: 1d54c8f81f4934f4789ca2c80d6adb80,
+        type: 3}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
       propertyPath: InitialVendorContent.Array.data[10].Stock
       value: 3
       objectReference: {fileID: 0}
@@ -903,6 +909,11 @@ PrefabInstance:
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[100].Stock
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[101].Stock
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
@@ -1280,6 +1291,11 @@ PrefabInstance:
       propertyPath: InitialVendorContent.Array.data[100].ItemName
       value: Purple Bartender's Uniform
       objectReference: {fileID: 0}
+    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[101].ItemName
+      value: Baggy uniform
+      objectReference: {fileID: 0}
     - target: {fileID: 4998327886754794683, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: Sprite
@@ -1326,7 +1342,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: 36ebe3012ddb7214b9ade768a1d1bc32,
+      objectReference: {fileID: 21300012, guid: 36ebe3012ddb7214b9ade768a1d1bc32,
         type: 3}
     - target: {fileID: 9081061823247388186, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}

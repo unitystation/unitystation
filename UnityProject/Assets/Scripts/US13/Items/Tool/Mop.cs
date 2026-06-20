@@ -67,7 +67,7 @@ namespace US13.Items.Tool
 			}
 			else
 			{
-				if (reagentContainer.ReagentMixTotal < 1)
+				if (reagentContainer.Total < 1)
 				{
 					if (matrixInfo.MetaDataLayer.Get(localPos).ReagentsOnTile.Total == 0)
 					{
@@ -104,7 +104,7 @@ namespace US13.Items.Tool
 				}
 				else
 				{
-					if (reagentContainer.ReagentMixTotal < 1)
+					if (reagentContainer.Total < 1)
 					{
 						if (matrixInfo.MetaDataLayer.Get(localPos).ReagentsOnTile.Total == 0)
 						{

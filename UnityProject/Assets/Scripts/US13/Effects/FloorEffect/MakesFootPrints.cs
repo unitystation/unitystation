@@ -95,8 +95,8 @@ namespace US13.Effects.FloorEffect
 			var Reagents = me.RegisterPlayer.Matrix.MetaDataLayer.Get(CurrentLocal.RoundToInt())?.ReagentsOnTile;
 			spillContents.Add(Reagents.Take(Mathf.Min(Reagents.Total * 0.10f, spillContents.MaxCapacity - spillContents.CurrentReagentMix.Total)));
 
-			if (spillContents.ReagentMixTotal <= 0f) return;
-			bool useAll = spillContents.ReagentMixTotal < 0.1f;
+			if (spillContents.Total <= 0f) return;
+			bool useAll = spillContents.Total < 0.1f;
 
 
 			if (MatrixManager.IsSpaceAt(oldPosition, true) == false)
@@ -115,7 +115,7 @@ namespace US13.Effects.FloorEffect
 			    MatrixManager.IsSpaceAt(currentPosition, true) == false)
 			{
 				var reagents = spillContents.TakeReagents(
-					useAll ? spillContents.ReagentMixTotal : spillContents.ReagentMixTotal * 0.25f);
+					useAll ? spillContents.Total : spillContents.Total * 0.25f);
 
 				var localChange = currentPosition.ToLocal(me.RegisterPlayer.Matrix) - oldPosition.ToLocal(me.RegisterPlayer.Matrix);
 				var orientation = Orientation.FromAsEnum(localChange);

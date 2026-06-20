@@ -1533,5 +1533,25 @@
     ],
     "name": "Chem Dispenser (Machine Board)",
     "Item_ID": "c242e43da5bd5cb418a0cdccf5cf1358"
+  },
+  {
+    "Internal_ID": "Board_Med_Bed",
+    "Description": " A circuit board to Build a Med Bed.",
+    "Category": [
+      "Medical Machinery"
+    ],
+    "Materials": {
+      "Glass": 1000,
+      "Metal": 500
+    },
+    "Machinery_type": [
+      "CircuitImprinter"
+    ],
+    "Compatible_machinery": [
+      "Science",
+      "Medical"
+    ],
+    "name": "Med Bed (Machine Board)",
+    "Item_ID": "MachineBoardMedBed"
   }
 ]

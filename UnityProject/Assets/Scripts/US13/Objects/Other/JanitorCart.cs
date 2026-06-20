@@ -167,9 +167,9 @@ namespace US13.Objects.Other
 		public string HoverTip()
 		{
 			var status = "";
-			if (ReagentMixTotal >= MaxCapacity) status = "is full.";
-			if (ReagentMixTotal <= MaxCapacity) status = "is almost full.";
-			if (ReagentMixTotal <= MaxCapacity / 2) status = "is half full.";
+			if (Total >= MaxCapacity) status = "is full.";
+			if (Total <= MaxCapacity) status = "is almost full.";
+			if (Total <= MaxCapacity / 2) status = "is half full.";
 			if (IsEmpty) status = "is empty.";
 			return $"It appears that it {status}";
 		}

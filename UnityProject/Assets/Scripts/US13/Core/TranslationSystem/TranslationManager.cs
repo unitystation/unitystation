@@ -31,6 +31,7 @@ namespace US13.Core.TranslationSystem
 
 			TranslationSystem.AvailableLanguages = SecureStuff.AccessFile.DirectoriesOrFilesIn("", FolderType.Translation).Select(x => x.Replace(".json", "")).ToList();
 			TranslationSystem.AvailableLanguages.Add("English");
+			TranslationSystem.AvailableLanguages.Add("System");
 			//CurrentLanguage = "Welsh";
 
 

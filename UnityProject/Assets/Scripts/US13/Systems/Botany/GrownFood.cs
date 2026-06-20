@@ -115,7 +115,7 @@ namespace US13.Systems.Botany
 		public void Start()
 		{
 			if (isServer == false)return;
-			if (reagentContainer.ReagentMixTotal == 0)
+			if (reagentContainer.Total == 0)
 			{
 				if (SeedPacket.GetComponent<SeedPacket>() == null)
 				{
@@ -183,12 +183,12 @@ namespace US13.Systems.Botany
 
 		public void OnSlipOn(UniversalObjectPhysics WhoseSlipping)
 		{
-			reagentContainer.Spill(transform.position.RoundToInt(), reagentContainer.ReagentMixTotal);
+			reagentContainer.Spill(transform.position.RoundToInt(), reagentContainer.Total);
 		}
 
 		public void OnImpact(UniversalObjectPhysics Impact, Vector2 Force)
 		{
-			reagentContainer.Spill(transform.position.RoundToInt(), reagentContainer.ReagentMixTotal);
+			reagentContainer.Spill(transform.position.RoundToInt(), reagentContainer.Total);
 		}
 
 		public void SetPlantData(PlantData newData)
@@ -208,7 +208,7 @@ namespace US13.Systems.Botany
 
 			int hitsRemaining = 4 - hitCount;
 
-			float portion = reagentContainer.ReagentMixTotal / hitsRemaining;
+			float portion = reagentContainer.Total / hitsRemaining;
 
 			var InjectingReagents = reagentContainer.TakeReagents(portion);
 

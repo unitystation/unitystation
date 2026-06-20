@@ -286,7 +286,7 @@ namespace US13.UI.Systems.PreRound
 
 		private bool HasCharacters()
 		{
-			bool hasCharacters = PlayerManager.CharacterManager.ActiveCharacter != null;
+			bool hasCharacters = PlayerManager.CharacterManager.ActiveCharacter != null && PlayerManager.CharacterManager.ActiveCharacter.WasRandomlyGenerated == false;
 			if (hasCharacters)
 			{
 				return true;

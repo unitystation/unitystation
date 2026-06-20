@@ -423,6 +423,8 @@ namespace US13.Managers.UpdateManager
 			CashedDeltaTime = Time.deltaTime;
 			MidInvokeCalls = true;
 
+
+
 			for (int i = preCameraUpdateActions.Count - 1; i >= 0; i--)
 			{
 				if (i >= preCameraUpdateActions.Count) continue;

@@ -30,7 +30,7 @@ namespace US13.Items.Devices
 		IEnumerator SmartRelease()
 		{
 			int loopCount = 0;
-			while (ReagentContainer1.ReagentMixTotal + ReagentContainer2.ReagentMixTotal > 0)
+			while (ReagentContainer1.Total + ReagentContainer2.Total > 0)
 			{
 				var worldPos = objectPhysics.registerTile.WorldPosition;
 

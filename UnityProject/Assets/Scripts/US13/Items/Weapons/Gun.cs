@@ -978,10 +978,18 @@ namespace US13.Items.Weapons
 			}
 			else
 			{
-				LoadMagSound();
+
 				var magazine = mag;
 				var fromSlot = magazine.GetComponent<Pickupable>().ItemSlot;
-				Inventory.ServerTransfer(fromSlot, magSlot);
+				var Successful = Inventory.ServerTransfer(fromSlot, magSlot);
+				if (Successful)
+				{
+					LoadMagSound();
+				}
+				else
+				{
+					Chat.AddActionMsgToChat(gameObject, $" The {mag.ExpensiveName()} doesn't seem to quite fit into the {this.gameObject.ExpensiveName()} for some reason " );
+				}
 			}
 		}
 

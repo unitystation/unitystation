@@ -26,12 +26,14 @@ namespace US13.UI.Systems.AdminTools
 
 		[SerializeField] private Text JailText;
 
+		[SerializeField] private TMP_Text PlayerName = null;
+
 		public AdminPlayerEntry PlayerEntry { get; private set; }
 
 		public void SetData(AdminPlayerEntry entry)
 		{
 			PlayerEntry = entry;
-
+			PlayerName.text = $"{PlayerEntry.PlayerData.name} {PlayerEntry.PlayerData.uid}  {PlayerEntry.PlayerData.accountName}";
 			mentorButtonText.text = entry.PlayerData.hasMentorRole ? "<color=cyan>Remove Player Mentor</color>" : "<color=cyan>Make Player Mentor</color>";
 			mentorToggle.gameObject.SetActive(entry.PlayerData.hasMentorRole == false);
 

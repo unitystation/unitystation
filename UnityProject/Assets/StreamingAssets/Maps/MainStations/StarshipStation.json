@@ -85994,7 +85994,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -86288,7 +86288,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -86582,7 +86582,7 @@
                   "Name": "light - starshiplight",
                   "LocalPRS": "0┼0┼0┼24↔24↔1.5↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -86896,7 +86896,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -87370,7 +87370,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -88216,7 +88216,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -89285,7 +89285,7 @@
                   "Name": "light - starshiplight",
                   "LocalPRS": "0┼0┼0┼24↔24↔1.5↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -91224,7 +91224,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -91518,7 +91518,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -93739,7 +93739,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -108332,6 +108332,32 @@
             "SortPath": "Items"
           },
           {
+            "GitID": "8504cc9fdc81df24395c92c44de25dcf_3┼42┼0┼",
+            "PrefabID": "8504cc9fdc81df24395c92c44de25dcf",
+            "Name": "MedBed (1)",
+            "LocalPRS": "3┼42┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_6┼39┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
             "GitID": "86570587e3d5cba1e9ffdeead16603e4_3┼46┼0┼",
             "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "RandomPottedPlant (23)",
@@ -110978,6 +111004,14 @@
                   "ClassID": "APC@0",
                   "Data": [
                     {
+                      "Name": "connectedDevices#143",
+                      "Data": "8504cc9fdc81df24395c92c44de25dcf_6┼42┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#142",
+                      "Data": "8504cc9fdc81df24395c92c44de25dcf_3┼42┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
                       "Name": "connectedDevices#141",
                       "Data": "2a39aefa5aa903240b20a8b5a5185fbf_4┼36┼0┼@0@APCPoweredDevice@0"
                     },
@@ -111623,6 +111657,32 @@
               "Children": [
                 {
                   "ID": "0,3",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "8504cc9fdc81df24395c92c44de25dcf_6┼42┼0┼",
+            "PrefabID": "8504cc9fdc81df24395c92c44de25dcf",
+            "Name": "MedBed (2)",
+            "LocalPRS": "6┼42┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_6┼39┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -113801,7 +113861,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -114095,7 +114155,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -116891,7 +116951,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -122692,7 +122752,17 @@
             "PrefabID": "b735ab74dab174a4f90c79558cd51e43",
             "Name": "WeldingTool (1)",
             "LocalPRS": "19┼58┼0┼",
-            "SortPath": "Items"
+            "SortPath": "Items",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,3",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "e0f5d6ccb46435b4b95b586b0419df56_19┼59┼0┼",
@@ -124297,7 +124367,7 @@
                   "Name": "light - starshiplight",
                   "LocalPRS": "0┼0┼0┼24↔24↔1.5↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -135046,7 +135116,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -135340,7 +135410,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -135634,7 +135704,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -135928,7 +135998,7 @@
                   "Name": "light - starshiplight",
                   "LocalPRS": "0┼0┼0┼24↔24↔1.5↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -150490,7 +150560,7 @@
                   "Name": "light - starshiplight",
                   "LocalPRS": "0┼0┼0┼24↔24↔1.5↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -156037,7 +156107,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -158409,7 +158479,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -158703,7 +158773,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -180642,7 +180712,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -182984,7 +183054,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -183278,7 +183348,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -185532,7 +185602,7 @@
                   "Name": "light - starshiplight",
                   "LocalPRS": "0┼0┼0┼24↔24↔1.5↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -187066,7 +187136,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -188002,7 +188072,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -188476,7 +188546,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -188790,7 +188860,7 @@
                   "Name": "light - starshiplight",
                   "LocalPRS": "0┼0┼0┼24↔24↔1.5↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -189123,7 +189193,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -189417,7 +189487,7 @@
                   "Name": "light - spacelight",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -311495,7 +311565,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -311789,7 +311859,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -312083,7 +312153,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -312377,7 +312447,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -312671,7 +312741,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -312965,7 +313035,7 @@
                   "Name": "light - moonlight 65",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -313259,7 +313329,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -313553,7 +313623,7 @@
                   "Name": "light - moonlight 110",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -313847,7 +313917,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -314141,7 +314211,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -314435,7 +314505,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -314729,7 +314799,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -315023,7 +315093,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -315317,7 +315387,7 @@
                   "Name": "light - moonlight 65",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -315611,7 +315681,7 @@
                   "Name": "light - moonlight 110",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -315905,7 +315975,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -316199,7 +316269,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -316493,7 +316563,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -316787,7 +316857,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -317093,7 +317163,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -317418,7 +317488,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -317724,7 +317794,7 @@
                   "Name": "light - moonlight 65",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -318018,7 +318088,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -318312,7 +318382,7 @@
                   "Name": "light - moonlight 110",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -318606,7 +318676,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -318900,7 +318970,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -319194,7 +319264,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -319488,7 +319558,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -319782,7 +319852,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -320076,7 +320146,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -320370,7 +320440,7 @@
                   "Name": "light - moonlight 65",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -320664,7 +320734,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -320958,7 +321028,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -321252,7 +321322,7 @@
                   "Name": "light - moonlight 110",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -321546,7 +321616,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -321840,7 +321910,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -322134,7 +322204,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -322428,7 +322498,7 @@
                   "Name": "light - moonlight 110",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -322722,7 +322792,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -323016,7 +323086,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -323310,7 +323380,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -323604,7 +323674,7 @@
                   "Name": "light - moonlight 40",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -323898,7 +323968,7 @@
                   "Name": "light - moonlight 65",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -324192,7 +324262,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -324486,7 +324556,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -324780,7 +324850,7 @@
                   "Name": "light - moonlight 65",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -325137,7 +325207,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -325449,7 +325519,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -326783,7 +326853,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -327264,7 +327334,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -327813,7 +327883,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -328518,7 +328588,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -330440,7 +330510,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -330734,7 +330804,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -331028,7 +331098,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -331322,7 +331392,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -332377,46 +332447,6 @@
                   "ID": "0,1",
                   "Active": false,
                   "ClassDatas": []
-                },
-                {
-                  "ID": "0,2",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#1",
-                          "Data": "#removed#"
-                        },
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Syndicate"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "ID": "0,3",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "ClearanceRestricted@0",
-                      "Data": [
-                        {
-                          "Name": "requiredClearance#2",
-                          "Data": "#removed#"
-                        },
-                        {
-                          "Name": "requiredClearance#1",
-                          "Data": "#removed#"
-                        },
-                        {
-                          "Name": "requiredClearance#0",
-                          "Data": "Syndicate"
-                        }
-                      ]
-                    }
-                  ]
                 }
               ]
             }
@@ -333145,7 +333175,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -333439,7 +333469,7 @@
                   "Name": "light - moonlight 65",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -333832,7 +333862,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -334126,7 +334156,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -334757,7 +334787,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -335213,7 +335243,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -335537,7 +335567,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -335843,7 +335873,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -336137,7 +336167,7 @@
                   "Name": "light - moonlight 65",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -336431,7 +336461,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -336725,7 +336755,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -337019,7 +337049,7 @@
                   "Name": "light - moonlight 65",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -337313,7 +337343,7 @@
                   "Name": "light - moonlight 40",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -337607,7 +337637,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -337901,7 +337931,7 @@
                   "Name": "light - moonlight 110",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -338195,7 +338225,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -338489,7 +338519,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -338783,7 +338813,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -339077,7 +339107,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -339371,7 +339401,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -339665,7 +339695,7 @@
                   "Name": "light - moonlight 110",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -339959,7 +339989,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -340253,7 +340283,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -340547,7 +340577,7 @@
                   "Name": "light - moonlight 65",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -340841,7 +340871,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -341135,7 +341165,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -341447,7 +341477,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -341741,7 +341771,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -342057,7 +342087,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -342351,7 +342381,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -342645,7 +342675,7 @@
                   "Name": "light - moonlight 110",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -342939,7 +342969,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -343233,7 +343263,7 @@
                   "Name": "light - moonlight 65",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -343527,7 +343557,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -343821,7 +343851,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -344115,7 +344145,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -344409,7 +344439,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -344827,7 +344857,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -345121,7 +345151,7 @@
                   "Name": "light - moonlight 110",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -345440,7 +345470,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -345734,7 +345764,7 @@
                   "Name": "light - moonlight 65",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -346268,7 +346298,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -346587,7 +346617,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -346975,7 +347005,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -347269,7 +347299,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -347563,7 +347593,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -347857,7 +347887,7 @@
                   "Name": "light - moonlight 110",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -348151,7 +348181,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -348445,7 +348475,7 @@
                   "Name": "light - moonlight 65",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø32↔32↔2↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -348739,7 +348769,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -349033,7 +349063,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -349327,7 +349357,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -349621,7 +349651,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -349915,7 +349945,7 @@
                   "Name": "light - moonlight 145",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -473417,7 +473447,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -473717,7 +473747,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -474017,7 +474047,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -474311,7 +474341,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -474605,7 +474635,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -474905,7 +474935,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -475199,7 +475229,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -475761,7 +475791,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -476464,7 +476494,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -476902,7 +476932,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -477234,7 +477264,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -477933,7 +477963,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -478314,7 +478344,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -478627,7 +478657,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -479185,7 +479215,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -479479,7 +479509,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -479922,7 +479952,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -480390,7 +480420,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -480865,7 +480895,7 @@
                   "Name": "light - shade",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -481159,7 +481189,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -481465,7 +481495,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -482066,7 +482096,7 @@
                   "Name": "light - shade",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -483350,7 +483380,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -483737,7 +483767,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -485399,7 +485429,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -486257,7 +486287,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -489202,7 +489232,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -490250,7 +490280,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -491023,7 +491053,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -491398,7 +491428,7 @@
                   "Name": "light - shade",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -492079,7 +492109,7 @@
                   "Name": "light - shade",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -493991,7 +494021,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -494668,7 +494698,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -495213,7 +495243,7 @@
                   "Name": "light - shade",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -495989,7 +496019,7 @@
                   "Name": "light - shade",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -496283,7 +496313,7 @@
                   "Name": "light - shade",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -497343,7 +497373,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -498895,7 +498925,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -499229,7 +499259,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -499950,7 +499980,7 @@
                   "Name": "light - shade",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -502809,7 +502839,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -503103,7 +503133,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -503637,7 +503667,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -504611,7 +504641,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -505515,7 +505545,7 @@
                   "Name": "light - shade",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -505849,7 +505879,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -506514,7 +506544,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -507301,7 +507331,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -507741,7 +507771,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -508167,7 +508197,7 @@
                   "Name": "light - shade",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -508840,7 +508870,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -509483,7 +509513,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -509777,7 +509807,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -510173,7 +510203,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -511043,7 +511073,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -511343,7 +511373,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -511637,7 +511667,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -512045,7 +512075,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -512339,7 +512369,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -512633,7 +512663,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -512927,7 +512957,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -513221,7 +513251,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -513515,7 +513545,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -513878,7 +513908,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -514172,7 +514202,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -514478,7 +514508,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -514772,7 +514802,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -515066,7 +515096,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -515360,7 +515390,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",
@@ -515654,7 +515684,7 @@
                   "Name": "light - outside dome",
                   "LocalPRS": "0┼0┼0┼0ø0ø180ø16↔16↔1↔",
                   "ObjectLayer": 21,
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "ClassDatas": [
                     {
                       "ClassID": "Transform@0",

@@ -109,7 +109,7 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: e4eb608982005d94e9d3ab683cd83d7f,
     type: 2}
   randomInitialSprite: 0
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 4662714457359858051}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -194,6 +194,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: evidence bag
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialSize
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}

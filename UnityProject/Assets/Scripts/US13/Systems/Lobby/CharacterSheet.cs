@@ -50,6 +50,8 @@ public class CharacterSheet : ICloneable
 
 	public string Voice = "Male 01";
 
+	public bool WasRandomlyGenerated = false;
+
 	[Serializable]
 	public class CustomisationClass
 	{
@@ -329,6 +331,7 @@ public class CharacterSheet : ICloneable
 	{
 		CharacterSheet character = new CharacterSheet();
 
+		character.WasRandomlyGenerated = true;
 		if (speciesToChooseFrom == null || speciesToChooseFrom.Count == 0)
 		{
 			speciesToChooseFrom = RaceSOSingleton.GetPlayerSpecies();

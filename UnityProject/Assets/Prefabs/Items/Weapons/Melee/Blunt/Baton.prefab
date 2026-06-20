@@ -10,6 +10,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 7569679527290075565}
+    - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 95e694dba5ed9204a91e57dcb1951da9,
@@ -144,7 +149,7 @@ PrefabInstance:
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
@@ -157,6 +162,12 @@ PrefabInstance:
       propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
+        type: 2}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 24756d74c34ac6542a18111b9c16cccb,
         type: 2}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
@@ -253,6 +264,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: -8540259882413935037}
   m_SourcePrefab: {fileID: 100100000, guid: 93af1c166793efb498012ddc7370f8ec, type: 3}
+--- !u!212 &7569679527290075565 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 6036740337081534181, guid: 93af1c166793efb498012ddc7370f8ec,
+    type: 3}
+  m_PrefabInstance: {fileID: 4236242615490559816}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &7781396554342910705 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,

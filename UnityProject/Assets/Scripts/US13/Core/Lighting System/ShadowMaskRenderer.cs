@@ -146,6 +146,7 @@ public class ShadowMaskRenderer : MonoBehaviour
 		_newRenderTexture.name = "Table Mask";
 		_newRenderTexture.autoGenerateMips = false;
 		_newRenderTexture.useMipMap = false;
+		_newRenderTexture.filterMode = FilterMode.Point;
 
 		_tableRT = _newRenderTexture;
 
@@ -154,6 +155,7 @@ public class ShadowMaskRenderer : MonoBehaviour
 		_newRenderTexture.name = "Item";
 		_newRenderTexture.autoGenerateMips = false;
 		_newRenderTexture.useMipMap = false;
+		_newRenderTexture.filterMode = FilterMode.Point;
 
 		_ItemRT = _newRenderTexture;
 
@@ -161,6 +163,7 @@ public class ShadowMaskRenderer : MonoBehaviour
 		_newRenderTexture.name = "pong";
 		_newRenderTexture.autoGenerateMips = false;
 		_newRenderTexture.useMipMap = false;
+		_newRenderTexture.filterMode = FilterMode.Point;
 
 		_pongRT = _newRenderTexture;
 
@@ -169,6 +172,7 @@ public class ShadowMaskRenderer : MonoBehaviour
 		_newRenderTexture.name = "ping";
 		_newRenderTexture.autoGenerateMips = false;
 		_newRenderTexture.useMipMap = false;
+		_newRenderTexture.filterMode = FilterMode.Point;
 
 		_pingRT = _newRenderTexture;
 
@@ -177,11 +181,14 @@ public class ShadowMaskRenderer : MonoBehaviour
 		_newRenderTexture.name = "_WallRT";
 		_newRenderTexture.autoGenerateMips = false;
 		_newRenderTexture.useMipMap = false;
+		_newRenderTexture.filterMode = FilterMode.Point;
 
 		_WallRT = _newRenderTexture;
 
 
-
+		mShadowCamera.rect = iParameters.Rect;
+		mTableMaskCamera.rect = iParameters.Rect;
+		mWallMaskCamera.rect = iParameters.Rect;
 		mTableMaskCamera.orthographicSize = iParameters.cameraOrthographicSize;
 		mShadowCamera.orthographicSize = iParameters.cameraOrthographicSize;
 		mWallMaskCamera.orthographicSize = iParameters.cameraOrthographicSize;
@@ -189,6 +196,10 @@ public class ShadowMaskRenderer : MonoBehaviour
 
 	public void Render(Camera iCameraToMatch)
 	{
+
+		mShadowCamera.rect = iCameraToMatch.rect;
+		mTableMaskCamera.rect = iCameraToMatch.rect;
+		mWallMaskCamera.rect = iCameraToMatch.rect;
 
 		mTableMaskCamera.enabled = false;
 		mTableMaskCamera.backgroundColor = new Color(0, 0, 0, 0);

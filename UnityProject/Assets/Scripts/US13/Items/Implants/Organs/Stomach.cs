@@ -40,9 +40,9 @@ namespace US13.Items.Implants.Organs
 			//BloodContainer
 
 			float ToDigest = DigesterAmountPerSecond * RelatedPart.TotalModified;
-			if (StomachContents.ReagentMixTotal < ToDigest)
+			if (StomachContents.Total < ToDigest)
 			{
-				ToDigest = StomachContents.ReagentMixTotal;
+				ToDigest = StomachContents.Total;
 			}
 
 			var Digesting = StomachContents.TakeReagents(ToDigest);
@@ -72,7 +72,7 @@ namespace US13.Items.Implants.Organs
 				break;
 			}
 
-			return allFatFull && StomachContents.ReagentMixTotal > 0;
+			return allFatFull && StomachContents.Total > 0;
 		}
 
 		public void AddFat()

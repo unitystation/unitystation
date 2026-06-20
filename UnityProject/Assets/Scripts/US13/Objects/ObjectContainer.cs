@@ -307,6 +307,7 @@ namespace US13.Objects
 			}
 
 			onDrop?.Invoke();
+			OnObjectRetrieved?.Invoke(obj);
 		}
 
 		public void RetrieveObjects(Vector3? worldPosition)
@@ -326,6 +327,7 @@ namespace US13.Objects
 				RetrieveObject(entity, null);
 			}
 			storedObjects.Clear();
+
 		}
 
 		public void TransferObjectsTo(ObjectContainer container)

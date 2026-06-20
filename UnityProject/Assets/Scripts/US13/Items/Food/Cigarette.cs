@@ -187,7 +187,7 @@ namespace US13.Items.Food
 			reagentContainer.Temperature = 300;
 			var bigHit = (DMMath.Prob(50) ? 0.5f : 0.25f) * 10;
 			var burnReagent = reagentContainer.TakeReagents(bigHit);
-			Loggy.Error(reagentContainer.ReagentMixTotal.ToString());
+			Loggy.Error(reagentContainer.Total.ToString());
 			if (smoker != null)
 			{
 				smoker.PlayerScript.playerHealth.reagentPoolSystem.BloodPool.Add(burnReagent);
@@ -205,7 +205,7 @@ namespace US13.Items.Food
 					node.AddGasWithTemperature(gas, burnReagent.Total , Kelvin.FromC(30));
 				}
 			}
-			if (reagentContainer.ReagentMixTotal.Approx(0)) Burn();
+			if (reagentContainer.Total.Approx(0)) Burn();
 		}
 
 		public void OnInventoryMoveServer(InventoryMove info)

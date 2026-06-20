@@ -35,7 +35,7 @@ namespace US13.Detective
 			string ScanningName = "";
 
 
-			if (interaction.TargetObject.GetComponent<Attributes>() != null)
+			if (interaction.TargetObject != null)
 			{
 				appliedDetails = interaction.TargetObject.GetComponent<Attributes>().OrNull()?.AppliedDetails;
 				ScanningName = interaction.TargetObject.ExpensiveName() + " \n Clue ID " + interaction.TargetObject.gameObject.GetInstanceID();

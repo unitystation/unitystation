@@ -60,7 +60,7 @@ namespace US13.Items.Tool
 		{
 			if (ContentsSpriteHandler == null) return;
 			ContentsSpriteHandler.SetColor(LocalContainer.CurrentReagentMix.MixColor);
-			var Fraction = LocalContainer.ReagentMixTotal / LocalContainer.MaxCapacity;
+			var Fraction = LocalContainer.Total / LocalContainer.MaxCapacity;
 
 
 			if (Fraction >= 0.999f)
@@ -142,7 +142,7 @@ namespace US13.Items.Tool
 					$"{performer.PlayerScript.visibleName} injects a {this.name} into {LHB.gameObject.ExpensiveName()}");
 				if (ChangesSprite) SpriteHandler.SetCatalogueIndexSprite(SpiteEmptyIndex);
 
-				if (LocalContainer.ReagentMixTotal == 0)
+				if (LocalContainer.Total == 0)
 				{
 					SetSyringeState(true);
 				}
@@ -156,7 +156,7 @@ namespace US13.Items.Tool
 				Chat.AddCombatMsgToChat(performer.gameObject, $"You pull the blood from {LHB.gameObject.ExpensiveName()}",
 					$"{performer.PlayerScript.visibleName} pulls the blood from {LHB.gameObject.ExpensiveName()}");
 
-				if (LocalContainer.ReagentMixTotal == LocalContainer.MaxCapacity)
+				if (LocalContainer.Total == LocalContainer.MaxCapacity)
 				{
 					SetSyringeState( false);
 				}

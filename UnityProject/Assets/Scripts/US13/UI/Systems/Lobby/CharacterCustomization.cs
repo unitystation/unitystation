@@ -866,7 +866,7 @@ namespace US13.UI.Systems.Lobby
 
 			Loggy.Trace(JsonConvert.SerializeObject(bodyPartCustomisationStorage), Category.Character);
 			Loggy.Trace(JsonConvert.SerializeObject(ExternalCustomisationStorage), Category.Character);
-
+			currentCharacter.WasRandomlyGenerated = false;
 			characterSettingsWindow.SaveCharacter(currentCharacter);
 		}
 
