@@ -175,7 +175,7 @@ namespace US13.Objects.Medical
 			}
 			else
 			{
-				var Fraction = Container.ReagentMixTotal / Container.MaxCapacity;
+				var Fraction = Container.Total / Container.MaxCapacity;
 				if (Fraction > 0.8)
 				{
 					BagLevelSprite.SetCatalogueIndexSprite(6);

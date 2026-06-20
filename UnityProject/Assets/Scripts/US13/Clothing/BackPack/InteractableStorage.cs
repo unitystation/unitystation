@@ -340,6 +340,10 @@ namespace US13.Clothing.BackPack
 				{
 					return interaction.IsAltClick == false;
 				}
+				else
+				{
+					return false;
+				}
 			}
 			else
 			{

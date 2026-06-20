@@ -474,7 +474,7 @@ namespace US13.ChemistryComponents
 			TransferResult transferResult;
 
 			// save total ammount before mixing
-			var beforeMixTotal = target.ReagentMixTotal;
+			var beforeMixTotal = target.Total;
 			var afterMixTotal = beforeMixTotal + amount;
 
 			// check if container can hold sum of mixes amount

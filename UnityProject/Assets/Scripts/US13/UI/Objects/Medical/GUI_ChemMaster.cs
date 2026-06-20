@@ -145,8 +145,8 @@ namespace US13.UI.Objects.Medical
 			}
 			else
 			{
-				if (customTransferAmount > ChemMaster.Container.MaxCapacity - ChemMaster.Container.ReagentMixTotal)
-					customTransferAmount = ChemMaster.Container.MaxCapacity - ChemMaster.Container.ReagentMixTotal;
+				if (customTransferAmount > ChemMaster.Container.MaxCapacity - ChemMaster.Container.Total)
+					customTransferAmount = ChemMaster.Container.MaxCapacity - ChemMaster.Container.Total;
 				if (customTransferAmount > ChemMaster.Container.MaxCapacity)
 					customTransferAmount = ChemMaster.Container.MaxCapacity;
 				if (customTransferAmount > ChemMaster.GetBufferMix()[customTransferReagentCandidate])

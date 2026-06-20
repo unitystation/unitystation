@@ -159363,7 +159363,17 @@
             "GitID": "b735ab74dab174a4f90c79558cd51e43_55.95┼57.09┼0┼",
             "PrefabID": "b735ab74dab174a4f90c79558cd51e43",
             "Name": "WeldingTool (1)",
-            "LocalPRS": "55.95┼57.09┼0┼"
+            "LocalPRS": "55.95┼57.09┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,3",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "3edf81f4a32c4c348bad5bfe43e263fd_55.96┼46.05┼0┼",
@@ -173915,28 +173925,8 @@
                   "ID": "0,2",
                   "ClassDatas": [
                     {
-                      "ClassID": "SpriteHandler@0",
+                      "ClassID": "LightSpriteHandler@0",
                       "Data": [
-                        {
-                          "Name": "NetworkThis",
-                          "Data": "True"
-                        },
-                        {
-                          "Name": "randomInitialSprite",
-                          "Data": "False"
-                        },
-                        {
-                          "Name": "spriteRenderer",
-                          "Data": "NULL"
-                        },
-                        {
-                          "Name": "doReverseAnimation",
-                          "Data": "False"
-                        },
-                        {
-                          "Name": "pushTextureOnStartUp",
-                          "Data": "True"
-                        },
                         {
                           "Name": "initialVariantIndex",
                           "Data": "2"
@@ -173944,14 +173934,6 @@
                         {
                           "Name": "InitialColour",
                           "Data": "ÿÿÿÿ"
-                        },
-                        {
-                          "Name": "initialSortingOrder",
-                          "Data": "-1"
-                        },
-                        {
-                          "Name": "initialSortingLayerName",
-                          "Data": ""
                         }
                       ]
                     }
@@ -174858,6 +174840,10 @@
                 {
                   "ClassID": "APC@0",
                   "Data": [
+                    {
+                      "Name": "connectedDevices#6",
+                      "Data": "8504cc9fdc81df24395c92c44de25dcf_87┼61┼0┼@0@APCPoweredDevice@0"
+                    },
                     {
                       "Name": "connectedDevices#5",
                       "Data": "c21551dd992a57349973e4b5af103ca6_87┼53┼0┼@0@APCPoweredDevice@0"
@@ -176995,6 +176981,32 @@
             "PrefabID": "31d7f641274343343b94e59bce361843",
             "Name": "IV Drip (1)",
             "LocalPRS": "87┼57┼0┼"
+          },
+          {
+            "GitID": "8504cc9fdc81df24395c92c44de25dcf_87┼61┼0┼",
+            "PrefabID": "8504cc9fdc81df24395c92c44de25dcf",
+            "Name": "MedBed (2)",
+            "LocalPRS": "87┼61┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_84┼56┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "7ca27018ad6a1a04ab813ab2fbcc0236_87┼63┼0┼",
@@ -181505,6 +181517,32 @@
             }
           },
           {
+            "GitID": "8504cc9fdc81df24395c92c44de25dcf_92┼61┼0┼",
+            "PrefabID": "8504cc9fdc81df24395c92c44de25dcf",
+            "Name": "MedBed (1)",
+            "LocalPRS": "92┼61┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_96┼59┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
             "GitID": "0d553281bdfc0fd438b3f6c7db58688c_92┼62┼0┼",
             "PrefabID": "0d553281bdfc0fd438b3f6c7db58688c",
             "Name": "Vent - Medical Central Left - Gydsx",
@@ -185510,6 +185548,10 @@
                 {
                   "ClassID": "APC@0",
                   "Data": [
+                    {
+                      "Name": "connectedDevices#19",
+                      "Data": "8504cc9fdc81df24395c92c44de25dcf_92┼61┼0┼@0@APCPoweredDevice@0"
+                    },
                     {
                       "Name": "connectedDevices#18",
                       "Data": "c98a53d5a9352674c8d6b8146ea2979b_100┼60┼0┼@0@APCPoweredDevice@0"

@@ -136,7 +136,7 @@ namespace US13.UI.Objects.Medical
 					newListOfReagents.AppendLine($"{char.ToUpper(reagent.Key.Name[0])}{reagent.Key.Name.Substring(1)}");
 					newQuantityList.AppendLine($"{Math.Round(reagent.Value,1)}u");
 				}
-				Total.MasterSetValue($"{BoozeDispenser.Container.ReagentMixTotal}/{BoozeDispenser.Container.MaxCapacity} Units");
+				Total.MasterSetValue($"{BoozeDispenser.Container.Total}/{BoozeDispenser.Container.MaxCapacity} Units");
 				Reagents = newListOfReagents.ToString();
 				Quantitys = newQuantityList.ToString();
 			}

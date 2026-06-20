@@ -123193,6 +123193,10 @@
                       "Data": ""
                     },
                     {
+                      "Name": "InitialVendorContent#0@Item",
+                      "Data": "NULL"
+                    },
+                    {
                       "Name": "InitialVendorContent#0@Stock",
                       "Data": "0"
                     },
@@ -147473,6 +147477,58 @@
             }
           },
           {
+            "GitID": "8504cc9fdc81df24395c92c44de25dcf_86┼50┼0┼",
+            "PrefabID": "8504cc9fdc81df24395c92c44de25dcf",
+            "Name": "MedBed (2)",
+            "LocalPRS": "86┼50┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_90┼60┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "8504cc9fdc81df24395c92c44de25dcf_86┼53┼0┼",
+            "PrefabID": "8504cc9fdc81df24395c92c44de25dcf",
+            "Name": "MedBed (1)",
+            "LocalPRS": "86┼53┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_90┼60┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
             "GitID": "31d7f641274343343b94e59bce361843_86┼54┼0┼",
             "PrefabID": "31d7f641274343343b94e59bce361843",
             "Name": "IV Drip (1)",
@@ -148215,7 +148271,17 @@
             "GitID": "b735ab74dab174a4f90c79558cd51e43_86.84┼86.23┼0┼",
             "PrefabID": "b735ab74dab174a4f90c79558cd51e43",
             "Name": "WeldingTool (1)",
-            "LocalPRS": "86.84┼86.23┼0┼"
+            "LocalPRS": "86.84┼86.23┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,3",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_87┼23┼0┼",
@@ -151286,6 +151352,14 @@
                 {
                   "ClassID": "APC@0",
                   "Data": [
+                    {
+                      "Name": "connectedDevices#91",
+                      "Data": "8504cc9fdc81df24395c92c44de25dcf_86┼50┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#90",
+                      "Data": "8504cc9fdc81df24395c92c44de25dcf_86┼53┼0┼@0@APCPoweredDevice@0"
+                    },
                     {
                       "Name": "connectedDevices#89",
                       "Data": "ChemDispenser_80┼55┼0┼@0@APCPoweredDevice@0"
@@ -169263,7 +169337,7 @@
         {
           "Ver": "1.0.0",
           "Pos": "1,1,0",
-          "Size": "10.1,4,0"
+          "Size": "10,4,0"
         }
       ]
     },

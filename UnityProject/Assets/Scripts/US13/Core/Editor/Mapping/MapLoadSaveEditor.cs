@@ -25,7 +25,7 @@ public class FileSelectorWindow : EditorWindow
     // If loaded from file, stores the active file path for easy saving
     private string activeFilePath = "";
 
-    // For the paste json field in advanced accordian 
+    // For the paste json field in advanced accordian
     private string pasteJson = "";
 
     private bool showAdvanced = false;
@@ -289,7 +289,6 @@ public class FileSelectorWindow : EditorWindow
             var matricesBeforeLoad = new HashSet<MetaTileMap>(Object.FindObjectsByType<MetaTileMap>(FindObjectsSortMode.None));
             var mapData = JsonConvert.DeserializeObject<MapSaver.MapData>(json);
             RunCoroutineInEditor(MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData));
-            FocusSceneViewOnLoaded(matricesBeforeLoad);
             activeFilePath = sourcePathOrNull ?? "";
         }
         catch (Exception e)
@@ -320,21 +319,7 @@ public class FileSelectorWindow : EditorWindow
             }
         }
     }
-
-    private void FocusSceneViewOnLoaded(HashSet<MetaTileMap> matricesBeforeLoad)
-    {
-        SceneView view = SceneView.lastActiveSceneView;
-        if (view == null) return;
-
-        var newMatrices = Object.FindObjectsByType<MetaTileMap>(FindObjectsSortMode.None)
-            .Where(m => matricesBeforeLoad.Contains(m) == false)
-            .Select(m => (Object)m.gameObject)
-            .ToArray();
-        if (newMatrices.Length == 0) return;
-
-        Selection.objects = newMatrices;
-        view.FrameSelected();
-    }
+	
 
     private string SerializeScene()
     {

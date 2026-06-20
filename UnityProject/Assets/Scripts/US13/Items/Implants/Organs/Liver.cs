@@ -94,7 +94,7 @@ namespace US13.Items.Implants.Organs
 					{
 						float amount = Mathf.Min(tickPullProcessingAmnt, reagent.Value);
 						amount = Mathf.Min(amount,
-							(processingContainer.MaxCapacity - processingContainer.ReagentMixTotal) - drawnAmount);
+							(processingContainer.MaxCapacity - processingContainer.Total) - drawnAmount);
 						tempArray.Add(new Tuple<Reagent, float>(reagent.Key, amount));
 
 						if (processingContainer.IsFull)

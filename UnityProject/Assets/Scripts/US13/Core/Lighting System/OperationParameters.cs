@@ -12,11 +12,14 @@ public struct OperationParameters : IEquatable<OperationParameters>
 	public readonly PixelPerfectRTParameter UICameraPPRTParameter;
 	public readonly PixelPerfectRTParameter obstacleLightPPRTParameter;
 
+	public readonly Rect Rect;
+
 	private readonly Vector2Int cameraViewportUnitsCeiled;
 	private readonly Vector3 cameraViewportUnits;
 
 	public OperationParameters(Camera iCamera, RenderSettings iRenderSettings, bool iMatrixRotationMode)
 	{
+		Rect = iCamera.rect;
 		cameraOrthographicSize = iCamera.orthographicSize;
 		screenSize = new Vector2Int(Screen.width, Screen.height);
 

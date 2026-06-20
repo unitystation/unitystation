@@ -154895,6 +154895,32 @@
             }
           },
           {
+            "GitID": "8504cc9fdc81df24395c92c44de25dcf_103┼65┼0┼",
+            "PrefabID": "8504cc9fdc81df24395c92c44de25dcf",
+            "Name": "MedBed (2)",
+            "LocalPRS": "103┼65┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_108┼62┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
             "GitID": "c21551dd992a57349973e4b5af103ca6_103┼66┼0┼",
             "PrefabID": "c21551dd992a57349973e4b5af103ca6",
             "NameMatches": true,
@@ -157606,6 +157632,32 @@
             }
           },
           {
+            "GitID": "8504cc9fdc81df24395c92c44de25dcf_106┼65┼0┼",
+            "PrefabID": "8504cc9fdc81df24395c92c44de25dcf",
+            "Name": "MedBed (1)",
+            "LocalPRS": "106┼65┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_108┼62┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
             "GitID": "30fb7ca3bc404684697f10534d3eee73_106┼67┼0┼",
             "PrefabID": "30fb7ca3bc404684697f10534d3eee73",
             "NameMatches": true,
@@ -159048,6 +159100,14 @@
                 {
                   "ClassID": "APC@0",
                   "Data": [
+                    {
+                      "Name": "connectedDevices#23",
+                      "Data": "8504cc9fdc81df24395c92c44de25dcf_103┼65┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#22",
+                      "Data": "8504cc9fdc81df24395c92c44de25dcf_106┼65┼0┼@0@APCPoweredDevice@0"
+                    },
                     {
                       "Name": "connectedDevices#21",
                       "Data": "9f6a082ba93c5684b808b09619c08044_101┼67┼0┼@0@APCPoweredDevice@0"

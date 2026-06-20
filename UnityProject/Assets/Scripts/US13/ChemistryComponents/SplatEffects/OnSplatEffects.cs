@@ -51,7 +51,7 @@ namespace US13.ChemistryComponents.SplatEffects
 
 			foreach (var decal in splatList)
 			{
-				preexistingAmount += decal.ReagentContainer.ReagentMixTotal;
+				preexistingAmount += decal.ReagentContainer.Total;
 			}
 
 			if (preexistingAmount + reagents.Total <= 30)

@@ -113,6 +113,16 @@ namespace US13.UI.Core
 #endif
 		}
 
+		[NaughtyAttributes.Button("Assign Name as ID")]
+		public void ForceSetIDName()
+		{
+#if UNITY_EDITOR
+			// Can possibly change over time so need some prevention
+			foreverID = this.gameObject.name;
+			EditorUtility.SetDirty(gameObject);
+#endif
+		}
+
 		internal static string CreateString(int stringLength)
 		{
 			const string allowedChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz0123456789!$?_-";

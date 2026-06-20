@@ -89,10 +89,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: initialSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: initialDescription
       value: A device that scans objects for evidence. It might be useful for solving
         a few crimes!
       objectReference: {fileID: 0}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6155167666283412968}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -124,6 +134,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 9187857547426833143}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+--- !u!212 &6155167666283412968 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 6312338146352640526}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6312491956730580660 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,

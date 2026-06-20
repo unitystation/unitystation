@@ -82,12 +82,12 @@ namespace US13.Objects.Machines
 
 		public FryerBasket GetBasket(int index) => baskets[index];
 
-		public bool HasEnoughOil() => isServer ? container.ReagentMixTotal >= oilUse : hasOil;
+		public bool HasEnoughOil() => isServer ? container.Total >= oilUse : hasOil;
 
 		[Server]
 		private void RefreshHasOil()
 		{
-			hasOil = container.ReagentMixTotal >= oilUse;
+			hasOil = container.Total >= oilUse;
 		}
 
 		private void Awake()

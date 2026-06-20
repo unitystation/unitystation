@@ -192781,21 +192781,7 @@
             "Name": "PDAClear (1)",
             "LocalPRS": "-39.94┼221.21┼0┼0ø0ø76ø",
             "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ],
+              "ClassDatas": [],
               "Children": [
                 {
                   "ID": "0,1",
@@ -196997,7 +196983,17 @@
             "GitID": "b735ab74dab174a4f90c79558cd51e43_-13.93┼223.05┼0┼",
             "PrefabID": "b735ab74dab174a4f90c79558cd51e43",
             "Name": "WeldingTool (1)",
-            "LocalPRS": "-13.93┼223.05┼0┼"
+            "LocalPRS": "-13.93┼223.05┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,3",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "567c92f423be65e49becad1f3fc2dfb9_-13.87┼219.99┼0┼",
@@ -212556,19 +212552,6 @@
                       "Data": "It's worn down."
                     }
                   ]
-                },
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
                 }
               ]
             }
@@ -213326,24 +213309,7 @@
             "GitID": "591574bb7d99d2245b5f15166ea5be76_17┼229┼0┼",
             "PrefabID": "591574bb7d99d2245b5f15166ea5be76",
             "Name": "SecurityOfficersFormalUniform (7)",
-            "LocalPRS": "17┼229┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "17┼229┼0┼"
           },
           {
             "GitID": "9a4638db3f1fdcc44b7e61537fc7946b_17┼229┼0┼",
@@ -232479,24 +232445,7 @@
             "GitID": "771a0ac9953472f439625fb33efcfecc_32┼218┼0┼",
             "PrefabID": "771a0ac9953472f439625fb33efcfecc",
             "Name": "CaptainsParadeUniform (1)",
-            "LocalPRS": "32┼218┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "32┼218┼0┼"
           },
           {
             "GitID": "a340b01570aae8349b6c47fabfe0d4a3_32┼218┼0┼",
@@ -251061,24 +251010,7 @@
             "GitID": "b2a76017e4b77d74b8e17a458fea83c7_46.12┼167.89┼0┼",
             "PrefabID": "b2a76017e4b77d74b8e17a458fea83c7",
             "Name": "NightVisionSecurityHUD (1)",
-            "LocalPRS": "46.12┼167.89┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "46.12┼167.89┼0┼"
           },
           {
             "GitID": "49bec81fa6741b542b8f0245e0885d58_46.13┼237.06┼0┼",
@@ -254188,24 +254120,7 @@
             "GitID": "591574bb7d99d2245b5f15166ea5be76_49┼168┼0┼",
             "PrefabID": "591574bb7d99d2245b5f15166ea5be76",
             "Name": "SecurityOfficersFormalUniform (4)",
-            "LocalPRS": "49┼168┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "49┼168┼0┼"
           },
           {
             "GitID": "9a4638db3f1fdcc44b7e61537fc7946b_49┼168┼0┼",
@@ -255382,24 +255297,7 @@
             "GitID": "591574bb7d99d2245b5f15166ea5be76_50┼167┼0┼",
             "PrefabID": "591574bb7d99d2245b5f15166ea5be76",
             "Name": "SecurityOfficersFormalUniform (3)",
-            "LocalPRS": "50┼167┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "50┼167┼0┼"
           },
           {
             "GitID": "9a4638db3f1fdcc44b7e61537fc7946b_50┼167┼0┼",
@@ -256507,24 +256405,7 @@
             "GitID": "591574bb7d99d2245b5f15166ea5be76_51┼167┼0┼",
             "PrefabID": "591574bb7d99d2245b5f15166ea5be76",
             "Name": "SecurityOfficersFormalUniform (1)",
-            "LocalPRS": "51┼167┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "51┼167┼0┼"
           },
           {
             "GitID": "9a4638db3f1fdcc44b7e61537fc7946b_51┼167┼0┼",
@@ -258328,24 +258209,7 @@
             "GitID": "591574bb7d99d2245b5f15166ea5be76_52┼167┼0┼",
             "PrefabID": "591574bb7d99d2245b5f15166ea5be76",
             "Name": "SecurityOfficersFormalUniform (2)",
-            "LocalPRS": "52┼167┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "52┼167┼0┼"
           },
           {
             "GitID": "9a4638db3f1fdcc44b7e61537fc7946b_52┼167┼0┼",
@@ -260558,24 +260422,7 @@
             "GitID": "591574bb7d99d2245b5f15166ea5be76_53┼167┼0┼",
             "PrefabID": "591574bb7d99d2245b5f15166ea5be76",
             "Name": "SecurityOfficersFormalUniform (6)",
-            "LocalPRS": "53┼167┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "53┼167┼0┼"
           },
           {
             "GitID": "9a4638db3f1fdcc44b7e61537fc7946b_53┼167┼0┼",
@@ -262276,24 +262123,7 @@
             "GitID": "591574bb7d99d2245b5f15166ea5be76_54┼168┼0┼",
             "PrefabID": "591574bb7d99d2245b5f15166ea5be76",
             "Name": "SecurityOfficersFormalUniform (5)",
-            "LocalPRS": "54┼168┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "54┼168┼0┼"
           },
           {
             "GitID": "9a4638db3f1fdcc44b7e61537fc7946b_54┼168┼0┼",
@@ -263191,7 +263021,17 @@
             "GitID": "4ee49ace2bcf58745816b129ce7550e7_54┼255┼0┼",
             "PrefabID": "4ee49ace2bcf58745816b129ce7550e7",
             "Name": "IndustrialWeldingTool (2)",
-            "LocalPRS": "54┼255┼0┼"
+            "LocalPRS": "54┼255┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,3",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "bd3e0a412d65e934f966a366f85b4c85_54┼255┼0┼",
@@ -263481,7 +263321,17 @@
             "GitID": "4ee49ace2bcf58745816b129ce7550e7_54.001┼255┼0┼",
             "PrefabID": "4ee49ace2bcf58745816b129ce7550e7",
             "Name": "IndustrialWeldingTool (1)",
-            "LocalPRS": "54.001┼255┼0┼"
+            "LocalPRS": "54.001┼255┼0┼",
+            "Object": {
+              "ClassDatas": [],
+              "Children": [
+                {
+                  "ID": "0,3",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
           },
           {
             "GitID": "7f7934b263cb23040ade0147d14b39aa_54.001┼259┼0┼",
@@ -277570,24 +277420,7 @@
             "GitID": "0c722f8fdd00ce544b2dc844f4bfdb6e_65┼162┼0┼",
             "PrefabID": "0c722f8fdd00ce544b2dc844f4bfdb6e",
             "Name": "HeadOfSecuritysTurtleneck (1)",
-            "LocalPRS": "65┼162┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "65┼162┼0┼"
           },
           {
             "GitID": "16f85f74696a3ab4f8f689a2f6bf4912_65┼162┼0┼",
@@ -277599,47 +277432,13 @@
             "GitID": "19314a6c3ff60094ab4f800da1c585e1_65┼162┼0┼",
             "PrefabID": "19314a6c3ff60094ab4f800da1c585e1",
             "Name": "HeadOfSecuritysParadeUniformFemale (1)",
-            "LocalPRS": "65┼162┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "65┼162┼0┼"
           },
           {
             "GitID": "1c19022c926dd3a488a97c170d0a6199_65┼162┼0┼",
             "PrefabID": "1c19022c926dd3a488a97c170d0a6199",
             "Name": "HeadOfSecuritysTurtleneckSkirt (1)",
-            "LocalPRS": "65┼162┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "65┼162┼0┼"
           },
           {
             "GitID": "1e04b22eb6f17b7488ba5d9c748bcc91_65┼162┼0┼",
@@ -277657,24 +277456,7 @@
             "GitID": "4daa88757f3df1341bf5a2f93a68b542_65┼162┼0┼",
             "PrefabID": "4daa88757f3df1341bf5a2f93a68b542",
             "Name": "HeadOfSecuritysParadeUniformMale (1)",
-            "LocalPRS": "65┼162┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "65┼162┼0┼"
           },
           {
             "GitID": "70d3024fe9d901346a2e42c43833ceba_65┼162┼0┼",
@@ -277686,24 +277468,7 @@
             "GitID": "73168f92b78512c4286f7026c2b2b23e_65┼162┼0┼",
             "PrefabID": "73168f92b78512c4286f7026c2b2b23e",
             "Name": "HeadOfSecuritysGreyJumpsuit (1)",
-            "LocalPRS": "65┼162┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "65┼162┼0┼"
           },
           {
             "GitID": "ad3ecdf8072dda140ab102f01d1c388a_65┼162┼0┼",
@@ -277715,24 +277480,7 @@
             "GitID": "f6585ad95f0d0ef4d95e6829e22a7954_65┼162┼0┼",
             "PrefabID": "f6585ad95f0d0ef4d95e6829e22a7954",
             "Name": "HeadOfSecuritysFormalUniform (1)",
-            "LocalPRS": "65┼162┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "65┼162┼0┼"
           },
           {
             "GitID": "d5adca0fcb52e494899d53031792f69f_65┼164┼0┼",
@@ -303797,6 +303545,32 @@
             "LocalPRS": "86┼229┼0┼"
           },
           {
+            "GitID": "8504cc9fdc81df24395c92c44de25dcf_86┼232┼0┼",
+            "PrefabID": "8504cc9fdc81df24395c92c44de25dcf",
+            "Name": "Sleeper",
+            "LocalPRS": "86┼232┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_97┼231┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
             "GitID": "fde32c02abddc814f9366ff1fb21f234_86┼232┼0┼",
             "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
             "Name": "LightTubeFixture (1)",
@@ -303836,35 +303610,6 @@
                   "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "be26d178314bedc419e95cd4466da4e5_86┼233┼0┼",
-            "PrefabID": "be26d178314bedc419e95cd4466da4e5",
-            "NameMatches": true,
-            "Name": "Sleeper",
-            "LocalPRS": "86┼233┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_97┼231┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
                 }
               ]
             }
@@ -303910,9 +303655,8 @@
             }
           },
           {
-            "GitID": "be26d178314bedc419e95cd4466da4e5_86┼235┼0┼",
-            "PrefabID": "be26d178314bedc419e95cd4466da4e5",
-            "NameMatches": true,
+            "GitID": "8504cc9fdc81df24395c92c44de25dcf_86┼235┼0┼",
+            "PrefabID": "8504cc9fdc81df24395c92c44de25dcf",
             "Name": "Sleeper",
             "LocalPRS": "86┼235┼0┼",
             "Object": {
@@ -303925,15 +303669,13 @@
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_97┼231┼0┼@0@APC@0"
                     }
                   ]
-                },
+                }
+              ],
+              "Children": [
                 {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Left_By90"
-                    }
-                  ]
+                  "ID": "0,2",
+                  "Active": false,
+                  "ClassDatas": []
                 }
               ]
             }
@@ -307643,24 +307385,7 @@
             "GitID": "117ac7e69770bc945b3ecc06fd4ab94b_93┼217┼0┼",
             "PrefabID": "117ac7e69770bc945b3ecc06fd4ab94b",
             "Name": "MedicallEnvirosuit (3)",
-            "LocalPRS": "93┼217┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "93┼217┼0┼"
           },
           {
             "GitID": "40da152cd1bbfaf408bf3e00d63978cb_93┼217┼0┼",
@@ -308179,24 +307904,7 @@
             "GitID": "117ac7e69770bc945b3ecc06fd4ab94b_94┼213┼0┼",
             "PrefabID": "117ac7e69770bc945b3ecc06fd4ab94b",
             "Name": "MedicallEnvirosuit (4)",
-            "LocalPRS": "94┼213┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "94┼213┼0┼"
           },
           {
             "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_94┼213┼0┼",
@@ -308243,24 +307951,7 @@
             "GitID": "117ac7e69770bc945b3ecc06fd4ab94b_94┼217┼0┼",
             "PrefabID": "117ac7e69770bc945b3ecc06fd4ab94b",
             "Name": "MedicallEnvirosuit (2)",
-            "LocalPRS": "94┼217┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "94┼217┼0┼"
           },
           {
             "GitID": "40da152cd1bbfaf408bf3e00d63978cb_94┼217┼0┼",
@@ -308743,24 +308434,7 @@
             "GitID": "5a4f48d58142749de92013eb1e1d0523_95┼211┼0┼",
             "PrefabID": "5a4f48d58142749de92013eb1e1d0523",
             "Name": "GreyJumpsuit (3)",
-            "LocalPRS": "95┼211┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "95┼211┼0┼"
           },
           {
             "GitID": "aa1e5a44ff182415dac90bed74ef8bfa_95┼211┼0┼",
@@ -308778,24 +308452,7 @@
             "GitID": "117ac7e69770bc945b3ecc06fd4ab94b_95┼217┼0┼",
             "PrefabID": "117ac7e69770bc945b3ecc06fd4ab94b",
             "Name": "MedicallEnvirosuit (1)",
-            "LocalPRS": "95┼217┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "95┼217┼0┼"
           },
           {
             "GitID": "40da152cd1bbfaf408bf3e00d63978cb_95┼217┼0┼",
@@ -309345,24 +309002,7 @@
             "GitID": "5a4f48d58142749de92013eb1e1d0523_95.001┼211┼0┼",
             "PrefabID": "5a4f48d58142749de92013eb1e1d0523",
             "Name": "GreyJumpsuit (2)",
-            "LocalPRS": "95.001┼211┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "95.001┼211┼0┼"
           },
           {
             "GitID": "aa1e5a44ff182415dac90bed74ef8bfa_95.001┼211┼0┼",
@@ -309374,24 +309014,7 @@
             "GitID": "5a4f48d58142749de92013eb1e1d0523_95.002┼211┼0┼",
             "PrefabID": "5a4f48d58142749de92013eb1e1d0523",
             "Name": "GreyJumpsuit (1)",
-            "LocalPRS": "95.002┼211┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "95.002┼211┼0┼"
           },
           {
             "GitID": "aa1e5a44ff182415dac90bed74ef8bfa_95.002┼211┼0┼",
@@ -310761,6 +310384,14 @@
                   "ClassID": "APC@0",
                   "Data": [
                     {
+                      "Name": "connectedDevices#57",
+                      "Data": "8504cc9fdc81df24395c92c44de25dcf_86┼235┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
+                      "Name": "connectedDevices#56",
+                      "Data": "8504cc9fdc81df24395c92c44de25dcf_86┼232┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
                       "Name": "connectedDevices#55",
                       "Data": "395678b064fc78541b395e6c99f742d3_85┼226┼0┼@0@APCPoweredDevice@0"
                     },
@@ -310851,14 +310482,6 @@
                     {
                       "Name": "connectedDevices#33",
                       "Data": "2bb2787c427eb384ba89c9fd13ec823b_96┼224┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#32",
-                      "Data": "be26d178314bedc419e95cd4466da4e5_86┼235┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#31",
-                      "Data": "be26d178314bedc419e95cd4466da4e5_86┼233┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#30",
@@ -312273,24 +311896,7 @@
             "GitID": "02850781d993bb344b2a6ee5208fbcef_99.8┼230.05┼0┼",
             "PrefabID": "02850781d993bb344b2a6ee5208fbcef",
             "Name": "NightVisionMedicalHUD (1)",
-            "LocalPRS": "99.8┼230.05┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "99.8┼230.05┼0┼"
           },
           {
             "GitID": "f2432d244a6b7774ea00ff013beb7dcb_100┼208┼0┼",
@@ -313567,24 +313173,7 @@
             "GitID": "20b6b38ae2978ce478f9d412a545f03d_102.2┼226.2┼0┼",
             "PrefabID": "20b6b38ae2978ce478f9d412a545f03d",
             "Name": "GeneticsEnvirosuit (1)",
-            "LocalPRS": "102.2┼226.2┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemSlotActionTracker@0",
-                  "Data": [
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "SecureStuff.SerializedAction"
-                    },
-                    {
-                      "Name": "<ActionData>k__BackingField#US13.Actions.V2.ActionButtonData",
-                      "Data": "#removed#"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "102.2┼226.2┼0┼"
           },
           {
             "GitID": "c21551dd992a57349973e4b5af103ca6_103┼207┼0┼",

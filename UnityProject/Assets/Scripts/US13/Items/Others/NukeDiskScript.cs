@@ -23,7 +23,7 @@ namespace US13.Items.Others
 		private Pickupable pick;
 		private UniversalObjectPhysics ObjectPhysics;
 		private RegisterTile registerTile;
-		private BetterBoundsInt bound;
+		private BetterBounds bound => MatrixManager.MainStationMatrix.WorldBounds;
 		private EscapeShuttle escapeShuttle;
 
 		private float timeCheckDiskLocation = 5.0f;
@@ -49,7 +49,6 @@ namespace US13.Items.Others
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			bound = MatrixManager.MainStationMatrix.LocalBounds;
 			escapeShuttle = FindObjectOfType<EscapeShuttle>();
 			boundsConfigured = true;
 		}

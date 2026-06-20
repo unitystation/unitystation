@@ -152,13 +152,19 @@ PrefabInstance:
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
       propertyPath: 'initialTraits.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
+        type: 2}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 24756d74c34ac6542a18111b9c16cccb,
         type: 2}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}

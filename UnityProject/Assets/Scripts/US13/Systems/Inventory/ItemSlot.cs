@@ -360,7 +360,7 @@ namespace US13.Systems.Inventory
 			}
 
 			// go through this slot's ancestors and make sure none of them ARE toStore,
-			// as that would create a loop in the inventory hierarchy
+			// as that would create a loop in the inventory hierarchya
 			int count = 0;
 			while (storageToCheck != null)
 			{

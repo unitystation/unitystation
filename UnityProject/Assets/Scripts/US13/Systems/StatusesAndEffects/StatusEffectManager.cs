@@ -74,6 +74,8 @@ namespace US13.Systems.StatusesAndEffects
 		public void RemoveStatus(StatusEffect status)
 		{
 			if (status == false) return;
+			if (status == null) return;
+			if (gameObject == null ) return;
 			status.OnRemoved(gameObject);
 			Statuses.Remove(status);
 		}

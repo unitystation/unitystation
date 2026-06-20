@@ -70,7 +70,7 @@ namespace US13.Items.Medical
 			}
 
 
-			livingHealth.ApplyReagentsToSurface(AssociatedMix.TakeReagents(AssociatedMix.ReagentMixTotal),
+			livingHealth.ApplyReagentsToSurface(AssociatedMix.TakeReagents(AssociatedMix.Total),
 				interaction.TargetBodyPart);
 
 			_ = Despawn.ServerSingle(this.gameObject);

@@ -165,7 +165,7 @@ namespace US13.UI.Objects.Medical
 						$"{char.ToUpper(reagent.Key.Name[0])}{reagent.Key.Name.Substring(1)} - {reagent.Value} U \n";
 				}
 
-				TotalAndTemperature.MasterSetValue($"{ChemistryDispenser.Container.ReagentMixTotal}U @ {(ChemistryDispenser.Container.Temperature)}°K");
+				TotalAndTemperature.MasterSetValue($"{ChemistryDispenser.Container.Total}U @ {(ChemistryDispenser.Container.Temperature)}°K");
 			}
 			else
 			{

@@ -197,7 +197,7 @@ namespace DynamicOptions
 					OptionCategoryType = OptionCategoryType.Theme,
 					OnChangeAction = o => { DisplaySettings.Instance.ChatBubbleSize = (float) o; return ""; },
 					Show = () => { return true; },
-					Default = () => { return 2f; },
+					Default = () => { return 3f; },
 					UIParameters = () => { return (new  Vector2(1f, 5f), true); },
 				}},
 			{Option.ChatBubbleCharacterSpeed,

@@ -81,7 +81,7 @@ namespace US13.Items.Engineering
 
 		public void ServerPerformInteraction(AimApply interaction)
 		{
-			if (reagentContainer.ReagentMixTotal < reagentsPerUse || safety) return;
+			if (reagentContainer.Total < reagentsPerUse || safety) return;
 
 
 			Vector2 startPos = gameObject.AssumedWorldPosServer();

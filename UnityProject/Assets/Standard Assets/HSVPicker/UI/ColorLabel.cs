@@ -1,10 +1,11 @@
 ﻿using Standard_Assets.HSVPicker.Enums;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Standard_Assets.HSVPicker.UI
 {
-	[RequireComponent(typeof(Text))]
+	[RequireComponent(typeof(TMP_InputField))]
 	public class ColorLabel : MonoBehaviour
 	{
 		public ColorPicker picker;
@@ -17,11 +18,11 @@ namespace Standard_Assets.HSVPicker.UI
 
 		public int precision = 0;
 
-		private InputField inputField;
+		private TMP_InputField inputField;
 		private void Awake()
 		{
-			inputField = GetComponentInParent<InputField>();
-			inputField.characterValidation = InputField.CharacterValidation.Integer;
+			inputField = GetComponentInParent<TMP_InputField>();
+			inputField.characterValidation = TMP_InputField.CharacterValidation.Integer;
 		}
 
 		private void OnEnable()

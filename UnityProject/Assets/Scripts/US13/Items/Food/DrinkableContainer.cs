@@ -69,7 +69,7 @@ namespace US13.Items.Food
 				return;
 			}
 			// Check if container is empty
-			var reagentUnits = container.ReagentMixTotal;
+			var reagentUnits = container.Total;
 			if (reagentUnits <= 0f)
 			{
 				Chat.AddExamineMsgFromServer(eater.gameObject, $"The {gameObject.ExpensiveName()} is empty.");

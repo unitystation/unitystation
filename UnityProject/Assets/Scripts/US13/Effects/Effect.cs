@@ -79,7 +79,7 @@ namespace US13.Effects
 			if (targetVector != Vector2.zero)
 			{
 				var angle = Orientation.AngleFromUp(targetVector);
-				particleSystem.transform.rotation = Quaternion.Euler(0, 0, -angle + 90);
+				particleSystem.transform.localRotation = Quaternion.Euler(0, 0, -angle + 90);
 			}
 
 			if (parentObject != null)

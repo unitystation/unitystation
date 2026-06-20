@@ -20,9 +20,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
       objectReference: {fileID: 11400000, guid: 6a4809b7ecef7e9449202779c8b14f28,
+        type: 2}
+    - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ea2ea6a9b2c21e04982d9849d57f5bbe,
         type: 2}
     - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
         type: 3}
@@ -47,6 +58,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
         type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 6a4809b7ecef7e9449202779c8b14f28,
+        type: 2}
+    - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
       propertyPath: inventoryRemoveSound.AssetAddress
       value: null
       objectReference: {fileID: 0}
@@ -55,6 +72,12 @@ PrefabInstance:
       propertyPath: itemSprites.LeftHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: edfca00962129a0438c4ddada6dda532, type: 3}
+    - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ee1e66cdeda20c844ab4de7a9f912b7e,
+        type: 2}
     - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
         type: 3}
       propertyPath: itemSprites.RightHand.EquippedData
@@ -212,7 +235,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8353856902336572762, guid: fb073eb335539484b90e5bd9a3dbc4d0,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 6778981905932996007}
+    - target: {fileID: 8353856902336572762, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c44ee4418c1c36478ea4974eaeec351,
+        type: 2}
+    - target: {fileID: 8353856902336572762, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 4c44ee4418c1c36478ea4974eaeec351,
         type: 2}
@@ -231,3 +265,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fb073eb335539484b90e5bd9a3dbc4d0, type: 3}
+--- !u!212 &6778981905932996007 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2619184293417641345, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+    type: 3}
+  m_PrefabInstance: {fileID: 8812135019727235110}
+  m_PrefabAsset: {fileID: 0}

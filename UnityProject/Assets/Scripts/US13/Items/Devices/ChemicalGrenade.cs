@@ -153,7 +153,7 @@ namespace US13.Items.Devices
 
 		private IEnumerator TimeExplode(GameObject originator)
 		{
-			if (ReagentContainer1.ReagentMixTotal == 0 && ReagentContainer2.ReagentMixTotal == 0)
+			if (ReagentContainer1.Total == 0 && ReagentContainer2.Total == 0)
 			{
 				Chat.AddExamineMsg(originator, "You try to activate the grenade, but the mechanism prevents you from doing so. " +
 				                               "It seems like both reagent containers are empty.");
@@ -207,8 +207,8 @@ namespace US13.Items.Devices
 				BlastData blastData = new BlastData();
 				float internalEnergy = ReagentContainer1.CurrentReagentMix.InternalEnergy + ReagentContainer2.CurrentReagentMix.InternalEnergy;
 
-				ReagentContainer1.TransferTo(ReagentContainer1.ReagentMixTotal, mixedReagentContainer, false); //We use false to ensure the reagents do not react before we can obtain our blast data
-				ReagentContainer2.TransferTo(ReagentContainer2.ReagentMixTotal, mixedReagentContainer, false);
+				ReagentContainer1.TransferTo(ReagentContainer1.Total, mixedReagentContainer, false); //We use false to ensure the reagents do not react before we can obtain our blast data
+				ReagentContainer2.TransferTo(ReagentContainer2.Total, mixedReagentContainer, false);
 				ReagentContainer1.ReagentsChanged(true);
 				ReagentContainer1.OnReagentMixChanged?.Invoke();
 				ReagentContainer2.ReagentsChanged(true);
