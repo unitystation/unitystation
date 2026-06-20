@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using US13.Objects.Medical;
 using US13.Systems.Botany;
 using US13.UI.Core;
 using US13.UI.Objects.Botany.PlantDNAManipulator;

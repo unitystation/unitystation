@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using US13.Objects.Medical;
 using US13.UI.Core.Net.Elements;
 using US13.UI.Core.Net.Elements.Dynamic;
 
