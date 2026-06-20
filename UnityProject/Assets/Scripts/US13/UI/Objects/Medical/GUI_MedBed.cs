@@ -9,12 +9,13 @@ using US13.Objects.Closets;
 using US13.Objects.Medical;
 using US13.UI.Core.Net;
 using US13.UI.Core.Net.Elements;
-using US13.UI.Core.Net.Page;
-using Util;
+using US13.UI.Objects.MedBed;
 
-public class GUI_MedBed : NetTab
+namespace US13.UI.Objects.Medical
 {
-		public MedBed MedBed;
+	public class GUI_MedBed : NetTab
+	{
+		public US13.Objects.Medical.MedBed MedBed;
 
 		public NetText_label limbName;
 		public NetText_label limbBurn;
@@ -56,7 +57,7 @@ public class GUI_MedBed : NetTab
 			{
 				yield return WaitFor.EndOfFrame;
 			}
-			MedBed = Provider.GetComponentInChildren<MedBed>();
+			MedBed = Provider.GetComponentInChildren<US13.Objects.Medical.MedBed>();
 			MedBed.RegisterGUI(this);
 
 
@@ -110,7 +111,7 @@ public class GUI_MedBed : NetTab
 				limbToxin.MasterSetValue($"{ (float)Math.Round((double)limb.Toxin, 2)}");
 			}
 			else
-            {
+			{
 				limbName.MasterSetValue("---");
 				limbBrute.MasterSetValue("0");
 				limbBurn.MasterSetValue("0");
@@ -120,23 +121,23 @@ public class GUI_MedBed : NetTab
 		}
 
 		public void OrganRecord(BodyPart limb)
-        {
+		{
 			foreach(NetText_label button in organButtons)
-            {
+			{
 				button.MasterSetValue("");
-            }
+			}
 
 			if (limb == null) return;
 
 			var i = 0;
 			foreach(var organ in limb.ContainBodyParts)
-            {
-	            if(organButtons.Length <= i) continue;
+			{
+				if(organButtons.Length <= i) continue;
 				organButtons[i].MasterSetValue($"{organ.name}");
 				organList.Add(organ);
 				i++;
-            }
-        }
+			}
+		}
 
 		//so you can't click buttons through tab
 		private bool tabIsOpen = false;
@@ -169,24 +170,24 @@ public class GUI_MedBed : NetTab
 			tabOxygen.MasterSetValue("");
 			tabBleeding.MasterSetValue("");
 			tabIsOpen = false;
-        }
+		}
 
 
 		public void LimbInspection(int limbType)
-        {
-	        foreach (var  limbs in MedBed.LivingHealthMasterBase.SurfaceBodyParts)
-	        {
-		        if ((BodyPartType)limbType == limbs.BodyPartType)
-		        {
-			        LimbRecord(limbs);
-			        OrganRecord(limbs);
-			        return;
-		        }
-	        }
+		{
+			foreach (var  limbs in MedBed.LivingHealthMasterBase.SurfaceBodyParts)
+			{
+				if ((BodyPartType)limbType == limbs.BodyPartType)
+				{
+					LimbRecord(limbs);
+					OrganRecord(limbs);
+					return;
+				}
+			}
 
-	        LimbRecord(null);
-	        OrganRecord(null);
-        }
+			LimbRecord(null);
+			OrganRecord(null);
+		}
 
 		/*
 		 overlays array is ordered to match BodyPartType enums
@@ -198,16 +199,16 @@ public class GUI_MedBed : NetTab
 			LeftLeg = 5,
 		 */
 		public void SetOverlays()
-        {
-	        if (MedBed.LivingHealthMasterBase == null)
-	        {
-		        return;
-	        }
+		{
+			if (MedBed.LivingHealthMasterBase == null)
+			{
+				return;
+			}
 
 			foreach(NetColorChanger overlay in overlays)
-            {
+			{
 				overlay.MasterSetValue(Color.clear);
-            }
+			}
 
 			for (int i = 0; i < 6; i++)
 			{
@@ -226,7 +227,7 @@ public class GUI_MedBed : NetTab
 				// the addition give you the severity of that limb type
 				int arrayPosition = i * 6;
 				if (surfaceBodyPart == null)
-                {
+				{
 					arrayPosition += 5;
 					overlays[arrayPosition].MasterSetValue(Color.white);
 					continue;
@@ -272,4 +273,5 @@ public class GUI_MedBed : NetTab
 			Control.SetDoor(Control.IsOpen ? ClosetControl.Door.Closed : ClosetControl.Door.Opened);
 		}
 
+	}
 }
