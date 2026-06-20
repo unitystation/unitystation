@@ -986,6 +986,10 @@ namespace US13.Items.Weapons
 				{
 					LoadMagSound();
 				}
+				else
+				{
+					Chat.AddActionMsgToChat(gameObject, $" The {mag.ExpensiveName()} doesn't seem to quite fit into the {this.gameObject.ExpensiveName()} for some reason " );
+				}
 			}
 		}
 

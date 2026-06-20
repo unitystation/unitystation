@@ -1,30 +1,30 @@
 using System.Collections.Generic;
-using UnityEngine;
-using US13.Objects.Medical;
-using US13.Systems.Botany;
 using US13.UI.Core;
-using US13.UI.Objects.Botany.PlantDNAManipulator;
+using US13.UI.Objects.Medical;
 
-public class ChemicalInjection_List : EmptyItemList
+namespace US13.UI.Objects.MedBed
 {
-	public GUI_ChemicalInjection AddElementReagent(MedBed.ReagentReGenAndCap ReagentReGenAndCap,GUI_MedBed TParent)
+	public class ChemicalInjection_List : EmptyItemList
 	{
-		var NewElement  = AddItem() as GUI_ChemicalInjection;
-		NewElement.SetUp(ReagentReGenAndCap, TParent);
-		return NewElement;
-	}
-
-	public List<GUI_ChemicalInjection> GetElements()
-	{
-
-		List<GUI_ChemicalInjection> ToReturn = new List<GUI_ChemicalInjection>();
-
-		foreach (var Entry in Entries)
+		public GUI_ChemicalInjection AddElementReagent(US13.Objects.Medical.MedBed.ReagentReGenAndCap ReagentReGenAndCap,GUI_MedBed TParent)
 		{
-			ToReturn.Add(Entry as GUI_ChemicalInjection);
+			var NewElement  = AddItem() as GUI_ChemicalInjection;
+			NewElement.SetUp(ReagentReGenAndCap, TParent);
+			return NewElement;
 		}
 
-		return ToReturn;
+		public List<GUI_ChemicalInjection> GetElements()
+		{
 
+			List<GUI_ChemicalInjection> ToReturn = new List<GUI_ChemicalInjection>();
+
+			foreach (var Entry in Entries)
+			{
+				ToReturn.Add(Entry as GUI_ChemicalInjection);
+			}
+
+			return ToReturn;
+
+		}
 	}
 }

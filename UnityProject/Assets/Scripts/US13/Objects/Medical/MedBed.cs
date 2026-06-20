@@ -7,6 +7,7 @@ using US13.HealthV2.Living;
 using US13.Managers.UpdateManager;
 using US13.Objects.Engineering;
 using US13.Systems.Electricity.Interfaces;
+using US13.UI.Objects.Medical;
 using Util;
 
 namespace US13.Objects.Medical
