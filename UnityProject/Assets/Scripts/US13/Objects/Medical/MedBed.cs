@@ -121,12 +121,17 @@ public class MedBed : MonoBehaviour, IAPCPowerable
     // Update is called once per frame
     void UpdateMe()
     {
-	    foreach (var ReagentGen in ReagentsGen)
+	    if (power)
 	    {
-		    if ((ReagentGen.CurrentReagents >= ReagentGen.ReagentCap) == false)
+		    foreach (var ReagentGen in ReagentsGen)
 		    {
-			    ReagentGen.CurrentReagents += ReagentGen.ReagentRegenerationSecond;
+			    if (ReagentGen.Reagent == null) continue;
+			    if ((ReagentGen.CurrentReagents >= ReagentGen.ReagentCap) == false)
+			    {
+				    ReagentGen.CurrentReagents += ReagentGen.ReagentRegenerationSecond;
+			    }
 		    }
+
 	    }
 
 	    GUI_MedBed?.UpdateDisplay();
