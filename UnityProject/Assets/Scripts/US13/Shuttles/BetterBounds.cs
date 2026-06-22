@@ -348,5 +348,14 @@ namespace US13.Shuttles
 				Maximum = CustomMaximum,
 			};
 		}
+
+		public BetterBounds Combine(BetterBounds Other)
+		{
+			var NewBounds =  new BetterBounds();
+
+			NewBounds.Minimum = Vector3.Min(Minimum, Other.Minimum);
+			NewBounds.Maximum = Vector3.Max(Maximum, Other.Maximum);
+			return NewBounds;
+		}
 	}
 }
