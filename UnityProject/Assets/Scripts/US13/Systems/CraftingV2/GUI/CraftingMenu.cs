@@ -19,12 +19,12 @@ using Util;
 namespace US13.Systems.CraftingV2.GUI
 {
 	/// <summary>
-	/// 	The main crafting UI class that handles any client's input(button clicks).
+	/// The main crafting UI class that handles any client's input(button clicks).
 	/// </summary>
 	public class CraftingMenu : MonoBehaviour
 	{
 		/// <summary>
-		/// 	The link to the crafting UI instance. Client can only have one.
+		/// The link to the crafting UI instance. Client can only have one.
 		/// </summary>
 		public static CraftingMenu Instance;
 
@@ -75,8 +75,7 @@ namespace US13.Systems.CraftingV2.GUI
 		private GameObject everythingButtonPrefab;
 		private CategoryButtonScript everythingButtonScript;
 
-		private readonly RecipesInCategory[] recipesInCategories =
-			new RecipesInCategory[Enum.GetValues(typeof(RecipeCategory)).Length];
+		private readonly List<RecipesInCategory> recipesInCategories = new();
 
 		private GridLayoutGroup recipesGridLayout;
 
@@ -146,14 +145,37 @@ namespace US13.Systems.CraftingV2.GUI
 
 		private void InitCategories()
 		{
-			SpawnCategoryButton(everythingButtonPrefab);
 			foreach (GameObject categoryButtonPrefab in categoryButtonsPrefabs)
 			{
 				SpawnCategoryButton(categoryButtonPrefab);
 			}
 
+			//optional special button (e.g. Everything/Craftable)
+			if (everythingButtonPrefab != null)
+			{
+				SpawnCategoryButton(everythingButtonPrefab);
+			}
+
+			recipesInCategories.Sort((a, b) =>
+			{
+				var aCai = a.CategoryButtonScript.CategoryAndIcon;
+				var bCai = b.CategoryButtonScript.CategoryAndIcon;
+				bool aIsEverything = aCai.FilterKind == CategoryFilterKind.Everything;
+				bool bIsEverything = bCai.FilterKind == CategoryFilterKind.Everything;
+				if (aIsEverything && !bIsEverything) return -1;
+				if (!aIsEverything && bIsEverything) return 1;
+				return string.Compare(aCai.CategoryName, bCai.CategoryName, StringComparison.OrdinalIgnoreCase);
+			});
+
+			for (int i = 0; i < recipesInCategories.Count; i++)
+			{
+				recipesInCategories[i].CategoryButtonScript.gameObject.transform.SetSiblingIndex(i);
+			}
 			CheckCategoriesCompleteness();
-			SelectCategory("Everything");
+			if (recipesInCategories.Count > 0)
+			{
+				SelectCategory(recipesInCategories[0].CategoryButtonScript);
+			}
 		}
 
 		private void SpawnCategoryButton(GameObject categoryButtonPrefab)
@@ -164,28 +186,32 @@ namespace US13.Systems.CraftingV2.GUI
 			);
 			CategoryButtonScript categoryButtonScript =
 				initiatedCategoryButtonGameObject.GetComponent<CategoryButtonScript>();
-			if (GetRecipesInCategory(categoryButtonScript.CategoryAndIcon.RecipeCategory) != null)
+
+			foreach (var existing in recipesInCategories)
 			{
-				Loggy.Error("An attempt to create two same categories in a crafting menu. " +
-				            $"The duplicated category: {categoryButtonScript.CategoryAndIcon.RecipeCategory}");
-				return;
+				var existingCAI = existing.CategoryButtonScript.CategoryAndIcon;
+				var newCAI = categoryButtonScript.CategoryAndIcon;
+				if (existingCAI.FilterKind == newCAI.FilterKind &&
+					(newCAI.FilterKind != CategoryFilterKind.ByEnum || existingCAI.RecipeCategory == newCAI.RecipeCategory))
+				{
+					Loggy.Error("An attempt to create two same categories in a crafting menu. " +
+						$"The duplicated category: {newCAI.CategoryName}");
+					Destroy(initiatedCategoryButtonGameObject);
+					return;
+				}
 			}
-			if (categoryButtonScript.CategoryAndIcon.RecipeCategory == RecipeCategory.Everything)
-			{
-				everythingButtonScript = categoryButtonScript;
-			}
-			recipesInCategories[(int) categoryButtonScript.CategoryAndIcon.RecipeCategory] =
-				new RecipesInCategory(categoryButtonScript);
+			recipesInCategories.Add(new RecipesInCategory(categoryButtonScript));
 		}
 
 		// at the moment all categories should be present to a player
 		private void CheckCategoriesCompleteness()
 		{
-			for (int i = 0; i < recipesInCategories.Length; i++)
+			foreach (RecipeCategory rc in System.Enum.GetValues(typeof(RecipeCategory)))
 			{
-				if (recipesInCategories[i] == null)
+				bool found = recipesInCategories.Exists(r => r.CategoryButtonScript.CategoryAndIcon.FilterKind == CategoryFilterKind.ByEnum && r.CategoryButtonScript.CategoryAndIcon.RecipeCategory == rc);
+				if (!found)
 				{
-					Loggy.Error($"The crafting menu is missing the category: {(RecipeCategory) i}.");
+					Loggy.Error($"The crafting menu is missing the category: {rc}.");
 				}
 			}
 		}
@@ -203,7 +229,7 @@ namespace US13.Systems.CraftingV2.GUI
 			}
 			categoryButtonScript.OnPressed();
 			chosenCategory = categoryButtonScript;
-			if (chosenCategory.CategoryAndIcon.RecipeCategory == RecipeCategory.Everything)
+			if (chosenCategory.CategoryAndIcon.FilterKind == CategoryFilterKind.Everything)
 			{
 				foreach (RecipesInCategory recipesInCategory in recipesInCategories)
 				{
@@ -224,15 +250,15 @@ namespace US13.Systems.CraftingV2.GUI
 
 		private void SelectCategory(string catagoryName)
 		{
-			foreach (var buttonsPrefab in categoryButtonsPrefabs)
+			foreach (var ric in recipesInCategories)
 			{
-				if (buttonsPrefab.GetComponent<CategoryButtonScript>().CategoryAndIcon.RecipeCategory.ToString() == catagoryName)
+				if (ric.CategoryButtonScript.CategoryAndIcon.CategoryName == catagoryName)
 				{
-					SelectCategory(buttonsPrefab.GetComponent<CategoryButtonScript>());
+					SelectCategory(ric.CategoryButtonScript);
 					return;
 				}
 			}
-			SelectCategory(recipesInCategories[0].CategoryButtonScript);
+			if (recipesInCategories.Count > 0) SelectCategory(recipesInCategories[0].CategoryButtonScript);
 		}
 
 		private void DeselectCategory(CategoryButtonScript categoryButtonScript)
@@ -241,28 +267,36 @@ namespace US13.Systems.CraftingV2.GUI
 			{
 				return;
 			}
-
 			categoryButtonScript.OnUnpressed();
-			foreach (RecipeButtonScript recipeButtonScript in
-				GetRecipesInCategory(categoryButtonScript.CategoryAndIcon.RecipeCategory).RecipeButtonScripts
-			)
+			var cai = categoryButtonScript.CategoryAndIcon;
+			if (cai.FilterKind == CategoryFilterKind.Everything)
 			{
-				recipeButtonScript.gameObject.SetActive(false);
+				foreach (RecipesInCategory recipesInCategory in recipesInCategories)
+				{
+					foreach (RecipeButtonScript recipeButtonScript in recipesInCategory.RecipeButtonScripts)
+					{
+						recipeButtonScript.gameObject.SetActive(false);
+					}
+				}
 			}
-
+			else if (cai.FilterKind == CategoryFilterKind.ByEnum)
+			{
+				var ric = GetRecipesInCategory(cai.RecipeCategory);
+				if (ric != null)
+				{
+					foreach (var recipeButtonScript in ric.RecipeButtonScripts)
+					{
+						recipeButtonScript.gameObject.SetActive(false);
+					}
+				}
+			}
 			chosenCategory = null;
 		}
 
-		/// <summary>
-		/// 	Deselects a chosen category or, if it's null, deselects all categories.
-		/// 	Selects the new category.
-		/// </summary>
-		/// <param name="categoryButtonScript">The category button to select.</param>
 		public void ChangeCategory(CategoryButtonScript categoryButtonScript)
 		{
 			if (chosenCategory == null)
 			{
-				// ok we don't know where we should clear recipe buttons, so let's clear all possible recipe buttons.
 				foreach (RecipesInCategory recipesInCategory in recipesInCategories)
 				{
 					DeselectCategory(recipesInCategory.CategoryButtonScript);
@@ -270,7 +304,6 @@ namespace US13.Systems.CraftingV2.GUI
 			}
 			else
 			{
-				// ok we know where we should clear recipe buttons.
 				DeselectCategory(chosenCategory);
 			}
 
@@ -297,11 +330,6 @@ namespace US13.Systems.CraftingV2.GUI
 			recipeInfoGameObject.SetActive(false);
 		}
 
-		/// <summary>
-		/// 	Deselects a chosen recipe.
-		/// 	Selects the new recipe.
-		/// </summary>
-		/// <param name="recipeButtonScript">The recipe to select.</param>
 		public void ChangeRecipe(RecipeButtonScript recipeButtonScript)
 		{
 			DeselectRecipe(chosenRecipe);
@@ -409,27 +437,18 @@ namespace US13.Systems.CraftingV2.GUI
 
 		#region OtherButtonPressingHandlers
 
-		/// <summary>
-		/// 	Handles a player's search button pressing.
-		/// </summary>
 		public void OnSearchButtonClicked()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			ApplySearchFilters();
 		}
 
-		/// <summary>
-		/// 	Handles a player's refresh button pressing.
-		/// </summary>
 		public void OnRefreshRecipesButtonClicked()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			RequestRefreshRecipes();
 		}
 
-		/// <summary>
-		/// 	Handles a player's craft button pressing.
-		/// </summary>
 		public void OnCraftButtonPressed()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
@@ -443,36 +462,21 @@ namespace US13.Systems.CraftingV2.GUI
 		#endregion
 
 		/// <summary>
-		/// 	Get all recipes in the category.
+		/// Get all recipes in the category.
 		/// </summary>
 		/// <param name="recipeCategory">The category to get recipes from.</param>
 		/// <returns>All recipes in the category.</returns>
 		private RecipesInCategory GetRecipesInCategory(RecipeCategory recipeCategory)
 		{
-			if (recipeCategory == RecipeCategory.Everything)
+			var found = recipesInCategories.Find(r =>
+				r.CategoryButtonScript.CategoryAndIcon.FilterKind == CategoryFilterKind.ByEnum && r.CategoryButtonScript.CategoryAndIcon.RecipeCategory == recipeCategory);
+			if (found == null)
 			{
-				var allRecipes = recipesInCategories[(int)recipeCategory];
-				if (allRecipes == null)
-				{
-					Loggy.Error("The crafting menu is missing the category: Everything.");
-					return null;
-				}
-				if (allRecipes.RecipeButtonScripts.Count > 0)
-				{
-					return allRecipes;
-				}
-				foreach (var recipesInCategory in recipesInCategories)
-				{
-					allRecipes.RecipeButtonScripts.AddRange(recipesInCategory.RecipeButtonScripts);
-				}
-				return allRecipes;
+				Loggy.Error($"The crafting menu is missing the category: {recipeCategory}.");
 			}
-			return recipesInCategories[(int) recipeCategory];
+			return found;
 		}
 
-		/// <summary>
-		/// Open the Crafting Menu
-		/// </summary>
 		public void Open()
 		{
 			this.SetActive(true);
@@ -483,20 +487,14 @@ namespace US13.Systems.CraftingV2.GUI
 			}
 
 			RequestRefreshRecipes();
+			SelectCategory(chosenCategory ?? recipesInCategories[0].CategoryButtonScript);
 		}
 
-		/// <summary>
-		/// Close the Crafting Menu
-		/// </summary>
 		public void Close()
 		{
 			this.SetActive(false);
 		}
 
-		/// <summary>
-		/// 	Generates a new recipe button in craftingRecipe.Category.
-		/// </summary>
-		/// <param name="craftingRecipe">The associated crafting recipe.</param>
 		public void OnPlayerLearnedRecipe(CraftingRecipe craftingRecipe)
 		{
 			GameObject newRecipeButton = RecipeButtonScript.GenerateNew(
@@ -505,38 +503,44 @@ namespace US13.Systems.CraftingV2.GUI
 				craftingRecipe
 			);
 
-			if (chosenCategory.CategoryAndIcon.RecipeCategory != craftingRecipe.Category)
+			//add the new recipe button to any category whose filter matches the recipe (ByEnum match or aggregate categories)
+			foreach (var ric in recipesInCategories)
 			{
-				newRecipeButton.SetActive(false);
+				var cai = ric.CategoryButtonScript.CategoryAndIcon;
+				bool matches = false;
+				if (cai.FilterKind == CategoryFilterKind.ByEnum && cai.RecipeCategory == craftingRecipe.Category) matches = true;
+				//aggregate categories include all recipes; visibility decided elsewhere
+				if (cai.FilterKind is CategoryFilterKind.Everything or CategoryFilterKind.Craftable) matches = true;
+				if (matches)
+				{
+					ric.RecipeButtonScripts.Add(newRecipeButton.GetComponent<RecipeButtonScript>());
+					ric.CategoryButtonScript.gameObject.SetActive(true);
+					if (chosenCategory == null || ric.CategoryButtonScript != chosenCategory) newRecipeButton.SetActive(false);
+				}
 			}
-
-			var category = GetRecipesInCategory(craftingRecipe.Category);
-
-			category.RecipeButtonScripts.Add(newRecipeButton.GetComponent<RecipeButtonScript>());
-			category.CategoryButtonScript.gameObject.SetActive(true);
 		}
 
 		/// <summary>
-		/// 	Removes a recipe button from a craftingRecipe.Category.
+		/// Removes a recipe button from a craftingRecipe.Category.
 		/// </summary>
 		/// <param name="craftingRecipe">The associated crafting recipe.</param>
 		public void OnPlayerForgotRecipe(CraftingRecipe craftingRecipe)
 		{
-			var category = GetRecipesInCategory(craftingRecipe.Category);
-
-			int recipeIndexToForgot = category.RecipeButtonScripts.FindIndex(
-				recipeButtonScript => recipeButtonScript.CraftingRecipe
-			);
-
 			if (chosenRecipe != null && craftingRecipe == chosenRecipe.CraftingRecipe)
 			{
 				DeselectRecipe(chosenRecipe);
 			}
 
-			Destroy(category.RecipeButtonScripts[recipeIndexToForgot].gameObject);
-			category.RecipeButtonScripts.RemoveAt(recipeIndexToForgot);
-
-			category.CategoryButtonScript.gameObject.SetActive(category.RecipeButtonScripts.Count > 0);
+			foreach (var ric in recipesInCategories)
+			{
+				int idx = ric.RecipeButtonScripts.FindIndex(r => r.CraftingRecipe == craftingRecipe);
+				if (idx >= 0)
+				{
+					Destroy(ric.RecipeButtonScripts[idx].gameObject);
+					ric.RecipeButtonScripts.RemoveAt(idx);
+					ric.CategoryButtonScript.gameObject.SetActive(ric.RecipeButtonScripts.Count > 0);
+				}
+			}
 		}
 
 		/// <summary>
@@ -609,8 +613,8 @@ namespace US13.Systems.CraftingV2.GUI
 		}
 
 		/// <summary>
-		/// 	Handles a search command, edits player's search request if necessary, applies search filters,
-		/// 	shows recipes that match the search request.
+		/// Handles a search command, edits player's search request if necessary, applies search filters,
+		/// shows recipes that match the search request.
 		/// </summary>
 		public void ApplySearchFilters()
 		{

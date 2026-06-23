@@ -89,10 +89,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.LayoutElement
   m_IgnoreLayout: 0
-  m_MinWidth: 64
-  m_MinHeight: 64
-  m_PreferredWidth: 64
-  m_PreferredHeight: 64
+  m_MinWidth: 32
+  m_MinHeight: 32
+  m_PreferredWidth: 32
+  m_PreferredHeight: 32
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
   m_LayoutPriority: 1
@@ -365,7 +365,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 64, y: 64}
+  m_SizeDelta: {x: 64, y: 37.9162}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &7582689203753904908
 MonoBehaviour:
@@ -381,7 +381,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   categoryAndIcon: {fileID: 11400000, guid: c43c1812e7d74034c8d323844abc362b, type: 2}
   onPressedColor: {r: 0.12669098, g: 0.21715355, b: 0.3679245, a: 1}
-  onUnpressedColor: {r: 0.2627451, g: 0.34509805, b: 0.48235297, a: 1}
+  onUnpressedColor: {r: 0.2627451, g: 0.34509805, b: 0.48235297, a: 0.5686275}
   categoryIconImageGameObject: {fileID: 259714845884301959}
   backgroundImageGameObject: {fileID: 5807663768143829827}
   categoryNameText: {fileID: 4908218349772529568}
@@ -464,7 +464,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.26099148, g: 0.34525314, b: 0.4811321, a: 1}
+  m_Color: {r: 0.2627451, g: 0.34509805, b: 0.48235294, a: 0.5686275}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

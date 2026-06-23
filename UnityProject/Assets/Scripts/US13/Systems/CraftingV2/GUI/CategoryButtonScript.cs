@@ -8,7 +8,7 @@ using US13.Managers;
 namespace US13.Systems.CraftingV2.GUI
 {
 	/// <summary>
-	/// 	The class that handles client's clicks onto the button as a game object.
+	/// The class that handles client's clicks onto the button as a game object.
 	/// </summary>
 	public class CategoryButtonScript : MonoBehaviour, IPointerDownHandler
 	{
@@ -32,9 +32,6 @@ namespace US13.Systems.CraftingV2.GUI
 
 		private Image backgroundImageComponent;
 
-		/// <summary>
-		/// 	A pair of values: a recipe category and its icon.
-		/// </summary>
 		public CategoryAndIcon CategoryAndIcon => categoryAndIcon;
 
 		public void Awake()
@@ -51,31 +48,21 @@ namespace US13.Systems.CraftingV2.GUI
 			}
 			if (categoryNameText != null)
 			{
-				categoryNameText.text = categoryAndIcon.RecipeCategory.ToString();
+				categoryNameText.text = categoryAndIcon.CategoryName;
 			}
 		}
 
-		/// <summary>
-		/// 	This method will be called when the category button will have be pressed.
-		/// </summary>
-		/// <param name="data">Ignored.</param>
 		public void OnPointerDown(PointerEventData data)
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
 			CraftingMenu.Instance.ChangeCategory(this);
 		}
 
-		/// <summary>
-		/// 	This method colors the button to the onPressedColor.
-		/// </summary>
 		public void OnPressed()
 		{
 			if (backgroundImageComponent != null) backgroundImageComponent.color = onPressedColor;
 		}
 
-		/// <summary>
-		/// 	This method colors the button to the onUnpressedColor.
-		/// </summary>
 		public void OnUnpressed()
 		{
 			if (backgroundImageComponent != null) backgroundImageComponent.color = onUnpressedColor;

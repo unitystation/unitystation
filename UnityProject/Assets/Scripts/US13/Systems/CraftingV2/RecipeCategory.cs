@@ -29,6 +29,5 @@
 		Drinks = 20,
 		Moth = 21,
 		Lizard = 22,
-		Everything = 23,
 	}
 }
