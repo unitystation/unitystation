@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using Logs;
 using NaughtyAttributes;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using US13.Core.Addressables;
@@ -70,24 +71,28 @@ namespace US13.Systems.CraftingV2.GUI
 		                                           "the crafting menu.")]
 		private List<GameObject> categoryButtonsPrefabs;
 
+		[SerializeField]
+		private GameObject everythingButtonPrefab;
+		private CategoryButtonScript everythingButtonScript;
+
 		private readonly RecipesInCategory[] recipesInCategories =
 			new RecipesInCategory[Enum.GetValues(typeof(RecipeCategory)).Length];
 
 		private GridLayoutGroup recipesGridLayout;
 
-		private Text chosenRecipeNameTextComponent;
+		private TMP_Text chosenRecipeNameTextComponent;
 
-		private Text chosenRecipeDescriptionTextComponent;
+		private TMP_Text chosenRecipeDescriptionTextComponent;
 
 		private Image chosenRecipeIconImageComponent;
 
-		private Text ingredientsTextComponent;
+		private TMP_Text ingredientsTextComponent;
 
-		private Text toolsTextComponent;
+		private TMP_Text toolsTextComponent;
 
-		private Text reagentsTextComponent;
+		private TMP_Text reagentsTextComponent;
 
-		private Text craftButtonTextComponent;
+		private TMP_Text craftButtonTextComponent;
 
 		private InputFieldFocus searchFieldComponent;
 
@@ -129,38 +134,48 @@ namespace US13.Systems.CraftingV2.GUI
 		{
 			Instance = this;
 			recipesGridLayout = recipesLayoutGameObject.GetComponent<GridLayoutGroup>();
-			chosenRecipeNameTextComponent = chosenRecipeNameGameObject.GetComponent<Text>();
-			chosenRecipeDescriptionTextComponent = chosenRecipeDescriptionGameObject.GetComponent<Text>();
+			chosenRecipeNameTextComponent = chosenRecipeNameGameObject.GetComponent<TMP_Text>();
+			chosenRecipeDescriptionTextComponent = chosenRecipeDescriptionGameObject.GetComponent<TMP_Text>();
 			chosenRecipeIconImageComponent = chosenRecipeIconGameObject.GetComponent<Image>();
-			ingredientsTextComponent = ingredientsTextGameObject.GetComponent<Text>();
-			toolsTextComponent = toolsTextGameObject.GetComponent<Text>();
-			reagentsTextComponent = reagentsTextGameObject.GetComponent<Text>();
-			craftButtonTextComponent = craftButtonTextGameObject.GetComponent<Text>();
+			ingredientsTextComponent = ingredientsTextGameObject.GetComponent<TMP_Text>();
+			toolsTextComponent = toolsTextGameObject.GetComponent<TMP_Text>();
+			reagentsTextComponent = reagentsTextGameObject.GetComponent<TMP_Text>();
+			craftButtonTextComponent = craftButtonTextGameObject.GetComponent<TMP_Text>();
 			searchFieldComponent = searchFieldGameObject.GetComponent<InputFieldFocus>();
 		}
 
 		private void InitCategories()
 		{
+			SpawnCategoryButton(everythingButtonPrefab);
 			foreach (GameObject categoryButtonPrefab in categoryButtonsPrefabs)
 			{
-				GameObject initiatedCategoryButtonGameObject = Instantiate(
-					categoryButtonPrefab,
-					categoriesLayoutGameObject.transform
-				);
-				CategoryButtonScript categoryButtonScript =
-					initiatedCategoryButtonGameObject.GetComponent<CategoryButtonScript>();
-				if (GetRecipesInCategory(categoryButtonScript.CategoryAndIcon.RecipeCategory) != null)
-				{
-					Loggy.Error("An attempt to create two same categories in a crafting menu. " +
-					                $"The duplicated category: {categoryButtonScript.CategoryAndIcon.RecipeCategory}");
-					continue;
-				}
-				recipesInCategories[(int) categoryButtonScript.CategoryAndIcon.RecipeCategory] =
-					new RecipesInCategory(categoryButtonScript);
+				SpawnCategoryButton(categoryButtonPrefab);
 			}
 
 			CheckCategoriesCompleteness();
-			SelectCategory(recipesInCategories[0].CategoryButtonScript);
+			SelectCategory("Everything");
+		}
+
+		private void SpawnCategoryButton(GameObject categoryButtonPrefab)
+		{
+			GameObject initiatedCategoryButtonGameObject = Instantiate(
+				categoryButtonPrefab,
+				categoriesLayoutGameObject.transform
+			);
+			CategoryButtonScript categoryButtonScript =
+				initiatedCategoryButtonGameObject.GetComponent<CategoryButtonScript>();
+			if (GetRecipesInCategory(categoryButtonScript.CategoryAndIcon.RecipeCategory) != null)
+			{
+				Loggy.Error("An attempt to create two same categories in a crafting menu. " +
+				            $"The duplicated category: {categoryButtonScript.CategoryAndIcon.RecipeCategory}");
+				return;
+			}
+			if (categoryButtonScript.CategoryAndIcon.RecipeCategory == RecipeCategory.Everything)
+			{
+				everythingButtonScript = categoryButtonScript;
+			}
+			recipesInCategories[(int) categoryButtonScript.CategoryAndIcon.RecipeCategory] =
+				new RecipesInCategory(categoryButtonScript);
 		}
 
 		// at the moment all categories should be present to a player
@@ -181,14 +196,43 @@ namespace US13.Systems.CraftingV2.GUI
 
 		private void SelectCategory(CategoryButtonScript categoryButtonScript)
 		{
+			if (categoryButtonScript == null)
+			{
+				Loggy.Error("An attempt to select a null category in a crafting menu.");
+				return;
+			}
 			categoryButtonScript.OnPressed();
 			chosenCategory = categoryButtonScript;
+			if (chosenCategory.CategoryAndIcon.RecipeCategory == RecipeCategory.Everything)
+			{
+				foreach (RecipesInCategory recipesInCategory in recipesInCategories)
+				{
+					foreach (RecipeButtonScript recipeButtonScript in recipesInCategory.RecipeButtonScripts)
+					{
+						recipeButtonScript.gameObject.SetActive(true);
+					}
+				}
+				return;
+			}
 			foreach (RecipeButtonScript recipeButtonScript in
 				GetRecipesInCategory(categoryButtonScript.CategoryAndIcon.RecipeCategory).RecipeButtonScripts
 			)
 			{
 				recipeButtonScript.gameObject.SetActive(true);
 			}
+		}
+
+		private void SelectCategory(string catagoryName)
+		{
+			foreach (var buttonsPrefab in categoryButtonsPrefabs)
+			{
+				if (buttonsPrefab.GetComponent<CategoryButtonScript>().CategoryAndIcon.RecipeCategory.ToString() == catagoryName)
+				{
+					SelectCategory(buttonsPrefab.GetComponent<CategoryButtonScript>());
+					return;
+				}
+			}
+			SelectCategory(recipesInCategories[0].CategoryButtonScript);
 		}
 
 		private void DeselectCategory(CategoryButtonScript categoryButtonScript)
@@ -403,8 +447,26 @@ namespace US13.Systems.CraftingV2.GUI
 		/// </summary>
 		/// <param name="recipeCategory">The category to get recipes from.</param>
 		/// <returns>All recipes in the category.</returns>
-		public RecipesInCategory GetRecipesInCategory(RecipeCategory recipeCategory)
+		private RecipesInCategory GetRecipesInCategory(RecipeCategory recipeCategory)
 		{
+			if (recipeCategory == RecipeCategory.Everything)
+			{
+				var allRecipes = recipesInCategories[(int)recipeCategory];
+				if (allRecipes == null)
+				{
+					Loggy.Error("The crafting menu is missing the category: Everything.");
+					return null;
+				}
+				if (allRecipes.RecipeButtonScripts.Count > 0)
+				{
+					return allRecipes;
+				}
+				foreach (var recipesInCategory in recipesInCategories)
+				{
+					allRecipes.RecipeButtonScripts.AddRange(recipesInCategory.RecipeButtonScripts);
+				}
+				return allRecipes;
+			}
 			return recipesInCategories[(int) recipeCategory];
 		}
 

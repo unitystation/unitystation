@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using US13.Core.Addressables;
@@ -26,6 +27,9 @@ namespace US13.Systems.CraftingV2.GUI
 		[SerializeField] [Tooltip("A link to a game object that contains an Image component for an icon's background.")]
 		private GameObject backgroundImageGameObject;
 
+		[SerializeField]
+		private TMP_Text categoryNameText;
+
 		private Image backgroundImageComponent;
 
 		/// <summary>
@@ -40,6 +44,14 @@ namespace US13.Systems.CraftingV2.GUI
 			if (categoryAndIcon.CategoryIcon != null)
 			{
 				categoryIconImageGameObject.GetComponent<Image>().sprite = categoryAndIcon.CategoryIcon;
+			}
+			if (categoryNameText == null)
+			{
+				categoryNameText = GetComponentInChildren<TMP_Text>();
+			}
+			if (categoryNameText != null)
+			{
+				categoryNameText.text = categoryAndIcon.RecipeCategory.ToString();
 			}
 		}
 
@@ -58,7 +70,7 @@ namespace US13.Systems.CraftingV2.GUI
 		/// </summary>
 		public void OnPressed()
 		{
-			backgroundImageComponent.color = onPressedColor;
+			if (backgroundImageComponent != null) backgroundImageComponent.color = onPressedColor;
 		}
 
 		/// <summary>
@@ -66,7 +78,7 @@ namespace US13.Systems.CraftingV2.GUI
 		/// </summary>
 		public void OnUnpressed()
 		{
-			backgroundImageComponent.color = onUnpressedColor;
+			if (backgroundImageComponent != null) backgroundImageComponent.color = onUnpressedColor;
 		}
 	}
 }

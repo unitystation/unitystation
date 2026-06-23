@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &5561274370374924555
+--- !u!1001 &8376904384236432360
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -46,11 +46,6 @@ PrefabInstance:
     - target: {fileID: 5315045442997327396, guid: 3fb9a9c9829943140b16acdf23f74623,
         type: 3}
       propertyPath: m_Pivot.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5315045442997327396, guid: 3fb9a9c9829943140b16acdf23f74623,
-        type: 3}
-      propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5315045442997327396, guid: 3fb9a9c9829943140b16acdf23f74623,
@@ -146,7 +141,7 @@ PrefabInstance:
     - target: {fileID: 5562711397433253435, guid: 3fb9a9c9829943140b16acdf23f74623,
         type: 3}
       propertyPath: m_Name
-      value: AmmunitonButton
+      value: EverythingButton
       objectReference: {fileID: 0}
     - target: {fileID: 6219938971231169786, guid: 3fb9a9c9829943140b16acdf23f74623,
         type: 3}
@@ -182,38 +177,8 @@ PrefabInstance:
         type: 3}
       propertyPath: categoryAndIcon
       value: 
-      objectReference: {fileID: 11400000, guid: 7bfb1554eb3e59247ba806e4275f35ba,
+      objectReference: {fileID: 11400000, guid: 7e0894edcd42fcd4991a73112eba6eed,
         type: 2}
-    - target: {fileID: 7582689203753904908, guid: 3fb9a9c9829943140b16acdf23f74623,
-        type: 3}
-      propertyPath: onPressedColor.b
-      value: 0.4056604
-      objectReference: {fileID: 0}
-    - target: {fileID: 7582689203753904908, guid: 3fb9a9c9829943140b16acdf23f74623,
-        type: 3}
-      propertyPath: onPressedColor.g
-      value: 0.22507454
-      objectReference: {fileID: 0}
-    - target: {fileID: 7582689203753904908, guid: 3fb9a9c9829943140b16acdf23f74623,
-        type: 3}
-      propertyPath: onPressedColor.r
-      value: 0.11672302
-      objectReference: {fileID: 0}
-    - target: {fileID: 7582689203753904908, guid: 3fb9a9c9829943140b16acdf23f74623,
-        type: 3}
-      propertyPath: onUnpressedColor.b
-      value: 0.48235297
-      objectReference: {fileID: 0}
-    - target: {fileID: 7582689203753904908, guid: 3fb9a9c9829943140b16acdf23f74623,
-        type: 3}
-      propertyPath: onUnpressedColor.g
-      value: 0.34509805
-      objectReference: {fileID: 0}
-    - target: {fileID: 7582689203753904908, guid: 3fb9a9c9829943140b16acdf23f74623,
-        type: 3}
-      propertyPath: onUnpressedColor.r
-      value: 0.2627451
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
