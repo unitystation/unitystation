@@ -1,1 +1,44 @@
-using UnityEngine;namespace US13.Systems.CraftingV2{	public enum CategoryFilterKind	{		ByEnum,		Everything,		Craftable	}	[CreateAssetMenu(fileName = "CategoryAndIcon", menuName = "ScriptableObjects/Crafting/CategoryAndIcon")]	public class CategoryAndIcon : ScriptableObject	{		[SerializeField] [Tooltip("Which one recipe category does this object presents?")]		private RecipeCategory recipeCategory = RecipeCategory.Misc;		[SerializeField] [Tooltip("If set to Everything or Craftable, this category will act as an aggregate filter.")]		private CategoryFilterKind filterKind = CategoryFilterKind.ByEnum;		[SerializeField]		[Tooltip("Optional name to show for the category. If empty, falls back to recipeCategory or filterKind.")]		private string displayName;		[SerializeField] [Tooltip("What icon does this object has?")]		private Sprite categoryIcon;		public RecipeCategory RecipeCategory => recipeCategory;		public CategoryFilterKind FilterKind => filterKind;		public string CategoryName => string.IsNullOrEmpty(displayName)			? filterKind == CategoryFilterKind.ByEnum ? recipeCategory.ToString() : filterKind.ToString()			: displayName;		public Sprite CategoryIcon => categoryIcon;	}}
+using UnityEngine;
+
+namespace US13.Systems.CraftingV2
+{
+	public enum CategoryFilterKind
+	{
+		ByEnum,
+		Everything,
+		Craftable
+	}
+
+	[CreateAssetMenu(fileName = "CategoryAndIcon", menuName = "ScriptableObjects/Crafting/CategoryAndIcon")]
+	public class CategoryAndIcon : ScriptableObject
+	{
+		[SerializeField]
+		[Tooltip("Which one recipe category does this object represent?")]
+		private RecipeCategory recipeCategory = RecipeCategory.Misc;
+
+		[SerializeField]
+		[Tooltip("If set to Everything or Craftable, this category will act as an aggregate filter.")]
+		private CategoryFilterKind filterKind = CategoryFilterKind.ByEnum;
+
+		[SerializeField]
+		[Tooltip("Optional name to show for the category. If empty, falls back to recipeCategory or filterKind.")]
+		private string displayName;
+
+		[SerializeField]
+		[Tooltip("What icon does this object have?")]
+		private Sprite categoryIcon;
+
+		public RecipeCategory RecipeCategory => recipeCategory;
+
+		public CategoryFilterKind FilterKind => filterKind;
+
+		public string CategoryName =>
+			string.IsNullOrEmpty(displayName)
+				? filterKind == CategoryFilterKind.ByEnum
+					? recipeCategory.ToString()
+					: filterKind.ToString()
+				: displayName;
+
+		public Sprite CategoryIcon => categoryIcon;
+	}
+}
