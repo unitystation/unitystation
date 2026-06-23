@@ -82,13 +82,10 @@ namespace US13.Core.Physics
 		public bool MappingIntangible = false;
 
 		public bool SnapToGridOnStart = false;
-		public bool IsPlayer = false;
 
 		protected MatrixCash SetMatrixCache = new MatrixCash();
 
 		public float ObjectBouncyness = 0.75f;
-
-		public const float DEFAULT_PUSH_SPEED = 6;
 
 		/// <summary>
 		/// Maximum speed player can reach by throwing stuff in space

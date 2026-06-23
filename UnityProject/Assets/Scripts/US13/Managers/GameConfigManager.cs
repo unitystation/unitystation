@@ -1,12 +1,14 @@
 ﻿using System;
+using Logs;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SecureStuff;
 using Shared.Managers;
 
 namespace US13.Managers
 {
 	/// <summary>
-	/// Config for in game stuff
+	/// Config for in-game stuff
 	/// </summary>
 	public class GameConfigManager : SingletonManager<GameConfigManager>
 	{
@@ -26,9 +28,39 @@ namespace US13.Managers
 		{
 			var path = "gameConfig.json";
 
-			if (AccessFile.Exists(path))
+			if (AccessFile.Exists(path) == false)
 			{
-				config = JsonConvert.DeserializeObject<GameConfig>(AccessFile.Load(path));
+				Loggy.Warning($"Game config file not found at {path}. Using default values.");
+				return;
+			}
+			var raw = AccessFile.Load(path);
+			try
+			{
+				//Support both flat and categorized config files. If the top-level contains objects (categories),
+				//merge their properties into a single JObject before deserializing into GameConfig.
+				var jobj = JObject.Parse(raw);
+				var merged = new JObject();
+				foreach (var prop in jobj.Properties())
+				{
+					if (prop.Value.Type == JTokenType.Object)
+					{
+						foreach (var child in prop.Value.Children<JProperty>())
+						{
+							merged[child.Name] = child.Value;
+						}
+					}
+					else
+					{
+						merged[prop.Name] = prop.Value;
+					}
+				}
+
+				config = merged.ToObject<GameConfig>();
+			}
+			catch (JsonReaderException ex)
+			{
+				Loggy.Error("Game config file is not valid JSON. Using default values.\n " + ex.Message);
+				config = JsonConvert.DeserializeObject<GameConfig>(raw);
 			}
 		}
 	}
