@@ -1347,11 +1347,10 @@ namespace US13.Core.Physics
 		private void AirTimeChecks()
 		{
 			SecondsFlying += Time.deltaTime;
-			if (SecondsFlying > 90) //Stop taking up CPU resources! If you're flying through space for too long
+			if (SecondsFlying > GameConfigManager.GameConfig.MaximumTimeSpentFlying) //Stop taking up CPU resources! If you're flying through space for too long
 			{
 				NewtonianMovement *= 0;
 			}
-
 
 			if (PulledBy.HasComponent) return; //It is recursively handled By parent
 
@@ -1365,7 +1364,7 @@ namespace US13.Core.Physics
 				var floating = IsFloating();
 				if (floating == false)
 				{
-					AppliedFriction(DEFAULT_SLIDE_FRICTION);
+					AppliedFriction(DEFAULT_SLIDE_FRICTION * GameConfigManager.GameConfig.SlideFrictionMultiplier);
 				}
 			}
 			else if (IsStickyMovement)
@@ -1376,7 +1375,7 @@ namespace US13.Core.Physics
 				{
 					if (NewtonianMovement.magnitude > maximumStickSpeed) //Too fast to grab onto anything
 					{
-						AppliedFriction(DEFAULT_Friction);
+						AppliedFriction(DEFAULT_Friction * GameConfigManager.GameConfig.FrictionMultiplier);
 					}
 					else
 					{
@@ -1390,7 +1389,7 @@ namespace US13.Core.Physics
 				var floating = IsFloating();
 				if (floating == false)
 				{
-					AppliedFriction(DEFAULT_Friction);
+					AppliedFriction(DEFAULT_Friction * GameConfigManager.GameConfig.FrictionMultiplier);
 				}
 			}
 		}
@@ -1407,7 +1406,7 @@ namespace US13.Core.Physics
 				NewtonianMovement -= 2 * (NewtonianMovement * hit.Normal) * hit.Normal;
 				var offset = (0.1f * hit.Normal);
 				newPosition = hit.HitWorld + offset.To3();
-				NewtonianMovement *= ObjectBouncyness;
+				NewtonianMovement *= ObjectBouncyness * GameConfigManager.GameConfig.ObjectBouncynessMultiplier;
 				spinMagnitude *= -1;
 				if (hit.CollisionHit.GameObject != null)
 				{
@@ -1576,7 +1575,7 @@ namespace US13.Core.Physics
 
 							OnImpact.Invoke(this, NewtonianMovement);
 							NewtonianMovement -= 2 * (NewtonianMovement * normal) * normal;
-							NewtonianMovement *= ObjectBouncyness;
+							NewtonianMovement *= (ObjectBouncyness * GameConfigManager.GameConfig.ObjectBouncynessMultiplier);
 							spinMagnitude *= -1;
 						}
 

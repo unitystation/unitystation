@@ -63,6 +63,29 @@ namespace US13.Managers
 				config = JsonConvert.DeserializeObject<GameConfig>(raw);
 			}
 		}
+
+		public void SetVariable(string targetVariable, object value)
+		{
+			var gameConfigType = typeof(GameConfig);
+
+			var property = gameConfigType.GetProperty(targetVariable);
+			if (property != null && property.CanWrite)
+			{
+				property.SetValue(config, Convert.ChangeType(value, property.PropertyType));
+				Loggy.Info($"Game config variable '{targetVariable}' set to '{value}'.");
+				return;
+			}
+
+			var field = gameConfigType.GetField(targetVariable);
+			if (field != null)
+			{
+				field.SetValue(config, Convert.ChangeType(value, field.FieldType));
+				Loggy.Info($"Game config variable '{targetVariable}' set to '{value}'.");
+				return;
+			}
+
+			Loggy.Warning($"Game config variable '{targetVariable}' not found or is read-only.");
+		}
 	}
 
 	[Serializable]
@@ -92,6 +115,12 @@ namespace US13.Managers
 		public int RebootOnAverageFPSOrLower = 35;
 		public string AccountAPIHost;
 		public float ExplosionStepTimeInSeconds = 0.14f;
+
+		//physics
+		public float ObjectBouncynessMultiplier = 1f;
+		public float FrictionMultiplier = 1f;
+		public float SlideFrictionMultiplier = 1f;
+		public float MaximumTimeSpentFlying = 90f;
 
 		//how many rounds of logs Should be stored before they get deleted,  null = 100, -1 Do not delete (will lag admin log UI After a while so manage yourself)
 		//= n The number you want to keep

@@ -20,6 +20,12 @@
     "AdminOnlyHtml": true,
     "NumberOfLogsToStore": null
   },
+  "Physics": {
+    "ObjectBouncynessMultiplier": 1.0,
+    "FrictionMultiplier": 1.0,
+    "MaximumTimeSpentFlying": 90.0,
+    "SlideFrictionMultiplier": 1.0
+  },
   "Server": {
     "CharacterNameLimit": 32,
     "MalfAIRecieveTheirIntendedObjectiveChance": 35,
