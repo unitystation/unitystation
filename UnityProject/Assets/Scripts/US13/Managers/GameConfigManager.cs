@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Logs;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 using SecureStuff;
 using Shared.Managers;
+using US13.Messages.Server.JoinedViewer;
 
 namespace US13.Managers
 {
@@ -33,34 +35,53 @@ namespace US13.Managers
 				Loggy.Warning($"Game config file not found at {path}. Using default values.");
 				return;
 			}
+
 			var raw = AccessFile.Load(path);
+
 			try
 			{
-				//Support both flat and categorized config files. If the top-level contains objects (categories),
-				//merge their properties into a single JObject before deserializing into GameConfig.
-				var jobj = JObject.Parse(raw);
-				var merged = new JObject();
-				foreach (var prop in jobj.Properties())
+				var values = new Dictionary<string, object>();
+
+				using (var reader = new JsonTextReader(new System.IO.StringReader(raw)))
 				{
-					if (prop.Value.Type == JTokenType.Object)
-					{
-						foreach (var child in prop.Value.Children<JProperty>())
-						{
-							merged[child.Name] = child.Value;
-						}
-					}
-					else
-					{
-						merged[prop.Name] = prop.Value;
-					}
+					ReadConfig(reader, values);
 				}
 
-				config = merged.ToObject<GameConfig>();
+				var json = JsonConvert.SerializeObject(values);
+				config = JsonConvert.DeserializeObject<GameConfig>(json);
 			}
 			catch (JsonReaderException ex)
 			{
 				Loggy.Error("Game config file is not valid JSON. Using default values.\n " + ex.Message);
-				config = JsonConvert.DeserializeObject<GameConfig>(raw);
+				config = new GameConfig();
+			}
+
+			Loggy.Info($"gameConfig.json loaded.\n {GameConfig.ToString()}");
+		}
+
+		private void ReadConfig(JsonTextReader reader, Dictionary<string, object> values)
+		{
+			while (reader.Read())
+			{
+				if (reader.TokenType != JsonToken.PropertyName)
+					continue;
+
+				string name = reader.Value.ToString();
+
+				reader.Read();
+
+				if (reader.TokenType == JsonToken.StartObject)
+				{
+					// Category found, read inside it
+					ReadConfig(reader, values);
+				}
+				else
+				{
+					values[name] = reader.Value;
+				}
+
+				if (reader.TokenType == JsonToken.EndObject)
+					break;
 			}
 		}
 
@@ -73,6 +94,7 @@ namespace US13.Managers
 			{
 				property.SetValue(config, Convert.ChangeType(value, property.PropertyType));
 				Loggy.Info($"Game config variable '{targetVariable}' set to '{value}'.");
+				ServerUpdateGameConfigForClients();
 				return;
 			}
 
@@ -81,10 +103,22 @@ namespace US13.Managers
 			{
 				field.SetValue(config, Convert.ChangeType(value, field.FieldType));
 				Loggy.Info($"Game config variable '{targetVariable}' set to '{value}'.");
+				ServerUpdateGameConfigForClients();
 				return;
 			}
 
 			Loggy.Warning($"Game config variable '{targetVariable}' not found or is read-only.");
+		}
+
+		public void ServerUpdateGameConfigForClients()
+		{
+			string seralizedConfig = GameConfig.ToJson();
+			UpdateServerGameConfigForAll.SendToAll(seralizedConfig);
+		}
+
+		public void SetGameConfig(GameConfig newConfig)
+		{
+			config = newConfig;
 		}
 	}
 
@@ -126,5 +160,25 @@ namespace US13.Managers
 		//= n The number you want to keep
 		public int? NumberOfLogsToStore;
 
+		public override string ToString()
+		{
+			StringBuilder sb = new StringBuilder();
+			var self = GetType();
+			foreach (var field in self.GetFields())
+			{
+				sb.AppendLine($"{field.Name} = {field.GetValue(this)}");
+			}
+
+			foreach (var property in self.GetProperties())
+			{
+				sb.AppendLine($"{property.Name} = {property.GetValue(this)}");
+			}
+			return sb.ToString();
+		}
+
+		public string ToJson()
+		{
+			return JsonConvert.SerializeObject(this);
+		}
 	}
 }
