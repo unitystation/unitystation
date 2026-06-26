@@ -94,7 +94,7 @@ namespace US13.Managers
 			}
 			else
 			{
-				Loggy.Warning($"Game config variable '{targetVariable}' not found or is read-only.");
+				Loggy.Warning($"Game config variable '{targetVariable}' with value of type {value.GetType()} not found or is read-only.\n{value.ToString()}");
 			}
 		}
 
