@@ -448,5 +448,34 @@ namespace SecureStuff
 
 			return fields;
 		}
+
+		/// <summary>
+		/// Sets the value of a property or field on the specified object using reflection.
+		/// The target member can be either a writable property or a field. The provided value
+		/// is converted to the target member's type before assignment.
+		/// </summary>
+		/// <param name="targetVariable">The name of the property or field to update on the target object.</param>
+		/// <param name="valueToChange">The value to assign to the specified property or field. The value will be converted</param>
+		/// <param name="targetObject">The object instance containing the property or field to modify.</param>
+		/// <returns><c>true</c> if the property or field was found and successfully updated;
+		/// otherwise, <c>false</c>.</returns>
+		public static bool SetVariable(string targetVariable, object valueToChange, object targetObject)
+		{
+			var type = targetObject.GetType();
+			var property = type.GetProperty(targetVariable);
+			if (property != null && property.CanWrite)
+			{
+				property.SetValue(targetObject, Convert.ChangeType(valueToChange, property.PropertyType));
+				return true;
+			}
+
+			var field = type.GetField(targetVariable);
+			if (field != null)
+			{
+				field.SetValue(targetObject, Convert.ChangeType(valueToChange, field.FieldType));
+				return true;
+			}
+			return false;
+		}
 	}
 }

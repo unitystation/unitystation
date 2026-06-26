@@ -36,5 +36,15 @@ namespace US13.Messages.Server.JoinedViewer
 			SendToAll(msg);
 			return msg;
 		}
+
+		public static NetMessage SendTo(string gameConfigJson, NetworkIdentity whoAsked)
+		{
+			NetMessage msg = new()
+			{
+				GameConfigSeralized = gameConfigJson
+			};
+			SendTo(whoAsked.connectionToServer, msg);
+			return msg;
+		}
 	}
 }

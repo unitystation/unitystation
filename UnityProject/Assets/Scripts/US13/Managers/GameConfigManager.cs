@@ -87,33 +87,22 @@ namespace US13.Managers
 
 		public void SetVariable(string targetVariable, object value)
 		{
-			var gameConfigType = typeof(GameConfig);
-
-			var property = gameConfigType.GetProperty(targetVariable);
-			if (property != null && property.CanWrite)
+			if (AllowedReflection.SetVariable(targetVariable, value, GameConfig))
 			{
-				property.SetValue(config, Convert.ChangeType(value, property.PropertyType));
 				Loggy.Info($"Game config variable '{targetVariable}' set to '{value}'.");
 				ServerUpdateGameConfigForClients();
-				return;
 			}
-
-			var field = gameConfigType.GetField(targetVariable);
-			if (field != null)
+			else
 			{
-				field.SetValue(config, Convert.ChangeType(value, field.FieldType));
-				Loggy.Info($"Game config variable '{targetVariable}' set to '{value}'.");
-				ServerUpdateGameConfigForClients();
-				return;
+				Loggy.Warning($"Game config variable '{targetVariable}' not found or is read-only.");
 			}
-
-			Loggy.Warning($"Game config variable '{targetVariable}' not found or is read-only.");
 		}
 
 		public void ServerUpdateGameConfigForClients()
 		{
 			string seralizedConfig = GameConfig.ToJson();
 			UpdateServerGameConfigForAll.SendToAll(seralizedConfig);
+
 		}
 
 		public void SetGameConfig(GameConfig newConfig)
