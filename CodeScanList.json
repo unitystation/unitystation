@@ -718,12 +718,14 @@
             "TypeInfo": {},
             "PropertyInfo": {
                 "Methods": [
-                    "bool op_Inequality(System.Reflection.PropertyInfo, System.Reflection.PropertyInfo)"
+                    "bool op_Inequality(System.Reflection.PropertyInfo, System.Reflection.PropertyInfo)",
+                    "object GetValue(object)"
                 ]
             },
             "FieldInfo": {
                 "Methods": [
-                    "bool op_Inequality(System.Reflection.FieldInfo, System.Reflection.FieldInfo)"
+                    "bool op_Inequality(System.Reflection.FieldInfo, System.Reflection.FieldInfo)",
+                    "object GetValue(object)"
                 ]
             },
             "ParameterInfo": {
@@ -1980,7 +1982,9 @@
                     "System.Type[] GetInterfaces()",
                     "System.Type[] GetNestedTypes()",
                     "System.Type[] GetNestedTypes(System.Reflection.BindingFlags)",
-                    "System.Type[] GetGenericArguments()"
+                    "System.Type[] GetGenericArguments()",
+                    "System.Reflection.PropertyInfo[] GetProperties()",
+                    "System.Reflection.FieldInfo[] GetFields()"
                 ],
                 "Fields": [
                     "System.Reflection.MemberFilter FilterAttribute",
@@ -3489,6 +3493,15 @@
                 "All": true
             },
             "MissingMemberHandling": {
+                "All": true
+            },
+            "JsonToken":{
+                "All": true
+            },
+            "JsonTextReader":{
+                "All": true
+            },
+            "JsonReaderException":{
                 "All": true
             }
         },
