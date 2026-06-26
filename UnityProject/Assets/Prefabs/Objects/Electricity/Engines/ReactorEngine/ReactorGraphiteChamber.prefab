@@ -24,6 +24,11 @@ PrefabInstance:
       propertyPath: Color.a
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2350732908105580628, guid: 008a771b03bf6b144b9afdbb0cc216c6,
+        type: 3}
+      propertyPath: InitialColour.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4046581938413593085, guid: 008a771b03bf6b144b9afdbb0cc216c6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -86,7 +91,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 1540312023783181917}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a6510c9b95b6fa3498b97083dcdd5e89, type: 3}
   m_Name: 
@@ -243,6 +248,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2d8ef782faad5e045a885b4ed1697cd1,
         type: 2}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d8ef782faad5e045a885b4ed1697cd1,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -326,7 +337,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
-  ignoreRoundstartGrabObjects: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &3033393858997830747
 MonoBehaviour:
@@ -340,10 +351,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   ReactionSounds: 1
   maxCapacity: 240
   DEBUGReagent: {fileID: 0}
   DEBUGAmount: 0
+  StopReactions: 0
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   AdditionalReactions: []
   initialReagentMix:
@@ -357,13 +372,20 @@ MonoBehaviour:
   destroyOnEmpty: 0
   ContentsSet: 0
   menuOptions: -1
+  currentReagentMix:
+    temperature: 0
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []
   spriteHandler: {fileID: 0}
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
   traitWhitelist: []
   reagentWhitelist: []
-  transferMode: 0
+  transferMode: 3
+  onlyAllowSyringeFilling: 0
   SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 20
@@ -383,10 +405,9 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  OutPuttingRadiation: 0
-  color: {r: 0, g: 1, b: 0.24704361, a: 0}
+  InitialOutPuttingRadiation: 0
+  InitialColour: {r: 0, g: 1, b: 0.24704361, a: 0}
   lightSprite: {fileID: 414104667711623215}
-  SynchroniseStrength: 0
 --- !u!114 &5255741207357749315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,7 +433,7 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
-  ignoreRoundstartGrabObjects: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}
 --- !u!114 &5478961262237790931
 MonoBehaviour:
@@ -477,7 +498,9 @@ MonoBehaviour:
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spawnedFromItem: 1
   directional: {fileID: 0}
+  InitialVolume: 0.05
   reservoirVolume: 240
+  Container: {fileID: 3033393858997830747}
 --- !u!114 &9056394620644044228
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -94,6 +94,8 @@ namespace US13.UI.Objects.Command.IDConsole
 
 		public void ServerUpdateScreen()
 		{
+
+
 			if (pageSwitcher.CurrentPage == loginPage)
 			{
 				ServerUpdateLoginCardName();
@@ -107,6 +109,10 @@ namespace US13.UI.Objects.Command.IDConsole
 			{
 
 				ServerRefreshEntries();
+				if (console.AccessCard == null)
+				{
+					ServerLogOut(null);
+				}
 			}
 			ServerRefreshCardNames();
 		}
@@ -176,6 +182,10 @@ namespace US13.UI.Objects.Command.IDConsole
 			}
 
 
+			if (TName == null)
+			{
+				TName = "";
+			}
 			if (TName.Equals(TargetName.Value) == false)
 			{
 				TargetName.MasterSetValue(TName);

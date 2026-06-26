@@ -1,4 +1,6 @@
-﻿using US13.Core.Threading;
+﻿using System;
+using Logs;
+using US13.Core.Threading;
 
 namespace US13.Tilemaps.Behaviours.Meta.Atmospherics
 {
@@ -40,7 +42,15 @@ namespace US13.Tilemaps.Behaviours.Meta.Atmospherics
 
 				for (int i = 0; i < countpipeList; i++)
 				{
-					atmosManager.ProcessPipe(atmosManager.pipeList[i]);
+					try
+					{
+						atmosManager.ProcessPipe(atmosManager.pipeList[i]);
+					}
+					catch (Exception e)
+					{
+						Loggy.Error(e.ToString());
+					}
+
 				}
 
 
@@ -65,14 +75,28 @@ namespace US13.Tilemaps.Behaviours.Meta.Atmospherics
 
 				for (int i = 0; i < loopFor; i++)
 				{
-					atmosManager.ProcessAction(atmosManager.atmosphericsUpdates[i]);
+					try
+					{
+						atmosManager.ProcessAction(atmosManager.atmosphericsUpdates[i]);
+					}
+					catch (Exception e)
+					{
+						Loggy.Error(e.ToString());
+					}
 				}
 
 			}
 
 			foreach (var reactionManger in atmosManager.reactionManagerList)
 			{
-				reactionManger.DoTick();
+				try
+				{
+					reactionManger.DoTick();
+				}
+				catch (Exception e)
+				{
+					Loggy.Error(e.ToString());
+				}
 			}
 
 

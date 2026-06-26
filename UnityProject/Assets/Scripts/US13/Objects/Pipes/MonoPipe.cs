@@ -208,7 +208,7 @@ namespace US13.Objects.Pipes
 					string.Empty,
 					string.Empty,
 					$"You unfasten the {gameObject.ExpensiveName()}.",
-					$"{interaction.Performer} unfastens the {gameObject.ExpensiveName()}",
+					$"{interaction.Performer.ExpensiveName()} unfastens the {gameObject.ExpensiveName()}",
 					() => { Unwrench(interaction); });
 			}
 		}
