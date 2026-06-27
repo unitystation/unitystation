@@ -28,21 +28,33 @@ namespace US13.UI.Systems.AdminTools
 
 		[SerializeField] private TMP_Text PlayerName = null;
 
+		[SerializeField] private GameObject Buttons = null;
+
 		public AdminPlayerEntry PlayerEntry { get; private set; }
 
 		public void SetData(AdminPlayerEntry entry)
 		{
+			if (entry == null)
+			{
+				Buttons.SetActive(false);
+			}
+			else
+			{
+				Buttons.SetActive(true);
+			}
+
+
 			PlayerEntry = entry;
-			PlayerName.text = $"{PlayerEntry.PlayerData.name} {PlayerEntry.PlayerData.uid}  {PlayerEntry.PlayerData.accountName}";
-			mentorButtonText.text = entry.PlayerData.hasMentorRole ? "<color=cyan>Remove Player Mentor</color>" : "<color=cyan>Make Player Mentor</color>";
-			mentorToggle.gameObject.SetActive(entry.PlayerData.hasMentorRole == false);
+			PlayerName.text = $"{PlayerEntry?.PlayerData?.name} {PlayerEntry?.PlayerData?.uid}  {PlayerEntry?.PlayerData?.accountName}";
+			mentorButtonText.text = entry?.PlayerData?.hasMentorRole == true ? "<color=cyan>Remove Player Mentor</color>" : "<color=cyan>Make Player Mentor</color>";
+			mentorToggle.gameObject.SetActive(entry?.PlayerData?.hasMentorRole == false);
 
-			oocMuteButtonText.text = entry.PlayerData.isOOCMuted ? "<color=grey>Unmute OOC</color>" : "<color=grey>Mute OOC</color>";
+			oocMuteButtonText.text = entry?.PlayerData?.isOOCMuted == true ? "<color=grey>Unmute OOC</color>" : "<color=grey>Mute OOC</color>";
 
-			PlayerNotes.SetTextWithoutNotify( entry.PlayerData.PlayerNotes);
-			OnWatchlist.isOn = (entry.PlayerData.OnWatchlist);
+			PlayerNotes.SetTextWithoutNotify( entry?.PlayerData?.PlayerNotes);
+			OnWatchlist.isOn = (entry?.PlayerData?.OnWatchlist == true);
 
-			JailText.text = entry.PlayerData.InJail ? "<color=yellow>UNJAIL</color>" : "<color=red>JAIL</color>";
+			JailText.text = entry?.PlayerData?.InJail == true ? "<color=yellow>UNJAIL</color>" : "<color=red>JAIL</color>";
 		}
 
 		public void OnJailTextBtn()

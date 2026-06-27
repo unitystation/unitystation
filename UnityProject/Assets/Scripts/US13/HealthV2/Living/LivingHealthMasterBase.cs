@@ -956,10 +956,10 @@ namespace US13.HealthV2.Living
 
 			if (radLevel == 0) return;
 
-			ApplyDamageAll(null, radLevel * 0.02f, AttackType.Rad, DamageType.Radiation);
+			ApplyDamageAll(null, radLevel * 0.03f, AttackType.Rad, DamageType.Radiation);
 		}
 
-		/// <summary>Our
+		/// <summary>
 		/// Applys damage from fire stacks and handles their effects and decay
 		/// </summary>
 		public void FireStacksDamage()

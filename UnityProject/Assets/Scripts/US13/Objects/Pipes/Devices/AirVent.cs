@@ -92,9 +92,10 @@ namespace US13.Objects.Pipes.Devices
 
 		public override void OnSpawnServer(SpawnInfo info)
 		{
-			metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
-			metaNode = metaDataLayer.Get(registerTile.LocalPositionServer);
 			InternalpipeMix = GasMix.NewGasMix(GasMixes.BaseEmptyMix);
+
+
+
 
 			base.OnSpawnServer(info);
 		}
@@ -103,6 +104,9 @@ namespace US13.Objects.Pipes.Devices
 		{
 			if (CustomNetworkManager.IsServer)
 			{
+				metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
+				metaNode = metaDataLayer.Get(registerTile.LocalPositionServer);
+
 				if (TryGetComponent<AcuDevice>(out var device) && device.Controller != null)
 				{
 					SetOperatingMode(device.Controller.DesiredMode, false);
@@ -140,6 +144,7 @@ namespace US13.Objects.Pipes.Devices
 		private void Operate()
 		{
 			GasMix sourceGasMix = pipeMix;
+			if (metaNode == null) return; //oh no
 			GasMix targetGasMix = metaNode.GasMixLocal;
 			if (OperatingMode == Mode.In)
 			{

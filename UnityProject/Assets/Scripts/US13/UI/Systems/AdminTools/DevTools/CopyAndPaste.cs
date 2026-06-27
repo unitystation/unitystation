@@ -101,6 +101,7 @@ namespace US13.UI.Systems.AdminTools.DevTools
 		public TMP_Text TemplateSavePath;
 		public GameObject SelectTemplatePanel;
 
+		public Toggle ExcludeAsteroids;
 
 		public void MAPSelectClose()
 		{
@@ -382,8 +383,14 @@ namespace US13.UI.Systems.AdminTools.DevTools
 
 		}
 
+		public void AsteroidValueChange(bool val)
+		{
+			UpdateDropDown();
+		}
+
 		public override void Awake()
 		{
+			ExcludeAsteroids.onValueChanged.AddListener(AsteroidValueChange);
 			TMP_Dropdown.onValueChanged.AddListener(UpdateSelectedMatrix);
 			escapeKeyTarget = GetComponent<EscapeKeyTarget>();
 			MatrixManager.Instance.OnActiveMatricesChange += UpdateDropDown;
@@ -445,13 +452,29 @@ namespace US13.UI.Systems.AdminTools.DevTools
 				text = "New Matrix",
 			});
 			foreach (var Entry in MatrixManager.Instance.ActiveMatrices)
+			{
+				var IsAsteroid = Entry.Value.Name.ToLower().Contains("asteroid");
 
-				Options.Add(new CustomOption()
+				if (ExcludeAsteroids.isOn && IsAsteroid == false)
 				{
-					ID = Entry.Key,
-					text = Entry.Value.Name
-				});
-			TMP_Dropdown.options = Options;
+					Options.Add(new CustomOption()
+					{
+						ID = Entry.Key,
+						text = Entry.Value.Name
+					});
+					TMP_Dropdown.options = Options;
+				}
+				else if (ExcludeAsteroids.isOn == false && IsAsteroid)
+				{
+					Options.Add(new CustomOption()
+					{
+						ID = Entry.Key,
+						text = Entry.Value.Name
+					});
+					TMP_Dropdown.options = Options;
+				}
+			}
+
 		}
 
 		public struct GizmoAndBox
@@ -686,6 +709,8 @@ namespace US13.UI.Systems.AdminTools.DevTools
 			var ObjectsVisible = DevCameraControls.Instance.GetObjectsMappingVisible();
 			var Layers = DevCameraControls.Instance.ReturnVisibleLayers();
 
+			var Selected = TMP_Dropdown.GetSelected();
+
 			var IDs = (TMP_Dropdown.GetSelected().Select(x => x  as CustomOption));
 
 			if (PositionsToCopy.Count == 0)
@@ -729,7 +754,7 @@ namespace US13.UI.Systems.AdminTools.DevTools
 					return;
 				}
 
-				var ID = IDs.First().ID;
+				var ID = IDs.FirstOrDefault()?.ID;
 
 				MatrixInfo Matrix = MatrixManager.AtPoint(PositionsToCopy[0].BetterBounds.Min, CustomNetworkManager.IsServer);
 				if (ID != null)

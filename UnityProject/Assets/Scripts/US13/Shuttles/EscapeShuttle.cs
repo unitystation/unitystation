@@ -356,6 +356,8 @@ namespace US13.Shuttles
 			if (blockCall && !bypassLimits)
 			{
 				callResult = "The emergency shuttle cannot be called at this time.";
+				
+
 				return false;
 			}
 
