@@ -733,10 +733,23 @@ namespace US13.Shuttles
 				return;
 			}
 
-			if (ConnectedThrusters.Count == 0 && WorldCurrentVelocity.magnitude == 0 && CurrentTorque == 0 &&
-			    HasMoveToTarget == false && ServerSyncDoesntMatch() == false) return;
+
+			if (ConnectedThrusters.Count == 0 &&
+			    WorldCurrentVelocity.magnitude == 0 &&
+			    CurrentTorque == 0 &&
+			    HasMoveToTarget == false &&
+			    ServerSyncDoesntMatch() == false &&
+			    TargetOrientation == OrientationEnum.Default &&
+			    TargetTransform.position == TargetTransform.position.RoundToIntFloat())
+			{
+				ElapsedTimeSinceLastUpdate.Stop();
+				ElapsedTimeSinceLastUpdate.Reset(); //TODO Editor pausing??
+				return;
+			}
+
 
 			UpdateLoop();
+
 		}
 
 

@@ -58,6 +58,18 @@ public static class SharedConverterExtensions
 	public static Vector3Int RoundToInt(this Vector3 other) =>
 		Vector3Int.RoundToInt(other);
 
+	/// <summary>Round <see cref="Vector3"/> to rounded version of <see cref="Vector3"/>.</summary>
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	public static Vector3 RoundToIntFloat(this Vector3 other)
+	{
+		return new Vector3()
+		{
+			x  = Mathf.RoundToInt(other.x),
+			y  = Mathf.RoundToInt(other.y),
+			z  = Mathf.RoundToInt(other.z)
+		};
+	}
+
 	/// <summary>Round <see cref="Vector2"/> to <see cref="Vector3Int"/> with z-axis set to 0.</summary>
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	public static Vector3Int RoundToInt(this Vector2 other) =>

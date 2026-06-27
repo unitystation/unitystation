@@ -1183,9 +1183,9 @@ namespace US13.Core.Physics
 				UpdateManager.Remove(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
 			}
 
-			if (ZRotation != transform.rotation.eulerAngles.z)
+			if (ZRotation != transform.localRotation.eulerAngles.z)
 			{
-				ZRotation = transform.rotation.eulerAngles.z;
+				ZRotation = transform.localRotation.eulerAngles.z;
 			}
 
 			Animating = true;
@@ -1503,9 +1503,9 @@ namespace US13.Core.Physics
 				return;
 			}
 
-			if (ZRotation != transform.rotation.eulerAngles.z)
+			if (ZRotation != transform.localRotation.eulerAngles.z)
 			{
-				ZRotation = transform.rotation.eulerAngles.z;
+				ZRotation = transform.localRotation.eulerAngles.z;
 			}
 
 
