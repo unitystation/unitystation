@@ -12,6 +12,7 @@ using US13.HealthV2.Living;
 using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.MedicalChemistry;
 using US13.HealthV2.Living.PolymorphicSystems;
+using US13.Items.Implants.Organs;
 using US13.Managers;
 using US13.Managers.NetworkManagement;
 using US13.Messages.Server;
@@ -63,8 +64,18 @@ namespace US13.Systems.Antagonists
 				{
 					TestForPlayerCountChange();
 					float diseaseAmount = ReagentPool.BloodPool[CommonSicknesses.Instance.VampirismReagent];
+					foreach (var bpf in connectedPlayer.playerHealth.BodyOrganLookup[typeof(Liver)])
+					{
+						if (bpf.TryGetComponent<Liver>(out var liver) == false) continue;
+						if (liver.processingContainer.CurrentReagentMix.reagentKeys.Contains(CommonSicknesses.Instance
+							    .VampirismReagent) == false) continue;
+						diseaseAmount += liver.processingContainer.CurrentReagentMix.reagents[CommonSicknesses.Instance
+							.VampirismReagent];
+					}
 					vampireStage = vampirismReaction.GetStageIDFromReagentAmount(ReagentPool, diseaseAmount) - 1;
-					vampireHud.UpdateProgressHud(vampireStage, diseaseAmount, vampirismReaction.GetNeededReagentsForStage(ReagentPool, vampireStage), vampirismReaction.GetNeededReagentsForStage(ReagentPool, vampireStage + 1));
+
+					
+					VampireHudUpdateMessage.SendTo(connectedPlayer.connectionToClient, currentVampirismStage, diseaseAmount, vampirismReaction.GetNeededReagentsForStage(ReagentPool, vampireStage), vampirismReaction.GetNeededReagentsForStage(ReagentPool, vampireStage + 1));
 				}
 				if(vampireStage == currentVampirismStage) return;
 				if (vampireStage > currentVampirismStage) Evolve(vampireStage);
@@ -111,6 +122,11 @@ namespace US13.Systems.Antagonists
 			preventCuredVampires.RemoveVampire(connectedPlayer.Mind);
 			connectedPlayer.Mind.RemoveAntag();
 			VampireHudMessage.SendTo(connectedPlayer.connectionToClient, false);
+		}
+
+		public void UpdateHudProgress(int stage, float currentAmount, float minAmount, float maxAmount)
+		{
+			vampireHud.UpdateProgressHud(stage, currentAmount, minAmount, maxAmount);
 		}
 
 		private void CreateVampire()
