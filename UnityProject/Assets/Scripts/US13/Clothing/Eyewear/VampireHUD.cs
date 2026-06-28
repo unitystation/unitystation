@@ -59,9 +59,9 @@ namespace US13.Clothing.Eyewear
 			CurrentStage = newStage;
 		}
 
-		public void UpdateProgressHud(int stage, float currentCorruption, float desiredCorruption)
+		public void UpdateProgressHud(int stage, float currentCorruption, float minNeeded, float desiredCorruption)
 		{
-			UIManager.Instance.panelHudBottomController.UpdateVampireHuD(stage, currentCorruption, desiredCorruption);
+			UIManager.Instance.panelHudBottomController.UpdateVampireHuD(stage, currentCorruption, minNeeded, desiredCorruption);
 		}
 
 		public void OnDestroy()

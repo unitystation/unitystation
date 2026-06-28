@@ -64,7 +64,7 @@ namespace US13.Systems.Antagonists
 					TestForPlayerCountChange();
 					float diseaseAmount = ReagentPool.BloodPool[CommonSicknesses.Instance.VampirismReagent];
 					vampireStage = vampirismReaction.GetStageIDFromReagentAmount(ReagentPool, diseaseAmount) - 1;
-					vampireHud.UpdateProgressHud(vampireStage, diseaseAmount, vampirismReaction.GetNeededReagentsForStage(ReagentPool, vampireStage + 1));
+					vampireHud.UpdateProgressHud(vampireStage, diseaseAmount, vampirismReaction.GetNeededReagentsForStage(ReagentPool, vampireStage), vampirismReaction.GetNeededReagentsForStage(ReagentPool, vampireStage + 1));
 				}
 				if(vampireStage == currentVampirismStage) return;
 				if (vampireStage > currentVampirismStage) Evolve(vampireStage);

@@ -296,9 +296,9 @@ namespace US13.UI.Core
 			vampireHud.SetVisible(visible);
 		}
 
-		public void UpdateVampireHuD(int stage, float currentCorruption, float desiredCorruption)
+		public void UpdateVampireHuD(int stage, float currentCorruption, float minNeeded, float desiredCorruption)
 		{
-			vampireHud.UpdateHud(stage, currentCorruption, desiredCorruption);
+			vampireHud.UpdateHud(stage, currentCorruption,  minNeeded, desiredCorruption);
 		}
 	}
 }

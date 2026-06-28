@@ -35,17 +35,11 @@ namespace US13.UI.Core
 		[SerializeField] private UI_HoverTooltip hoverTooltip;
 		private string toolTip;
 
-		[Button]
-		public void TestSetRandomState()
-		{
-			Random rand = new Random();
-			UpdateHud(rand.Next(0, 4), rand.Next(0, 80), rand.Next(80, 100));
-		}
 
-		public void UpdateHud(int currentStage, float currentCorruption, float desiredCorruption)
+		public void UpdateHud(int currentStage, float currentCorruption, float minForStage, float desiredCorruption)
 		{
 			progressBar.SetGradient(FetchGradientForStage(currentStage));
-			progressBar.UpdateValue(currentCorruption / desiredCorruption, true);
+			progressBar.UpdateValue((currentCorruption - minForStage) / (desiredCorruption - minForStage), true);
 			currentStageImage.sprite = sprites[currentStage];
 			nextStageImage.sprite = sprites[currentStage + 1];
 
@@ -112,7 +106,7 @@ namespace US13.UI.Core
 
 		public string HoverTip()
 		{
-			return $"Stage {toolTip}\nUse your vampire abilities to gain corruption\nand new powers!";
+			return $"Stage {toolTip}\nUse your vampire abilities to gain corruption and new powers!";
 		}
 
 		public string CustomTitle()
