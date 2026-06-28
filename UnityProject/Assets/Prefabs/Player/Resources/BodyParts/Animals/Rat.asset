@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4e3145566f967d4e9706a88c0917052, type: 3}
+  m_Name: Rat
+  m_EditorClassIdentifier: Assets::US13.Player.PlayerHealthData
+  Base:
+    Head:
+      Elements: []
+    Torso:
+      Elements:
+      - {fileID: 0}
+    ArmRight:
+      Elements: []
+    ArmLeft:
+      Elements: []
+    LegRight:
+      Elements: []
+    LegLeft:
+      Elements: []
+    allowedToChangeling: 1
+    CustomisationSettings: []
+    bodyTypeSettings:
+      AvailableBodyTypes: []
+    SkinColours: []
+    RootImplantProcedure: {fileID: 11400000, guid: 042d01452f7f9ec4aa0e9ca6ea309242,
+      type: 2}
+    BodyPartsThatShareTheSkinTone: []
+    ClueString: 
+    MeatProduce: {fileID: 4301451620404162702, guid: 0220e2b4d42274c4c8f2ef1af25f54a8,
+      type: 3}
+    SkinProduce: {fileID: 0}
+    SkinningItemTrait: {fileID: 11400000, guid: 5beae98557a654ea6acad86c309950af,
+      type: 2}
+    CanBeEmagged: 0
+    CanBePlayerChosen: 0
+    PreviewSprite: {fileID: 11400000, guid: 20071a4e8da65ba4883ce265738929b2, type: 2}
+    SystemSettings: []
+    StartingMutations: []
+  references:
+    version: 2
+    RefIds: []
