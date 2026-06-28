@@ -2,6 +2,7 @@ using Mirror;
 using UnityEngine;
 using US13.Player;
 using US13.Player.HUDData;
+using US13.UI.Systems;
 using Util;
 
 namespace US13.Clothing.Eyewear
@@ -49,12 +50,18 @@ namespace US13.Clothing.Eyewear
 				Visible = false;
 			}
 			vampireHUDHandler.SetVisible(Visible);
+			UIManager.Instance.panelHudBottomController.SetVampireVisibility(Visible);
 		}
 
 		public void SyncCurrentStage(int oldStage, int newStage)
 		{
 			vampireHUDHandler.UpdateStage(newStage);
 			CurrentStage = newStage;
+		}
+
+		public void UpdateProgressHud(int stage, float currentCorruption, float desiredCorruption)
+		{
+			UIManager.Instance.panelHudBottomController.UpdateVampireHuD(stage, currentCorruption, desiredCorruption);
 		}
 
 		public void OnDestroy()

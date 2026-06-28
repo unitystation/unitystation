@@ -6,6 +6,7 @@ using US13.Player;
 using US13.Systems.Inventory;
 using US13.UI.Systems.MainHUD.UI_Bottom;
 using US13.UI.Systems.MainHUD.UI_Bottom.Alien;
+using Util;
 
 namespace US13.UI.Core
 {
@@ -106,6 +107,7 @@ namespace US13.UI.Core
 		[SerializeField] private Image pocketOneImage = default;
 		[SerializeField] private Image SuitStorageImage = default;
 		[SerializeField] private Color greyedPocketColor = Color.gray;
+		[SerializeField] private UI_VampireStage vampireHud = null;
 
 		[Header("Message settings")] [SerializeField]
 		private string emptyHandNPocketMessage = "There's nothing in that pocket";
@@ -287,6 +289,16 @@ namespace US13.UI.Core
 			}
 
 			pocket.TryItemInteract();
+		}
+
+		public void SetVampireVisibility(bool visible)
+		{
+			vampireHud.SetVisible(visible);
+		}
+
+		public void UpdateVampireHuD(int stage, float currentCorruption, float desiredCorruption)
+		{
+			vampireHud.UpdateHud(stage, currentCorruption, desiredCorruption);
 		}
 	}
 }
