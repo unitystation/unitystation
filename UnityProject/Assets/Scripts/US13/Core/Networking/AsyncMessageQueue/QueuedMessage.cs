@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Newtonsoft.Json;
 using SecureStuff.Util;
 
 namespace US13.Core.Networking.AsyncMessageQueue
@@ -17,7 +18,16 @@ namespace US13.Core.Networking.AsyncMessageQueue
 
 		public T DeserializeFromText<T>()
 		{
-			return ValueFromJson.ParseString<T>();
+			try
+			{
+				return JsonConvert.DeserializeObject<T>(ValueFromJson);
+			}
+			catch
+			{
+				var result = ValueFromJson.ParseString();
+				return (T)result.Item2;
+			}
+			return default;
 		}
 	}
 }
