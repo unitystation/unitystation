@@ -2,8 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using Logs;
-using SecureStuff;
 using UnityEditor;
 using UnityEngine;
 using US13.Core.Chat;
@@ -17,6 +18,7 @@ using US13.Learning;
 using US13.Managers;
 using US13.Managers.MatrixManager;
 using US13.Managers.NetworkManagement;
+using US13.Messages.Client.Admin;
 using US13.Messages.Server;
 using US13.Messages.Server.HealthMessages;
 using US13.Player;
@@ -824,5 +826,92 @@ namespace IngameDebugConsole.Scripts
 			}
 		}
 #endif
+		/// <summary>
+		///	Console method that logs the list of available commands
+		/// </summary>
+		[ConsoleMethod("help", "Prints all commands")]
+		public static void LogAllCommands()
+		{
+			int length = 20;
+			foreach (var entry in DebugLogConsole.RegisteredMethodInfos)
+			{
+				if (entry.Value.IsValid())
+					length += 3 + entry.Value.signature.Length;
+			}
+
+			StringBuilder stringBuilder = new StringBuilder(length);
+			stringBuilder.Append("Available commands:");
+
+			foreach (var entry in DebugLogConsole.RegisteredMethodInfos)
+			{
+				if (entry.Value.IsValid())
+					stringBuilder.Append("\n- ").Append(entry.Value.signature);
+			}
+
+			Loggy.Info(stringBuilder.Append("\n").ToString(), Category.DebugConsole);
+		}
+
+		/// <summary>
+		///	Console method that logs system information
+		/// </summary>
+		[ConsoleMethod("sysinfo", "Prints system information")]
+		public static void LogSystemInfo()
+		{
+			StringBuilder stringBuilder = new StringBuilder(1024);
+			stringBuilder.Append("Rig: ").AppendSysInfoIfPresent(SystemInfo.deviceModel)
+				.AppendSysInfoIfPresent(SystemInfo.processorType)
+				.AppendSysInfoIfPresent(SystemInfo.systemMemorySize, "MB RAM").Append(SystemInfo.processorCount)
+				.Append(" cores\n");
+			stringBuilder.Append("OS: ").Append(SystemInfo.operatingSystem).Append("\n");
+			stringBuilder.Append("GPU: ").Append(SystemInfo.graphicsDeviceName).Append(" ")
+				.Append(SystemInfo.graphicsMemorySize)
+				.Append("MB ").Append(SystemInfo.graphicsDeviceVersion)
+				.Append(SystemInfo.graphicsMultiThreaded ? " multi-threaded\n" : "\n");
+			stringBuilder.Append("Data Path: ").Append(Application.dataPath).Append("\n");
+			stringBuilder.Append("Persistent Data Path: ").Append(Application.persistentDataPath).Append("\n");
+			stringBuilder.Append("StreamingAssets Path: ").Append(Application.streamingAssetsPath).Append("\n");
+			stringBuilder.Append("Temporary Cache Path: ").Append(Application.temporaryCachePath).Append("\n");
+			stringBuilder.Append("Device ID: ").Append(SystemInfo.deviceUniqueIdentifier).Append("\n");
+			stringBuilder.Append("Max Texture Size: ").Append(SystemInfo.maxTextureSize).Append("\n");
+			stringBuilder.Append("Max Cubemap Size: ").Append(SystemInfo.maxCubemapSize).Append("\n");
+			stringBuilder.Append("Accelerometer: ")
+				.Append(SystemInfo.supportsAccelerometer ? "supported\n" : "not supported\n");
+			stringBuilder.Append("Gyro: ").Append(SystemInfo.supportsGyroscope ? "supported\n" : "not supported\n");
+			stringBuilder.Append("Location Service: ")
+				.Append(SystemInfo.supportsLocationService ? "supported\n" : "not supported\n");
+			// Image effects not checked, is always true on newer Unity versions.
+			stringBuilder.Append("Compute Shaders: ")
+				.Append(SystemInfo.supportsComputeShaders ? "supported\n" : "not supported\n");
+			stringBuilder.Append("Shadows: ").Append(SystemInfo.supportsShadows ? "supported\n" : "not supported\n");
+			stringBuilder.Append("Instancing: ")
+				.Append(SystemInfo.supportsInstancing ? "supported\n" : "not supported\n");
+			stringBuilder.Append("Motion Vectors: ")
+				.Append(SystemInfo.supportsMotionVectors ? "supported\n" : "not supported\n");
+			stringBuilder.Append("3D Textures: ")
+				.Append(SystemInfo.supports3DTextures ? "supported\n" : "not supported\n");
+			stringBuilder.Append("3D Render Textures: ")
+				.Append(SystemInfo.supports3DRenderTextures ? "supported\n" : "not supported\n");
+			stringBuilder.Append("2D Array Textures: ")
+				.Append(SystemInfo.supports2DArrayTextures ? "supported\n" : "not supported\n");
+			stringBuilder.Append("Cubemap Array Textures: ")
+				.Append(SystemInfo.supportsCubemapArrayTextures ? "supported" : "not supported");
+
+			Loggy.Info(stringBuilder.Append("\n").ToString(), Category.DebugConsole);
+		}
+
+		[ConsoleMethod("GCVar", "set a game config variable value")]
+		public static void SetGameConfigVariable(string variableName, string value)
+		{
+			if (IsAdmin() == false)
+			{
+				Loggy.Warning("Unauthorized attempt to set game config variable.");
+				return;
+			}
+			AdminRequestUpdateGameConfigVariableMessage.Send(new AdminRequestUpdateGameConfigVariableMessage.NetMessage
+			{
+				Value = value,
+				VariableName = variableName
+			});
+		}
 	}
 }
