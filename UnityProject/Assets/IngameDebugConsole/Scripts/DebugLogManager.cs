@@ -353,10 +353,6 @@ namespace IngameDebugConsole.Scripts
 			// If command is submitted
 			if (addedChar == '\n')
 			{
-				// Clear the command field
-				if (clearCommandAfterExecution)
-					commandInputField.text = "";
-
 				if (text.Length > 0)
 				{
 					// Execute the command
@@ -366,6 +362,10 @@ namespace IngameDebugConsole.Scripts
 					// Snap to bottom and select the latest entry
 					SetSnapToBottom(true);
 				}
+
+				// Clear the command field
+				if (clearCommandAfterExecution)
+					commandInputField.text = "";
 
 				return '\0';
 			}

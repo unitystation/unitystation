@@ -7,7 +7,6 @@ using Chemistry;
 using IngameDebugConsole.Scripts;
 using Logs;
 using Mirror;
-using NUnit.Framework;
 using SecureStuff;
 using UnityEngine;
 using US13.Core.Addressables.Types;
@@ -60,7 +59,7 @@ namespace US13.Managers
 	/// </summary>
 	public class AdminCommandsManager : NetworkBehaviour
 	{
-		[SerializeField] private global::US13.ScriptableObjects.GhostRoleData deathsquadRole = default;
+		[SerializeField] private GhostRoleData deathsquadRole = default;
 
 		private static AdminCommandsManager instance;
 
@@ -1415,7 +1414,6 @@ namespace US13.Managers
 					$"<color=blue>An admin has given the '{faith.Faith.FaithName}' faith 500 points</color>");
 			}
 		}
-
 		#endregion
 	}
 }

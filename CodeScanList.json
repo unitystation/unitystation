@@ -2422,6 +2422,9 @@
             "GradientAlphaKey": {
                 "All": true
             },
+            "GradientColorKey": {
+                "All":true
+            },
             "Gradient": {
                 "All": true
             },
@@ -3453,11 +3456,14 @@
             },
             "IReturnAndReceiveStringForSecureHttpListener": {
                 "ALL": true
-            },
-            "Util":{
-                "SecureExtensions": {
-                    "All": true
-                }
+            }
+        },
+        "SecureStuff.Util": {
+            "SecureExtensions": {
+                "Methods": [
+                    "!!0 ParseString(string, !!0)",
+                    "System.Tuple`2<System.Type, object> ParseString(string)"
+                ]
             }
         },
         "Newtonsoft.Json": {

@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.UI;
 using Util;
+using Color = UnityEngine.Color;
 
 namespace US13.Clothing.Eyewear
 {
@@ -17,17 +19,22 @@ namespace US13.Clothing.Eyewear
 		[Serializable]
 		private class AdditionalBarElement
 		{
-			[SerializeField] private SpriteRenderer _spriteRenderer;
+			[SerializeField] private bool isCanvasElement = false;
+			[HideIf(nameof(isCanvasElement)), SerializeField] private SpriteRenderer _spriteRenderer;
+			[ShowIf(nameof(isCanvasElement)), SerializeField] private Image _image;
+
 			[SerializeField] private Color _mixColor = Color.white;
 
 			public void UpdateColor(Color newColor)
 			{
-				_spriteRenderer.color = newColor * _mixColor;
+				if (isCanvasElement) _image.color = newColor * _mixColor;
+				else _spriteRenderer.color = newColor * _mixColor;
 			}
 
 			public void SetVisible(bool isVisible)
 			{
-				_spriteRenderer.SetActive(isVisible);
+				if(isCanvasElement) _image.SetActive(isVisible);
+				else _spriteRenderer.SetActive(isVisible);
 			}
 		}
 
@@ -48,10 +55,13 @@ namespace US13.Clothing.Eyewear
 		private float value = 0;
 
 
-		[SerializeField, Tooltip("The sprite that will be adjusted. This sprite must be a child with 0 x-coord offset")]
-		private SpriteRenderer spriteToModify = null;
+		[SerializeField] private bool isCanvasElement = false;
+		//must be child with 0 x offset
+		[HideIf(nameof(isCanvasElement)), SerializeField] private SpriteRenderer spriteToModify = null;
+		[ShowIf(nameof(isCanvasElement)), SerializeField] private Image imageToModify = null;
 
 		private Transform spriteTransform => spriteToModify?.gameObject.transform;
+		private RectTransform spriteTransformRect => imageToModify?.rectTransform;
 
 		[SerializeField] private int steps = 0;
 		[SerializeField] private float maxScale = 15;
@@ -64,29 +74,53 @@ namespace US13.Clothing.Eyewear
 
 		private float scaleRange => maxScale - minScale;
 
-		private void UpdateValue(float newValue, bool forceUpdate = false)
+		public void SetGradient(Gradient gradient)
+		{
+			colourGradient = gradient;
+		}
+
+		/// <summary>
+		/// Called internally by the setter of Value. only call this is you want to force an update for some other reason
+		/// </summary>
+		public void UpdateValue(float newValue, bool forceUpdate = false)
 		{
 			if (Application.isPlaying && _isVisible == false) return;
-			if (spriteToModify == false) return;
+			if ((isCanvasElement && imageToModify == false) || (isCanvasElement == false && spriteToModify == false)) return;
 
 			newValue = Mathf.Clamp(newValue, 0.0f, 1.00f);
 			if (forceUpdate == false && newValue.Approx(value)) return;
 
 			float effectiveValue = Mathf.Ceil(newValue * steps) / steps;
 
-			spriteToModify.color = colourGradient.Evaluate(effectiveValue);
+			Color newColour = colourGradient.Evaluate(effectiveValue);
+
+			if (isCanvasElement) imageToModify.color = newColour;
+			else spriteToModify.color = newColour;
+
 			foreach (var additionalBarElement in additionalElementsToColour)
 			{
-				additionalBarElement.UpdateColor(spriteToModify.color);
+				additionalBarElement.UpdateColor(newColour);
 			}
 
 			float newScale = minScale + effectiveValue * scaleRange;
-			Vector3 currentScale = spriteTransform.localScale;
-			spriteTransform.localScale = new Vector3(newScale, currentScale.y, currentScale.z);
+			if (isCanvasElement)
+			{
+				Vector3 currentScale = spriteTransformRect.localScale;
+				spriteTransformRect.localScale = new Vector3(newScale, currentScale.y, currentScale.z);
 
-			float scalingAmount = spriteTransform.localScale.x - minScale;
-			Vector3 newPosition = new Vector3((scalingAmount - minScale) / 2, spriteTransform.localPosition.y, 0);
-			spriteTransform.localPosition = newPosition;
+				float scalingAmount = spriteTransformRect.localScale.x - minScale;
+				Vector3 newPosition = new Vector3((scalingAmount - minScale) / 2, spriteTransformRect.localPosition.y, 0);
+				spriteTransformRect.localPosition = newPosition;
+			}
+			else
+			{
+				Vector3 currentScale = spriteTransform.localScale;
+				spriteTransform.localScale = new Vector3(newScale, currentScale.y, currentScale.z);
+
+				float scalingAmount = spriteTransform.localScale.x - minScale;
+				Vector3 newPosition = new Vector3((scalingAmount - minScale) / 2, spriteTransform.localPosition.y, 0);
+				spriteTransform.localPosition = newPosition;
+			}
 
 			value = newValue;
 		}
@@ -99,7 +133,8 @@ namespace US13.Clothing.Eyewear
 			{
 				additionalBarElement.SetVisible(isVisible);
 			}
-			spriteToModify.gameObject.SetActive(isVisible);
+			if(isCanvasElement) imageToModify.gameObject.SetActive(isVisible);
+			else spriteToModify.gameObject.SetActive(isVisible);
 
 			if(_isVisible) UpdateValue(value, true);
 		}
@@ -108,6 +143,11 @@ namespace US13.Clothing.Eyewear
 		private void TestSetToRandomValue()
 		{
 			Value = UnityEngine.Random.Range(0.0f, 1.0f);
+		}
+		[Button]
+		private void TestSetToOne()
+		{
+			Value =1.0f;
 		}
 
 	}

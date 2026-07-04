@@ -1,49 +1,42 @@
 {
-	"RandomEventsAllowed": true,
-
-	"SpawnLavaLand": true,
-
-	"MinPlayersForCountdown": 1,
-
-	"MinReadyPlayersForCountdown": 1,
-
-	"PreRoundTime": 120,
-
-	"RoundEndTime": 60,
-
-	"RoundsPerMap": 10,
-
-	"InitialGameMode": "Carousel",
-  
-    "AllowedExtendedGameMode": false,
-  
+  "Gameplay": {
+    "RandomEventsAllowed": true,
+    "SpawnLavaLand": true,
+    "MinPlayersForCountdown": 1,
+    "MinReadyPlayersForCountdown": 1,
+    "PreRoundTime": 120,
+    "RoundEndTime": 60,
+    "RoundsPerMap": 10,
+    "InitialGameMode": "Carousel",
+    "AllowExtendedGameMode": false,
     "ForceExtendedGameMode": false,
-
-	"RespawnAllowed": false,
-
-	"ShuttleDepartTime": 180,
-
-	"GibbingAllowed": true,
-
-	"ShuttleGibbingAllowed": true,
-
-	"AdminOnlyHtml": true,
-
-	"CharacterNameLimit": 32,
-	
-	"MalfAIRecieveTheirIntendedObjectiveChance": 35,
-	
-	"ServerShutsDownOnRoundEnd" : true,
-	
-	"PlayerLimit" : 100,
-	
-	"LowPopLimit" : 20,
-
-	"LowPopCheckTimeAfterRoundStart" : 300,
-
-	"RebootOnAverageFPSOrLower" : 20,
-	
-	"AccountAPIHost" : "prod-api.unitystation.org", 
-  
-    "ExplosionStepTimeInSeconds" : 0.14
+    "RespawnAllowed": false,
+    "ShuttleDepartTime": 180,
+    "GibbingAllowed": true,
+    "ShuttleGibbingAllowed": true,
+    "ExplosionStepTimeInSeconds": 0.14
+  },
+  "Gameplay.Shuttles": {
+    "MinimumThrustStrengthToKnockdownPlayers": 0.85
+},
+  "Admin": {
+    "AdminOnlyHtml": true,
+    "NumberOfLogsToStore": null
+  },
+  "Physics": {
+    "ObjectBouncynessMultiplier": 1.0,
+    "FrictionMultiplier": 1.0,
+    "MaximumTimeSpentFlying": 90.0,
+    "SlideFrictionMultiplier": 1.0
+  },
+  "Server": {
+    "CharacterNameLimit": 32,
+    "MalfAIRecieveTheirIntendedObjectiveChance": 35,
+    "ServerShutsDownOnRoundEnd": true,
+    "PlayerLimit": 100,
+    "LowPopLimit": 20,
+    "LowPopCheckTimeAfterRoundStart": 300,
+    "RebootOnAverageFPSOrLower": 20,
+    "AccountAPIHost": "prod-api.unitystation.org"
+  }
 }

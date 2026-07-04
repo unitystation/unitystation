@@ -2,18 +2,22 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using JetBrains.Annotations;
 using Logs;
 using Mirror;
 using UnityEngine;
+using US13.Core.Chat;
 using US13.Core.GameGizmos;
 using US13.Core.Transform;
+using US13.Managers;
 using US13.Managers.MatrixManager;
 using US13.Managers.NetworkManagement;
 using US13.Managers.UpdateManager;
 using US13.Objects.Consoles;
 using US13.Player;
 using US13.Tilemaps.Behaviours.Layers;
+using US13.Tilemaps.Behaviours.Objects;
 using Util;
 
 namespace US13.Shuttles
@@ -202,6 +206,8 @@ namespace US13.Shuttles
 		public OrientationEnum CurrentOrientation => TargetTransform.eulerAngles.z.Angle360ToOrientationEnum();
 
 		[SerializeField] private OrientationEnum targetOrientation = OrientationEnum.Default;
+
+		private float lastThrusterStrength = 0;
 
 		//NOTE This is not in respect to the Orientation of the Front of the shuttle or the direction of the Shuttle consul, Just to do with the rotation of target transform
 		public OrientationEnum TargetOrientation
@@ -627,6 +633,33 @@ namespace US13.Shuttles
 			{
 				move.InternalSetThrusterStrength(Direction, Multiplier);
 			}
+
+			if (Multiplier == 0)
+			{
+				lastThrusterStrength = 0;
+			}
+			else
+			{
+				KnockdownUnseatedPlayers(Multiplier, Matrixes);
+			}
+		}
+
+		public void KnockdownUnseatedPlayers(float multiplier, HashSet<NetworkedMatrixMove> matrixMoves)
+		{
+			if (multiplier < GameConfigManager.GameConfig.MinimumThrustStrengthToKnockdownPlayers) return;
+			if (multiplier < lastThrusterStrength) return;
+
+			foreach (NetworkedMatrixMove networkedMatrixMove in matrixMoves)
+			{
+				foreach (RegisterPlayer mob in networkedMatrixMove.MetaTileMap.matrix.PresentPlayers)
+				{
+					if (mob.IsLayingDown || mob.PlayerScript.ObjectPhysics.IsBuckled) return;
+					mob.ServerStun(Mathf.Clamp(multiplier * 2, 1, 5), checkForArmor: false);
+					Chat.AddExamineMsg(mob.PlayerScript.gameObject,
+						"A sudden jolt from below throws you off your feet!");
+				}
+			}
+			lastThrusterStrength = multiplier;
 		}
 
 		public void AddConnector(ShuttleConnector ShuttleConnector)

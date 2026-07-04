@@ -163,6 +163,12 @@ namespace US13.HealthV2.Living
 			return GetStageID(concentrationPercent);
 		}
 
+		public float GetNeededReagentsForStage(ReagentPoolSystem pool, int stage)
+		{
+			stage = Mathf.Clamp(stage, 0, stages.Count - 1);
+			return stages[stage].StageConcentrationThreshold * pool.NormalBlood / 100.0f;
+		}
+
 		public int GetStageID(float concentrationPercent)
 		{
 			int currentStage = 0;

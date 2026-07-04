@@ -9,6 +9,7 @@ using Mirror;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
+using US13.Clothing.Eyewear;
 using US13.Core;
 using US13.Core.Camera;
 using US13.Core.Chat;
@@ -22,7 +23,9 @@ using US13.HealthV2.Living.MedicalChemistry;
 using US13.HealthV2.Living.PolymorphicSystems;
 using US13.Managers.MatrixManager;
 using US13.Managers.NetworkManagement;
+using US13.Messages.Server;
 using US13.Player;
+using US13.Player.HUDData;
 using US13.Systems.Inventory;
 using US13.Tilemaps.Behaviours.Layers;
 using US13.Tilemaps.Utils;
@@ -95,6 +98,20 @@ namespace US13.Systems.Antagonists
 		public override void OnStartClient() //Ensure HUDs persist after relog / late start clients
 		{
 			vampireHud.SyncCurrentStage(-1, currentVampirismStage);
+			if (connectedPlayer.isLocalPlayer) //Update hudstate of joining client
+			{
+				bool hudState = currentVampirismStage > 0;
+				var hudType = typeof(VampireHUD);
+				if (HUDHandler.Categorys.ContainsKey(hudType))
+				{
+					var Listy = HUDHandler.Categorys[hudType];
+					foreach (var HUD in Listy)
+					{
+						HUD.SetVisible(hudState);
+					}
+				}
+				HUDHandler.CategoryEnabled[hudType] = hudState;
+			}
 			base.OnStartClient();
 		}
 

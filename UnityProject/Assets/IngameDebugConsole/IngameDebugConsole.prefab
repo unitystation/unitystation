@@ -306,7 +306,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 11419798}
   m_HandleRect: {fileID: 22426080}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -605,6 +605,7 @@ GameObject:
   - component: {fileID: 11440770}
   - component: {fileID: 11490438}
   - component: {fileID: 11452418}
+  - component: {fileID: 6097717080252129800}
   m_Layer: 5
   m_Name: IngameDebugConsole
   m_TagString: Untagged
@@ -735,6 +736,18 @@ MonoBehaviour:
   popupManager: {fileID: 11491080}
   logItemsScrollRect: {fileID: 11405548}
   recycledListView: {fileID: 11453682}
+--- !u!114 &6097717080252129800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 132536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8193c893acdf3d64291d9197fd57f348, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::IngameDebugConsole.Scripts.DebugLogUnitystationCommands
 --- !u!1 &133140
 GameObject:
   m_ObjectHideFlags: 0
