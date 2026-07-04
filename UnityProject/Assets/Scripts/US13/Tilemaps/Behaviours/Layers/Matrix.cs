@@ -279,9 +279,9 @@ namespace US13.Tilemaps.Behaviours.Layers
 			return MetaTileMap.HasTile(position, LayerType.Floors);
 		}
 
-		public bool IsEmptyAt(Vector3Int position, bool isServer)
+		public bool IsEmptyAt(Vector3Int position, bool isServer, bool IncludeItems)
 		{
-			return MetaTileMap.IsEmptyAt(position, isServer);
+			return MetaTileMap.IsEmptyAt(position, isServer,  IncludeItems);
 		}
 
 		/// Is current position NOT a station tile? (Objects not taken into consideration)

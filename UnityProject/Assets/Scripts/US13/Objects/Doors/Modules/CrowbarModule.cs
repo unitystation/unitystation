@@ -60,7 +60,7 @@ namespace US13.Objects.Doors.Modules
 		public override void ClosedInteraction(HandApply interaction, ref HashSet<DoorProcessingStates> States)
 		{
 			//Require the Help Intent and the door to be unwelded, can't even try to pry a welded door
-			if (interaction is { Intent: Intent.Help } && weldModule.IsWelded == false)
+			if ((interaction is { Intent: Intent.Help } || (master.IsClosed && interaction is { Intent: Intent.Disarm }) ) && weldModule.IsWelded == false)
 			{
 				//If its hands that can pry doors, attempt to pry the door
 				//TODO Currently hard coded to not allow larva, when prying with hands is moved to body parts just have larva not have the pry ability and update this

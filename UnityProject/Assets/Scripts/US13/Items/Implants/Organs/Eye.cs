@@ -195,7 +195,7 @@ namespace US13.Items.Implants.Organs
 
 		[SyncVar(hook = nameof(SyncPreventBlindness))]
 		public bool PreventsBlindness = true; //TODO change to multi-interest bool, Is good enough for now, For multiple eyes
-		public bool DefaultPreventsBlindness_ = false;
+		private bool DefaultPreventsBlindness_ = false;
 
 		[SyncVar(hook = nameof(SyncBadEyesight))]
 		public int BadEyesight = 0;
@@ -205,11 +205,11 @@ namespace US13.Items.Implants.Organs
 
 		[SyncVar(hook = nameof(SyncColourBlindMode))]
 		public ColourBlindMode CurrentColourblindness = ColourBlindMode.None;
-		public ColourBlindMode DefaultColourblindness = ColourBlindMode.None;
+		private ColourBlindMode DefaultColourblindness = ColourBlindMode.None;
 
 		[SyncVar(hook = nameof(SyncXrayState))]
 		public bool HasXray = false;
-		public bool DefaultHasXray = false;
+		private bool DefaultHasXray = false;
 
 
 		public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)

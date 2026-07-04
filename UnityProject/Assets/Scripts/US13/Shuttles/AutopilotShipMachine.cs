@@ -195,6 +195,8 @@ namespace US13.Shuttles
 					MoveDirectionIn = true;
 					mm.NetworkedMatrixMove.IgnorePotentialCollisions = false;
 
+					mm.NetworkedMatrixMove.ClosestCashed = null;
+
 					mm.NetworkedMatrixMove.IgnoreMatrixs.Clear();
 					if (MovedToAfterFinishingChain != null)
 					{

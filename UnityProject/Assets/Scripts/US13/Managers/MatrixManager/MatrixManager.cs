@@ -411,7 +411,7 @@ namespace US13.Managers.MatrixManager
 		public static MatrixInfo AtPoint(Vector3 worldPos, bool isServer, MatrixInfo possibleMatrix = null)
 		{
 			//for performance, this is just a suggestion on which matrix we believe this point could be in, not always correct
-			if (possibleMatrix != null && IsInMatrix(worldPos, isServer, possibleMatrix))
+			if (possibleMatrix != null && IsInMatrix(worldPos, isServer, possibleMatrix, true))
 			{
 				return possibleMatrix;
 			}
@@ -420,7 +420,7 @@ namespace US13.Managers.MatrixManager
 			for (int i = 0; i < ActiveMatricesCount; i++)
 			{
 				var matrixInfo = Instance.ActiveMatricesList[i];
-				if (IsInMatrix(worldPos, isServer, matrixInfo))
+				if (IsInMatrix(worldPos, isServer, matrixInfo, true))
 				{
 					return matrixInfo;
 				}
@@ -459,7 +459,7 @@ namespace US13.Managers.MatrixManager
 			return true;
 		}
 
-		public static bool IsInMatrix(Vector3 worldPos, bool isServer, MatrixInfo matrixInfo)
+		public static bool IsInMatrix(Vector3 worldPos, bool isServer, MatrixInfo matrixInfo, bool IncludeItems)
 		{
 			if (matrixInfo.WorldBounds.Contains(worldPos) == false)
 				return false;
@@ -468,7 +468,7 @@ namespace US13.Managers.MatrixManager
 				return false;
 
 			var localPos = WorldToLocalInt(worldPos, matrixInfo);
-			if (matrixInfo.Matrix.IsEmptyAt(localPos, isServer) == false)
+			if (matrixInfo.Matrix.IsEmptyAt(localPos, isServer, IncludeItems) == false)
 				return true;
 
 			return false;
@@ -719,7 +719,7 @@ namespace US13.Managers.MatrixManager
 		{
 			var matrixInfo = AtPoint(worldPos, isServer, possibleMatrix);
 			var localPos = WorldToLocalInt(worldPos, matrixInfo);
-			var value = matrixInfo.Matrix.IsEmptyAt(localPos, isServer);
+			var value = matrixInfo.Matrix.IsEmptyAt(localPos, isServer, false);
 			return value;
 		}
 
