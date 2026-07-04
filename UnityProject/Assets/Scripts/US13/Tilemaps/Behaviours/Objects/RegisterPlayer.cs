@@ -388,7 +388,7 @@ namespace US13.Tilemaps.Behaviours.Objects
 
 			this.RestartCoroutine(StunTimer(stunDuration), ref unstunHandle);
 			ServerUpdateStunStatus(true);
-			Sound.At(CommonSounds.Instance.Bodyfall, playerScript.gameObject);
+			Sound.At(CommonSounds.Instance.Bodyfall, playerScript.gameObject).PlayNetworked();
 		}
 		private IEnumerator StunTimer(float stunTime)
 		{
