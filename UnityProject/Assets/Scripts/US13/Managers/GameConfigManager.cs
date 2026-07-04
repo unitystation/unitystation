@@ -138,6 +138,7 @@ namespace US13.Managers
 		public int RebootOnAverageFPSOrLower = 35;
 		public string AccountAPIHost;
 		public float ExplosionStepTimeInSeconds = 0.14f;
+		public float MinimumThrustStrengthToKnockdownPlayers = 0.85f;
 
 		//physics
 		public float ObjectBouncynessMultiplier = 1f;
