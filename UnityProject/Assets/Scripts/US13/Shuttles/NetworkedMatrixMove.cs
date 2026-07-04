@@ -1865,7 +1865,7 @@ namespace US13.Shuttles
 					}
 
 					//MatrixMoveAroundCurrentTargetCorner--;
-					Loggy.Error("matrix corner" + MatrixMoveAroundCurrentTargetCorner);
+					//Loggy.Error("matrix corner" + MatrixMoveAroundCurrentTargetCorner);
 					Closest = OtherBigBound.GetClosestPerimeterPoint(DistanceToUse);
 
 					PointIsWithinMatrixPerimeterPoint = OtherBigBound.GetClosestPerimeterPoint(TravelToWorldPOSMatrixTraversall);
