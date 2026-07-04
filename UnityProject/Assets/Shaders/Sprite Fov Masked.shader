@@ -30,8 +30,7 @@ Shader "Stencil/Unlit background masked"
         LOD 100
 
         ZWrite Off
-        Blend SrcAlpha OneMinusSrcAlpha
-
+        Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
         Pass
         {
             CGPROGRAM
@@ -172,9 +171,11 @@ Shader "Stencil/Unlit background masked"
                 }
 
                 float maskChannel = maskSample.g + maskSample.r;
-                float alphaFactor = clamp(maskChannel * 3 - 0.33333f, 0, 1);
+                //float alphaFactor = clamp(maskChannel * 3 - 0.33333f, 0, 1);
+                float alphaFactor = 1; // test
                 final.a = textureSample.a * alphaFactor * i.color.a;
 
+                
                 // --- Shadow (only if USE_SHADOW is enabled) ---
                 #ifdef USE_SHADOW
                 float2 shadowUV = _ShadowOffset.xy;

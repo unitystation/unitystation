@@ -250,7 +250,10 @@ namespace US13.Shuttles
 			{
 				if (TravelToObject != null)
 				{
-					return TravelToObject.transform.position;
+					if (TravelToObject.transform.parent.parent.parent == this.transform.parent) // this is so it actually Is moving the object not just Moving forever
+					{
+						return TravelToObject.transform.position;
+					}
 				}
 
 				return travelToWorldPOS;
@@ -270,7 +273,10 @@ namespace US13.Shuttles
 
 				if (TravelToObject != null)
 				{
-					return TravelToObject.transform.position;
+					if (TravelToObject.transform.parent.parent.parent == this.transform.parent) // this is so it actually Is moving the object not just Moving forever
+					{
+						return TravelToObject.transform.position;
+					}
 				}
 
 				return travelToWorldPOS;
@@ -1765,6 +1771,8 @@ namespace US13.Shuttles
 						MatrixMoveAroundCurrentTargetCorner = 0;
 					}
 
+					//Loggy.Error("going to MatrixMoveAroundCurrentTargetCorner " + MatrixMoveAroundCurrentTargetCorner);
+
 					var Position = NavigatingAroundBetterBounds.Value
 						.GetCorner(MatrixMoveAroundCurrentTargetCorner.Value).RoundToInt();
 					Position.z = 0;
@@ -1838,6 +1846,8 @@ namespace US13.Shuttles
 					}
 
 					float BestDistance = (DistanceToUse - Closest).magnitude;
+					var tempCorner = 0;
+
 					MatrixMoveAroundCurrentTargetCorner = 0;
 					foreach (var Corner in OtherBigBound.Corners())
 					{
@@ -1847,12 +1857,15 @@ namespace US13.Shuttles
 						{
 							BestDistance = Distance;
 							Closest = Corner;
+							MatrixMoveAroundCurrentTargetCorner = tempCorner -1 ;
 						}
 
-						MatrixMoveAroundCurrentTargetCorner++;
+						tempCorner++;
+
 					}
 
-					MatrixMoveAroundCurrentTargetCorner--;
+					//MatrixMoveAroundCurrentTargetCorner--;
+					Loggy.Error("matrix corner" + MatrixMoveAroundCurrentTargetCorner);
 					Closest = OtherBigBound.GetClosestPerimeterPoint(DistanceToUse);
 
 					PointIsWithinMatrixPerimeterPoint = OtherBigBound.GetClosestPerimeterPoint(TravelToWorldPOSMatrixTraversall);

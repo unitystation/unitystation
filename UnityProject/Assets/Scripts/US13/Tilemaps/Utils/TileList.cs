@@ -83,7 +83,14 @@ namespace US13.Tilemaps.Utils
 
 		public bool HasObjects(Vector3Int localPosition)
 		{
-			return objects.TryGetValue(localPosition, out var chunk) && chunk != null && chunk.Count != 0;
+			if (objects.TryGetValue(localPosition, out var chunk))
+			{
+				return chunk != null && chunk.Count != 0;
+			}
+			else
+			{
+				return false;
+			}
 		}
 
 

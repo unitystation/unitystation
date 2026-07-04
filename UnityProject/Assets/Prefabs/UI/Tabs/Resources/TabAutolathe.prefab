@@ -1335,12 +1335,13 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 628841666082136393}
-        m_TargetAssemblyTypeName: UI.Objects.GUI_Autolathe, Assets
+        m_TargetAssemblyTypeName: US13.UI.Objects.Common.Autolathe.GUI_Autolathe,
+          Assets
         m_MethodName: ReturnFromProductPage
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 6352477866407446234}
-          m_ObjectArgumentAssemblyTypeName: Objects.Machines.GUI_RDProProductButton,
+          m_ObjectArgumentAssemblyTypeName: US13.UI.Objects.Research.Protolathe.GUI_RDProProductButton,
             Assets
           m_IntArgument: 0
           m_FloatArgument: 0

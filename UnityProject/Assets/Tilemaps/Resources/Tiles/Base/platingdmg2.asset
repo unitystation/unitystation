@@ -34,12 +34,13 @@ MonoBehaviour:
   description: 
   LayerType: 4
   TileType: 7
+  tileTraits: []
   RequiredTiles: []
   Mass: 1
   floorTileSounds: {fileID: 11400000, guid: b6656d824eea91648b8ada5f88db78ca, type: 2}
   CanSoundOverride: 0
   atmosPassable: 1
-  isSealed: 0
+  isSealed: 1
   SpawnWithNoAir: 0
   passable: 1
   mineable: 0

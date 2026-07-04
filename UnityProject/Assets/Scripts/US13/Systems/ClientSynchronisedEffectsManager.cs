@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Logs;
 using Shared.Managers;
 using US13.Core.Utils;
 using US13.Managers;
@@ -43,10 +44,13 @@ namespace US13.Systems
 
 		public void ClientUnRegisterOnBody(uint BodyID, IClientSynchronisedEffect Effect)
 		{
+
+
 			if (Data.ContainsKey(BodyID) == false)
 			{
 				Data[BodyID] = new List<IClientSynchronisedEffect>();
 			}
+
 
 			if (Data[BodyID].Contains(Effect))
 			{
@@ -56,9 +60,14 @@ namespace US13.Systems
 
 		public void LeavingBody(uint BodyID)
 		{
+
+
 			if (CurrentlyOns.Contains(BodyID))
 			{
+
 				CurrentlyOns.Remove(BodyID);
+				//Loggy.Error("LeavingBody" + BodyID);
+				//Loggy.Error("CurrentlyOns" + string.Join(",", CurrentlyOns));
 			}
 
 			if (Data.ContainsKey(BodyID))
@@ -72,7 +81,12 @@ namespace US13.Systems
 
 		public void EnterBody(uint BodyID)
 		{
-			CurrentlyOns.Add(BodyID);
+			if (CurrentlyOns.Add(BodyID))
+			{
+				//Loggy.Error("EnterBody" + BodyID);
+				//Loggy.Error("CurrentlyOns" + string.Join(",", CurrentlyOns));
+			}
+
 			if (Data.ContainsKey(BodyID))
 			{
 				foreach (var BodyValues in Data[BodyID])

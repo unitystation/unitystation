@@ -1542,7 +1542,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 		/// <summary>
 		/// Checks if tile is empty of Tiles (only solid by default)
 		/// </summary>
-		public bool IsEmptyAt(Vector3Int position, bool isServer)
+		public bool IsEmptyAt(Vector3Int position, bool isServer, bool IncludeItems)
 		{
 			for (var index = 0; index < LayersValues.Length; index++)
 			{
@@ -1551,6 +1551,11 @@ namespace US13.Tilemaps.Behaviours.Layers
 				{
 					return false;
 				}
+			}
+
+			if (IncludeItems)
+			{
+				return ObjectLayer.HasObject(position, isServer) == false;
 			}
 
 			return true;
@@ -1674,7 +1679,6 @@ namespace US13.Tilemaps.Behaviours.Layers
 					}
 				}
 			}
-
 			return true;
 		}
 

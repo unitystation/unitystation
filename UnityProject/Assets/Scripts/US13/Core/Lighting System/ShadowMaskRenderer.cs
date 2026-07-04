@@ -151,7 +151,7 @@ public class ShadowMaskRenderer : MonoBehaviour
 		_tableRT = _newRenderTexture;
 
 
-		_newRenderTexture = new RenderTexture(_textureWidth, _textureHeight, 0, RenderTextureFormat.Default);
+		_newRenderTexture = new RenderTexture(_textureWidth, _textureHeight, 0, RenderTextureFormat.ARGB32);
 		_newRenderTexture.name = "Item";
 		_newRenderTexture.autoGenerateMips = false;
 		_newRenderTexture.useMipMap = false;
@@ -254,7 +254,7 @@ public class ShadowMaskRenderer : MonoBehaviour
 
 		iSetupCamera.orthographic = true;
 		iSetupCamera.clearFlags = CameraClearFlags.Color;
-		iSetupCamera.backgroundColor = Color.black;
+		iSetupCamera.backgroundColor = Color.clear;
 		iSetupCamera.depth = 9;
 		iSetupCamera.allowHDR = false;
 
