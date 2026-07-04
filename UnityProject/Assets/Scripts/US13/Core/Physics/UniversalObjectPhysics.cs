@@ -82,13 +82,10 @@ namespace US13.Core.Physics
 		public bool MappingIntangible = false;
 
 		public bool SnapToGridOnStart = false;
-		public bool IsPlayer = false;
 
 		protected MatrixCash SetMatrixCache = new MatrixCash();
 
 		public float ObjectBouncyness = 0.75f;
-
-		public const float DEFAULT_PUSH_SPEED = 6;
 
 		/// <summary>
 		/// Maximum speed player can reach by throwing stuff in space
@@ -1183,9 +1180,9 @@ namespace US13.Core.Physics
 				UpdateManager.Remove(CallbackType.EARLY_UPDATE, AnimationUpdateMe);
 			}
 
-			if (ZRotation != transform.rotation.eulerAngles.z)
+			if (ZRotation != transform.localRotation.eulerAngles.z)
 			{
-				ZRotation = transform.rotation.eulerAngles.z;
+				ZRotation = transform.localRotation.eulerAngles.z;
 			}
 
 			Animating = true;
@@ -1350,11 +1347,10 @@ namespace US13.Core.Physics
 		private void AirTimeChecks()
 		{
 			SecondsFlying += Time.deltaTime;
-			if (SecondsFlying > 90) //Stop taking up CPU resources! If you're flying through space for too long
+			if (SecondsFlying > GameConfigManager.GameConfig.MaximumTimeSpentFlying) //Stop taking up CPU resources! If you're flying through space for too long
 			{
 				NewtonianMovement *= 0;
 			}
-
 
 			if (PulledBy.HasComponent) return; //It is recursively handled By parent
 
@@ -1368,7 +1364,7 @@ namespace US13.Core.Physics
 				var floating = IsFloating();
 				if (floating == false)
 				{
-					AppliedFriction(DEFAULT_SLIDE_FRICTION);
+					AppliedFriction(DEFAULT_SLIDE_FRICTION * GameConfigManager.GameConfig.SlideFrictionMultiplier);
 				}
 			}
 			else if (IsStickyMovement)
@@ -1379,7 +1375,7 @@ namespace US13.Core.Physics
 				{
 					if (NewtonianMovement.magnitude > maximumStickSpeed) //Too fast to grab onto anything
 					{
-						AppliedFriction(DEFAULT_Friction);
+						AppliedFriction(DEFAULT_Friction * GameConfigManager.GameConfig.FrictionMultiplier);
 					}
 					else
 					{
@@ -1393,7 +1389,7 @@ namespace US13.Core.Physics
 				var floating = IsFloating();
 				if (floating == false)
 				{
-					AppliedFriction(DEFAULT_Friction);
+					AppliedFriction(DEFAULT_Friction * GameConfigManager.GameConfig.FrictionMultiplier);
 				}
 			}
 		}
@@ -1410,7 +1406,7 @@ namespace US13.Core.Physics
 				NewtonianMovement -= 2 * (NewtonianMovement * hit.Normal) * hit.Normal;
 				var offset = (0.1f * hit.Normal);
 				newPosition = hit.HitWorld + offset.To3();
-				NewtonianMovement *= ObjectBouncyness;
+				NewtonianMovement *= ObjectBouncyness * GameConfigManager.GameConfig.ObjectBouncynessMultiplier;
 				spinMagnitude *= -1;
 				if (hit.CollisionHit.GameObject != null)
 				{
@@ -1503,9 +1499,9 @@ namespace US13.Core.Physics
 				return;
 			}
 
-			if (ZRotation != transform.rotation.eulerAngles.z)
+			if (ZRotation != transform.localRotation.eulerAngles.z)
 			{
-				ZRotation = transform.rotation.eulerAngles.z;
+				ZRotation = transform.localRotation.eulerAngles.z;
 			}
 
 
@@ -1579,7 +1575,7 @@ namespace US13.Core.Physics
 
 							OnImpact.Invoke(this, NewtonianMovement);
 							NewtonianMovement -= 2 * (NewtonianMovement * normal) * normal;
-							NewtonianMovement *= ObjectBouncyness;
+							NewtonianMovement *= (ObjectBouncyness * GameConfigManager.GameConfig.ObjectBouncynessMultiplier);
 							spinMagnitude *= -1;
 						}
 

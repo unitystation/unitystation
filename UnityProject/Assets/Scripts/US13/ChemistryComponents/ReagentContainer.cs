@@ -122,6 +122,8 @@ namespace US13.ChemistryComponents
 		[SerializeField]
 		private ReagentMix initialReagentMix = new ReagentMix();
 
+		public ReagentMix InitialReagentMix => initialReagentMix.Clone();
+
 		[SerializeField] private bool destroyOnEmpty = default;
 
 		private ItemAttributesV2 itemAttributes = default;

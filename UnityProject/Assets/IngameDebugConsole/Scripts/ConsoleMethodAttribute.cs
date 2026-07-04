@@ -3,7 +3,7 @@ using SecureStuff;
 
 namespace IngameDebugConsole.Scripts
 {
-	[AttributeUsage( AttributeTargets.Method, Inherited = false, AllowMultiple = true )]
+	[AttributeUsage( AttributeTargets.Method, AllowMultiple = true )]
 	public class ConsoleMethodAttribute : BaseAttribute
 	{
 		private string m_command;

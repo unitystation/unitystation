@@ -137,6 +137,14 @@ namespace US13.Player
 		{
 			if (isServer) return;
 			GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Starting game", "Loading Scenes from server.", 0.2f);
+			try
+			{
+				ClientRequestGameConfig.Send(new ClientRequestGameConfig.NetMessage{ whoAsked = netIdentity });
+			}
+			catch (Exception e)
+			{
+				Loggy.Warning($"Error while trying to ask server for gameconfig info. Client and server might desync if server has different values from client.\n {e}");
+			}
 			SubSceneManager.Instance.LoadScenesFromServer(JsonConvert.DeserializeObject<List<SceneInfo>>(Data),
 				OriginalScene, ClientFinishedLoading);
 		}

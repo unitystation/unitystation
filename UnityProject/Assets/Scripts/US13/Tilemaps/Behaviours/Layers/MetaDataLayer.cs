@@ -446,7 +446,14 @@ namespace US13.Tilemaps.Behaviours.Layers
 		public void Clean(Vector3 worldPos, Vector3Int localPosInt, bool makeSlippery)
 		{
 			var node = Get(localPosInt, updateTileOnClient: true);
-			if(node.IsSlippery == false && makeSlippery) node.IsSlippery = true;
+			if(node.IsSlippery == false && makeSlippery)
+			{
+				node.IsSlippery = true;
+			}
+			else if (makeSlippery == false)
+			{
+				node.IsSlippery = false;
+			}
 			node.IsSuperSlippery = false;
 
 			var floorDecals = GetFloorDecals(worldPos);

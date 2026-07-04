@@ -286,10 +286,7 @@ namespace US13.UI.Systems.AdminTools
 				}
 			}
 
-			if (string.IsNullOrEmpty(SelectedPlayer))
-			{
-				SelectPlayerInList(playerEntries[0]);
-			}
+			SelectPlayerInList(null);
 		}
 
 		public void SelectPlayerInList(AdminPlayerEntry selectedEntry)
@@ -307,8 +304,8 @@ namespace US13.UI.Systems.AdminTools
 				}
 			}
 
-			SelectedPlayer = selectedEntry.PlayerData.uid;
-			OnSelectPlayer?.Invoke(selectedEntry.PlayerData);
+			SelectedPlayer = selectedEntry?.PlayerData?.uid;
+			OnSelectPlayer?.Invoke(selectedEntry?.PlayerData);
 			if (playerChatPage.activeInHierarchy)
 			{
 				playerChatPageScript.SetData(selectedEntry);

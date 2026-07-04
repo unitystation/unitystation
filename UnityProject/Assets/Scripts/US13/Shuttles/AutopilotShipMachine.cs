@@ -64,7 +64,12 @@ namespace US13.Shuttles
 				CurrentTarget = CurrentTarget.In.NextInLine;
 			}
 
-			mm.NetworkedMatrixMove.IgnoreMatrix = CurrentTarget.metaTileMap.matrix.MatrixInfo;
+			if (mm.NetworkedMatrixMove.IgnoreMatrixs.Contains(CurrentTarget.metaTileMap.matrix.MatrixInfo) == false)
+			{
+				mm.NetworkedMatrixMove.IgnoreMatrixs.Add(CurrentTarget.metaTileMap.matrix.MatrixInfo);
+			}
+
+
 			MoveToInternal(CurrentTarget);
 		}
 
@@ -189,7 +194,8 @@ namespace US13.Shuttles
 					mm.NetworkedMatrixMove.HasMoveToTarget = false;
 					MoveDirectionIn = true;
 					mm.NetworkedMatrixMove.IgnorePotentialCollisions = false;
-					mm.NetworkedMatrixMove.IgnoreMatrix = null;
+
+					mm.NetworkedMatrixMove.IgnoreMatrixs.Clear();
 					if (MovedToAfterFinishingChain != null)
 					{
 						MoveToInternal(MovedToAfterFinishingChain);

@@ -52,7 +52,7 @@ namespace IngameDebugConsole.Scripts
 		/// <summary>
 		/// All the commands
 		/// </summary>
-		private static Dictionary<string, ConsoleMethodInfo> methods = new Dictionary<string, ConsoleMethodInfo>();
+		public static Dictionary<string, ConsoleMethodInfo> RegisteredMethodInfos { get; private set; }= new();
 
 		/// <summary>
 		/// All the parse functions
@@ -126,6 +126,11 @@ namespace IngameDebugConsole.Scripts
 		public static void InitializeAsync()
 		{
 			if (isInitialized) return;
+			// FUCK YOU
+			// DO NOT REMOVE THIS UNLESS YOU WANT SOMEONE IN THE FUTURE TO LOSE HAIR WHILE TRYING TO DEBUG THIS SHIT
+			Loggy.SetLogLevel(Category.DebugConsole, LogLevel.Trace);
+			Loggy.SetLogLevel(Category.Admin, LogLevel.Trace);
+			Loggy.SetLogLevel(Category.Rcon, LogLevel.Trace);
 			var data = AllowedReflection.GetFunctionsWithAttribute<ConsoleMethodAttribute>();
 			Debug.Log($"Attempting to register {data.Count} console commands");
 
@@ -133,90 +138,25 @@ namespace IngameDebugConsole.Scripts
 			{
 				foreach (var type in MonoBehaviourAndMethodInfo.Value)
 				{
-					AddCommand(type.Attribute.Command, type.Attribute.Description, type.MethodInfo);
+					try
+					{
+						AddCommand(type.Attribute.Command, type.Attribute.Description, type.MethodInfo);
+					}
+					catch (Exception e)
+					{
+						Loggy.Error(e.ToString());
+					}
 				}
 			}
+
 			isInitialized = true;
-		}
-
-		/// <summary>
-		///	Console method that logs the list of available commands
-		/// </summary>
-		[ConsoleMethod("help", "Prints all commands")]
-		public static void LogAllCommands()
-		{
-			int length = 20;
-			foreach (var entry in methods)
-			{
-				if (entry.Value.IsValid())
-					length += 3 + entry.Value.signature.Length;
-			}
-
-			StringBuilder stringBuilder = new StringBuilder(length);
-			stringBuilder.Append("Available commands:");
-
-			foreach (var entry in methods)
-			{
-				if (entry.Value.IsValid())
-					stringBuilder.Append("\n- ").Append(entry.Value.signature);
-			}
-
-			Loggy.Info(stringBuilder.Append("\n").ToString(), Category.DebugConsole);
-		}
-
-		/// <summary>
-		///	Console method that logs system information
-		/// </summary>
-		[ConsoleMethod("sysinfo", "Prints system information")]
-		public static void LogSystemInfo()
-		{
-			StringBuilder stringBuilder = new StringBuilder(1024);
-			stringBuilder.Append("Rig: ").AppendSysInfoIfPresent(SystemInfo.deviceModel)
-				.AppendSysInfoIfPresent(SystemInfo.processorType)
-				.AppendSysInfoIfPresent(SystemInfo.systemMemorySize, "MB RAM").Append(SystemInfo.processorCount)
-				.Append(" cores\n");
-			stringBuilder.Append("OS: ").Append(SystemInfo.operatingSystem).Append("\n");
-			stringBuilder.Append("GPU: ").Append(SystemInfo.graphicsDeviceName).Append(" ")
-				.Append(SystemInfo.graphicsMemorySize)
-				.Append("MB ").Append(SystemInfo.graphicsDeviceVersion)
-				.Append(SystemInfo.graphicsMultiThreaded ? " multi-threaded\n" : "\n");
-			stringBuilder.Append("Data Path: ").Append(Application.dataPath).Append("\n");
-			stringBuilder.Append("Persistent Data Path: ").Append(Application.persistentDataPath).Append("\n");
-			stringBuilder.Append("StreamingAssets Path: ").Append(Application.streamingAssetsPath).Append("\n");
-			stringBuilder.Append("Temporary Cache Path: ").Append(Application.temporaryCachePath).Append("\n");
-			stringBuilder.Append("Device ID: ").Append(SystemInfo.deviceUniqueIdentifier).Append("\n");
-			stringBuilder.Append("Max Texture Size: ").Append(SystemInfo.maxTextureSize).Append("\n");
-			stringBuilder.Append("Max Cubemap Size: ").Append(SystemInfo.maxCubemapSize).Append("\n");
-			stringBuilder.Append("Accelerometer: ")
-				.Append(SystemInfo.supportsAccelerometer ? "supported\n" : "not supported\n");
-			stringBuilder.Append("Gyro: ").Append(SystemInfo.supportsGyroscope ? "supported\n" : "not supported\n");
-			stringBuilder.Append("Location Service: ")
-				.Append(SystemInfo.supportsLocationService ? "supported\n" : "not supported\n");
-			// Image effects not checked, is always true on newer Unity versions.
-			stringBuilder.Append("Compute Shaders: ")
-				.Append(SystemInfo.supportsComputeShaders ? "supported\n" : "not supported\n");
-			stringBuilder.Append("Shadows: ").Append(SystemInfo.supportsShadows ? "supported\n" : "not supported\n");
-			stringBuilder.Append("Instancing: ")
-				.Append(SystemInfo.supportsInstancing ? "supported\n" : "not supported\n");
-			stringBuilder.Append("Motion Vectors: ")
-				.Append(SystemInfo.supportsMotionVectors ? "supported\n" : "not supported\n");
-			stringBuilder.Append("3D Textures: ")
-				.Append(SystemInfo.supports3DTextures ? "supported\n" : "not supported\n");
-			stringBuilder.Append("3D Render Textures: ")
-				.Append(SystemInfo.supports3DRenderTextures ? "supported\n" : "not supported\n");
-			stringBuilder.Append("2D Array Textures: ")
-				.Append(SystemInfo.supports2DArrayTextures ? "supported\n" : "not supported\n");
-			stringBuilder.Append("Cubemap Array Textures: ")
-				.Append(SystemInfo.supportsCubemapArrayTextures ? "supported" : "not supported");
-
-			Loggy.Info(stringBuilder.Append("\n").ToString(), Category.DebugConsole);
 		}
 
 		/// <summary>
 		/// Used for appending string-based system info to the stringBuilder
 		/// </summary>
 		/// <returns>StringBuilder object with appended string system info</returns>
-		private static StringBuilder AppendSysInfoIfPresent(this StringBuilder sb, string info, string postfix = null)
+		public static StringBuilder AppendSysInfoIfPresent(this StringBuilder sb, string info, string postfix = null)
 		{
 			if (info != SystemInfo.unsupportedIdentifier)
 			{
@@ -235,7 +175,7 @@ namespace IngameDebugConsole.Scripts
 		/// Used for appending integer-based system info to the stringBuilder
 		/// </summary>
 		/// <returns>StringBuilder object with appended integer system info</returns>
-		private static StringBuilder AppendSysInfoIfPresent(this StringBuilder sb, int info, string postfix = null)
+		public static StringBuilder AppendSysInfoIfPresent(this StringBuilder sb, int info, string postfix = null)
 		{
 			if (info > 0)
 			{
@@ -257,7 +197,7 @@ namespace IngameDebugConsole.Scripts
 		public static void RemoveCommand(string command)
 		{
 			if (string.IsNullOrEmpty(command) == false)
-				methods.Remove(command);
+				RegisteredMethodInfos.Remove(command);
 		}
 
 		/// <summary>
@@ -329,7 +269,7 @@ namespace IngameDebugConsole.Scripts
 					methodSignature.Append(" : ").Append(returnTypeName);
 				}
 
-				methods[command] = new ConsoleMethodInfo(method, parameterTypes, instance, methodSignature.ToString());
+				RegisteredMethodInfos[command] = new ConsoleMethodInfo(method, parameterTypes, instance, methodSignature.ToString());
 			}
 			else
 			{
@@ -344,12 +284,18 @@ namespace IngameDebugConsole.Scripts
 		public static void ExecuteCommand(string command)
 		{
 			if (command == null)
+			{
+				Loggy.Warning($"{command} does not exist.");
 				return;
+			}
 
 			command = command.Trim();
 
 			if (command.Length == 0)
+			{
+				Loggy.Warning($"{command} does not exist.");
 				return;
+			}
 
 			// Parse the arguments
 			commandArguments.Clear();
@@ -379,7 +325,7 @@ namespace IngameDebugConsole.Scripts
 
 			// Check if command exists
 			ConsoleMethodInfo methodInfo;
-			if (methods.TryGetValue(commandArguments[0], out methodInfo) == false)
+			if (RegisteredMethodInfos.TryGetValue(commandArguments[0], out methodInfo) == false)
 				Loggy.Warning("Can't find command: " + commandArguments[0], Category.DebugConsole);
 			else if (methodInfo.IsValid() == false)
 				Loggy.Warning("Method no longer valid (instance dead): " + commandArguments[0],

@@ -4,7 +4,9 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Logs;
+using Mirror.BouncyCastle.Asn1.X509.Qualified;
 using NUnit.Framework;
+using SecureStuff.Util;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -447,6 +449,51 @@ namespace SecureStuff
 			}
 
 			return fields;
+		}
+
+		/// <summary>
+		/// Sets the value of a property or field on the specified object if the provided value
+		/// is compatible with the member's type.
+		/// </summary>
+		/// <param name="targetVariable">
+		/// The name of the property or field to update.
+		/// </param>
+		/// <param name="valueToChange">
+		/// The value to assign. The value must already be of a compatible type.
+		/// </param>
+		/// <param name="targetObject">
+		/// The object containing the property or field to modify.
+		/// </param>
+		/// <returns>
+		/// <c>true</c> if the member was found and updated; otherwise, <c>false</c>.
+		/// </returns>
+		public static bool SetVariable(string targetVariable, object valueToChange, object targetObject)
+		{
+			if (targetObject == null) return false;
+			if (valueToChange == null) return false;
+
+			var type = targetObject.GetType();
+
+			var property = type.GetProperty(targetVariable);
+			if (property != null && property.CanWrite)
+			{
+				if (property.PropertyType.IsInstanceOfType(valueToChange) == false) return false;
+				property.SetValue(targetObject, valueToChange);
+				return true;
+
+			}
+
+			var field = type.GetField(targetVariable);
+			if (field == null) return false;
+			if (field.FieldType.IsInstanceOfType(valueToChange) == false)
+			{
+				if (valueToChange.GetType() != typeof(string)) return false;
+				string s = (string)valueToChange;
+				Tuple<Type, object> parsedValue = s.ParseString();
+				if (parsedValue.Item2 == null || parsedValue.Item1 != field.FieldType) return false;
+				field.SetValue(targetObject, parsedValue.Item2);
+			}
+			return true;
 		}
 	}
 }
