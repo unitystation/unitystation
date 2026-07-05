@@ -323,12 +323,14 @@ namespace US13.Shuttles
 
 		public OrientationEnum previousDirectionFacing => PreviousDirectionFacing;
 
+		public MatrixSync MatrixSync;
 
 		public void Awake()
 		{
 			if (TargetTransform == null) TargetTransform = transform.parent;
 
-			if (GetComponent<MatrixSync>() == null)
+			MatrixSync ??= GetComponent<MatrixSync>();
+			if (MatrixSync == null)
 			{
 				Loggy.Error($"Please remove this {name}");
 				Destroy(this);
@@ -354,6 +356,9 @@ namespace US13.Shuttles
 					.ToOrientationEnum());
 			}
 
+			OnStartMovement += KnockDownPlayers;
+			OnRotate += KnockDownPlayers;
+
 			SetGizmoPosition(currentLocalPivot);
 		}
 
@@ -365,6 +370,13 @@ namespace US13.Shuttles
 			OnStopMovement = null;
 			UpdateManager.Remove(CallbackType.EARLY_UPDATE, UpdateMe);
 			ElapsedTimeSinceLastUpdate.Stop();
+		}
+
+		private void KnockDownPlayers()
+		{
+			MatrixSync.MatrixMove.NetworkedMatrixMove.KnockdownUnseatedPlayers(
+				GameConfigManager.GameConfig.MinimumThrustStrengthToKnockdownPlayers + 1,
+				GetAllNetworkedMatrixMove(TheReusingSet, true, this, TheReusingSetVisited));
 		}
 
 		public bool IsConnectedToShuttle(NetworkedMatrixMove NetMove)
@@ -1350,154 +1362,160 @@ namespace US13.Shuttles
 
 		#region AIMOVE
 
+		/// <summary>
+		/// Monitors the autopilot state and updates velocity, RCS mode and target orientation.
+		/// This method is the high-level entry point; detailed behaviors are delegated to smaller helpers.
+		/// </summary>
 		public void MonitorAutopilot()
 		{
 			if (HasMoveToTarget == false) return;
 			if (CustomNetworkManager.IsServer == false) return;
 
-
 			CheckMatrixRoute();
 
-			//Loggy.LogError("code here");
+			// Calculate world difference to target (rounded center)
 			Vector3 Different = TravelToWorldPOS - CentreOfAIMovementWorld.RoundToInt();
 
+			// If very close, use RCS for fine movement and stop high-speed AI thrust
 			if (Mathf.Abs(Different.x) < 1.5f && Mathf.Abs(Different.y) < 1.5f)
 			{
-				if (FullAISpeed)
-				{
-					WorldCurrentVelocity = Vector3.zero;
-					FullAISpeed = false;
-				}
+				HandleCloseProximity(Different);
+			}
+			else
+			{
+				HandleLongDistanceMovement(Different);
+			}
+		}
 
-				//RCS
-				RCSModeActive = true;
+		/// <summary>
+		/// Handle very close distances: disable full speed, enable RCS and issue small RCS corrections.
+		/// </summary>
+		private void HandleCloseProximity(Vector3 Different)
+		{
+			if (FullAISpeed)
+			{
+				WorldCurrentVelocity = Vector3.zero;
+				FullAISpeed = false;
+			}
 
-				if (Different.magnitude > 0.5f)
+			RCSModeActive = true;
+
+			if (Different.magnitude > 0.5f)
+			{
+				RcsMove(Different.normalized.ToOrientationEnum(), true);
+			}
+		}
+
+		/// <summary>
+		/// Handle longer-distance movement by choosing X or Y axis travel and updating velocity/orientation.
+		/// </summary>
+		private void HandleLongDistanceMovement(Vector3 Different)
+		{
+			FullAISpeed = true;
+			RCSModeActive = false;
+
+			if (ISMovingX)
+			{
+				HandleMovementX(Different);
+			}
+
+			if (ISMovingX == false)
+			{
+				HandleMovementY(Different);
+			}
+		}
+
+		/// <summary>
+		/// Compute velocity and orientation adjustments when moving along the X axis.
+		/// </summary>
+		private void HandleMovementX(Vector3 Different)
+		{
+			if (Mathf.Abs(Different.x) > 1)
+			{
+				bool fast = Mathf.Abs(Different.x) > 100;
+
+				var SpeedMultiplier = 1f;
+				if (Different.x > 30) SpeedMultiplier = Mathf.Max(Different.y / 30, 0.3f);
+
+				float TravelSpeed = AITravelSpeed * SpeedMultiplier;
+				if (fast) TravelSpeed = AITravelSpeedFast;
+
+				WorldCurrentVelocity = Different.x > 0 ? new Vector3(TravelSpeed, 0, 0) : new Vector3(-TravelSpeed, 0, 0);
+
+				if (TargetOrientation == OrientationEnum.Default)
 				{
-					RcsMove(Different.normalized.ToOrientationEnum(), true);
+					UpdateOrientationForVelocity();
 				}
 				else
 				{
-					//Loggy.LogError("HERE!!");
+					WorldCurrentVelocity = new Vector3(0, 0, 0);
 				}
 			}
 			else
 			{
-				FullAISpeed = true;
-				RCSModeActive = false;
-				if (ISMovingX)
+				if (ISMovingX) WorldCurrentVelocity = new Vector3(0, 0, 0);
+
+				ISMovingX = false;
+			}
+		}
+
+		/// <summary>
+		/// Compute velocity and orientation adjustments when moving along the Y axis.
+		/// </summary>
+		private void HandleMovementY(Vector3 Different)
+		{
+			if (Mathf.Abs(Different.y) > 1)
+			{
+				bool fast = Mathf.Abs(Different.y) > 100;
+				var SpeedMultiplier = 1f;
+				if (Different.y > 30) SpeedMultiplier = Mathf.Max(Different.y / 30, 0.3f);
+
+				float TravelSpeed = AITravelSpeed * SpeedMultiplier;
+				if (fast) TravelSpeed = AITravelSpeedFast;
+
+				WorldCurrentVelocity = Different.y > 0 ? new Vector3(0, TravelSpeed, 0) : new Vector3(0, -TravelSpeed, 0);
+
+				if (TargetOrientation == OrientationEnum.Default)
 				{
-					if (Mathf.Abs(Different.x) > 1)
-					{
-						bool fast = Mathf.Abs(Different.x) > 100;
-
-						var SpeedMultiplier = 1f;
-						if (Different.x > 30) SpeedMultiplier = Mathf.Max(Different.y / 30, 0.3f);
-
-
-						float TravelSpeed = AITravelSpeed * SpeedMultiplier;
-						if (fast) TravelSpeed = AITravelSpeedFast;
-
-						if (Different.x > 0)
-							WorldCurrentVelocity = new Vector3(TravelSpeed, 0, 0);
-						else
-							WorldCurrentVelocity = new Vector3(-TravelSpeed, 0, 0);
-
-						if (TargetOrientation == OrientationEnum.Default)
-						{
-							// var Direction = ShuttleConsuls[0].Rotatable.CurrentDirection.ToOpposite();
-							//
-							// var FordsDirectionZ = Direction.ToLocalVector3().ToOrientationEnum().ToQuaternion().eulerAngles.z;
-							//
-							//
-							// var CopyVelocity = WorldCurrentVelocity.normalized;
-							// var WantingToFaceZ = CopyVelocity.ToOrientationEnum().ToQuaternion().eulerAngles.z;
-							//
-							// var Difference =FordsDirectionZ - WantingToFaceZ;
-							//
-							// var MovingDirection = (Difference - WantingToFaceZ).Angle360ToOrientationEnum();
-
-							float OrientationZ = TargetTransform.rotation.eulerAngles.z;
-
-							float DesiredDirection = 0;
-							if (TargetFaceDirectionOverride == OrientationEnum.Default)
-								DesiredDirection = WorldCurrentVelocity.normalized.ToOrientationEnum().ToQuaternion()
-									.eulerAngles.z;
-							else
-								DesiredDirection = TargetFaceDirectionOverride.ToQuaternion().eulerAngles.z;
-
-							float CurrentForwards = ForwardsDirection.ToOrientationEnum().ToQuaternion().eulerAngles.z;
-
-							OrientationEnum MovingDirection = (OrientationZ + (DesiredDirection - CurrentForwards))
-								.Angle360ToOrientationEnum();
-
-							OrientationEnum Orientation = OrientationZ.Angle360ToOrientationEnum();
-							if (Orientation != MovingDirection && Mathf.Abs(Different.x) > 10)
-								TargetOrientation = MovingDirection;
-						}
-						else
-						{
-							WorldCurrentVelocity = new Vector3(0, 0, 0);
-						}
-					}
-					else
-					{
-						if (ISMovingX) WorldCurrentVelocity = new Vector3(0, 0, 0);
-
-						ISMovingX = false;
-					}
+					UpdateOrientationForVelocity();
 				}
-
-				if (ISMovingX == false)
+				else
 				{
-					if (Mathf.Abs(Different.y) > 1)
-					{
-						bool fast = Mathf.Abs(Different.y) > 100;
-						var SpeedMultiplier = 1f;
-						if (Different.y > 30) SpeedMultiplier = Mathf.Max(Different.y / 30, 0.3f);
-
-
-						float TravelSpeed = AITravelSpeed * SpeedMultiplier;
-						if (fast) TravelSpeed = AITravelSpeedFast;
-
-						if (Different.y > 0)
-							WorldCurrentVelocity = new Vector3(0, TravelSpeed, 0);
-						else
-							WorldCurrentVelocity = new Vector3(0, -TravelSpeed, 0);
-
-						if (TargetOrientation == OrientationEnum.Default)
-						{
-							float OrientationZ = TargetTransform.rotation.eulerAngles.z;
-
-							float DesiredDirection = 0;
-
-							if (TargetFaceDirectionOverride == OrientationEnum.Default)
-								DesiredDirection = WorldCurrentVelocity.normalized.ToOrientationEnum().ToQuaternion()
-									.eulerAngles.z;
-							else
-								DesiredDirection = TargetFaceDirectionOverride.ToQuaternion().eulerAngles.z;
-
-							float CurrentForwards = ForwardsDirection.ToOrientationEnum().ToQuaternion().eulerAngles.z;
-							OrientationEnum MovingDirection = (OrientationZ + (DesiredDirection - CurrentForwards))
-								.Angle360ToOrientationEnum();
-
-							OrientationEnum Orientation = OrientationZ.Angle360ToOrientationEnum();
-
-							if (Orientation != MovingDirection && Mathf.Abs(Different.y) > 10)
-								TargetOrientation = MovingDirection;
-						}
-						else
-						{
-							WorldCurrentVelocity = new Vector3(0, 0, 0);
-						}
-					}
-					else
-					{
-						if (ISMovingX == false) WorldCurrentVelocity = new Vector3(0, 0, 0);
-
-						ISMovingX = true;
-					}
+					WorldCurrentVelocity = new Vector3(0, 0, 0);
 				}
+			}
+			else
+			{
+				if (ISMovingX == false) WorldCurrentVelocity = new Vector3(0, 0, 0);
+
+				ISMovingX = true;
+			}
+		}
+
+		/// <summary>
+		/// Update TargetOrientation based on current WorldCurrentVelocity and configured face overrides.
+		/// Shared by both X and Y movement handlers.
+		/// </summary>
+		private void UpdateOrientationForVelocity()
+		{
+			float OrientationZ = TargetTransform.rotation.eulerAngles.z;
+
+			float DesiredDirection = 0;
+			if (TargetFaceDirectionOverride == OrientationEnum.Default)
+				DesiredDirection = WorldCurrentVelocity.normalized.ToOrientationEnum().ToQuaternion().eulerAngles.z;
+			else
+				DesiredDirection = TargetFaceDirectionOverride.ToQuaternion().eulerAngles.z;
+
+			float CurrentForwards = ForwardsDirection.ToOrientationEnum().ToQuaternion().eulerAngles.z;
+			OrientationEnum MovingDirection = (OrientationZ + (DesiredDirection - CurrentForwards)).Angle360ToOrientationEnum();
+
+			OrientationEnum Orientation = OrientationZ.Angle360ToOrientationEnum();
+			if (Orientation != MovingDirection)
+			{
+				// Only change orientation if movement is significant; threshold kept from original logic.
+				float compareComponent = Mathf.Abs(WorldCurrentVelocity.x) > Mathf.Abs(WorldCurrentVelocity.y) ? Mathf.Abs(WorldCurrentVelocity.x) : Mathf.Abs(WorldCurrentVelocity.y);
+				if (compareComponent > 10)
+					TargetOrientation = MovingDirection;
 			}
 		}
 
