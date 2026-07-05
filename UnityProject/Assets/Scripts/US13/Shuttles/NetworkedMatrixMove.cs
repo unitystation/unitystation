@@ -59,8 +59,8 @@ namespace US13.Shuttles
 		//TODO Cable placement can't handle moving matrices
 
 
-		public List<Thruster> ConnectedThrusters = new List<Thruster>();
-		public List<ShuttleConnector> ConnectedShuttleConnectors = new List<ShuttleConnector>();
+		public List<Thruster> ConnectedThrusters = new();
+		public List<ShuttleConnector> ConnectedShuttleConnectors = new();
 
 
 		public bool HasConnectedShuttle => ConnectedShuttleConnectors.Any(x => x.ConnectedToConnector != null);
@@ -96,13 +96,13 @@ namespace US13.Shuttles
 				Vector3 ForwardsVictor = Vector3.zero;
 				if (ShuttleConsuls.Count == 0)
 				{
-					ForwardsVictor = this.TargetTransform.localToWorldMatrix.MultiplyVector(Vector3.up);
+					ForwardsVictor = TargetTransform.localToWorldMatrix.MultiplyVector(Vector3.up);
 				}
 				else
 				{
-					var Direction = ShuttleConsuls[0].Rotatable.CurrentDirection.ToOpposite();
-					var VectorDirection = Direction.ToLocalVector3();
-					ForwardsVictor = this.TargetTransform.localToWorldMatrix.MultiplyVector(VectorDirection);
+					OrientationEnum Direction = ShuttleConsuls[0].Rotatable.CurrentDirection.ToOpposite();
+					Vector3 VectorDirection = Direction.ToLocalVector3();
+					ForwardsVictor = TargetTransform.localToWorldMatrix.MultiplyVector(VectorDirection);
 				}
 
 
@@ -114,10 +114,7 @@ namespace US13.Shuttles
 		{
 			get
 			{
-				if (isServer == false)
-				{
-					return SynchronisedMass;
-				}
+				if (isServer == false) return SynchronisedMass;
 
 				lock (MetaTileMap.MassAndCentreLock)
 				{
@@ -142,7 +139,7 @@ namespace US13.Shuttles
 		public float MoveCoolDown = 0;
 		public float DragSpinneyCoolDown = 0;
 
-		public bool ApplyDrag => (SpinneyMode == false || DragSpinneyCoolDown == 0);
+		public bool ApplyDrag => SpinneyMode == false || DragSpinneyCoolDown == 0;
 
 		private bool SecretSpinneyMode = false;
 
@@ -152,7 +149,7 @@ namespace US13.Shuttles
 		{
 			get
 			{
-				var NewSpinney = WorldCurrentVelocity.magnitude >= SpinneyThreshold;
+				bool NewSpinney = WorldCurrentVelocity.magnitude >= SpinneyThreshold;
 
 				if (NewSpinney != SecretSpinneyMode)
 				{
@@ -161,8 +158,9 @@ namespace US13.Shuttles
 					{
 						TheReusingSet.Clear();
 						TheReusingSetVisited.Clear();
-						var Matrixes = GetAllNetworkedMatrixMove(TheReusingSet, true, this, TheReusingSetVisited);
-						foreach (var move in Matrixes)
+						HashSet<NetworkedMatrixMove> Matrixes =
+							GetAllNetworkedMatrixMove(TheReusingSet, true, this, TheReusingSetVisited);
+						foreach (NetworkedMatrixMove move in Matrixes)
 						{
 							move.InternalSetThrusterStrength(Thruster.ThrusterDirectionClassification.Right, 0);
 							move.InternalSetThrusterStrength(Thruster.ThrusterDirectionClassification.Left, 0);
@@ -183,7 +181,7 @@ namespace US13.Shuttles
 
 		public Vector3 currentLocalPivot;
 
-		public Stopwatch ElapsedTimeSinceLastUpdate = new Stopwatch();
+		public Stopwatch ElapsedTimeSinceLastUpdate = new();
 
 		public ObjectLayer ObjectLayer;
 
@@ -194,7 +192,7 @@ namespace US13.Shuttles
 		public GameGizmoSprite GameGizmoSprite;
 		public GameGizmoSprite AIGameGizmoSprite;
 
-		public List<GameGizmoSprite> MatrixBoundsGameGizmo = new List<GameGizmoSprite>();
+		public List<GameGizmoSprite> MatrixBoundsGameGizmo = new();
 
 		public bool Debug = false;
 
@@ -212,7 +210,7 @@ namespace US13.Shuttles
 		//NOTE This is not in respect to the Orientation of the Front of the shuttle or the direction of the Shuttle consul, Just to do with the rotation of target transform
 		public OrientationEnum TargetOrientation
 		{
-			get { return targetOrientation; }
+			get => targetOrientation;
 			set
 			{
 				if (MoveCoolDown > 0) return;
@@ -238,13 +236,13 @@ namespace US13.Shuttles
 
 		public bool UpdateHandled = false;
 
-		public HashSet<NetworkedMatrixMove> TheReusingSet = new HashSet<NetworkedMatrixMove>();
-		public HashSet<NetworkedMatrixMove> TheReusingSetVisited = new HashSet<NetworkedMatrixMove>();
+		public HashSet<NetworkedMatrixMove> TheReusingSet = new();
+		public HashSet<NetworkedMatrixMove> TheReusingSetVisited = new();
 
 
-		public List<Thruster> TheReusingConnectedThrusters = new List<Thruster>();
+		public List<Thruster> TheReusingConnectedThrusters = new();
 		public bool RCSRequiresThrusters = true;
-		public List<ShuttleConsole> ShuttleConsuls = new List<ShuttleConsole>();
+		public List<ShuttleConsole> ShuttleConsuls = new();
 
 		public float AITravelSpeed = 20;
 		public float AITravelSpeedFast = 90;
@@ -255,35 +253,25 @@ namespace US13.Shuttles
 			get
 			{
 				if (TravelToObject != null)
-				{
-					if (TravelToObject.transform.parent.parent.parent == this.transform.parent) // this is so it actually Is moving the object not just Moving forever
-					{
+					if (TravelToObject.transform.parent.parent.parent ==
+					    transform.parent) // this is so it actually Is moving the object not just Moving forever
 						return TravelToObject.transform.position;
-					}
-				}
 
 				return travelToWorldPOS;
 			}
 		}
 
 
-
 		public Vector3 TravelToWorldPOS
 		{
 			get
 			{
-				if (travelToWorldPOSOverride != null)
-				{
-					return travelToWorldPOSOverride.Value;
-				}
+				if (travelToWorldPOSOverride != null) return travelToWorldPOSOverride.Value;
 
 				if (TravelToObject != null)
-				{
-					if (TravelToObject.transform.parent.parent.parent == this.transform.parent) // this is so it actually Is moving the object not just Moving forever
-					{
+					if (TravelToObject.transform.parent.parent.parent ==
+					    transform.parent) // this is so it actually Is moving the object not just Moving forever
 						return TravelToObject.transform.position;
-					}
-				}
 
 				return travelToWorldPOS;
 			}
@@ -293,7 +281,7 @@ namespace US13.Shuttles
 
 		public Vector3? travelToWorldPOSOverride;
 
-		private Vector3 travelToWorldPOS = new Vector3(-999999999,-9999999,0);
+		private Vector3 travelToWorldPOS = new(-999999999, -9999999, 0);
 
 		[SyncVar] public bool HasMoveToTarget = false;
 
@@ -309,13 +297,13 @@ namespace US13.Shuttles
 
 		public int? MatrixMoveAroundCurrentTargetCorner = null;
 
-		public List<MatrixInfo> MovingAroundMatrixs =  new List<MatrixInfo>();
+		public List<MatrixInfo> MovingAroundMatrixs = new();
 
 		public BetterBounds? NavigatingAroundBetterBounds;
 
 		public Vector3? ClosestCashed = null;
 
-		public List<MatrixInfo> IgnoreMatrixs = new List<MatrixInfo>();
+		public List<MatrixInfo> IgnoreMatrixs = new();
 		public bool IgnorePotentialCollisions;
 
 
@@ -324,13 +312,9 @@ namespace US13.Shuttles
 			get
 			{
 				if (CentreObjectOverride != null)
-				{
 					return CentreObjectOverride.transform.position;
-				}
 				else
-				{
 					return CentreOfMass.ToWorld(MetaTileMap.matrix);
-				}
 			}
 		}
 
@@ -344,22 +328,16 @@ namespace US13.Shuttles
 
 		public void Awake()
 		{
-			if (TargetTransform == null)
-			{
-				TargetTransform = transform.parent;
-			}
+			if (TargetTransform == null) TargetTransform = transform.parent;
 
-			if (this.GetComponent<MatrixSync>() == null)
+			if (GetComponent<MatrixSync>() == null)
 			{
-				Loggy.Error($"Please remove this {this.name}");
+				Loggy.Error($"Please remove this {name}");
 				Destroy(this);
 				return;
 			}
 
-			if (TargetTransform == null)
-			{
-				TargetTransform = transform.parent;
-			}
+			if (TargetTransform == null) TargetTransform = transform.parent;
 
 
 			MetaTileMap = TargetTransform.GetComponentInChildren<MetaTileMap>();
@@ -374,7 +352,7 @@ namespace US13.Shuttles
 			if (PreviousDirectionFacing != FacedDirection)
 			{
 				PreviousDirectionFacing = FacedDirection;
-				OnRotate90?.Invoke(this.TargetTransform.localToWorldMatrix.MultiplyVector(Vector3.up)
+				OnRotate90?.Invoke(TargetTransform.localToWorldMatrix.MultiplyVector(Vector3.up)
 					.ToOrientationEnum());
 			}
 
@@ -395,7 +373,8 @@ namespace US13.Shuttles
 		{
 			TheReusingSet.Clear();
 			TheReusingSetVisited.Clear();
-			var Matrixes = GetAllNetworkedMatrixMove(TheReusingSet, false, this, TheReusingSetVisited);
+			HashSet<NetworkedMatrixMove> Matrixes =
+				GetAllNetworkedMatrixMove(TheReusingSet, false, this, TheReusingSetVisited);
 			return Matrixes.Contains(NetMove);
 		}
 
@@ -419,10 +398,8 @@ namespace US13.Shuttles
 			if (Debug)
 			{
 				if (GameGizmoSprite == null)
-				{
 					GameGizmoSprite =
 						GameGizmomanager.AddNewSpriteStaticClient(ObjectLayer.gameObject, Position, Color.green, X);
-				}
 
 				GameGizmoSprite.Position = Position;
 			}
@@ -439,31 +416,20 @@ namespace US13.Shuttles
 		{
 			if (Visited.Contains(this)) return ToUse;
 
-			bool AddThisMatrix = true;
+			var AddThisMatrix = true;
 
 			if (OriginMove != this)
-			{
 				if (RespectConsuls)
-				{
-					foreach (var Consul in ShuttleConsuls)
-					{
+					foreach (ShuttleConsole Consul in ShuttleConsuls)
 						if (Consul.EngineSupport == false)
-						{
 							AddThisMatrix = false;
-						}
-					}
-				}
-			}
 
 
-			if (AddThisMatrix)
-			{
-				ToUse.Add(this);
-			}
+			if (AddThisMatrix) ToUse.Add(this);
 
 			Visited.Add(this);
 
-			foreach (var ConnectedShuttleConnector in ConnectedShuttleConnectors)
+			foreach (ShuttleConnector ConnectedShuttleConnector in ConnectedShuttleConnectors)
 			{
 				if (ConnectedShuttleConnector.ConnectedToConnector?.RelatedMove?.NetworkedMatrixMove == null) continue;
 				ConnectedShuttleConnector.ConnectedToConnector.RelatedMove.NetworkedMatrixMove
@@ -477,7 +443,7 @@ namespace US13.Shuttles
 		{
 			float TotalMass = 0;
 			Vector3 Positions = Vector3.zero;
-			foreach (var MatrixMove in ToUseMatrixMove)
+			foreach (NetworkedMatrixMove MatrixMove in ToUseMatrixMove)
 			{
 				Positions += MatrixMove.CentreOfMass.ToWorld(MatrixMove.MetaTileMap.matrix) * MatrixMove.Mass;
 				TotalMass += MatrixMove.Mass;
@@ -489,30 +455,22 @@ namespace US13.Shuttles
 		public float GetAllMass(HashSet<NetworkedMatrixMove> ToUseMatrixMove)
 		{
 			float mass = 0;
-			foreach (var MatrixMove in ToUseMatrixMove)
-			{
-				mass += MatrixMove.Mass;
-			}
+			foreach (NetworkedMatrixMove MatrixMove in ToUseMatrixMove) mass += MatrixMove.Mass;
 
 			return mass;
 		}
 
 		public List<Thruster> GetThrusters(HashSet<NetworkedMatrixMove> ToUseMatrixMove, List<Thruster> thrusters)
 		{
-			foreach (var MatrixMove in ToUseMatrixMove)
-			{
+			foreach (NetworkedMatrixMove MatrixMove in ToUseMatrixMove)
 				thrusters.AddRange(MatrixMove.ConnectedThrusters);
-			}
 
 			return thrusters;
 		}
 
 		public void TurnOffAllThrusters()
 		{
-			foreach (var Thruster in ConnectedThrusters)
-			{
-				Thruster.SetTargetMolesUsed(Thruster.MaxMolesUseda * 0);
-			}
+			foreach (Thruster Thruster in ConnectedThrusters) Thruster.SetTargetMolesUsed(Thruster.MaxMolesUseda * 0);
 		}
 
 		private float SignedAngleZ(Vector3 a, Vector3 b)
@@ -536,24 +494,16 @@ namespace US13.Shuttles
 			if (SpinneyMode || Direction == Thruster.ThrusterDirectionClassification.Up ||
 			    Direction == Thruster.ThrusterDirectionClassification.Down)
 			{
-				foreach (var Thruster in ConnectedThrusters)
-				{
+				foreach (Thruster Thruster in ConnectedThrusters)
 					if (Thruster.ThisThrusterDirectionClassification == Direction)
-					{
 						Thruster.SetTargetMolesUsed(Thruster.MaxMolesUseda * Multiplier);
-					}
-				}
 			}
 			else
 			{
-				foreach (var Thruster in ConnectedThrusters)
-				{
+				foreach (Thruster Thruster in ConnectedThrusters)
 					if (Thruster.ThisThrusterDirectionClassification != Thruster.ThrusterDirectionClassification.Up &&
 					    Thruster.ThisThrusterDirectionClassification != Thruster.ThrusterDirectionClassification.Down)
-					{
 						Thruster.SetTargetMolesUsed(Thruster.MaxMolesUseda * 0);
-					}
-				}
 
 
 				if (Multiplier < 0.9f) return;
@@ -562,37 +512,26 @@ namespace US13.Shuttles
 				// 1 — Calculate signed angle (ALWAYS CORRECT, handles 0–360 wrap)
 				float currentZ = TargetTransform.eulerAngles.z;
 
-				float targetZ = (float) TargetOrientation.To360Z();
-				if (TargetOrientation == OrientationEnum.Default)
-				{
-					targetZ = (float) TargetTransform.eulerAngles.z;
-				}
+				var targetZ = (float)TargetOrientation.To360Z();
+				if (TargetOrientation == OrientationEnum.Default) targetZ = (float)TargetTransform.eulerAngles.z;
 
 
-				var zdiff = Mathf.DeltaAngle(currentZ, targetZ);
+				float zdiff = Mathf.DeltaAngle(currentZ, targetZ);
 
 				if (zdiff > 10)
 				{
-					if (Direction == Thruster.ThrusterDirectionClassification.Left)
-					{
-						return;
-					}
+					if (Direction == Thruster.ThrusterDirectionClassification.Left) return;
 				}
 				else if (zdiff < -10)
 				{
-					if (Direction == Thruster.ThrusterDirectionClassification.Right)
-					{
-						return;
-					}
+					if (Direction == Thruster.ThrusterDirectionClassification.Right) return;
 				}
 
-				var CurrentOrientation = currentZ.Angle360ToOrientationEnum();
+				OrientationEnum CurrentOrientation = currentZ.Angle360ToOrientationEnum();
 
 				if (TargetOrientation != OrientationEnum.Default)
-				{
 					// 2 — Determine current orientation enum
 					CurrentOrientation = TargetOrientation;
-				}
 
 				TargetOrientation = GetNextOrientation(CurrentOrientation, Direction);
 			}
@@ -602,7 +541,6 @@ namespace US13.Shuttles
 			Thruster.ThrusterDirectionClassification dir)
 		{
 			if (dir == Thruster.ThrusterDirectionClassification.Right)
-			{
 				switch (current)
 				{
 					case OrientationEnum.Up_By0: return OrientationEnum.Right_By270;
@@ -610,9 +548,7 @@ namespace US13.Shuttles
 					case OrientationEnum.Down_By180: return OrientationEnum.Left_By90;
 					default: return OrientationEnum.Up_By0;
 				}
-			}
 			else // LEFT
-			{
 				switch (current)
 				{
 					case OrientationEnum.Up_By0: return OrientationEnum.Left_By90;
@@ -620,7 +556,6 @@ namespace US13.Shuttles
 					case OrientationEnum.Down_By180: return OrientationEnum.Right_By270;
 					default: return OrientationEnum.Up_By0;
 				}
-			}
 		}
 
 		public void SetThrusterStrength(Thruster.ThrusterDirectionClassification Direction, float Multiplier,
@@ -628,20 +563,14 @@ namespace US13.Shuttles
 		{
 			TheReusingSet.Clear();
 			TheReusingSetVisited.Clear();
-			var Matrixes = GetAllNetworkedMatrixMove(TheReusingSet, RespectConsuls, this, TheReusingSetVisited);
-			foreach (var move in Matrixes)
-			{
-				move.InternalSetThrusterStrength(Direction, Multiplier);
-			}
+			HashSet<NetworkedMatrixMove> Matrixes =
+				GetAllNetworkedMatrixMove(TheReusingSet, RespectConsuls, this, TheReusingSetVisited);
+			foreach (NetworkedMatrixMove move in Matrixes) move.InternalSetThrusterStrength(Direction, Multiplier);
 
 			if (Multiplier == 0)
-			{
 				lastThrusterStrength = 0;
-			}
 			else
-			{
 				KnockdownUnseatedPlayers(Multiplier, Matrixes);
-			}
 		}
 
 		public void KnockdownUnseatedPlayers(float multiplier, HashSet<NetworkedMatrixMove> matrixMoves)
@@ -650,51 +579,40 @@ namespace US13.Shuttles
 			if (multiplier < lastThrusterStrength) return;
 
 			foreach (NetworkedMatrixMove networkedMatrixMove in matrixMoves)
+			foreach (RegisterPlayer mob in networkedMatrixMove.MetaTileMap.matrix.PresentPlayers)
 			{
-				foreach (RegisterPlayer mob in networkedMatrixMove.MetaTileMap.matrix.PresentPlayers)
-				{
-					if (mob.IsLayingDown || mob.PlayerScript.ObjectPhysics.IsBuckled) return;
-					mob.ServerStun(Mathf.Clamp(multiplier * 2, 1, 5), checkForArmor: false);
-					Chat.AddExamineMsg(mob.PlayerScript.gameObject,
-						"A sudden jolt from below throws you off your feet!");
-				}
+				if (mob.IsLayingDown || mob.PlayerScript.ObjectPhysics.IsBuckled) return;
+				mob.ServerStun(Mathf.Clamp(multiplier * 2, 1, 5), checkForArmor: false);
+				Chat.AddExamineMsg(mob.PlayerScript.gameObject,
+					"A sudden jolt from below throws you off your feet!");
 			}
+
 			lastThrusterStrength = multiplier;
 		}
 
 		public void AddConnector(ShuttleConnector ShuttleConnector)
 		{
 			if (ConnectedShuttleConnectors.Contains(ShuttleConnector) == false)
-			{
 				ConnectedShuttleConnectors.Add(ShuttleConnector);
-			}
 		}
 
 
 		public void RemoveConnector(ShuttleConnector ShuttleConnector)
 		{
 			if (ConnectedShuttleConnectors.Contains(ShuttleConnector))
-			{
 				ConnectedShuttleConnectors.Remove(ShuttleConnector);
-			}
 		}
 
 
 		public void AddThruster(Thruster Thruster)
 		{
-			if (ConnectedThrusters.Contains(Thruster) == false)
-			{
-				ConnectedThrusters.Add(Thruster);
-			}
+			if (ConnectedThrusters.Contains(Thruster) == false) ConnectedThrusters.Add(Thruster);
 		}
 
 
 		public void RemoveThruster(Thruster Thruster)
 		{
-			if (ConnectedThrusters.Contains(Thruster))
-			{
-				ConnectedThrusters.Remove(Thruster);
-			}
+			if (ConnectedThrusters.Contains(Thruster)) ConnectedThrusters.Remove(Thruster);
 		}
 
 		public void RcsMove(Orientation GlobalMoveDirection)
@@ -709,36 +627,31 @@ namespace US13.Shuttles
 				if (WorldCurrentVelocity.magnitude > AIRCSDragMovement ||
 				    Mathf.Abs(CurrentTorque) > AIRCSDragMovement ||
 				    TargetOrientation != OrientationEnum.Default)
-				{
 					return;
-				}
 			}
 			else
 			{
 				if (WorldCurrentVelocity.magnitude > RCSDragMovement || Mathf.Abs(CurrentTorque) > RCSDragMovement ||
 				    TargetOrientation != OrientationEnum.Default)
-				{
 					return;
-				}
 			}
 
 
-			bool HasThrusterDirection = false;
+			var HasThrusterDirection = false;
 			TheReusingSet.Clear();
 			TheReusingSetVisited.Clear();
-			var Matrixes = GetAllNetworkedMatrixMove(TheReusingSet, true, this, TheReusingSetVisited);
-			var Thrusters = GetThrusters(Matrixes, TheReusingConnectedThrusters);
+			HashSet<NetworkedMatrixMove> Matrixes =
+				GetAllNetworkedMatrixMove(TheReusingSet, true, this, TheReusingSetVisited);
+			List<Thruster> Thrusters = GetThrusters(Matrixes, TheReusingConnectedThrusters);
 			if (RCSRequiresThrusters)
 			{
-				foreach (var Thruster in Thrusters)
-				{
-					if (((Vector3) Thruster.Rotatable.WorldDirection).ToOrientationEnum() ==
+				foreach (Thruster Thruster in Thrusters)
+					if (((Vector3)Thruster.Rotatable.WorldDirection).ToOrientationEnum() ==
 					    GlobalMoveDirection.ToOpposite())
 					{
 						HasThrusterDirection = true;
 						break;
 					}
-				}
 			}
 			else
 			{
@@ -747,12 +660,8 @@ namespace US13.Shuttles
 
 
 			if (HasThrusterDirection)
-			{
-				foreach (var Matrix in Matrixes)
-				{
+				foreach (NetworkedMatrixMove Matrix in Matrixes)
 					Matrix.WorldCurrentVelocity += GlobalMoveDirection.ToLocalVector3();
-				}
-			}
 		}
 
 
@@ -788,14 +697,13 @@ namespace US13.Shuttles
 
 
 			UpdateLoop();
-
 		}
 
 
 		public void UpdateLoop(bool DoneMasterAlready = false)
 		{
 			ElapsedTimeSinceLastUpdate.Stop();
-			float DeltaTimeSeconds = (float) ElapsedTimeSinceLastUpdate.Elapsed.TotalSeconds;
+			var DeltaTimeSeconds = (float)ElapsedTimeSinceLastUpdate.Elapsed.TotalSeconds;
 			ElapsedTimeSinceLastUpdate.Reset(); //TODO Editor pausing??
 			ElapsedTimeSinceLastUpdate.Start();
 
@@ -810,60 +718,45 @@ namespace US13.Shuttles
 
 			TheReusingSet.Clear();
 			TheReusingSetVisited.Clear();
-			var Matrixes = GetAllNetworkedMatrixMove(TheReusingSet, false, this, TheReusingSetVisited);
+			HashSet<NetworkedMatrixMove> Matrixes =
+				GetAllNetworkedMatrixMove(TheReusingSet, false, this, TheReusingSetVisited);
 
 
 			if (DoneMasterAlready == false)
 			{
 				NetworkedMatrixMove ControllingMatrix = null;
-				bool hasActiveConsulToo = false;
+				var hasActiveConsulToo = false;
 
 
-				foreach (var Matrix in Matrixes) //Find the biggest  in control matrix
+				foreach (NetworkedMatrixMove Matrix in Matrixes) //Find the biggest  in control matrix
 				{
 					if (ControllingMatrix == null)
 					{
 						ControllingMatrix = Matrix;
-						foreach (var Consul in Matrix.ShuttleConsuls)
-						{
+						foreach (ShuttleConsole Consul in Matrix.ShuttleConsuls)
 							if (Consul.EngineOn)
-							{
 								hasActiveConsulToo = true;
-							}
-						}
 					}
 
 
 					if (hasActiveConsulToo)
 					{
 						if (Matrix.Mass > ControllingMatrix.Mass)
-						{
-							foreach (var Consul in Matrix.ShuttleConsuls)
-							{
+							foreach (ShuttleConsole Consul in Matrix.ShuttleConsuls)
 								if (Consul.EngineOn)
-								{
 									ControllingMatrix = Matrix;
-								}
-							}
-						}
 					}
 					else
 					{
 						if (Matrix.Mass > ControllingMatrix.Mass)
-						{
 							ControllingMatrix = Matrix;
-						}
 						else
-						{
-							foreach (var Consul in Matrix.ShuttleConsuls)
-							{
+							foreach (ShuttleConsole Consul in Matrix.ShuttleConsuls)
 								if (Consul.EngineOn)
 								{
 									hasActiveConsulToo = true;
 									ControllingMatrix = Matrix;
 								}
-							}
-						}
 					}
 				}
 
@@ -878,13 +771,13 @@ namespace US13.Shuttles
 
 
 			TheReusingConnectedThrusters.Clear();
-			var Thrusters = GetThrusters(Matrixes, TheReusingConnectedThrusters);
-			var AllMass = GetAllMass(Matrixes);
-			var WoldCentreOfMass = GetAllCentreOfMass(Matrixes);
+			List<Thruster> Thrusters = GetThrusters(Matrixes, TheReusingConnectedThrusters);
+			float AllMass = GetAllMass(Matrixes);
+			Vector3 WoldCentreOfMass = GetAllCentreOfMass(Matrixes);
 
 			if (AllMass == 0) return;
 
-			var AllRCSModeActive = Matrixes.Any(x => x.RCSModeActive);
+			bool AllRCSModeActive = Matrixes.Any(x => x.RCSModeActive);
 			Vector3 WorldPivot = Vector2.zero;
 
 
@@ -894,11 +787,11 @@ namespace US13.Shuttles
 			{
 				foreach (Thruster Thruster in Thrusters)
 				{
-					var ThrusterMagnitude = Thruster.WorldThrustDirectionAndMagnitude.magnitude;
+					float ThrusterMagnitude = Thruster.WorldThrustDirectionAndMagnitude.magnitude;
 
 					if (Mathf.Abs(ThrusterMagnitude) > 0 && Mathf.Abs(sumThrust + ThrusterMagnitude) > float.Epsilon)
 					{
-						var ScalerThrusterMagnitude =
+						float ScalerThrusterMagnitude =
 							ThrusterMagnitude
 							/
 							(ThrusterMagnitude + sumThrust);
@@ -910,7 +803,7 @@ namespace US13.Shuttles
 				}
 
 
-				var MassMagnitude = AllMass; //Because your mass doesn't like being moved and counterbalances it
+				float MassMagnitude = AllMass; //Because your mass doesn't like being moved and counterbalances it
 
 				/*
 			if (Mathf.Abs(MassMagnitude) > 0 && Mathf.Abs(sumThrust + MassMagnitude) > float.Epsilon)
@@ -931,8 +824,8 @@ namespace US13.Shuttles
 				foreach (Thruster Thruster in Thrusters)
 				{
 					// Calculate the torque using the cross product to consider the position
-					float torque = Vector3.Cross(WorldPivot - (Vector3) Thruster.transform.position,
-						(Vector3) Thruster.WorldThrustDirectionAndMagnitude).z;
+					float torque = Vector3.Cross(WorldPivot - (Vector3)Thruster.transform.position,
+						(Vector3)Thruster.WorldThrustDirectionAndMagnitude).z;
 					sumTorques += torque;
 				}
 
@@ -941,7 +834,7 @@ namespace US13.Shuttles
 
 				if (Mathf.Abs(sumTorques) > 0 && Mathf.Abs(CurrentTorque + sumTorques) > float.Epsilon)
 				{
-					var ScalerSumTorques =
+					float ScalerSumTorques =
 						sumTorques
 						/
 						(sumTorques + CurrentTorque);
@@ -951,16 +844,16 @@ namespace US13.Shuttles
 						ScalerSumTorques);
 				}
 
-				var PivotDifference = (WoldCentreOfMass - currentLocalPivot.ToWorld(MetaTileMap.matrix));
-				var MomentumStrength = PivotDifference.magnitude * CurrentTorque * DeltaTimeSeconds;
+				Vector3 PivotDifference = WoldCentreOfMass - currentLocalPivot.ToWorld(MetaTileMap.matrix);
+				float MomentumStrength = PivotDifference.magnitude * CurrentTorque * DeltaTimeSeconds;
 
 				CurrentTorque += sumTorques / AllMass;
 
 				if (PivotDifference.magnitude > 0 && MomentumStrength > 0)
 				{
-					var TorquesDifference = sumTorques / AllMass;
+					float TorquesDifference = sumTorques / AllMass;
 
-					var ScalerMomentumStrength =
+					float ScalerMomentumStrength =
 						MomentumStrength
 						/
 						(MomentumStrength + TorquesDifference);
@@ -971,39 +864,31 @@ namespace US13.Shuttles
 
 					//TODO Balance the WorldCurrentVelocity added Because it doesn't seem to be strong enough whenTwo shuttle split apart meybe 2x Faster?
 
-					WorldCurrentVelocity += (new Vector3(-PivotDifference.y, PivotDifference.x, 0).normalized *
-					                         ((ScalerMomentumStrength) * (MomentumStrength / AllMass)));
+					WorldCurrentVelocity += new Vector3(-PivotDifference.y, PivotDifference.x, 0).normalized *
+					                        (ScalerMomentumStrength * (MomentumStrength / AllMass));
 				}
 			}
 			else
 			{
 				currentLocalPivot = WoldCentreOfMass.ToLocal(MetaTileMap.matrix);
-				if (HasMoveToTarget)
-				{
-					currentLocalPivot = CentreOfAIMovementWorld.ToLocal(MetaTileMap.matrix);
-				}
+				if (HasMoveToTarget) currentLocalPivot = CentreOfAIMovementWorld.ToLocal(MetaTileMap.matrix);
 			}
 
 			Vector3 OverallthrustDirection = Vector3.zero;
 
 			if (MoveCoolDown == 0)
 			{
-				foreach (var thruster in Thrusters)
+				foreach (Thruster thruster in Thrusters)
 				{
 					// Calculate the vector from center of mass to force position
-					Vector3 r = (Vector3) thruster.transform.position - WoldCentreOfMass;
+					Vector3 r = (Vector3)thruster.transform.position - WoldCentreOfMass;
 
 					// Prevent issues with extremely small r values
-					var mag = r.magnitude;
+					float mag = r.magnitude;
 					if (mag < 1e-6)
-					{
 						// Use a small threshold to check near-zero values
 						r = new Vector3(1, 0, 0); // Assign a reasonable default direction (arbitrary but consistent)
-					}
-					else if (mag < 1)
-					{
-						r = r.normalized; // Normalize if it's not zero
-					}
+					else if (mag < 1) r = r.normalized; // Normalize if it's not zero
 
 					// Calculate the component of force along the line connecting force position to center of mass
 					Vector3 forceComponent =
@@ -1012,38 +897,31 @@ namespace US13.Shuttles
 					OverallthrustDirection -= forceComponent;
 				}
 
-				WorldCurrentVelocity += (OverallthrustDirection * DeltaTimeSeconds) / AllMass;
+				WorldCurrentVelocity += OverallthrustDirection * DeltaTimeSeconds / AllMass;
 			}
 			else
 			{
 				WorldCurrentVelocity *= 0;
 				MoveCoolDown -= DeltaTimeSeconds;
-				if (MoveCoolDown < 0)
-				{
-					MoveCoolDown = 0;
-				}
+				if (MoveCoolDown < 0) MoveCoolDown = 0;
 			}
 
-			bool Handbrake = false;
+			var Handbrake = false;
 
-			foreach (var Matrix in Matrixes)
-			{
+			foreach (NetworkedMatrixMove Matrix in Matrixes)
 				if (Matrix.Handbrake)
 				{
 					Handbrake = true;
 					break;
 				}
-			}
 
 			if (Handbrake && WorldCurrentVelocity.magnitude > SpinneyThreshold - 1)
-			{
 				WorldCurrentVelocity = WorldCurrentVelocity -
-				                       (((WorldCurrentVelocity.normalized * ((SpinneyThreshold - 1))) -
-				                         WorldCurrentVelocity) * HandbrakeDrag);
-			}
+				                       (WorldCurrentVelocity.normalized * (SpinneyThreshold - 1) -
+				                        WorldCurrentVelocity) * HandbrakeDrag;
 
 
-			bool DoUpdateLocalPosition = false;
+			var DoUpdateLocalPosition = false;
 
 			//HasMoveToTarget
 
@@ -1052,27 +930,24 @@ namespace US13.Shuttles
 			AligneToTiles(DeltaTimeSeconds, Matrixes);
 
 			SetTransformPosition(TargetTransform.position + (Vector3)
-				((Vector3) (WorldCurrentVelocity) * DeltaTimeSeconds), false, Matrixes);
+				((Vector3)WorldCurrentVelocity * DeltaTimeSeconds), false, Matrixes);
 
 			if (DragSpinneyCoolDown > 0)
 			{
 				DragSpinneyCoolDown -= DeltaTimeSeconds;
-				if (DragSpinneyCoolDown < 0)
-				{
-					DragSpinneyCoolDown = 0;
-				}
+				if (DragSpinneyCoolDown < 0) DragSpinneyCoolDown = 0;
 			}
 
 			if (SpinneyMode)
 			{
 				TargetOrientation = OrientationEnum.Default;
-				var KeepMomentum =
-					this.TargetTransform.worldToLocalMatrix.MultiplyVector(WorldCurrentVelocity *
-					                                                       SpinneyTurnVelocityBent);
+				Vector3 KeepMomentum =
+					TargetTransform.worldToLocalMatrix.MultiplyVector(WorldCurrentVelocity *
+					                                                  SpinneyTurnVelocityBent);
 				WorldCurrentVelocity -= SpinneyTurnVelocityBent * WorldCurrentVelocity;
 				TransformUpdateRotate(ObjectLayer.transform.TransformPoint(currentLocalPivot),
 					CurrentTorque * DeltaTimeSeconds, false, Matrixes);
-				WorldCurrentVelocity += this.TargetTransform.localToWorldMatrix.MultiplyVector(KeepMomentum);
+				WorldCurrentVelocity += TargetTransform.localToWorldMatrix.MultiplyVector(KeepMomentum);
 				CheckCollisions();
 			}
 			else if (TargetOrientation != OrientationEnum.Default)
@@ -1086,10 +961,10 @@ namespace US13.Shuttles
 					TargetOrientation.ToQuaternion().eulerAngles.z);
 
 				// Determine the rotation direction (clockwise or anticlockwise)
-				int direction = (angleDifference < 0) ? -1 : 1;
+				int direction = angleDifference < 0 ? -1 : 1;
 
 
-				var KeepMomentum = this.TargetTransform.worldToLocalMatrix.MultiplyVector(WorldCurrentVelocity);
+				Vector3 KeepMomentum = TargetTransform.worldToLocalMatrix.MultiplyVector(WorldCurrentVelocity);
 
 
 				bool UpdateConversion = WorldCurrentVelocity.sqrMagnitude == 0;
@@ -1109,9 +984,7 @@ namespace US13.Shuttles
 				}
 
 				if (HasMoveToTarget == false)
-				{
-					WorldCurrentVelocity = this.TargetTransform.localToWorldMatrix.MultiplyVector(KeepMomentum);
-				}
+					WorldCurrentVelocity = TargetTransform.localToWorldMatrix.MultiplyVector(KeepMomentum);
 			}
 			else
 			{
@@ -1132,58 +1005,46 @@ namespace US13.Shuttles
 				float angleDifference = Mathf.DeltaAngle(TargetTransform.eulerAngles.z, targetRotation);
 
 				// Determine the rotation direction (clockwise or anticlockwise)
-				int direction = (angleDifference < 0) ? -1 : 1;
+				int direction = angleDifference < 0 ? -1 : 1;
 
 				// If the difference is small, snap to the target rotation
 				if (Mathf.Abs(angleDifference) < step)
-				{
 					TransformSetEuler(new Vector3(0, 0, targetRotation), false, Matrixes);
-				}
 				else
-				{
 					// Rotate the object around the pivot using transform.RotateAround
 					TransformUpdateRotate(ObjectLayer.transform.TransformPoint(currentLocalPivot),
 						direction * ShuttleNonSpinneyModeRounding * DeltaTimeSeconds, false, Matrixes);
-				}
 			}
 
 			if (DoUpdateLocalPosition)
-			{
-				foreach (var Matrixe in Matrixes)
-				{
+				foreach (NetworkedMatrixMove Matrixe in Matrixes)
 					Matrixe.UpdateLocalAndWorldConversion();
-				}
-			}
 
 			if (WorldCurrentVelocity.magnitude > 0.001f || Mathf.Abs(CurrentTorque) > 0.001f ||
 			    TargetOrientation != OrientationEnum.Default)
 			{
 				if (IsMoving == false)
-				{
-					foreach (var Matrixe in Matrixes)
+					foreach (NetworkedMatrixMove Matrixe in Matrixes)
 					{
 						Matrixe.OnStartMovement?.Invoke();
 						Matrixe.IsMoving = true;
 					}
-				}
 
 				IsMoving = true;
 			}
 			else
 			{
 				if (IsMoving == true)
-				{
-					foreach (var Matrixe in Matrixes.ToList())
+					foreach (NetworkedMatrixMove Matrixe in Matrixes.ToList())
 					{
 						Matrixe.OnStopMovement?.Invoke();
 						Matrixe.IsMoving = false;
 					}
-				}
 
 				IsMoving = false;
 			}
 
-			foreach (var Matrixe in Matrixes)
+			foreach (NetworkedMatrixMove Matrixe in Matrixes)
 			{
 				Matrixe.WorldCurrentVelocity = WorldCurrentVelocity;
 				Matrixe.CurrentTorque = CurrentTorque;
@@ -1191,10 +1052,7 @@ namespace US13.Shuttles
 				Matrixe.SetGizmoPosition(currentLocalPivot.ToWorld(MetaTileMap.matrix)
 					.ToLocal(Matrixe.MetaTileMap.matrix));
 
-				if (Matrixe != this)
-				{
-					Matrixe.UpdateHandled = true;
-				}
+				if (Matrixe != this) Matrixe.UpdateHandled = true;
 			}
 		}
 
@@ -1204,15 +1062,11 @@ namespace US13.Shuttles
 			{
 				if (Mathf.Abs(WorldCurrentVelocity.x) < 0.50f)
 				{
-					var Position = TargetTransform.position;
+					Vector3 Position = TargetTransform.position;
 					if (WorldCurrentVelocity.x > 0f)
-					{
 						Position.x += 0.45f;
-					}
 					else
-					{
 						Position.x -= 0.45f;
-					}
 
 					Position.x = Mathf.Round(Position.x);
 
@@ -1224,15 +1078,11 @@ namespace US13.Shuttles
 
 				if (Mathf.Abs(WorldCurrentVelocity.y) < 0.50f)
 				{
-					var Position = TargetTransform.position;
+					Vector3 Position = TargetTransform.position;
 					if (WorldCurrentVelocity.y > 0)
-					{
 						Position.y += 0.45f;
-					}
 					else
-					{
 						Position.y -= 0.45f;
-					}
 
 					Position.y = Mathf.Round(Position.y);
 
@@ -1246,7 +1096,7 @@ namespace US13.Shuttles
 
 		public bool DragCalculations(float DeltaTimeSeconds, bool AllRCSModeActive, bool SlowDrag)
 		{
-			bool DoUpdateLocalPosition = false;
+			var DoUpdateLocalPosition = false;
 			bool AINoDrag = HasMoveToTarget && WorldCurrentVelocity.magnitude > 2;
 
 			if (WorldCurrentVelocity.magnitude > 0 && ApplyDrag && AINoDrag == false && SlowDrag)
@@ -1265,19 +1115,19 @@ namespace US13.Shuttles
 
 			if (Mathf.Abs(WorldCurrentVelocity.x) > HighSpeedDragMinimumThreshold && ApplyDrag && AINoDrag == false)
 			{
-				var MomentumDifference = Mathf.Abs(WorldCurrentVelocity.x) - HighSpeedDragMinimumThreshold;
-				var DragMultiplier = MomentumDifference / (HighSpeedDrag100Threshold - HighSpeedDragMinimumThreshold);
+				float MomentumDifference = Mathf.Abs(WorldCurrentVelocity.x) - HighSpeedDragMinimumThreshold;
+				float DragMultiplier = MomentumDifference / (HighSpeedDrag100Threshold - HighSpeedDragMinimumThreshold);
 				WorldCurrentVelocity.x =
-					ApplyDragTo(WorldCurrentVelocity.x, (HighSpeedDrag * DragMultiplier), DeltaTimeSeconds);
+					ApplyDragTo(WorldCurrentVelocity.x, HighSpeedDrag * DragMultiplier, DeltaTimeSeconds);
 			}
 
 
 			if (Mathf.Abs(WorldCurrentVelocity.y) > HighSpeedDragMinimumThreshold && ApplyDrag && AINoDrag == false)
 			{
-				var MomentumDifference = Mathf.Abs(WorldCurrentVelocity.y) - HighSpeedDragMinimumThreshold;
-				var DragMultiplier = MomentumDifference / (HighSpeedDrag100Threshold - HighSpeedDragMinimumThreshold);
+				float MomentumDifference = Mathf.Abs(WorldCurrentVelocity.y) - HighSpeedDragMinimumThreshold;
+				float DragMultiplier = MomentumDifference / (HighSpeedDrag100Threshold - HighSpeedDragMinimumThreshold);
 				WorldCurrentVelocity.y =
-					ApplyDragTo(WorldCurrentVelocity.y, (HighSpeedDrag * DragMultiplier), DeltaTimeSeconds);
+					ApplyDragTo(WorldCurrentVelocity.y, HighSpeedDrag * DragMultiplier, DeltaTimeSeconds);
 			}
 
 			if (Mathf.Abs(CurrentTorque) > 0 && ApplyDrag && AINoDrag == false)
@@ -1290,7 +1140,7 @@ namespace US13.Shuttles
 			if (SpinneyMode == false && AllRCSModeActive == false &&
 			    TargetFaceDirectionOverride == OrientationEnum.Default && AINoDrag == false)
 			{
-				var dotProduct = Vector3.Dot(WorldCurrentVelocity.normalized, ForwardsDirection.normalized);
+				float dotProduct = Vector3.Dot(WorldCurrentVelocity.normalized, ForwardsDirection.normalized);
 				WorldCurrentVelocity = ForwardsDirection * (dotProduct * WorldCurrentVelocity.magnitude);
 			}
 
@@ -1299,25 +1149,19 @@ namespace US13.Shuttles
 
 		public Vector3 ApplyDragTo(Vector3 CurrentMomentum, float Drag, float deltaTimeSeconds)
 		{
-			var Multiplier = Drag * deltaTimeSeconds;
-			if (Drag * deltaTimeSeconds > 1)
-			{
-				Multiplier = 1;
-			}
+			float Multiplier = Drag * deltaTimeSeconds;
+			if (Drag * deltaTimeSeconds > 1) Multiplier = 1;
 
-			CurrentMomentum -= (CurrentMomentum * Multiplier);
+			CurrentMomentum -= CurrentMomentum * Multiplier;
 			return CurrentMomentum;
 		}
 
 		public float ApplyDragTo(float CurrentMomentum, float Drag, float deltaTimeSeconds)
 		{
-			var Multiplier = Drag * deltaTimeSeconds;
-			if (Drag * deltaTimeSeconds > 1)
-			{
-				Multiplier = 1;
-			}
+			float Multiplier = Drag * deltaTimeSeconds;
+			if (Drag * deltaTimeSeconds > 1) Multiplier = 1;
 
-			CurrentMomentum -= (CurrentMomentum * Multiplier);
+			CurrentMomentum -= CurrentMomentum * Multiplier;
 			return CurrentMomentum;
 		}
 
@@ -1342,36 +1186,22 @@ namespace US13.Shuttles
 		public void UpdateSyncVars()
 		{
 			if (isServer == false) return;
-			if (SynchronisedSpin != CurrentTorque)
-			{
-				SynchroniseSpin(SynchronisedSpin, CurrentTorque);
-			}
+			if (SynchronisedSpin != CurrentTorque) SynchroniseSpin(SynchronisedSpin, CurrentTorque);
 
-			if (SynchronisedMass != Mass)
-			{
-				SynchroniseMass(SynchronisedMass, Mass);
-			}
+			if (SynchronisedMass != Mass) SynchroniseMass(SynchronisedMass, Mass);
 
 			if (SynchronisedVelocity != WorldCurrentVelocity)
-			{
 				SynchroniseVelocity(SynchronisedVelocity, WorldCurrentVelocity);
-			}
 
 			if (SynchronisedPivotPoint != currentLocalPivot)
-			{
 				SynchronisePivotPoint(SynchronisedPivotPoint, currentLocalPivot);
-			}
 
 
 			if (SynchronisedPosition != TargetTransform.position)
-			{
 				SynchronisePosition(SynchronisedPosition, TargetTransform.position);
-			}
 
 			if (SynchronisedRotation != TargetTransform.rotation.eulerAngles)
-			{
 				SynchroniseRotation(SynchronisedRotation, TargetTransform.rotation.eulerAngles);
-			}
 		}
 
 		public void SynchronisePosition(Vector3 OldPosition, Vector3 NewPosition)
@@ -1418,55 +1248,42 @@ namespace US13.Shuttles
 			HashSet<NetworkedMatrixMove> Matrixs = null)
 		{
 			if (Matrixs != null)
-			{
-				foreach (var matrix in Matrixs)
+				foreach (NetworkedMatrixMove matrix in Matrixs)
 				{
 					if (matrix == this) continue;
-					var Offset = TargetTransform.position - matrix.TargetTransform.position;
+					Vector3 Offset = TargetTransform.position - matrix.TargetTransform.position;
 					matrix.SetTransformPosition(NewPosition - Offset, UpdateConversion);
 				}
-			}
 
 
 			TargetTransform.position = NewPosition;
-			if (UpdateConversion)
-			{
-				UpdateLocalAndWorldConversion();
-			}
+			if (UpdateConversion) UpdateLocalAndWorldConversion();
 		}
 
 		public void TransformUpdateRotate(Vector3 RotateAround, float By, bool UpdateConversion = true,
 			HashSet<NetworkedMatrixMove> Matrixs = null)
 		{
 			if (Matrixs != null)
-			{
-				foreach (var matrix in Matrixs)
+				foreach (NetworkedMatrixMove matrix in Matrixs)
 				{
 					if (matrix == this) continue;
 					matrix.TransformUpdateRotate(RotateAround, By, UpdateConversion);
 				}
-			}
 
-			Vector3 axis = new Vector3(0, 0, 1);
+			var axis = new Vector3(0, 0, 1);
 			TargetTransform.RotateAround(RotateAround, axis, By);
 
-			if (Mathf.Abs(By) > 0)
-			{
-				OnRotate?.Invoke();
-			}
+			if (Mathf.Abs(By) > 0) OnRotate?.Invoke();
 
 			var facedDirection = ForwardsDirection.ToOrientationEnum();
 			if (PreviousDirectionFacing != facedDirection)
 			{
 				PreviousDirectionFacing = facedDirection;
-				OnRotate90?.Invoke(this.TargetTransform.localToWorldMatrix.MultiplyVector(Vector3.up)
+				OnRotate90?.Invoke(TargetTransform.localToWorldMatrix.MultiplyVector(Vector3.up)
 					.ToOrientationEnum());
 			}
 
-			if (UpdateConversion)
-			{
-				UpdateLocalAndWorldConversion();
-			}
+			if (UpdateConversion) UpdateLocalAndWorldConversion();
 		}
 
 		public void TransformSetEuler(Vector3 Euler, bool UpdateConversion = true,
@@ -1481,37 +1298,29 @@ namespace US13.Shuttles
 			HashSet<NetworkedMatrixMove> Matrixs = null)
 		{
 			if (Matrixs != null)
-			{
-				foreach (var matrix in Matrixs)
+				foreach (NetworkedMatrixMove matrix in Matrixs)
 				{
 					if (matrix == this) continue;
-					var Offset = Quaternion.Inverse(TargetTransform.rotation) * matrix.TargetTransform.rotation;
+					Quaternion Offset = Quaternion.Inverse(TargetTransform.rotation) * matrix.TargetTransform.rotation;
 					matrix.TransformSetQuaternion(SetTO * Offset, UpdateConversion);
 				}
-			}
 
-			var difference = TargetTransform.rotation.eulerAngles.z - SetTO.eulerAngles.z;
+			float difference = TargetTransform.rotation.eulerAngles.z - SetTO.eulerAngles.z;
 
 			TargetTransform.rotation = SetTO;
 
-			if (difference != 0)
-			{
-				OnRotate?.Invoke();
-			}
+			if (difference != 0) OnRotate?.Invoke();
 
 			var FacedDirection = ForwardsDirection.ToOrientationEnum();
 			if (PreviousDirectionFacing != FacedDirection)
 			{
 				PreviousDirectionFacing = FacedDirection;
-				OnRotate90?.Invoke(this.TargetTransform.localToWorldMatrix.MultiplyVector(Vector3.up)
+				OnRotate90?.Invoke(TargetTransform.localToWorldMatrix.MultiplyVector(Vector3.up)
 					.ToOrientationEnum());
 			}
 
 
-			if (UpdateConversion)
-			{
-				UpdateLocalAndWorldConversion();
-			}
+			if (UpdateConversion) UpdateLocalAndWorldConversion();
 		}
 
 
@@ -1523,21 +1332,19 @@ namespace US13.Shuttles
 
 			if (Safety == false) return;
 			//Basically the air movement
-			var thisBigBound = MetaTileMap.matrix.MatrixInfo.WorldBounds.ExpandAllDirectionsBy(10);
+			BetterBounds thisBigBound = MetaTileMap.matrix.MatrixInfo.WorldBounds.ExpandAllDirectionsBy(10);
 
-			foreach (var Matrix in MatrixManager.Instance.ActiveMatrices)
+			foreach (KeyValuePair<int, MatrixInfo> Matrix in MatrixManager.Instance.ActiveMatrices)
 			{
 				if ((Matrix.Value.WorldBounds.center - CentreOfAIMovementWorld).magnitude > 1000) continue;
 				if (Matrix.Value == MatrixManager.Instance.spaceMatrix.MatrixInfo) continue;
 				if (Matrix.Value == MetaTileMap.matrix.MatrixInfo) continue;
 				if (TheReusingSet.Contains(Matrix.Value.MatrixMove.NetworkedMatrixMove)) continue;
 
-				var OtherBigBound = Matrix.Value.WorldBounds.ExpandAllDirectionsBy(10);
+				BetterBounds OtherBigBound = Matrix.Value.WorldBounds.ExpandAllDirectionsBy(10);
 
-				if (thisBigBound.Intersects(OtherBigBound, out var Overlap))
-				{
+				if (thisBigBound.Intersects(OtherBigBound, out BetterBounds Overlap))
 					WorldCurrentVelocity = WorldCurrentVelocity.normalized * (SpinneyThreshold - 1);
-				}
 			}
 		}
 
@@ -1554,7 +1361,7 @@ namespace US13.Shuttles
 			CheckMatrixRoute();
 
 			//Loggy.LogError("code here");
-			var Different = TravelToWorldPOS - CentreOfAIMovementWorld.RoundToInt();
+			Vector3 Different = TravelToWorldPOS - CentreOfAIMovementWorld.RoundToInt();
 
 			if (Mathf.Abs(Different.x) < 1.5f && Mathf.Abs(Different.y) < 1.5f)
 			{
@@ -1587,26 +1394,16 @@ namespace US13.Shuttles
 						bool fast = Mathf.Abs(Different.x) > 100;
 
 						var SpeedMultiplier = 1f;
-						if (Different.x > 30)
-						{
-							SpeedMultiplier = Mathf.Max((Different.y / 30), 0.3f);
-						}
+						if (Different.x > 30) SpeedMultiplier = Mathf.Max(Different.y / 30, 0.3f);
 
 
-						var TravelSpeed = AITravelSpeed * SpeedMultiplier;
-						if (fast)
-						{
-							TravelSpeed = AITravelSpeedFast;
-						}
+						float TravelSpeed = AITravelSpeed * SpeedMultiplier;
+						if (fast) TravelSpeed = AITravelSpeedFast;
 
 						if (Different.x > 0)
-						{
 							WorldCurrentVelocity = new Vector3(TravelSpeed, 0, 0);
-						}
 						else
-						{
 							WorldCurrentVelocity = new Vector3(-TravelSpeed, 0, 0);
-						}
 
 						if (TargetOrientation == OrientationEnum.Default)
 						{
@@ -1622,29 +1419,23 @@ namespace US13.Shuttles
 							//
 							// var MovingDirection = (Difference - WantingToFaceZ).Angle360ToOrientationEnum();
 
-							var OrientationZ = TargetTransform.rotation.eulerAngles.z;
+							float OrientationZ = TargetTransform.rotation.eulerAngles.z;
 
 							float DesiredDirection = 0;
 							if (TargetFaceDirectionOverride == OrientationEnum.Default)
-							{
 								DesiredDirection = WorldCurrentVelocity.normalized.ToOrientationEnum().ToQuaternion()
 									.eulerAngles.z;
-							}
 							else
-							{
 								DesiredDirection = TargetFaceDirectionOverride.ToQuaternion().eulerAngles.z;
-							}
 
-							var CurrentForwards = ForwardsDirection.ToOrientationEnum().ToQuaternion().eulerAngles.z;
+							float CurrentForwards = ForwardsDirection.ToOrientationEnum().ToQuaternion().eulerAngles.z;
 
-							var MovingDirection = (OrientationZ + (DesiredDirection - CurrentForwards))
+							OrientationEnum MovingDirection = (OrientationZ + (DesiredDirection - CurrentForwards))
 								.Angle360ToOrientationEnum();
 
-							var Orientation = OrientationZ.Angle360ToOrientationEnum();
+							OrientationEnum Orientation = OrientationZ.Angle360ToOrientationEnum();
 							if (Orientation != MovingDirection && Mathf.Abs(Different.x) > 10)
-							{
 								TargetOrientation = MovingDirection;
-							}
 						}
 						else
 						{
@@ -1653,10 +1444,7 @@ namespace US13.Shuttles
 					}
 					else
 					{
-						if (ISMovingX)
-						{
-							WorldCurrentVelocity = new Vector3(0, 0, 0);
-						}
+						if (ISMovingX) WorldCurrentVelocity = new Vector3(0, 0, 0);
 
 						ISMovingX = false;
 					}
@@ -1668,53 +1456,37 @@ namespace US13.Shuttles
 					{
 						bool fast = Mathf.Abs(Different.y) > 100;
 						var SpeedMultiplier = 1f;
-						if (Different.y > 30)
-						{
-							SpeedMultiplier = Mathf.Max((Different.y / 30), 0.3f);
-						}
+						if (Different.y > 30) SpeedMultiplier = Mathf.Max(Different.y / 30, 0.3f);
 
 
-						var TravelSpeed = AITravelSpeed * SpeedMultiplier;
-						if (fast)
-						{
-							TravelSpeed = AITravelSpeedFast;
-						}
+						float TravelSpeed = AITravelSpeed * SpeedMultiplier;
+						if (fast) TravelSpeed = AITravelSpeedFast;
 
 						if (Different.y > 0)
-						{
 							WorldCurrentVelocity = new Vector3(0, TravelSpeed, 0);
-						}
 						else
-						{
 							WorldCurrentVelocity = new Vector3(0, -TravelSpeed, 0);
-						}
 
 						if (TargetOrientation == OrientationEnum.Default)
 						{
-							var OrientationZ = TargetTransform.rotation.eulerAngles.z;
+							float OrientationZ = TargetTransform.rotation.eulerAngles.z;
 
 							float DesiredDirection = 0;
 
 							if (TargetFaceDirectionOverride == OrientationEnum.Default)
-							{
 								DesiredDirection = WorldCurrentVelocity.normalized.ToOrientationEnum().ToQuaternion()
 									.eulerAngles.z;
-							}
 							else
-							{
 								DesiredDirection = TargetFaceDirectionOverride.ToQuaternion().eulerAngles.z;
-							}
 
-							var CurrentForwards = ForwardsDirection.ToOrientationEnum().ToQuaternion().eulerAngles.z;
-							var MovingDirection = (OrientationZ + (DesiredDirection - CurrentForwards))
+							float CurrentForwards = ForwardsDirection.ToOrientationEnum().ToQuaternion().eulerAngles.z;
+							OrientationEnum MovingDirection = (OrientationZ + (DesiredDirection - CurrentForwards))
 								.Angle360ToOrientationEnum();
 
-							var Orientation = OrientationZ.Angle360ToOrientationEnum();
+							OrientationEnum Orientation = OrientationZ.Angle360ToOrientationEnum();
 
 							if (Orientation != MovingDirection && Mathf.Abs(Different.y) > 10)
-							{
 								TargetOrientation = MovingDirection;
-							}
 						}
 						else
 						{
@@ -1723,10 +1495,7 @@ namespace US13.Shuttles
 					}
 					else
 					{
-						if (ISMovingX == false)
-						{
-							WorldCurrentVelocity = new Vector3(0, 0, 0);
-						}
+						if (ISMovingX == false) WorldCurrentVelocity = new Vector3(0, 0, 0);
 
 						ISMovingX = true;
 					}
@@ -1739,16 +1508,12 @@ namespace US13.Shuttles
 			if (Debug)
 			{
 				if (MatrixBoundsGameGizmo.Count == 0)
-				{
-					foreach (var Corner in Bounds.Corners())
-					{
+					foreach (Vector3 Corner in Bounds.Corners())
 						MatrixBoundsGameGizmo.Add(
 							GameGizmomanager.AddNewSpriteStaticClient(null, Corner, Color.red, X));
-					}
-				}
 
 				var i = 0;
-				foreach (var Corner in Bounds.Corners())
+				foreach (Vector3 Corner in Bounds.Corners())
 				{
 					MatrixBoundsGameGizmo[i].Position = Corner;
 					i++;
@@ -1756,10 +1521,7 @@ namespace US13.Shuttles
 			}
 			else if (MatrixBoundsGameGizmo.Count != 0)
 			{
-				foreach (var Corner in MatrixBoundsGameGizmo)
-				{
-					Corner.Remove();
-				}
+				foreach (GameGizmoSprite Corner in MatrixBoundsGameGizmo) Corner.Remove();
 
 				MatrixBoundsGameGizmo.Clear();
 			}
@@ -1773,9 +1535,7 @@ namespace US13.Shuttles
 			if (Debug)
 			{
 				if (AIGameGizmoSprite == null)
-				{
 					AIGameGizmoSprite = GameGizmomanager.AddNewSpriteStaticClient(null, Position, Color.blue, X);
-				}
 
 				AIGameGizmoSprite.Position = Position;
 			}
@@ -1794,19 +1554,16 @@ namespace US13.Shuttles
 
 			if (isMovingAroundMatrix)
 			{
-				var Difference = (CentreOfAIMovementWorld.RoundToInt() - TravelToWorldPOS).magnitude;
+				float Difference = (CentreOfAIMovementWorld.RoundToInt() - TravelToWorldPOS).magnitude;
 
 				if (Difference < 0.5f)
 				{
 					MatrixMoveAroundCurrentTargetCorner++;
-					if (MatrixMoveAroundCurrentTargetCorner > 3)
-					{
-						MatrixMoveAroundCurrentTargetCorner = 0;
-					}
+					if (MatrixMoveAroundCurrentTargetCorner > 3) MatrixMoveAroundCurrentTargetCorner = 0;
 
 					//Loggy.Error("going to MatrixMoveAroundCurrentTargetCorner " + MatrixMoveAroundCurrentTargetCorner);
 
-					var Position = NavigatingAroundBetterBounds.Value
+					Vector3Int Position = NavigatingAroundBetterBounds.Value
 						.GetCorner(MatrixMoveAroundCurrentTargetCorner.Value).RoundToInt();
 					Position.z = 0;
 					travelToWorldPOSOverride = Position;
@@ -1816,17 +1573,12 @@ namespace US13.Shuttles
 					Vector3 currentPosition = CentreOfAIMovementWorld;
 
 
-					bool Breakout = false;
+					var Breakout = false;
 
 
-					if ((PointIsWithinMatrixPerimeterPoint.Value - currentPosition).magnitude < 7)
-					{
-						Breakout = true;
-						//IgnoreMatrixs.Clear();
-						//IgnoreMatrixs.AddRange(MovingAroundMatrixs);
-					}
-
-
+					if ((PointIsWithinMatrixPerimeterPoint.Value - currentPosition).magnitude < 7) Breakout = true;
+					//IgnoreMatrixs.Clear();
+					//IgnoreMatrixs.AddRange(MovingAroundMatrixs);
 					if (Breakout)
 					{
 						isMovingAroundMatrix = false;
@@ -1842,29 +1594,26 @@ namespace US13.Shuttles
 				}
 			}
 
-			var thisBigBound =
+			BetterBounds thisBigBound =
 				MetaTileMap.matrix.MatrixInfo.WorldBounds
 					.ExpandAllDirectionsBy(10); //TODO Handle if there are connected matrixes
 
-			foreach (var Matrix in MatrixManager.Instance.ActiveMatrices)
+			foreach (KeyValuePair<int, MatrixInfo> Matrix in MatrixManager.Instance.ActiveMatrices)
 			{
 				if ((Matrix.Value.WorldBounds.center - CentreOfAIMovementWorld).magnitude > 1000) continue;
 				if (Matrix.Value == MatrixManager.Instance.spaceMatrix.MatrixInfo) continue;
 				if (Matrix.Value == MetaTileMap.matrix.MatrixInfo) continue;
 				if (IgnoreMatrixs.Contains(Matrix.Value)) continue;
 				if (Matrix.Value.Matrix.AIShuttleShouldAvoid == false) continue;
-				if (MovingAroundMatrixs.Contains(Matrix.Value )  ) continue;
+				if (MovingAroundMatrixs.Contains(Matrix.Value)) continue;
 
-				var OtherBigBound = Matrix.Value.WorldBounds.ExpandAllDirectionsBy(10);
+				BetterBounds OtherBigBound = Matrix.Value.WorldBounds.ExpandAllDirectionsBy(10);
 
-				if (thisBigBound.Intersects(OtherBigBound, out var Overlap))
+				if (thisBigBound.Intersects(OtherBigBound, out BetterBounds Overlap))
 				{
-
 					MovingAroundMatrixs.Add(Matrix.Value);
-					foreach (var NavigatingMatrix in MovingAroundMatrixs)
-					{
+					foreach (MatrixInfo NavigatingMatrix in MovingAroundMatrixs)
 						OtherBigBound = OtherBigBound.Combine(NavigatingMatrix.WorldBounds.ExpandAllDirectionsBy(10));
-					}
 
 					//SO
 					//now How to pick a corner to go to
@@ -1872,17 +1621,14 @@ namespace US13.Shuttles
 					SetMatrixCorners(OtherBigBound);
 					Vector3 Closest = OtherBigBound.Minimum;
 
-					var DistanceToUse = CentreOfAIMovementWorld;
-					if (ClosestCashed != null)
-					{
-						DistanceToUse = ClosestCashed.Value;
-					}
+					Vector3 DistanceToUse = CentreOfAIMovementWorld;
+					if (ClosestCashed != null) DistanceToUse = ClosestCashed.Value;
 
 					float BestDistance = (DistanceToUse - Closest).magnitude;
 					var tempCorner = 0;
 
 					MatrixMoveAroundCurrentTargetCorner = 0;
-					foreach (var Corner in OtherBigBound.Corners())
+					foreach (Vector3 Corner in OtherBigBound.Corners())
 					{
 						float Distance = (DistanceToUse - Corner).magnitude;
 
@@ -1890,32 +1636,28 @@ namespace US13.Shuttles
 						{
 							BestDistance = Distance;
 							Closest = Corner;
-							MatrixMoveAroundCurrentTargetCorner = tempCorner -1 ;
+							MatrixMoveAroundCurrentTargetCorner = tempCorner - 1;
 						}
 
 						tempCorner++;
-
 					}
 
 					//MatrixMoveAroundCurrentTargetCorner--;
 					//Loggy.Error("matrix corner" + MatrixMoveAroundCurrentTargetCorner);
 					Closest = OtherBigBound.GetClosestPerimeterPoint(DistanceToUse);
 
-					PointIsWithinMatrixPerimeterPoint = OtherBigBound.GetClosestPerimeterPoint(TravelToWorldPOSMatrixTraversall);
+					PointIsWithinMatrixPerimeterPoint =
+						OtherBigBound.GetClosestPerimeterPoint(TravelToWorldPOSMatrixTraversall);
 					//SO is The closest if it's big, may result in the Side swapping, the problem is and that means going through a matrix
 					//If it's a step configurations
 
 					NavigatingAroundBetterBounds = OtherBigBound;
 
-					var Position = Closest.RoundToInt();
-					if (ClosestCashed == null)
-					{
-						ClosestCashed = Closest;
-					}
+					Vector3Int Position = Closest.RoundToInt();
+					if (ClosestCashed == null) ClosestCashed = Closest;
 					Position.z = 0;
 					travelToWorldPOSOverride = Position;
 					isMovingAroundMatrix = true;
-
 				}
 			}
 		}
