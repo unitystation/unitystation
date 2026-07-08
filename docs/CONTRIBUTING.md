@@ -88,7 +88,7 @@ Please take note of the difference between a TODO and Feature
 * Feature: When you, out of personal preference, want something added or changed.
 
 ### AI Disclosure
-
+***
 US13 requires AI-assisted and AI-generated contributions to be disclosed. 
 
 We only allow Large Langauge Models (LLMs) to assist programmers with spoken language translations, boilerplate writing, expanding already existing documentation, small-scale refactors, and autocompletions.
