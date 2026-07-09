@@ -4,6 +4,12 @@
         "InterfaceMethodNotImplemented"
     ],
     "Types": {
+        "PrimeTween": {
+            "All": true
+        },
+        "PrimeTween.Runtime": {
+            "All": true
+        },
         "WebSocketSharp": {
             "MessageEventArgs": {
                 "All": true
@@ -83,6 +89,19 @@
                 "All": true
             },
             "IPrincipal": {
+                "All": true
+            }
+        },
+        "System.Security": {
+            "UnverifiableCodeAttribute": {
+                "All": true
+            }
+        },
+        "System.Security.Permissions": {
+            "SecurityPermissionAttribute": {
+                "All": true
+            },
+            "SecurityAction": {
                 "All": true
             }
         },
@@ -802,6 +821,12 @@
                 "All": true
             },
             "RuntimeCompatibilityAttribute": {
+                "All": true
+            },
+            "IsVolatile": {
+                "All": true
+            },
+            "INotifyCompletion": {
                 "All": true
             },
             "RuntimeHelpers": {
@@ -2600,6 +2625,15 @@
             },
             "FindObjectsSortMode": {
                 "All": true
+            },
+            "Rigidbody": {
+                "All": true
+            },
+            "Rigidbody2D": {
+                "All": true
+            },
+            "Light": {
+                "All": true
             }
         },
         "UnityEngine.Events": {
@@ -2729,6 +2763,29 @@
                 "All": true
             },
             "MaskableGraphic": {
+                "All": true
+            }
+        },
+        "UnityEngine.UIElements": {
+            "VisualElement": {
+                "All": true
+            },
+            "StyleLength": {
+                "All": true
+            },
+            "StyleFloat": {
+                "All": true
+            },
+            "StyleColor": {
+                "All": true
+            },
+            "ITransform": {
+                "All": true
+            },
+            "IStyle": {
+                "All": true
+            },
+            "IResolvedStyle": {
                 "All": true
             }
         },
@@ -2955,12 +3012,31 @@
                 "Methods": [
                     "int get_Length()",
                     "!0 get_Item(int)",
+                    "void set_Item(int, !0)",
                     "void Dispose()",
-                    "void .ctor(Unity.Collections.NativeArray`1<!0>, Unity.Collections.Allocator)"
+                    "void .ctor(int, Unity.Collections.Allocator)",
+                    "void .ctor(int, Unity.Collections.Allocator, Unity.Collections.NativeArrayOptions)",
+                    "void Copy(Unity.Collections.NativeArray`1<!0>, Unity.Collections.NativeArray`1<!0>, int)"
                 ]
             },
             "Allocator": {
                 "All": true
+            }
+        },
+        "Unity.Collections.LowLevel.Unsafe": {
+            "UnsafeUtility": {
+                "Methods": [
+                    "int MemCmp(System.Void*, System.Void*, int)",
+                    "System.Void* AddressOf(ref !!0)",
+                    "int SizeOf<!!0>()",
+                    "!!0 AsRef(System.Void*)"
+                ]
+            },
+            "NativeArrayUnsafeUtility": {
+                "Methods": [
+                    "System.Void* GetUnsafePtr(Unity.Collections.NativeArray`1<!!0>)",
+                    "Unity.Collections.NativeArray`1<!!0> ConvertExistingDataToNativeArray(System.Void*, int, Unity.Collections.Allocator)"
+                ]
             }
         },
         "UnityEngine.Experimental.Rendering": {
@@ -2976,6 +3052,12 @@
                 "All": true
             },
             "UsedImplicitlyAttribute": {
+                "All": true
+            },
+            "PublicAPIAttribute": {
+                "All": true
+            },
+            "ContractAnnotationAttribute": {
                 "All": true
             }
         },
