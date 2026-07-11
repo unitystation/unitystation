@@ -31,7 +31,7 @@ namespace US13.UI.Systems.CameraOverlays
 
 			if (critMaterial == false) critMaterial = new Material(shader);
 
-			if (PlayerManager.LocalPlayerScript.OrNull()?.Mind != null && PlayerManager.LocalMindScript.IsGhosting)
+			if (PlayerManager.LocalPlayerScript.OrNull()?.Mind != null && PlayerManager.LocalMindScript.IsGhosting || PlayerManager.LocalPlayerScript?.playerHealth == null)
 			{
 				inHealth = 100.0f; //Clear crit effect but gradually
 			}

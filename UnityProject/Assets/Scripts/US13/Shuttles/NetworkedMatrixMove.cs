@@ -277,7 +277,36 @@ namespace US13.Shuttles
 
 		public GameObject TravelToObject;
 
-		public Vector3? travelToWorldPOSOverride;
+		public Vector3? mtravelToWorldPOSOverride;
+
+		public Vector3? travelToWorldPOSOverride
+		{
+			set
+			{
+				mtravelToWorldPOSOverride = value;
+				if (Debug &&  mtravelToWorldPOSOverride.HasValue)
+				{
+					if (AIGameGizmoSprite == null)
+					{
+						AIGameGizmoSprite = GameGizmomanager.AddNewSpriteStaticClient(null, mtravelToWorldPOSOverride.Value, Color.darkGreen, X);
+					}
+
+					if (mtravelToWorldPOSOverride.HasValue)
+					{
+						AIGameGizmoSprite.Position = mtravelToWorldPOSOverride.Value;
+					}
+				}
+				else if (AIGameGizmoSprite != null)
+				{
+					AIGameGizmoSprite.Remove();
+					AIGameGizmoSprite = null;
+				}
+			}
+			get
+			{
+				return mtravelToWorldPOSOverride;
+			}
+		}
 
 		private Vector3 travelToWorldPOS = new(-999999999, -9999999, 0);
 
@@ -1600,7 +1629,7 @@ namespace US13.Shuttles
 						isMovingAroundMatrix = false;
 						travelToWorldPOSOverride = null;
 						IgnoreMatrixs.Clear();
-						//IgnoreMatrixs.AddRange(MovingAroundMatrixs);
+						IgnoreMatrixs.AddRange(MovingAroundMatrixs);
 						ClosestCashed = null;
 						MatrixMoveAroundCurrentTargetCorner = null;
 						MovingAroundMatrixs.Clear();
@@ -1625,8 +1654,14 @@ namespace US13.Shuttles
 
 				BetterBounds OtherBigBound = Matrix.Value.WorldBounds.ExpandAllDirectionsBy(10);
 
+
 				if (thisBigBound.Intersects(OtherBigBound, out BetterBounds Overlap))
 				{
+
+					if (MovingAroundMatrixs.Count == 0) //reset
+					{
+						IgnoreMatrixs.Clear();
+					}
 					MovingAroundMatrixs.Add(Matrix.Value);
 					foreach (MatrixInfo NavigatingMatrix in MovingAroundMatrixs)
 						OtherBigBound = OtherBigBound.Combine(NavigatingMatrix.WorldBounds.ExpandAllDirectionsBy(10));
@@ -1652,13 +1687,19 @@ namespace US13.Shuttles
 						{
 							BestDistance = Distance;
 							Closest = Corner;
-							MatrixMoveAroundCurrentTargetCorner = tempCorner - 1;
+
+							MatrixMoveAroundCurrentTargetCorner = tempCorner;
 						}
 
 						tempCorner++;
 					}
 
-					//MatrixMoveAroundCurrentTargetCorner--;
+					MatrixMoveAroundCurrentTargetCorner--;
+					if (MatrixMoveAroundCurrentTargetCorner < 0)
+					{
+						MatrixMoveAroundCurrentTargetCorner = 3;
+					}
+
 					//Loggy.Error("matrix corner" + MatrixMoveAroundCurrentTargetCorner);
 					Closest = OtherBigBound.GetClosestPerimeterPoint(DistanceToUse);
 
@@ -1673,6 +1714,7 @@ namespace US13.Shuttles
 					if (ClosestCashed == null) ClosestCashed = Closest;
 					Position.z = 0;
 					travelToWorldPOSOverride = Position;
+
 					isMovingAroundMatrix = true;
 				}
 			}

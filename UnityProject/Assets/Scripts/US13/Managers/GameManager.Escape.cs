@@ -82,7 +82,10 @@ namespace US13.Managers
 				if (PrimaryEscapeShuttle == null)
 				{
 					//Panic
-					EndRound(GameManager.RoundID);
+					//?? Presumably it's a scenario where it's still living across around so it should be a new round by now hopefully this is ok
+					Loggy.Error(
+						"Was thinking about panic round ending but could have caused a bug with double round ends so no round end then for now if this is wrong update the code ");
+					//EndRound(GameManager.RoundID);
 				}
 				else
 				{

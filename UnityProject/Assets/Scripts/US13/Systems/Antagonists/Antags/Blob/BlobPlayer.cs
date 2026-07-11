@@ -1437,15 +1437,19 @@ namespace US13.Systems.Antagonists.Antags.Blob
 			}
 		}
 
-		private void ResetArea(GameObject node)
+		private void ResetArea(GameObject node, bool expandCoords = true)
 		{
 			var pos = node.GetComponent<UniversalObjectPhysics>().transform.position;
 			var structNode = node.GetComponent<BlobStructure>();
 
 			if(structNode.blobType != BlobConstructs.Core && structNode.blobType != BlobConstructs.Node) return;
 
-			structNode.expandCoords = GenerateCoords(pos.RoundToInt());
-			structNode.healthPulseCoords = structNode.expandCoords;
+			if (expandCoords)
+			{
+				structNode.expandCoords = GenerateCoords(pos.RoundToInt());
+				structNode.healthPulseCoords = structNode.expandCoords;
+			}
+
 			structNode.location = pos.RoundToInt();
 			structNode.nodeDepleted = false;
 		}
@@ -1822,11 +1826,11 @@ namespace US13.Systems.Antagonists.Antags.Blob
 				second.AppearAtWorldPositionServer(posCache);
 
 				//If moved to node or core refresh areas
-				ResetArea(first.gameObject);
+				ResetArea(first.gameObject, false);
 
 				if(blobStructure.blobType != BlobConstructs.Core && blobStructure.blobType != BlobConstructs.Node) return;
 
-				ResetArea(second.gameObject);
+				ResetArea(second.gameObject, false);
 				return;
 			}
 		}

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 
@@ -33,8 +34,8 @@ namespace US13.HealthV2.Living
 		[Tooltip(" Effects the type of dinosaur that spawned when An egg is generated, Hire equals more aggressive and dangerous Dinosaurs")]
 		[Range(0, 100)] public int ResearchDifficult;
 
-		[SerializeField, Tooltip("The stability says if this is a negative or positive mutation in terms of balancing, E.G x-ray will give - stability, while a negative mutation for example blindness will give positive stability, " +
-		                       "this balances out the game preventing you from having to many overpowered mutations, because you need to have a few mutations that are disadvantages")]
+		[SerializeField, FormerlySerializedAs("Stability"), Tooltip("The stability says if this is a negative or positive mutation in terms of balancing, E.G x-ray will give - stability, while a negative mutation for example blindness will give positive stability, " +
+		                                                                     "this balances out the game preventing you from having to many overpowered mutations, because you need to have a few mutations that are disadvantages")]
 		private int stability = 0;
 
 

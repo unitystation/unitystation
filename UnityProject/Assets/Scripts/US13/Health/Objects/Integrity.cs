@@ -188,13 +188,13 @@ namespace US13.Health.Objects
 		/// <param name="damage"></param>
 		/// <param name="damageType"></param>
 		[Server]
-		public void ApplyDamage(float damage, AttackType attackType, DamageType damageType, bool ignoreDeflection = false, bool triggerEvent = true, bool ignoreArmor = false,
+		public bool ApplyDamage(float damage, AttackType attackType, DamageType damageType, bool ignoreDeflection = false, bool triggerEvent = true, bool ignoreArmor = false,
 			bool explodeOnDestroy = false, GameObject attacker = null)
 		{
 			//already destroyed, don't apply damage
-			if (destroyed || Resistances.Indestructable || (!ignoreDeflection && damage < damageDeflection)) return;
+			if (destroyed || Resistances.Indestructable || (!ignoreDeflection && damage < damageDeflection)) return false;
 
-			if (Resistances.FireProof && attackType == AttackType.Fire) return;
+			if (Resistances.FireProof && attackType == AttackType.Fire) return false;
 
 			var damageInfo = new DamageInfo(damage, attackType, damageType, this);
 
@@ -211,14 +211,16 @@ namespace US13.Health.Objects
 					OnDamaged?.Invoke();
 				}
 
-				CheckDestruction(explodeOnDestroy);
+				var Destroyed = CheckDestruction(explodeOnDestroy);
 				if (logDamage)
 				{
 					string logMessage = $"{gameObject.ExpensiveName()} took {damage} {damageType} damage from an {attackType} attack (resistance {Armor.GetRating(attackType)}) (integrity now {integrity})";
 					Loggy.Trace().Format(logMessage, Category.Damage);
 					AdminLogsManager.TrackDamage(attacker, this, logMessage);
 				}
+				return Destroyed;
 			}
+			return false;
 		}
 
 		/// <summary>
@@ -235,7 +237,7 @@ namespace US13.Health.Objects
 		}
 
 		[Server]
-		private void CheckDestruction(bool explodeOnDestroy = false)
+		private bool CheckDestruction(bool explodeOnDestroy = false)
 		{
 			if (!destroyed && integrity <= 0)
 			{
@@ -257,7 +259,9 @@ namespace US13.Health.Objects
 				}
 				DefaultDestroy(destructInfo);
 				destroyed = true;
+				return true;
 			}
+			return false;
 		}
 
 		[Server]

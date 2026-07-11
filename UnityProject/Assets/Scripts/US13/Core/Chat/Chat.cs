@@ -824,7 +824,7 @@ namespace US13.Core.Chat
 		/// Serverside only
 		/// </summary>
 		public static void AddThrowHitMsgToChat(GameObject item, GameObject victim,
-			BodyPartType hitZone = BodyPartType.None)
+			BodyPartType hitZone = BodyPartType.None, Vector3? OriginalPosition = null)
 		{
 			if (!IsServer()) return;
 
@@ -836,15 +836,32 @@ namespace US13.Core.Chat
 				effectiveHitZone = BodyPartType.None;
 			}
 
-			var message =
-				$"{victim.ExpensiveName()} has been hit by a {item.Item()?.ArticleName ?? item.name}{InTheZone(effectiveHitZone)}";
-			ChatRelay.Instance.PropagateChatToClients(new ChatEvent
+
+			if (OriginalPosition != null)
 			{
-				channels = ChatChannel.Combat,
-				message = message,
-				position = victim.AssumedWorldPosServer(),
-				originator = victim
-			});
+				var message =
+					$"{victim.ExpensiveName()} has been hit by a {item.Item()?.ArticleName ?? item.name}{InTheZone(effectiveHitZone)} breaking into pieces";
+				ChatRelay.Instance.PropagateChatToClients(new ChatEvent
+				{
+					channels = ChatChannel.Combat,
+					message = message,
+					position = OriginalPosition.Value,
+				});
+			}
+			else
+			{
+				var message =
+					$"{victim.ExpensiveName()} has been hit by a {item.Item()?.ArticleName ?? item.name}{InTheZone(effectiveHitZone)}";
+				ChatRelay.Instance.PropagateChatToClients(new ChatEvent
+				{
+					channels = ChatChannel.Combat,
+					message = message,
+					position = victim.AssumedWorldPosServer(),
+					originator = victim
+				});
+			}
+
+
 		}
 
 		/// <summary>
