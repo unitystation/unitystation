@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using Logs;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +12,8 @@ namespace US13.UI.Objects.Medical.genetics
 {
 	public class MutationMiniGameElement : DynamicEntry
 	{
+		public int SliderIndex; //the index this element corresponds to in CurrentlySelected.Parameters — set once at creation, never inferred from list order
+
 		public  BodyPartMutations.MutationRoundData.SliderParameters SliderParameters;
 
 		public MutationUnlockMiniGame MutationUnlockMiniGame;
@@ -34,6 +38,10 @@ namespace US13.UI.Objects.Medical.genetics
 		{
 			SliderParameters = InSliderParameters;
 			MutationUnlockMiniGame = InMutationUnlockMiniGame;
+
+			//debug: log this single slider's params before they go over the wire
+			Loggy.Error($"[PRE-SERIALIZE] TargetPosition={InSliderParameters.TargetPosition} TargetLever={InSliderParameters.TargetLever} Edges=[{string.Join(", ", InSliderParameters.Parameters.Select(e => $"({e.Item1:F4},{e.Item2})"))}]");
+
 			netServerSyncString.SetValue(JsonConvert.SerializeObject(InSliderParameters));
 			AccumulatedForces.Clear();
 			locked = false;
@@ -56,6 +64,7 @@ namespace US13.UI.Objects.Medical.genetics
 			var NearValue =Mathf.Abs( Mathf.Abs(Indicator.Element.value - TargetFloat ) - 1f);
 
 
+
 			if (SatisfiesTarget())
 			{
 				NetColorChanger.MasterSetValue(Color.magenta);
@@ -70,6 +79,8 @@ namespace US13.UI.Objects.Medical.genetics
 		public void Setup(string Data)
 		{
 			SliderParameters = JsonConvert.DeserializeObject<BodyPartMutations.MutationRoundData.SliderParameters>(Data);
+			//debug: log this single slider's params right after deserialization
+
 			AccumulatedForces.Clear();
 			locked = false;
 		}
@@ -92,15 +103,12 @@ namespace US13.UI.Objects.Medical.genetics
 
 		public void MainSliderChangeMaster(float value )
 		{
-
-			//Loggy.LogWarning(" Target >  " +SliderParameters.TargetLever + "  Actual value >  " + Value.ToString()); //Useful for debugging
-			AccumulatedForces[this] = value;
-
-
+			//AccumulatedForces[this] = value;
 			RecalculateLine();
+
 			foreach (var Slide in SliderParameters.Parameters)
 			{
-				var OtherElement = MutationUnlockMiniGame.MutationMiniGameList.Entries[Slide.Item2] as MutationMiniGameElement;
+				var OtherElement = MutationUnlockMiniGame.OrderedElements[Slide.Item2];
 				OtherElement.AccumulatedForces[this] = value * Slide.Item1;
 				OtherElement.RecalculateLine();
 			}
@@ -108,22 +116,21 @@ namespace US13.UI.Objects.Medical.genetics
 
 		public void RecalculateLine()
 		{
-
 			if (locked)
 			{
-				Indicator.SetValue(((int) (SliderParameters.TargetPosition)).ToString());
+				Indicator.SetValue(((int)(SliderParameters.TargetPosition)).ToString());
 			}
 			else
 			{
+
 				float totalForce = 0;
 				foreach (var vForce in AccumulatedForces)
 				{
 					totalForce += vForce.Value;
 				}
 
-				Indicator.SetValue(((int) (totalForce *100)).ToString());
+				Indicator.SetValue(((int)(totalForce * 100)).ToString());
 			}
-
 		}
 
 		public void LockThis()

@@ -2588,6 +2588,8 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 			var newGlobalBounds = localBound.ConvertToWorld(localToWorldMatrix.Value);
 
+			newGlobalBounds = newGlobalBounds.ExpandAllDirectionsBy(2);
+
 			GlobalCachedBounds = newGlobalBounds;
 
 			return newGlobalBounds;

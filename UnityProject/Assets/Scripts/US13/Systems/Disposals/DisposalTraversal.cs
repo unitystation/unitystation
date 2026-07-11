@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 using US13.Core.Input_System;
 using US13.Core.Lifecycle;
@@ -52,26 +53,36 @@ namespace US13.Systems.Disposals
 		/// <param name="container">The virtual container holding the entities to be disposed of.</param>
 		public DisposalTraversal(DisposalVirtualContainer container)
 		{
-			RegisterTile registerTile = container.GetComponent<RegisterTile>();
-			matrix = registerTile.Matrix;
-			currentPipeLocalPos = registerTile.LocalPositionServer;
-			virtualContainer = container;
-			ObjectPhysics = container.GetComponent<UniversalObjectPhysics>();
-
-			currentPipe = GetPipeAt(currentPipeLocalPos, DisposalPipeType.Terminal);
-			if (currentPipe == null)
+			try
 			{
-				virtualContainer.EjectContents();
-				DespawnContainerAndFinish();
-				return;
-			}
-			// First() assumes initial pipe is of type: Terminal (as it has just one connectable side)
-			// Not an issue unless new traversals do not start from disposal machines.
-			// Consider refactoring and using GetPipeLeavingSide(currentPipe, someSide); if this becomes an issue.
-			currentPipeOutputSide = Orientation.FromEnum(currentPipe.ConnectablePoints.First().Key);
+				RegisterTile registerTile = container.GetComponent<RegisterTile>();
+				matrix = registerTile.Matrix;
+				currentPipeLocalPos = registerTile.LocalPositionServer;
+				virtualContainer = container;
+				ObjectPhysics = container.GetComponent<UniversalObjectPhysics>();
 
-			justStarted = true;
-			ReadyToTraverse = true;
+				currentPipe = GetPipeAt(currentPipeLocalPos, DisposalPipeType.Terminal);
+				if (currentPipe == null)
+				{
+					virtualContainer.EjectContents();
+					DespawnContainerAndFinish();
+					return;
+				}
+				// First() assumes initial pipe is of type: Terminal (as it has just one connectable side)
+				// Not an issue unless new traversals do not start from disposal machines.
+				// Consider refactoring and using GetPipeLeavingSide(currentPipe, someSide); if this becomes an issue.
+				currentPipeOutputSide = Orientation.FromEnum(currentPipe.ConnectablePoints.First().Key);
+
+				justStarted = true;
+				ReadyToTraverse = true;
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+				virtualContainer?.EjectContents();
+				DespawnContainerAndFinish();
+			}
+
 		}
 
 		public void ChangeMovementTrajectory(MoveAction moveAction)
@@ -107,25 +118,27 @@ namespace US13.Systems.Disposals
 		/// </summary>
 		public void Traverse()
 		{
-			ReadyToTraverse = false;
-
-			// Check if just started so we don't end the traversal at the disposal machine we started from.
-			if (justStarted == false && currentPipe.PipeType == DisposalPipeType.Terminal && BlocksForPipeCrawling() == false)
+			try
 			{
-				EjectViaDisposalPipeTerminal();
-				return;
-			}
+				ReadyToTraverse = false;
 
-			// Advance to next pipe
-			justStarted = false;
-			if (virtualContainer.SelfControlled == false) nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide).AsEnum();
-			DisposalPipe nextPipe = GetPipeAt(NextPipeLocalPosition, requiredSide: nextPipeRequiredSide);
-
-			if (nextPipe == null)
-			{
-				if (virtualContainer.SelfControlled)
+				// Check if just started so we don't end the traversal at the disposal machine we started from.
+				if (justStarted == false && currentPipe.PipeType == DisposalPipeType.Terminal && BlocksForPipeCrawling() == false)
 				{
-					var directionsToCheck = new List<Vector3Int>
+					EjectViaDisposalPipeTerminal();
+					return;
+				}
+
+				// Advance to next pipe
+				justStarted = false;
+				if (virtualContainer.SelfControlled == false) nextPipeRequiredSide = GetConnectedSide(currentPipeOutputSide).AsEnum();
+				DisposalPipe nextPipe = GetPipeAt(NextPipeLocalPosition, requiredSide: nextPipeRequiredSide);
+
+				if (nextPipe == null)
+				{
+					if (virtualContainer.SelfControlled)
+					{
+						var directionsToCheck = new List<Vector3Int>
 						{
 							new Vector3Int(-1, 0, 0),
 							new Vector3Int(1, 0, 0),
@@ -133,26 +146,38 @@ namespace US13.Systems.Disposals
 							new Vector3Int(0, 1, 0)
 						};
 
-					foreach (var direction in directionsToCheck)
-					{
-						if (GetPipeAt(out var pipe, currentPipeLocalPos + direction,
-							    requiredSide: nextPipeRequiredSide) == null) continue;
-						if (pipe.PipeType != DisposalPipeType.Terminal) continue;
-						EjectViaPipeEnd();
-						break;
+						foreach (var direction in directionsToCheck)
+						{
+							if (GetPipeAt(out var pipe, currentPipeLocalPos + direction,
+								    requiredSide: nextPipeRequiredSide) == null) continue;
+							if (pipe.PipeType != DisposalPipeType.Terminal) continue;
+							EjectViaPipeEnd();
+							break;
+						}
+						return;
 					}
+					EjectViaPipeEnd();
 					return;
 				}
-				EjectViaPipeEnd();
-				return;
+				else if (virtualContainer.SelfControlled)
+				{
+					EmergencyEject();
+					return;
+				}
+
+				TransferContainerToVector(NextPipeVector);
+				currentPipeLocalPos = NextPipeLocalPosition;
+				currentPipeOutputSide = Orientation.FromEnum(GetPipeLeavingSide(nextPipe, nextPipeRequiredSide));
+				currentPipe = nextPipe;
+
+				ReadyToTraverse = true;
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+				EmergencyEject();
 			}
 
-			TransferContainerToVector(NextPipeVector);
-			currentPipeLocalPos = NextPipeLocalPosition;
-			currentPipeOutputSide = Orientation.FromEnum(GetPipeLeavingSide(nextPipe, nextPipeRequiredSide));
-			currentPipe = nextPipe;
-
-			ReadyToTraverse = true;
 		}
 
 		private bool BlocksForPipeCrawling()
@@ -254,6 +279,12 @@ namespace US13.Systems.Disposals
 		{
 			ObjectPhysics.Pushing.Clear();
 			ObjectPhysics.ForceTilePush(nextPipePosition.To2Int(), ObjectPhysics.Pushing, null);
+		}
+
+		public void EmergencyEject()
+		{
+			virtualContainer.EjectContentsWithVector(Vector3.zero);
+			DespawnContainerAndFinish();
 		}
 
 		private void EjectViaPipeEnd()

@@ -11,6 +11,7 @@ using Util;
 
 namespace US13.Managers.MatrixManager
 {
+	[System.Serializable]
 	/// Class that helps identify matrices
 	public class MatrixInfo : IEquatable<MatrixInfo>
 	{
