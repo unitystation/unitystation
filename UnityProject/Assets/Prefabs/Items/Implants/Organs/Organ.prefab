@@ -312,6 +312,11 @@ MonoBehaviour:
   ActualHealingNutrimentMultiplier: 5
   HungerState: 1
   reagentCirculatedComponent: {fileID: 0}
+  FullMultiplier: 1.1
+  NormalMultiplier: 1
+  HungaryMultiplier: 0.9
+  MalnourishedMultiplier: 0.8
+  StarvingMultiplier: 0.6
 --- !u!114 &8844008940256618145
 MonoBehaviour:
   m_ObjectHideFlags: 0

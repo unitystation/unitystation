@@ -78,7 +78,8 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 		public ChunkedTileMap<List<TileLocation>>[] MultilayerPresentTilesNeedsLock => MultilayerPresentTiles;
 
-		private BetterBoundsInt?[] BoundLocations = new BetterBoundsInt?[14]; //NOTE TODO UPATE When you add a new Layer!!!
+		private BetterBoundsInt?[]
+			BoundLocations = new BetterBoundsInt?[14]; //NOTE TODO UPATE When you add a new Layer!!!
 
 		private bool Init = false;
 
@@ -106,7 +107,8 @@ namespace US13.Tilemaps.Behaviours.Layers
 			}
 		}
 
-		public Dictionary<Vector3Int, TileSaveRollback> TileSaveRollbacks = new Dictionary<Vector3Int, TileSaveRollback>();
+		public Dictionary<Vector3Int, TileSaveRollback> TileSaveRollbacks =
+			new Dictionary<Vector3Int, TileSaveRollback>();
 
 
 		public Queue<TileLocation> QueuedChanges = new Queue<TileLocation>();
@@ -195,7 +197,6 @@ namespace US13.Tilemaps.Behaviours.Layers
 				}
 
 
-
 				if (type is LayerType.Walls or LayerType.Windows or LayerType.Grills or LayerType.Tables)
 				{
 					PassableValues.Add(layer);
@@ -260,6 +261,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 										Minimum = Tile.LocalPosition
 									};
 								}
+
 								InBoundLocations.Value.ExpandToPoint2D(localPlace);
 							}
 						}
@@ -272,17 +274,16 @@ namespace US13.Tilemaps.Behaviours.Layers
 				}
 
 
-
 				if (type != LayerType.Effects
 				    && type != LayerType.None
 				    && type != LayerType.UnderObjectsEffects)
 				{
 					solidLayersValues.Add(layer);
-					BoundLocations[(int)layer.LayerType] = InBoundLocations;
+					BoundLocations[(int) layer.LayerType] = InBoundLocations;
 				}
 				else
 				{
-					BoundLocations[(int)layer.LayerType] = null;
+					BoundLocations[(int) layer.LayerType] = null;
 				}
 			}
 
@@ -400,7 +401,8 @@ namespace US13.Tilemaps.Behaviours.Layers
 		private void MainThreadRemoveTile(TileLocation tileLocation)
 		{
 			//Remove before setting
-			if (tileLocation.InternalLayerTile is FuncPlaceRemoveTile funcPlaceRemoveTile && CustomNetworkManager.IsServer)
+			if (tileLocation.InternalLayerTile is FuncPlaceRemoveTile funcPlaceRemoveTile &&
+			    CustomNetworkManager.IsServer)
 			{
 				funcPlaceRemoveTile.OnRemoved(tileLocation.LocalPosition, matrix, tileLocation, tileLocation.DropItems);
 			}
@@ -546,7 +548,8 @@ namespace US13.Tilemaps.Behaviours.Layers
 				Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
 
 
-				bool isPassableIfHorizontalFirst = IsPassableTileMapHorizontal(origin, to, colliderType, Bumps, ICustomTilePassable);
+				bool isPassableIfHorizontalFirst =
+					IsPassableTileMapHorizontal(origin, to, colliderType, Bumps, ICustomTilePassable);
 
 				if (isPassableIfHorizontalFirst)
 				{
@@ -554,7 +557,8 @@ namespace US13.Tilemaps.Behaviours.Layers
 				}
 
 
-				bool isPassableIfVerticalFirst = IsPassableTileMapVertical(origin, to, colliderType, Bumps, ICustomTilePassable);
+				bool isPassableIfVerticalFirst =
+					IsPassableTileMapVertical(origin, to, colliderType, Bumps, ICustomTilePassable);
 
 				if (isPassableIfVerticalFirst)
 				{
@@ -617,8 +621,9 @@ namespace US13.Tilemaps.Behaviours.Layers
 			List<IBumpableObject> Bumps, ICustomTilePassable ICustomTilePassable)
 		{
 			Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
-			bool isPassableIfHorizontalFirst = IsPassableAtOrthogonalTileV2(origin, toX, colliderType, Bumps, ICustomTilePassable) &&
-			                                   IsPassableAtOrthogonalTileV2(toX, to, colliderType, Bumps, ICustomTilePassable);
+			bool isPassableIfHorizontalFirst =
+				IsPassableAtOrthogonalTileV2(origin, toX, colliderType, Bumps, ICustomTilePassable) &&
+				IsPassableAtOrthogonalTileV2(toX, to, colliderType, Bumps, ICustomTilePassable);
 
 			return isPassableIfHorizontalFirst;
 		}
@@ -686,7 +691,8 @@ namespace US13.Tilemaps.Behaviours.Layers
 		{
 			if (ICustomTilePassable != null)
 			{
-				var Result = ICustomTilePassable.IsCustomPassableAtOrthogonalTileV2(origin, to, colliderType, Bumps, this);
+				var Result =
+					ICustomTilePassable.IsCustomPassableAtOrthogonalTileV2(origin, to, colliderType, Bumps, this);
 				if (Result == false)
 				{
 					return false;
@@ -696,7 +702,6 @@ namespace US13.Tilemaps.Behaviours.Layers
 					return true;
 				}
 			}
-
 
 
 			TileLocation tileLocation = null;
@@ -925,9 +930,11 @@ namespace US13.Tilemaps.Behaviours.Layers
 				{
 					PresentTiles[(int) layer.LayerType].TryGetValue(position, out tileLocation);
 				}
+
 				table = tileLocation?.layerTile;
 				return tileLocation?.layerTile;
 			}
+
 			return false;
 		}
 
@@ -938,7 +945,8 @@ namespace US13.Tilemaps.Behaviours.Layers
 			, bool MapSaveRecord = false,
 			bool useExactForMultilayer = false)
 		{
-			return SetTile(position, TileManager.GetTile(TileType, tileName), matrixTransform, color, isPlaying, useExactForMultilayer, MapSaveRecord : MapSaveRecord);
+			return SetTile(position, TileManager.GetTile(TileType, tileName), matrixTransform, color, isPlaying,
+				useExactForMultilayer, MapSaveRecord: MapSaveRecord);
 		}
 
 		private const int MaxDepth = 50;
@@ -1016,7 +1024,6 @@ namespace US13.Tilemaps.Behaviours.Layers
 						{
 							index = FindFirstEmpty(tileLocations);
 							position.z = 1 - index;
-
 						}
 						else
 						{
@@ -1039,7 +1046,6 @@ namespace US13.Tilemaps.Behaviours.Layers
 						}
 
 						tileLocation = tileLocations[index];
-
 					}
 				}
 				else
@@ -1121,11 +1127,13 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 		private Color MixLocalOverlayColors(Vector3Int position, Color assignedColor, TileLocation tileLocation)
 		{
-			if (tileLocation.layer.LayerType is not LayerType.Effects or LayerType.UnderObjectsEffects) return assignedColor;
+			if (tileLocation.layer.LayerType is not LayerType.Effects or LayerType.UnderObjectsEffects)
+				return assignedColor;
 			if (assignedColor.a is >= 1f or < Reagent.MINIMUM_PUDDLE_OPACITY) return assignedColor;
 			float neighborAlphaSum = 0f;
 			int neighborCount = 0;
-			var neighborDirs = new[] { new Vector3Int(1, 0, 0), new Vector3Int(-1, 0, 0), new Vector3Int(0, 1, 0), new Vector3Int(0, -1, 0) };
+			var neighborDirs = new[]
+				{new Vector3Int(1, 0, 0), new Vector3Int(-1, 0, 0), new Vector3Int(0, 1, 0), new Vector3Int(0, -1, 0)};
 			foreach (var d in neighborDirs)
 			{
 				var nPos = position + d;
@@ -1148,7 +1156,6 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 		private void HandleBoundChange(TileLocation tileLocation)
 		{
-
 			if (LocalCachedBounds == null)
 			{
 				LocalCachedBounds = new BetterBoundsInt()
@@ -1179,9 +1186,8 @@ namespace US13.Tilemaps.Behaviours.Layers
 			    (LayerType.Effects
 			    or LayerType.None
 			    or LayerType.UnderObjectsEffects)
-			    )
+			   )
 			{
-
 				var BoundsN = BoundLocations[(int) Type];
 				if (BoundsN == null)
 				{
@@ -1200,9 +1206,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 					Bounds.ExpandToPoint2D(tileLocation.LocalPosition);
 					BoundLocations[(int) Type] = Bounds;
 				}
-
 			}
-
 		}
 
 		public void ClearAtPos(Vector3Int position)
@@ -1394,7 +1398,8 @@ namespace US13.Tilemaps.Behaviours.Layers
 			var tile = GetTileLocation(cellPosition, layerType, useExactForMultilayer);
 			if (tile == null || tile.layerTile == null) return;
 
-			SetTile(cellPosition, tile.layerTile, tile.transformMatrix, colour, useExactForMultilayer : useExactForMultilayer);
+			SetTile(cellPosition, tile.layerTile, tile.transformMatrix, colour,
+				useExactForMultilayer: useExactForMultilayer);
 		}
 
 		/// <summary>
@@ -1461,7 +1466,8 @@ namespace US13.Tilemaps.Behaviours.Layers
 			{
 				if (layer.LayerType == LayerType.Objects) continue;
 
-				if (ignoreEffectsLayer && (layer.LayerType is LayerType.Effects or LayerType.UnderObjectsEffects )) continue;
+				if (ignoreEffectsLayer &&
+				    (layer.LayerType is LayerType.Effects or LayerType.UnderObjectsEffects)) continue;
 
 				tileLocation = GetCorrectTileLocationForLayer(cellPosition, layer, useExactForMultilayer);
 
@@ -1470,7 +1476,8 @@ namespace US13.Tilemaps.Behaviours.Layers
 					if (excludeNonIntractable)
 					{
 						var basicTile = tileLocation.layerTile as BasicTile;
-						if (basicTile != null && (basicTile.BlocksTileInteractionsUnder || basicTile.TileInteractions.Count > 0))
+						if (basicTile != null &&
+						    (basicTile.BlocksTileInteractionsUnder || basicTile.TileInteractions.Count > 0))
 						{
 							break;
 						}
@@ -1657,7 +1664,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 				if (layer == LayerType.Objects)
 				{
-					foreach (RegisterTile o in  ((ObjectLayer) LayersValues[i1]).ServerObjects.Get(position))
+					foreach (RegisterTile o in ((ObjectLayer) LayersValues[i1]).ServerObjects.Get(position))
 					{
 						if (o.IsPassable(isServer) == false)
 						{
@@ -1679,6 +1686,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 					}
 				}
 			}
+
 			return true;
 		}
 
@@ -2177,7 +2185,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 				else
 				{
 					Loggy.Error("Overlay tiles are not supported for non-multilayered layers for " +
-					               overlayTileWanted?.name);
+					            overlayTileWanted?.name);
 					return true;
 				}
 
@@ -2231,7 +2239,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 			if (Layers.TryGetValue(layerType, out var layer))
 			{
 				if (Multilayer)
-					{
+				{
 					lock (MultilayerPresentTiles)
 					{
 						MultilayerPresentTiles[(int) layer.LayerType].TryGetValue(position, out tileLocations, true);
@@ -2331,10 +2339,8 @@ namespace US13.Tilemaps.Behaviours.Layers
 					{
 						if (layer.RemoveTile(position))
 						{
-
 						}
 					}
-
 				}
 
 				if (layer.LayerType.IsMultilayer()) //TODO Tile map upgrade
@@ -2382,7 +2388,8 @@ namespace US13.Tilemaps.Behaviours.Layers
 			}
 		}
 
-		public void RemoveTileWithlayer(Vector3Int position, LayerType refLayer, bool exactPosition = true, bool DropItems = true, bool removeAllMulti = false)
+		public void RemoveTileWithlayer(Vector3Int position, LayerType refLayer, bool exactPosition = true,
+			bool DropItems = true, bool removeAllMulti = false)
 		{
 			if (refLayer == LayerType.Objects) return;
 
@@ -2398,7 +2405,6 @@ namespace US13.Tilemaps.Behaviours.Layers
 					}
 					else
 					{
-
 						lock (MultilayerPresentTiles)
 						{
 							var tileLocations = GetTileLocationsNeedLockSurrounding(position, layer);
@@ -2474,7 +2480,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 
 		public BetterBoundsInt? GetLocalCollisionBounds()
 		{
-			return  BoundLocations[(int) LayerType.Base];
+			return BoundLocations[(int) LayerType.Base];
 		}
 
 
@@ -2542,7 +2548,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 		public void CacheLocalBound()
 		{
 			Vector3Int? minPosition = null;
-			Vector3Int? maxPosition =  null;
+			Vector3Int? maxPosition = null;
 
 
 			foreach (var layerBounds in BoundLocations)
@@ -2572,7 +2578,6 @@ namespace US13.Tilemaps.Behaviours.Layers
 					Minimum = minPosition.Value,
 				};
 			}
-
 		}
 
 		public BetterBounds? CacheGlobalBound()
@@ -3169,4 +3174,3 @@ namespace US13.Tilemaps.Behaviours.Layers
 		Reagents
 	}
 }
-

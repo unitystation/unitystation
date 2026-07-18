@@ -324,7 +324,7 @@ namespace US13.Objects
 		{
 			foreach (var entity in GetStoredObjects().ToArray())
 			{
-				RetrieveObject(entity, transform.position);
+				RetrieveObject(entity, transform.gameObject.AssumedWorldPosServer());
 			}
 			storedObjects.Clear();
 

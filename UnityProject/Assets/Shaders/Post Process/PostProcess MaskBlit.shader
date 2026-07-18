@@ -37,7 +37,8 @@
 			sampler2D _BackgroundTex;
 			sampler2D _ShadowTex;
 			sampler2D _ItemTex;
-
+			sampler2D _FullbrightTex; 
+			
 			float4 _LightTransform;
 			float4 _OcclusionTransform;
 
@@ -61,6 +62,7 @@
 				// Mix Lights.
 				fixed4 occlusionSample = tex2D(_OcclusionMask, i.occlusionUv);
 				half4 lightSample = tex2D(_LightMask, i.lightUv);
+				//return occlusionSample;
 				fixed4 occLightSample = tex2D(_ObstacleLightMask, i.lightUv);
 
 				float _obstacleMask = occlusionSample.r;
@@ -95,6 +97,7 @@
 				half3 BalanceLight = clamp(normaliseColour * clamp( occLightSample.a +  mixedLight.a + 0.55, 0,1), 0, 1);
 
 			
+				//return  occLightSample;
 			
 				
 				//Adding the occlusion and wall stuff
@@ -148,6 +151,15 @@
 				//return shadowMask;
 				screenLitBackground.rgb *= 1.0 - (shadowMask * _ShadowAlpha * 2);
 				
+				
+				// Fulbright layer: rendered wherever occlusionSample.g says it's in FOV,
+				// bypasses BalanceLight/mixedLight/shadow entirely — no lighting or shadow applied.
+				fixed4 fullbright = tex2D(_FullbrightTex, i.uv);
+				fullbright.a *= occlusionSample.g;
+
+				screenLitBackground.rgb = fullbright.rgb * fullbright.a + screenLitBackground.rgb * (1 - fullbright.a);
+				screenLitBackground.a = saturate(fullbright.a + screenLitBackground.a * (1 - fullbright.a));
+
 				return screenLitBackground;
 			}
 			

@@ -46,9 +46,9 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
 
 		public float FullMultiplier = 1.1f;
 		public float NormalMultiplier = 1;
-		public float HungaryMultiplier = 1;
-		public float MalnourishedMultiplier = 0.90f;
-		public float StarvingMultiplier = 0.90f;
+		public float HungaryMultiplier = 0.9f;
+		public float MalnourishedMultiplier = 0.8f;
+		public float StarvingMultiplier = 0.6f;
 		/// <summary>
 		/// Heals damage caused by sources other than lack of blood reagent
 		/// </summary>
