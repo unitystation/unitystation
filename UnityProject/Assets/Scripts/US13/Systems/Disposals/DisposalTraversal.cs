@@ -159,11 +159,6 @@ namespace US13.Systems.Disposals
 					EjectViaPipeEnd();
 					return;
 				}
-				else if (virtualContainer.SelfControlled)
-				{
-					EmergencyEject();
-					return;
-				}
 
 				TransferContainerToVector(NextPipeVector);
 				currentPipeLocalPos = NextPipeLocalPosition;

@@ -189,8 +189,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6812293132905974475, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
+      propertyPath: initialPassable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6812293132905974475, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
       propertyPath: customNetTransform
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6812293132905974475, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: initialCrawlPassable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7207864184339415129, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
@@ -199,7 +209,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7207864184339415129, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 71127924925026925}
+    - target: {fileID: 7207864184339415129, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 84ddd95383765444a967ecebc3d0caee,
+        type: 2}
+    - target: {fileID: 7207864184339415129, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 84ddd95383765444a967ecebc3d0caee,
         type: 2}
@@ -249,6 +270,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 9218865799222490844}
   m_SourcePrefab: {fileID: 100100000, guid: aa11b93feb043fe4e84e2f313cc41f6b, type: 3}
+--- !u!212 &71127924925026925 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2681812757184269972, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+    type: 3}
+  m_PrefabInstance: {fileID: 2723274827263646969}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &260239628808517242 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2762829276071619203, guid: aa11b93feb043fe4e84e2f313cc41f6b,
@@ -277,6 +304,14 @@ MonoBehaviour:
   SynchroniseCurrentDirection: 0
   IgnoreServerUpdatesIfLocalPlayer: 0
   MatrixRotateUpdate: 1
+  SetOrder: 0
+  Orders: 00000000000000000000000000000000
+  SetLayer: 0
+  Layers:
+  - Rename me 1
+  - Rename me 2
+  - Rename me 3
+  - Rename me 4
   IsAtmosphericDevice: 0
   doNotResetOtherSpriteOptions: 0
 --- !u!114 &3505336218067827611

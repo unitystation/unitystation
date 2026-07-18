@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7143236600055908701}
   - component: {fileID: 1603040067248660636}
   - component: {fileID: 4909360160866502902}
-  m_Layer: 5
+  m_Layer: 23
   m_Name: HealthSymbol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -53,6 +53,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -74,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 199
@@ -134,7 +137,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3950444169679250612}
   - component: {fileID: 4850224076091446347}
-  m_Layer: 5
+  m_Layer: 23
   m_Name: HUDMedical
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -183,7 +186,7 @@ GameObject:
   - component: {fileID: 3300145034342869394}
   - component: {fileID: 8892765528942550230}
   - component: {fileID: 4122083716685410753}
-  m_Layer: 5
+  m_Layer: 23
   m_Name: Bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -225,6 +228,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -246,6 +251,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 200
