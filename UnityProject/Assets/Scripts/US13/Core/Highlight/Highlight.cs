@@ -223,12 +223,15 @@ namespace US13.Core.Highlight
 				if (DevCameraControls.ObjecIsVisible(T.gameObject) == false) continue;
 				if (T.sortingLayerName == "Preview") continue;
 				RecursiveTextureStack(mainTex, T, HighlightPadding);
+				instance.spriteRenderer.gameObject.layer = T.gameObject.layer;
 			}
 
 			mainTex.Apply();
 			instance.spriteRenderer.enabled = true;
 			instance.spriteRenderer.sprite = Sprite.Create(mainTex, new Rect(0, 0, mainTex.width, mainTex.height),
 				new Vector2(0.5f, 0.5f), instance.spriteRenderer.sprite.pixelsPerUnit, 1, SpriteMeshType.FullRect, Vector4.zero);
+
+
 		}
 
 

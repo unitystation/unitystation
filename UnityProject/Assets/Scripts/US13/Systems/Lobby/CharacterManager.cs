@@ -271,6 +271,7 @@ namespace US13.Systems.Lobby
 			var characterRemove = Characters[key];
 			Characters.RemoveAt(key);
 			_ = PersistenceServer.DeleteAccountsCharacterByID(characterRemove.Id, PlayerManager.Account.Token);
+			SaveCharacters();
 		}
 
 		public async Task LoadOnlineCharacters()

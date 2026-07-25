@@ -112,11 +112,14 @@ namespace US13.Objects.Disposals
 		{
 			var matrixInfos = MatrixManager.Instance.ActiveMatricesList;
 
+			var Mask = newMode ? LayerMask.NameToLayer("Players") : LayerMask.NameToLayer("Matrix");
+
 			foreach (var matrixInfo in matrixInfos)
 			{
 				var tilemapRenderer = matrixInfo.Matrix.DisposalsLayer.GetComponent<TilemapRenderer>();
 				tilemapRenderer.sortingLayerName = newMode ? "Walls" : "UnderFloor";
 				tilemapRenderer.sortingOrder = newMode ? 100 : 1;
+				tilemapRenderer.gameObject.layer = Mask;
 			}
 		}
 

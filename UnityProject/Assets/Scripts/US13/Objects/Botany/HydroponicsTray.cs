@@ -28,7 +28,7 @@ namespace US13.Objects.Botany
 	/// <summary>
 	/// Where the magic happens in botany. This tray grows all of the plants
 	/// </summary>
-	public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>, IServerSpawn
+	public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>, IServerSpawn,IExaminable
 	{
 		public bool HasPlant => plantData?.FullyGrownSpriteSO != null;
 		public bool ReadyToHarvest => plantCurrentStage == PlantSpriteStage.FullyGrown;
@@ -121,7 +121,6 @@ namespace US13.Objects.Botany
 			if (info.WasMapspawn)
 			{
 				weedLevel = RNG.GetRandomNumber(0f, 4f);
-				pestLevel = RNG.GetRandomNumber(0f, 4f);
 			}
 
 			EnsureInit();
@@ -240,18 +239,28 @@ namespace US13.Objects.Botany
 					//Loggy.Log("plantData.weed > " + plantData.PlantHealth);
 				}
 
-				if (isSoilPile == false)
+
+				if (pestLevel > 10)
 				{
-					if (pestLevel > 10)
+					plantData.Health -= 0.5f / GetMachineMultiplier();
+				}
+				else
+				{
+					if (pestLevel == 0)
 					{
-						plantData.Health -= 0.5f / GetMachineMultiplier();
+						if (RNG.RoleChance(0.00016f))
+						{
+							pestLevel = 0.1f;
+						}
 					}
 					else
 					{
-						pestLevel += 0.0025f / GetMachineMultiplier();
+						pestLevel += 0.025f / GetMachineMultiplier();
 					}
 
+
 				}
+
 
 
 				//Water Checks
@@ -328,6 +337,7 @@ namespace US13.Objects.Botany
 			//Empty tray checks
 			else
 			{
+				pestLevel = 0;
 				if (weedLevel < 10)
 				{
 					weedLevel += 0.005f /   GetMachineMultiplier();
@@ -583,6 +593,32 @@ namespace US13.Objects.Botany
 			}
 		}
 
+		/// <summary>
+		/// Examine text showing current water/nutriment levels and any fertiliser being used
+		/// </summary>
+		public string Examine(Vector3 worldPos = default)
+		{
+			var sb = new System.Text.StringBuilder();
+
+			sb.Append($"It contains {reagentContainer[water]:0.#} units of water and {reagentContainer[nutriment]:0.#} units of nutriment.");
+
+			var fertilisersInUse = new List<string>();
+			if (reagentContainer[Left4Zed] > 0) fertilisersInUse.Add("Left 4 Zed");
+			if (reagentContainer[RobustHarvest] > 0) fertilisersInUse.Add("Robust Harvest");
+			if (reagentContainer[EZNutrient] > 0) fertilisersInUse.Add("EZ Nutrient");
+
+			if (fertilisersInUse.Count > 0)
+			{
+				sb.Append($" It is currently being treated with {string.Join(" and ", fertilisersInUse)}.");
+			}
+			else
+			{
+				sb.Append(" No fertiliser is currently being used.");
+			}
+
+			return sb.ToString();
+		}
+
 		public float GetMachineMultiplier()
 		{
 			if (HasMachine == false)
@@ -730,6 +766,7 @@ namespace US13.Objects.Botany
 			UpdatePlantStage(plantCurrentStage, PlantSpriteStage.None);
 		}
 	}
+
 
 
 

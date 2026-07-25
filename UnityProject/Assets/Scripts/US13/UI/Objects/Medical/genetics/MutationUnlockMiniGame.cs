@@ -96,7 +96,7 @@ namespace US13.UI.Objects.Medical.genetics
 		{
 			ClearSelection();
 			var data = new BodyPartMutations.MutationRoundData.SliderMiniGameData();
-			BodyPartMutations.MutationRoundData.PopulateSliderMiniGame(data, Random.Range(25, 66), false);
+			BodyPartMutations.MutationRoundData.PopulateSliderMiniGame(data, Random.Range(50, 90), false);
 
 			BodyPartMutations.MutationRoundData.DumpSliderMiniGameData("POST-GENERATE", data);
 
