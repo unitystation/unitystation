@@ -207,7 +207,7 @@ namespace US13.Systems.GameModes
 
 			if (ForceMinAntags)
 			{
-				if ((Math.Floor(players * antagRatio) >= MinAntags) == false)
+				if ((Math.Ceiling(players * antagRatio) >= MinAntags) == false) //so Basically so it can trigger on low pop You can changes if you want but then you and get some rounds on Really low pop
 				{
 					Loggy.Info($"Failed ForceMinAntags with Current {players * antagRatio} Needed {MinAntags} for {name}", Category.GameMode);
 					return false;

@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using US13.Managers;
 using US13.UI.Core.Net.Elements;
 using US13.UI.Core.Net.Elements.Dynamic;
 using US13.UI.Objects.Medical;
@@ -33,9 +34,25 @@ namespace US13.UI.Objects.MedBed
 			CapacitySlider.MasterSetValue( Mathf.Round(( (ReagentReGenAndCap.CurrentReagents == 0 ? 1 : ReagentReGenAndCap.CurrentReagents) /ReagentReGenAndCap.ReagentCap)*100).ToString() );
 		}
 
-		public void Inject(float Amount)
+		public void Inject10(PlayerInfo subject)
 		{
-			TParent.MedBed.InjectReagent(ReagentReGenAndCap, Amount);
+
+			if (TParent.MedBed.LivingHealthMasterBase?.gameObject == subject.GameObject) return;
+			TParent.MedBed.InjectReagent(ReagentReGenAndCap, 10);
+		}
+
+
+		public void Inject5(PlayerInfo subject)
+		{
+			if (TParent.MedBed.LivingHealthMasterBase?.gameObject == subject.GameObject) return;
+			TParent.MedBed.InjectReagent(ReagentReGenAndCap, 5);
+		}
+
+
+		public void Inject2(PlayerInfo subject)
+		{
+			if (TParent.MedBed.LivingHealthMasterBase?.gameObject == subject.GameObject) return;
+			TParent.MedBed.InjectReagent(ReagentReGenAndCap, 2);
 		}
 	}
 }
