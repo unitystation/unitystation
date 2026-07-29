@@ -272,7 +272,13 @@ namespace DynamicOptions
 			{Option.HoverDelayOption,
 				new OptionData() {DisplayName = "Hover Tooltip Delay", OptionType = OptionType.Aslider, PreferenceKey = "HoverDelayOption",
 					OptionCategoryType = OptionCategoryType.Theme,
-					OnChangeAction = o => { UIManager.Instance.HoverTooltipUI.HoverDelay = (float)o; return "";  },
+					OnChangeAction = o =>
+					{
+						if (UIManager.Instance.HoverTooltipUI == null) return "";
+
+						UIManager.Instance.HoverTooltipUI.HoverDelay = (float)o;
+						return "";
+					},
 					Show = () => { return true; },
 					Default = () => { return 1.5f; },
 					UIParameters = () => { return (new  Vector2(0.1f, 2.25f), false); },
@@ -429,16 +435,16 @@ namespace DynamicOptions
 						switch ((string)o)
 						{
 							case "New to SS13":
-								ProtipManager.Instance.SetExperienceLevel(ProtipManager.ExperienceLevel.NewToSpaceStation);
+								ProtipManager.SavePreferredExperienceLevel(ProtipManager.ExperienceLevel.NewToSpaceStation);
 								break;
 							case "New to Unitystation":
-								ProtipManager.Instance.SetExperienceLevel(ProtipManager.ExperienceLevel.NewToUnityStation);
+								ProtipManager.SavePreferredExperienceLevel(ProtipManager.ExperienceLevel.NewToUnityStation);
 								break;
 							case "Experienced":
-								ProtipManager.Instance.SetExperienceLevel(ProtipManager.ExperienceLevel.SomewhatExperienced);
+								ProtipManager.SavePreferredExperienceLevel(ProtipManager.ExperienceLevel.SomewhatExperienced);
 								break;
 							case "ROBUST":
-								ProtipManager.Instance.SetExperienceLevel(ProtipManager.ExperienceLevel.Robust);
+								ProtipManager.SavePreferredExperienceLevel(ProtipManager.ExperienceLevel.Robust);
 								break;
 						}
 
@@ -451,7 +457,13 @@ namespace DynamicOptions
 			{Option.A3DMode,
 				new OptionData() {DisplayName = "A 3DMode?", OptionType = OptionType.AButton, PreferenceKey = "A3DMode",
 					OptionCategoryType = OptionCategoryType.Gameplay,
-					OnChangeAction = o => { Manager3D.Instance.PromptConvertTo3D(); return ""; },
+					OnChangeAction = o =>
+					{
+						if (Manager3D.Instance == null) return "";
+
+						Manager3D.Instance.PromptConvertTo3D();
+						return "";
+					},
 					Show = () => { return true; },
 				}},
 			// ========================================= Misc =========================================

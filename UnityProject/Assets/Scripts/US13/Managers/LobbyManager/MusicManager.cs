@@ -29,6 +29,45 @@ namespace US13.Managers.LobbyManager
 		private bool isMusicMute;
 		[Range(0f, 1f)] public float MusicVolume = 0.5f;
 
+		private readonly List<AddressableAudioSource> trackHistory = new List<AddressableAudioSource>();
+		private int historyIndex = -1;
+		private const int MAX_HISTORY = 20;
+
+		private bool isPaused;
+
+		public enum PlaybackState
+		{
+			Stopped,
+			Playing,
+			Paused
+		}
+
+		public PlaybackState State
+		{
+			get
+			{
+				if (isPaused)
+				{
+					return PlaybackState.Paused;
+				}
+				if (isMusicPlaying())
+				{
+					return PlaybackState.Playing;
+				}
+				return PlaybackState.Stopped;
+			}
+		}
+
+		public string[] CurrentTrackInfo
+		{
+			get
+			{
+				if (musicAudioSource == null) return null;
+				if (musicAudioSource.clip == null) return null;
+				return musicAudioSource.clip.name.Split('_');
+			}
+		}
+
 		[SerializeField] private AudioSource musicAudioSource = null;
 
 		[SerializeField] private AudioClipsArray audioClips = null;
@@ -69,9 +108,52 @@ namespace US13.Managers.LobbyManager
 		/// </summary>
 		public async Task<String[]> PlayRandomTrack()
 		{
+			var clip = audioClips.GetRandomClip();
+			if (historyIndex < trackHistory.Count - 1)
+			{
+				trackHistory.RemoveRange(historyIndex + 1, trackHistory.Count - historyIndex - 1);
+			}
+			trackHistory.Add(clip);
+			if (trackHistory.Count > MAX_HISTORY)
+			{
+				trackHistory.RemoveAt(0);
+			}
+			historyIndex = trackHistory.Count - 1;
+			return await PlayClip(clip);
+		}
+
+		public async Task<String[]> PlayPreviousTrack()
+		{
+			if (historyIndex <= 0)
+			{
+				if (musicAudioSource == null || musicAudioSource.clip == null) return null;
+				musicAudioSource.time = 0f;
+				ResumeMusic();
+				musicAudioSource.Play();
+				return musicAudioSource.clip.name.Split('_');
+			}
+			historyIndex--;
+			return await PlayClip(trackHistory[historyIndex]);
+		}
+
+		public void PauseMusic()
+		{
+			isPaused = true;
+			musicAudioSource.Pause();
+		}
+
+		public void ResumeMusic()
+		{
+			isPaused = false;
+			musicAudioSource.UnPause();
+		}
+
+		private async Task<String[]> PlayClip(AddressableAudioSource clip)
+		{
 			StopMusic();
 			if (musicAudioSource == null) Init();
-			var audioSource = await AudioManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource>{audioClips.GetRandomClip()});
+			isPaused = false;
+			var audioSource = await AudioManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource>{clip});
 			if(audioSource == null)
 			{
 				Loggy.Error("MusicManager failed to load a song, is Addressables loaded?", Category.Audio);

@@ -5043,10 +5043,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2712449560d92654e986516cb35034ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assets::US13.UI.Systems.Lobby.GUI_MainMenu
+  home: {fileID: 2238855109199278020}
   joinButton: {fileID: 5894424010586306255}
   hostButton: {fileID: 2016141855625593281}
   optionsButton: {fileID: 6668810948928124955}
   exitButton: {fileID: 2853001308026351616}
+  versionLabel: {fileID: 0}
+  stationTimeLabel: {fileID: 0}
 --- !u!1 &4262271943933128109
 GameObject:
   m_ObjectHideFlags: 0
@@ -10416,6 +10419,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueTitle: {fileID: 6296311150731234054}
   panelContainer: {fileID: 6296311151036477904}
+  dialogueWindow: {fileID: 6296311150680667340}
   informationPanel: {fileID: 6296311150662622064}
   controlInformationPanel: {fileID: 6296311150083143661}
   loadingPanelScript: {fileID: 3887782606498296252}
@@ -10425,6 +10429,7 @@ MonoBehaviour:
   accountCreateScript: {fileID: 8557505720515542856}
   joinScript: {fileID: 2609741828332514131}
   serverHistoryScript: {fileID: 7810046320248854904}
+  mainMenu: {fileID: 0}
 --- !u!1 &6296311150703957924
 GameObject:
   m_ObjectHideFlags: 0

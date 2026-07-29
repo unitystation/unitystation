@@ -26,6 +26,7 @@ namespace US13.Learning
 
 		private const string JSON_FILE_NAME = "protips.json";
 		private const int JSON_EMPTY_LIST = 5;
+		public const string EXPERIENCE_PREF_KEY = "Learning/ExperienceLevel";
 
 		public enum ExperienceLevel
 		{
@@ -40,7 +41,7 @@ namespace US13.Learning
 		public override void Awake()
 		{
 			base.Awake();
-			var experience = UnityEngine.PlayerPrefs.GetInt("Learning/ExperienceLevel", -1);
+			var experience = UnityEngine.PlayerPrefs.GetInt(EXPERIENCE_PREF_KEY, -1);
 			if(experience == -1)
 			{
 				UIManager.Instance.FirstTimePlayerExperienceScreen.SetActive(true);
@@ -105,9 +106,16 @@ namespace US13.Learning
 
 		public void SetExperienceLevel(ExperienceLevel level)
 		{
-			PlayerExperienceLevel = level;
-			UnityEngine.PlayerPrefs.SetInt("Learning/ExperienceLevel", (int)level);
+			SavePreferredExperienceLevel(level);
+		}
+
+		public static void SavePreferredExperienceLevel(ExperienceLevel level)
+		{
+			UnityEngine.PlayerPrefs.SetInt(EXPERIENCE_PREF_KEY, (int)level);
 			UnityEngine.PlayerPrefs.Save();
+			if (Instance == null) return;
+
+			Instance.PlayerExperienceLevel = level;
 		}
 
 		private void CheckQueue()

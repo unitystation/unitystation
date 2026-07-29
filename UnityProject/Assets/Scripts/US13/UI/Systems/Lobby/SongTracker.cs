@@ -72,7 +72,7 @@ namespace US13.UI.Systems.Lobby
 		{
 			if (PlayingRandomPlayList == false || CustomNetworkManager.IsHeadless) return;
 
-			if (MusicManager.isMusicPlaying()) return;
+			if (MusicManager.Instance.State != MusicManager.PlaybackState.Stopped) return;
 
 			currentWaitTime += Time.deltaTime;
 			if (currentWaitTime >= timeBetweenSongs)
