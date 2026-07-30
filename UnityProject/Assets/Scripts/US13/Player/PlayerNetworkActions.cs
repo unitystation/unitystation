@@ -568,7 +568,7 @@ namespace US13.Player
 		[TargetRpc]
 		public void TargetStopMusic(NetworkConnection target)
 		{
-			MusicManager.SongTracker.Stop();
+			MusicManager.Instance.StopPlaylist();
 		}
 
 		/// <summary>

@@ -18,9 +18,13 @@ namespace US13.UI.Systems.Lobby
 		[SerializeField]
 		private Button nextButton = default;
 		[SerializeField]
-		private Button muteButton = default;
+		private Button speakerButton = default;
 		[SerializeField]
 		private Slider volumeSlider = default;
+		[SerializeField]
+		private GameObject volumePopup = default;
+		[SerializeField]
+		private Button volumeCloseCatcher = default;
 
 		[SerializeField]
 		private Image pauseIcon = default;
@@ -34,7 +38,7 @@ namespace US13.UI.Systems.Lobby
 		[SerializeField]
 		private Sprite speakerOnSprite = default;
 		[SerializeField]
-		private Sprite speakerOffSprite = default;
+		private Sprite speakerMutedSprite = default;
 
 		private string shownTrack;
 		private MusicManager.PlaybackState shownState = MusicManager.PlaybackState.Stopped;
@@ -44,15 +48,17 @@ namespace US13.UI.Systems.Lobby
 			previousButton.onClick.AddListener(OnPreviousBtn);
 			pauseButton.onClick.AddListener(OnPauseBtn);
 			nextButton.onClick.AddListener(OnNextBtn);
-			muteButton.onClick.AddListener(OnMuteBtn);
+			speakerButton.onClick.AddListener(OnSpeakerBtn);
 			volumeSlider.onValueChanged.AddListener(OnVolumeChanged);
+			volumeCloseCatcher.onClick.AddListener(CloseVolumePopup);
 		}
 
 		private void Start()
 		{
 			InitMutePref();
 			InitVolumeSlider();
-			RefreshMuteIcon();
+			ApplyMuteState();
+			SetVolumePopupOpen(false);
 		}
 
 		private void OnEnable()
@@ -120,15 +126,43 @@ namespace US13.UI.Systems.Lobby
 			MusicManager.Instance.PauseMusic();
 		}
 
-		private void OnMuteBtn()
+		private void OnSpeakerBtn()
 		{
-			ToggleMutePref();
-			ApplyMuteState();
+			SetVolumePopupOpen(volumePopup.activeSelf == false);
+		}
+
+		private void CloseVolumePopup()
+		{
+			SetVolumePopupOpen(false);
+		}
+
+		private void SetVolumePopupOpen(bool open)
+		{
+			volumePopup.SetActive(open);
+			volumeCloseCatcher.gameObject.SetActive(open);
 		}
 
 		private void OnVolumeChanged(float value)
 		{
+			SyncMuteWithVolume(value);
 			MusicManager.Instance.ChangeVolume(value);
+		}
+
+		private void SyncMuteWithVolume(float value)
+		{
+			var muted = IsMutedPref();
+			if (value == 0f && muted == false)
+			{
+				ToggleMutePref();
+				ApplyMuteState();
+				return;
+			}
+
+			if (value > 0f && muted)
+			{
+				ToggleMutePref();
+				ApplyMuteState();
+			}
 		}
 
 		private void InitMutePref()
@@ -171,7 +205,7 @@ namespace US13.UI.Systems.Lobby
 		{
 			if (IsMutedPref())
 			{
-				speakerIcon.sprite = speakerOffSprite;
+				speakerIcon.sprite = speakerMutedSprite;
 				return;
 			}
 			speakerIcon.sprite = speakerOnSprite;

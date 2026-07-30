@@ -7,9 +7,10 @@ using UnityEngine;
 using US13.Core.Addressables.Types;
 using US13.Core.Sound;
 using US13.Messages.Server.SoundMessages;
+using US13.Managers.NetworkManagement;
+using US13.Managers.UpdateManager;
 using US13.PlayerPrefs;
 using US13.ScriptableObjects.Audio;
-using US13.UI.Systems.Lobby;
 
 namespace US13.Managers.LobbyManager
 {
@@ -20,18 +21,16 @@ namespace US13.Managers.LobbyManager
 
 		public string currentNetworkedSong = "";
 
-		[SerializeField] private SongTracker songTracker = null;
-		/// <summary>
-		/// For controlling the song play list. Includes random shuffle and auto play
-		/// </summary>
-		public static SongTracker SongTracker => Instance.songTracker;
-
 		private bool isMusicMute;
 		[Range(0f, 1f)] public float MusicVolume = 0.5f;
 
 		private readonly List<AddressableAudioSource> trackHistory = new List<AddressableAudioSource>();
 		private int historyIndex = -1;
 		private const int MAX_HISTORY = 20;
+
+		private bool playingRandomPlayList;
+		private float currentWaitTime;
+		private const float TIME_BETWEEN_SONGS = 2f;
 
 		private bool isPaused;
 
@@ -94,6 +93,41 @@ namespace US13.Managers.LobbyManager
 		private void Start()
 		{
 			musicAudioSource.outputAudioMixerGroup = AudioManager.Instance.MusicMixer;
+		}
+
+		private void OnEnable()
+		{
+			UpdateManager.UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
+		{
+			if (playingRandomPlayList == false || CustomNetworkManager.IsHeadless) return;
+			if (State != PlaybackState.Stopped) return;
+
+			currentWaitTime += Time.deltaTime;
+			if (currentWaitTime < TIME_BETWEEN_SONGS) return;
+
+			currentWaitTime = 0f;
+			_ = PlayRandomTrack();
+		}
+
+		public void StartPlayingRandomPlaylist()
+		{
+			if (CustomNetworkManager.IsHeadless) return;
+
+			playingRandomPlayList = true;
+		}
+
+		public void StopPlaylist()
+		{
+			playingRandomPlayList = false;
+			StopMusic();
 		}
 
 		public static void StopMusic()

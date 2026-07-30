@@ -137,7 +137,7 @@ namespace US13.UI.Systems
 			panelRight.gameObject.SetActive(true);
 			rightClickManager.SetActive(true);
 			preRoundWindow.gameObject.SetActive(false);
-			MusicManager.SongTracker.Stop();
+			MusicManager.Instance.StopPlaylist();
 		}
 
 		/// <summary>
@@ -187,7 +187,7 @@ namespace US13.UI.Systems
 		public void SetScreenForLobby()
 		{
 			SoundAmbientManager.StopAllAudio();
-			MusicManager.SongTracker.StartPlayingRandomPlaylist();
+			MusicManager.Instance.StartPlayingRandomPlaylist();
 			ResetUI(); // Make sure UI is back to default for next play
 			UIManager.PlayerHealthUI.gameObject.SetActive(false);
 			UIActionManager.Instance.OnRoundEnd();
@@ -218,7 +218,7 @@ namespace US13.UI.Systems
 			ResetUI(); // Make sure UI is back to default for next play
 			UIManager.PlayerHealthUI.gameObject.SetActive(false);
 			SoundAmbientManager.StopAllAudio();
-			MusicManager.SongTracker.StartPlayingRandomPlaylist();
+			MusicManager.Instance.StartPlayingRandomPlaylist();
 			ToggleCurrentHud(false);
 			panelRight.gameObject.SetActive(false);
 			rightClickManager.SetActive(false);
@@ -234,7 +234,7 @@ namespace US13.UI.Systems
 			ResetUI(); // Make sure UI is back to default for next play
 			UIManager.PlayerHealthUI.gameObject.SetActive(false);
 			SoundAmbientManager.StopAllAudio();
-			MusicManager.SongTracker.StartPlayingRandomPlaylist();
+			MusicManager.Instance.StartPlayingRandomPlaylist();
 			ToggleCurrentHud(false);
 			panelRight.gameObject.SetActive(false);
 			rightClickManager.SetActive(false);
