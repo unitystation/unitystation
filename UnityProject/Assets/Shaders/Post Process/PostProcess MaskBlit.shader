@@ -155,7 +155,8 @@
 				// Fulbright layer: rendered wherever occlusionSample.g says it's in FOV,
 				// bypasses BalanceLight/mixedLight/shadow entirely — no lighting or shadow applied.
 				fixed4 fullbright = tex2D(_FullbrightTex, i.uv);
-				fullbright.a *= occlusionSample.g;
+				//return occlusionSample;
+				fullbright.a *= occlusionSample.g + occlusionSample.r;
 
 				screenLitBackground.rgb = fullbright.rgb * fullbright.a + screenLitBackground.rgb * (1 - fullbright.a);
 				screenLitBackground.a = saturate(fullbright.a + screenLitBackground.a * (1 - fullbright.a));

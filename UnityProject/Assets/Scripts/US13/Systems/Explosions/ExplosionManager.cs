@@ -28,7 +28,7 @@ namespace US13.Systems.Explosions
 
 			public float TimeLeft;
 			public OverlayType effectOverlayType;
-			public Vector3Int position;
+			public Vector3Int localPosition;
 			public MetaTileMap MetaTileMap;
 			public GameObject Firelight;
 
@@ -65,7 +65,7 @@ namespace US13.Systems.Explosions
 			var EffectData = EffectDataToClean.Get();
 			EffectData.TimeLeft = Mathf.Min((int) seconds, 5);
 			EffectData.MetaTileMap = MetaTileMap;
-			EffectData.position = position;
+			EffectData.localPosition = position;
 			EffectData.effectOverlayType = effectOverlayType;
 			EffectData.Firelight = Firelight;
 			EffectData.Callback = callback;
@@ -73,7 +73,7 @@ namespace US13.Systems.Explosions
 		}
 
 
-		private void OnEnable()
+		private void Start()
 		{
 			if (Application.isEditor == false && NetworkServer.active == false) return;
 
@@ -81,7 +81,7 @@ namespace US13.Systems.Explosions
 				GameConfigManager.GameConfig.ExplosionStepTimeInSeconds : DEFAULT_EXPLOSION_STEP_TIME_IN_SECONDS);
 		}
 
-		private void OnDisable()
+		private void OnDestroy()
 		{
 			if(Application.isEditor == false && NetworkServer.active == false) return;
 
@@ -110,7 +110,7 @@ namespace US13.Systems.Explosions
 				timeEffect.TimeLeft = timeEffect.TimeLeft -0.4f; //Not the most accurate but good enough
 				if (timeEffect.TimeLeft < 0)
 				{
-					timeEffect.MetaTileMap.RemoveOverlaysOfType(timeEffect.position, LayerType.Effects, timeEffect.effectOverlayType);
+					timeEffect.MetaTileMap.RemoveOverlaysOfType(timeEffect.localPosition, LayerType.Effects, timeEffect.effectOverlayType);
 					if (timeEffect.Firelight != null)
 					{
 						_ = Despawn.ServerSingle(timeEffect.Firelight);

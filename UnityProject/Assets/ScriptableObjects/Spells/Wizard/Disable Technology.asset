@@ -9,50 +9,54 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 527d04810ffb4855b86689bf64eb71a2, type: 3}
-  m_Name: BodySwap
-  m_EditorClassIdentifier: 
-  actionType: 1
-  activeSpriteIndex: 0
+  m_Script: {fileID: 11500000, guid: d9d639585f97bb841bc468b21539740e, type: 3}
+  m_Name: Disable Technology
+  m_EditorClassIdentifier: Assets::US13.Systems.Spells.WizardSpellData
+  actionType: 0
+  activeSpriteIndex: 1
   callOnClient: 0
   callOnServer: 1
-  actionName: Body Swap
-  description: Swaps bodies with the target
+  actionName: Disable Technology
+  description: 'An EMP: disables all technology within range of the spell. Be wary
+    -- it can shock doors. '
   Sprites:
-  - {fileID: 11400000, guid: b4dfa57ae85b45646ba9366e57b533a9, type: 2}
+  - {fileID: 11400000, guid: 418c44f15c1e19443b1e70c6e2658ca5, type: 2}
   Backgrounds:
   - {fileID: 11400000, guid: 8f7b96a7712804949a79f2ec18abee2c, type: 2}
   PreventBeingControlledBy: 
   DisableOnEvent: 
-  isAimable: 1
-  useCustomCursor: 1
-  cursorTexture: {fileID: 2800000, guid: dc9c4014da7b32246b228810d6ec6a1b, type: 3}
+  isAimable: 0
+  useCustomCursor: 0
+  cursorTexture: {fileID: 0}
   cursorOffsetType: 0
   cursorOffset: {x: 0, y: 0}
-  RequireLivingHealth: 1
-  spellImplementation: {fileID: 409063178857974263, guid: 34757906d1065954d8d5785769150fd7,
+  RequireLivingHealth: 0
+  spellImplementation: {fileID: 8340634137525742293, guid: 22b4be63a9061fb40b2ee17320a72337,
     type: 3}
   chargeType: 0
-  cooldownTime: 300
+  cooldownTime: 40
   startingCharges: 10
   castSound:
-    AssetAddress: null
+    AssetAddress: Assets/Prefabs/Effects/magic.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  range: 2
+  range: 0
   stillRechargingMessage: The spell is still recharging!
   affectedMessage: 
-  invocationType: 0
-  invocationMessage: 
-  invocationMessageSelf: 
+  invocationType: 2
+  invocationMessage: 'NEC CANTIO! '
+  invocationMessageSelf: 'NEC CANTIO! '
   summonType: 0
   summonObjects: []
   summonTiles: []
   summonPosition: 1
   summonLifespan: 10
   replaceExisting: 0
-  AllowSoftCriticalUses: 0
+  AllowSoftCriticalUses: 1
+  requireWizardGarb: 1
+  tierCount: 5
+  cooldownModifierPC: 12.94

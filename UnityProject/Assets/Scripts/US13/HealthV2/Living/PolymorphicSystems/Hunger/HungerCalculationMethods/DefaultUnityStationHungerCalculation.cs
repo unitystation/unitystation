@@ -108,17 +108,18 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Hunger.HungerCalculationMethod
 		public HungerState CheckHungerStateOnAll(List<HungerComponent> bodyParts)
 		{
 			var state = HungerState.Full;
+			bool Isfat = false;
+
 			foreach (var bodyPart in bodyParts)
 			{
 				// If any body part is Full, the creature is considered Full overall.
-				// if (bodyPart.HungerState == HungerState.Full)
-				// {
-				// 	state = HungerState.Full;
-				// 	break;
-				// }
+				if (bodyPart.HungerState == HungerState.Full)
+				{
+					Isfat = true;
+				}
 
 				// Escalate to the worst (highest int value) hunger state seen so far.
-				if ((int)bodyPart.HungerState > (int)state)
+				if (bodyPart.HungerState != HungerState.Normal && (int)bodyPart.HungerState > (int)state)
 				{
 					state = bodyPart.HungerState;
 					if (state == HungerState.Starving)
@@ -126,6 +127,11 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Hunger.HungerCalculationMethod
 						break; // Starving is the worst possible state; no need to check further.
 					}
 				}
+			}
+
+			if (state == HungerState.Full && Isfat == false)
+			{
+				state = HungerState.Normal;
 			}
 
 			return state;

@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: MutationElvis
   m_EditorClassIdentifier: 
   displayName: Elvis
+  isStableMutation: 0
+  canBeChemicallyRemoved: 1
   ResearchDifficult: 38
-  Stability: 2
+  stability: 1
   Description: 
   CanRequireLocks: 0
   ChatModifierToApply: 131072

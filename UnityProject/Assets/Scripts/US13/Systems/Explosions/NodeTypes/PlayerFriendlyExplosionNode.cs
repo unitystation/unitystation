@@ -7,6 +7,7 @@ using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
 using US13.Items;
 using US13.Tilemaps.Behaviours.Layers;
+using Util;
 using UniversalObjectPhysics = US13.Core.Physics.UniversalObjectPhysics;
 
 namespace US13.Systems.Explosions.NodeTypes
@@ -36,14 +37,14 @@ namespace US13.Systems.Explosions.NodeTypes
 				//(Max): This is a terrible name. Whoever named it this way should be ashamed.
 				//I have no clue what's the context of this vector. Is it local position? Is it world position? Is it a direction? Who knows!
 				//Keep gatekeeping the codebase, it's not like there are other people working on this project..
-				var v3int = new Vector3Int(Location.x, Location.y, 0);
+				var v3int = new Vector3Int(LocalLocation.x, LocalLocation.y, 0);
 				await ReguralProcessingToTilesOnly(damageDealt, v3int);
 			}
 		}
 
-		public override float DoDamageToTiles(Matrix matrix, float damageDealt, Vector3Int v3int, MetaTileMap tileMap)
+		public override float DoDamageToTiles(Matrix matrix, float damageDealt, Vector3Int Localv3int, MetaTileMap tileMap)
 		{
-			foreach (var integrity in matrix.Get<Integrity>(v3int, true))
+			foreach (var integrity in matrix.Get<Integrity>(Localv3int.ToWorld(base.matrix).RoundToInt(), true))
 			{
 				//Throw items
 				if (integrity.TryGetComponent<ItemAttributesV2>(out var traits))
@@ -59,7 +60,7 @@ namespace US13.Systems.Explosions.NodeTypes
 				integrity.ApplyDamage(damageDealt, AttackType.Bomb, DamageType.Brute);
 			}
 
-			return base.DoDamageToTiles(matrix, damageDealt, v3int, tileMap);;
+			return base.DoDamageToTiles(matrix, damageDealt, Localv3int, tileMap);
 		}
 
 		public override void DoInternalDamage(float strength, BodyPart bodyPart)
