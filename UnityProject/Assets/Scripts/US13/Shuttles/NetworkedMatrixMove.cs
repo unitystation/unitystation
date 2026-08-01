@@ -288,7 +288,7 @@ namespace US13.Shuttles
 				{
 					if (AIGameGizmoSprite == null)
 					{
-						AIGameGizmoSprite = GameGizmomanager.AddNewSpriteStaticClient(null, mtravelToWorldPOSOverride.Value, Color.darkGreen, X);
+						AIGameGizmoSprite = GameGizmomanager.AddNewSpriteStaticClient(null, mtravelToWorldPOSOverride.Value, new Color(0.0f, 0.3921569f, 0.0f, 1f), X);
 					}
 
 					if (mtravelToWorldPOSOverride.HasValue)

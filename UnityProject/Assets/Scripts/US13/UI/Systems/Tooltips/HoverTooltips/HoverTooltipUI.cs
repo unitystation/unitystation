@@ -166,15 +166,29 @@ namespace US13.UI.Systems.Tooltips.HoverTooltips
 		/// </summary>
 		private void UpdateMainInfo(GameObject target)
 		{
+			bool Found = false;
+
 			if (target.TryGetComponent<Attributes>(out var attribute))
 			{
 				nameText.text = attribute.ArticleName;
 				descText.text = attribute.ArticleDescription;
+				Found = true;
+
 			}
 			if (target.TryGetComponent<PlayerScript>(out var playerScript))
 			{
 				nameText.text = playerScript.visibleName;
 				detailsModeEnabled = true;
+				Found = true;
+			}
+
+			if (Found == false)
+			{
+				if (target.TryGetComponent<IHoverTooltip>(out var IHoverTooltip))
+				{
+					detailsModeEnabled = true;
+					Found = true;
+				}
 			}
 		}
 
@@ -314,7 +328,7 @@ namespace US13.UI.Systems.Tooltips.HoverTooltips
 
 		private void QueueTip(GameObject queuedObject)
 		{
-			if (showingcurrently == queuedObject) return;
+			if (showingcurrently == queuedObject && animating == false) return;
 			Setup(queuedObject);
 		}
 	}

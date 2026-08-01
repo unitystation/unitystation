@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 527d04810ffb4855b86689bf64eb71a2, type: 3}
-  m_Name: BodySwap
-  m_EditorClassIdentifier: 
+  m_Script: {fileID: 11500000, guid: d9d639585f97bb841bc468b21539740e, type: 3}
+  m_Name: BodySwapWizard
+  m_EditorClassIdentifier: Assets::US13.Systems.Spells.WizardSpellData
   actionType: 1
   activeSpriteIndex: 0
   callOnClient: 0
@@ -33,10 +33,10 @@ MonoBehaviour:
   spellImplementation: {fileID: 409063178857974263, guid: 34757906d1065954d8d5785769150fd7,
     type: 3}
   chargeType: 0
-  cooldownTime: 300
+  cooldownTime: 60
   startingCharges: 10
   castSound:
-    AssetAddress: null
+    AssetAddress: 
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
@@ -46,9 +46,9 @@ MonoBehaviour:
   range: 2
   stillRechargingMessage: The spell is still recharging!
   affectedMessage: 
-  invocationType: 0
-  invocationMessage: 
-  invocationMessageSelf: 
+  invocationType: 2
+  invocationMessage: 'GIN''YU CAPAN! '
+  invocationMessageSelf: 'GIN''YU CAPAN! '
   summonType: 0
   summonObjects: []
   summonTiles: []
@@ -56,3 +56,6 @@ MonoBehaviour:
   summonLifespan: 10
   replaceExisting: 0
   AllowSoftCriticalUses: 0
+  requireWizardGarb: 0
+  tierCount: 4
+  cooldownModifierPC: 24.02

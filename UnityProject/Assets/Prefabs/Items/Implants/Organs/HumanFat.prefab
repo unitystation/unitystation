@@ -183,6 +183,11 @@ PrefabInstance:
       propertyPath: MinMaxInternalBleedingValues.y
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 8705967904398053582, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: NOTDeterminesStatusFromHungerSystem
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8095853447068111044, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
     m_RemovedGameObjects: []

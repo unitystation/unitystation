@@ -23,7 +23,7 @@ namespace US13.Systems.Explosions.NodeTypes
 
 			if (matrix.MetaTileMap == false) return;
 
-			var locationNoZ = new Vector3Int(Location.x, Location.y, 0);
+			var locationNoZ = new Vector3Int(LocalLocation.x, LocalLocation.y, 0);
 			await  ProcessTiles(force, locationNoZ);
 		}
 

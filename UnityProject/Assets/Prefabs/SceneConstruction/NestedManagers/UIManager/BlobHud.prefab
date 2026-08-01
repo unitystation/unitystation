@@ -305,7 +305,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26.9
+  m_fontSize: 26.85
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -327,7 +327,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -361,8 +361,8 @@ GameObject:
   - component: {fileID: 2138652943386776810}
   - component: {fileID: 6734121144858040931}
   - component: {fileID: 8420155691813331528}
-  - component: {fileID: 1887642864702449352}
   - component: {fileID: -8226858571824609627}
+  - component: {fileID: 7812743393581694692}
   m_Layer: 5
   m_Name: BuildNode
   m_TagString: Untagged
@@ -485,22 +485,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1887642864702449352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 685747758025700446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseTooltip: 
-  baseExitTooltip: 
-  useObjectName: 1
-  hoverName: 
 --- !u!114 &-8226858571824609627
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -513,6 +497,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7812743393581694692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 685747758025700446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9540911bd6137940a9a2d3433231698, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.UI.Core.Tooltip
+  tooltipTemplate: {fileID: 0}
+  tooltipText: This will slowly grow tiles around it damaging stuff, you can also
+    swap your over mind core to this as well in an emergency
 --- !u!1 &819786889913424350
 GameObject:
   m_ObjectHideFlags: 0
@@ -762,8 +761,8 @@ GameObject:
   - component: {fileID: 7298049890557775215}
   - component: {fileID: 298569035013337420}
   - component: {fileID: 4825221813548491176}
-  - component: {fileID: 4527485031745417697}
   - component: {fileID: -5531367067666072977}
+  - component: {fileID: 3978392780276077427}
   m_Layer: 5
   m_Name: BuildStrong
   m_TagString: Untagged
@@ -886,22 +885,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4527485031745417697
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1129208421175911257}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseTooltip: 
-  baseExitTooltip: 
-  useObjectName: 1
-  hoverName: 
 --- !u!114 &-5531367067666072977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -914,6 +897,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3978392780276077427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129208421175911257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9540911bd6137940a9a2d3433231698, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.UI.Core.Tooltip
+  tooltipTemplate: {fileID: 0}
+  tooltipText: build a reinforced blob tile will resist attacks for longer
 --- !u!1 &1186760987922982013
 GameObject:
   m_ObjectHideFlags: 0
@@ -1535,7 +1532,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -1843,8 +1840,8 @@ GameObject:
   - component: {fileID: 8487737984791597102}
   - component: {fileID: 2283935466619659869}
   - component: {fileID: 6929176770443430660}
-  - component: {fileID: 8813022469100519716}
   - component: {fileID: -3900538120534684637}
+  - component: {fileID: 5436372713366155698}
   m_Layer: 5
   m_Name: BuildFactory
   m_TagString: Untagged
@@ -1967,22 +1964,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &8813022469100519716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2274944853242893553}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseTooltip: 
-  baseExitTooltip: 
-  useObjectName: 1
-  hoverName: 
 --- !u!114 &-3900538120534684637
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1995,6 +1976,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5436372713366155698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2274944853242893553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9540911bd6137940a9a2d3433231698, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.UI.Core.Tooltip
+  tooltipTemplate: {fileID: 0}
+  tooltipText: This will slowly produce simple hostile NPCs who will attack players
+    for you
 --- !u!1 &2615326007212741878
 GameObject:
   m_ObjectHideFlags: 0
@@ -2397,7 +2393,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -2511,7 +2507,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.4
+  m_fontSize: 23.2
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -2533,7 +2529,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -2960,7 +2956,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -2994,8 +2990,8 @@ GameObject:
   - component: {fileID: 5345110512753609054}
   - component: {fileID: 7244753107628939530}
   - component: {fileID: 1010620109400551749}
-  - component: {fileID: 4562548988135021000}
   - component: {fileID: -3433934267223750687}
+  - component: {fileID: 3634348461441676397}
   m_Layer: 5
   m_Name: BuildReflective
   m_TagString: Untagged
@@ -3118,22 +3114,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &4562548988135021000
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4191888713296141711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseTooltip: 
-  baseExitTooltip: 
-  useObjectName: 1
-  hoverName: 
 --- !u!114 &-3433934267223750687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3146,6 +3126,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3634348461441676397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4191888713296141711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9540911bd6137940a9a2d3433231698, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.UI.Core.Tooltip
+  tooltipTemplate: {fileID: 0}
+  tooltipText: ' Will reflect laser projectiles'
 --- !u!1 &4298406699628952317
 GameObject:
   m_ObjectHideFlags: 0
@@ -4112,7 +4106,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -4364,7 +4358,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18.15
+  m_fontSize: 18.05
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4386,7 +4380,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -4522,7 +4516,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -4636,7 +4630,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 41.1
+  m_fontSize: 40.95
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4658,7 +4652,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -5212,7 +5206,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -6205,8 +6199,8 @@ GameObject:
   - component: {fileID: 2299050743820491526}
   - component: {fileID: 2931987507276000385}
   - component: {fileID: 2352205864735524220}
-  - component: {fileID: 5918347775205702288}
   - component: {fileID: -3606612361582943391}
+  - component: {fileID: 8157918234025836533}
   m_Layer: 5
   m_Name: BuildResource
   m_TagString: Untagged
@@ -6329,22 +6323,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5918347775205702288
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6787024448705839314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24274225ed0937e46a973d5d78bbcaac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  baseTooltip: 
-  baseExitTooltip: 
-  useObjectName: 1
-  hoverName: 
 --- !u!114 &-3606612361582943391
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6357,6 +6335,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8157918234025836533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6787024448705839314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9540911bd6137940a9a2d3433231698, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.UI.Core.Tooltip
+  tooltipTemplate: {fileID: 0}
+  tooltipText: This will produce more biomass for you +1 every five seconds
 --- !u!1 &7233507564345492776
 GameObject:
   m_ObjectHideFlags: 0
@@ -6471,7 +6463,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -6609,7 +6601,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -7473,7 +7465,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18.6
+  m_fontSize: 18.55
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7495,7 +7487,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -7609,7 +7601,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 22.2
+  m_fontSize: 22.15
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7631,7 +7623,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -7933,7 +7925,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -8754,7 +8746,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 18.85
+  m_fontSize: 18.7
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -8776,7 +8768,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -9077,7 +9069,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
@@ -9485,7 +9477,7 @@ MonoBehaviour:
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
-  m_ActiveFontFeatures: 00000000
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1

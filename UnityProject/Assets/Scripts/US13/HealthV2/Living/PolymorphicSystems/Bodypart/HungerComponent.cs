@@ -10,6 +10,8 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
 {
 	public class HungerComponent : BodyPartComponentBase<HungerSystem>
 	{
+		public bool NOTDeterminesStatusFromHungerSystem = false;
+
 		/// <summary>
 		/// Modifier that multiplicatively reduces the efficiency of the body part based on damage
 		/// </summary>
@@ -39,7 +41,20 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
 		public float ActualHealingNutrimentMultiplier = 5f;
 		// /\ Regeneration = hyper nutriment consumption healing = all body parts?
 
-		public HungerState HungerState = HungerState.Normal;
+		public HungerState HungerState
+		{
+			get
+			{
+				return _HungerState;
+			}
+			set
+			{
+				if (NOTDeterminesStatusFromHungerSystem) return;
+				_HungerState = value;
+			}
+		}
+
+		public HungerState _HungerState = HungerState.Normal;
 
 		[FormerlySerializedAs("ReagentCirculated")] [HideInInspector]
 		public ReagentCirculatedComponent reagentCirculatedComponent;
