@@ -1863,6 +1863,7 @@ MonoBehaviour:
   panelRight: {fileID: 8477425026631171861}
   preRoundWindow: {fileID: 762300764782378492}
   rightClickManager: {fileID: 7978222547810041840}
+  panelTooltip: {fileID: 8556142980379078087}
   uiAnimator: {fileID: 8640675164727423731}
   videoController: {fileID: 4497798580607974927}
 --- !u!114 &8587756890380419367
@@ -14933,7 +14934,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 6184216130338094774}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 8556142980379078087}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0d68eca7a0ae473e975e4f769b16f693, type: 3}
@@ -14969,6 +14970,12 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 6184216130338094774}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &8556142980379078087 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2553322715527811953, guid: 38f86d80081975e479b53b82beb3b116,
+    type: 3}
+  m_PrefabInstance: {fileID: 6184216130338094774}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &8587246508841551039 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2521656241382242825, guid: 38f86d80081975e479b53b82beb3b116,
@@ -14987,7 +14994,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 6184216130338094774}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 8556142980379078087}
   m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}

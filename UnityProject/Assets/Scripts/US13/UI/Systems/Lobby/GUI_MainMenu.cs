@@ -33,6 +33,7 @@ namespace US13.UI.Systems.Lobby
 		private TMP_Text stationTimeLabel = default;
 
 		private int lastShownMinute = -1;
+		private int shownBuildNumber = -1;
 
 		private void Awake()
 		{
@@ -53,16 +54,19 @@ namespace US13.UI.Systems.Lobby
 			home.SetActive(false);
 		}
 
-		private void Start()
-		{
-			if (versionLabel == null) return;
-
-			versionLabel.text = $"VER: {GameData.BuildNumber}";
-		}
-
 		private void Update()
 		{
 			UpdateStationTime();
+			UpdateVersionLabel();
+		}
+
+		private void UpdateVersionLabel()
+		{
+			if (versionLabel == null) return;
+			if (GameData.BuildNumber == shownBuildNumber) return;
+
+			shownBuildNumber = GameData.BuildNumber;
+			versionLabel.text = $"VER: {GameData.BuildNumber}";
 		}
 
 		private void UpdateStationTime()

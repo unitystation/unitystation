@@ -49,6 +49,9 @@ namespace US13.UI.Systems
 		[SerializeField]
 		private GameObject rightClickManager = null;
 
+		[SerializeField]
+		private GameObject panelTooltip = null;
+
 		[SerializeField] private Animator uiAnimator = null;
 		[SerializeField] private VideoPlayerController videoController = null;
 		public VideoPlayerController VideoPlayer => videoController;
@@ -197,6 +200,7 @@ namespace US13.UI.Systems
 			jobSelectWindow.SetActive(false);
 			teamSelectionWindow.SetActive(false);
 			preRoundWindow.gameObject.SetActive(false);
+			if (panelTooltip != null) panelTooltip.SetActive(false);
 			if (disclaimer != null) disclaimer.SetActive(true);
 			UIManager.Instance.adminChatButtons.transform.parent.gameObject.SetActive(false);
 			UIManager.Instance.mentorChatButtons.transform.parent.gameObject.SetActive(false);
@@ -205,6 +209,7 @@ namespace US13.UI.Systems
 		public void SetScreenForGame()
 		{
 			ToggleCurrentHud(false);
+			if (panelTooltip != null) panelTooltip.SetActive(true);
 			UIManager.PlayerHealthUI.gameObject.SetActive(true);
 			panelRight.gameObject.SetActive(true);
 			rightClickManager.SetActive(false);
@@ -225,6 +230,7 @@ namespace US13.UI.Systems
 			jobSelectWindow.SetActive(false);
 			teamSelectionWindow.SetActive(false);
 			preRoundWindow.gameObject.SetActive(true);
+			if (panelTooltip != null) panelTooltip.SetActive(true);
 
 			InfoPanelMessageClient.Send();
 		}
@@ -241,6 +247,7 @@ namespace US13.UI.Systems
 			jobSelectWindow.SetActive(false);
 			teamSelectionWindow.SetActive(false);
 			preRoundWindow.gameObject.SetActive(true);
+			if (panelTooltip != null) panelTooltip.SetActive(true);
 			InfoPanelMessageClient.Send();
 		}
 
