@@ -76,7 +76,7 @@ namespace US13.UI.Core
 		public void OnPointerEnter(PointerEventData eventData)
 		{
 			enterTime = Time.realtimeSinceStartup;
-			UIManager.Instance.HoverTooltipUI.SetupTooltip(gameObject, false);
+			UIManager.Instance.HoverTooltipUI.SetupTooltip(gameObject);
 		}
 
 		public void OnPointerExit(PointerEventData eventData)
