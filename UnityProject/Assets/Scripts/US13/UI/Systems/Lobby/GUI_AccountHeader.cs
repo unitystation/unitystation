@@ -5,6 +5,7 @@ using US13.Core.Addressables;
 using US13.Managers;
 using US13.Managers.LobbyManager;
 using US13.Player;
+using US13.Systems.GameModes;
 
 namespace US13.UI.Systems.Lobby
 {
@@ -13,43 +14,91 @@ namespace US13.UI.Systems.Lobby
 		[SerializeField]
 		private TMP_Text signedInAsText = default;
 		[SerializeField]
-		private Button avatarButton = default;
+		private Button accountButton = default;
 		[SerializeField]
 		private GameObject dropdown = default;
 		[SerializeField]
+		private Button characterEditorButton = default;
+		[SerializeField]
+		private Button mapEditorButton = default;
+		[SerializeField]
 		private Button logoutButton = default;
+		[SerializeField]
+		private Button dropdownCloseCatcher = default;
 		[SerializeField]
 		private GUI_MainMenu mainMenu = default;
 
+		[SerializeField]
+		private MapEditor mapMode = default;
+
 		private void Awake()
 		{
-			avatarButton.onClick.AddListener(OnAvatarBtn);
+			accountButton.onClick.AddListener(OnAccountBtn);
+			characterEditorButton.onClick.AddListener(OnCharacterEditorBtn);
+			mapEditorButton.onClick.AddListener(OnMapEditorBtn);
 			logoutButton.onClick.AddListener(OnLogoutBtn);
+			dropdownCloseCatcher.onClick.AddListener(CloseDropdown);
 		}
 
 		private void OnEnable()
 		{
-			dropdown.SetActive(false);
+			SetDropdownOpen(false);
 			SetSignedInText();
+		}
+
+		private void OnDisable()
+		{
+			SetDropdownOpen(false);
 		}
 
 		private void SetSignedInText()
 		{
-			if (PlayerManager.Account.IsAvailable == false) return;
+			if (PlayerManager.Account.IsAvailable == false)
+			{
+				signedInAsText.text = "Offline";
+				return;
+			}
 
 			signedInAsText.text = $"Logged in as {PlayerManager.Account.Username}";
 		}
 
-		private void OnAvatarBtn()
+		private void OnAccountBtn()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			dropdown.SetActive(dropdown.activeSelf == false);
+			SetDropdownOpen(dropdown.activeSelf == false);
+		}
+
+		private void CloseDropdown()
+		{
+			SetDropdownOpen(false);
+		}
+
+		private void SetDropdownOpen(bool open)
+		{
+			dropdown.SetActive(open);
+			dropdownCloseCatcher.gameObject.SetActive(open);
+		}
+
+		private void OnCharacterEditorBtn()
+		{
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			SetDropdownOpen(false);
+			LobbyManager.Instance.ShowCharacterEditor();
+		}
+
+		private void OnMapEditorBtn()
+		{
+			_ = SoundManager.Play(CommonSounds.Instance.Click01);
+			SetDropdownOpen(false);
+			GameManager.Instance.SetGameMode(mapMode, true);
+			GameManager.Instance.SecretGameMode = false;
+			LobbyManager.Instance.HostServer();
 		}
 
 		private void OnLogoutBtn()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			dropdown.SetActive(false);
+			SetDropdownOpen(false);
 			if (mainMenu != null)
 			{
 				mainMenu.HideHome();
