@@ -45,7 +45,7 @@ namespace US13.Core
 			List<T> components = GetNearbyComponents(bypassInventories, target.AssumedWorldPosServer(), maximumDistance);
 #if UNITY_EDITOR
 			stopwatch.Stop();
-			Loggy.Info($"[GameObject/FindAllComponentsNearestToTarget<T>()] - Operation took {stopwatch.Elapsed.Milliseconds}ms");
+			Loggy.Info($"[GameObject/FindAllComponentsNearestToTarget<T>()] - Operation took {stopwatch.Elapsed.Milliseconds}ms", Category.ItemTracking);
 #endif
 			return components;
 		}

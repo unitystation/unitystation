@@ -103,7 +103,6 @@ namespace US13.Shuttles
 			float SmallestDistance = 99999999999;
 			Vector3 EntryPoint = Minimum;
 
-
 			if (Contains(Point))
 			{
 
@@ -181,7 +180,7 @@ namespace US13.Shuttles
 				Vector = new Vector3(
 					Mathf.Min(Mathf.Max(Point.x, Minimum.x),  Maximum.x),
 					Maximum.y);
-				distance = (new Vector3(Maximum.x, Point.y) - Point).magnitude;
+				distance = (Vector - Point).magnitude;
 				if (SmallestDistance > distance)
 				{
 					SmallestDistance = distance;

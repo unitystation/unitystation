@@ -64,9 +64,7 @@ namespace US13.Map
 		{
 			yield return WaitFor.EndOfFrame;
 			SpawnNearStation();
-			yield return null;
-			yield return null;
-			yield return null;
+			yield return WaitFor.Seconds(30);
 			RandomRotation();
 		}
 

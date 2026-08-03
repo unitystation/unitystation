@@ -203,6 +203,7 @@ Transform:
   - {fileID: 2610288555229830431}
   - {fileID: 4137540829237981591}
   - {fileID: 3378961504350941671}
+  - {fileID: 1206883765460441730}
   - {fileID: 8022381996980320579}
   - {fileID: 5152702335398206204}
   - {fileID: 5647810022324652729}
@@ -428,6 +429,7 @@ MonoBehaviour:
   DoUICamera: 1
   DoOtherBit: 1
   mShadowMaskRenderer: {fileID: 2384969863347440331}
+  FulbrightRenderer: {fileID: 7449586506148813201}
 --- !u!114 &4251233521143295179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1506,6 +1508,103 @@ MonoBehaviour:
   silhouetteShader: {fileID: 4800000, guid: 4c9fee77a7b287645a02a23adfd5bca5, type: 3}
   blurMaterial: {fileID: 2100000, guid: 31bfbb3a19a411345b8787af665cc514, type: 2}
   blurPasses: 2
+--- !u!1 &2340036554450610496
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1206883765460441730}
+  - component: {fileID: 446025995166911720}
+  - component: {fileID: 7449586506148813201}
+  m_Layer: 0
+  m_Name: FulbrightCamera
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1206883765460441730
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2340036554450610496}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4568765046733910}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!20 &446025995166911720
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2340036554450610496}
+  m_Enabled: 0
+  serializedVersion: 2
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_projectionMatrixMode: 1
+  m_GateFitMode: 2
+  m_FOVAxisMode: 0
+  m_Iso: 200
+  m_ShutterSpeed: 0.005
+  m_Aperture: 16
+  m_FocusDistance: 10
+  m_FocalLength: 50
+  m_BladeCount: 5
+  m_Curvature: {x: 2, y: 11}
+  m_BarrelClipping: 0.25
+  m_Anamorphism: 0
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0
+  far clip plane: 1000
+  field of view: 60
+  orthographic: 1
+  orthographic size: 50
+  m_Depth: -3
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 8388608
+  m_RenderingPath: 1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 0
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!114 &7449586506148813201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2340036554450610496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c956cf54c48673408300ff30aa4d6d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Lighting::FulbrightRenderer
+  FulbrightCamera: {fileID: 446025995166911720}
 --- !u!1 &2970161594665913158
 GameObject:
   m_ObjectHideFlags: 0

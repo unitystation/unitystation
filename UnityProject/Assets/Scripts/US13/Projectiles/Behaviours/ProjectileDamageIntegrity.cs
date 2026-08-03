@@ -41,6 +41,8 @@ namespace US13.Projectiles.Behaviours
 
 			var thisGameObject = gameObject;
 
+			var Position = transform.position;
+
 			var data = new OnHitDetectData(damageData, thisGameObject.name, direction, hit.Normal, thisGameObject,hit.HitWorld);
 
 			var allowDamage = true;
@@ -56,11 +58,11 @@ namespace US13.Projectiles.Behaviours
 			//Return true if we are blocking damage so we despawn
 			if (allowDamage == false) return true;
 
-			integrity.ApplyDamage(damageData.Damage, damageData.AttackType, damageData.DamageType);
+			var Destroyed = integrity.ApplyDamage(damageData.Damage, damageData.AttackType, damageData.DamageType);
 
-			if (integrity.DoDamageMessage)
+			if (integrity.DoDamageMessage && Destroyed)
 			{
-				Chat.AddThrowHitMsgToChat(thisGameObject, coll.gameObject, targetZone);
+				Chat.AddThrowHitMsgToChat(thisGameObject, coll.gameObject, targetZone, Position);
 			}
 
 			Loggy.Trace().Format("Hit {0} for {1} with Integrity! bullet absorbed", Category.Firearms,

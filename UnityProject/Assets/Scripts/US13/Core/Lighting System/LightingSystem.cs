@@ -31,6 +31,7 @@ public class LightingSystem : MonoBehaviour
 	private Camera mMainCamera;
 	private OcclusionMaskRenderer mOcclusionRenderer;
 	public ShadowMaskRenderer mShadowMaskRenderer;
+	public FulbrightRenderer FulbrightRenderer;
 	private LightMaskRenderer mLightMaskRenderer;
 	private BackgroundRenderer mBackgroundRenderer;
 	private PostProcessingStack mPostProcessingStack;
@@ -336,6 +337,7 @@ public class LightingSystem : MonoBehaviour
 		}
 
 		mShadowMaskRenderer.SetUp(gameObject);
+		FulbrightRenderer.SetUp(gameObject);
 
 		if (mLightMaskRenderer == null)
 		{
@@ -447,6 +449,7 @@ public class LightingSystem : MonoBehaviour
 		mPostProcessingStack.ResetRenderingTextures(iParameters);
 		mBackgroundRenderer.ResetRenderingTextures(iParameters);
 		mShadowMaskRenderer.ResetRenderingTextures(iParameters);
+		FulbrightRenderer.ResetRenderingTextures(iParameters);
 		UICamera.orthographicSize = iParameters.cameraOrthographicSize;
 		mMainCamera.orthographicSize = iParameters.cameraOrthographicSize;
 	}
@@ -684,6 +687,11 @@ public class LightingSystem : MonoBehaviour
 			mShadowMaskRenderer.Render(mMainCamera);
 		}
 
+		using (new DisposableProfiler("9.5. Render the Fulbright But affected by FOV items"))
+		{
+			FulbrightRenderer.Render(mMainCamera);
+		}
+
 		using(new DisposableProfiler("10. Blit Scene with Mixed Lights"))
 		{
 			mlightPPRT.renderTexture.filterMode = FilterMode.Bilinear;
@@ -701,6 +709,7 @@ public class LightingSystem : MonoBehaviour
 			_blitMaterial.SetVector("_AmbLightBloomSA", new Vector4(renderSettings.ambient, renderSettings.lightMultiplier, renderSettings.bloomSensitivity, renderSettings.bloomAdd));
 			_blitMaterial.SetFloat("_BackgroundMultiplier", renderSettings.backgroundMultiplier);
 
+			_blitMaterial.SetTexture("_FullbrightTex", FulbrightRenderer._FulbrightRT);
 			_blitMaterial.SetTexture("_ItemTex",   mShadowMaskRenderer._ItemRT);
 			_blitMaterial.SetTexture("_ShadowTex",   mShadowMaskRenderer._pongRT);
 			_blitMaterial.SetFloat  ("_ShadowAlpha", ShadowMaskRenderer.shadowAlpha);

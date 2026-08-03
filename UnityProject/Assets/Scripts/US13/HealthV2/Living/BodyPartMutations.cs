@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Logs;
 using UnityEngine;
 using US13.Core.Chat;
 using US13.Core.Lifecycle;
@@ -518,6 +519,37 @@ namespace US13.HealthV2.Living
 			}
 
 
+			public static void DumpSliderMiniGameData(string Tag, BodyPartMutations.MutationRoundData.SliderMiniGameData Data)
+			{
+				var Sb = new System.Text.StringBuilder();
+				Sb.AppendLine($"--- SliderMiniGameData Dump [{Tag}] ---");
+
+				for (int i = 0; i < Data.Parameters.Count; i++)
+				{
+					var P = Data.Parameters[i];
+					Sb.AppendLine($"Slider[{i}]  TargetPosition={P.TargetPosition}  TargetLever={P.TargetLever}");
+
+					if (P.Parameters == null)
+					{
+						Sb.AppendLine("    Parameters = NULL");
+						continue;
+					}
+
+					if (P.Parameters.Count == 0)
+					{
+						Sb.AppendLine("    Parameters = (empty)");
+					}
+
+					foreach (var Edge in P.Parameters)
+					{
+						Sb.AppendLine($"    -> ({Edge.Item1:F4}, {Edge.Item2})");
+					}
+				}
+
+				Sb.AppendLine("--- End Dump ---");
+				Loggy.Error(Sb.ToString());
+			}
+
 			public static void PopulateSliderMiniGame(SliderMiniGameData NewSliderMiniGameData, int Difficulty,
 				bool CanRequireLocks)
 			{
@@ -648,6 +680,7 @@ namespace US13.HealthV2.Living
 				}
 			}
 
+			[System.Serializable]
 			public class SliderParameters
 			{
 				public int TargetPosition;

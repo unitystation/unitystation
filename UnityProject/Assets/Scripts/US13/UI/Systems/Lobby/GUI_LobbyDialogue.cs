@@ -129,7 +129,7 @@ namespace US13.UI.Systems.Lobby
 		public void ShowAlphaPanel()
 		{
 			HideAllPanels();
-			SetTitle("Alpha");
+			SetTitle("Early access");
 			informationPanel.SetActive(true);
 		}
 

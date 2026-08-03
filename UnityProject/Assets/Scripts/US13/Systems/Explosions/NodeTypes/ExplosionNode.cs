@@ -29,7 +29,7 @@ namespace US13.Systems.Explosions.NodeTypes
 {
 	public class ExplosionNode
 	{
-		public Vector3Int Location;
+		public Vector3Int LocalLocation;
 		public Matrix matrix;
 
 		public HashSet<ExplosionPropagationLine> PresentLines = new HashSet<ExplosionPropagationLine>();
@@ -66,7 +66,7 @@ namespace US13.Systems.Explosions.NodeTypes
 
 		public void Initialise(Vector3Int Loc, Matrix Inmatrix)
 		{
-			Location = Loc;
+			LocalLocation = Loc;
 			matrix = Inmatrix;
 		}
 
@@ -88,21 +88,22 @@ namespace US13.Systems.Explosions.NodeTypes
 				//(Max): v3int is a terrible name. Whoever named it this way should be ashamed.
 				//I have no clue what's the context of this vector. Is it local position? Is it world position? Is it a direction? Who knows!
 				//Keep gatekeeping the codebase, it's not like there are other people working on this project..
-				var v3int = new Vector3Int(Location.x, Location.y, 0);
-				await ReguralProcessingToTilesOnly(damageDealt, v3int);
-				_ = DoDamageToObjects(matrix, damageDealt, v3int);
+				//It's local
+				var Localv3int = new Vector3Int(LocalLocation.x, LocalLocation.y, 0);
+				await ReguralProcessingToTilesOnly(damageDealt, Localv3int);
+				_ = DoDamageToObjects(matrix, damageDealt, Localv3int);
 			}
 		}
 
-		protected async UniTask ReguralProcessingToTilesOnly(float damageDealt, Vector3Int v3int)
+		protected async UniTask ReguralProcessingToTilesOnly(float damageDealt, Vector3Int Localv3int)
 		{
 			var tileManager = matrix.TileChangeManager;
 			if (EffectName != null && EffectOverlayType != null && tileManager != null)
 			{
-				if (damageDealt >= 2) await TimedEffect(v3int, damageDealt * 10, EffectName, EffectOverlayType, tileManager);
+				if (damageDealt >= 2) await TimedEffect(Localv3int, damageDealt * 10, EffectName, EffectOverlayType, tileManager);
 			}
 			var metaTileMap = matrix.MetaTileMap;
-			var energyExpended = DoDamageToTiles(matrix, damageDealt, v3int, metaTileMap);
+			var energyExpended = DoDamageToTiles(matrix, damageDealt, Localv3int, metaTileMap);
 			foreach (var line in PresentLines)
 			{
 				line.ExplosionStrength -= energyExpended * (line.ExplosionStrength / damageDealt);
@@ -111,21 +112,21 @@ namespace US13.Systems.Explosions.NodeTypes
 		}
 
 		//method that, surprise, does damage to stuff on node's tile. override for custom behaviour. must return EnergyExpended value
-		public virtual float DoDamageToTiles(Matrix matrix, float damageDealt, Vector3Int v3int, MetaTileMap metaTileMap)
+		public virtual float DoDamageToTiles(Matrix matrix, float damageDealt, Vector3Int Localv3int, MetaTileMap metaTileMap)
 		{
-			float energyExpended = metaTileMap.ApplyDamage(v3int, damageDealt,
-			MatrixManager.LocalToWorldInt(v3int, matrix.MatrixInfo), AttackType.Bomb);
+			float energyExpended = metaTileMap.ApplyDamage(Localv3int, damageDealt,
+			MatrixManager.LocalToWorldInt(Localv3int, matrix.MatrixInfo), AttackType.Bomb);
 
-			DamageLayers(damageDealt, v3int);
-			ChangeNodeTemp(matrix, damageDealt, v3int);
+			DamageLayers(damageDealt, Localv3int);
+			ChangeNodeTemp(matrix, damageDealt, Localv3int);
 
 			return energyExpended;
 		}
 
-		public virtual async UniTask DoDamageToObjects(Matrix matrix, float damageDealt, Vector3Int v3int)
+		public virtual async UniTask DoDamageToObjects(Matrix matrix, float damageDealt, Vector3Int Localv3int)
 		{
-			var stuffOnTile = matrix.Get<CommonComponents>(v3int, true);
-			var playersOnTile = matrix.Get<LivingHealthMasterBase>(v3int, ObjectType.Player, true);
+			var stuffOnTile = matrix.Get<CommonComponents>(Localv3int, true);
+			var playersOnTile = matrix.Get<LivingHealthMasterBase>(Localv3int, ObjectType.Player, true);
 			var spliceCounter = 0;
 			foreach (var something in stuffOnTile)
 			{
@@ -192,13 +193,13 @@ namespace US13.Systems.Explosions.NodeTypes
 			}
 		}
 
-		private void ChangeNodeTemp(Matrix matrix, float damageDealt, Vector3Int v3int)
+		private void ChangeNodeTemp(Matrix matrix, float damageDealt, Vector3Int Localv3int)
 		{
 			try
 			{
 				if (matrix.ReactionManager != null)
 				{
-					matrix.ReactionManager.ExposeHotspot(v3int, 350 * damageDealt, true);
+					matrix.ReactionManager.ExposeHotspot(Localv3int, 350 * damageDealt, true);
 				}
 			}
 			catch (Exception e)
@@ -207,10 +208,10 @@ namespace US13.Systems.Explosions.NodeTypes
 			}
 		}
 
-		protected void DamageLayers(float damageDealt, Vector3Int v3int)
+		protected void DamageLayers(float damageDealt, Vector3Int Localv3int)
 		{
 			if (damageDealt < 100) return;
-			var node = matrix.GetMetaDataNode(v3int);
+			var node = matrix.GetMetaDataNode(Localv3int);
 			if (node == null) return;
 			foreach (var electricalData in node.ElectricalData)
 			{
@@ -269,12 +270,12 @@ namespace US13.Systems.Explosions.NodeTypes
 			}
 		}
 
-		public async UniTask TimedEffect(Vector3Int position, float timeMiliseconds, string effectName, OverlayType effectOverlayType, TileChangeManager tileChangeManager)
+		public async UniTask TimedEffect(Vector3Int Localv3int, float timeMiliseconds, string effectName, OverlayType effectOverlayType, TileChangeManager tileChangeManager)
 		{
 			//Dont add effect if it is already there
-			if (tileChangeManager.MetaTileMap.HasOverlay(position, TileType.Effects, effectName)) return;
-			tileChangeManager.MetaTileMap.AddOverlay(position, TileType.Effects, effectName);
-			var Position = position.ToWorld(tileChangeManager.MetaTileMap.matrix);
+			if (tileChangeManager.MetaTileMap.HasOverlay(Localv3int, TileType.Effects, effectName)) return;
+			tileChangeManager.MetaTileMap.AddOverlay(Localv3int, TileType.Effects, effectName);
+			var Position = Localv3int.ToWorld(tileChangeManager.MetaTileMap.matrix);
 			//TODO: Pool this because it's ruining performance when multiple explosions occur.
 			var fireLightSpawn = Spawn.ServerPrefab(tileChangeManager.MetaTileMap.matrix.ReactionManager.FireLightPrefab, Position);
 			await UniTask.Delay(75);
@@ -293,7 +294,7 @@ namespace US13.Systems.Explosions.NodeTypes
 				Loggy.Error("Attempted to acces CommonComponents on a FireLight object, but couldn't find one!");
 			}
 			ExplosionManager.CleanupEffectLater(timeMiliseconds * 0.001f, tileChangeManager.MetaTileMap,
-				position, effectOverlayType, fireLightSpawn.GameObject);
+				Localv3int, effectOverlayType, fireLightSpawn.GameObject);
 			return;
 		}
 

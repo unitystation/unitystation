@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using Cysharp.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,8 +32,6 @@ namespace US13.UI.Systems.Tooltips.HoverTooltips
 
 		public float HoverDelay { get; set; } = 0.08f;
 
-
-		private GameObject targetObject;
 		private GameObject CurrentlyOverObject;
 
 		public GameObject CurrentlyOverObjectPub => CurrentlyOverObject;
@@ -40,14 +40,13 @@ namespace US13.UI.Systems.Tooltips.HoverTooltips
 
 		private const float MOUSE_OFFSET_Y = -105f;
 		private const float MOUSE_OFFSET_X = -125f;
-		private const float ANIM_SPEED = 4.5f;
 		private const float FULLY_VISIBLE_ALPHA = 0.99f;
 		private const float DEFAULT_HOVER_DELAY = 0.25f;
 
-		private bool animating = false;
 		private bool showing = false;
-		private GameObject showingcurrently = null;
 		private RectTransform contentRect;
+
+		private StringBuilder advancedText = new StringBuilder();
 
 		private void Awake()
 		{
@@ -98,22 +97,23 @@ namespace US13.UI.Systems.Tooltips.HoverTooltips
 			detailsModeEnabled = CommonInput.GetKeyDown(KeyCode.LeftShift);
 			if (detailsModeEnabled && CurrentlyOverObject != null)
 			{
-				SetupTooltip(CurrentlyOverObject, true);
+				SetupTooltip(CurrentlyOverObject);
 			}
 
 			if (CommonInput.GetKeyDown(KeyCode.Escape))
 			{
-				showing = false;
+				ResetTool();
 			}
 		}
 
-		public void SetupTooltip(GameObject hoverObject, bool SkipWaiting)
+		public void SetupTooltip(GameObject hoverObject)
 		{
 			CurrentlyOverObject = hoverObject;
 
 			if (CurrentlyOverObject == null)
 			{
 				showing = false;
+				ResetTool();
 				return;
 			}
 
@@ -121,17 +121,7 @@ namespace US13.UI.Systems.Tooltips.HoverTooltips
 			if (ProtipManager.Instance.PlayerExperienceLevel >= ProtipManager.ExperienceLevel.SomewhatExperienced
 			    && detailsModeEnabled == false) return;
 
-
-			if (SkipWaiting)
-			{
-				QueueTip(hoverObject);
-			}
-			else
-			{
-				StartCoroutine(WaitShowTooltip(hoverObject));
-			}
-
-
+			Setup(CurrentlyOverObject);
 		}
 
 		/// <summary>
@@ -166,15 +156,29 @@ namespace US13.UI.Systems.Tooltips.HoverTooltips
 		/// </summary>
 		private void UpdateMainInfo(GameObject target)
 		{
+			bool Found = false;
+
 			if (target.TryGetComponent<Attributes>(out var attribute))
 			{
 				nameText.text = attribute.ArticleName;
 				descText.text = attribute.ArticleDescription;
+				Found = true;
+
 			}
 			if (target.TryGetComponent<PlayerScript>(out var playerScript))
 			{
 				nameText.text = playerScript.visibleName;
 				detailsModeEnabled = true;
+				Found = true;
+			}
+
+			if (Found == false)
+			{
+				if (target.TryGetComponent<IHoverTooltip>(out var IHoverTooltip))
+				{
+					detailsModeEnabled = true;
+					Found = true;
+				}
 			}
 		}
 
@@ -183,8 +187,9 @@ namespace US13.UI.Systems.Tooltips.HoverTooltips
 		/// </summary>
 		private void UpdateDetailedView(GameObject target)
 		{
+			advancedText.Clear();
 			var tips = target.GetComponents<IHoverTooltip>();
-			descText.text = "";
+			advancedText.Append(descText.text);
 			foreach (var data in tips)
 			{
 				if (String.IsNullOrEmpty(data.CustomTitle()) == false) nameText.text = data.CustomTitle();
@@ -192,9 +197,9 @@ namespace US13.UI.Systems.Tooltips.HoverTooltips
 				{
 					// if description is empty, don't create extra lines.
 					// if description has text, separate new data away from the previous ones.
-					descText.text = string.IsNullOrWhiteSpace(descText.text)
-						? descText.text += $"{data.HoverTip()}"
-						: descText.text += $"\n \n{data.HoverTip()}";
+					advancedText.AppendLine(string.IsNullOrWhiteSpace(advancedText.ToString())
+						? data.HoverTip()
+						: $"\n \n{data.HoverTip()}");
 				}
 				UpdateIconSprite(data);
 				// Only show interactions if there is a description or title in the tooltip.
@@ -236,8 +241,7 @@ namespace US13.UI.Systems.Tooltips.HoverTooltips
 		{
 			ResetInteractionsList();
 			showing = false;
-			showingcurrently = null;
-			StartCoroutine(AnimateBackground());
+			AnimateBackground();
 		}
 
 		private void ResetInteractionsList()
@@ -251,7 +255,6 @@ namespace US13.UI.Systems.Tooltips.HoverTooltips
 
 		private void Setup(GameObject target)
 		{
-			targetObject = target;
 			// Clean up everything for the upcoming data.
 			ResetTool();
 
@@ -268,54 +271,15 @@ namespace US13.UI.Systems.Tooltips.HoverTooltips
 			// Don't show if the description/name is empty.
 			// (Max): It looks better and more intentional when there's no empty fields.
 			// Also reduces hovertip presence on the screen when its not needed.
-			if (IsDescOrTitleEmpty()) return;
+			if (IsDescOrTitleEmpty() && detailsModeEnabled == false) return;
 			if (iconTarget.sprite == null) iconTarget.sprite = errorIconSprite;
 			showing = true;
-			showingcurrently = target;
-			StartCoroutine(AnimateBackground());
+			AnimateBackground();
 		}
 
-		private IEnumerator AnimateBackground()
+		private void AnimateBackground()
 		{
-			if (animating) yield break;
-			if (string.IsNullOrEmpty(descText.text))
-			{
-				showing = false;
-				showingcurrently = null;
-			}
-
-			animating = true;
-
-			while ((showing && content.alpha < FULLY_VISIBLE_ALPHA) || (showing == false && content.alpha > 0.0001f))
-			{
-				yield return WaitFor.EndOfFrame;
-				content.alpha = Mathf.Lerp(content.alpha, showing ? FULLY_VISIBLE_ALPHA : 0f,
-					ANIM_SPEED * Time.deltaTime);
-				content.alpha = Mathf.Clamp(content.alpha, 0f, FULLY_VISIBLE_ALPHA);
-			}
-
-			animating = false;
-			if (showing == false)
-			{
-				showingcurrently = null;
-				iconTarget.sprite = errorIconSprite;
-				nameText.text = string.Empty;
-				descText.text = string.Empty;
-			}
-		}
-
-		private IEnumerator WaitShowTooltip(GameObject queuedObject)
-		{
-			yield return WaitFor.Seconds(HoverDelay);
-			if (showing) yield break;
-			if (queuedObject != CurrentlyOverObject) yield break;
-			QueueTip(queuedObject);
-		}
-
-		private void QueueTip(GameObject queuedObject)
-		{
-			if (showingcurrently == queuedObject) return;
-			Setup(queuedObject);
+			content.alpha = showing ? FULLY_VISIBLE_ALPHA : 0f;
 		}
 	}
 }

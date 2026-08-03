@@ -1154,6 +1154,24 @@ namespace US13.Systems.Antagonists.Antags.Blob
 
 			factoryBlobs.TryRemove(info.Destroyed.gameObject.GetComponent<BlobStructure>(), out var spores);
 
+			// Only regrow lost tiles once the round has enough players
+			if (NetworkServer.connections.Count >= 10)
+			{
+				foreach (var node in nodeBlobs)
+				{
+					if (node == null) continue;
+
+					var localCoord = new Vector2Int(Mathf.RoundToInt(transform.localPosition.x), Mathf.RoundToInt(transform.localPosition.y));
+
+					if (Vector2Int.Distance(new Vector2Int(node.location.x, node.location.y), localCoord) <= blobSpreadDistance
+					    && node.expandCoords.Contains(localCoord) == false)
+					{
+						node.expandCoords.Add(localCoord);
+						node.nodeDepleted = false;
+					}
+				}
+			}
+
 			info.Destroyed.OnWillDestroyServer.RemoveListener(BlobTileDeath);
 		}
 
@@ -1437,15 +1455,19 @@ namespace US13.Systems.Antagonists.Antags.Blob
 			}
 		}
 
-		private void ResetArea(GameObject node)
+		private void ResetArea(GameObject node, bool expandCoords = true)
 		{
 			var pos = node.GetComponent<UniversalObjectPhysics>().transform.position;
 			var structNode = node.GetComponent<BlobStructure>();
 
 			if(structNode.blobType != BlobConstructs.Core && structNode.blobType != BlobConstructs.Node) return;
 
-			structNode.expandCoords = GenerateCoords(pos.RoundToInt());
-			structNode.healthPulseCoords = structNode.expandCoords;
+			if (currentStrain.strainType != StrainTypes.NetworkedFibers)
+			{
+				structNode.expandCoords = GenerateCoords(pos.RoundToInt());
+				structNode.healthPulseCoords = structNode.expandCoords;
+			}
+
 			structNode.location = pos.RoundToInt();
 			structNode.nodeDepleted = false;
 		}
@@ -1533,6 +1555,9 @@ namespace US13.Systems.Antagonists.Antags.Blob
 				{
 					coreIncome = 4;
 				}
+
+				float t = Mathf.InverseLerp(20f, 60f, NetworkServer.connections.Count);
+				numResource *= Mathf.Lerp(1f, 3f, t); //min gen , max gen
 
 				//One biomass for each resource node
 				var newBiomass = (numResource + coreIncome) * econModifier;
@@ -1822,11 +1847,11 @@ namespace US13.Systems.Antagonists.Antags.Blob
 				second.AppearAtWorldPositionServer(posCache);
 
 				//If moved to node or core refresh areas
-				ResetArea(first.gameObject);
+				ResetArea(first.gameObject, false);
 
 				if(blobStructure.blobType != BlobConstructs.Core && blobStructure.blobType != BlobConstructs.Node) return;
 
-				ResetArea(second.gameObject);
+				ResetArea(second.gameObject, false);
 				return;
 			}
 		}

@@ -1,12 +1,17 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using Logs;
+using TMPro;
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using US13.Core.Input_System;
 using US13.Managers.UpdateManager;
+using US13.UI.Systems;
+using US13.UI.Systems.Tooltips.HoverTooltips;
 
 namespace US13.UI.Core
 {
-	public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+	public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler,IHoverTooltip
 	{
 		[SerializeField]
 		private GameObject tooltipTemplate = null;
@@ -16,10 +21,24 @@ namespace US13.UI.Core
 		[SerializeField]
 		private string tooltipText = "";
 
+		private string TitleOfTip = "";
+
+
 		void Start()
 		{
+			if (tooltipTemplate == null) return;
 			tooltipObject = Instantiate(tooltipTemplate, Vector3.zero, Quaternion.identity);
-			tooltipObject.GetComponentInChildren<Text>().text = tooltipText;
+			var text = tooltipObject.GetComponentInChildren<Text>();
+			if (text != null)
+			{
+				text.text = tooltipText;
+			}
+
+			var TMP_Text = tooltipObject.GetComponentInChildren<TMP_Text>();
+			if (TMP_Text != null)
+			{
+				TMP_Text.text = tooltipText;
+			}
 			// While the tooltip exists, we place it under the canvas so it'll be in the top layer
 			tooltipObject.transform.SetParent(this.GetComponentInParent<Canvas>().transform);
 			tooltipObject.SetActive(false);
@@ -37,6 +56,7 @@ namespace US13.UI.Core
 
 		void UpdateMe()
 		{
+			if (tooltipObject == null) return;
 			if (tooltipObject.activeSelf) {
 				// Move tooltip to mouse
 				tooltipObject.transform.position = CommonInput.mousePosition - new Vector3(0, 20, 0);
@@ -53,14 +73,45 @@ namespace US13.UI.Core
 			tooltipObject.GetComponentsInChildren<Text>(false)[0].text = tooltipText;
 		}
 
-		public void OnPointerEnter(PointerEventData eventData) {
+		public void OnPointerEnter(PointerEventData eventData)
+		{
 			enterTime = Time.realtimeSinceStartup;
+			UIManager.Instance.HoverTooltipUI.SetupTooltip(gameObject);
 		}
 
-		public void OnPointerExit(PointerEventData eventData) {
+		public void OnPointerExit(PointerEventData eventData)
+		{
 			enterTime = 0;
 
-			tooltipObject.SetActive(false);
+			tooltipObject?.SetActive(false);
+			UIManager.SetHoverToolTip = null;
 		}
+
+
+		public string HoverTip()
+		{
+			return  tooltipText;
+		}
+
+
+		public string CustomTitle()
+		{
+			if (string.IsNullOrEmpty(TitleOfTip))
+			{
+				return gameObject.name;
+			}
+			else
+			{
+				return TitleOfTip;
+			}
+		}
+
+
+		public Sprite CustomIcon() => null;
+
+
+		public List<Sprite> IconIndicators() => null;
+
+		public List<TextColor> InteractionsStrings() => null;
 	}
 }

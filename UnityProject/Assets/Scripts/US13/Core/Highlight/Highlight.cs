@@ -218,17 +218,27 @@ namespace US13.Core.Highlight
 				instance.material.SetColor(OutlineColor, Color.green);
 			}
 
+			bool LayerChosen = false;
+
 			foreach (var T in spriteRenderers)
 			{
 				if (DevCameraControls.ObjecIsVisible(T.gameObject) == false) continue;
 				if (T.sortingLayerName == "Preview") continue;
 				RecursiveTextureStack(mainTex, T, HighlightPadding);
+				if (LayerChosen == false)
+				{
+					instance.spriteRenderer.gameObject.layer = T.gameObject.layer;
+					LayerChosen = true;
+				}
+
 			}
 
 			mainTex.Apply();
 			instance.spriteRenderer.enabled = true;
 			instance.spriteRenderer.sprite = Sprite.Create(mainTex, new Rect(0, 0, mainTex.width, mainTex.height),
 				new Vector2(0.5f, 0.5f), instance.spriteRenderer.sprite.pixelsPerUnit, 1, SpriteMeshType.FullRect, Vector4.zero);
+
+
 		}
 
 
@@ -268,7 +278,9 @@ namespace US13.Core.Highlight
 							Vector2.Lerp(uvCorners.BottomLeft, uvCorners.BottomRight, u),
 							Vector2.Lerp(uvCorners.TopLeft, uvCorners.TopRight, u),
 							v);
-						color = texture.GetPixelBilinear(uv.x, uv.y);
+						int texX = Mathf.Clamp(Mathf.FloorToInt(uv.x * texture.width), 0, texture.width - 1);
+						int texY = Mathf.Clamp(Mathf.FloorToInt(uv.y * texture.height), 0, texture.height - 1);
+						color = texture.GetPixel(texX, texY);
 					}
 					else
 					{
@@ -315,8 +327,8 @@ namespace US13.Core.Highlight
 			TextureFormat format = currentTexture != null ? currentTexture.format : TextureFormat.RGBA32;
 			var newTexture = new Texture2D(targetWidth, targetHeight, format, false)
 			{
-				filterMode = currentTexture != null ? currentTexture.filterMode : FilterMode.Point,
-				wrapMode = currentTexture != null ? currentTexture.wrapMode : TextureWrapMode.Clamp,
+				filterMode = FilterMode.Point,
+				wrapMode = TextureWrapMode.Clamp,
 				name = "HighlightTexture"
 			};
 

@@ -788,6 +788,14 @@ namespace US13.MapSaver
 				GetBound(Compact, MetaTileMap, ref LocalGizmoBound, AllowedPoints, LayersToProcess,
 					NonmappedItems);
 
+				var max = LocalGizmoBound.Max;
+				max.z = 0;
+
+				var min = LocalGizmoBound.Min;
+				min.z = 0;
+
+				LocalGizmoBound = new BetterBounds(max, min);
+
 				OffsetToRemove = LocalGizmoBound.center.RoundToInt();
 			}
 

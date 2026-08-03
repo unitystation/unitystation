@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1272443558227625238}
   - component: {fileID: 2783691846750148714}
-  m_Layer: 5
+  m_Layer: 23
   m_Name: ProgressBarBg
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -100,7 +100,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7253507112654990702}
   - component: {fileID: 1732185315993986069}
-  m_Layer: 5
+  m_Layer: 23
   m_Name: ProgressBarHighLight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 7143236600055908701}
   - component: {fileID: 1603040067248660636}
   - component: {fileID: 4909360160866502902}
-  m_Layer: 5
+  m_Layer: 23
   m_Name: StateIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -307,7 +307,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3950444169679250612}
   - component: {fileID: 6012879286272873821}
-  m_Layer: 5
+  m_Layer: 23
   m_Name: HUDDiagnosticsBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -355,7 +355,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1749506274599421701}
   - component: {fileID: 514300924944914047}
-  m_Layer: 5
+  m_Layer: 23
   m_Name: ProgressBarOverlay
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -445,7 +445,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6096267435971001620}
   - component: {fileID: 4489575840061185689}
-  m_Layer: 5
+  m_Layer: 23
   m_Name: ProgressBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -482,7 +482,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 014c15c1defc00443aab83828cc92eb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assets::PercentageBar
+  isCanvasElement: 0
   spriteToModify: {fileID: 514300924944914047}
+  imageToModify: {fileID: 0}
   steps: 14
   maxScale: 14
   minScale: 0
@@ -517,7 +519,11 @@ MonoBehaviour:
     m_NumColorKeys: 4
     m_NumAlphaKeys: 2
   additionalElementsToColour:
-  - _spriteRenderer: {fileID: 2783691846750148714}
+  - isCanvasElement: 0
+    _spriteRenderer: {fileID: 2783691846750148714}
+    _image: {fileID: 0}
     _mixColor: {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
-  - _spriteRenderer: {fileID: 1732185315993986069}
+  - isCanvasElement: 0
+    _spriteRenderer: {fileID: 1732185315993986069}
+    _image: {fileID: 0}
     _mixColor: {r: 0.6301887, g: 0.6301887, b: 0.6301887, a: 1}

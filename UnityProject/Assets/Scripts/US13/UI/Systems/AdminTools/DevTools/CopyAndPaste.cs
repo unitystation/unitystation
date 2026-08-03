@@ -950,7 +950,7 @@ namespace US13.UI.Systems.AdminTools.DevTools
 
 				MatrixInfo Matrix = null;
 				Vector3 Offset = ActiveMouseGrabber.gameObject.transform.position.ToLocal();
-				var ID = (TMP_Dropdown.GetSelected().FirstOrDefault() as CustomOption).ID;
+				var ID = (TMP_Dropdown?.GetSelected()?.FirstOrDefault() as CustomOption)?.ID;
 				var MatrixName = TMP_InputField.text;
 				if (ID != null)
 				{

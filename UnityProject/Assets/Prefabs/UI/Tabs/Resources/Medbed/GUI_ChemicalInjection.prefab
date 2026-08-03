@@ -78,8 +78,8 @@ GameObject:
   - component: {fileID: 7112101185292948992}
   - component: {fileID: 1756475067211339944}
   - component: {fileID: 3513425994250169807}
-  - component: {fileID: 898179539535706468}
   - component: {fileID: 5913241513864798553}
+  - component: {fileID: 3241135394388163204}
   m_Layer: 5
   m_Name: 2
   m_TagString: Untagged
@@ -189,7 +189,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 898179539535706468}
+      - m_Target: {fileID: 3241135394388163204}
         m_TargetAssemblyTypeName: 
         m_MethodName: ExecuteClient
         m_Mode: 1
@@ -198,33 +198,6 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &898179539535706468
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 468300107140411717}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1f81219898d4e72af94efd4ed8e5289, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ServerMethod:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 753042146093461858}
-        m_TargetAssemblyTypeName: US13.UI.Objects.MedBed.GUI_ChemicalInjection, Assets
-        m_MethodName: Inject
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 2
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
@@ -240,6 +213,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3241135394388163204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 468300107140411717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f41ce54e3adddc243a63e91303c43614, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.UI.Core.Net.Elements.NetButtonAuth
+  AddInRunTime: 0
+  ServerMethod:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 753042146093461858}
+        m_TargetAssemblyTypeName: US13.UI.Objects.MedBed.GUI_ChemicalInjection, Assets
+        m_MethodName: Inject2
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 10
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &539096560040326912
 GameObject:
   m_ObjectHideFlags: 0
@@ -328,8 +329,8 @@ GameObject:
   - component: {fileID: 2534636367107338132}
   - component: {fileID: 4445959878674385841}
   - component: {fileID: 5634076389917588143}
-  - component: {fileID: 6615322838051680267}
   - component: {fileID: 3286884344134111401}
+  - component: {fileID: 845123043739308064}
   m_Layer: 5
   m_Name: 5
   m_TagString: Untagged
@@ -439,7 +440,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6615322838051680267}
+      - m_Target: {fileID: 845123043739308064}
         m_TargetAssemblyTypeName: 
         m_MethodName: ExecuteClient
         m_Mode: 1
@@ -448,33 +449,6 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &6615322838051680267
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1917108094344377096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1f81219898d4e72af94efd4ed8e5289, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ServerMethod:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 753042146093461858}
-        m_TargetAssemblyTypeName: US13.UI.Objects.MedBed.GUI_ChemicalInjection, Assets
-        m_MethodName: Inject
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 5
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
@@ -490,6 +464,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &845123043739308064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1917108094344377096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f41ce54e3adddc243a63e91303c43614, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.UI.Core.Net.Elements.NetButtonAuth
+  AddInRunTime: 0
+  ServerMethod:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 753042146093461858}
+        m_TargetAssemblyTypeName: US13.UI.Objects.MedBed.GUI_ChemicalInjection, Assets
+        m_MethodName: Inject5
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 10
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &3572171190920043270
 GameObject:
   m_ObjectHideFlags: 0
@@ -932,8 +934,8 @@ GameObject:
   - component: {fileID: 3459903596721016541}
   - component: {fileID: 5921954486308459944}
   - component: {fileID: 1284860322075959924}
-  - component: {fileID: 6678082238511512467}
   - component: {fileID: 8763157151863214827}
+  - component: {fileID: 6437429454743188111}
   m_Layer: 5
   m_Name: 10
   m_TagString: Untagged
@@ -1043,7 +1045,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6678082238511512467}
+      - m_Target: {fileID: 6437429454743188111}
         m_TargetAssemblyTypeName: 
         m_MethodName: ExecuteClient
         m_Mode: 1
@@ -1052,33 +1054,6 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &6678082238511512467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5165746640250480244}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1f81219898d4e72af94efd4ed8e5289, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ServerMethod:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 753042146093461858}
-        m_TargetAssemblyTypeName: US13.UI.Objects.MedBed.GUI_ChemicalInjection, Assets
-        m_MethodName: Inject
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 10
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
@@ -1094,6 +1069,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db2adeded33c7e4598e497ef3363eba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6437429454743188111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5165746640250480244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f41ce54e3adddc243a63e91303c43614, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.UI.Core.Net.Elements.NetButtonAuth
+  AddInRunTime: 0
+  ServerMethod:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 753042146093461858}
+        m_TargetAssemblyTypeName: US13.UI.Objects.MedBed.GUI_ChemicalInjection, Assets
+        m_MethodName: Inject10
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 10
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &5218117869914049643
 GameObject:
   m_ObjectHideFlags: 0

@@ -62,14 +62,15 @@ namespace US13.Systems.Disposals
 			 * so there should be no noticeable throttling.
 			*/
 
-			foreach (DisposalTraversal disposal in disposalInstances)
+			for (int i = disposalInstances.Count - 1; i >= 0; i--)
 			{
+				DisposalTraversal disposal = disposalInstances[i];
 				if (disposal.CurrentlyDelayed == false)
 				{
 					UpdateDisposal(disposal);
-					break;
 				}
 			}
+
 		}
 
 		public static GameObject SpawnVirtualContainer(Vector3Int worldPosition)

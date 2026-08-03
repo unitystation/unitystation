@@ -1,4 +1,5 @@
 ﻿using System;
+using SecureStuff;
 using UnityEngine;
 using US13.HealthV2.Living;
 using US13.HealthV2.Living.Metabolism;
@@ -31,7 +32,7 @@ namespace US13.Items.Implants.Organs
 
 		public float MinuteStoreMaxAmount = 60; //Last for 60 minutes
 
-		[NonSerialized]	public float AbsorbedAmount = 0;
+		[PlayModeOnly]	public float AbsorbedAmount = 0;
 
 		public bool IsFull => Math.Abs(MinuteStoreMaxAmount - AbsorbedAmount) < 0.01f;
 
@@ -137,20 +138,20 @@ namespace US13.Items.Implants.Organs
 
 			if (AbsorbedAmount == 0)
 			{
-				HungerComponent.HungerState = HungerState.Malnourished;
+				HungerComponent._HungerState = HungerState.Malnourished;
 			}
 			else if (AbsorbedAmount < 5) //Five minutes of food
 			{
 
-				HungerComponent.HungerState = HungerState.Hungry;
+				HungerComponent._HungerState = HungerState.Hungry;
 			}
 			else  if (NoticeableDebuffInPoint < AbsorbedAmount)
 			{
-				HungerComponent.HungerState = HungerState.Full;
+				HungerComponent._HungerState = HungerState.Full;
 			}
 			else
 			{
-				HungerComponent.HungerState = HungerState.Normal;
+				HungerComponent._HungerState = HungerState.Normal;
 			}
 		}
 

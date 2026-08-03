@@ -169,11 +169,12 @@ namespace US13.Shuttles
 					{
 						ShuttlesMainConnector.TryConnectAdjacent();
 					}
-
+					mm.NetworkedMatrixMove.IgnoreMatrixs.Clear();
 					ReachedEndOfInBuoyChain(CurrentTarget, StartOfChain);
 				}
 				else
 				{
+					mm.NetworkedMatrixMove.IgnoreMatrixs.Clear();
 					mm.NetworkedMatrixMove.IgnorePotentialCollisions = true;
 					PreviouslyReached = pos;
 					MoveToInternal(CurrentTarget.In.NextInLine);

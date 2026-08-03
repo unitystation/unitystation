@@ -62,6 +62,22 @@ namespace US13.Objects.Medical
 		public int RequiredDNASamples = 3;
 
 
+		[NaughtyAttributes.Button()]
+		public void UnlockAll()
+		{
+			UnlockedMutations.AddRange(ALLMutations);
+			if (ActiveGUI_DNAConsole != null)
+			{
+				ActiveGUI_DNAConsole.UpdateMutations();
+			}
+		}
+
+		[NaughtyAttributes.Button()]
+		public void ShowSolution()
+		{
+			ActiveGUI_DNAConsole?.MutationUnlockMiniGame?.ShowSolution();
+		}
+
 		[RightClickMethod()]
 		[NaughtyAttributes.Button()]
 		public void Inject()
