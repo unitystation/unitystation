@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Reflection.PortableExecutable;
+using System.Text;
 using System.Threading.Tasks;
 using CodeScan;
 using ILVerify;
@@ -197,10 +198,9 @@ namespace UnitystationLauncher.ContentScanning
 			// we won't have to check that any types in their type arguments are whitelisted.
 			foreach (var type in types)
 			{
-				if (IsTypeAccessAllowed(loadedConfig, type, out _) == false)
-				{
-					errors.Add(new SandboxError($"\n-- Access to type not allowed: {type} (Assembly Name: {asmName})"));
-				}
+				if (IsTypeAccessAllowed(loadedConfig, type, out _)) continue;
+				StringBuilder sb = BuildFixSuggestionStringForTypes(asmName, type);
+				errors.Add(new SandboxError($"\n-- Access to type not allowed: {type} (Assembly Name: {asmName})\n{sb}"));
 			}
 
 			info.Invoke($"Types... {fullStopwatch.ElapsedMilliseconds}ms");
@@ -230,6 +230,33 @@ namespace UnitystationLauncher.ContentScanning
 			resolver.Dispose();
 			peReader.Dispose();
 			return errors.IsEmpty;
+		}
+
+		private static StringBuilder BuildFixSuggestionStringForTypes(string asmName, ScanningTypes.MTypeReferenced type)
+		{
+			var sb = new StringBuilder();
+			sb.AppendLine("Hint -> You can follow this rough example to figure out how to whitelist this type up on upstream via CodeScanList.json:");
+			sb.AppendLine("{");
+			sb.AppendLine(@"  ""Types"": {");
+
+			if (string.IsNullOrEmpty(asmName))
+			{
+				sb.AppendLine($@"    ""{type}"": {{");
+				sb.AppendLine(@"      ""All"": true");
+				sb.AppendLine(@"    }}");
+			}
+			else
+			{
+				sb.AppendLine($@"    ""{asmName}"": {{");
+				sb.AppendLine($@"      ""{type}"": {{");
+				sb.AppendLine(@"        ""All"": true");
+				sb.AppendLine(@"      }}");
+				sb.AppendLine(@"    }}");
+			}
+
+			sb.AppendLine(@"  }");
+			sb.AppendLine(@"}");
+			return sb;
 		}
 
 		private bool DoVerifyIL(
