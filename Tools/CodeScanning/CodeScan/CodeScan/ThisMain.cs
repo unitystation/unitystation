@@ -1,5 +1,4 @@
-﻿using System.CommandLine;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Text.Json;
 using Newtonsoft.Json;
 using UnitystationLauncher.ContentScanning;
@@ -91,10 +90,7 @@ public static class ThisMain
 					}
 
 					DirectoryInfo directory = new DirectoryInfo(Path.Combine(goodPath, ManagedPath));
-
-					var GoodFiles = new DirectoryInfo(
-							System.Reflection.Assembly.GetEntryAssembly().Location.Replace("CodeScan.dll", ""))
-						.Parent;
+					DirectoryInfo? GoodFiles = new DirectoryInfo(Assembly.GetEntryAssembly().Location.Replace("CodeScan.dll", "")).Parent;
 					GoodFiles = GoodFiles.CreateSubdirectory("MissingAssemblies");
 					GoodFiles = GoodFiles.CreateSubdirectory(OSText);
 
@@ -116,8 +112,9 @@ public static class ThisMain
 					}
 
 
-					goodFiles.UnionWith(GoodFiles
-						.GetFiles().Select(x => x.Name).ToHashSet());
+					goodFiles.UnionWith(
+						GoodFiles.GetFiles().Select(x => x.Name).ToHashSet()
+						);
 
 
 					foreach (var file in directory.GetFiles())
