@@ -252,7 +252,7 @@ namespace UnitystationLauncher.ContentScanning
 			string ns = chain[0].Namespace ?? "";
 
 			var sb = new StringBuilder();
-			sb.AppendLine("To fix, copy-paste this into CodeScanList.json (merge with existing entries):");
+			sb.AppendLine("Hint -> You can follow this rough example to figure out how to whitelist this type up on upstream via CodeScanList.json:");
 			sb.AppendLine("{");
 			sb.AppendLine(@"  ""AllowedVerifierErrors"": [");
 			sb.AppendLine(@"    ""InitOnly"",");
