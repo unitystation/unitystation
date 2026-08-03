@@ -199,7 +199,7 @@ namespace UnitystationLauncher.ContentScanning
 			foreach (var type in types)
 			{
 				if (IsTypeAccessAllowed(loadedConfig, type, out _)) continue;
-				StringBuilder sb = BuildFixSuggestionStringForTypes(asmName, type);
+				var sb = BuildFixSuggestionStringForTypes(type);
 				errors.Add(new SandboxError($"\n-- Access to type not allowed: {type} (Assembly Name: {asmName})\n{sb}"));
 			}
 
@@ -232,33 +232,65 @@ namespace UnitystationLauncher.ContentScanning
 			return errors.IsEmpty;
 		}
 
-		private static StringBuilder BuildFixSuggestionStringForTypes(string asmName, ScanningTypes.MTypeReferenced type)
+		private static StringBuilder BuildFixSuggestionStringForTypes(ScanningTypes.MTypeReferenced type)
 		{
+			// Walk up the nesting chain to find the root namespace and collect every type name.
+			var chain = new List<ScanningTypes.MTypeReferenced>();
+			var current = type;
+			while (current != null)
+			{
+				chain.Insert(0, current);
+				if (!string.IsNullOrEmpty(current.Namespace))
+					break;
+
+				if (current.ResolutionScope is ScanningTypes.MResScopeType parentScope)
+					current = (ScanningTypes.MTypeReferenced)parentScope.Type;
+				else
+					break;
+			}
+
+			string ns = chain[0].Namespace ?? "";
+
 			var sb = new StringBuilder();
-			sb.AppendLine("Hint -> You can follow this rough example to figure out how to whitelist this type up on upstream via CodeScanList.json:");
+			sb.AppendLine("To fix, copy-paste this into CodeScanList.json (merge with existing entries):");
 			sb.AppendLine("{");
+			sb.AppendLine(@"  ""AllowedVerifierErrors"": [");
+			sb.AppendLine(@"    ""InitOnly"",");
+			sb.AppendLine(@"    ""InterfaceMethodNotImplemented""");
+			sb.AppendLine(@"  ],");
 			sb.AppendLine(@"  ""Types"": {");
-
-			if (string.IsNullOrEmpty(asmName))
-			{
-				sb.AppendLine($@"    ""{type}"": {{");
-				sb.AppendLine(@"      ""All"": true");
-				sb.AppendLine(@"    }}");
-			}
-			else
-			{
-				sb.AppendLine($@"    ""{asmName}"": {{");
-				sb.AppendLine($@"      ""{type}"": {{");
-				sb.AppendLine(@"        ""All"": true");
-				sb.AppendLine(@"      }}");
-				sb.AppendLine(@"    }}");
-			}
-
+			sb.AppendLine($@"    ""{ns}"": {{");
+			AppendTypeChain(sb, chain, 0, 6);
+			sb.AppendLine(@"    }}");
 			sb.AppendLine(@"  }");
 			sb.AppendLine(@"}");
 			return sb;
 		}
 
+		private static void AppendTypeChain(StringBuilder sb, List<ScanningTypes.MTypeReferenced> chain, int index, int indent)
+		{
+			var pad = new string(' ', indent);
+			var type = chain[index];
+			bool isLeaf = index == chain.Count - 1;
+
+			sb.AppendLine($@"{pad}""{type.Name}"": {{");
+
+			if (isLeaf)
+			{
+				// Only the actually-blocked type gets whitelisted.
+				sb.AppendLine($@"{pad}  ""All"": true");
+			}
+			else
+			{
+				// Parent types just need a NestedTypes bridge — no "All": true.
+				sb.AppendLine($@"{pad}  ""NestedTypes"": {{");
+				AppendTypeChain(sb, chain, index + 1, indent + 4);
+				sb.AppendLine($@"{pad}  }}");
+			}
+
+			sb.AppendLine($@"{pad}}}");
+		}
+		
 		private bool DoVerifyIL(
 			string name,
 			IResolver resolver,
