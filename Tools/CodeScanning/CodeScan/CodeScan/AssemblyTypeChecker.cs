@@ -156,7 +156,7 @@ namespace UnitystationLauncher.ContentScanning
 
 			if (peReader.PEHeaders.CorHeader?.ManagedNativeHeaderDirectory is {Size: not 0})
 			{
-				Errors.Invoke($"Assembly {asmName} contains native code.");
+				Errors.Invoke($"\n- Assembly {asmName} contains native code.");
 				return false;
 			}
 
@@ -165,7 +165,7 @@ namespace UnitystationLauncher.ContentScanning
 			{
 				if (DoVerifyIL(asmName, resolver, peReader, reader, info, Errors) == false)
 				{
-					Errors.Invoke($"Assembly {asmName} Has invalid IL code");
+					Errors.Invoke($"\n- Assembly {asmName} Has invalid IL code");
 					return false;
 				}
 			}
@@ -199,7 +199,7 @@ namespace UnitystationLauncher.ContentScanning
 			{
 				if (IsTypeAccessAllowed(loadedConfig, type, out _) == false)
 				{
-					errors.Add(new SandboxError($"Access to type not allowed: {type} asmName {asmName}"));
+					errors.Add(new SandboxError($"\n-- Access to type not allowed: {type} (Assembly Name: {asmName})"));
 				}
 			}
 
@@ -223,7 +223,7 @@ namespace UnitystationLauncher.ContentScanning
 
 			foreach (var error in errors)
 			{
-				Errors.Invoke($"Sandbox violation: {error.Message}");
+				Errors.Invoke($"\n- Sandbox violation: {error.Message}");
 			}
 
 			info.Invoke($"Checked assembly in {fullStopwatch.ElapsedMilliseconds}ms");
@@ -342,13 +342,13 @@ namespace UnitystationLauncher.ContentScanning
 				    (implAttr & MethodImplAttributes.CodeTypeMask) is not (MethodImplAttributes.IL
 				    or MethodImplAttributes.Runtime))
 				{
-					var err = $"Method has illegal MethodImplAttributes: {FormatMethodName(reader, methodDef)} in Assembly {AssemblyName} ";
+					var err = $"\n-- Method has illegal MethodImplAttributes: {FormatMethodName(reader, methodDef)} in Assembly {AssemblyName} ";
 					errors.Add(new SandboxError(err));
 				}
 
 				if ((attr & (MethodAttributes.PinvokeImpl | MethodAttributes.UnmanagedExport)) != 0)
 				{
-					var err = $"Method has illegal MethodAttributes: {FormatMethodName(reader, methodDef)} in Assembly {AssemblyName} ";
+					var err = $"\n-- Method has illegal MethodAttributes: {FormatMethodName(reader, methodDef)} in Assembly {AssemblyName} ";
 					errors.Add(new SandboxError(err));
 				}
 			}
@@ -368,7 +368,7 @@ namespace UnitystationLauncher.ContentScanning
 
 					if (typeDef.GetFields().Count > 0)
 					{
-						var err = $"Explicit layout type {type} may not have fields.";
+						var err = $"\n- Explicit layout type {type} may not have fields.";
 						errors.Add(new SandboxError(err));
 					}
 				}
@@ -424,7 +424,7 @@ namespace UnitystationLauncher.ContentScanning
 						// Technically this error isn't necessary since we have an earlier pass
 						// checking all referenced types. That should have caught this
 						// We still need the typeCfg so that's why we're checking. Might as well.
-						errors.Add(new SandboxError($"Access to type not allowed: {baseTypeReferenced} in Assembly {asmName}"));
+						errors.Add(new SandboxError($"\n- Access to type not allowed: {baseTypeReferenced} in Assembly {asmName}"));
 						return;
 					}
 
@@ -447,7 +447,7 @@ namespace UnitystationLauncher.ContentScanning
 								}
 							}
 
-							errors.Add(new SandboxError($"Access to field not allowed: {mMemberRefField}"));
+							errors.Add(new SandboxError($"\n- Access to field not allowed: {mMemberRefField}"));
 							break;
 						}
 						case ScanningTypes.MMemberRefMethod mMemberRefMethod:
@@ -479,7 +479,7 @@ namespace UnitystationLauncher.ContentScanning
 								}
 							}
 
-							errors.Add(new SandboxError($"Access to method not allowed: {mMemberRefMethod} in Assembly {asmName}"));
+							errors.Add(new SandboxError($"\n- Access to method not allowed: {mMemberRefMethod} in Assembly {asmName}"));
 							break;
 						default:
 							throw new ArgumentOutOfRangeException(nameof(memberRef));
@@ -526,7 +526,7 @@ namespace UnitystationLauncher.ContentScanning
 						// Technically this error isn't necessary since we have an earlier pass
 						// checking all referenced types. That should have caught this
 						// We still need the typeCfg so that's why we're checking. Might as well.
-						errors.Add(new SandboxError($"Access to type not allowed: {baseTypeReferenced} in Assembly {asmName}"));
+						errors.Add(new SandboxError($"\n- Access to type not allowed: {baseTypeReferenced} in Assembly {asmName}"));
 						continue;
 					}
 
@@ -549,7 +549,7 @@ namespace UnitystationLauncher.ContentScanning
 								}
 							}
 
-							errors.Add(new SandboxError($"Access to field not allowed: {mMemberRefField} in Assembly {asmName}"));
+							errors.Add(new SandboxError($"\n- Access to field not allowed: {mMemberRefField} in Assembly {asmName}"));
 							break;
 						}
 						case ScanningTypes.MMemberRefMethod mMemberRefMethod:
@@ -587,7 +587,7 @@ namespace UnitystationLauncher.ContentScanning
 								continue;
 							}
 
-							errors.Add(new SandboxError($"Access to method not allowed: {mMemberRefMethod} in Assembly {asmName}"));
+							errors.Add(new SandboxError($"\n- Access to method not allowed: {mMemberRefMethod} in Assembly {asmName}"));
 							break;
 						default:
 							throw new ArgumentOutOfRangeException(nameof(memberRef));
@@ -607,14 +607,14 @@ namespace UnitystationLauncher.ContentScanning
 			{
 				if (CanInherit(baseType) == false)
 				{
-					errors.Add(new SandboxError($"Inheriting of type not allowed: {baseType}"));
+					errors.Add(new SandboxError($"\n- Inheriting of type not allowed: {baseType}"));
 				}
 
 				foreach (var @interface in interfaces)
 				{
 					if (CanInherit(@interface) == false)
 					{
-						errors.Add(new SandboxError($"Implementing of interface not allowed: {@interface}"));
+						errors.Add(new SandboxError($"\n- Implementing of interface not allowed: {@interface}"));
 					}
 				}
 
@@ -798,18 +798,18 @@ namespace UnitystationLauncher.ContentScanning
 							case HandleKind.ModuleReference:
 							{
 								errors.Add(new SandboxError(
-									$"Module global variables and methods are unsupported. Name: {memName}"));
+									$"\n- Module global variables and methods are unsupported. Name: {memName}"));
 								return null;
 							}
 							case HandleKind.MethodDefinition:
 							{
-								errors.Add(new SandboxError($"Vararg calls are unsupported. Name: {memName}"));
+								errors.Add(new SandboxError($"\n- Vararg calls are unsupported. Name: {memName}"));
 								return null;
 							}
 							default:
 							{
 								errors.Add(new SandboxError(
-									$"Unsupported member ref parent type: {memRef.Parent.Kind}. Name: {memName}"));
+									$"\n- Unsupported member ref parent type: {memRef.Parent.Kind}. Name: {memName}"));
 								return null;
 							}
 						}
@@ -904,18 +904,18 @@ namespace UnitystationLauncher.ContentScanning
 							case HandleKind.ModuleReference:
 							{
 								errors.Add(new SandboxError(
-									$"Module global variables and methods are unsupported. Name: {memName}"));
+									$"\n- Module global variables and methods are unsupported. Name: {memName}"));
 								return null;
 							}
 							case HandleKind.MethodDefinition:
 							{
-								errors.Add(new SandboxError($"Vararg calls are unsupported. Name: {memName}"));
+								errors.Add(new SandboxError($"\n- Vararg calls are unsupported. Name: {memName}"));
 								return null;
 							}
 							default:
 							{
 								errors.Add(new SandboxError(
-									$"Unsupported member ref parent type: {memRef.Parent.Kind}. Name: {memName}"));
+									$"\n- Unsupported member ref parent type: {memRef.Parent.Kind}. Name: {memName}"));
 								return null;
 							}
 						}
@@ -1039,7 +1039,7 @@ namespace UnitystationLauncher.ContentScanning
 
 				default:
 					errors.Add(new SandboxError(
-						$"Unsupported BaseType of kind {handle.Kind} on type {ownerType}"));
+						$"\n- Unsupported BaseType of kind {handle.Kind} on type {ownerType}"));
 					return false;
 			}
 
@@ -1057,7 +1057,7 @@ namespace UnitystationLauncher.ContentScanning
 				Message = message;
 			}
 
-			public SandboxError(UnsupportedMetadataException ume) : this($"Unsupported metadata: {ume.Message}")
+			public SandboxError(UnsupportedMetadataException ume) : this($"\n- Unsupported metadata: {ume.Message}")
 			{
 			}
 		}
@@ -1078,7 +1078,7 @@ namespace UnitystationLauncher.ContentScanning
 			if (typeRef.ResolutionScope.IsNil)
 			{
 				throw new UnsupportedMetadataException(
-					$"Null resolution scope on type Name: {nameSpace}.{name}. This indicates exported/forwarded types");
+					$"\n- Null resolution scope on type Name: {nameSpace}.{name}. This indicates exported/forwarded types");
 			}
 
 			switch (typeRef.ResolutionScope.Kind)
