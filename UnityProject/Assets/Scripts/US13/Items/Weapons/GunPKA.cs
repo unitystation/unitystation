@@ -18,7 +18,7 @@ namespace US13.Items.Weapons
 		[SerializeField]
 		private GameObject projectile;
 
-		private bool allowRecharge = true;
+		public bool allowRecharge = true;
 
 		[SerializeField]
 		private float rechargeTime = 2.0f;
@@ -28,11 +28,15 @@ namespace US13.Items.Weapons
 
 		public AddressableAudioSource rechargeSound;
 
+		public int MaxRecharges = 1;
+
+		public Coroutine Charging = null;
+
 		public override void OnSpawnServer(SpawnInfo info)
 		{
 			base.OnSpawnServer(info);
 			CurrentMagazine.containedBullets[0] = projectile;
-			CurrentMagazine.ServerSetAmmoRemains(1);
+			CurrentMagazine.ServerSetAmmoRemains(MaxRecharges);
 			if (rechargeSpriteHandler != null)
 			{
 				rechargeSpriteHandler.PushClear();
@@ -47,11 +51,15 @@ namespace US13.Items.Weapons
 
 		public override void ServerPerformInteraction(AimApply interaction)
 		{
-			if (allowRecharge)
+			if (CurrentMagazine.ServerAmmoRemains > 0)
 			{
 				//enqueue the shot (will be processed in Update)
 				base.ServerPerformInteraction(interaction);
-				StartCoroutine(StartCooldown());
+				if (Charging == null && allowRecharge)
+				{
+					Charging = StartCoroutine(StartCooldown());
+				}
+
 			}
 		}
 
@@ -64,9 +72,15 @@ namespace US13.Items.Weapons
 				rechargeSpriteHandler.PushTexture();
 			}
 
-			yield return WaitFor.Seconds(rechargeTime);
-			CurrentMagazine.ServerSetAmmoRemains(1);
-			CurrentMagazine.LoadProjectile(projectile, 1);
+			while (MaxRecharges > CurrentMagazine.ServerAmmoRemains )
+			{
+				yield return WaitFor.Seconds(rechargeTime);
+				CurrentMagazine.ServerSetAmmoRemains(CurrentMagazine.ServerAmmoRemains + 1);
+				CurrentMagazine.LoadProjectile(projectile, 1);
+			}
+
+			Charging = null;
+
 			if (IsSuppressed)
 			{
 				if (ServerHolder != null)
