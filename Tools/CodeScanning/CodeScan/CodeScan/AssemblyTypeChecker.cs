@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Metadata;
 using System.Reflection.PortableExecutable;
+using System.Text;
 using System.Threading.Tasks;
 using CodeScan;
 using ILVerify;
@@ -156,7 +157,7 @@ namespace UnitystationLauncher.ContentScanning
 
 			if (peReader.PEHeaders.CorHeader?.ManagedNativeHeaderDirectory is {Size: not 0})
 			{
-				Errors.Invoke($"Assembly {asmName} contains native code.");
+				Errors.Invoke($"\n- Assembly {asmName} contains native code.");
 				return false;
 			}
 
@@ -165,7 +166,7 @@ namespace UnitystationLauncher.ContentScanning
 			{
 				if (DoVerifyIL(asmName, resolver, peReader, reader, info, Errors) == false)
 				{
-					Errors.Invoke($"Assembly {asmName} Has invalid IL code");
+					Errors.Invoke($"\n- Assembly {asmName} Has invalid IL code");
 					return false;
 				}
 			}
@@ -197,10 +198,9 @@ namespace UnitystationLauncher.ContentScanning
 			// we won't have to check that any types in their type arguments are whitelisted.
 			foreach (var type in types)
 			{
-				if (IsTypeAccessAllowed(loadedConfig, type, out _) == false)
-				{
-					errors.Add(new SandboxError($"Access to type not allowed: {type} asmName {asmName}"));
-				}
+				if (IsTypeAccessAllowed(loadedConfig, type, out _)) continue;
+				var sb = BuildFixSuggestionStringForTypes(type);
+				errors.Add(new SandboxError($"\n-- Access to type not allowed: {type} (Assembly Name: {asmName})\n{sb}"));
 			}
 
 			info.Invoke($"Types... {fullStopwatch.ElapsedMilliseconds}ms");
@@ -223,7 +223,7 @@ namespace UnitystationLauncher.ContentScanning
 
 			foreach (var error in errors)
 			{
-				Errors.Invoke($"Sandbox violation: {error.Message}");
+				Errors.Invoke($"\n- Sandbox violation: {error.Message}");
 			}
 
 			info.Invoke($"Checked assembly in {fullStopwatch.ElapsedMilliseconds}ms");
@@ -232,6 +232,65 @@ namespace UnitystationLauncher.ContentScanning
 			return errors.IsEmpty;
 		}
 
+		private static StringBuilder BuildFixSuggestionStringForTypes(ScanningTypes.MTypeReferenced type)
+		{
+			// Walk up the nesting chain to find the root namespace and collect every type name.
+			var chain = new List<ScanningTypes.MTypeReferenced>();
+			var current = type;
+			while (current != null)
+			{
+				chain.Insert(0, current);
+				if (!string.IsNullOrEmpty(current.Namespace))
+					break;
+
+				if (current.ResolutionScope is ScanningTypes.MResScopeType parentScope)
+					current = (ScanningTypes.MTypeReferenced)parentScope.Type;
+				else
+					break;
+			}
+
+			string ns = chain[0].Namespace ?? "";
+
+			var sb = new StringBuilder();
+			sb.AppendLine("Hint -> You can follow this rough example to figure out how to whitelist this type up on upstream via CodeScanList.json:");
+			sb.AppendLine("{");
+			sb.AppendLine(@"  ""AllowedVerifierErrors"": [");
+			sb.AppendLine(@"    ""InitOnly"",");
+			sb.AppendLine(@"    ""InterfaceMethodNotImplemented""");
+			sb.AppendLine(@"  ],");
+			sb.AppendLine(@"  ""Types"": {");
+			sb.AppendLine($@"    ""{ns}"": {{");
+			AppendTypeChain(sb, chain, 0, 6);
+			sb.AppendLine(@"    }}");
+			sb.AppendLine(@"  }");
+			sb.AppendLine(@"}");
+			return sb;
+		}
+
+		private static void AppendTypeChain(StringBuilder sb, List<ScanningTypes.MTypeReferenced> chain, int index, int indent)
+		{
+			var pad = new string(' ', indent);
+			var type = chain[index];
+			bool isLeaf = index == chain.Count - 1;
+
+			sb.AppendLine($@"{pad}""{type.Name}"": {{");
+
+			if (isLeaf)
+			{
+				// Only the actually-blocked type gets whitelisted.
+				sb.AppendLine($@"{pad}  ""All"": true");
+			}
+			else
+			{
+				// Parent types just need a NestedTypes bridge — no "All": true.
+				sb.AppendLine($@"{pad}  ""NestedTypes"": {{");
+				AppendTypeChain(sb, chain, index + 1, indent + 4);
+				sb.AppendLine($@"{pad}  }}");
+			}
+
+			sb.AppendLine($@"{pad}}}");
+		}
+		
 		private bool DoVerifyIL(
 			string name,
 			IResolver resolver,
@@ -342,13 +401,13 @@ namespace UnitystationLauncher.ContentScanning
 				    (implAttr & MethodImplAttributes.CodeTypeMask) is not (MethodImplAttributes.IL
 				    or MethodImplAttributes.Runtime))
 				{
-					var err = $"Method has illegal MethodImplAttributes: {FormatMethodName(reader, methodDef)} in Assembly {AssemblyName} ";
+					var err = $"\n-- Method has illegal MethodImplAttributes: {FormatMethodName(reader, methodDef)} in Assembly {AssemblyName} ";
 					errors.Add(new SandboxError(err));
 				}
 
 				if ((attr & (MethodAttributes.PinvokeImpl | MethodAttributes.UnmanagedExport)) != 0)
 				{
-					var err = $"Method has illegal MethodAttributes: {FormatMethodName(reader, methodDef)} in Assembly {AssemblyName} ";
+					var err = $"\n-- Method has illegal MethodAttributes: {FormatMethodName(reader, methodDef)} in Assembly {AssemblyName} ";
 					errors.Add(new SandboxError(err));
 				}
 			}
@@ -368,7 +427,7 @@ namespace UnitystationLauncher.ContentScanning
 
 					if (typeDef.GetFields().Count > 0)
 					{
-						var err = $"Explicit layout type {type} may not have fields.";
+						var err = $"\n- Explicit layout type {type} may not have fields.";
 						errors.Add(new SandboxError(err));
 					}
 				}
@@ -424,7 +483,7 @@ namespace UnitystationLauncher.ContentScanning
 						// Technically this error isn't necessary since we have an earlier pass
 						// checking all referenced types. That should have caught this
 						// We still need the typeCfg so that's why we're checking. Might as well.
-						errors.Add(new SandboxError($"Access to type not allowed: {baseTypeReferenced} in Assembly {asmName}"));
+						errors.Add(new SandboxError($"\n- Access to type not allowed: {baseTypeReferenced} in Assembly {asmName}"));
 						return;
 					}
 
@@ -447,7 +506,7 @@ namespace UnitystationLauncher.ContentScanning
 								}
 							}
 
-							errors.Add(new SandboxError($"Access to field not allowed: {mMemberRefField}"));
+							errors.Add(new SandboxError($"\n- Access to field not allowed: {mMemberRefField}"));
 							break;
 						}
 						case ScanningTypes.MMemberRefMethod mMemberRefMethod:
@@ -479,7 +538,7 @@ namespace UnitystationLauncher.ContentScanning
 								}
 							}
 
-							errors.Add(new SandboxError($"Access to method not allowed: {mMemberRefMethod} in Assembly {asmName}"));
+							errors.Add(new SandboxError($"\n- Access to method not allowed: {mMemberRefMethod} in Assembly {asmName}"));
 							break;
 						default:
 							throw new ArgumentOutOfRangeException(nameof(memberRef));
@@ -526,7 +585,7 @@ namespace UnitystationLauncher.ContentScanning
 						// Technically this error isn't necessary since we have an earlier pass
 						// checking all referenced types. That should have caught this
 						// We still need the typeCfg so that's why we're checking. Might as well.
-						errors.Add(new SandboxError($"Access to type not allowed: {baseTypeReferenced} in Assembly {asmName}"));
+						errors.Add(new SandboxError($"\n- Access to type not allowed: {baseTypeReferenced} in Assembly {asmName}"));
 						continue;
 					}
 
@@ -549,7 +608,7 @@ namespace UnitystationLauncher.ContentScanning
 								}
 							}
 
-							errors.Add(new SandboxError($"Access to field not allowed: {mMemberRefField} in Assembly {asmName}"));
+							errors.Add(new SandboxError($"\n- Access to field not allowed: {mMemberRefField} in Assembly {asmName}"));
 							break;
 						}
 						case ScanningTypes.MMemberRefMethod mMemberRefMethod:
@@ -587,7 +646,7 @@ namespace UnitystationLauncher.ContentScanning
 								continue;
 							}
 
-							errors.Add(new SandboxError($"Access to method not allowed: {mMemberRefMethod} in Assembly {asmName}"));
+							errors.Add(new SandboxError($"\n- Access to method not allowed: {mMemberRefMethod} in Assembly {asmName}"));
 							break;
 						default:
 							throw new ArgumentOutOfRangeException(nameof(memberRef));
@@ -607,14 +666,14 @@ namespace UnitystationLauncher.ContentScanning
 			{
 				if (CanInherit(baseType) == false)
 				{
-					errors.Add(new SandboxError($"Inheriting of type not allowed: {baseType}"));
+					errors.Add(new SandboxError($"\n- Inheriting of type not allowed: {baseType}"));
 				}
 
 				foreach (var @interface in interfaces)
 				{
 					if (CanInherit(@interface) == false)
 					{
-						errors.Add(new SandboxError($"Implementing of interface not allowed: {@interface}"));
+						errors.Add(new SandboxError($"\n- Implementing of interface not allowed: {@interface}"));
 					}
 				}
 
@@ -798,18 +857,18 @@ namespace UnitystationLauncher.ContentScanning
 							case HandleKind.ModuleReference:
 							{
 								errors.Add(new SandboxError(
-									$"Module global variables and methods are unsupported. Name: {memName}"));
+									$"\n- Module global variables and methods are unsupported. Name: {memName}"));
 								return null;
 							}
 							case HandleKind.MethodDefinition:
 							{
-								errors.Add(new SandboxError($"Vararg calls are unsupported. Name: {memName}"));
+								errors.Add(new SandboxError($"\n- Vararg calls are unsupported. Name: {memName}"));
 								return null;
 							}
 							default:
 							{
 								errors.Add(new SandboxError(
-									$"Unsupported member ref parent type: {memRef.Parent.Kind}. Name: {memName}"));
+									$"\n- Unsupported member ref parent type: {memRef.Parent.Kind}. Name: {memName}"));
 								return null;
 							}
 						}
@@ -904,18 +963,18 @@ namespace UnitystationLauncher.ContentScanning
 							case HandleKind.ModuleReference:
 							{
 								errors.Add(new SandboxError(
-									$"Module global variables and methods are unsupported. Name: {memName}"));
+									$"\n- Module global variables and methods are unsupported. Name: {memName}"));
 								return null;
 							}
 							case HandleKind.MethodDefinition:
 							{
-								errors.Add(new SandboxError($"Vararg calls are unsupported. Name: {memName}"));
+								errors.Add(new SandboxError($"\n- Vararg calls are unsupported. Name: {memName}"));
 								return null;
 							}
 							default:
 							{
 								errors.Add(new SandboxError(
-									$"Unsupported member ref parent type: {memRef.Parent.Kind}. Name: {memName}"));
+									$"\n- Unsupported member ref parent type: {memRef.Parent.Kind}. Name: {memName}"));
 								return null;
 							}
 						}
@@ -1039,7 +1098,7 @@ namespace UnitystationLauncher.ContentScanning
 
 				default:
 					errors.Add(new SandboxError(
-						$"Unsupported BaseType of kind {handle.Kind} on type {ownerType}"));
+						$"\n- Unsupported BaseType of kind {handle.Kind} on type {ownerType}"));
 					return false;
 			}
 
@@ -1057,7 +1116,7 @@ namespace UnitystationLauncher.ContentScanning
 				Message = message;
 			}
 
-			public SandboxError(UnsupportedMetadataException ume) : this($"Unsupported metadata: {ume.Message}")
+			public SandboxError(UnsupportedMetadataException ume) : this($"\n- Unsupported metadata: {ume.Message}")
 			{
 			}
 		}
@@ -1078,7 +1137,7 @@ namespace UnitystationLauncher.ContentScanning
 			if (typeRef.ResolutionScope.IsNil)
 			{
 				throw new UnsupportedMetadataException(
-					$"Null resolution scope on type Name: {nameSpace}.{name}. This indicates exported/forwarded types");
+					$"\n- Null resolution scope on type Name: {nameSpace}.{name}. This indicates exported/forwarded types");
 			}
 
 			switch (typeRef.ResolutionScope.Kind)

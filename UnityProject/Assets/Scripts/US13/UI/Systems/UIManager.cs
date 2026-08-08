@@ -273,7 +273,7 @@ namespace US13.UI.Systems
 			set
 			{
 				if (Instance.HoverTooltipUI == null) return;
-				Instance.hoverTooltipUI.SetupTooltip(value, false);
+				Instance.hoverTooltipUI.SetupTooltip(value);
 			}
 		}
 
