@@ -1,0 +1,275 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6664689051087802595
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3695110123352835740, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: foreverID
+      value: 3a862a138fabc1949a6fd26e4d385391
+      objectReference: {fileID: 0}
+    - target: {fileID: 4520221803203555702, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 3850960367604590926}
+    - target: {fileID: 4520221803203555702, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 26abc55eeab731c4092b89161e558078,
+        type: 2}
+    - target: {fileID: 7569679527290075565, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2061d324a55b6764a829d2ab2113da43,
+        type: 3}
+    - target: {fileID: 7667703169655306053, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: _assetId
+      value: 76804719
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7777312831022217093, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7781396554342910705, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: m_Name
+      value: Healing Wand
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: hitDamage
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: initialName
+      value: Healing Wand
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: throwDamage
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: traumaDamageChance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f0bcd5335892e63409728da965c689f4,
+        type: 2}
+    - target: {fileID: 7858931176587863443, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d7b6d5d6c780f1b4fab9ed9649623ca2,
+        type: 2}
+    - target: {fileID: 7858931176587863443, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      propertyPath: InitialitemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 9ecdb89ac6a7fef45bd0ed4055164a12,
+        type: 2}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7781396554342910705, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6806530506827842}
+    - targetCorrespondingSourceObject: {fileID: 7781396554342910705, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4375356169528063035}
+  m_SourcePrefab: {fileID: 100100000, guid: c0bdfc0522dc2ef43add0458efd1c87c, type: 3}
+--- !u!212 &3850960367604590926 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 7569679527290075565, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+    type: 3}
+  m_PrefabInstance: {fileID: 6664689051087802595}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3999382912604101138 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7781396554342910705, guid: c0bdfc0522dc2ef43add0458efd1c87c,
+    type: 3}
+  m_PrefabInstance: {fileID: 6664689051087802595}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6806530506827842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3999382912604101138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 54cbb4402f813441cb503dcd1d440082,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 6b5f254be9fd647e6a3dc1399aa47aeb,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+  forceSpawnContents: 0
+  ManuallySpawnContent: 0
+  dropItemsOnDespawn: 0
+  UesAddlistPopulater: 0
+  Populater:
+    SlotContents: []
+    DeprecatedContents: []
+  SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
+  ashPrefab: {fileID: 0}
+--- !u!114 &4375356169528063035
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3999382912604101138}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f888b335971e08846a5f560ec1eead9f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  AllowSuicide: 0
+  pinPrefab: {fileID: 6004521592186936485, guid: 0c0328cbf94ffe648a0903cfc375ab91,
+    type: 3}
+  useFiringPin: 0
+  allowPinSwap: 1
+  FireDelay: 0
+  isSuppressed: 0
+  WeaponType: 0
+  MaxRecoilVariance: 0
+  ProjectileVelocity: 20
+  CameraRecoilConfig:
+    Distance: 0.001
+    RecoilDuration: 0
+    RecoveryDuration: 0
+  ammoPrefab: {fileID: 5999901686547831408, guid: bd07fb3945875634685790190ea8decc,
+    type: 3}
+  ammoType: 18
+  casingPrefabOverride: {fileID: 0}
+  SpawnsCasing: 0
+  MagInternal: 1
+  SmartGun: 0
+  allowMagazineRemoval: 1
+  attachmentPrefabs: []
+  allowedAttachments: 0
+  loadMagSound:
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  unloadMagSound:
+    AssetAddress: 
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  FiringSoundA:
+    AssetAddress: Assets/Prefabs/Effects/magic.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  SuppressedSoundA:
+    AssetAddress: Assets/Prefabs/Effects/magic.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  DryFireSound:
+    AssetAddress: null
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  projectile: {fileID: 1618048404492756490, guid: b70756d58d2a1484fb48a81ab37f9a8d,
+    type: 3}
+  allowRecharge: 0
+  rechargeTime: 5
+  rechargeSpriteHandler: {fileID: 0}
+  rechargeSound:
+    AssetAddress: Assets/Prefabs/Weapons/KineticReload.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  MaxRecharges: 10

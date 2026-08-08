@@ -124,6 +124,7 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+  CustomMeleeBehaviours: []
   CanBeUsedOnSelfOnHelpIntent: 0
   InitialitemSprites:
     SpriteInventoryIcon: {fileID: 0}
@@ -140,6 +141,9 @@ MonoBehaviour:
     - {r: 0, g: 0, b: 0, a: 0}
     IsPaletted: 0
   IsFakeItem: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &114734890905785284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,7 +409,6 @@ MonoBehaviour:
   Intangible: 0
   MappingIntangible: 0
   SnapToGridOnStart: 0
-  IsPlayer: 0
   ObjectBouncyness: 0.75
   tileMoveSpeed: 1
   HasOwnGravity: 0
@@ -611,8 +614,6 @@ MonoBehaviour:
   spriteHandler: {fileID: 6144467708197095229}
   friedNutrimentReagent: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
     type: 2}
-  dormantReagentContainer: {fileID: 6471482627474267981}
-  dormantEdible: {fileID: 2624415363774066147}
 --- !u!1 &1344926539164060
 GameObject:
   m_ObjectHideFlags: 0

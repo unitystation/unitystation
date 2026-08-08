@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9d639585f97bb841bc468b21539740e, type: 3}
+  m_Name: Knock
+  m_EditorClassIdentifier: 
+  actionType: 0
+  activeSpriteIndex: 1
+  callOnClient: 0
+  callOnServer: 1
+  actionName: Knock
+  description: 'Opens any doors within range, no matter what type. Also opens bolted
+    doors and locked closets. '
+  Sprites:
+  - {fileID: 11400000, guid: c86713c0d8e36f846b1b7040c2507dbd, type: 2}
+  Backgrounds:
+  - {fileID: 11400000, guid: 8f7b96a7712804949a79f2ec18abee2c, type: 2}
+  PreventBeingControlledBy: 
+  DisableOnEvent: 
+  isAimable: 0
+  useCustomCursor: 0
+  cursorTexture: {fileID: 0}
+  cursorOffsetType: 0
+  cursorOffset: {x: 16, y: 16}
+  RequireLivingHealth: 0
+  spellImplementation: {fileID: 8340634137525742293, guid: 807db69e05ace864697d66d5135e8bd3,
+    type: 3}
+  chargeType: 0
+  cooldownTime: 10
+  startingCharges: 10
+  castSound:
+    AssetAddress: Assets/Prefabs/Effects/GlassKnock.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  range: 0
+  stillRechargingMessage: The spell is still recharging!
+  affectedMessage: 
+  invocationType: 2
+  invocationMessage: 'AULIE OXIN FIERA! '
+  invocationMessageSelf: 'AULIE OXIN FIERA! '
+  summonType: 0
+  summonObjects: []
+  summonTiles: []
+  summonPosition: 1
+  summonLifespan: 10
+  replaceExisting: 0
+  AllowSoftCriticalUses: 1
+  requireWizardGarb: 0
+  tierCount: 4
+  cooldownModifierPC: 33.13
