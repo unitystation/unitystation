@@ -172,7 +172,7 @@ namespace US13.Core.Chat
 
 		#endregion
 
-		public void SetText(string message, TMP_SpriteAsset languageSprite, TMP_FontAsset font)
+		public void SetText(string message, string languageSprite, TMP_FontAsset font)
 		{
 			if (font != null)
 			{
@@ -182,7 +182,7 @@ namespace US13.Core.Chat
 
 			if (languageSprite != null)
 			{
-				message = $"<sprite=\"{languageSprite.name}\" index=0>{message}";
+				message = $"<sprite name=\"{languageSprite}\">{message}";
 			}
 
 			message =

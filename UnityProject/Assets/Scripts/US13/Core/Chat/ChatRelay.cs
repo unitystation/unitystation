@@ -480,7 +480,7 @@ namespace US13.Core.Chat
 
 		}
 
-		private static TMP_SpriteAsset GetLanguageSprite(ushort languageId)
+		private static Sprite GetLanguageSprite(ushort languageId)
 		{
 			var language = LanguageManager.Instance.GetLanguageById(languageId);
 

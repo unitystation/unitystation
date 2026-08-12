@@ -20,53 +20,54 @@ MonoBehaviour:
   spaceChance: 95
   priority: 10
   sprite: {fileID: 21300000, guid: de04478b5e1b9c14895da690c0084afd, type: 3}
-  chatSprite: {fileID: 11400000, guid: 26fa70c6a189d3c4ca93c9d49e243f49, type: 2}
+  chatSprite: {fileID: -7357591597253148868, guid: 2712d769d2f363d47ad220d0aa8fb773,
+    type: 3}
   flags: 0
   syllables:
   - h'v
-  - hc
+  - h'c
   - h'e
-  - hg
-  - h'd
-  - h'r
-  - h'n
+  - h'g
+  - hd
+  - hr
+  - hn
   - h'o
-  - h'p
-  - h'ra
+  - h-p
+  - hra
   - h'so
   - h'at
-  - hil
+  - h'il
   - h'ta
-  - hgh
+  - h'gh
   - h'sh
   - h'ya
   - h'te
   - h'sh
   - h'ol
   - h'ma
-  - hom
-  - h-ig
+  - h'om
+  - h'ig
   - h'ni
   - h'in
-  - hsha
+  - h-sha
   - h'mir
-  - h'sas
+  - hsas
   - h'mah
-  - h-zar
-  - htok
+  - h'zar
+  - h-tok
   - hlyr
   - h'nqa
   - h'nap
-  - h'olt
-  - h'val
-  - hqha
+  - holt
+  - hval
+  - h'qha
   - h'fwe
-  - h'ath
-  - h-yro
+  - hath
+  - hyro
   - h'eth
   - h'gal
   - h'gib
-  - h'bar
+  - hbar
   - h'jin
   - h'kla
   - h'atu
@@ -79,66 +80,66 @@ MonoBehaviour:
   - h'weyh
   - h'ines
   - h'toth
-  - h'fara
+  - hfara
   - h'amar
   - h'nyag
   - heske
-  - h-reth
+  - h'reth
   - h'dedo
   - h'btoh
-  - h-nikt
+  - h'nikt
   - h'neth
   - h'kanas
-  - h'garis
-  - h-uloft
+  - h-garis
+  - h'uloft
   - h'tarat
   - h'khari
-  - h'thnor
+  - h-thnor
   - h'rekka
-  - hragga
+  - h'ragga
   - h'rfikk
   - h'harfr
-  - h'andid
-  - h'ethra
+  - handid
+  - hethra
   - h'dedol
   - h'totum
   - h'ntrath
-  - hkeriam
-  - v'h
+  - h'keriam
+  - v-h
   - v'c
-  - v'e
+  - ve
   - v'g
-  - vd
+  - v'd
   - v'r
-  - v'n
-  - vh
+  - v-n
+  - v'h
   - v'o
   - vp
   - v'ra
-  - v'so
+  - vso
   - v'at
   - v'il
-  - vta
+  - v'ta
   - v'gh
-  - v'sh
+  - vsh
   - v'ya
   - v'te
-  - vsh
+  - v'sh
   - v'ol
-  - v'ma
+  - vma
   - v'om
   - v'ig
   - v'ni
   - v'in
-  - v-sha
-  - v'mir
+  - v'sha
+  - v-mir
   - vsas
-  - v-mah
-  - v-zar
-  - v'tok
-  - v-lyr
-  - v'nqa
-  - vnap
+  - v'mah
+  - v'zar
+  - vtok
+  - v'lyr
+  - v-nqa
+  - v'nap
   - v'olt
   - v'val
   - v'qha
@@ -150,43 +151,43 @@ MonoBehaviour:
   - vgib
   - v'bar
   - v'jin
-  - vkla
+  - v-kla
   - v'atu
   - v'kal
   - vlig
-  - v'yoka
+  - vyoka
   - v'drak
   - v'loso
   - v'arta
-  - vweyh
-  - vines
+  - v'weyh
+  - v'ines
   - v'toth
   - v'fara
-  - vamar
+  - v'amar
   - v'nyag
   - v'eske
-  - vreth
+  - v'reth
   - v'dedo
   - v'btoh
   - v'nikt
-  - v'neth
-  - v-kanas
-  - v'garis
-  - vuloft
-  - v'tarat
+  - vneth
+  - vkanas
+  - vgaris
+  - v'uloft
+  - v-tarat
   - v'khari
-  - vthnor
-  - v'rekka
+  - v'thnor
+  - vrekka
   - v'ragga
-  - vrfikk
+  - v'rfikk
   - v'harfr
   - v'andid
-  - vethra
+  - v'ethra
   - v'dedol
   - v'totum
   - v'ntrath
-  - v'keriam
-  - ch
+  - v-keriam
+  - c'h
   - c'v
   - c'e
   - c'g
@@ -198,7 +199,7 @@ MonoBehaviour:
   - c'p
   - c'ra
   - c'so
-  - c'at
+  - cat
   - c'il
   - c'ta
   - c'gh
@@ -207,28 +208,28 @@ MonoBehaviour:
   - c'te
   - c'sh
   - c'ol
-  - cma
+  - c'ma
   - c'om
   - c'ig
-  - c'ni
-  - cin
+  - c-ni
+  - c'in
   - c'sha
-  - c'mir
+  - cmir
   - c'sas
   - cmah
   - c'zar
   - c'tok
-  - c'lyr
-  - c-nqa
+  - clyr
+  - c'nqa
   - c'nap
-  - c'olt
+  - c-olt
   - c'val
   - c'qha
   - c'fwe
   - c'ath
   - c'yro
   - c'eth
-  - cgal
+  - c'gal
   - c'gib
   - c'bar
   - c'jin
@@ -236,55 +237,55 @@ MonoBehaviour:
   - c'atu
   - c'kal
   - c'lig
-  - c'yoka
+  - cyoka
   - c'drak
-  - c'loso
-  - c'arta
+  - c-loso
+  - carta
   - c'weyh
   - c'ines
   - c'toth
-  - cfara
+  - c'fara
   - c'amar
-  - c'nyag
+  - cnyag
   - c'eske
   - c'reth
   - c'dedo
-  - cbtoh
-  - cnikt
+  - c'btoh
+  - c'nikt
   - c'neth
   - c'kanas
   - c'garis
-  - c'uloft
+  - culoft
   - c'tarat
   - c'khari
-  - c'thnor
+  - cthnor
   - c'rekka
   - c'ragga
-  - c'rfikk
-  - c'harfr
-  - candid
+  - crfikk
+  - charfr
+  - c'andid
   - c'ethra
-  - c-dedol
+  - c'dedol
   - c'totum
   - c'ntrath
-  - c'keriam
-  - e'h
+  - ckeriam
+  - eh
   - e'v
   - e'c
   - e'g
   - e'd
-  - e'r
+  - er
   - e'n
   - e'h
-  - e'o
-  - ep
-  - e'ra
+  - eo
+  - e'p
+  - era
   - e'so
   - e'at
   - e'il
   - e'ta
-  - e'gh
-  - esh
+  - egh
+  - e'sh
   - e'ya
   - e'te
   - e'sh
@@ -294,41 +295,41 @@ MonoBehaviour:
   - e'ig
   - e'ni
   - e'in
-  - e-sha
-  - e'mir
-  - esas
+  - e'sha
+  - emir
+  - e'sas
   - e'mah
   - e'zar
   - e'tok
-  - e'lyr
-  - e'nqa
-  - e-nap
+  - elyr
+  - enqa
+  - e'nap
   - e'olt
   - e'val
-  - e'qha
-  - efwe
+  - eqha
+  - e'fwe
   - e'ath
   - e'yro
-  - e'eth
+  - eeth
   - e'gal
-  - e'gib
+  - egib
   - e'bar
   - e'jin
   - e'kla
   - e'atu
-  - e'kal
+  - e-kal
   - e'lig
   - e'yoka
   - e'drak
   - e'loso
   - e'arta
-  - e'weyh
+  - e-weyh
   - e'ines
   - e'toth
   - e'fara
   - e'amar
   - e'nyag
-  - e'eske
+  - eeske
   - e'reth
   - e'dedo
   - e'btoh
@@ -339,7 +340,7 @@ MonoBehaviour:
   - e'uloft
   - e'tarat
   - e'khari
-  - e'thnor
+  - ethnor
   - e'rekka
   - e'ragga
   - e'rfikk
@@ -348,33 +349,33 @@ MonoBehaviour:
   - e'ethra
   - e'dedol
   - e'totum
-  - e'ntrath
-  - ekeriam
+  - entrath
+  - e'keriam
   - g'h
   - g'v
   - g'c
   - g'e
-  - gd
-  - gr
+  - g'd
+  - g'r
   - g'n
   - g'h
-  - g'o
-  - gp
-  - g'ra
+  - go
+  - g'p
+  - gra
   - g'so
-  - gat
-  - g'il
+  - g'at
+  - gil
   - g'ta
   - g'gh
   - g'sh
   - g'ya
-  - gte
-  - g'sh
+  - g'te
+  - g-sh
   - g'ol
   - g'ma
-  - g'om
+  - gom
   - g'ig
-  - g-ni
+  - g'ni
   - g'in
   - g'sha
   - g'mir
@@ -384,14 +385,14 @@ MonoBehaviour:
   - g'tok
   - g'lyr
   - g'nqa
-  - gnap
+  - g'nap
   - g'olt
   - g'val
   - g'qha
-  - g'fwe
+  - gfwe
   - g'ath
   - g'yro
-  - g'eth
+  - geth
   - g'gal
   - g'gib
   - g'bar
@@ -400,34 +401,34 @@ MonoBehaviour:
   - gatu
   - g'kal
   - g'lig
-  - g'yoka
-  - g'drak
-  - g'loso
+  - g-yoka
+  - gdrak
+  - gloso
   - g'arta
   - g'weyh
   - g'ines
   - g'toth
-  - gfara
+  - g'fara
   - g'amar
   - g'nyag
   - g'eske
-  - g'reth
-  - g'dedo
-  - gbtoh
+  - g-reth
+  - gdedo
+  - g'btoh
   - g'nikt
-  - gneth
-  - g'kanas
-  - g'garis
-  - g'uloft
-  - g'tarat
+  - g'neth
+  - gkanas
+  - ggaris
+  - guloft
+  - gtarat
   - g'khari
-  - gthnor
-  - grekka
+  - g'thnor
+  - g'rekka
   - g'ragga
-  - g'rfikk
+  - grfikk
   - g'harfr
   - g'andid
-  - gethra
+  - g'ethra
   - g'dedol
   - g'totum
   - g'ntrath
@@ -438,49 +439,49 @@ MonoBehaviour:
   - d'e
   - d'g
   - d'r
-  - dn
+  - d'n
   - d'h
   - d'o
   - d'p
-  - d'ra
+  - d-ra
   - d'so
   - d'at
   - d'il
-  - d'ta
-  - dgh
+  - dta
+  - d'gh
   - d'sh
   - d'ya
   - d'te
-  - d'sh
+  - d-sh
   - d'ol
-  - d'ma
+  - dma
   - d'om
   - dig
   - d'ni
   - d'in
-  - d'sha
-  - dmir
+  - dsha
+  - d'mir
   - d'sas
-  - d'mah
+  - dmah
   - d'zar
   - d'tok
   - d'lyr
   - d'nqa
   - d'nap
   - d'olt
-  - d'val
+  - d-val
   - d'qha
-  - d'fwe
-  - d-ath
+  - dfwe
+  - d'ath
   - d'yro
-  - d'eth
-  - d'gal
+  - d-eth
+  - dgal
   - d'gib
   - d'bar
   - d'jin
   - d'kla
   - d'atu
-  - d-kal
+  - d'kal
   - d'lig
   - d'yoka
   - d'drak
@@ -488,8 +489,8 @@ MonoBehaviour:
   - d'arta
   - d'weyh
   - d'ines
-  - d'toth
-  - d-fara
+  - dtoth
+  - dfara
   - d'amar
   - d-nyag
   - d'eske
@@ -499,56 +500,56 @@ MonoBehaviour:
   - d'nikt
   - d'neth
   - d'kanas
-  - d'garis
-  - d'uloft
+  - dgaris
+  - duloft
   - d'tarat
   - d'khari
   - d'thnor
-  - d'rekka
+  - drekka
   - d'ragga
-  - d'rfikk
+  - drfikk
   - d'harfr
   - d'andid
-  - d'ethra
+  - dethra
   - d'dedol
   - d'totum
   - d'ntrath
-  - d'keriam
+  - dkeriam
   - r'h
   - r'v
   - r'c
-  - r'e
+  - re
   - r'g
   - r'd
   - r'n
   - r'h
-  - ro
+  - r'o
   - r'p
-  - r'ra
-  - rso
+  - rra
+  - r'so
   - r'at
-  - r'il
+  - ril
   - r'ta
   - r'gh
   - r'sh
   - r'ya
   - r'te
   - r'sh
-  - rol
+  - r'ol
   - r'ma
   - r'om
-  - r'ig
+  - rig
   - r'ni
-  - rin
+  - r'in
   - r'sha
   - r'mir
   - r'sas
-  - r'mah
+  - rmah
   - r'zar
   - r'tok
   - r'lyr
   - r'nqa
-  - rnap
+  - r'nap
   - r'olt
   - r'val
   - r'qha
@@ -557,15 +558,15 @@ MonoBehaviour:
   - r'yro
   - r'eth
   - r'gal
-  - rgib
-  - r'bar
+  - r'gib
+  - rbar
   - r'jin
-  - r'kla
-  - r'atu
-  - r'kal
+  - rkla
+  - ratu
+  - rkal
   - r'lig
   - r'yoka
-  - r'drak
+  - r-drak
   - r'loso
   - r'arta
   - r'weyh
@@ -575,51 +576,51 @@ MonoBehaviour:
   - r'amar
   - r'nyag
   - r'eske
-  - r'reth
-  - r'dedo
+  - rreth
+  - rdedo
   - r'btoh
   - r'nikt
   - r'neth
-  - r-kanas
+  - rkanas
   - r'garis
-  - r'uloft
+  - ruloft
   - r'tarat
   - r'khari
   - r'thnor
   - r'rekka
-  - r'ragga
+  - rragga
   - r'rfikk
   - r'harfr
-  - randid
+  - r'andid
   - r'ethra
-  - rdedol
+  - r'dedol
   - r'totum
   - r'ntrath
-  - rkeriam
-  - nh
+  - r'keriam
+  - n'h
   - n'v
-  - nc
+  - n'c
   - n'e
   - n'g
   - n'd
   - n'r
   - n'h
-  - no
+  - n'o
   - n'p
   - n'ra
-  - nso
-  - nat
+  - n'so
+  - n'at
   - n'il
   - n'ta
-  - ngh
+  - n'gh
   - n'sh
   - n'ya
-  - n'te
-  - n-sh
-  - n'ol
-  - n'ma
+  - nte
+  - n'sh
+  - n-ol
+  - nma
   - n'om
-  - n'ig
+  - nig
   - n'ni
   - n'in
   - n'sha
@@ -630,24 +631,24 @@ MonoBehaviour:
   - n'tok
   - n'lyr
   - n'nqa
-  - n'nap
+  - nnap
   - n'olt
   - n'val
   - nqha
   - n'fwe
   - n'ath
-  - nyro
+  - n'yro
   - n'eth
   - n'gal
   - n'gib
-  - n'bar
+  - nbar
   - n'jin
   - n'kla
   - n'atu
   - n'kal
   - n'lig
   - n'yoka
-  - n'drak
+  - ndrak
   - n'loso
   - n'arta
   - n'weyh
@@ -658,8 +659,8 @@ MonoBehaviour:
   - n'nyag
   - n'eske
   - n'reth
-  - ndedo
-  - nbtoh
+  - n'dedo
+  - n'btoh
   - n'nikt
   - n'neth
   - n'kanas
@@ -667,24 +668,24 @@ MonoBehaviour:
   - n'uloft
   - n'tarat
   - n'khari
-  - nthnor
-  - nrekka
-  - n'ragga
+  - n'thnor
+  - n'rekka
+  - n-ragga
   - n'rfikk
-  - n'harfr
+  - nharfr
   - nandid
-  - n'ethra
-  - n'dedol
+  - nethra
+  - ndedol
   - n'totum
-  - nntrath
-  - n-keriam
+  - n'ntrath
+  - nkeriam
   - h'v
-  - h'c
+  - h-c
   - h'e
-  - hg
+  - h-g
   - hd
-  - hr
-  - h'n
+  - h'r
+  - h-n
   - ho
   - h'p
   - h'ra
@@ -696,57 +697,57 @@ MonoBehaviour:
   - h'sh
   - h'ya
   - h'te
-  - h-sh
-  - h-ol
+  - h'sh
+  - h'ol
   - h'ma
   - h'om
   - h'ig
   - h'ni
-  - h'in
+  - hin
   - h'sha
   - h'mir
-  - hsas
+  - h-sas
   - h'mah
   - h'zar
-  - htok
+  - h'tok
   - h'lyr
-  - h'nqa
+  - hnqa
   - h'nap
-  - h'olt
+  - holt
   - h'val
   - h'qha
   - h'fwe
   - h'ath
   - h'yro
   - h'eth
-  - h'gal
+  - hgal
   - h'gib
   - h'bar
   - h'jin
-  - h'kla
+  - hkla
   - h'atu
   - h'kal
   - h'lig
-  - h'yoka
+  - hyoka
   - h'drak
   - h'loso
   - h'arta
-  - h-weyh
+  - h'weyh
   - h'ines
-  - h'toth
+  - htoth
   - h'fara
-  - hamar
+  - h'amar
   - h'nyag
   - h'eske
-  - h'reth
+  - h-reth
   - h'dedo
   - h'btoh
   - h'nikt
   - h'neth
-  - h'kanas
+  - hkanas
   - h'garis
   - h'uloft
-  - h-tarat
+  - h'tarat
   - h'khari
   - h'thnor
   - h'rekka
@@ -754,91 +755,91 @@ MonoBehaviour:
   - h'rfikk
   - h'harfr
   - h'andid
-  - h'ethra
+  - hethra
   - h'dedol
-  - h'totum
+  - htotum
   - h'ntrath
-  - h'keriam
+  - h-keriam
   - o'h
-  - o-v
-  - oc
-  - o'e
-  - o'g
+  - o'v
+  - o'c
+  - oe
+  - o-g
   - o'd
-  - or
+  - o'r
   - o'n
-  - o'h
-  - op
+  - oh
+  - o'p
   - ora
-  - oso
-  - oat
-  - o'il
-  - o'ta
+  - o'so
+  - o'at
+  - o-il
+  - ota
   - o'gh
   - o'sh
-  - oya
+  - o'ya
   - o'te
   - o'sh
   - o'ol
   - o'ma
   - o'om
-  - oig
-  - o'ni
+  - o-ig
+  - oni
   - o'in
   - o'sha
-  - omir
-  - o'sas
+  - o-mir
+  - o-sas
   - o'mah
-  - o'zar
-  - o'tok
+  - ozar
+  - o-tok
   - o'lyr
   - o'nqa
   - o'nap
-  - o'olt
+  - o-olt
   - o'val
   - o'qha
-  - ofwe
+  - o'fwe
   - o'ath
-  - oyro
+  - o'yro
   - o'eth
   - o'gal
   - o'gib
   - o'bar
   - o'jin
   - o'kla
-  - oatu
+  - o'atu
   - o'kal
-  - o'lig
-  - oyoka
-  - o'drak
-  - o-loso
+  - olig
+  - o'yoka
+  - o-drak
+  - o'loso
   - o'arta
-  - o'weyh
-  - oines
-  - o'toth
-  - o'fara
+  - o-weyh
+  - o'ines
+  - ototh
+  - ofara
   - o'amar
   - o'nyag
-  - o-eske
-  - oreth
-  - odedo
-  - o'btoh
+  - o'eske
+  - o'reth
+  - o'dedo
+  - obtoh
   - o'nikt
   - o'neth
   - o'kanas
-  - ogaris
-  - ouloft
+  - o'garis
+  - o'uloft
   - o'tarat
-  - okhari
+  - o'khari
   - o'thnor
   - o'rekka
   - o'ragga
-  - o'rfikk
+  - orfikk
   - o'harfr
   - o'andid
   - o'ethra
-  - o'dedol
-  - ototum
+  - odedol
+  - o'totum
   - o'ntrath
   - o'keriam
   - p'h
@@ -854,37 +855,37 @@ MonoBehaviour:
   - pra
   - p'so
   - p'at
-  - p'il
+  - pil
   - pta
-  - p'gh
+  - pgh
   - p'sh
   - p'ya
   - p'te
-  - p'sh
-  - p'ol
-  - p'ma
+  - psh
+  - pol
+  - p-ma
   - p'om
-  - pig
-  - p'ni
-  - p-in
-  - p'sha
+  - p-ig
+  - pni
+  - p'in
+  - psha
   - p'mir
   - p'sas
   - p'mah
-  - pzar
+  - p'zar
   - p'tok
   - p'lyr
   - p'nqa
   - p'nap
-  - polt
+  - p-olt
   - p'val
-  - pqha
+  - p'qha
   - p'fwe
-  - p'ath
+  - path
   - p'yro
-  - p-eth
+  - p'eth
   - p'gal
-  - pgib
+  - p'gib
   - p'bar
   - p'jin
   - p'kla
@@ -892,10 +893,10 @@ MonoBehaviour:
   - p'kal
   - p'lig
   - p'yoka
-  - pdrak
-  - ploso
+  - p'drak
+  - p'loso
   - p'arta
-  - p'weyh
+  - pweyh
   - p'ines
   - p'toth
   - p'fara
@@ -904,79 +905,79 @@ MonoBehaviour:
   - p'eske
   - p'reth
   - p'dedo
-  - pbtoh
-  - p-nikt
+  - p'btoh
+  - p'nikt
   - pneth
   - p'kanas
-  - pgaris
+  - p'garis
   - p'uloft
   - p'tarat
   - p'khari
   - p'thnor
   - p'rekka
   - p'ragga
-  - p-rfikk
+  - p'rfikk
   - p'harfr
-  - p'andid
-  - p-ethra
-  - p'dedol
-  - ptotum
+  - pandid
+  - p'ethra
+  - p-dedol
+  - p'totum
   - p'ntrath
   - p'keriam
-  - ra'h
+  - rah
   - ra'v
   - ra'c
   - ra'e
   - ra'g
-  - rad
+  - ra-d
   - ra-r
   - ra'n
   - ra'h
   - ra'o
-  - rap
+  - ra'p
   - ra'so
   - ra'at
-  - ra'il
+  - ra-il
   - ra'ta
-  - ragh
-  - ra'sh
+  - ra'gh
+  - ra-sh
   - ra'ya
   - ra'te
   - ra'sh
   - ra'ol
   - ra'ma
-  - raom
-  - ra'ig
+  - ra'om
+  - raig
   - ra'ni
-  - ra-in
-  - ra'sha
+  - ra'in
+  - ra-sha
   - ra'mir
-  - ra'sas
+  - rasas
   - ra'mah
   - ra'zar
   - ra'tok
   - ra'lyr
   - ra'nqa
   - ranap
-  - ra-olt
-  - ra'val
+  - raolt
+  - raval
   - ra'qha
   - ra'fwe
   - ra'ath
-  - ra'yro
+  - ra-yro
   - ra'eth
   - ra'gal
-  - ra'gib
+  - ragib
   - ra'bar
   - ra'jin
   - ra'kla
   - ra'atu
   - ra'kal
   - ra'lig
-  - ra'yoka
+  - rayoka
   - ra'drak
   - ra'loso
-  - ra-arta
+  - ra'arta
   - ra'weyh
   - ra'ines
   - ra'toth
@@ -985,24 +986,24 @@ MonoBehaviour:
   - ranyag
   - ra-eske
   - ra'reth
-  - ra'dedo
-  - ra'btoh
-  - ra'nikt
-  - ra'neth
+  - radedo
+  - rabtoh
+  - ranikt
+  - raneth
   - ra'kanas
   - ra'garis
-  - ra-uloft
+  - rauloft
   - ra'tarat
   - ra'khari
-  - ra'thnor
-  - ra'rekka
-  - ra'ragga
-  - rarfikk
-  - raharfr
+  - rathnor
+  - rarekka
+  - raragga
+  - ra'rfikk
+  - ra'harfr
   - ra'andid
   - ra'ethra
-  - radedol
-  - ra'totum
+  - ra'dedol
+  - ratotum
   - ra'ntrath
   - ra'keriam
   - so'h
@@ -1012,8 +1013,8 @@ MonoBehaviour:
   - so'g
   - so'd
   - so'r
-  - so'n
-  - so'h
+  - son
+  - soh
   - so'o
   - so'p
   - sora
@@ -1021,64 +1022,64 @@ MonoBehaviour:
   - so'il
   - so'ta
   - so'gh
-  - so'sh
+  - sosh
   - so'ya
-  - so'te
+  - sote
   - so'sh
   - so'ol
   - so'ma
   - so'om
   - so'ig
-  - so'ni
+  - so-ni
   - so'in
   - so'sha
   - so'mir
   - so'sas
-  - so-mah
+  - somah
   - so'zar
   - so'tok
   - so'lyr
   - so'nqa
-  - so-nap
-  - so'olt
+  - sonap
+  - soolt
   - so'val
-  - so'qha
+  - soqha
   - so'fwe
   - so'ath
-  - soyro
-  - soeth
+  - so'yro
+  - so'eth
   - so'gal
   - so'gib
   - so'bar
   - so'jin
-  - so-kla
-  - so-atu
-  - sokal
-  - solig
-  - soyoka
-  - sodrak
-  - so'loso
-  - so'arta
+  - so'kla
+  - so'atu
+  - so'kal
+  - so'lig
+  - so'yoka
+  - so'drak
+  - soloso
+  - soarta
   - so'weyh
-  - so'ines
-  - so'toth
-  - so'fara
-  - so'amar
+  - soines
+  - sototh
+  - sofara
+  - soamar
   - so'nyag
   - so'eske
-  - so'reth
-  - sodedo
+  - so-reth
+  - so'dedo
   - so'btoh
-  - so-nikt
+  - sonikt
   - so'neth
   - so'kanas
   - so'garis
-  - souloft
+  - so'uloft
   - so'tarat
   - so'khari
-  - sothnor
+  - so'thnor
   - so'rekka
-  - so'ragga
+  - soragga
   - so'rfikk
   - so'harfr
   - so'andid
@@ -1086,12 +1087,12 @@ MonoBehaviour:
   - so'dedol
   - so'totum
   - so'ntrath
-  - sokeriam
-  - ath
-  - at'v
+  - so'keriam
+  - at'h
+  - atv
   - at'c
   - ate
-  - atg
+  - at'g
   - at'd
   - at'r
   - at'n
@@ -1099,42 +1100,42 @@ MonoBehaviour:
   - at'o
   - at'p
   - at'ra
-  - atso
+  - at'so
   - at'il
   - at'ta
   - at'gh
   - at'sh
   - at'ya
   - at'te
-  - atsh
+  - at'sh
   - at'ol
-  - at'ma
+  - atma
   - at'om
-  - at-ig
+  - at'ig
   - at'ni
   - at'in
   - at'sha
-  - atmir
+  - at'mir
   - atsas
-  - atmah
+  - at'mah
   - at'zar
-  - at'tok
+  - attok
   - at'lyr
-  - atnqa
+  - at'nqa
   - at'nap
   - at'olt
   - at'val
   - at'qha
-  - atfwe
+  - at'fwe
   - at'ath
   - at'yro
-  - ateth
+  - at-eth
   - at'gal
   - at'gib
-  - atbar
+  - at-bar
   - at'jin
-  - at'kla
-  - at'atu
+  - atkla
+  - atatu
   - at'kal
   - at'lig
   - at'yoka
@@ -1143,74 +1144,74 @@ MonoBehaviour:
   - at'arta
   - at'weyh
   - at'ines
-  - at'toth
+  - attoth
   - at'fara
   - at'amar
   - at'nyag
-  - at'eske
-  - atreth
-  - atdedo
+  - ateske
+  - at'reth
+  - at'dedo
   - at'btoh
-  - at'nikt
+  - at-nikt
   - atneth
   - at'kanas
   - at'garis
-  - atuloft
-  - attarat
+  - at'uloft
+  - at'tarat
   - at'khari
   - at'thnor
   - at'rekka
-  - at-ragga
+  - at'ragga
   - at'rfikk
   - at'harfr
-  - at-andid
+  - at'andid
   - at'ethra
-  - at'dedol
-  - at'totum
+  - atdedol
+  - attotum
   - at'ntrath
-  - at'keriam
-  - il'h
+  - atkeriam
+  - ilh
   - il'v
   - il'c
   - il'e
-  - il-g
+  - ilg
   - il'd
   - il'r
   - il'n
   - il'h
-  - ilo
-  - il'p
+  - il'o
+  - ilp
   - il-ra
-  - il'so
-  - ilat
-  - il'ta
+  - il-so
+  - il'at
+  - ilta
   - il'gh
   - il'sh
-  - ilya
+  - il'ya
   - il'te
   - il'sh
-  - il'ol
-  - il'ma
+  - il-ol
+  - ilma
   - il'om
   - il'ig
   - il'ni
-  - ilin
+  - il'in
   - il'sha
   - il'mir
-  - ilsas
-  - il'mah
+  - il'sas
+  - ilmah
   - il'zar
   - il'tok
-  - il-lyr
-  - il'nqa
+  - il'lyr
+  - ilnqa
   - il'nap
   - ilolt
   - il'val
-  - il'qha
-  - il'fwe
-  - ilath
-  - il'yro
-  - ileth
+  - ilqha
+  - il-fwe
+  - il'ath
+  - il-yro
+  - il'eth
   - ilgal
   - il'gib
   - il'bar
@@ -1218,12 +1219,12 @@ MonoBehaviour:
   - il'kla
   - il'atu
   - il'kal
-  - il'lig
+  - illig
   - il'yoka
-  - ildrak
+  - il'drak
   - il'loso
   - il'arta
-  - il-weyh
+  - il'weyh
   - il'ines
   - iltoth
   - il'fara
@@ -1234,64 +1235,64 @@ MonoBehaviour:
   - il'dedo
   - il'btoh
   - il'nikt
-  - il-neth
+  - il'neth
   - il'kanas
   - il'garis
   - il'uloft
   - il'tarat
   - il'khari
   - il'thnor
-  - il-rekka
+  - il'rekka
   - il'ragga
-  - il'rfikk
-  - il'harfr
+  - ilrfikk
+  - il-harfr
   - il'andid
   - il'ethra
-  - ildedol
+  - il'dedol
   - il'totum
   - il'ntrath
   - il'keriam
-  - ta'h
+  - tah
   - ta'v
   - ta'c
   - ta'e
-  - tag
+  - ta'g
   - ta'd
   - ta'r
   - ta'n
   - ta'h
-  - ta'o
-  - ta'p
-  - ta'ra
-  - ta-so
+  - tao
+  - ta-p
+  - tara
+  - ta'so
   - ta'at
-  - ta'il
-  - tagh
+  - tail
+  - ta'gh
   - ta'sh
   - ta'ya
   - ta'te
   - ta'sh
   - ta'ol
-  - ta'ma
+  - tama
   - ta'om
   - ta'ig
   - ta'ni
   - ta'in
   - ta'sha
-  - tamir
+  - ta'mir
   - ta'sas
   - ta'mah
-  - ta'zar
+  - tazar
   - ta'tok
-  - ta'lyr
+  - talyr
   - ta'nqa
   - ta'nap
-  - taolt
+  - ta'olt
   - ta'val
   - ta'qha
   - ta'fwe
-  - ta'ath
-  - tayro
+  - taath
+  - ta'yro
   - taeth
   - ta'gal
   - ta'gib
@@ -1300,7 +1301,7 @@ MonoBehaviour:
   - ta'kla
   - ta'atu
   - ta'kal
-  - ta-lig
+  - ta'lig
   - ta'yoka
   - ta'drak
   - ta'loso
@@ -1308,80 +1309,80 @@ MonoBehaviour:
   - ta'weyh
   - ta'ines
   - ta'toth
-  - tafara
-  - ta'amar
-  - ta'nyag
+  - ta'fara
+  - taamar
+  - tanyag
   - ta'eske
-  - ta'reth
+  - tareth
   - ta'dedo
   - ta'btoh
-  - ta'nikt
+  - ta-nikt
   - ta'neth
-  - takanas
+  - ta'kanas
   - ta'garis
   - ta'uloft
-  - tatarat
-  - takhari
+  - ta'tarat
+  - ta'khari
   - ta'thnor
   - ta'rekka
   - ta'ragga
   - ta'rfikk
   - ta'harfr
   - ta'andid
-  - taethra
-  - ta'dedol
+  - ta'ethra
+  - tadedol
   - ta'totum
   - ta'ntrath
   - ta'keriam
-  - gh'h
+  - ghh
   - gh'v
   - gh'c
-  - gh'e
-  - ghg
+  - gh-e
+  - gh'g
   - gh'd
-  - gh-r
+  - gh'r
   - gh'n
   - gh'h
   - gh'o
   - gh'p
   - gh'ra
-  - gh'so
+  - ghso
   - gh'at
   - gh'il
   - gh'ta
   - gh'sh
   - gh'ya
-  - ghte
+  - gh'te
   - gh'sh
   - gh'ol
   - gh'ma
   - gh'om
   - gh'ig
   - gh'ni
-  - ghin
+  - gh'in
   - gh'sha
   - gh'mir
   - gh'sas
-  - gh'mah
+  - ghmah
   - gh'zar
   - ghtok
-  - gh'lyr
+  - gh-lyr
   - gh'nqa
   - gh'nap
   - gh'olt
-  - ghval
+  - gh'val
   - gh'qha
-  - ghfwe
-  - gh'ath
-  - ghyro
-  - gh-eth
+  - gh-fwe
+  - ghath
+  - gh'yro
+  - gh'eth
   - gh'gal
   - gh'gib
   - gh'bar
-  - ghjin
-  - gh-kla
-  - gh'atu
-  - gh'kal
+  - gh'jin
+  - gh'kla
+  - ghatu
+  - gh-kal
   - gh'lig
   - gh'yoka
   - gh'drak
@@ -1391,284 +1392,39 @@ MonoBehaviour:
   - gh'ines
   - gh'toth
   - gh'fara
-  - gh'amar
+  - ghamar
   - gh'nyag
-  - gh'eske
-  - gh-reth
+  - gheske
+  - gh'reth
   - gh'dedo
-  - gh-btoh
-  - ghnikt
+  - gh'btoh
+  - gh'nikt
   - gh'neth
-  - gh'kanas
+  - gh-kanas
   - gh'garis
-  - gh'uloft
+  - ghuloft
   - gh'tarat
-  - ghkhari
-  - gh'thnor
-  - ghrekka
+  - gh'khari
+  - ghthnor
+  - gh'rekka
   - gh'ragga
   - gh'rfikk
-  - gh-harfr
+  - gh'harfr
   - gh'andid
   - gh'ethra
   - gh'dedol
   - gh'totum
   - gh'ntrath
-  - gh'keriam
-  - shh
-  - sh'v
-  - sh'c
-  - sh-e
-  - sh'g
-  - sh'd
-  - shr
-  - sh'n
-  - sh-h
-  - sho
-  - shp
-  - sh'ra
-  - sh'so
-  - sh'at
-  - sh'il
-  - sh'ta
-  - sh'gh
-  - shya
-  - sh'te
-  - sh'ol
-  - sh'ma
-  - sh'om
-  - sh'ig
-  - sh'ni
-  - sh'in
-  - sh'sha
-  - sh'mir
-  - sh'sas
-  - shmah
-  - sh'zar
-  - sh-tok
-  - shlyr
-  - sh'nqa
-  - sh'nap
-  - sh'olt
-  - shval
-  - shqha
-  - sh'fwe
-  - sh'ath
-  - sh'yro
-  - sh'eth
-  - sh'gal
-  - sh'gib
-  - sh'bar
-  - sh'jin
-  - sh'kla
-  - shatu
-  - sh'kal
-  - shlig
-  - sh'yoka
-  - sh'drak
-  - shloso
-  - sh'arta
-  - sh'weyh
-  - sh'ines
-  - shtoth
-  - sh'fara
-  - shamar
-  - sh'nyag
-  - sh'eske
-  - sh'reth
-  - sh'dedo
-  - sh'btoh
-  - sh'nikt
-  - sh'neth
-  - sh'kanas
-  - sh'garis
-  - shuloft
-  - sh'tarat
-  - sh'khari
-  - sh-thnor
-  - shrekka
-  - sh'ragga
-  - shrfikk
-  - sh-harfr
-  - sh'andid
-  - sh'ethra
-  - sh'dedol
-  - shtotum
-  - sh'ntrath
-  - sh'keriam
-  - ya'h
-  - ya'v
-  - ya-c
-  - ya-e
-  - ya-g
-  - ya'd
-  - ya'r
-  - ya'n
-  - yah
-  - ya'o
-  - ya'p
-  - ya'ra
-  - ya'so
-  - ya'at
-  - ya'il
-  - yata
-  - ya'gh
-  - ya'sh
-  - ya'te
-  - ya'sh
-  - ya'ol
-  - yama
-  - ya'om
-  - ya'ig
-  - ya'ni
-  - ya'in
-  - ya'sha
-  - ya'mir
-  - ya'sas
-  - ya'mah
-  - ya'zar
-  - ya'tok
-  - ya'lyr
-  - yanqa
-  - ya'nap
-  - ya'olt
-  - ya'val
-  - yaqha
-  - ya'fwe
-  - ya'ath
-  - ya'yro
-  - ya'eth
-  - yagal
-  - ya'gib
-  - ya'bar
-  - ya'jin
-  - yakla
-  - ya'atu
-  - ya'kal
-  - ya'lig
-  - ya'yoka
-  - ya'drak
-  - ya-loso
-  - ya'arta
-  - ya'weyh
-  - ya'ines
-  - ya'toth
-  - ya'fara
-  - ya'amar
-  - yanyag
-  - ya'eske
-  - ya'reth
-  - yadedo
-  - ya'btoh
-  - ya'nikt
-  - ya'neth
-  - ya'kanas
-  - ya'garis
-  - yauloft
-  - ya'tarat
-  - ya'khari
-  - ya'thnor
-  - ya'rekka
-  - ya'ragga
-  - ya'rfikk
-  - ya'harfr
-  - ya'andid
-  - ya'ethra
-  - ya'dedol
-  - ya'totum
-  - yantrath
-  - ya'keriam
-  - te'h
-  - tev
-  - tec
-  - te'e
-  - te'g
-  - ted
-  - te-r
-  - te'n
-  - te-h
-  - te'o
-  - te'p
-  - te'ra
-  - te'so
-  - te'at
-  - te'il
-  - te'ta
-  - tegh
-  - te'sh
-  - te'ya
-  - te'sh
-  - te'ol
-  - te'ma
-  - te'om
-  - te'ig
-  - teni
-  - te'in
-  - te'sha
-  - te'mir
-  - tesas
-  - temah
-  - te'zar
-  - te'tok
-  - te'lyr
-  - te'nqa
-  - te'nap
-  - te'olt
-  - te'val
-  - te'qha
-  - te'fwe
-  - te'ath
-  - teyro
-  - te'eth
-  - te'gal
-  - te'gib
-  - tebar
-  - te'jin
-  - te'kla
-  - te'atu
-  - te'kal
-  - te'lig
-  - te'yoka
-  - te'drak
-  - te'loso
-  - te'arta
-  - te'weyh
-  - te'ines
-  - te'toth
-  - te'fara
-  - te'amar
-  - te'nyag
-  - teeske
-  - te'reth
-  - te'dedo
-  - te'btoh
-  - te'nikt
-  - te'neth
-  - te'kanas
-  - te'garis
-  - te'uloft
-  - te'tarat
-  - te'khari
-  - te'thnor
-  - terekka
-  - te'ragga
-  - te'rfikk
-  - teharfr
-  - teandid
-  - te'ethra
-  - te'dedol
-  - te'totum
-  - te'ntrath
-  - te'keriam
+  - ghkeriam
   - sh'h
   - sh'v
-  - sh'c
-  - she
+  - sh-c
+  - sh'e
   - sh'g
   - sh'd
   - sh'r
   - sh'n
-  - sh'h
+  - sh-h
   - sh'o
   - sh'p
   - sh'ra
@@ -1680,9 +1436,254 @@ MonoBehaviour:
   - sh'ya
   - sh'te
   - sh'ol
-  - sh'ma
+  - shma
   - sh'om
   - sh'ig
+  - shni
+  - sh'in
+  - sh'sha
+  - sh'mir
+  - sh'sas
+  - sh'mah
+  - sh'zar
+  - sh'tok
+  - sh'lyr
+  - sh'nqa
+  - sh'nap
+  - sh'olt
+  - sh'val
+  - sh'qha
+  - sh'fwe
+  - sh'ath
+  - sh'yro
+  - sh'eth
+  - sh'gal
+  - sh'gib
+  - shbar
+  - sh'jin
+  - sh'kla
+  - sh'atu
+  - sh'kal
+  - sh'lig
+  - sh'yoka
+  - sh'drak
+  - shloso
+  - sharta
+  - sh-weyh
+  - sh'ines
+  - sh'toth
+  - sh'fara
+  - shamar
+  - shnyag
+  - sh-eske
+  - sh'reth
+  - sh'dedo
+  - sh'btoh
+  - sh'nikt
+  - sh'neth
+  - sh'kanas
+  - sh'garis
+  - sh'uloft
+  - shtarat
+  - sh-khari
+  - sh'thnor
+  - sh'rekka
+  - sh'ragga
+  - sh'rfikk
+  - sh'harfr
+  - sh'andid
+  - shethra
+  - sh'dedol
+  - sh'totum
+  - sh'ntrath
+  - sh'keriam
+  - ya'h
+  - yav
+  - ya'c
+  - ya'e
+  - ya'g
+  - ya'd
+  - ya'r
+  - ya'n
+  - ya'h
+  - ya'o
+  - ya'p
+  - ya'ra
+  - ya'so
+  - yaat
+  - ya'il
+  - ya'ta
+  - ya'gh
+  - ya'sh
+  - yate
+  - ya'sh
+  - ya'ol
+  - ya'ma
+  - ya'om
+  - ya'ig
+  - ya'ni
+  - ya'in
+  - ya'sha
+  - ya'mir
+  - ya'sas
+  - ya'mah
+  - ya'zar
+  - ya'tok
+  - ya'lyr
+  - ya'nqa
+  - ya'nap
+  - ya'olt
+  - ya'val
+  - ya'qha
+  - ya'fwe
+  - ya'ath
+  - ya'yro
+  - ya'eth
+  - ya'gal
+  - ya'gib
+  - ya'bar
+  - yajin
+  - ya'kla
+  - ya'atu
+  - ya'kal
+  - ya'lig
+  - ya'yoka
+  - ya'drak
+  - ya'loso
+  - ya-arta
+  - ya'weyh
+  - yaines
+  - ya'toth
+  - ya'fara
+  - ya'amar
+  - ya'nyag
+  - ya-eske
+  - ya'reth
+  - ya'dedo
+  - ya'btoh
+  - ya'nikt
+  - ya'neth
+  - ya'kanas
+  - ya'garis
+  - ya'uloft
+  - ya'tarat
+  - ya'khari
+  - ya'thnor
+  - ya'rekka
+  - ya'ragga
+  - ya'rfikk
+  - ya'harfr
+  - ya'andid
+  - yaethra
+  - ya-dedol
+  - ya'totum
+  - ya'ntrath
+  - yakeriam
+  - teh
+  - te'v
+  - tec
+  - te'e
+  - te'g
+  - te'd
+  - te'r
+  - te'n
+  - te'h
+  - te'o
+  - te'p
+  - te'ra
+  - teso
+  - te-at
+  - te'il
+  - te'ta
+  - te'gh
+  - tesh
+  - te'ya
+  - te'sh
+  - te'ol
+  - te'ma
+  - te'om
+  - te'ig
+  - te-ni
+  - te'in
+  - te'sha
+  - temir
+  - te-sas
+  - te'mah
+  - te'zar
+  - tetok
+  - telyr
+  - te'nqa
+  - tenap
+  - te'olt
+  - te'val
+  - teqha
+  - te'fwe
+  - te'ath
+  - te'yro
+  - te'eth
+  - te'gal
+  - te'gib
+  - te'bar
+  - te'jin
+  - tekla
+  - te'atu
+  - te'kal
+  - telig
+  - te'yoka
+  - te'drak
+  - te-loso
+  - te'arta
+  - teweyh
+  - te'ines
+  - te'toth
+  - te'fara
+  - te'amar
+  - te'nyag
+  - te'eske
+  - tereth
+  - te'dedo
+  - te'btoh
+  - te'nikt
+  - te'neth
+  - te'kanas
+  - te'garis
+  - teuloft
+  - te'tarat
+  - te'khari
+  - te'thnor
+  - te'rekka
+  - te'ragga
+  - terfikk
+  - te'harfr
+  - te'andid
+  - te'ethra
+  - te'dedol
+  - te'totum
+  - te'ntrath
+  - te'keriam
+  - sh'h
+  - sh'v
+  - shc
+  - she
+  - sh'g
+  - shd
+  - sh'r
+  - sh'n
+  - sh'h
+  - sh'o
+  - sh'p
+  - sh'ra
+  - sh'so
+  - sh'at
+  - sh'il
+  - sh'ta
+  - shgh
+  - sh'ya
+  - sh'te
+  - sh'ol
+  - sh'ma
+  - sh'om
+  - shig
   - sh'ni
   - sh'in
   - sh'sha
@@ -1692,102 +1693,102 @@ MonoBehaviour:
   - sh'zar
   - sh'tok
   - sh'lyr
-  - shnqa
-  - sh'nap
+  - sh'nqa
+  - sh-nap
   - sh'olt
   - sh'val
   - sh'qha
-  - shfwe
+  - sh'fwe
   - sh'ath
   - sh'yro
   - sh'eth
-  - sh'gal
+  - shgal
   - sh'gib
   - sh'bar
   - sh'jin
-  - sh'kla
+  - shkla
   - sh'atu
   - sh'kal
   - sh'lig
   - sh'yoka
   - sh'drak
   - sh'loso
-  - sh'arta
+  - sharta
   - sh'weyh
   - sh'ines
-  - sh'toth
+  - shtoth
   - sh'fara
   - sh'amar
   - shnyag
   - sh'eske
-  - sh'reth
+  - shreth
   - sh'dedo
-  - sh-btoh
+  - sh'btoh
   - sh'nikt
   - sh'neth
   - sh'kanas
   - sh'garis
   - sh'uloft
   - sh'tarat
-  - sh'khari
+  - shkhari
   - sh'thnor
   - sh'rekka
   - sh'ragga
   - sh'rfikk
   - sh'harfr
-  - sh'andid
-  - sh'ethra
+  - sh-andid
+  - shethra
   - sh'dedol
   - sh'totum
   - sh'ntrath
   - sh'keriam
   - ol'h
-  - ol'v
+  - olv
   - ol'c
   - ol'e
   - ol'g
   - ol'd
-  - ol'r
+  - olr
   - ol'n
-  - ol-h
+  - olh
   - ol'o
   - ol'p
-  - ol'ra
+  - olra
   - ol'so
-  - ol'at
-  - ol'il
+  - ol-at
+  - olil
   - ol'ta
   - ol'gh
-  - olsh
+  - ol'sh
   - ol'ya
-  - ol-te
-  - olsh
+  - ol'te
+  - ol'sh
   - ol'ma
   - ol'om
   - ol'ig
   - ol'ni
-  - ol'in
+  - olin
   - ol'sha
   - ol'mir
   - ol'sas
   - ol'mah
   - ol'zar
   - ol'tok
-  - ollyr
-  - ol'nqa
-  - ol-nap
-  - ol'olt
-  - ol'val
-  - ol-qha
-  - ol-fwe
-  - olath
+  - ol'lyr
+  - olnqa
+  - ol'nap
+  - ololt
+  - ol-val
+  - ol'qha
+  - ol'fwe
+  - ol'ath
   - ol'yro
   - ol'eth
   - ol'gal
   - ol'gib
   - ol'bar
-  - ol'jin
-  - ol'kla
+  - oljin
+  - olkla
   - ol'atu
   - ol'kal
   - ol'lig
@@ -1796,13 +1797,13 @@ MonoBehaviour:
   - ol'loso
   - ol'arta
   - ol'weyh
-  - ol'ines
+  - olines
   - ol'toth
   - ol'fara
-  - olamar
+  - ol'amar
   - ol'nyag
   - ol'eske
-  - ol'reth
+  - olreth
   - ol'dedo
   - ol'btoh
   - ol'nikt
@@ -1815,95 +1816,95 @@ MonoBehaviour:
   - ol'thnor
   - ol'rekka
   - ol'ragga
-  - ol'rfikk
-  - ol-harfr
+  - olrfikk
+  - olharfr
   - ol'andid
-  - ol'ethra
+  - olethra
   - ol'dedol
   - ol'totum
   - ol'ntrath
-  - ol'keriam
+  - olkeriam
   - ma'h
   - ma'v
   - ma'c
-  - ma-e
+  - ma'e
   - ma'g
-  - ma'd
+  - mad
   - mar
   - ma'n
   - ma'h
   - ma'o
-  - map
+  - ma'p
   - ma'ra
   - ma'so
-  - ma'at
+  - ma-at
   - ma'il
   - ma'ta
   - ma'gh
-  - ma-sh
+  - ma'sh
   - ma'ya
-  - ma'te
+  - mate
   - ma'sh
   - ma'ol
   - ma'om
   - ma'ig
-  - ma'ni
+  - mani
   - ma'in
   - ma'sha
   - ma'mir
-  - masas
-  - ma'mah
-  - ma'zar
+  - ma-sas
+  - ma-mah
+  - mazar
   - ma'tok
-  - ma'lyr
-  - ma'nqa
+  - malyr
+  - manqa
   - ma'nap
   - ma'olt
-  - ma'val
-  - ma-qha
+  - maval
+  - ma'qha
   - ma'fwe
   - ma'ath
   - ma'yro
-  - ma'eth
-  - ma'gal
-  - magib
+  - maeth
+  - magal
+  - ma'gib
   - ma'bar
   - ma'jin
-  - ma'kla
+  - makla
   - ma'atu
   - ma'kal
   - ma'lig
-  - ma'yoka
+  - mayoka
   - ma'drak
-  - maloso
+  - ma'loso
   - ma'arta
   - ma'weyh
   - ma'ines
   - ma'toth
-  - ma-fara
+  - ma'fara
   - ma'amar
   - ma'nyag
-  - ma'eske
+  - maeske
   - ma'reth
   - ma'dedo
-  - ma'btoh
-  - manikt
-  - maneth
+  - mabtoh
+  - ma'nikt
+  - ma'neth
   - ma'kanas
   - ma'garis
   - ma'uloft
-  - ma'tarat
+  - matarat
   - ma'khari
   - ma'thnor
   - ma'rekka
-  - ma-ragga
+  - ma'ragga
   - ma'rfikk
-  - ma'harfr
+  - maharfr
   - ma'andid
   - ma'ethra
-  - madedol
+  - ma'dedol
   - ma'totum
-  - ma'ntrath
+  - mantrath
   - ma'keriam
   - om'h
   - om'v
@@ -1912,18 +1913,18 @@ MonoBehaviour:
   - om'g
   - om'd
   - om'r
-  - om'n
-  - om'h
+  - omn
+  - omh
   - om'o
   - om'p
   - om'ra
   - om'so
-  - om'at
+  - om-at
   - om'il
-  - om'ta
+  - omta
   - om'gh
   - om'sh
-  - om'ya
+  - omya
   - om'te
   - om'sh
   - om'ol
@@ -1931,14 +1932,14 @@ MonoBehaviour:
   - om'ig
   - om'ni
   - om'in
-  - omsha
-  - om'mir
+  - om'sha
+  - om-mir
   - om'sas
-  - om'mah
-  - om'zar
+  - om-mah
+  - om-zar
   - om'tok
-  - om-lyr
-  - om-nqa
+  - om'lyr
+  - om'nqa
   - om'nap
   - om'olt
   - om'val
@@ -1949,19 +1950,19 @@ MonoBehaviour:
   - om'eth
   - om'gal
   - om'gib
-  - om'bar
+  - ombar
   - om'jin
   - om'kla
   - om'atu
   - om'kal
-  - omlig
+  - om'lig
   - omyoka
   - om'drak
   - om'loso
   - om'arta
-  - omweyh
+  - om'weyh
   - om'ines
-  - om-toth
+  - om'toth
   - om'fara
   - om'amar
   - om'nyag
@@ -1970,14 +1971,14 @@ MonoBehaviour:
   - om'dedo
   - om'btoh
   - om'nikt
-  - omneth
-  - om'kanas
+  - om'neth
+  - om-kanas
   - om'garis
   - om'uloft
-  - om'tarat
+  - omtarat
   - om'khari
   - om'thnor
-  - om'rekka
+  - omrekka
   - om'ragga
   - om'rfikk
   - om'harfr
@@ -1986,112 +1987,112 @@ MonoBehaviour:
   - om'dedol
   - om'totum
   - om'ntrath
-  - om'keriam
+  - omkeriam
   - ig'h
-  - igv
-  - igc
-  - ig'e
-  - ig'g
-  - ig'd
-  - igr
+  - ig'v
+  - ig'c
+  - ige
+  - igg
+  - igd
+  - ig'r
   - ig'n
   - ig'h
-  - ig'o
+  - ig-o
   - ig'p
-  - ig-ra
+  - ig'ra
   - ig'so
   - ig'at
-  - ig'il
+  - igil
   - ig'ta
   - ig'gh
   - ig'sh
   - ig'ya
-  - ig'te
-  - ig'sh
-  - igol
-  - ig'ma
+  - ig-te
+  - igsh
+  - ig'ol
+  - igma
   - ig'om
   - ig'ni
-  - igin
+  - ig'in
   - ig'sha
   - ig'mir
   - ig'sas
-  - igmah
+  - ig'mah
   - ig'zar
   - ig'tok
   - ig'lyr
-  - ig'nqa
+  - ignqa
   - ig'nap
   - ig'olt
-  - ig'val
-  - igqha
-  - igfwe
+  - igval
+  - ig'qha
+  - ig'fwe
   - ig'ath
   - ig'yro
-  - igeth
+  - ig'eth
   - ig'gal
   - ig'gib
-  - ig'bar
-  - ig'jin
-  - ig-kla
-  - ig'atu
+  - igbar
+  - igjin
+  - igkla
+  - ig-atu
   - ig'kal
-  - iglig
+  - ig'lig
   - ig'yoka
-  - ig'drak
-  - igloso
+  - igdrak
+  - ig'loso
   - ig'arta
-  - igweyh
+  - ig'weyh
   - ig'ines
   - igtoth
-  - ig-fara
-  - igamar
+  - igfara
+  - ig-amar
   - ig'nyag
   - ig'eske
   - ig'reth
   - ig'dedo
   - ig'btoh
-  - ig'nikt
-  - igneth
+  - ig-nikt
+  - ig'neth
   - ig'kanas
-  - iggaris
-  - ig'uloft
+  - ig'garis
+  - iguloft
   - ig'tarat
   - ig'khari
-  - ig'thnor
+  - igthnor
   - ig'rekka
   - ig'ragga
-  - ig-rfikk
+  - ig'rfikk
   - ig'harfr
   - ig'andid
   - ig'ethra
   - ig'dedol
   - ig'totum
   - ig'ntrath
-  - igkeriam
+  - ig'keriam
   - ni'h
   - ni'v
   - ni'c
   - ni'e
-  - nig
+  - ni'g
   - ni'd
-  - ni-r
-  - nin
-  - nih
+  - nir
+  - ni'n
+  - ni'h
   - nio
   - ni'p
   - ni'ra
-  - niso
+  - ni'so
   - ni'at
-  - ni'il
-  - ni-ta
+  - niil
+  - ni'ta
   - ni'gh
   - ni'sh
   - ni'ya
-  - ni'te
-  - ni-sh
+  - nite
+  - ni'sh
   - ni'ol
-  - nima
+  - ni'ma
   - ni'om
   - ni'ig
   - ni'in
@@ -2103,69 +2104,69 @@ MonoBehaviour:
   - ni'tok
   - ni'lyr
   - ni'nqa
-  - ni'nap
-  - ni'olt
+  - ninap
+  - niolt
   - ni'val
   - ni'qha
-  - nifwe
+  - ni'fwe
   - ni'ath
-  - ni'yro
+  - niyro
   - ni'eth
   - ni'gal
   - ni'gib
-  - ni'bar
+  - ni-bar
   - ni'jin
   - ni'kla
-  - niatu
+  - ni'atu
   - ni'kal
-  - ni'lig
+  - nilig
   - ni'yoka
   - ni'drak
   - ni'loso
-  - niarta
-  - ni-weyh
+  - ni-arta
+  - ni'weyh
   - ni'ines
-  - ni-toth
+  - ni'toth
   - ni'fara
   - niamar
   - ni'nyag
   - ni'eske
   - ni'reth
   - ni'dedo
-  - ni'btoh
+  - nibtoh
   - ni'nikt
-  - nineth
+  - ni'neth
   - nikanas
   - ni'garis
   - ni'uloft
   - ni'tarat
   - ni'khari
   - ni'thnor
-  - ni'rekka
-  - ni'ragga
+  - nirekka
+  - niragga
   - ni'rfikk
   - ni'harfr
   - ni'andid
   - ni'ethra
   - ni'dedol
-  - ni'totum
-  - nintrath
+  - nitotum
+  - ni'ntrath
   - ni'keriam
   - in'h
   - in'v
-  - in'c
+  - inc
   - in'e
-  - ing
+  - in'g
   - in'd
-  - in-r
+  - in'r
   - in'n
   - in'h
   - in'o
   - in'p
   - in'ra
   - in'so
-  - inat
-  - in-il
+  - in'at
+  - in'il
   - in'ta
   - in'gh
   - in'sh
@@ -2173,45 +2174,45 @@ MonoBehaviour:
   - in'te
   - in'sh
   - in'ol
-  - inma
-  - in'om
-  - inig
+  - in'ma
+  - inom
+  - in'ig
   - in'ni
   - in'sha
   - in'mir
   - in'sas
   - in'mah
   - in'zar
-  - in'tok
+  - intok
   - in'lyr
   - in'nqa
-  - innap
+  - in'nap
   - in'olt
   - in-val
   - in'qha
   - in'fwe
   - in'ath
-  - inyro
+  - in'yro
   - in'eth
-  - in'gal
+  - ingal
   - in'gib
-  - in'bar
+  - inbar
   - in'jin
-  - in'kla
+  - inkla
   - inatu
   - in'kal
   - in'lig
-  - in'yoka
+  - inyoka
   - in'drak
-  - in'loso
-  - inarta
+  - inloso
+  - in'arta
   - in'weyh
   - in'ines
-  - intoth
+  - in'toth
   - in'fara
   - in'amar
-  - in'nyag
-  - in-eske
+  - in-nyag
+  - in'eske
   - in'reth
   - in'dedo
   - in'btoh
@@ -2220,64 +2221,64 @@ MonoBehaviour:
   - in'kanas
   - in'garis
   - in'uloft
-  - intarat
+  - in'tarat
   - in'khari
-  - inthnor
-  - in'rekka
-  - inragga
+  - in'thnor
+  - inrekka
+  - in'ragga
   - in'rfikk
   - in'harfr
-  - in'andid
-  - in'ethra
+  - in-andid
+  - in-ethra
   - indedol
-  - in'totum
+  - in-totum
   - in'ntrath
-  - inkeriam
+  - in'keriam
   - sha'h
   - sha'v
   - sha'c
   - sha'e
   - sha'g
   - sha'd
-  - sha'r
-  - sha'n
+  - shar
+  - shan
   - sha'h
   - sha'o
   - sha'p
   - sha'ra
   - sha'so
-  - sha-at
-  - sha'il
+  - sha'at
+  - shail
   - sha'ta
-  - sha-gh
-  - shash
-  - sha'ya
-  - sha'te
+  - sha'gh
   - sha'sh
-  - shaol
+  - sha'ya
+  - sha-te
+  - sha'sh
+  - sha'ol
   - sha'ma
   - sha'om
   - sha'ig
   - sha'ni
   - sha'in
   - sha'mir
-  - sha'sas
-  - sha-mah
+  - shasas
+  - sha'mah
   - sha'zar
   - sha'tok
   - sha'lyr
   - sha'nqa
   - sha'nap
-  - shaolt
+  - sha'olt
   - sha'val
   - sha'qha
   - sha'fwe
-  - shaath
+  - sha'ath
   - sha'yro
-  - shaeth
-  - shagal
+  - sha'eth
+  - sha'gal
   - sha'gib
-  - sha-bar
+  - sha'bar
   - sha'jin
   - sha'kla
   - sha'atu
@@ -2285,17 +2286,17 @@ MonoBehaviour:
   - sha'lig
   - sha'yoka
   - sha'drak
-  - shaloso
-  - sha'arta
+  - sha'loso
+  - sha-arta
   - sha'weyh
   - shaines
   - sha'toth
-  - sha'fara
-  - shaamar
+  - sha-fara
+  - sha'amar
   - sha'nyag
   - sha'eske
-  - sha'reth
-  - sha-dedo
+  - sha-reth
+  - sha'dedo
   - sha'btoh
   - sha'nikt
   - sha'neth
@@ -2315,25 +2316,25 @@ MonoBehaviour:
   - sha'totum
   - shantrath
   - shakeriam
-  - mir'h
+  - mirh
   - mir'v
-  - mir'c
-  - mir'e
+  - mir-c
+  - mir-e
   - mir'g
   - mir'd
-  - mirr
+  - mir'r
   - mir'n
-  - mir'h
+  - mirh
   - mir'o
   - mir'p
   - mir'ra
-  - mirso
+  - mir'so
   - mir'at
   - mir'il
   - mir'ta
   - mir'gh
   - mir'sh
-  - mirya
+  - mir'ya
   - mir'te
   - mir'sh
   - mir'ol
@@ -2342,56 +2343,56 @@ MonoBehaviour:
   - mir'ig
   - mir'ni
   - mir'in
-  - mirsha
-  - mir-sas
+  - mir'sha
+  - mir'sas
   - mir'mah
   - mir'zar
   - mir'tok
   - mir'lyr
   - mir'nqa
   - mir'nap
-  - mirolt
+  - mir'olt
   - mir'val
-  - mirqha
-  - mir'fwe
-  - mir'ath
-  - miryro
+  - mir'qha
+  - mirfwe
+  - mirath
+  - mir'yro
   - mir'eth
-  - mir'gal
-  - mir'gib
+  - mirgal
+  - mirgib
   - mir'bar
-  - mir'jin
-  - mirkla
-  - mir'atu
+  - mirjin
+  - mir'kla
+  - miratu
   - mir'kal
   - mir'lig
   - mir'yoka
-  - mirdrak
+  - mir'drak
   - mir'loso
-  - mirarta
-  - mirweyh
+  - mir-arta
+  - mir'weyh
   - mir'ines
-  - mirtoth
+  - mir'toth
   - mir-fara
   - mir'amar
   - mir'nyag
   - mir'eske
   - mir'reth
-  - mir'dedo
+  - mir-dedo
   - mir'btoh
   - mir'nikt
   - mir'neth
   - mir'kanas
-  - mirgaris
-  - miruloft
+  - mir'garis
+  - mir'uloft
   - mir'tarat
-  - mir'khari
+  - mirkhari
   - mir'thnor
-  - mir'rekka
+  - mirrekka
   - mir'ragga
-  - mirrfikk
-  - mir-harfr
-  - mirandid
+  - mir'rfikk
+  - mir'harfr
+  - mir'andid
   - mir'ethra
   - mir'dedol
   - mir'totum
@@ -2399,111 +2400,111 @@ MonoBehaviour:
   - mirkeriam
   - sas'h
   - sas'v
-  - sas'c
+  - sasc
   - sas'e
   - sas'g
   - sas'd
   - sas'r
   - sas'n
-  - sash
+  - sas'h
   - sas'o
-  - sasp
+  - sas'p
   - sas'ra
   - sas'so
   - sas'at
-  - sasil
-  - sasta
+  - sas'il
+  - sas'ta
   - sas'gh
   - sas'sh
   - sas'ya
-  - sas'te
-  - sas'sh
+  - saste
+  - sas-sh
   - sas'ol
   - sas'ma
-  - sasom
+  - sas'om
   - sas'ig
   - sas'ni
   - sas'in
   - sas'sha
-  - sas'mir
+  - sas-mir
   - sas'mah
   - sas'zar
   - sas'tok
   - sas'lyr
   - sas'nqa
   - sas'nap
-  - sas'olt
+  - sas-olt
   - sas'val
-  - sasqha
+  - sas'qha
   - sas'fwe
   - sas'ath
   - sas'yro
-  - sas'eth
+  - saseth
   - sas'gal
-  - sas-gib
+  - sas'gib
   - sas'bar
   - sas'jin
   - sas'kla
   - sas'atu
   - sas'kal
-  - sas'lig
-  - sas'yoka
+  - saslig
+  - sas-yoka
   - sas'drak
   - sas'loso
   - sas'arta
-  - sas'weyh
-  - sasines
+  - sasweyh
+  - sas'ines
   - sas'toth
   - sas'fara
-  - sas'amar
+  - sas-amar
   - sas'nyag
   - sas'eske
   - sasreth
-  - sas'dedo
+  - sasdedo
   - sas'btoh
-  - sas'nikt
+  - sas-nikt
   - sas'neth
   - sas'kanas
-  - sasgaris
+  - sas'garis
   - sas'uloft
   - sas'tarat
   - sas'khari
-  - sas-thnor
+  - sas'thnor
   - sas'rekka
-  - sas'ragga
-  - sas'rfikk
+  - sas-ragga
+  - sas-rfikk
   - sas'harfr
   - sas'andid
   - sas'ethra
   - sas'dedol
-  - sas-totum
+  - sas'totum
   - sasntrath
   - saskeriam
   - mah'h
   - mah'v
-  - mahc
+  - mah'c
   - mah'e
   - mah'g
   - mah'd
-  - mah'r
+  - mahr
   - mah'n
   - mah'h
   - mah'o
-  - mah-p
+  - mah'p
   - mah'ra
   - mah'so
-  - mah'at
+  - mah-at
   - mah'il
   - mah'ta
-  - mah'gh
+  - mahgh
   - mah'sh
-  - mah-ya
+  - mah'ya
   - mah'te
   - mah'sh
-  - mah'ol
+  - mahol
   - mah'ma
   - mah'om
-  - mah'ig
+  - mahig
   - mah'ni
   - mah'in
   - mah'sha
@@ -2511,7 +2512,7 @@ MonoBehaviour:
   - mah'sas
   - mah'zar
   - mah'tok
-  - mah'lyr
+  - mahlyr
   - mah'nqa
   - mahnap
   - mah'olt
@@ -2520,196 +2521,196 @@ MonoBehaviour:
   - mah'fwe
   - mah'ath
   - mah'yro
-  - mah'eth
+  - mah-eth
   - mah'gal
   - mah'gib
-  - mahbar
+  - mah'bar
   - mah'jin
   - mah'kla
-  - mah-atu
+  - mah'atu
   - mah'kal
   - mah'lig
   - mah'yoka
   - mah'drak
-  - mah'loso
+  - mahloso
   - mah'arta
-  - mah-weyh
+  - mah'weyh
   - mah'ines
   - mah'toth
   - mah'fara
-  - mahamar
-  - mah'nyag
-  - maheske
-  - mah-reth
-  - mah-dedo
-  - mah'btoh
+  - mah'amar
+  - mahnyag
+  - mah'eske
+  - mah'reth
+  - mah'dedo
+  - mahbtoh
   - mah'nikt
   - mah'neth
-  - mahkanas
+  - mah'kanas
   - mah'garis
   - mah'uloft
   - mah-tarat
-  - mahkhari
+  - mah'khari
   - mah'thnor
   - mah'rekka
-  - mah'ragga
+  - mahragga
   - mah'rfikk
-  - mah'harfr
+  - mahharfr
   - mah'andid
   - mah'ethra
   - mah'dedol
-  - mahtotum
+  - mah'totum
   - mahntrath
   - mahkeriam
   - zar'h
-  - zarv
+  - zar'v
   - zar'c
   - zar'e
   - zarg
   - zar'd
-  - zar'r
+  - zar-r
   - zar'n
   - zar'h
   - zar'o
-  - zar-p
-  - zar'ra
-  - zarso
-  - zar'at
+  - zar'p
+  - zarra
+  - zar-so
+  - zarat
   - zar'il
-  - zar-ta
+  - zarta
   - zar'gh
-  - zar'sh
+  - zarsh
   - zar'ya
-  - zarte
+  - zar'te
   - zar'sh
   - zar'ol
   - zar'ma
-  - zar'om
+  - zarom
   - zar'ig
-  - zarni
+  - zar'ni
   - zar'in
   - zar'sha
   - zar'mir
   - zar'sas
-  - zar-mah
+  - zar'mah
   - zar-tok
-  - zar'lyr
-  - zar'nqa
+  - zarlyr
+  - zar-nqa
   - zar'nap
-  - zarolt
-  - zar'val
+  - zar'olt
+  - zarval
   - zarqha
   - zar'fwe
   - zar'ath
-  - zaryro
+  - zar'yro
   - zar'eth
   - zar'gal
-  - zar'gib
-  - zarbar
+  - zargib
+  - zar'bar
   - zar-jin
   - zar'kla
-  - zar-atu
+  - zar'atu
   - zar'kal
   - zar'lig
   - zar'yoka
   - zar'drak
-  - zar'loso
+  - zar-loso
   - zar'arta
   - zar'weyh
-  - zarines
+  - zar'ines
   - zar'toth
-  - zar'fara
+  - zarfara
   - zar'amar
-  - zar'nyag
+  - zarnyag
   - zar'eske
   - zar'reth
   - zar'dedo
   - zar'btoh
-  - zarnikt
-  - zar'neth
-  - zarkanas
-  - zargaris
-  - zar-uloft
+  - zar'nikt
+  - zar-neth
+  - zar'kanas
+  - zar-garis
+  - zaruloft
   - zar'tarat
   - zar'khari
   - zar'thnor
-  - zarrekka
+  - zar'rekka
   - zar'ragga
-  - zar'rfikk
-  - zar-harfr
+  - zarrfikk
+  - zar'harfr
   - zar'andid
   - zar'ethra
   - zar'dedol
-  - zar'totum
+  - zartotum
   - zarntrath
   - zarkeriam
   - tok'h
   - tok'v
   - tok'c
-  - toke
+  - tok'e
   - tok'g
   - tok'd
   - tok'r
   - tok'n
   - tok'h
-  - toko
+  - tok'o
   - tok'p
   - tok'ra
   - tok'so
   - tok'at
   - tok'il
-  - tok-ta
+  - tok'ta
   - tok'gh
-  - toksh
-  - tok'ya
-  - tok'te
   - tok'sh
-  - tok-ol
-  - tokma
+  - tokya
+  - tok'te
+  - toksh
+  - tok'ol
+  - tok'ma
   - tok'om
-  - tok'ig
+  - tokig
   - tok'ni
   - tok'in
   - tok'sha
-  - tok'mir
+  - tokmir
   - tok'sas
   - tok'mah
-  - tok-zar
+  - tok'zar
   - tok'lyr
   - tok'nqa
   - tok'nap
   - tok'olt
   - tok'val
   - tok'qha
-  - tokfwe
+  - tok'fwe
   - tok'ath
   - tok'yro
   - tok'eth
-  - tok'gal
-  - tokgib
+  - tokgal
+  - tok'gib
   - tok'bar
-  - tok'jin
-  - tok'kla
-  - tokatu
-  - tok-kal
+  - tokjin
+  - tokkla
+  - tok'atu
+  - tok'kal
   - tok'lig
   - tok'yoka
-  - tokdrak
+  - tok'drak
   - tok'loso
   - tok'arta
   - tok'weyh
-  - tokines
+  - tok'ines
   - tok'toth
-  - tok'fara
-  - tokamar
+  - tokfara
+  - tok'amar
   - tok'nyag
   - tok'eske
   - tok'reth
   - tok'dedo
   - tok'btoh
-  - tok'nikt
+  - toknikt
   - tok'neth
-  - tokkanas
+  - tok'kanas
   - tok'garis
   - tok'uloft
   - tok'tarat
@@ -2719,225 +2720,225 @@ MonoBehaviour:
   - tok'ragga
   - tok'rfikk
   - tok'harfr
-  - tok'andid
+  - tok-andid
   - tok'ethra
   - tok'dedol
   - tok'totum
   - tokntrath
   - tokkeriam
   - lyr'h
-  - lyrv
+  - lyr'v
   - lyr'c
   - lyr'e
-  - lyr'g
+  - lyr-g
   - lyr'd
-  - lyr'r
-  - lyr'n
+  - lyrr
+  - lyrn
   - lyr'h
-  - lyr'o
+  - lyr-o
   - lyr'p
   - lyr'ra
   - lyr'so
   - lyr'at
-  - lyril
+  - lyr'il
   - lyr'ta
   - lyr'gh
   - lyr'sh
   - lyr'ya
-  - lyr'te
-  - lyr-sh
+  - lyrte
+  - lyr'sh
   - lyr'ol
   - lyr'ma
-  - lyr'om
+  - lyrom
   - lyr'ig
   - lyr'ni
-  - lyr-in
+  - lyr'in
   - lyr'sha
-  - lyrmir
+  - lyr'mir
   - lyr'sas
-  - lyrmah
-  - lyr'zar
+  - lyr'mah
+  - lyrzar
   - lyr'tok
   - lyr'nqa
   - lyr'nap
-  - lyrolt
-  - lyr'val
+  - lyr'olt
+  - lyr-val
   - lyrqha
-  - lyr'fwe
+  - lyrfwe
   - lyr'ath
   - lyr'yro
   - lyr'eth
-  - lyr-gal
+  - lyr'gal
   - lyr'gib
   - lyr'bar
-  - lyr'jin
+  - lyrjin
   - lyr'kla
   - lyr'atu
-  - lyr'kal
+  - lyrkal
   - lyr'lig
   - lyr'yoka
   - lyr'drak
   - lyr'loso
   - lyr'arta
   - lyr'weyh
-  - lyrines
-  - lyrtoth
-  - lyrfara
+  - lyr'ines
+  - lyr'toth
+  - lyr'fara
   - lyramar
-  - lyrnyag
+  - lyr'nyag
   - lyr'eske
-  - lyr'reth
+  - lyrreth
   - lyr'dedo
   - lyr'btoh
   - lyrnikt
   - lyr'neth
-  - lyrkanas
+  - lyr'kanas
   - lyr'garis
   - lyr'uloft
   - lyr'tarat
-  - lyr'khari
-  - lyr'thnor
-  - lyr'rekka
-  - lyr-ragga
+  - lyrkhari
+  - lyr-thnor
+  - lyrrekka
+  - lyr'ragga
   - lyr'rfikk
-  - lyrharfr
+  - lyr'harfr
   - lyr'andid
   - lyr'ethra
   - lyr'dedol
   - lyr'totum
   - lyrntrath
   - lyrkeriam
-  - nqa-h
+  - nqa'h
   - nqa'v
   - nqa'c
   - nqa'e
   - nqa'g
   - nqa'd
   - nqa'r
-  - nqan
+  - nqa'n
   - nqa'h
   - nqa'o
-  - nqap
-  - nqara
+  - nqa'p
+  - nqa'ra
   - nqa'so
   - nqa'at
-  - nqail
+  - nqa'il
   - nqa'ta
-  - nqagh
+  - nqa'gh
   - nqa'sh
   - nqa'ya
-  - nqate
+  - nqa'te
   - nqa'sh
   - nqa'ol
-  - nqama
+  - nqa'ma
   - nqa'om
-  - nqaig
+  - nqa'ig
   - nqa'ni
   - nqa'in
   - nqa'sha
   - nqa'mir
-  - nqasas
-  - nqa-mah
+  - nqa'sas
+  - nqa'mah
   - nqa'zar
   - nqa'tok
-  - nqalyr
-  - nqa'nap
+  - nqa'lyr
+  - nqa-nap
   - nqa'olt
-  - nqa'val
+  - nqaval
   - nqa'qha
   - nqa'fwe
   - nqa'ath
   - nqa'yro
   - nqa'eth
   - nqa'gal
-  - nqagib
+  - nqa'gib
   - nqa'bar
   - nqa'jin
   - nqa'kla
   - nqa'atu
-  - nqa'kal
-  - nqa'lig
+  - nqa-kal
+  - nqalig
   - nqa'yoka
   - nqa'drak
   - nqa'loso
   - nqa'arta
-  - nqa'weyh
+  - nqaweyh
   - nqa'ines
   - nqa'toth
-  - nqafara
-  - nqaamar
+  - nqa-fara
+  - nqa'amar
   - nqa'nyag
   - nqa'eske
   - nqa'reth
   - nqa'dedo
   - nqa'btoh
   - nqa'nikt
-  - nqaneth
+  - nqa'neth
   - nqa'kanas
   - nqa'garis
   - nqa'uloft
   - nqa'tarat
-  - nqakhari
+  - nqa'khari
   - nqa'thnor
-  - nqa'rekka
+  - nqarekka
   - nqa'ragga
   - nqa'rfikk
   - nqa'harfr
   - nqa'andid
   - nqa'ethra
-  - nqadedol
+  - nqa'dedol
   - nqa'totum
   - nqantrath
   - nqakeriam
   - nap'h
-  - nap'v
+  - napv
   - nap'c
-  - nap-e
+  - nap'e
   - nap'g
-  - nap'd
-  - napr
+  - napd
+  - nap'r
   - nap'n
-  - naph
-  - nap'o
-  - napp
-  - nap-ra
-  - napso
+  - nap'h
+  - napo
+  - nap'p
+  - nap'ra
+  - nap-so
   - nap'at
   - nap'il
   - nap'ta
-  - nap'gh
-  - nap'sh
-  - nap'ya
-  - nap'te
+  - napgh
+  - nap-sh
+  - napya
+  - napte
   - nap'sh
   - nap'ol
   - nap'ma
   - nap'om
-  - nap'ig
+  - napig
   - nap'ni
   - nap'in
   - nap'sha
   - nap'mir
   - nap'sas
   - nap'mah
-  - nap-zar
+  - nap'zar
   - nap'tok
-  - nap'lyr
-  - nap'nqa
+  - nap-lyr
+  - napnqa
   - nap'olt
-  - nap-val
+  - nap'val
   - nap'qha
   - nap'fwe
-  - nap'ath
-  - nap-yro
+  - nap-ath
+  - nap'yro
   - nap'eth
   - nap'gal
-  - nap'gib
+  - napgib
   - nap'bar
   - nap'jin
-  - nap'kla
-  - napatu
-  - nap-kal
+  - nap-kla
+  - nap'atu
+  - nap'kal
   - nap'lig
   - nap'yoka
   - nap'drak
@@ -2945,78 +2946,78 @@ MonoBehaviour:
   - nap'arta
   - nap'weyh
   - nap'ines
-  - nap'toth
+  - naptoth
   - napfara
   - nap'amar
   - nap'nyag
   - nap'eske
-  - nap'reth
-  - nap'dedo
+  - nap-reth
+  - napdedo
   - nap'btoh
   - nap'nikt
   - napneth
-  - nap'kanas
+  - napkanas
   - nap'garis
-  - napuloft
-  - naptarat
+  - nap'uloft
+  - nap'tarat
   - nap'khari
-  - nap-thnor
+  - nap'thnor
   - nap'rekka
   - nap'ragga
   - nap'rfikk
   - nap'harfr
   - nap'andid
-  - nap'ethra
+  - napethra
   - nap'dedol
-  - naptotum
+  - nap-totum
   - napntrath
   - napkeriam
-  - olt'h
+  - olth
   - olt'v
-  - olt-c
-  - olte
+  - olt'c
+  - olt'e
   - olt'g
   - olt'd
-  - olt-r
-  - oltn
-  - olt-h
+  - olt'r
+  - olt'n
+  - olt'h
   - olt'o
-  - olt'p
-  - oltra
-  - olt'so
-  - olt'at
+  - oltp
+  - olt'ra
+  - oltso
+  - oltat
   - olt'il
   - olt'ta
   - olt'gh
-  - olt'sh
+  - oltsh
   - olt'ya
   - olt'te
   - olt'sh
-  - olt'ol
+  - oltol
   - oltma
   - olt'om
-  - oltig
+  - olt-ig
   - olt'ni
-  - olt-in
+  - olt'in
   - olt'sha
-  - olt-mir
+  - olt'mir
   - olt'sas
-  - olt-mah
-  - olt'zar
-  - olt'tok
+  - olt'mah
+  - oltzar
+  - olttok
   - olt'lyr
   - olt'nqa
   - olt'nap
   - olt'val
-  - oltqha
+  - olt-qha
   - olt'fwe
-  - oltath
-  - olt'yro
+  - olt'ath
+  - oltyro
   - olt'eth
   - olt'gal
-  - olt'gib
-  - olt'bar
-  - olt'jin
+  - oltgib
+  - olt-bar
+  - olt-jin
   - olt'kla
   - olt'atu
   - olt'kal
@@ -3025,18 +3026,18 @@ MonoBehaviour:
   - oltdrak
   - olt'loso
   - olt'arta
-  - olt'weyh
+  - olt-weyh
   - olt'ines
-  - olt'toth
+  - olttoth
   - olt'fara
   - olt'amar
   - olt'nyag
-  - olt'eske
+  - olt-eske
   - olt'reth
   - olt'dedo
   - olt'btoh
   - olt'nikt
-  - oltneth
+  - olt'neth
   - olt'kanas
   - olt'garis
   - olt'uloft
@@ -3046,47 +3047,47 @@ MonoBehaviour:
   - olt'rekka
   - olt'ragga
   - olt'rfikk
-  - oltharfr
-  - olt'andid
+  - olt'harfr
+  - oltandid
   - olt'ethra
   - olt'dedol
   - olt'totum
   - oltntrath
   - oltkeriam
   - val'h
-  - val'v
-  - valc
-  - vale
-  - val'g
+  - valv
+  - val'c
+  - val'e
+  - valg
   - val'd
-  - val'r
+  - valr
   - val'n
   - val'h
   - val'o
-  - val'p
+  - valp
   - val'ra
   - val'so
   - val'at
   - val'il
   - val'ta
-  - val-gh
+  - val'gh
   - val'sh
-  - val'ya
+  - valya
   - val-te
   - val'sh
   - val'ol
   - val'ma
-  - valom
+  - val'om
   - val'ig
-  - val'ni
+  - valni
   - val'in
-  - val'sha
+  - val-sha
   - val'mir
-  - val'sas
+  - val-sas
   - val'mah
   - val'zar
-  - val'tok
-  - val'lyr
+  - valtok
+  - val-lyr
   - val'nqa
   - val'nap
   - val'olt
@@ -3094,14 +3095,14 @@ MonoBehaviour:
   - val'fwe
   - val'ath
   - val'yro
-  - valeth
-  - valgal
-  - val'gib
-  - val'bar
+  - val'eth
+  - val'gal
+  - val-gib
+  - valbar
   - val'jin
   - val'kla
   - val'atu
-  - valkal
+  - val'kal
   - val'lig
   - val'yoka
   - val'drak
@@ -3111,38 +3112,38 @@ MonoBehaviour:
   - val'ines
   - val'toth
   - val'fara
-  - val'amar
+  - valamar
   - val'nyag
-  - valeske
+  - val'eske
   - val'reth
   - val'dedo
-  - val-btoh
+  - val'btoh
   - val'nikt
   - val'neth
-  - valkanas
-  - val'garis
+  - val'kanas
+  - valgaris
   - val'uloft
-  - valtarat
+  - val'tarat
   - val'khari
   - val'thnor
   - val'rekka
   - val'ragga
-  - val'rfikk
-  - valharfr
+  - valrfikk
+  - val'harfr
   - val'andid
-  - val'ethra
+  - val-ethra
   - val'dedol
   - val'totum
   - valntrath
   - valkeriam
-  - qha-h
+  - qha'h
   - qha'v
   - qha'c
   - qha'e
   - qha'g
   - qha'd
   - qha'r
-  - qhan
+  - qha-n
   - qhah
   - qha'o
   - qha'p
@@ -3150,7 +3151,7 @@ MonoBehaviour:
   - qhaso
   - qha'at
   - qha'il
-  - qhata
+  - qha'ta
   - qha'gh
   - qha'sh
   - qha'ya
@@ -3165,60 +3166,60 @@ MonoBehaviour:
   - qha'sha
   - qha'mir
   - qha'sas
-  - qhamah
-  - qhazar
-  - qha'tok
-  - qha'lyr
+  - qha'mah
+  - qha'zar
+  - qhatok
+  - qhalyr
   - qha'nqa
   - qha'nap
-  - qha'olt
-  - qha-val
-  - qha'fwe
+  - qha-olt
+  - qha'val
+  - qhafwe
   - qha'ath
-  - qha-yro
+  - qha'yro
   - qha'eth
-  - qha'gal
+  - qha-gal
   - qha'gib
   - qha'bar
   - qha'jin
   - qha'kla
   - qha'atu
-  - qha'kal
+  - qhakal
   - qha'lig
   - qha'yoka
   - qha'drak
   - qha'loso
   - qha'arta
-  - qhaweyh
+  - qha'weyh
   - qha'ines
   - qha'toth
-  - qha'fara
-  - qha'amar
-  - qha'nyag
+  - qha-fara
+  - qha-amar
+  - qhanyag
   - qha'eske
   - qha'reth
   - qha'dedo
-  - qhabtoh
-  - qha'nikt
-  - qhaneth
+  - qha'btoh
+  - qhanikt
+  - qha'neth
   - qha'kanas
   - qha'garis
   - qha'uloft
-  - qha'tarat
+  - qhatarat
   - qha'khari
   - qha'thnor
   - qha'rekka
-  - qharagga
-  - qha-rfikk
+  - qha'ragga
+  - qha'rfikk
   - qha'harfr
   - qha'andid
-  - qhaethra
+  - qha'ethra
   - qha'dedol
   - qha'totum
   - qhantrath
   - qhakeriam
   - fwe'h
-  - fwe'v
+  - fwev
   - fwe'c
   - fwe'e
   - fwe'g
@@ -3227,7 +3228,7 @@ MonoBehaviour:
   - fwe'n
   - fwe'h
   - fwe'o
-  - fwe'p
+  - fwep
   - fwe'ra
   - fwe'so
   - fwe'at
@@ -3235,12 +3236,12 @@ MonoBehaviour:
   - fwe'ta
   - fwe'gh
   - fwe'sh
-  - fweya
+  - fwe'ya
   - fwe'te
   - fwe'sh
   - fwe'ol
-  - fwe'ma
-  - fwe'om
+  - fwe-ma
+  - fweom
   - fwe'ig
   - fwe'ni
   - fwein
@@ -3251,18 +3252,18 @@ MonoBehaviour:
   - fwe'zar
   - fwe'tok
   - fwe'lyr
-  - fwenqa
+  - fwe'nqa
   - fwe'nap
   - fwe'olt
-  - fweval
+  - fwe'val
   - fwe'qha
   - fwe'ath
   - fwe'yro
   - fwe'eth
-  - fwe-gal
-  - fwegib
+  - fwegal
+  - fwe'gib
   - fwe'bar
-  - fwe'jin
+  - fwejin
   - fwe'kla
   - fwe'atu
   - fwe'kal
@@ -3273,22 +3274,22 @@ MonoBehaviour:
   - fwe'arta
   - fwe'weyh
   - fwe'ines
-  - fwetoth
-  - fwefara
+  - fwe'toth
+  - fwe'fara
   - fwe'amar
   - fwe'nyag
   - fwe'eske
   - fwe'reth
   - fwe'dedo
   - fwe'btoh
-  - fwenikt
+  - fwe'nikt
   - fwe'neth
-  - fwe'kanas
+  - fwe-kanas
   - fwe'garis
   - fwe'uloft
   - fwe'tarat
-  - fwe'khari
-  - fwe'thnor
+  - fwekhari
+  - fwethnor
   - fwe'rekka
   - fwe'ragga
   - fwe'rfikk
@@ -3302,26 +3303,26 @@ MonoBehaviour:
   - ath'h
   - ath'v
   - ath'c
-  - athe
+  - ath'e
   - ath'g
   - ath'd
   - ath'r
   - ath'n
   - ath'h
-  - ath'o
-  - ath'p
+  - atho
+  - athp
   - ath'ra
   - ath'so
-  - ath'at
-  - athil
+  - athat
+  - ath'il
   - ath'ta
-  - athgh
+  - ath'gh
   - ath'sh
   - ath'ya
   - ath'te
   - ath'sh
   - ath'ol
-  - ath'ma
+  - athma
   - ath'om
   - ath'ig
   - ath'ni
@@ -3330,87 +3331,87 @@ MonoBehaviour:
   - ath'mir
   - ath'sas
   - ath'mah
-  - ath'zar
+  - athzar
   - ath'tok
-  - ath-lyr
+  - ath'lyr
   - ath'nqa
   - ath'nap
-  - atholt
+  - ath'olt
   - ath'val
-  - ath-qha
+  - ath'qha
   - ath'fwe
-  - ath'yro
-  - atheth
+  - athyro
+  - ath'eth
   - ath'gal
   - ath'gib
-  - athbar
+  - ath'bar
   - ath'jin
-  - ath'kla
+  - athkla
   - ath'atu
   - ath'kal
-  - ath'lig
+  - ath-lig
   - ath'yoka
-  - ath'drak
-  - athloso
+  - ath-drak
+  - ath'loso
   - ath'arta
   - ath'weyh
-  - athines
-  - athtoth
+  - ath'ines
+  - ath'toth
   - ath'fara
-  - athamar
-  - athnyag
-  - ath-eske
-  - athreth
+  - ath'amar
+  - ath'nyag
+  - ath'eske
+  - ath'reth
   - ath'dedo
   - ath'btoh
-  - ath'nikt
-  - ath'neth
-  - athkanas
+  - athnikt
+  - athneth
+  - ath'kanas
   - ath'garis
-  - athuloft
-  - athtarat
-  - athkhari
+  - ath'uloft
+  - ath'tarat
+  - ath'khari
   - ath'thnor
-  - ath'rekka
-  - ath'ragga
+  - athrekka
+  - athragga
   - ath'rfikk
   - athharfr
   - ath'andid
-  - ath-ethra
+  - ath'ethra
   - ath'dedol
   - ath'totum
   - athntrath
   - athkeriam
-  - yroh
+  - yro'h
   - yro'v
   - yro'c
   - yro'e
   - yro'g
-  - yrod
-  - yror
-  - yro'n
-  - yro'h
+  - yro'd
+  - yro'r
+  - yron
+  - yroh
   - yro'o
-  - yrop
+  - yro'p
   - yro'ra
   - yro'so
   - yro'at
-  - yroil
+  - yro'il
   - yro'ta
-  - yro'gh
+  - yrogh
   - yro'sh
   - yro'ya
   - yro'te
-  - yrosh
-  - yrool
+  - yro'sh
+  - yro'ol
   - yro'ma
   - yro'om
   - yro'ig
   - yro'ni
   - yro'in
-  - yrosha
+  - yro'sha
   - yro'mir
-  - yro'sas
+  - yrosas
   - yro'mah
   - yro'zar
   - yro'tok
@@ -3420,17 +3421,17 @@ MonoBehaviour:
   - yro'olt
   - yro'val
   - yro'qha
-  - yrofwe
-  - yroath
-  - yro'eth
+  - yro'fwe
+  - yro'ath
+  - yro-eth
   - yro'gal
   - yro'gib
-  - yro'bar
-  - yrojin
-  - yrokla
+  - yro-bar
+  - yro'jin
+  - yro'kla
   - yro'atu
   - yrokal
-  - yrolig
+  - yro'lig
   - yro'yoka
   - yrodrak
   - yro'loso
@@ -3440,65 +3441,65 @@ MonoBehaviour:
   - yro'toth
   - yro'fara
   - yro'amar
-  - yronyag
-  - yro'eske
-  - yro'reth
+  - yro'nyag
+  - yro-eske
+  - yroreth
   - yro'dedo
   - yro'btoh
-  - yro'nikt
-  - yro-neth
-  - yrokanas
+  - yronikt
+  - yroneth
+  - yro'kanas
   - yro'garis
   - yro'uloft
   - yro'tarat
-  - yro-khari
-  - yrothnor
-  - yro-rekka
+  - yro'khari
+  - yro'thnor
+  - yro'rekka
   - yro'ragga
-  - yrorfikk
+  - yro'rfikk
   - yro'harfr
-  - yroandid
-  - yro-ethra
-  - yro'dedol
+  - yro'andid
+  - yro'ethra
+  - yro-dedol
   - yro'totum
   - yrontrath
   - yrokeriam
-  - ethh
+  - eth'h
   - eth'v
   - eth'c
   - eth'e
   - eth'g
-  - eth'd
+  - eth-d
   - eth'r
-  - eth'n
+  - eth-n
   - eth'h
-  - eth'o
+  - etho
   - eth'p
   - eth'ra
-  - ethso
-  - eth'at
+  - eth'so
+  - ethat
   - eth'il
   - eth'ta
   - eth'gh
   - eth'sh
-  - eth'ya
+  - ethya
   - eth'te
   - eth'sh
   - eth'ol
   - eth'ma
   - eth'om
   - eth'ig
-  - eth-ni
+  - eth'ni
   - eth'in
-  - eth'sha
-  - eth'mir
+  - ethsha
+  - ethmir
   - ethsas
   - eth'mah
   - eth'zar
   - eth'tok
   - eth'lyr
   - eth'nqa
-  - ethnap
+  - eth'nap
   - etholt
   - eth'val
   - eth'qha
@@ -3508,7 +3509,7 @@ MonoBehaviour:
   - eth'gal
   - eth'gib
   - eth'bar
-  - ethjin
+  - eth'jin
   - eth'kla
   - eth'atu
   - eth'kal
@@ -3518,25 +3519,25 @@ MonoBehaviour:
   - eth'loso
   - eth'arta
   - eth'weyh
-  - eth'ines
-  - ethtoth
-  - eth'fara
+  - ethines
+  - eth'toth
+  - ethfara
   - eth'amar
   - eth'nyag
-  - etheske
-  - ethreth
+  - eth'eske
+  - eth'reth
   - eth'dedo
   - eth'btoh
   - eth'nikt
-  - ethneth
+  - eth'neth
   - eth'kanas
-  - eth'garis
+  - ethgaris
   - eth'uloft
   - eth'tarat
-  - eth'khari
-  - eththnor
+  - ethkhari
+  - eth-thnor
   - eth'rekka
-  - ethragga
+  - eth'ragga
   - eth'rfikk
   - eth-harfr
   - eth'andid
@@ -3545,48 +3546,48 @@ MonoBehaviour:
   - eth'totum
   - ethntrath
   - ethkeriam
-  - galh
-  - gal'v
+  - gal'h
+  - galv
   - gal'c
   - gal'e
   - gal'g
   - gal'd
-  - gal'r
+  - galr
   - gal'n
   - gal'h
-  - gal'o
+  - galo
   - gal'p
-  - gal'ra
+  - galra
   - gal'so
   - gal'at
-  - galil
-  - gal'ta
-  - gal'gh
+  - gal'il
+  - galta
+  - galgh
   - gal'sh
   - gal'ya
-  - galte
-  - gal-sh
+  - gal'te
+  - gal'sh
   - gal'ol
   - gal'ma
   - gal'om
   - gal'ig
-  - gal'ni
+  - galni
   - gal'in
-  - galsha
-  - galmir
-  - gal'sas
-  - galmah
+  - gal'sha
+  - gal'mir
+  - galsas
+  - gal'mah
   - gal'zar
   - gal'tok
-  - gal-lyr
-  - gal'nqa
+  - gallyr
+  - galnqa
   - gal'nap
   - gal'olt
-  - gal'val
+  - galval
   - gal'qha
   - gal'fwe
   - gal'ath
-  - gal'yro
+  - gal-yro
   - gal'eth
   - gal'gib
   - gal'bar
@@ -3594,7 +3595,7 @@ MonoBehaviour:
   - gal'kla
   - gal'atu
   - gal'kal
-  - gallig
+  - gal'lig
   - gal'yoka
   - gal'drak
   - gal'loso
@@ -3603,44 +3604,44 @@ MonoBehaviour:
   - gal'ines
   - gal'toth
   - gal'fara
-  - gal'amar
-  - galnyag
+  - gal-amar
+  - gal'nyag
   - gal'eske
   - gal'reth
   - gal'dedo
-  - gal'btoh
+  - galbtoh
   - gal'nikt
-  - gal-neth
-  - gal'kanas
+  - gal'neth
+  - galkanas
   - gal'garis
   - gal'uloft
-  - galtarat
-  - galkhari
-  - gal'thnor
+  - gal'tarat
+  - gal'khari
+  - galthnor
   - gal'rekka
   - gal'ragga
-  - galrfikk
+  - gal'rfikk
   - gal'harfr
   - gal'andid
-  - gal-ethra
-  - gal'dedol
+  - gal'ethra
+  - galdedol
   - gal'totum
   - galntrath
   - galkeriam
-  - gib'h
-  - gib'v
+  - gibh
+  - gibv
   - gib'c
   - gib'e
-  - gib'g
+  - gibg
   - gib'd
-  - gibr
+  - gib'r
   - gib'n
   - gib'h
   - gib'o
   - gib'p
   - gib'ra
   - gib'so
-  - gib'at
+  - gibat
   - gib'il
   - gib'ta
   - gib'gh
@@ -3649,32 +3650,32 @@ MonoBehaviour:
   - gib'te
   - gib'sh
   - gib'ol
-  - gib'ma
-  - gibom
+  - gibma
+  - gib'om
   - gib'ig
-  - gib'ni
+  - gibni
   - gib'in
   - gib'sha
-  - gib'mir
+  - gibmir
   - gib'sas
   - gib'mah
-  - gibzar
+  - gib'zar
   - gib'tok
   - gib'lyr
-  - gib'nqa
+  - gib-nqa
   - gib'nap
   - gib'olt
   - gib'val
-  - gib'qha
+  - gibqha
   - gib'fwe
   - gib'ath
   - gib'yro
-  - gibeth
+  - gib'eth
   - gib'gal
-  - gibbar
+  - gib'bar
   - gib'jin
   - gib'kla
-  - gibatu
+  - gib'atu
   - gib'kal
   - gib'lig
   - gib'yoka
@@ -3683,43 +3684,43 @@ MonoBehaviour:
   - gib'arta
   - gib'weyh
   - gib'ines
-  - gibtoth
+  - gib'toth
   - gib'fara
   - gib'amar
   - gib'nyag
   - gib'eske
-  - gib'reth
-  - gib-dedo
+  - gib-reth
+  - gib'dedo
   - gib'btoh
-  - gibnikt
+  - gib'nikt
   - gib'neth
   - gib'kanas
   - gib'garis
   - gib'uloft
-  - gib-tarat
+  - gib'tarat
   - gib'khari
   - gib'thnor
   - gib'rekka
-  - gib'ragga
+  - gib-ragga
   - gib'rfikk
   - gib'harfr
   - gib'andid
   - gib'ethra
-  - gib'dedol
+  - gibdedol
   - gib'totum
   - gibntrath
   - gibkeriam
   - bar'h
   - bar'v
-  - bar'c
+  - barc
   - bar'e
-  - bar'g
-  - bar-d
+  - barg
+  - bard
   - bar'r
   - bar'n
   - bar'h
   - bar'o
-  - bar'p
+  - barp
   - bar'ra
   - bar'so
   - bar'at
@@ -3732,190 +3733,190 @@ MonoBehaviour:
   - bar'sh
   - bar'ol
   - bar'ma
-  - bar'om
-  - bar'ig
-  - bar'ni
+  - barom
+  - barig
+  - bar-ni
   - bar'in
   - bar'sha
-  - bar'mir
-  - barsas
+  - barmir
+  - bar'sas
   - bar'mah
   - bar'zar
-  - bar'tok
+  - bartok
   - bar'lyr
-  - bar'nqa
+  - barnqa
   - bar'nap
   - bar'olt
-  - barval
+  - bar'val
   - bar'qha
   - bar'fwe
   - bar'ath
-  - bar'yro
-  - bar-eth
+  - baryro
+  - bar'eth
   - bar'gal
-  - bargib
-  - barjin
+  - bar-gib
+  - bar'jin
   - bar'kla
   - bar'atu
-  - barkal
-  - barlig
-  - bar-yoka
+  - bar'kal
+  - bar'lig
+  - bar'yoka
   - bar'drak
   - bar'loso
   - bar'arta
   - bar'weyh
-  - bar'ines
+  - barines
   - bar'toth
-  - barfara
+  - bar'fara
   - bar'amar
-  - barnyag
+  - bar'nyag
   - bar'eske
   - bar'reth
   - bar'dedo
   - bar'btoh
-  - barnikt
+  - bar'nikt
   - bar'neth
   - bar'kanas
   - bar'garis
-  - bar'uloft
-  - bar'tarat
-  - bar-khari
+  - baruloft
+  - bartarat
+  - bar'khari
   - bar'thnor
   - bar'rekka
   - bar'ragga
   - bar'rfikk
-  - bar'harfr
+  - bar-harfr
   - bar'andid
   - bar'ethra
-  - bar'dedol
-  - bar-totum
+  - bardedol
+  - bar'totum
   - barntrath
   - barkeriam
   - jin'h
-  - jin'v
+  - jinv
   - jin'c
-  - jine
-  - jing
-  - jin'd
+  - jin'e
+  - jin'g
+  - jind
   - jin-r
   - jin'n
   - jin'h
-  - jin'o
+  - jino
   - jin-p
-  - jin'ra
-  - jin'so
+  - jinra
+  - jinso
   - jin'at
   - jin'il
-  - jinta
-  - jin'gh
+  - jin'ta
+  - jingh
   - jin'sh
   - jin'ya
   - jinte
   - jin'sh
   - jin'ol
   - jin'ma
-  - jin'om
-  - jin'ig
-  - jin'ni
+  - jinom
+  - jin-ig
+  - jinni
   - jin'in
   - jin'sha
-  - jinmir
+  - jin'mir
   - jin'sas
   - jin'mah
-  - jinzar
+  - jin'zar
   - jin'tok
   - jin'lyr
   - jin'nqa
-  - jinnap
+  - jin'nap
   - jinolt
-  - jin'val
-  - jin-qha
+  - jinval
+  - jin'qha
   - jin'fwe
   - jin'ath
-  - jin'yro
+  - jin-yro
   - jin'eth
-  - jingal
-  - jin'gib
-  - jin'bar
+  - jin'gal
+  - jingib
+  - jinbar
   - jin'kla
   - jin'atu
   - jin'kal
-  - jin-lig
+  - jin'lig
   - jin'yoka
-  - jin'drak
+  - jindrak
   - jin'loso
   - jin'arta
   - jin'weyh
-  - jinines
+  - jin'ines
   - jin'toth
-  - jin'fara
+  - jinfara
   - jin'amar
   - jin'nyag
   - jin'eske
-  - jinreth
-  - jindedo
+  - jin'reth
+  - jin'dedo
   - jin'btoh
   - jin'nikt
   - jin'neth
-  - jin'kanas
+  - jinkanas
   - jin'garis
   - jin'uloft
   - jin'tarat
-  - jin'khari
+  - jinkhari
   - jin'thnor
   - jin'rekka
   - jin'ragga
   - jin'rfikk
   - jin'harfr
   - jin'andid
-  - jinethra
+  - jin'ethra
   - jin'dedol
   - jin'totum
   - jinntrath
   - jinkeriam
-  - kla'h
+  - klah
   - kla'v
   - kla'c
   - kla'e
   - kla'g
-  - klad
+  - kla-d
   - kla'r
-  - klan
-  - klah
+  - kla'n
+  - kla'h
   - kla'o
-  - kla'p
+  - klap
   - kla'ra
-  - kla'so
+  - klaso
   - kla'at
   - kla'il
   - kla'ta
   - kla'gh
   - kla'sh
-  - kla'ya
+  - klaya
   - kla'te
-  - kla'sh
+  - klash
   - kla'ol
-  - kla'ma
+  - klama
   - kla'om
   - kla'ig
-  - kla'ni
+  - kla-ni
   - kla'in
-  - kla'sha
+  - klasha
   - kla'mir
   - kla'sas
-  - klamah
+  - kla'mah
   - kla'zar
-  - kla'tok
-  - kla'lyr
+  - kla-tok
+  - klalyr
   - kla'nqa
   - kla'nap
-  - klaolt
+  - kla'olt
   - kla'val
   - kla'qha
   - kla'fwe
-  - klaath
+  - kla'ath
   - kla'yro
-  - klaeth
+  - kla-eth
   - kla'gal
   - kla'gib
   - kla'bar
@@ -3925,43 +3926,43 @@ MonoBehaviour:
   - kla'lig
   - kla'yoka
   - kla'drak
-  - kla-loso
+  - kla'loso
   - kla'arta
   - kla'weyh
   - kla'ines
   - kla'toth
   - kla'fara
-  - kla'amar
+  - klaamar
   - kla'nyag
-  - kla'eske
+  - kla-eske
   - kla'reth
   - kladedo
-  - kla-btoh
-  - kla'nikt
-  - klaneth
-  - kla'kanas
+  - klabtoh
+  - klanikt
+  - kla'neth
+  - kla-kanas
   - kla'garis
   - kla'uloft
   - kla'tarat
   - kla'khari
   - kla'thnor
   - kla'rekka
-  - kla'ragga
+  - klaragga
   - kla'rfikk
   - kla'harfr
   - kla'andid
   - kla'ethra
   - kla'dedol
-  - klatotum
+  - kla'totum
   - klantrath
   - klakeriam
   - atu'h
-  - atu'v
+  - atuv
   - atu'c
-  - atue
+  - atu'e
   - atug
   - atu'd
-  - atu'r
+  - atu-r
   - atu'n
   - atu'h
   - atuo
@@ -3969,7 +3970,7 @@ MonoBehaviour:
   - atu'ra
   - atu'so
   - atu'at
-  - atuil
+  - atu'il
   - atu'ta
   - atugh
   - atu'sh
@@ -3978,46 +3979,46 @@ MonoBehaviour:
   - atu'sh
   - atu'ol
   - atu'ma
-  - atuom
+  - atu'om
   - atu'ig
   - atu'ni
   - atu'in
   - atu'sha
   - atu'mir
-  - atu'sas
-  - atumah
-  - atu-zar
+  - atusas
+  - atu'mah
+  - atu'zar
   - atu'tok
-  - atulyr
-  - atu-nqa
+  - atu'lyr
+  - atu'nqa
   - atunap
-  - atu'olt
-  - atu-val
+  - atu-olt
+  - atuval
   - atu'qha
   - atu'fwe
   - atu'ath
-  - atuyro
+  - atu'yro
   - atu'eth
-  - atu'gal
-  - atugib
-  - atubar
-  - atujin
+  - atu-gal
+  - atu'gib
+  - atu'bar
+  - atu'jin
   - atu'kla
   - atu'kal
   - atu'lig
-  - atu'yoka
+  - atuyoka
   - atu'drak
-  - atu-loso
+  - atu'loso
   - atu'arta
   - atu'weyh
   - atu'ines
   - atu'toth
-  - atu'fara
+  - atu-fara
   - atu'amar
-  - atunyag
+  - atu'nyag
   - atu'eske
-  - atu'reth
-  - atu'dedo
+  - atureth
+  - atudedo
   - atu'btoh
   - atu'nikt
   - atu'neth
@@ -4025,115 +4026,115 @@ MonoBehaviour:
   - atu'garis
   - atu'uloft
   - atu'tarat
-  - atukhari
-  - atu'thnor
+  - atu'khari
+  - atuthnor
   - atu'rekka
   - atu'ragga
   - atu'rfikk
   - atu'harfr
   - atu'andid
-  - atuethra
+  - atu'ethra
   - atu'dedol
   - atu'totum
   - atuntrath
   - atukeriam
   - kal'h
-  - kalv
+  - kal'v
   - kal'c
   - kal'e
-  - kalg
-  - kal'd
-  - kalr
+  - kal'g
+  - kald
+  - kal'r
   - kal'n
-  - kal'h
+  - kal-h
   - kal'o
-  - kalp
+  - kal'p
   - kal'ra
   - kal'so
   - kal'at
   - kal'il
-  - kalta
-  - kal'gh
+  - kal'ta
+  - kalgh
   - kal'sh
-  - kal'ya
+  - kalya
   - kalte
-  - kal'sh
+  - kalsh
   - kal'ol
-  - kalma
-  - kal'om
+  - kal'ma
+  - kalom
   - kal'ig
-  - kal'ni
+  - kalni
   - kal'in
   - kal'sha
-  - kalmir
+  - kal'mir
   - kal'sas
   - kalmah
   - kal'zar
   - kal'tok
-  - kallyr
-  - kalnqa
+  - kal'lyr
+  - kal-nqa
   - kal'nap
-  - kal-olt
-  - kal-val
+  - kal'olt
+  - kal'val
   - kal'qha
-  - kalfwe
-  - kal-ath
+  - kal'fwe
+  - kal'ath
   - kal'yro
   - kal'eth
-  - kal'gal
+  - kal-gal
   - kal'gib
   - kal'bar
   - kal'jin
   - kal'kla
   - kal'atu
   - kal'lig
-  - kal'yoka
+  - kalyoka
   - kal'drak
   - kalloso
-  - kalarta
+  - kal'arta
   - kal'weyh
-  - kal'ines
-  - kal'toth
+  - kal-ines
+  - kaltoth
   - kal'fara
-  - kalamar
+  - kal'amar
   - kal'nyag
-  - kal'eske
-  - kalreth
-  - kal'dedo
+  - kaleske
+  - kal'reth
+  - kaldedo
   - kal'btoh
   - kal'nikt
   - kal'neth
-  - kal'kanas
+  - kal-kanas
   - kal'garis
   - kal'uloft
-  - kal'tarat
+  - kaltarat
   - kal'khari
   - kal'thnor
   - kal'rekka
-  - kal'ragga
+  - kalragga
   - kal'rfikk
   - kal'harfr
-  - kal'andid
-  - kal'ethra
-  - kaldedol
-  - kal-totum
+  - kalandid
+  - kalethra
+  - kal'dedol
+  - kal'totum
   - kalntrath
   - kalkeriam
   - lig'h
   - lig'v
   - lig'c
   - lig'e
-  - lig'g
+  - lig-g
   - lig'd
   - lig'r
-  - lig'n
-  - ligh
+  - lign
+  - lig'h
   - lig'o
   - lig'p
   - lig'ra
   - lig'so
   - lig'at
-  - lig-il
+  - lig'il
   - lig'ta
   - lig'gh
   - lig'sh
@@ -4141,84 +4142,84 @@ MonoBehaviour:
   - lig'te
   - lig'sh
   - lig'ol
-  - lig'ma
-  - lig-om
-  - lig-ig
+  - ligma
+  - ligom
+  - lig'ig
   - lig'ni
   - lig'in
   - lig'sha
-  - lig'mir
+  - ligmir
   - lig'sas
   - lig'mah
   - lig'zar
   - lig'tok
-  - liglyr
+  - lig-lyr
   - lig'nqa
   - lig'nap
-  - lig'olt
+  - ligolt
   - lig'val
-  - ligqha
+  - lig'qha
   - lig'fwe
   - lig'ath
   - lig'yro
-  - lig'eth
+  - ligeth
   - lig'gal
   - lig'gib
-  - lig-bar
-  - lig'jin
+  - lig'bar
+  - ligjin
   - lig'kla
   - lig'atu
   - lig'kal
-  - ligyoka
+  - lig'yoka
   - lig'drak
-  - ligloso
+  - lig'loso
   - lig'arta
   - lig'weyh
   - lig'ines
-  - ligtoth
+  - lig'toth
   - lig'fara
-  - lig'amar
+  - lig-amar
   - lig'nyag
   - lig'eske
-  - ligreth
+  - lig'reth
   - lig'dedo
   - lig'btoh
-  - lig'nikt
+  - lignikt
   - lig'neth
   - lig'kanas
-  - lig-garis
+  - liggaris
   - lig'uloft
-  - lig'tarat
+  - ligtarat
   - lig'khari
-  - lig'thnor
+  - ligthnor
   - lig'rekka
   - lig'ragga
-  - ligrfikk
-  - ligharfr
+  - lig'rfikk
+  - lig'harfr
   - lig'andid
   - lig'ethra
-  - lig-dedol
+  - lig'dedol
   - lig'totum
   - ligntrath
   - ligkeriam
   - yoka'h
   - yoka'v
-  - yoka'c
-  - yokae
-  - yoka'g
-  - yoka'd
+  - yoka-c
+  - yoka'e
+  - yoka-g
+  - yokad
   - yoka'r
   - yoka'n
   - yoka'h
-  - yoka'o
+  - yokao
   - yoka'p
   - yoka'ra
-  - yoka-so
+  - yoka'so
   - yoka'at
   - yoka'il
   - yoka'ta
-  - yoka'gh
-  - yoka'sh
+  - yokagh
+  - yokash
   - yoka'ya
   - yoka'te
   - yoka'sh
@@ -4234,20 +4235,20 @@ MonoBehaviour:
   - yoka'mah
   - yoka'zar
   - yoka'tok
-  - yoka-lyr
+  - yoka'lyr
   - yokanqa
   - yoka'nap
   - yoka'olt
-  - yoka'val
+  - yokaval
   - yoka'qha
-  - yokafwe
+  - yoka'fwe
   - yoka'ath
   - yokayro
   - yoka'eth
   - yoka'gal
   - yoka'gib
-  - yoka-bar
-  - yokajin
+  - yoka'bar
+  - yoka'jin
   - yoka'kla
   - yoka'atu
   - yoka'kal
@@ -4256,15 +4257,15 @@ MonoBehaviour:
   - yoka'loso
   - yoka'arta
   - yoka'weyh
-  - yokaines
-  - yokatoth
-  - yokafara
+  - yoka'ines
+  - yoka'toth
+  - yoka'fara
   - yoka'amar
   - yoka'nyag
   - yokaeske
-  - yoka-reth
-  - yoka'dedo
-  - yoka'btoh
+  - yokareth
+  - yoka-dedo
+  - yokabtoh
   - yoka'nikt
   - yokaneth
   - yokakanas
@@ -4283,40 +4284,40 @@ MonoBehaviour:
   - yokatotum
   - yokantrath
   - yokakeriam
-  - drak'h
-  - drakv
+  - drakh
+  - drak'v
   - drak'c
-  - drake
+  - drak'e
   - drak'g
   - drakd
   - drak'r
   - drak'n
   - drak'h
   - drak'o
-  - drak-p
+  - drak'p
   - drak'ra
   - drak'so
   - drak'at
   - drak'il
-  - drak'ta
+  - drak-ta
   - drak'gh
   - drak'sh
-  - drak'ya
-  - drak-te
+  - drakya
+  - drak'te
   - drak'sh
-  - drakol
+  - drak'ol
   - drak'ma
   - drak'om
   - drak'ig
   - drak'ni
-  - drak'in
-  - draksha
+  - drakin
+  - drak'sha
   - drak'mir
-  - drak'sas
+  - draksas
   - drak'mah
   - drak'zar
-  - drak'tok
-  - drak-lyr
+  - draktok
+  - drak'lyr
   - drak'nqa
   - drak'nap
   - drak'olt
@@ -4326,25 +4327,25 @@ MonoBehaviour:
   - drak'ath
   - drak'yro
   - draketh
-  - drak'gal
+  - drakgal
   - drak'gib
   - drak'bar
-  - drak'jin
-  - drak'kla
+  - drakjin
+  - drak-kla
   - drak'atu
   - drak'kal
   - drak'lig
-  - drakyoka
+  - drak'yoka
   - drak'loso
-  - drak'arta
+  - drakarta
   - drak'weyh
-  - drak'ines
+  - drakines
   - drak'toth
-  - drakfara
-  - drak'amar
+  - drak'fara
+  - drakamar
   - drak'nyag
   - drak'eske
-  - drakreth
+  - drak'reth
   - drak'dedo
   - drak'btoh
   - drak'nikt
@@ -4365,30 +4366,30 @@ MonoBehaviour:
   - draktotum
   - drakntrath
   - drakkeriam
-  - loso'h
+  - losoh
   - loso'v
   - loso'c
   - loso'e
-  - loso'g
+  - losog
   - loso'd
   - loso'r
   - loso'n
   - loso'h
-  - losoo
+  - loso'o
   - loso'p
   - loso'ra
-  - loso-so
+  - loso'so
   - loso'at
-  - loso'il
+  - losoil
   - loso'ta
-  - losogh
+  - loso'gh
   - loso'sh
   - loso'ya
   - loso'te
-  - lososh
+  - loso'sh
   - loso'ol
   - loso'ma
-  - loso'om
+  - loso-om
   - loso'ig
   - loso'ni
   - loso'in
@@ -4397,18 +4398,18 @@ MonoBehaviour:
   - loso'sas
   - loso'mah
   - loso'zar
-  - loso'tok
+  - losotok
   - loso'lyr
-  - loso'nqa
+  - losonqa
   - loso'nap
   - loso'olt
   - loso'val
-  - loso-qha
+  - loso'qha
   - loso'fwe
   - loso-ath
-  - loso-yro
-  - loso'eth
-  - loso'gal
+  - loso'yro
+  - loso-eth
+  - losogal
   - loso'gib
   - loso'bar
   - loso'jin
@@ -4417,20 +4418,20 @@ MonoBehaviour:
   - loso'kal
   - loso'lig
   - loso'yoka
-  - loso'drak
+  - losodrak
   - loso'arta
   - loso'weyh
-  - loso'ines
-  - loso-toth
-  - loso-fara
+  - loso-ines
+  - loso'toth
+  - loso'fara
   - loso'amar
-  - losonyag
+  - loso'nyag
   - loso'eske
   - loso'reth
   - loso'dedo
   - loso'btoh
   - loso'nikt
-  - loso'neth
+  - losoneth
   - losokanas
   - losogaris
   - losouloft
@@ -4447,32 +4448,32 @@ MonoBehaviour:
   - losototum
   - losontrath
   - losokeriam
-  - artah
-  - arta'v
-  - artac
-  - arta-e
+  - arta'h
+  - artav
+  - arta'c
+  - artae
   - arta'g
-  - artad
+  - arta'd
   - arta'r
   - arta'n
   - arta'h
-  - artao
+  - arta-o
   - arta'p
-  - arta'ra
-  - arta'so
-  - artaat
-  - arta-il
+  - artara
+  - artaso
+  - arta'at
+  - arta'il
   - arta'ta
   - arta'gh
   - arta'sh
   - arta'ya
   - arta'te
   - arta'sh
-  - artaol
+  - arta'ol
   - arta'ma
-  - artaom
+  - arta'om
   - arta'ig
-  - arta'ni
+  - arta-ni
   - arta'in
   - arta'sha
   - arta'mir
@@ -4482,35 +4483,35 @@ MonoBehaviour:
   - arta'tok
   - arta'lyr
   - arta'nqa
-  - arta'nap
+  - artanap
   - arta'olt
-  - arta'val
-  - arta-qha
-  - artafwe
+  - artaval
+  - arta'qha
+  - arta'fwe
   - arta'ath
-  - arta'yro
+  - artayro
   - artaeth
-  - artagal
+  - arta'gal
   - arta'gib
-  - arta'bar
+  - artabar
   - arta'jin
   - arta'kla
   - arta'atu
-  - artakal
-  - artalig
+  - arta'kal
+  - arta'lig
   - artayoka
   - arta'drak
   - arta'loso
   - arta'weyh
-  - arta'ines
+  - arta-ines
   - arta'toth
   - artafara
   - arta'amar
-  - artanyag
-  - arta'eske
+  - arta'nyag
+  - arta-eske
   - arta'reth
   - arta'dedo
-  - artabtoh
+  - arta'btoh
   - arta'nikt
   - arta'neth
   - artakanas
@@ -4533,29 +4534,29 @@ MonoBehaviour:
   - weyh'v
   - weyh'c
   - weyh'e
-  - weyhg
-  - weyhd
+  - weyh'g
+  - weyh'd
   - weyh'r
-  - weyh-n
+  - weyh'n
   - weyh'h
   - weyh'o
   - weyh'p
   - weyh'ra
-  - weyh'so
-  - weyhat
-  - weyhil
+  - weyhso
+  - weyh'at
+  - weyh'il
   - weyh'ta
-  - weyh'gh
-  - weyhsh
-  - weyh-ya
-  - weyh-te
+  - weyhgh
   - weyh'sh
-  - weyh'ol
-  - weyhma
-  - weyh'om
-  - weyh'ig
-  - weyh'ni
-  - weyhin
+  - weyh'ya
+  - weyh'te
+  - weyh'sh
+  - weyh-ol
+  - weyh'ma
+  - weyhom
+  - weyhig
+  - weyhni
+  - weyh-in
   - weyh'sha
   - weyh'mir
   - weyh'sas
@@ -4568,23 +4569,23 @@ MonoBehaviour:
   - weyh'olt
   - weyh'val
   - weyh'qha
-  - weyhfwe
+  - weyh'fwe
   - weyh'ath
   - weyh'yro
   - weyh'eth
   - weyh'gal
   - weyh'gib
-  - weyh'bar
+  - weyhbar
   - weyh'jin
   - weyh'kla
   - weyh'atu
-  - weyhkal
+  - weyh'kal
   - weyh'lig
   - weyh'yoka
-  - weyhdrak
+  - weyh-drak
   - weyh'loso
-  - weyh'arta
-  - weyhines
+  - weyh-arta
+  - weyh'ines
   - weyh'toth
   - weyhfara
   - weyh'amar
@@ -4594,7 +4595,7 @@ MonoBehaviour:
   - weyh'dedo
   - weyh'btoh
   - weyh'nikt
-  - weyh'neth
+  - weyhneth
   - weyhkanas
   - weyhgaris
   - weyhuloft
@@ -4611,27 +4612,27 @@ MonoBehaviour:
   - weyhtotum
   - weyhntrath
   - weyhkeriam
-  - ines'h
+  - inesh
   - ines'v
   - ines'c
-  - ines'e
+  - ines-e
   - ines'g
   - ines'd
   - ines'r
   - ines'n
-  - inesh
-  - ines'o
+  - ines'h
+  - ineso
   - ines'p
   - ines'ra
-  - ines'so
+  - inesso
   - ines'at
   - ines'il
   - ines'ta
   - ines'gh
   - ines'sh
-  - ines'ya
+  - inesya
   - ines'te
-  - inessh
+  - ines'sh
   - ines'ol
   - ines'ma
   - ines'om
@@ -4641,42 +4642,42 @@ MonoBehaviour:
   - ines'sha
   - ines'mir
   - ines'sas
-  - inesmah
-  - ines'zar
+  - ines'mah
+  - ineszar
   - ines'tok
   - ines'lyr
   - ines'nqa
-  - ines-nap
+  - ines'nap
   - ines'olt
   - ines'val
   - ines'qha
-  - ines'fwe
+  - ines-fwe
   - ines'ath
   - ines'yro
   - ines'eth
   - ines'gal
   - ines'gib
-  - ines'bar
+  - inesbar
   - ines'jin
   - ines'kla
   - ines'atu
-  - ines'kal
+  - ineskal
   - ines'lig
   - ines'yoka
   - ines'drak
   - ines'loso
-  - inesarta
+  - ines-arta
   - ines'weyh
   - ines'toth
-  - ines-fara
-  - ines'amar
-  - ines'nyag
-  - ines-eske
+  - ines'fara
+  - inesamar
+  - inesnyag
+  - ines'eske
   - ines'reth
   - ines'dedo
-  - ines-btoh
+  - ines'btoh
   - ines'nikt
-  - ines'neth
+  - ines-neth
   - ineskanas
   - inesgaris
   - inesuloft
@@ -4695,69 +4696,69 @@ MonoBehaviour:
   - ineskeriam
   - toth'h
   - toth'v
-  - toth'c
+  - toth-c
   - toth'e
   - toth'g
   - toth'd
-  - toth'r
+  - tothr
   - toth'n
   - toth'h
   - toth'o
   - toth'p
-  - toth-ra
-  - toth'so
+  - toth'ra
+  - tothso
   - toth'at
-  - toth'il
-  - tothta
-  - toth'gh
-  - tothsh
-  - toth'ya
+  - tothil
+  - toth'ta
+  - tothgh
+  - toth'sh
+  - tothya
   - toth'te
   - toth'sh
   - toth'ol
   - toth'ma
   - toth'om
-  - toth-ig
+  - toth'ig
   - toth'ni
   - toth'in
-  - toth'sha
+  - tothsha
   - toth'mir
   - toth'sas
-  - toth'mah
-  - toth'zar
-  - toth'tok
+  - tothmah
+  - tothzar
+  - tothtok
   - toth'lyr
-  - tothnqa
+  - toth'nqa
   - toth'nap
-  - toth'olt
+  - totholt
   - toth'val
   - toth'qha
   - toth'fwe
-  - tothath
+  - toth'ath
   - toth'yro
   - toth-eth
-  - toth'gal
-  - toth'gib
-  - tothbar
-  - tothjin
+  - tothgal
+  - tothgib
+  - toth'bar
+  - toth'jin
   - toth'kla
   - toth'atu
-  - toth'kal
-  - tothlig
-  - tothyoka
-  - toth'drak
+  - tothkal
+  - toth'lig
+  - toth-yoka
+  - tothdrak
   - toth'loso
-  - totharta
+  - toth'arta
   - toth'weyh
-  - tothines
+  - toth'ines
   - toth'fara
-  - toth'amar
+  - tothamar
   - toth'nyag
   - toth'eske
   - toth'reth
-  - toth'dedo
-  - toth'btoh
-  - tothnikt
+  - tothdedo
+  - tothbtoh
+  - toth'nikt
   - toth'neth
   - tothkanas
   - tothgaris
@@ -4775,39 +4776,39 @@ MonoBehaviour:
   - tothtotum
   - tothntrath
   - tothkeriam
-  - fara'h
+  - farah
   - fara'v
   - fara'c
   - fara'e
-  - fara'g
+  - farag
   - fara'd
   - fara'r
   - fara'n
-  - farah
+  - fara'h
   - farao
   - fara'p
-  - farara
+  - fara'ra
   - fara'so
-  - fara'at
+  - faraat
   - fara'il
   - fara'ta
   - fara'gh
   - fara'sh
-  - faraya
-  - farate
-  - fara'sh
+  - fara'ya
+  - fara'te
+  - farash
   - fara'ol
-  - fara'ma
-  - faraom
+  - farama
+  - fara'om
   - fara'ig
   - fara'ni
-  - fara'in
+  - farain
   - fara'sha
   - fara'mir
   - fara'sas
-  - fara-mah
+  - fara'mah
   - fara'zar
-  - fara'tok
+  - faratok
   - fara'lyr
   - fara'nqa
   - fara'nap
@@ -4816,9 +4817,9 @@ MonoBehaviour:
   - fara'qha
   - fara'fwe
   - fara'ath
-  - fara-yro
+  - fara'yro
   - fara'eth
-  - fara'gal
+  - faragal
   - fara'gib
   - fara'bar
   - fara'jin
@@ -4830,16 +4831,16 @@ MonoBehaviour:
   - fara'drak
   - fara'loso
   - fara'arta
-  - fara'weyh
-  - fara-ines
-  - fara'toth
-  - faraamar
-  - faranyag
-  - fara-eske
+  - faraweyh
+  - fara'ines
+  - faratoth
+  - fara'amar
+  - fara'nyag
+  - fara'eske
   - fara'reth
-  - fara-dedo
+  - fara'dedo
   - fara'btoh
-  - fara'nikt
+  - faranikt
   - fara'neth
   - farakanas
   - faragaris
@@ -4857,67 +4858,67 @@ MonoBehaviour:
   - faratotum
   - farantrath
   - farakeriam
-  - amar'h
-  - amarv
+  - amarh
+  - amar'v
   - amar'c
   - amar'e
   - amar'g
-  - amar'd
+  - amard
   - amar'r
   - amar'n
-  - amarh
+  - amar'h
   - amar'o
   - amar'p
-  - amar'ra
-  - amarso
+  - amarra
+  - amar'so
   - amar'at
   - amar'il
   - amar'ta
-  - amargh
+  - amar'gh
   - amar'sh
-  - amarya
-  - amar'te
+  - amar'ya
+  - amarte
   - amar'sh
   - amar'ol
-  - amar'ma
+  - amar-ma
   - amar'om
   - amar'ig
   - amar'ni
-  - amarin
+  - amar'in
   - amar'sha
-  - amarmir
-  - amarsas
+  - amar'mir
+  - amar'sas
   - amar'mah
   - amar'zar
   - amar'tok
   - amar'lyr
   - amar'nqa
-  - amar'nap
+  - amarnap
   - amar'olt
   - amar'val
-  - amar'qha
-  - amar'fwe
-  - amarath
+  - amar-qha
+  - amar-fwe
+  - amar'ath
   - amar'yro
-  - amar'eth
+  - amar-eth
   - amar'gal
   - amar'gib
   - amar'bar
   - amar'jin
-  - amar'kla
-  - amar-atu
+  - amarkla
+  - amar'atu
   - amar'kal
-  - amarlig
-  - amar'yoka
-  - amar'drak
+  - amar'lig
+  - amaryoka
+  - amar-drak
   - amar'loso
-  - amar-arta
+  - amar'arta
   - amarweyh
   - amar'ines
   - amar'toth
   - amar'fara
   - amar'nyag
-  - amar'eske
+  - amareske
   - amarreth
   - amar'dedo
   - amar'btoh
@@ -4946,64 +4947,64 @@ MonoBehaviour:
   - nyag'g
   - nyag'd
   - nyag'r
-  - nyagn
-  - nyag'h
-  - nyag'o
+  - nyag'n
+  - nyagh
+  - nyago
   - nyag'p
   - nyag'ra
-  - nyag'so
+  - nyagso
   - nyag'at
   - nyag'il
-  - nyagta
+  - nyag'ta
   - nyag'gh
-  - nyag'sh
+  - nyagsh
   - nyag'ya
   - nyag'te
   - nyag'sh
-  - nyag'ol
-  - nyagma
+  - nyagol
+  - nyag'ma
   - nyag'om
   - nyag'ig
   - nyag'ni
-  - nyagin
-  - nyag-sha
+  - nyag'in
+  - nyag'sha
   - nyag'mir
   - nyag'sas
   - nyag'mah
-  - nyagzar
+  - nyag'zar
   - nyag'tok
-  - nyag'lyr
+  - nyag-lyr
   - nyag'nqa
-  - nyagnap
+  - nyag'nap
   - nyag'olt
   - nyag'val
-  - nyag'qha
+  - nyagqha
   - nyag'fwe
   - nyag'ath
   - nyag'yro
-  - nyag'eth
+  - nyageth
   - nyag'gal
   - nyag'gib
   - nyag'bar
-  - nyagjin
+  - nyag'jin
   - nyag'kla
   - nyag'atu
-  - nyag'kal
-  - nyag-lig
-  - nyag'yoka
+  - nyagkal
+  - nyag'lig
+  - nyagyoka
   - nyagdrak
   - nyag'loso
   - nyag'arta
   - nyag'weyh
   - nyag'ines
-  - nyag-toth
+  - nyagtoth
   - nyag'fara
-  - nyag-amar
+  - nyag'amar
   - nyag'eske
   - nyag'reth
   - nyag'dedo
   - nyag'btoh
-  - nyagnikt
+  - nyag'nikt
   - nyag'neth
   - nyagkanas
   - nyaggaris
@@ -5023,70 +5024,70 @@ MonoBehaviour:
   - nyagkeriam
   - eske'h
   - eske'v
-  - eske'c
+  - eske-c
   - eske'e
-  - eskeg
-  - esked
-  - eske'r
-  - esken
-  - eskeh
-  - eske'o
+  - eske'g
+  - eske-d
+  - esker
+  - eske'n
+  - eske'h
+  - eskeo
   - eske'p
   - eske'ra
   - eske'so
-  - eske'at
-  - eske'il
-  - esketa
+  - eskeat
+  - eskeil
+  - eske'ta
   - eske'gh
   - eske'sh
   - eske'ya
   - eske'te
   - eske'sh
   - eske'ol
-  - eske'ma
+  - eskema
   - eske'om
-  - eske'ig
+  - eske-ig
   - eske'ni
   - eske'in
   - eske'sha
-  - eskemir
-  - eske'sas
+  - eske'mir
+  - eskesas
   - eske'mah
   - eske'zar
   - eske'tok
   - eske'lyr
-  - eske'nqa
+  - eskenqa
   - eske'nap
-  - eskeolt
-  - eske'val
-  - eske'qha
+  - eske'olt
+  - eskeval
+  - eske-qha
   - eske'fwe
   - eskeath
   - eske'yro
   - eske'eth
   - eske'gal
-  - eske'gib
+  - eskegib
   - eske'bar
   - eske'jin
-  - eske'kla
+  - eskekla
   - eske'atu
   - eske'kal
-  - eske'lig
-  - eskeyoka
+  - eskelig
+  - eske'yoka
   - eske'drak
   - eske'loso
-  - eske'arta
+  - eske-arta
   - eske'weyh
   - eske'ines
   - eske'toth
-  - eske'fara
+  - eskefara
   - eske'amar
-  - eskenyag
+  - eske'nyag
   - eske'reth
   - eske'dedo
   - eske'btoh
   - eske'nikt
-  - eske'neth
+  - eske-neth
   - eskekanas
   - eskegaris
   - eskeuloft
@@ -5107,10 +5108,10 @@ MonoBehaviour:
   - rethv
   - reth'c
   - reth'e
-  - rethg
+  - reth'g
   - reth'd
   - reth'r
-  - rethn
+  - reth'n
   - reth'h
   - reth'o
   - reth'p
@@ -5118,32 +5119,32 @@ MonoBehaviour:
   - reth'so
   - reth'at
   - reth'il
-  - reth'ta
-  - reth'gh
+  - rethta
+  - reth-gh
   - reth'sh
   - reth'ya
-  - reth'te
+  - reth-te
   - reth'sh
-  - reth'ol
+  - rethol
   - reth'ma
   - reth'om
   - reth'ig
   - reth'ni
   - reth'in
   - reth'sha
-  - reth-mir
+  - reth'mir
   - reth'sas
   - reth'mah
-  - rethzar
+  - reth'zar
   - reth'tok
   - reth'lyr
-  - rethnqa
+  - reth'nqa
   - reth'nap
-  - retholt
+  - reth'olt
   - reth'val
   - reth'qha
-  - reth'fwe
-  - reth-ath
+  - reth-fwe
+  - reth'ath
   - reth'yro
   - reth'eth
   - reth'gal
@@ -5153,8 +5154,8 @@ MonoBehaviour:
   - reth'kla
   - reth'atu
   - reth'kal
-  - reth'lig
-  - rethyoka
+  - rethlig
+  - reth'yoka
   - reth'drak
   - reth'loso
   - reth'arta
@@ -5187,9 +5188,9 @@ MonoBehaviour:
   - rethkeriam
   - dedo'h
   - dedo'v
-  - dedo'c
-  - dedo-e
-  - dedog
+  - dedoc
+  - dedo'e
+  - dedo'g
   - dedo'd
   - dedo'r
   - dedo'n
@@ -5197,60 +5198,60 @@ MonoBehaviour:
   - dedo'o
   - dedo'p
   - dedo'ra
-  - dedoso
+  - dedo'so
   - dedo'at
-  - dedoil
-  - dedo-ta
+  - dedo'il
+  - dedo'ta
   - dedo'gh
-  - dedo'sh
+  - dedosh
   - dedo'ya
   - dedo'te
   - dedo'sh
-  - dedo'ol
-  - dedo'ma
-  - dedoom
+  - dedool
+  - dedoma
+  - dedo'om
   - dedo'ig
   - dedo'ni
   - dedo'in
   - dedo'sha
   - dedo'mir
   - dedo'sas
-  - dedo'mah
+  - dedomah
   - dedo'zar
-  - dedo'tok
+  - dedotok
   - dedo'lyr
-  - dedo'nqa
+  - dedo-nqa
   - dedo'nap
-  - dedo'olt
-  - dedoval
-  - dedo'qha
-  - dedo'fwe
-  - dedo'ath
-  - dedo'yro
+  - dedoolt
+  - dedo-val
+  - dedoqha
+  - dedofwe
+  - dedoath
+  - dedoyro
   - dedo'eth
-  - dedogal
+  - dedo'gal
   - dedogib
-  - dedo-bar
+  - dedo'bar
   - dedo'jin
   - dedo'kla
-  - dedo-atu
+  - dedo'atu
   - dedo'kal
   - dedo'lig
-  - dedoyoka
-  - dedodrak
+  - dedo-yoka
+  - dedo'drak
   - dedo'loso
-  - dedo'arta
+  - dedo-arta
   - dedo'weyh
-  - dedo-ines
+  - dedo'ines
   - dedo'toth
-  - dedofara
+  - dedo'fara
   - dedo'amar
   - dedo'nyag
   - dedo'eske
   - dedo'reth
   - dedo'btoh
-  - dedo'nikt
-  - dedo'neth
+  - dedonikt
+  - dedoneth
   - dedokanas
   - dedogaris
   - dedouloft
@@ -5268,69 +5269,69 @@ MonoBehaviour:
   - dedontrath
   - dedokeriam
   - btoh'h
-  - btohv
+  - btoh'v
   - btoh'c
   - btoh'e
   - btoh'g
   - btoh'd
-  - btohr
+  - btoh'r
   - btoh'n
   - btoh'h
   - btoh'o
   - btoh'p
-  - btoh'ra
+  - btohra
   - btoh'so
   - btoh'at
   - btoh'il
-  - btoh'ta
+  - btohta
   - btoh'gh
-  - btoh'sh
-  - btoh-ya
+  - btohsh
+  - btoh'ya
   - btoh'te
-  - btoh'sh
+  - btoh-sh
   - btoh'ol
   - btoh'ma
   - btoh'om
   - btoh'ig
   - btoh'ni
   - btoh'in
-  - btoh'sha
+  - btoh-sha
   - btoh'mir
   - btoh'sas
-  - btoh'mah
-  - btoh'zar
+  - btoh-mah
+  - btoh-zar
   - btoh'tok
   - btohlyr
   - btoh'nqa
   - btoh'nap
   - btoh'olt
-  - btoh'val
+  - btoh-val
   - btoh'qha
-  - btohfwe
+  - btoh'fwe
   - btoh'ath
-  - btoh'yro
-  - btoheth
-  - btoh'gal
+  - btohyro
+  - btoh'eth
+  - btohgal
   - btoh'gib
   - btoh'bar
-  - btoh'jin
-  - btohkla
+  - btoh-jin
+  - btoh'kla
   - btoh'atu
   - btoh'kal
-  - btoh'lig
-  - btoh'yoka
+  - btohlig
+  - btohyoka
   - btoh'drak
-  - btohloso
-  - btoharta
-  - btohweyh
+  - btoh'loso
+  - btoh'arta
+  - btoh-weyh
   - btoh'ines
   - btoh'toth
-  - btoh'fara
+  - btohfara
   - btoh'amar
   - btoh'nyag
   - btoh'eske
   - btoh'reth
-  - btohdedo
+  - btoh'dedo
   - btoh'nikt
   - btoh'neth
   - btohkanas
@@ -5351,69 +5352,69 @@ MonoBehaviour:
   - btohkeriam
   - nikt'h
   - nikt'v
-  - nikt'c
+  - niktc
   - nikt'e
   - nikt'g
   - nikt'd
-  - niktr
+  - nikt'r
   - nikt'n
   - nikt'h
   - nikt'o
-  - nikt'p
+  - nikt-p
   - nikt'ra
-  - nikt'so
+  - nikt-so
   - nikt'at
-  - nikt'il
-  - nikt'ta
-  - nikt'gh
-  - nikt-sh
-  - niktya
+  - niktil
+  - nikt-ta
+  - niktgh
+  - nikt'sh
+  - nikt'ya
   - nikt'te
   - nikt'sh
   - nikt'ol
   - nikt'ma
-  - niktom
+  - nikt'om
   - nikt'ig
   - nikt-ni
   - nikt'in
-  - niktsha
+  - nikt'sha
   - nikt'mir
   - nikt'sas
-  - nikt'mah
+  - nikt-mah
   - nikt'zar
-  - nikt'tok
+  - nikt-tok
   - nikt'lyr
   - nikt'nqa
   - nikt'nap
   - nikt'olt
   - nikt'val
-  - nikt'qha
+  - niktqha
   - nikt'fwe
   - nikt'ath
   - nikt'yro
-  - nikt'eth
+  - nikt-eth
   - nikt'gal
   - nikt'gib
   - nikt'bar
-  - niktjin
-  - niktkla
-  - niktatu
+  - nikt'jin
+  - nikt'kla
+  - nikt'atu
   - nikt'kal
-  - nikt-lig
+  - niktlig
   - nikt'yoka
-  - niktdrak
-  - nikt'loso
+  - nikt'drak
+  - niktloso
   - nikt'arta
-  - niktweyh
+  - nikt'weyh
   - nikt'ines
   - nikt'toth
   - nikt'fara
-  - nikt'amar
-  - nikt'nyag
-  - nikteske
+  - niktamar
+  - niktnyag
+  - nikt'eske
   - nikt'reth
   - nikt'dedo
-  - nikt'btoh
+  - nikt-btoh
   - nikt'neth
   - niktkanas
   - niktgaris
@@ -5432,10 +5433,10 @@ MonoBehaviour:
   - niktntrath
   - niktkeriam
   - neth'h
-  - neth'v
+  - nethv
   - neth'c
   - nethe
-  - nethg
+  - neth'g
   - neth'd
   - neth'r
   - neth'n
@@ -5444,30 +5445,30 @@ MonoBehaviour:
   - neth'p
   - neth'ra
   - neth'so
-  - neth'at
+  - nethat
   - neth'il
   - neth'ta
   - neth'gh
   - neth'sh
   - neth'ya
   - neth'te
-  - neth-sh
-  - neth'ol
+  - neth'sh
+  - neth-ol
   - neth'ma
   - neth'om
-  - nethig
+  - neth'ig
   - neth'ni
-  - neth'in
+  - nethin
   - neth'sha
-  - neth'mir
+  - nethmir
   - neth'sas
-  - neth'mah
-  - neth'zar
+  - nethmah
+  - nethzar
   - neth'tok
   - neth'lyr
   - neth'nqa
   - neth'nap
-  - netholt
+  - neth'olt
   - neth'val
   - neth'qha
   - neth'fwe
@@ -5477,14 +5478,14 @@ MonoBehaviour:
   - neth'gal
   - neth'gib
   - neth-bar
-  - nethjin
+  - neth'jin
   - neth'kla
   - neth'atu
   - neth'kal
-  - neth'lig
+  - nethlig
   - neth'yoka
   - neth'drak
-  - nethloso
+  - neth'loso
   - neth'arta
   - neth'weyh
   - neth'ines
@@ -5496,7 +5497,7 @@ MonoBehaviour:
   - neth'reth
   - neth'dedo
   - neth'btoh
-  - neth'nikt
+  - nethnikt
   - nethkanas
   - nethgaris
   - nethuloft
@@ -5518,40 +5519,40 @@ MonoBehaviour:
   - kanas'c
   - kanas'e
   - kanas'g
-  - kanasd
+  - kanas'd
   - kanas'r
   - kanas'n
-  - kanash
-  - kanaso
+  - kanas'h
+  - kanas'o
   - kanas'p
-  - kanas-ra
+  - kanasra
   - kanas'so
   - kanas'at
-  - kanasil
-  - kanas-ta
-  - kanasgh
+  - kanas-il
+  - kanas'ta
+  - kanas'gh
   - kanas'sh
-  - kanas-ya
+  - kanas'ya
   - kanas'te
-  - kanas-sh
+  - kanassh
   - kanas'ol
   - kanas'ma
   - kanas'om
-  - kanasig
+  - kanas'ig
   - kanas'ni
-  - kanasin
+  - kanas'in
   - kanassha
   - kanas'mir
   - kanas'sas
-  - kanas'mah
+  - kanas-mah
   - kanas'zar
   - kanas'tok
   - kanas'lyr
   - kanas'nqa
-  - kanasnap
-  - kanas'olt
-  - kanas'val
-  - kanas-qha
+  - kanas'nap
+  - kanasolt
+  - kanasval
+  - kanas'qha
   - kanas'fwe
   - kanas'ath
   - kanas'yro
@@ -5561,7 +5562,7 @@ MonoBehaviour:
   - kanas'bar
   - kanas'jin
   - kanas'kla
-  - kanasatu
+  - kanas'atu
   - kanas'kal
   - kanas'lig
   - kanasyoka
@@ -5602,50 +5603,50 @@ MonoBehaviour:
   - garisg
   - garis'd
   - garis'r
-  - garis'n
+  - garisn
   - garis'h
   - garis'o
   - garis'p
   - garis'ra
-  - garis'so
+  - garis-so
   - garis'at
   - garis'il
-  - garis'ta
+  - garis-ta
   - garis'gh
   - garis'sh
   - garis'ya
   - garis'te
   - garis'sh
-  - garisol
+  - garis'ol
   - garis'ma
-  - garis'om
+  - garisom
   - garis'ig
   - garis'ni
-  - garisin
-  - garissha
+  - garis-in
+  - garis'sha
   - garis'mir
   - garis'sas
   - garis'mah
-  - garis'zar
+  - gariszar
   - garis'tok
   - garis'lyr
   - garis'nqa
-  - garisnap
-  - garis-olt
-  - garis'val
-  - garisqha
+  - garis'nap
+  - garis'olt
+  - garisval
+  - garis-qha
   - garis'fwe
   - garis'ath
   - garis'yro
-  - garis'eth
+  - gariseth
   - garis'gal
-  - garisgib
+  - garis'gib
   - garis'bar
   - garis'jin
   - garis'kla
   - garis'atu
-  - garis-kal
-  - garis'lig
+  - garis'kal
+  - garislig
   - garisyoka
   - garisdrak
   - garisloso
@@ -5684,50 +5685,50 @@ MonoBehaviour:
   - uloft'g
   - uloft'd
   - uloft'r
-  - uloft'n
-  - uloft-h
-  - uloft'o
-  - uloftp
+  - uloftn
+  - uloft'h
+  - ulofto
+  - uloft'p
   - uloft'ra
   - uloftso
   - uloft'at
-  - uloft'il
+  - uloftil
   - uloft'ta
   - uloft'gh
-  - uloft'sh
-  - uloftya
-  - uloft'te
   - uloftsh
+  - uloft'ya
+  - uloft'te
+  - uloft'sh
   - uloft'ol
   - uloft'ma
   - uloft'om
   - uloft'ig
   - uloft'ni
-  - uloft-in
+  - uloft'in
   - uloft'sha
   - uloft'mir
   - uloft'sas
-  - uloft'mah
+  - uloftmah
   - uloft'zar
   - ulofttok
   - uloft'lyr
-  - uloft-nqa
+  - uloft'nqa
   - uloft'nap
   - uloft'olt
-  - uloftval
-  - uloft-qha
-  - uloft'fwe
+  - uloft'val
+  - uloft'qha
+  - uloftfwe
   - uloft'ath
-  - uloftyro
+  - uloft'yro
   - uloft'eth
   - uloft'gal
-  - uloft'gib
+  - uloftgib
   - uloft'bar
   - uloft'jin
   - uloft'kla
-  - uloft'atu
-  - uloft'kal
-  - uloft'lig
+  - uloft-atu
+  - uloft-kal
+  - uloftlig
   - uloftyoka
   - uloftdrak
   - uloftloso
@@ -5761,54 +5762,54 @@ MonoBehaviour:
   - uloftkeriam
   - tarat'h
   - tarat'v
-  - tarat'c
+  - tarat-c
   - tarat'e
-  - taratg
+  - tarat'g
   - tarat'd
   - tarat'r
   - tarat'n
-  - tarat'h
-  - tarat'o
-  - tarat'p
+  - tarat-h
+  - tarato
+  - taratp
   - tarat'ra
-  - tarat'so
+  - taratso
   - tarat'at
-  - taratil
+  - tarat'il
   - tarat'ta
-  - taratgh
+  - tarat'gh
+  - tarat-sh
+  - taratya
+  - tarat'te
   - tarat'sh
-  - tarat'ya
-  - taratte
-  - taratsh
-  - tarat'ol
+  - taratol
   - tarat'ma
   - tarat'om
-  - taratig
-  - taratni
+  - tarat'ig
+  - tarat'ni
   - tarat'in
   - tarat'sha
   - tarat'mir
   - tarat'sas
   - tarat'mah
   - tarat'zar
-  - tarattok
+  - tarat'tok
   - tarat'lyr
   - tarat'nqa
   - tarat'nap
-  - tarat'olt
-  - tarat-val
-  - tarat-qha
-  - taratfwe
+  - taratolt
+  - tarat'val
+  - tarat'qha
+  - tarat'fwe
   - tarat'ath
   - tarat'yro
-  - tarateth
+  - tarat'eth
   - tarat'gal
   - tarat'gib
   - tarat'bar
-  - tarat-jin
-  - taratkla
-  - taratatu
-  - taratkal
+  - tarat'jin
+  - tarat'kla
+  - tarat'atu
+  - tarat'kal
   - tarat'lig
   - taratyoka
   - taratdrak
@@ -5841,9 +5842,9 @@ MonoBehaviour:
   - tarattotum
   - taratntrath
   - taratkeriam
-  - khari'h
-  - khari'v
-  - khari'c
+  - kharih
+  - khari-v
+  - kharic
   - khari'e
   - khari'g
   - khari'd
@@ -5854,38 +5855,38 @@ MonoBehaviour:
   - khari'p
   - khari'ra
   - khari'so
-  - khari'at
+  - khariat
   - khari'il
   - khari'ta
-  - kharigh
+  - khari'gh
   - khari'sh
-  - khari'ya
-  - kharite
-  - khari'sh
+  - khariya
+  - khari'te
+  - khari-sh
   - khari'ol
   - khari'ma
-  - khari'om
+  - khariom
   - khari'ig
-  - khari-ni
+  - khari'ni
   - khari'in
   - khari'sha
   - khari'mir
   - khari'sas
-  - kharimah
+  - khari'mah
   - khari'zar
-  - kharitok
+  - khari'tok
   - khari'lyr
   - khari'nqa
   - kharinap
   - khari'olt
-  - kharival
-  - khari'qha
+  - khari'val
+  - khari-qha
   - khari'fwe
   - khari'ath
   - khari'yro
-  - khari'eth
+  - khari-eth
   - khari'gal
-  - khari'gib
+  - kharigib
   - khari'bar
   - khari'jin
   - khari'kla
@@ -5925,13 +5926,13 @@ MonoBehaviour:
   - kharikeriam
   - thnor'h
   - thnor'v
-  - thnor'c
+  - thnorc
   - thnor'e
-  - thnor'g
+  - thnor-g
   - thnor'd
-  - thnor'r
+  - thnorr
   - thnor'n
-  - thnor'h
+  - thnorh
   - thnor'o
   - thnor'p
   - thnor'ra
@@ -5941,38 +5942,38 @@ MonoBehaviour:
   - thnor'ta
   - thnor'gh
   - thnor'sh
-  - thnor'ya
+  - thnorya
   - thnor'te
   - thnor'sh
   - thnor'ol
-  - thnor'ma
+  - thnorma
   - thnor'om
   - thnor'ig
-  - thnor'ni
+  - thnorni
   - thnor'in
   - thnor'sha
-  - thnor'mir
+  - thnormir
   - thnor'sas
   - thnor'mah
   - thnor'zar
   - thnor'tok
   - thnor'lyr
   - thnor'nqa
-  - thnornap
+  - thnor'nap
   - thnor'olt
   - thnor'val
   - thnor'qha
   - thnor'fwe
   - thnor'ath
-  - thnor'yro
+  - thnoryro
   - thnor'eth
   - thnor'gal
   - thnor'gib
-  - thnor'bar
-  - thnor'jin
-  - thnor'kla
+  - thnor-bar
+  - thnor-jin
+  - thnorkla
   - thnor'atu
-  - thnor-kal
+  - thnorkal
   - thnor'lig
   - thnoryoka
   - thnordrak
@@ -6006,27 +6007,27 @@ MonoBehaviour:
   - thnorntrath
   - thnorkeriam
   - rekka'h
-  - rekka'v
+  - rekkav
   - rekka'c
   - rekka'e
   - rekka'g
-  - rekka-d
+  - rekkad
   - rekkar
-  - rekka'n
+  - rekkan
   - rekka'h
   - rekka'o
   - rekka'p
-  - rekkara
+  - rekka'ra
   - rekka'so
   - rekka'at
-  - rekkail
+  - rekka'il
   - rekka'ta
   - rekka'gh
-  - rekkash
+  - rekka'sh
   - rekka'ya
   - rekka'te
-  - rekka'sh
-  - rekka'ol
+  - rekka-sh
+  - rekkaol
   - rekka'ma
   - rekka'om
   - rekka'ig
@@ -6036,25 +6037,25 @@ MonoBehaviour:
   - rekka'mir
   - rekka'sas
   - rekka'mah
-  - rekkazar
+  - rekka'zar
   - rekka'tok
-  - rekka'lyr
-  - rekkanqa
-  - rekka'nap
-  - rekka'olt
-  - rekkaval
-  - rekka'qha
+  - rekkalyr
+  - rekka'nqa
+  - rekkanap
+  - rekkaolt
+  - rekka'val
+  - rekkaqha
   - rekka'fwe
   - rekka'ath
-  - rekkayro
-  - rekkaeth
+  - rekka'yro
+  - rekka'eth
   - rekka'gal
   - rekka'gib
   - rekka'bar
   - rekka'jin
-  - rekkakla
-  - rekka'atu
-  - rekka-kal
+  - rekka'kla
+  - rekkaatu
+  - rekka'kal
   - rekka'lig
   - rekkayoka
   - rekkadrak
@@ -6089,44 +6090,44 @@ MonoBehaviour:
   - rekkakeriam
   - ragga'h
   - ragga'v
-  - ragga'c
+  - ragga-c
   - ragga'e
   - ragga'g
   - raggad
   - ragga'r
   - ragga'n
-  - ragga'h
+  - raggah
   - ragga'o
   - ragga'p
   - ragga'ra
   - ragga'so
-  - ragga'at
-  - raggail
+  - raggaat
+  - ragga'il
   - ragga'ta
   - ragga'gh
-  - raggash
+  - ragga'sh
   - ragga'ya
   - ragga'te
   - ragga'sh
-  - ragga'ol
-  - ragga-ma
+  - raggaol
+  - ragga'ma
   - ragga'om
-  - ragga'ig
+  - ragga-ig
   - ragga'ni
   - ragga'in
   - ragga'sha
   - ragga'mir
   - ragga'sas
-  - raggamah
-  - ragga'zar
+  - ragga'mah
+  - ragga-zar
   - ragga'tok
-  - ragga'lyr
+  - raggalyr
   - ragga'nqa
   - ragga'nap
-  - ragga'olt
+  - raggaolt
   - ragga'val
   - ragga'qha
-  - ragga'fwe
+  - ragga-fwe
   - ragga'ath
   - ragga'yro
   - ragga'eth
@@ -6134,7 +6135,7 @@ MonoBehaviour:
   - ragga'gib
   - ragga'bar
   - raggajin
-  - ragga-kla
+  - ragga'kla
   - ragga'atu
   - ragga'kal
   - ragga'lig
@@ -6170,18 +6171,18 @@ MonoBehaviour:
   - raggantrath
   - raggakeriam
   - rfikk'h
-  - rfikkv
+  - rfikk'v
   - rfikk'c
-  - rfikk'e
+  - rfikk-e
   - rfikk'g
   - rfikk'd
-  - rfikk'r
-  - rfikk'n
+  - rfikkr
+  - rfikkn
   - rfikkh
   - rfikk'o
   - rfikk'p
-  - rfikk'ra
-  - rfikk'so
+  - rfikkra
+  - rfikkso
   - rfikk'at
   - rfikk'il
   - rfikk'ta
@@ -6191,35 +6192,35 @@ MonoBehaviour:
   - rfikk'te
   - rfikk'sh
   - rfikk'ol
-  - rfikk'ma
-  - rfikk-om
-  - rfikk'ig
+  - rfikk-ma
+  - rfikk'om
+  - rfikkig
   - rfikk'ni
   - rfikk'in
   - rfikk'sha
   - rfikk'mir
   - rfikk'sas
-  - rfikkmah
-  - rfikk'zar
+  - rfikk'mah
+  - rfikkzar
   - rfikk'tok
   - rfikk'lyr
   - rfikk'nqa
   - rfikk'nap
-  - rfikk-olt
-  - rfikk'val
+  - rfikk'olt
+  - rfikkval
   - rfikk'qha
-  - rfikk'fwe
+  - rfikk-fwe
   - rfikk'ath
   - rfikk'yro
   - rfikk'eth
-  - rfikk-gal
+  - rfikk'gal
   - rfikk'gib
-  - rfikkbar
+  - rfikk'bar
   - rfikk'jin
   - rfikk'kla
   - rfikk'atu
-  - rfikkkal
-  - rfikk'lig
+  - rfikk'kal
+  - rfikk-lig
   - rfikkyoka
   - rfikkdrak
   - rfikkloso
@@ -6252,55 +6253,55 @@ MonoBehaviour:
   - rfikkntrath
   - rfikkkeriam
   - harfr'h
-  - harfr-v
-  - harfr-c
+  - harfr'v
+  - harfrc
   - harfr'e
   - harfr'g
   - harfr'd
   - harfr'r
   - harfr'n
   - harfr'h
-  - harfr'o
-  - harfrp
+  - harfro
+  - harfr'p
   - harfr'ra
-  - harfrso
+  - harfr'so
   - harfr'at
   - harfr'il
   - harfr'ta
   - harfr'gh
   - harfr'sh
-  - harfr'ya
+  - harfrya
   - harfr'te
-  - harfr-sh
-  - harfr'ol
-  - harfr'ma
+  - harfr'sh
+  - harfr-ol
+  - harfrma
   - harfrom
   - harfr'ig
   - harfr'ni
   - harfr'in
   - harfr'sha
-  - harfr'mir
+  - harfrmir
   - harfr'sas
   - harfr'mah
   - harfr'zar
-  - harfr-tok
-  - harfr-lyr
+  - harfr'tok
+  - harfrlyr
   - harfr'nqa
   - harfr'nap
   - harfr'olt
   - harfrval
   - harfr'qha
   - harfr'fwe
-  - harfr'ath
-  - harfr'yro
-  - harfreth
+  - harfr-ath
+  - harfr-yro
+  - harfr'eth
   - harfr'gal
   - harfr'gib
   - harfr'bar
   - harfr'jin
-  - harfrkla
+  - harfr'kla
   - harfr'atu
-  - harfr'kal
+  - harfrkal
   - harfr'lig
   - harfryoka
   - harfrdrak
@@ -6333,55 +6334,55 @@ MonoBehaviour:
   - harfrtotum
   - harfrntrath
   - harfrkeriam
-  - andid-h
+  - andid'h
   - andid'v
   - andid'c
-  - andid-e
+  - andid'e
   - andid'g
   - andid'd
   - andid'r
   - andid'n
   - andid'h
-  - andid'o
-  - andidp
+  - andido
+  - andid'p
   - andid'ra
   - andid'so
-  - andidat
+  - andid'at
   - andid'il
-  - andid'ta
+  - andidta
   - andid'gh
   - andid'sh
-  - andid'ya
+  - andidya
   - andid'te
   - andid'sh
   - andid'ol
-  - andid'ma
+  - andidma
   - andid'om
   - andid'ig
-  - andidni
-  - andid'in
+  - andid'ni
+  - andidin
   - andid'sha
-  - andid'mir
+  - andidmir
   - andid'sas
-  - andid'mah
-  - andid-zar
-  - andidtok
+  - andidmah
+  - andid'zar
+  - andid'tok
   - andid'lyr
   - andidnqa
   - andid'nap
   - andid'olt
-  - andidval
-  - andid'qha
+  - andid'val
+  - andidqha
   - andid'fwe
-  - andid'ath
-  - andidyro
-  - andideth
-  - andidgal
+  - andidath
+  - andid'yro
+  - andid'eth
+  - andid'gal
   - andid'gib
   - andid'bar
-  - andid'jin
+  - andidjin
   - andid'kla
-  - andid'atu
+  - andidatu
   - andid'kal
   - andid'lig
   - andidyoka
@@ -6417,55 +6418,55 @@ MonoBehaviour:
   - andidkeriam
   - ethra'h
   - ethra'v
-  - ethra'c
+  - ethra-c
   - ethra'e
   - ethra'g
-  - ethra-d
-  - ethrar
+  - ethra'd
+  - ethra'r
   - ethra'n
   - ethra'h
   - ethra'o
-  - ethra-p
+  - ethra'p
   - ethra'ra
   - ethra'so
   - ethra'at
   - ethra'il
-  - ethrata
+  - ethra'ta
   - ethra'gh
-  - ethra'sh
+  - ethra-sh
   - ethra'ya
-  - ethra'te
+  - ethrate
   - ethra'sh
   - ethra'ol
   - ethra'ma
   - ethra'om
   - ethra'ig
-  - ethrani
+  - ethra'ni
   - ethra'in
   - ethra'sha
-  - ethra'mir
-  - ethrasas
-  - ethra'mah
+  - ethramir
+  - ethra'sas
+  - ethra-mah
   - ethra'zar
   - ethra'tok
   - ethra'lyr
-  - ethra'nqa
+  - ethranqa
   - ethra'nap
-  - ethraolt
+  - ethra'olt
   - ethraval
   - ethra'qha
   - ethra'fwe
-  - ethraath
-  - ethrayro
+  - ethra'ath
+  - ethra'yro
   - ethra'eth
   - ethra'gal
-  - ethra'gib
-  - ethrabar
-  - ethra'jin
+  - ethragib
+  - ethra-bar
+  - ethrajin
   - ethra'kla
-  - ethra-atu
+  - ethraatu
   - ethra'kal
-  - ethra'lig
+  - ethralig
   - ethrayoka
   - ethradrak
   - ethraloso
@@ -6497,10 +6498,10 @@ MonoBehaviour:
   - ethratotum
   - ethrantrath
   - ethrakeriam
-  - dedol'h
-  - dedol'v
-  - dedolc
-  - dedol'e
+  - dedolh
+  - dedolv
+  - dedol'c
+  - dedole
   - dedolg
   - dedol'd
   - dedol'r
@@ -6508,46 +6509,46 @@ MonoBehaviour:
   - dedol'h
   - dedol'o
   - dedolp
-  - dedolra
+  - dedol'ra
   - dedol'so
   - dedol'at
   - dedol'il
-  - dedolta
-  - dedolgh
+  - dedol'ta
+  - dedol'gh
   - dedol'sh
-  - dedolya
+  - dedol'ya
   - dedol'te
   - dedol'sh
-  - dedolol
-  - dedol'ma
+  - dedol'ol
+  - dedolma
   - dedol'om
   - dedol'ig
   - dedol'ni
   - dedol'in
-  - dedol'sha
-  - dedol'mir
-  - dedol-sas
-  - dedolmah
-  - dedol'zar
+  - dedolsha
+  - dedolmir
+  - dedol'sas
+  - dedol'mah
+  - dedolzar
   - dedol'tok
   - dedol'lyr
   - dedol'nqa
   - dedol'nap
-  - dedololt
+  - dedol'olt
   - dedol'val
   - dedol'qha
   - dedol'fwe
   - dedol'ath
-  - dedol'yro
+  - dedolyro
   - dedol'eth
   - dedol'gal
   - dedol'gib
-  - dedolbar
+  - dedol'bar
   - dedol'jin
-  - dedol'kla
+  - dedol-kla
   - dedol'atu
   - dedol'kal
-  - dedollig
+  - dedol'lig
   - dedolyoka
   - dedoldrak
   - dedolloso
@@ -6581,29 +6582,29 @@ MonoBehaviour:
   - dedolkeriam
   - totumh
   - totum'v
-  - totumc
+  - totum'c
   - totum'e
-  - totum'g
-  - totumd
+  - totumg
+  - totum'd
   - totum'r
   - totum'n
   - totum'h
   - totum'o
   - totum'p
   - totum'ra
-  - totumso
-  - totumat
-  - totum'il
+  - totum-so
+  - totum'at
+  - totumil
   - totum'ta
-  - totumgh
+  - totum'gh
   - totumsh
   - totum'ya
   - totum'te
-  - totum-sh
-  - totum'ol
+  - totum'sh
+  - totumol
   - totum'ma
-  - totum'om
-  - totumig
+  - totumom
+  - totum'ig
   - totum'ni
   - totum'in
   - totum'sha
@@ -6615,21 +6616,21 @@ MonoBehaviour:
   - totum'lyr
   - totum'nqa
   - totum'nap
-  - totum-olt
+  - totum'olt
   - totum'val
   - totum'qha
-  - totum'fwe
-  - totum'ath
+  - totumfwe
+  - totumath
   - totum'yro
   - totum'eth
   - totum'gal
   - totum-gib
-  - totum-bar
+  - totum'bar
   - totum'jin
   - totum'kla
-  - totumatu
+  - totum'atu
   - totum'kal
-  - totum'lig
+  - totumlig
   - totumyoka
   - totumdrak
   - totumloso
@@ -6661,12 +6662,12 @@ MonoBehaviour:
   - totumdedol
   - totumntrath
   - totumkeriam
-  - ntrath'h
-  - ntrathv
-  - ntrath'c
+  - ntrathh
+  - ntrath'v
+  - ntrath-c
   - ntrath'e
   - ntrath'g
-  - ntrathd
+  - ntrath'd
   - ntrath'r
   - ntrath'n
   - ntrath'h
@@ -6674,20 +6675,20 @@ MonoBehaviour:
   - ntrath'p
   - ntrath'ra
   - ntrath'so
-  - ntrath-at
+  - ntrath'at
   - ntrath'il
   - ntrath'ta
-  - ntrath-gh
-  - ntrathsh
-  - ntrath-ya
-  - ntrath'te
+  - ntrath'gh
+  - ntrath'sh
+  - ntrath'ya
+  - ntrath-te
   - ntrath'sh
   - ntrath'ol
   - ntrath'ma
   - ntrathom
   - ntrath'ig
   - ntrath'ni
-  - ntrath'in
+  - ntrathin
   - ntrathsha
   - ntrathmir
   - ntrathsas
@@ -6747,27 +6748,27 @@ MonoBehaviour:
   - keriam'v
   - keriam'c
   - keriam'e
-  - keriam'g
+  - keriamg
   - keriam'd
-  - keriamr
+  - keriam'r
   - keriam'n
   - keriam'h
-  - keriamo
+  - keriam'o
   - keriam'p
-  - keriamra
-  - keriam'so
+  - keriam-ra
+  - keriamso
   - keriam'at
   - keriam'il
-  - keriam'ta
-  - keriamgh
-  - keriam'sh
+  - keriamta
+  - keriam'gh
+  - keriamsh
   - keriam'ya
   - keriam'te
-  - keriamsh
+  - keriam'sh
   - keriam'ol
   - keriam'ma
   - keriam'om
-  - keriam-ig
+  - keriam'ig
   - keriam'ni
   - keriam'in
   - keriamsha
