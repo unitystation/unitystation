@@ -220,7 +220,7 @@ namespace US13.Core.Physics
 		public void ForceTilePush(Vector2Int worldDirection, List<Physics.UniversalObjectPhysics> inPushing, GameObject byClient,
 			float speed = Single.NaN, bool isWalk = false,
 			Physics.UniversalObjectPhysics pushedBy = null, bool overridePull = false, Physics.UniversalObjectPhysics pulledBy = null,
-			bool SendWorld = false)
+			bool SendWorld = false, Vector2Int? faceDirection = null)
 		{
 			if (isFlyingSliding) return;
 			if (isVisible == false) return;
@@ -295,7 +295,7 @@ namespace US13.Core.Physics
 
 			if (ChangesDirectionPush)
 			{
-				rotatable.OrNull()?.SetFaceDirectionLocalVector(worldDirection);
+				rotatable.OrNull()?.SetFaceDirectionLocalVector(faceDirection ?? worldDirection);
 			}
 
 			var localPosition = ConverterExtensions.ToLocal(newWorldPosition, movetoMatrix);

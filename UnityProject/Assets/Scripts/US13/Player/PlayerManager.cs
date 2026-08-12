@@ -65,6 +65,14 @@ namespace US13.Player
 		public static CharacterSheet ActiveCharacter => CharacterManager.ActiveCharacter;
 
 		private int mobIDcount;
+		private static readonly MoveAction[] MovementActions =
+		{
+			MoveAction.MoveLeft,
+			MoveAction.MoveRight,
+			MoveAction.MoveDown,
+			MoveAction.MoveUp
+		};
+		private readonly List<MoveAction> heldMoveActionRecency = new List<MoveAction>();
 
 		public static PlayerManager Instance => FindUtils.LazyFindObject(ref playerManager);
 
@@ -199,6 +207,7 @@ namespace US13.Player
 			// Only move if player is out of UI
 			if (!(LocalPlayerObject == gameObject && UIManager.IsInputFocus))
 			{
+				UpdateHeldMoveActionRecency();
 				bool moveL = KeyboardInputManager.CheckMoveAction(MoveAction.MoveLeft);
 				bool moveR = KeyboardInputManager.CheckMoveAction(MoveAction.MoveRight);
 				bool moveU = KeyboardInputManager.CheckMoveAction(MoveAction.MoveDown);
@@ -234,8 +243,59 @@ namespace US13.Player
 					}
 				}
 			}
+			else
+			{
+				heldMoveActionRecency.Clear();
+			}
 
-			return new PlayerAction { moveActions = actionKeys.ToArray() };
+			return new PlayerAction { moveActions = actionKeys.ToArray(), visualFacingMoveAction = GetLatestHeldMoveAction() };
+		}
+
+		private void UpdateHeldMoveActionRecency()
+		{
+			foreach (var moveAction in MovementActions)
+			{
+				if (KeyboardInputManager.Instance.CheckKeyAction((KeyAction) moveAction, KeyboardInputManager.KeyEventType.Up))
+				{
+					heldMoveActionRecency.Remove(moveAction);
+					continue;
+				}
+
+				if (KeyboardInputManager.Instance.CheckKeyAction((KeyAction) moveAction, KeyboardInputManager.KeyEventType.Down))
+				{
+					heldMoveActionRecency.Remove(moveAction);
+					heldMoveActionRecency.Add(moveAction);
+					continue;
+				}
+
+				if (KeyboardInputManager.Instance.CheckKeyAction((KeyAction) moveAction, KeyboardInputManager.KeyEventType.Hold))
+				{
+					if (heldMoveActionRecency.Contains(moveAction) == false)
+					{
+						heldMoveActionRecency.Add(moveAction);
+					}
+				}
+				else
+				{
+					heldMoveActionRecency.Remove(moveAction);
+				}
+			}
+		}
+
+		private MoveAction GetLatestHeldMoveAction()
+		{
+			for (int i = heldMoveActionRecency.Count - 1; i >= 0; i--)
+			{
+				var moveAction = heldMoveActionRecency[i];
+				if (KeyboardInputManager.Instance.CheckKeyAction((KeyAction) moveAction, KeyboardInputManager.KeyEventType.Hold))
+				{
+					return moveAction;
+				}
+
+				heldMoveActionRecency.RemoveAt(i);
+			}
+
+			return MoveAction.NoMove;
 		}
 
 		private void OnPlayerDeath()
