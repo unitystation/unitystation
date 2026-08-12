@@ -646,7 +646,7 @@ namespace US13.Core.Editor.Tools.TMPTools
             spriteAsset.spriteCharacterTable.Clear();
             spriteAsset.spriteGlyphTable.Clear();
 
-            var tmpMat = new Material(Shader.Find("TextMeshPro/Sprite"));
+            var tmpMat = new Material(Shader.Find("EmojisMaterial"));
             if (tmpMat != null)
             {
 	            Material material = tmpMat;
