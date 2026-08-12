@@ -613,6 +613,8 @@ namespace US13.Player.MovementV2
 
 			//( The matrix the movement is on )
 			public PlayerMoveDirection GlobalMoveDirection;
+			public bool HasVisualMoveDirection;
+			public PlayerMoveDirection VisualMoveDirection;
 
 			public PlayerMoveDirection LocalMoveDirection;
 
@@ -865,6 +867,8 @@ namespace US13.Player.MovementV2
 							Timestamp = entry.Timestamp,
 							MatrixID = registerTile.Matrix.Id,
 							GlobalMoveDirection = entry.GlobalMoveDirection,
+							HasVisualMoveDirection = entry.HasVisualMoveDirection,
+							VisualMoveDirection = entry.VisualMoveDirection,
 							CausesSlip = false,
 							Bump = false,
 							LastPushID = SetTimestampID,
@@ -1044,10 +1048,17 @@ namespace US13.Player.MovementV2
 			}
 
 
+			var hasVisualMoveDirection = moveActions.HasVisualFacing();
+			var visualMoveDirection = hasVisualMoveDirection ? moveActions.ToVisualPlayerMoveDirection() : PlayerMoveDirection.Up;
+
 			if (moveActions.moveActions.Length == 0)
 			{
 				CachedMove = Vector2Int.zero;
 				CachedPreviousMove = Vector2Int.zero;
+				if (hasVisualMoveDirection)
+				{
+					rotatable.SetFaceDirectionLocalVector(visualMoveDirection.ToVector());
+				}
 				return;
 			}
 			else
@@ -1071,7 +1082,7 @@ namespace US13.Player.MovementV2
 
 			if (KeyboardInputManager.IsControlPressed())
 			{
-				rotatable.SetFaceDirectionLocalVector(moveActions.Direction());
+				rotatable.SetFaceDirectionLocalVector(hasVisualMoveDirection ? visualMoveDirection.ToVector() : moveActions.Direction());
 				return;
 			}
 
@@ -1091,6 +1102,8 @@ namespace US13.Player.MovementV2
 					Timestamp = NetworkTime.time,
 					MatrixID = registerTile.Matrix.Id,
 					GlobalMoveDirection = moveActions.ToPlayerMoveDirection(CachedMove),
+					HasVisualMoveDirection = hasVisualMoveDirection,
+					VisualMoveDirection = visualMoveDirection,
 					CausesSlip = false,
 					Bump = false,
 					LastPushID = SetTimestampID,
@@ -1303,7 +1316,7 @@ namespace US13.Player.MovementV2
 
 				//move
 				ForceTilePush(newMoveData.GlobalMoveDirection.ToVector(), Pushing, byClient,
-					isWalk: true, pushedBy: this, SendWorld: true);
+					isWalk: true, pushedBy: this, SendWorld: true, faceDirection: GetVisualFaceDirection(newMoveData));
 
 
 				SetMatrixCache.ResetNewPosition(registerTile.WorldPosition, registerTile); //Resets the cash
@@ -1426,7 +1439,7 @@ namespace US13.Player.MovementV2
 					{
 						//if (isServer) Loggy.LogError("failed is obstructed");
 
-						rotatable.SetFaceDirectionLocalVector(moveAction.GlobalMoveDirection.ToVector());
+						rotatable.SetFaceDirectionLocalVector(GetVisualFaceDirection(moveAction));
 					}
 				}
 			}
@@ -1620,6 +1633,11 @@ namespace US13.Player.MovementV2
 			inMoveData.GlobalMoveDirection =
 				VectorToPlayerMoveDirection((addedGlobalPosition - transform.position).RoundTo2Int());
 			MoveQueue.Add(inMoveData);
+		}
+
+		private static Vector2Int GetVisualFaceDirection(MoveData moveAction)
+		{
+			return (moveAction.HasVisualMoveDirection ? moveAction.VisualMoveDirection : moveAction.GlobalMoveDirection).ToVector();
 		}
 
 		public override void ClientTileReached(Vector3Int localPos)

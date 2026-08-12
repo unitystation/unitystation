@@ -13,6 +13,7 @@ namespace US13.Player
 	{
 		/// int values of the moveactions (will have 2 moveActions if it's a diagonal movement)
 		public int[] moveActions;
+		public MoveAction visualFacingMoveAction;
 
 		/// Set to true when client believes this action doesn't make player move
 		public bool isBump;
@@ -51,6 +52,24 @@ namespace US13.Player
 		public MovementSynchronisation.PlayerMoveDirection ToPlayerMoveDirection()
 		{
 			var direction = Direction();
+			direction = TransformMove(direction);
+
+			return MovementSynchronisation.VectorToPlayerMoveDirection(direction);
+		}
+
+		public bool HasVisualFacing()
+		{
+			return visualFacingMoveAction != MoveAction.NoMove;
+		}
+
+		public Vector2Int VisualFacingDirection()
+		{
+			return HasVisualFacing() ? GetMoveDirection(visualFacingMoveAction) : Vector2Int.zero;
+		}
+
+		public MovementSynchronisation.PlayerMoveDirection ToVisualPlayerMoveDirection()
+		{
+			var direction = VisualFacingDirection();
 			direction = TransformMove(direction);
 
 			return MovementSynchronisation.VectorToPlayerMoveDirection(direction);
