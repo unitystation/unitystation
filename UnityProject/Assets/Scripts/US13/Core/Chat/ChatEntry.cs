@@ -182,7 +182,7 @@ namespace US13.Core.Chat
 
 			if (languageSprite != null)
 			{
-				message = $"<sprite=\"{languageSprite}\" index=0>{message}";
+				message = $"<sprite name=\"{languageSprite}\">{message}";
 			}
 
 			message =
