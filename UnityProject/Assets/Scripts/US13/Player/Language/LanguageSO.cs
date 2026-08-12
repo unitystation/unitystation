@@ -54,8 +54,8 @@ namespace US13.Player.Language
 
 		[SerializeField]
 		[Tooltip("Sprite icon for chat for this language")]
-		private TMP_SpriteAsset chatSprite = null;
-		public TMP_SpriteAsset ChatSprite => chatSprite;
+		private Sprite chatSprite = null;
+		public Sprite ChatSprite => chatSprite;
 
 		[SerializeField]
 		[Tooltip("Flags for this language")]

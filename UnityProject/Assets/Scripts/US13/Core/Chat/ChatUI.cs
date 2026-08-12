@@ -338,13 +338,13 @@ namespace US13.Core.Chat
 		/// <summary>
 		/// Only to be used via chat relay!
 		/// </summary>
-		public void AddChatEntry(string message, TMP_SpriteAsset languageSprite = null)
+		public void AddChatEntry(string message, Sprite languageSprite = null)
 		{
 			if (WillUpdateStack(ref message)) return;
 			GameObject entry = entryPool.GetChatEntry();
 			var chatEntry = entry.GetComponent<ChatEntry>();
 			chatEntry.ViewportTransform = viewportTransform;
-			chatEntry.SetText(message, languageSprite, ChatManager.Instance.Fonts.FirstOrDefault(x => x.name == ChatManager.Instance.FontIndexToUse));
+			chatEntry.SetText(message, languageSprite?.name, ChatManager.Instance.Fonts.FirstOrDefault(x => x.name == ChatManager.Instance.FontIndexToUse));
 			allEntries.Add(chatEntry);
 			SetEntryTransform(entry);
 			CheckLengthOfChatLog();
