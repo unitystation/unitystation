@@ -8,6 +8,7 @@ using US13.Core.GameGizmos;
 using US13.Core.Physics;
 using US13.Managers.MatrixManager;
 using US13.Tilemaps.Behaviours.Layers;
+using Util;
 
 namespace US13.Systems.Explosions.NodeTypes
 {
@@ -44,10 +45,10 @@ namespace US13.Systems.Explosions.NodeTypes
 			return 2f; //magic number
 		}
 
-		private void PullPushThings(Vector3Int worldPosition, float force)
+		private void PullPushThings(Vector3Int LocalPosition, float force)
 		{
 			float throwSpeed = Math.Max(0.5f, force * 0.25f);
-
+			var worldPosition = LocalPosition.ToWorld(matrix);
 			Vector2 direction = AngleAndIntensity.normalized;
 			GameGizmomanager.Instance.AddNewLine(null, worldPosition - (Vector3) direction, null,worldPosition +  (Vector3)direction, color: Color.green, 0.05f, 10);
 			foreach (var objectPhysics in MatrixManager.GetAt<UniversalObjectPhysics>(worldPosition, true).Distinct())
