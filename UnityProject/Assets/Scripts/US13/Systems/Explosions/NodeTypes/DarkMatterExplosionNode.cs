@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using US13.Core.Addressables;
 using US13.Core.Addressables.Types;
+using US13.Core.GameGizmos;
 using US13.Core.Physics;
 using US13.Managers.MatrixManager;
 using US13.Tilemaps.Behaviours.Layers;
@@ -47,7 +48,8 @@ namespace US13.Systems.Explosions.NodeTypes
 		{
 			float throwSpeed = Math.Max(0.5f, force * 0.25f);
 
-			Vector2 direction = (ExplosionStartWorldPosition - worldPosition).normalized;
+			Vector2 direction = AngleAndIntensity.normalized;
+			GameGizmomanager.Instance.AddNewLine(null, worldPosition - (Vector3) direction, null,worldPosition +  (Vector3)direction, color: Color.green, 0.05f, 10);
 			foreach (var objectPhysics in MatrixManager.GetAt<UniversalObjectPhysics>(worldPosition, true).Distinct())
 			{
 				if (objectPhysics == false) continue;

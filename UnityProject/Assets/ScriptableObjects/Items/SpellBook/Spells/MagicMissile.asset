@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f46fbaf230eb28d45baade2d17e5f92f, type: 3}
+  m_Name: MagicMissile
+  m_EditorClassIdentifier: 
+  description: 'The bread and butter of most wizards. This spell summons little magical
+    orbs that chase nearby targets, stunning them on hit. While slow, the orbs track
+    their targets, making them very hard to avoid. Every target will have its own
+    orb, so there''s no limit to the amount of targets as long as they''re in range. '
+  note: 
+  cost: 2
+  conflictsWith: []
+  spell: {fileID: 11400000, guid: 88c6cfe2c12005647b5cb0a3b81359b6, type: 2}

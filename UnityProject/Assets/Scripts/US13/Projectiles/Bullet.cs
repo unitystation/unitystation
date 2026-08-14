@@ -26,6 +26,9 @@ namespace US13.Projectiles
 
 		private GameObject target;
 
+		private ICustomHitValid ICustomHitValid;
+
+
 		[SerializeField] private HitProcessor hitProcessor = null;
 		[SerializeField] private LayerMaskData maskData = null;
 
@@ -42,6 +45,8 @@ namespace US13.Projectiles
 
 		private GameObject shooter;
 
+		public GameObject Shooter => shooter;
+
 		private bool destroyed;
 		public bool Destroyed => destroyed;
 
@@ -55,7 +60,7 @@ namespace US13.Projectiles
 			behavioursOnBulletDespawn = GetComponents<IOnDespawn>();
 
 			movingProjectile = GetComponentInChildren<MovingProjectile>();
-
+			ICustomHitValid = GetComponent<ICustomHitValid>();
 			thisTransform = transform;
 
 
@@ -142,6 +147,11 @@ namespace US13.Projectiles
 		/// <returns></returns>
 		private bool IsHitValid(MatrixManager.CustomPhysicsHit  hit)
 		{
+			if (ICustomHitValid != null)
+			{
+				return ICustomHitValid.IsHitValid(hit);
+			}
+
 			if (hit.ItHit == false) return false;
 			if (hit.CollisionHit.GameObject == shooter && WillHurtShooter == false) return false;
 

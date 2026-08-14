@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f46fbaf230eb28d45baade2d17e5f92f, type: 3}
+  m_Name: Charge
+  m_EditorClassIdentifier: Assets::US13.ScriptableObjects.Items.SpellBook.SpellBookSpell
+  description: Useful for recharging magical artifacts that typically run dry after
+    a few shots. They've also been used in the past by enterprising wizards to recharge
+    other things like energy weapons, spellbooks, and even other wizards!
+  note: 
+  cost: 1
+  conflictsWith: []
+  spell: {fileID: 11400000, guid: 2127bd25b453eb9489b1c5a0b6d1f8eb, type: 2}

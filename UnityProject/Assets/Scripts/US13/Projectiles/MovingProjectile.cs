@@ -15,22 +15,22 @@ namespace US13.Projectiles
 	/// </summary>
 	public class MovingProjectile : NetworkBehaviour
 	{
-		private Bullet projectile;
-		private LayerMaskData maskData;
-		private Transform ProjectileTransform;
+		protected Bullet projectile;
+		protected LayerMaskData maskData;
+		protected Transform ProjectileTransform;
 
-		private Vector3 previousPosition;
+		protected Vector3 previousPosition;
 
 		[SyncVar(hook = nameof(SyncPosition))]
-		private Vector3 currentLocalPosition;
+		protected Vector3 currentLocalPosition;
 
 		[SyncVar(hook = nameof(SyncRotation))]
-		private Quaternion rotation;
+		protected Quaternion rotation;
 
-		private float velocity;
+		protected float velocity;
 
 		[SerializeField]
-		private LayerTile[] tileNamesToIgnore;
+		protected LayerTile[] tileNamesToIgnore;
 
 		private void Awake()
 		{
@@ -57,7 +57,7 @@ namespace US13.Projectiles
 				Vector3.forward));
 		}
 
-		private void UpdateMe()
+		protected virtual void UpdateMe()
 		{
 			if(CustomNetworkManager.IsServer == false) return;
 			if(projectile.Destroyed) return;
@@ -70,12 +70,12 @@ namespace US13.Projectiles
 			}
 		}
 
-		private void CachePreviousPosition()
+		protected void CachePreviousPosition()
 		{
 			previousPosition =  ProjectileTransform.position;
 		}
 
-		private Vector2 MoveProjectile()
+		protected Vector2 MoveProjectile()
 		{
 			var distanceToTravel =  Vector2.up * (velocity * Time.deltaTime);
 			ProjectileTransform.Translate(distanceToTravel, Space.Self);
@@ -92,19 +92,19 @@ namespace US13.Projectiles
 		}
 
 
-		private void SyncPosition(Vector3 InOld, Vector3 InNew)
+		protected void SyncPosition(Vector3 InOld, Vector3 InNew)
 		{
 			currentLocalPosition = InNew;
 			if (isServer) return;
 			ProjectileTransform.position = InNew;
 		}
 
-		private bool ProcessMovement(Vector2 distanceToTravel)
+		protected bool ProcessMovement(Vector2 distanceToTravel)
 		{
 			return projectile.ProcessMove(distanceToTravel, ProjectileTransform.position, previousPosition);
 		}
 
-		private void SimulateCollision()
+		protected void SimulateCollision()
 		{
 			var distanceDelta = ProjectileTransform.position - previousPosition;
 			var hit = MatrixManager.RayCast(previousPosition, distanceDelta.normalized, distanceDelta.magnitude, maskData.TileMapLayers, maskData.Layers, tileNamesToIgnore: tileNamesToIgnore);

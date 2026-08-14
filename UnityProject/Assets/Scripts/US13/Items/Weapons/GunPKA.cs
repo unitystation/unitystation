@@ -18,6 +18,8 @@ namespace US13.Items.Weapons
 		[SerializeField]
 		private GameObject projectile;
 
+		public GameObject Projectile => projectile;
+
 		public bool allowRecharge = true;
 
 		[SerializeField]

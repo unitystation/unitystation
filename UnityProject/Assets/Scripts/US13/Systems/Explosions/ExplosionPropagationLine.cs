@@ -35,18 +35,18 @@ namespace US13.Systems.Explosions
 		}
 
 
-		int x0 = 0;
-		int y0 = 0;
-		int x1 = 0;
-		int y1 = 0;
+		float x0 = 0;
+		float y0 = 0;
+		float x1 = 0;
+		float y1 = 0;
 		private float Angle = 0;
 
-		int dx = 0;
+		float dx = 0;
 		int sx = 0;
-		int dy = 0;
+		float dy = 0;
 		int sy = 0;
-		int err = 0;
-		int e2 = 0;
+		float err = 0;
+		float e2 = 0;
 		public float ExplosionStrength = 0;
 		private bool InitialStep = true;
 
@@ -81,7 +81,7 @@ namespace US13.Systems.Explosions
 			return -1;
 		}
 
-		public void SetUp(int X0, int Y0, int X1, int Y1, float InExplosionStrength, ExplosionNode nodeType)
+		public void SetUp(float X0, float Y0, float X1, float Y1, float InExplosionStrength, ExplosionNode nodeType)
 		{
 			ExplosionStrength = Mathf.Abs(InExplosionStrength);
 
@@ -99,7 +99,7 @@ namespace US13.Systems.Explosions
 			dy = Math.Abs(y1 - y0);
 			sy = y0 < y1 ? 1 : -1;
 
-			err = (dx > dy ? dx : -dy) / 2;
+			err = (dx > dy ? dx : -dy) / 2f;
 
 			NodeType = nodeType;
 		}
@@ -118,7 +118,7 @@ namespace US13.Systems.Explosions
 				return;
 			}
 
-			Vector3Int WorldPSos = new Vector3Int(x0, y0, 0);
+			Vector3 WorldPSos = new Vector3(x0, y0, 0);
 			MatrixInfo Matrix = MatrixManager.AtPoint(WorldPSos, CustomNetworkManager.IsServer);
 			Vector3Int Local = WorldPSos.ToLocal(Matrix.Matrix).RoundToInt();
 			MetaDataNode NodePoint = Matrix.MetaDataLayer.Get(Local); //Explosion node
