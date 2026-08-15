@@ -2,23 +2,25 @@ using System;
 using UnityEngine;
 using US13.Managers.MatrixManager;
 using US13.Player;
-using US13.Projectiles.Behaviours;
 
-public class ProjectileTeleportRandom : MonoBehaviour, IOnHit
+namespace US13.Projectiles.Behaviours
 {
-	public bool OnHit(MatrixManager.CustomPhysicsHit hit)
+	public class ProjectileTeleportRandom : MonoBehaviour, IOnHit
 	{
-		if (hit.CollisionHit.GameObject == null)
+		public bool OnHit(MatrixManager.CustomPhysicsHit hit)
 		{
+			if (hit.CollisionHit.GameObject == null)
+			{
+				return true;
+			}
+			else
+			{
+				int maxRange = 11;
+				int potencyStrength = (int) Math.Round((100 * .01f) * maxRange, 0);
+				TeleportUtils.ServerTeleportRandom(hit.CollisionHit.GameObject, 0, potencyStrength, false, true);
+			}
+
 			return true;
 		}
-		else
-		{
-			int maxRange = 11;
-			int potencyStrength = (int)Math.Round((100 * .01f) * maxRange, 0);
-			TeleportUtils.ServerTeleportRandom(hit.CollisionHit.GameObject, 0, potencyStrength, false, true);
-		}
-
-		return true;
 	}
 }

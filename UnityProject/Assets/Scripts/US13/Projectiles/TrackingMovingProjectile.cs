@@ -1,46 +1,51 @@
 using UnityEngine;
 using US13.Managers.NetworkManagement;
-using US13.Projectiles;
 using Util;
 
-public class TrackingMovingProjectile : MovingProjectile
+namespace US13.Projectiles
 {
-	public GameObject Target;
-
-	protected override void UpdateMe()
+	public class TrackingMovingProjectile : MovingProjectile
 	{
-		if(CustomNetworkManager.IsServer == false) return;
-		if(projectile.Destroyed) return;
+		public GameObject Target;
 
-		CachePreviousPosition();
-
-		if (ProcessMovement( MoveProjectileToTarget()))
+		protected override void UpdateMe()
 		{
-			SimulateCollision();
-		}
-	}
+			if (CustomNetworkManager.IsServer == false) return;
+			if (projectile.Destroyed) return;
 
-	protected Vector2 MoveProjectileToTarget()
-	{
-		if (Target != null)
-		{
-			RotateTowardsTarget();
+			CachePreviousPosition();
+
+			if (ProcessMovement(MoveProjectileToTarget()))
+			{
+				SimulateCollision();
+			}
 		}
 
-		var distanceToTravel =  Vector2.up * (velocity * Time.deltaTime);
-		ProjectileTransform.Translate(distanceToTravel, Space.Self);
-		var worldPos = ProjectileTransform.position;
-		//NOTE Needs to be world since the client doesn't have the Prefab parented to anything
-		SyncPosition(currentLocalPosition, worldPos);
-		return distanceToTravel;
-	}
+		protected Vector2 MoveProjectileToTarget()
+		{
+			if (Target != null)
+			{
+				RotateTowardsTarget();
+			}
 
-	private void RotateTowardsTarget()
-	{
-		Vector2 directionToTarget = (Vector2)Target.gameObject.AssumedWorldPosServer() - (Vector2)ProjectileTransform.position;
-		if (directionToTarget.sqrMagnitude < 0.0001f) return; // avoid NaN from atan2 on a zero vector
+			var distanceToTravel = Vector2.up * (velocity * Time.deltaTime);
+			ProjectileTransform.Translate(distanceToTravel, Space.Self);
+			var worldPos = ProjectileTransform.position;
+			//NOTE Needs to be world since the client doesn't have the Prefab parented to anything
+			SyncPosition(currentLocalPosition, worldPos);
+			return distanceToTravel;
+		}
 
-		float targetAngle = Mathf.Atan2(directionToTarget.y, directionToTarget.x) * Mathf.Rad2Deg - 90f; // -90 since Vector2.up is treated as forward
-		ProjectileTransform.rotation = Quaternion.Euler(0f, 0f, targetAngle);
+		private void RotateTowardsTarget()
+		{
+			Vector2 directionToTarget = (Vector2) Target.gameObject.AssumedWorldPosServer() -
+			                            (Vector2) ProjectileTransform.position;
+			if (directionToTarget.sqrMagnitude < 0.0001f) return; // avoid NaN from atan2 on a zero vector
+
+			float targetAngle =
+				Mathf.Atan2(directionToTarget.y, directionToTarget.x) * Mathf.Rad2Deg -
+				90f; // -90 since Vector2.up is treated as forward
+			ProjectileTransform.rotation = Quaternion.Euler(0f, 0f, targetAngle);
+		}
 	}
 }

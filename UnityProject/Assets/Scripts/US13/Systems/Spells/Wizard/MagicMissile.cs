@@ -1,50 +1,48 @@
 using UnityEngine;
 using US13.HealthV2;
 using US13.HealthV2.Living;
-using US13.Items.Weapons;
 using US13.Managers;
-using US13.Objects;
 using US13.Projectiles;
-using US13.Systems.Construction.Parts;
-using US13.Systems.Inventory;
-using US13.Systems.Spells;
 using Util;
 
-public class MagicMissile : Spell
+namespace US13.Systems.Spells.Wizard
 {
-	public GameObject projectilePrefab;
-
-	public override bool CastSpellServer(PlayerInfo caster, Vector3 clickPosition, BodyPartType targetZone)
+	public class MagicMissile : Spell
 	{
-		var casterWorldPos = caster.Script.gameObject.AssumedWorldPosServer();
+		public GameObject projectilePrefab;
 
-		Collider2D[] hits = Physics2D.OverlapCircleAll(casterWorldPos, 10f);
-
-		foreach (Collider2D hit in hits)
+		public override bool CastSpellServer(PlayerInfo caster, Vector3 clickPosition, BodyPartType targetZone)
 		{
-			LivingHealthMasterBase target = hit.GetComponent<LivingHealthMasterBase>();
+			var casterWorldPos = caster.Script.gameObject.AssumedWorldPosServer();
 
-			if (target == false)
+			Collider2D[] hits = Physics2D.OverlapCircleAll(casterWorldPos, 10f);
+
+			foreach (Collider2D hit in hits)
 			{
-				continue;
+				LivingHealthMasterBase target = hit.GetComponent<LivingHealthMasterBase>();
+
+				if (target == false)
+				{
+					continue;
+				}
+
+				// Skip the caster itself
+				if (target.gameObject == caster.GameObject)
+				{
+					continue;
+				}
+
+
+				Vector2 castVector = (Vector2)target.gameObject.transform.position - (Vector2)casterWorldPos;
+
+				var Projectile = ProjectileManager.InstantiateAndShoot(projectilePrefab, castVector, caster.GameObject,
+					null, targetZone);
+
+				Projectile.GetComponent<TrackingMovingProjectile>().Target = hit.gameObject;
+				Projectile.GetComponent<HitPlayerTarget>().target = hit.gameObject;
 			}
 
-			// Skip the caster itself
-			if (target.gameObject == caster.GameObject)
-			{
-				continue;
-			}
-
-
-			Vector2 castVector = (Vector2)target.gameObject.transform.position - (Vector2)casterWorldPos;
-
-			var Projectile = ProjectileManager.InstantiateAndShoot(projectilePrefab, castVector, caster.GameObject,
-				null, targetZone);
-
-			Projectile.GetComponent<TrackingMovingProjectile>().Target = hit.gameObject;
-			Projectile.GetComponent<HitPlayerTarget>().target = hit.gameObject;
+			return hits.Length > 0;
 		}
-
-		return hits.Length > 0;
 	}
 }

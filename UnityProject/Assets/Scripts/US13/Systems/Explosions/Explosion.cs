@@ -28,10 +28,10 @@ namespace US13.Systems.Explosions
 
 		public class ExplosionData
 		{
-			public HashSet<Vector2> CircleCircumference = new HashSet<Vector2>();
+			public HashSet<Vector2Int> CircleCircumference = new HashSet<Vector2Int>();
 		}
 
-		public static void StartExplosion(Vector3 WorldPOS, float strength, ExplosionNode nodeType = null,
+		public static void StartExplosion(Vector3Int WorldPOS, float strength, ExplosionNode nodeType = null,
 			int fixedRadius = -1, int fixedShakingStrength = -1, List<ItemTrait> damageIgnoreAttributes = null, bool stunNearbyPlayers = false, int radiusMultiplier = 1)
 		{
 			AdminLogsManager.AddNewLog(null, $"An explosion has occured at {WorldPOS} with strength: {strength}.", LogCategory.World,
@@ -76,7 +76,7 @@ namespace US13.Systems.Explosions
 			}
 
 			float volumeMultiplier = Mathf.Clamp(strengthMag / EXPLOSION_STRENGTH_LOW, 0.25f, 1);
-			ExplosionUtils.PlaySoundAndShake(WorldPOS.RoundToInt(), shakingStrength, radius / 20, nodeType.CustomSound, volumeMultiplier);
+			ExplosionUtils.PlaySoundAndShake(WorldPOS, shakingStrength, radius / 20, nodeType.CustomSound, volumeMultiplier);
 
 			//Generates the conference
 			var explosionData = new ExplosionData();
@@ -94,7 +94,7 @@ namespace US13.Systems.Explosions
 			// we assume that the explosion isn't something small like an EMP gernade or
 			if (stunNearbyPlayers || strengthMag > EXPLOSION_STRENGTH_HIGH)
 			{
-				_ = StunAndFlashPlayers(WorldPOS.RoundTo2Int(), strengthMag);
+				_ = StunAndFlashPlayers(WorldPOS.To2Int(), strengthMag);
 			}
 
 			ScoreMachine.AddToScoreInt(1, RoundEndScoreBuilder.COMMON_SCORE_EXPLOSION);
@@ -138,7 +138,7 @@ namespace US13.Systems.Explosions
 		//https://www.geeksforgeeks.org/bresenhams-circle-drawing-algorithm/
 		// Function for circle-generation
 		// using Bresenham's algorithm
-		static void circleBres(ExplosionData explosionData, float xc, float yc, int r)
+		static void circleBres(ExplosionData explosionData, int xc, int yc, int r)
 		{
 			int x = 0, y = r;
 			int d = 3 - 2 * r;
@@ -168,16 +168,16 @@ namespace US13.Systems.Explosions
 
 		// Function to put Locations
 		// at subsequence points
-		static void drawCircle(ExplosionData explosionData, float xc, float yc, int x, int y)
+		static void drawCircle(ExplosionData explosionData, int xc, int yc, int x, int y)
 		{
-			explosionData.CircleCircumference.Add(new Vector2(xc + x, yc + y));
-			explosionData.CircleCircumference.Add(new Vector2(xc - x, yc + y));
-			explosionData.CircleCircumference.Add(new Vector2(xc + x, yc - y));
-			explosionData.CircleCircumference.Add(new Vector2(xc - x, yc - y));
-			explosionData.CircleCircumference.Add(new Vector2(xc + y, yc + x));
-			explosionData.CircleCircumference.Add(new Vector2(xc - y, yc + x));
-			explosionData.CircleCircumference.Add(new Vector2(xc + y, yc - x));
-			explosionData.CircleCircumference.Add(new Vector2(xc - y, yc - x));
+			explosionData.CircleCircumference.Add(new Vector2Int(xc + x, yc + y));
+			explosionData.CircleCircumference.Add(new Vector2Int(xc - x, yc + y));
+			explosionData.CircleCircumference.Add(new Vector2Int(xc + x, yc - y));
+			explosionData.CircleCircumference.Add(new Vector2Int(xc - x, yc - y));
+			explosionData.CircleCircumference.Add(new Vector2Int(xc + y, yc + x));
+			explosionData.CircleCircumference.Add(new Vector2Int(xc - y, yc + x));
+			explosionData.CircleCircumference.Add(new Vector2Int(xc + y, yc - x));
+			explosionData.CircleCircumference.Add(new Vector2Int(xc - y, yc - x));
 		}
 
 		private static int GetDistanceFromStrength(float strength)
