@@ -20,9 +20,9 @@ namespace US13.Systems.Spells.Wizard
 		{
 			var position = caster.Script.gameObject.AssumedWorldPosServer();
 			var matrix = MatrixManager.AtPoint(position, true);
-			Explosion.StartExplosion(position.RoundToInt(), 1000f, ExplosionTypes.NodeTypes[ExplosionTypes.ExplosionType.DarkMatter]);
+			//Explosion.StartExplosion(position.RoundToInt(), 1000f, ExplosionTypes.NodeTypes[ExplosionTypes.ExplosionType.DarkMatter]);
 
-			return true;
+			//return true;
 
 			int prefabCount = RNG.GetRandomNumber(2, 4);
 			const int range = 2;

@@ -3,6 +3,7 @@ using US13.HealthV2;
 using US13.HealthV2.Living;
 using US13.Managers;
 using US13.Projectiles;
+using US13.Projectiles.Behaviours;
 using Util;
 
 namespace US13.Systems.Spells.Wizard
