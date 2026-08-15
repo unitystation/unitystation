@@ -1,4 +1,5 @@
 using UnityEngine;
+using US13.Core;
 using US13.HealthV2;
 using US13.HealthV2.Living;
 using US13.Managers;
@@ -16,12 +17,10 @@ namespace US13.Systems.Spells.Wizard
 		{
 			var casterWorldPos = caster.Script.gameObject.AssumedWorldPosServer();
 
-			Collider2D[] hits = Physics2D.OverlapCircleAll(casterWorldPos, 10f);
+			var Nearby = ComponentsTracker<LivingHealthMasterBase>.GetAllNearbyTypesToTarget(caster.Script.gameObject, 10f);
 
-			foreach (Collider2D hit in hits)
+			foreach (var target in Nearby)
 			{
-				LivingHealthMasterBase target = hit.GetComponent<LivingHealthMasterBase>();
-
 				if (target == false)
 				{
 					continue;
@@ -39,11 +38,11 @@ namespace US13.Systems.Spells.Wizard
 				var Projectile = ProjectileManager.InstantiateAndShoot(projectilePrefab, castVector, caster.GameObject,
 					null, targetZone);
 
-				Projectile.GetComponent<TrackingMovingProjectile>().Target = hit.gameObject;
-				Projectile.GetComponent<HitPlayerTarget>().target = hit.gameObject;
+				Projectile.GetComponent<TrackingMovingProjectile>().Target = target.gameObject;
+				Projectile.GetComponent<HitPlayerTarget>().target = target.gameObject;
 			}
 
-			return hits.Length > 0;
+			return Nearby.Count > 0;
 		}
 	}
 }
