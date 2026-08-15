@@ -13,32 +13,41 @@ MonoBehaviour:
   m_Name: SpellBookData
   m_EditorClassIdentifier: 
   categoryList:
+  - name: Offensive
+    description: Spells and items geared towards debilitating and destroying.
+    entryList:
+    - {fileID: 11400000, guid: 2e06a74590a147e4eaeb08b46d3ac321, type: 2}
+    - {fileID: 11400000, guid: d0cd33073ae97b24381002690a69d7e4, type: 2}
+    - {fileID: 11400000, guid: 5f87294e709ac064080fb911d6c320e4, type: 2}
+    - {fileID: 11400000, guid: 39f61a0775c9bc9479a702cb02494fbe, type: 2}
   - name: Defensive
     description: Spells and items geared towards improving your survivability or
       reducing foes' ability to attack.
     entryList:
+    - {fileID: 11400000, guid: 9e54ade9487960d4e98ab5f0f95d1875, type: 2}
     - {fileID: 11400000, guid: 6208b5c364e9cd34baf190050eb8fcb6, type: 2}
-    - {fileID: 11400000, guid: 958b94163c62ac943b3adbaa26976ae1, type: 2}
     - {fileID: 11400000, guid: 44511df05170f664092854b97d7ba799, type: 2}
+    - {fileID: 11400000, guid: 958b94163c62ac943b3adbaa26976ae1, type: 2}
     - {fileID: 11400000, guid: 39c38bfcbc9cf4444a68ad7e233cf4d7, type: 2}
-    - {fileID: 11400000, guid: bcaa163163184b942a36421a8a74f6d6, type: 2}
     - {fileID: 11400000, guid: aa2908849c0751544a12ddfe74ee58d1, type: 2}
+    - {fileID: 11400000, guid: bcaa163163184b942a36421a8a74f6d6, type: 2}
+    - {fileID: 11400000, guid: a9b2e558a9392aa4e86c4f917cd577d4, type: 2}
   - name: Mobility
     description: Spells and items geared towards improving your ability to move.
       It is a good idea to take at least one.
     entryList:
     - {fileID: 11400000, guid: 57f0e48646c8b324e8e3390680ea67eb, type: 2}
     - {fileID: 11400000, guid: b8ff8a15a9e1ff3489e86253be44a30f, type: 2}
-    - {fileID: 11400000, guid: 83b8cd189e06e0d4faa39e2dd633f4e3, type: 2}
-    - {fileID: 11400000, guid: 7c4aadc424475e84db12e20b93084c18, type: 2}
     - {fileID: 11400000, guid: 7ce6b5ce269c9e740be63b9b60d2e698, type: 2}
     - {fileID: 11400000, guid: c6a33c3cde68d2046afcf933a6ff7499, type: 2}
+    - {fileID: 11400000, guid: 83b8cd189e06e0d4faa39e2dd633f4e3, type: 2}
   - name: Assistance
     description: Spells and items geared towards bringing in outside forces to aid
       you or improving upon your other items and abilities.
     entryList:
     - {fileID: 11400000, guid: 5858f4c01fc04af408aab0739a1e4b50, type: 2}
     - {fileID: 11400000, guid: 455f9b4f1f4e2774fb97c03f4639062a, type: 2}
+    - {fileID: 11400000, guid: 7f64b7eee14666e4bb17fc6b155ab57d, type: 2}
   - name: Rituals
     description: These powerful spells change the very fabric of reality. Not always
       in your favour.

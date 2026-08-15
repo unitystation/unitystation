@@ -42,7 +42,7 @@ namespace US13.Actions.V2.Trackers
 			}
 			else
 			{
-				if (pickupable.ItemSlot.NamedSlot != null) //TODO someone think of a better system but this works for now ( basically are we on the root level of the inventory )
+				if (pickupable?.ItemSlot?.NamedSlot != null) //TODO someone think of a better system but this works for now ( basically are we on the root level of the inventory )
 				{
 					WhenHolderIsOutOfRange();
 					TargetActionManager = info.ToRootPlayer.PlayerScript.PlayerButtonedActions;

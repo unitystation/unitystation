@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 3695110123352835740, guid: c0bdfc0522dc2ef43add0458efd1c87c,
         type: 3}
       propertyPath: foreverID
-      value: 3a862a138fabc1949a6fd26e4d385391
+      value: f2ff7e148f8fb444581cc7318c674469
       objectReference: {fileID: 0}
     - target: {fileID: 4520221803203555702, guid: c0bdfc0522dc2ef43add0458efd1c87c,
         type: 3}
@@ -22,18 +22,18 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialPresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 26abc55eeab731c4092b89161e558078,
+      objectReference: {fileID: 11400000, guid: 9bdabf6243852b34685f8e3635e19856,
         type: 2}
     - target: {fileID: 7569679527290075565, guid: c0bdfc0522dc2ef43add0458efd1c87c,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: 2061d324a55b6764a829d2ab2113da43,
+      objectReference: {fileID: 21300000, guid: b6906fc41dd2ca14094170408fc014bb,
         type: 3}
     - target: {fileID: 7667703169655306053, guid: c0bdfc0522dc2ef43add0458efd1c87c,
         type: 3}
       propertyPath: _assetId
-      value: 37114309
+      value: 507021903
       objectReference: {fileID: 0}
     - target: {fileID: 7777312831022217093, guid: c0bdfc0522dc2ef43add0458efd1c87c,
         type: 3}
@@ -88,7 +88,7 @@ PrefabInstance:
     - target: {fileID: 7781396554342910705, guid: c0bdfc0522dc2ef43add0458efd1c87c,
         type: 3}
       propertyPath: m_Name
-      value: Healing Wand
+      value: Wand of Teleportation
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: c0bdfc0522dc2ef43add0458efd1c87c,
         type: 3}
@@ -98,7 +98,7 @@ PrefabInstance:
     - target: {fileID: 7858931176587863443, guid: c0bdfc0522dc2ef43add0458efd1c87c,
         type: 3}
       propertyPath: initialName
-      value: Healing Wand
+      value: Wand of Teleportation
       objectReference: {fileID: 0}
     - target: {fileID: 7858931176587863443, guid: c0bdfc0522dc2ef43add0458efd1c87c,
         type: 3}
@@ -241,7 +241,7 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  projectile: {fileID: 1618048404492756490, guid: b70756d58d2a1484fb48a81ab37f9a8d,
+  projectile: {fileID: 1618048404492756490, guid: c8e488dbd2881f942ae90f1db9b555bb,
     type: 3}
   allowRecharge: 0
   rechargeTime: 5
@@ -254,4 +254,4 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
-  MaxRecharges: 10
+  MaxRecharges: 20

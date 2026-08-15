@@ -68,10 +68,10 @@ namespace US13.Objects
 		}
 
 
-		public float MaxCharge {
+		public int MaxCharge {
 			get
 			{
-				float maxwatts = 0;
+				int maxwatts = 0;
 				foreach (Battery battery in batteries.Values)
 				{
 					maxwatts += battery.MaxWatts;

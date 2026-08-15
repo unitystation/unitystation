@@ -1,0 +1,63 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9d639585f97bb841bc468b21539740e, type: 3}
+  m_Name: TheTraps
+  m_EditorClassIdentifier: 
+  actionType: 0
+  activeSpriteIndex: 1
+  callOnClient: 0
+  callOnServer: 1
+  actionName: The Traps
+  description: Summons various traps around you that will trigger upon being walked
+    on or if an object is thrown over/across them.  Includes fire, shock and stun
+    traps. You are, of course, immune to your own traps.
+  Sprites:
+  - {fileID: 11400000, guid: 8ce60a0bb68bd374aa2ee671c187925b, type: 2}
+  Backgrounds:
+  - {fileID: 11400000, guid: 8f7b96a7712804949a79f2ec18abee2c, type: 2}
+  PreventBeingControlledBy: 
+  DisableOnEvent: 
+  isAimable: 0
+  useCustomCursor: 0
+  cursorTexture: {fileID: 0}
+  cursorOffsetType: 0
+  cursorOffset: {x: 16, y: 16}
+  RequireLivingHealth: 0
+  spellImplementation: {fileID: 8340634137525742293, guid: b41e614217a0cff4ab23c7bb4815b7f3,
+    type: 3}
+  chargeType: 0
+  cooldownTime: 25
+  startingCharges: 10
+  castSound:
+    AssetAddress: Assets/Prefabs/Effects/GlassKnock.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  range: 0
+  stillRechargingMessage: The spell is still recharging!
+  affectedMessage: 
+  invocationType: 2
+  invocationMessage: 'CAVERE INSIDIAS '
+  invocationMessageSelf: 'CAVERE INSIDIAS '
+  summonType: 0
+  summonObjects: []
+  summonTiles: []
+  summonPosition: 1
+  summonLifespan: 10
+  replaceExisting: 0
+  AllowSoftCriticalUses: 1
+  requireWizardGarb: 1
+  tierCount: 4
+  cooldownModifierPC: 20.47

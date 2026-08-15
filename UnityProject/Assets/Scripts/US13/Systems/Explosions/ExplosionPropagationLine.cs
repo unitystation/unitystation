@@ -120,7 +120,7 @@ namespace US13.Systems.Explosions
 
 			Vector3Int WorldPSos = new Vector3Int(x0, y0, 0);
 			MatrixInfo Matrix = MatrixManager.AtPoint(WorldPSos, CustomNetworkManager.IsServer);
-			Vector3Int Local = WorldPSos.ToLocal(Matrix.Matrix).RoundToInt();
+			Vector3Int Local = (WorldPSos.ToLocal(Matrix.Matrix)).RoundToInt();
 			MetaDataNode NodePoint = Matrix.MetaDataLayer.Get(Local); //Explosion node
 
 			if (NodePoint != null)

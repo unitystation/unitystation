@@ -97,7 +97,7 @@ namespace US13.UI.Systems.Tooltips.HoverTooltips
 			detailsModeEnabled = CommonInput.GetKeyDown(KeyCode.LeftShift);
 			if (detailsModeEnabled && CurrentlyOverObject != null)
 			{
-				SetupTooltip(CurrentlyOverObject);
+				SetupTooltip(CurrentlyOverObject, true);
 			}
 
 			if (CommonInput.GetKeyDown(KeyCode.Escape))
@@ -106,7 +106,7 @@ namespace US13.UI.Systems.Tooltips.HoverTooltips
 			}
 		}
 
-		public void SetupTooltip(GameObject hoverObject)
+		public void SetupTooltip(GameObject hoverObject, bool SkipWaiting = false)
 		{
 			CurrentlyOverObject = hoverObject;
 
@@ -121,6 +121,23 @@ namespace US13.UI.Systems.Tooltips.HoverTooltips
 			if (ProtipManager.Instance.PlayerExperienceLevel >= ProtipManager.ExperienceLevel.SomewhatExperienced
 			    && detailsModeEnabled == false) return;
 
+			if (SkipWaiting)
+			{
+				Setup(CurrentlyOverObject);
+			}
+			else
+			{
+				StartCoroutine(WaitShowTooltip(hoverObject));
+			}
+
+		}
+
+
+		private IEnumerator WaitShowTooltip(GameObject queuedObject)
+		{
+			yield return WaitFor.Seconds(HoverDelay);
+			if (showing) yield break;
+			if (queuedObject != CurrentlyOverObject) yield break;
 			Setup(CurrentlyOverObject);
 		}
 

@@ -22,13 +22,13 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialPresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: f84d1506ff6e39d4ba633afd0b3ffed9,
+      objectReference: {fileID: 11400000, guid: 8a7d0d4d352f95047be3cab7f5bf6772,
         type: 2}
     - target: {fileID: 7569679527290075565, guid: c0bdfc0522dc2ef43add0458efd1c87c,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6f35544d2316eb143b61e3398070140b,
+      objectReference: {fileID: 21300000, guid: 81aedc0e768512c488009d72fd8478a0,
         type: 3}
     - target: {fileID: 7667703169655306053, guid: c0bdfc0522dc2ef43add0458efd1c87c,
         type: 3}
@@ -261,6 +261,7 @@ MonoBehaviour:
       m_EditorAssetChanged: 0
   projectile: {fileID: 1618048404492756490, guid: 644b80d0453eb224f9916b215a68a09c,
     type: 3}
+  allowRecharge: 1
   rechargeTime: 2.5
   rechargeSpriteHandler: {fileID: 0}
   rechargeSound:

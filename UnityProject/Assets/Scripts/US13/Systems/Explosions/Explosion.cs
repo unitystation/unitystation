@@ -38,7 +38,6 @@ namespace US13.Systems.Explosions
 				Severity.SUSPICOUS);
 			nodeType ??= new ExplosionNode(WorldPOS);
 			nodeType.IgnoreAttributes = damageIgnoreAttributes;
-
 			int radius = 0;
 			float strengthMag = Math.Abs(strength);
 			if (fixedRadius <= 0)

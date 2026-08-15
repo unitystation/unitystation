@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f46fbaf230eb28d45baade2d17e5f92f, type: 3}
+  m_Name: TheTraps
+  m_EditorClassIdentifier: Assets::US13.ScriptableObjects.Items.SpellBook.SpellBookSpell
+  description: Summons various traps around you that will trigger upon being walked
+    on or if an object is thrown over/across them.  Includes fire, shock and stun
+    traps. You are, of course, immune to your own traps.
+  note: 
+  cost: 1
+  conflictsWith: []
+  spell: {fileID: 11400000, guid: e023cb719e1b9524abb06e17946129d9, type: 2}
