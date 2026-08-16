@@ -88,6 +88,11 @@ namespace US13.Managers.LobbyManager
 			{
 				isMusicMute = UnityEngine.PlayerPrefs.GetInt(PlayerPrefKeys.MuteMusic) == 0;
 			}
+
+			if (UnityEngine.PlayerPrefs.HasKey(PlayerPrefKeys.MusicVolumeKey))
+			{
+				MusicVolume = UnityEngine.PlayerPrefs.GetFloat(PlayerPrefKeys.MusicVolumeKey);
+			}
 		}
 
 		private void Start()
@@ -196,6 +201,7 @@ namespace US13.Managers.LobbyManager
 			musicAudioSource.clip = audioSource.AudioSource.clip;
 			musicAudioSource.mute = isMusicMute;
 			musicAudioSource.volume = Instance.MusicVolume;
+			AudioManager.MusicVolume(Instance.MusicVolume, false);
 			musicAudioSource.Play();
 			if (musicAudioSource.clip == null) return new string[]{ "ERROR",  "ERROR" , "ERROR",  "ERROR"};;
 			return musicAudioSource.clip.name.Split('_');
@@ -274,6 +280,10 @@ namespace US13.Managers.LobbyManager
 		public void ChangeVolume(float newVolume)
 		{
 			MusicVolume = newVolume;
+			if (musicAudioSource != null)
+			{
+				musicAudioSource.volume = newVolume;
+			}
 			AudioManager.MusicVolume(newVolume);
 
 			SaveNewVolume(newVolume);

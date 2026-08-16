@@ -31,11 +31,14 @@ namespace US13.Systems.Lobby
 		/// </summary>
 		public List<SubAccountGetCharacterSheet> Characters { get; } = new();
 
-		/// <summary>Get the key associated with the active character (the character the rest of the game should use).</summary>
-		public int ActiveCharacterKey { get; private set; } = 0;
+		/// <summary>Get the id of the active character (the character the rest of the game should use).</summary>
+		public int ActiveCharacterId { get; private set; }
 
 		/// <summary>Get the active character (the character the rest of the game should use).</summary>
-		public CharacterSheet ActiveCharacter => Get(ActiveCharacterKey);
+		public CharacterSheet ActiveCharacter => Get(ActiveCharacterId);
+
+		/// <summary>Raised on the main thread when the active character is swapped or edited.</summary>
+		public event Action OnActiveCharacterChanged;
 
 		private string OfflineStoragePath => $"characters.json";
 
@@ -52,75 +55,127 @@ namespace US13.Systems.Lobby
 				// No characters? All good, just create a random one and remember it.
 				var defaultCharacter = CharacterSheet.GenerateRandomCharacter();
 				Add(defaultCharacter);
-				SetLastCharacterKey(0);
+				SetActiveCharacter(Characters[0].Id);
+				SetLastCharacter(Characters[0].Id);
 				SaveCharacters();
 				return;
 			}
 
-			int lastKeyUsed = GetLastCharacterKey();
-			SetActiveCharacter(IsCharacterKeyValid(lastKeyUsed) ? lastKeyUsed : Characters.Count - 1);
+			int lastId = GetLastCharacterId();
+			SetActiveCharacter(HasCharacter(lastId) ? lastId : Characters[Characters.Count - 1].Id);
 		}
 
-		public void SetActiveCharacter(int key)
+		/// <summary>Set the character that the rest of the game should use.</summary>
+		/// <param name="id">Id of the <see cref="CharacterSheet"/>.</param>
+		public void SetActiveCharacter(int id)
 		{
-			if (IsCharacterKeyValid(key) == false)
+			if (HasCharacter(id) == false)
 			{
 				Loggy.Error(
-					"An attempt was made to set the active character with a key that doesn't exist. Ignoring.");
+					$"An attempt was made to set the active character to id \"{id}\" which doesn't exist. Ignoring.");
 				return;
 			}
 
-			ActiveCharacterKey = key;
+			ActiveCharacterId = id;
+			NotifyActiveCharacterChanged();
 		}
 
-		/// <summary>Check if the provided <see cref="CharacterSheet"/> key is valid.</summary>
-		/// <param name="key">The <see cref="CharacterSheet"/> key to check.</param>
-		/// <returns>True if the key is valid.</returns>
-		public bool IsCharacterKeyValid(int key)
+		private void NotifyActiveCharacterChanged()
 		{
-			return key >= 0 && key < Characters.Count;
+			LoadManager.DoInMainThread(() => OnActiveCharacterChanged?.Invoke());
 		}
 
-		/// <summary>Get the key of the <see cref="CharacterSheet"/> that was last set as active.</summary>
-		/// <returns>The last active <see cref="CharacterSheet"/>.</returns>
-		public int GetLastCharacterKey()
+		/// <summary>Check whether a <see cref="CharacterSheet"/> with the given id is loaded.</summary>
+		/// <param name="id">The <see cref="CharacterSheet"/> id to check.</param>
+		public bool HasCharacter(int id)
 		{
-			int lastCharacterIndex = UnityEngine.PlayerPrefs.GetInt(PlayerPrefKeys.LastCharacterIndex);
-
-			return Math.Clamp(lastCharacterIndex, 0, Characters.Count);
+			return IndexOfId(id) != -1;
 		}
 
-		/// <summary>Set and remember the <see cref="CharacterSheet"/> that should be automatically selected as active.</summary>
-		/// <param name="key">Key of the <see cref="CharacterSheet"/>.</param>
-		public void SetLastCharacterKey(int key)
+		/// <summary>Get the list position of the <see cref="CharacterSheet"/> with the given id, or -1.</summary>
+		/// <param name="id">The <see cref="CharacterSheet"/> id to look for.</param>
+		public int IndexOfId(int id)
 		{
-			if (IsCharacterKeyValid(key) == false)
+			if (id == 0) return -1;
+
+			for (int i = 0; i < Characters.Count; i++)
+			{
+				if (Characters[i].Id != id) continue;
+
+				return i;
+			}
+
+			return -1;
+		}
+
+		/// <summary>Get the id of the <see cref="CharacterSheet"/> that was last set as active.</summary>
+		public int GetLastCharacterId()
+		{
+			return UnityEngine.PlayerPrefs.GetInt(PlayerPrefKeys.LastCharacterId);
+		}
+
+		/// <summary>Remember the <see cref="CharacterSheet"/> that should be automatically selected as active.</summary>
+		/// <param name="id">Id of the <see cref="CharacterSheet"/>.</param>
+		public void SetLastCharacter(int id)
+		{
+			if (HasCharacter(id) == false)
 			{
 				Loggy.Error(
-					"An attempt was made to set the active character with a key that doesn't exist. Ignoring.");
+					$"An attempt was made to remember character id \"{id}\" which doesn't exist. Ignoring.");
 				return;
 			}
 
-			UnityEngine.PlayerPrefs.SetInt(PlayerPrefKeys.LastCharacterIndex, key);
+			UnityEngine.PlayerPrefs.SetInt(PlayerPrefKeys.LastCharacterId, id);
 			UnityEngine.PlayerPrefs.Save();
 		}
 
-		/// <summary>Get the <see cref="CharacterSheet"/> associated with the given key or default.</summary>
-		/// <param name="key">Key associated with the requested <see cref="CharacterSheet"/>.</param>
+		private bool IsRegisteredOnline(SubAccountGetCharacterSheet character)
+		{
+			return character.Id > 0;
+		}
+
+		private void EnsureId(SubAccountGetCharacterSheet character)
+		{
+			if (character.Id != 0) return;
+
+			int lowest = 0;
+			foreach (var existing in Characters)
+			{
+				if (existing.Id < lowest)
+				{
+					lowest = existing.Id;
+				}
+			}
+
+			character.Id = lowest - 1;
+		}
+
+		private void ReplaceCharacterId(int oldId, int newId)
+		{
+			if (ActiveCharacterId != oldId) return;
+
+			ActiveCharacterId = newId;
+			SetLastCharacter(newId);
+		}
+
+		/// <summary>Get the <see cref="CharacterSheet"/> with the given id, or default.</summary>
+		/// <param name="id">Id of the requested <see cref="CharacterSheet"/>.</param>
 		/// <returns><see cref="CharacterSheet"/> or default.</returns>
-		public CharacterSheet Get(int key)
+		public CharacterSheet Get(int id)
 		{
 			CharacterSheet GenerateRandomSheet()
 			{
 				var sheet = CharacterSheet.GenerateRandomCharacter();
-				Characters.Add(new SubAccountGetCharacterSheet()
+				var wrapped = new SubAccountGetCharacterSheet()
 				{
 					Account = PlayerManager.Account.Id,
 					ForkCompatibility = CharacterSheetForkCompatibility,
 					CharacterSheetVersion = CharacterSheetVersion,
 					Data = sheet,
 					LastUpdated = DateTime.Now
-				});
+				};
+				EnsureId(wrapped);
+				Characters.Add(wrapped);
 				return sheet;
 			}
 
@@ -129,39 +184,48 @@ namespace US13.Systems.Lobby
 				Loggy.Info("No character sheets found. Generating a new one..");
 				return GenerateRandomSheet();
 			}
-			if (IsCharacterKeyValid(key) == false)
+
+			int index = IndexOfId(id);
+			if (index != -1)
 			{
-				var msg = $"An attempt was made to fetch a character with an invalid key \"{key}\". " +
-				          $"The game will attempt to fill this data for you with a randomly generated character sheet.";
-				Loggy.Error(msg);
-				UIManager.InfoWindow.Show(msg, false, "Error");
-				return GenerateRandomSheet();
+				return Characters[index].Data;
 			}
 
-			var character = Characters[key];
-			return character.Data;
+			if (id != 0)
+			{
+				Loggy.Error($"An attempt was made to fetch character id \"{id}\" which doesn't exist. Using the first character instead.");
+			}
+
+			return Characters[0].Data;
 		}
 
-		/// <summary>Set the <see cref="CharacterSheet"/> associated with the given key.</summary>
-		/// <param name="key">Key associated with the updated <see cref="CharacterSheet"/>.</param>
+		/// <summary>Set the <see cref="CharacterSheet"/> with the given id.</summary>
+		/// <param name="id">Id of the updated <see cref="CharacterSheet"/>.</param>
 		/// <param name="character"><see cref="CharacterSheet"/> to set.</param>
-		public void Set(int key, CharacterSheet character)
+		public void Set(int id, CharacterSheet character)
 		{
-			if (IsCharacterKeyValid(key) == false)
+			int index = IndexOfId(id);
+			if (index == -1)
 			{
-				Loggy.Warning($"An attempt was made to set a character with an invalid key \"{key}\". Ignoring.");
+				Loggy.Warning($"An attempt was made to set character id \"{id}\" which doesn't exist. Ignoring.");
 				return;
 			}
 
-			Characters[key].Data = character;
+			Characters[index].Data = character;
 
-			_ = PersistenceServer.PutAccountsCharacterByID(Characters[key].Id, Characters[key], PlayerManager.Account.Token);
-			Task.Run(() => UpdateCharacterOnline(Characters[key]));
+			Task.Run(() => UpdateCharacterOnline(Characters[index]));
 			SaveCharacters();
+
+			if (id == ActiveCharacterId)
+			{
+				NotifyActiveCharacterChanged();
+			}
 		}
 
 		public async Task UpdateCharacterOnline(SubAccountGetCharacterSheet character)
 		{
+			if (IsRegisteredOnline(character) == false) return;
+
 			LoadManager.DoInMainThread( () =>
 			{
 				Loggy.Info($"Updating character {character.Id} online.");
@@ -206,6 +270,7 @@ namespace US13.Systems.Lobby
 				CharacterSheetVersion = CharacterSheetVersion,
 				Data = character
 			};
+			EnsureId(SubAccountGetcharacter);
 			Characters.Add(SubAccountGetcharacter);
 			Task.Run(() => SaveNewCharacterTask(SubAccountGetcharacter));
 			SaveCharacters();
@@ -224,6 +289,7 @@ namespace US13.Systems.Lobby
 				return;
 			}
 
+			EnsureId(character);
 			Characters.Add(character);
 			if (AddOnline)
 			{
@@ -248,30 +314,37 @@ namespace US13.Systems.Lobby
 
 			SubAccountGetCharacterSheet characterSheet = response.Data;
 
+			int localId = character.Id;
 			character.Id = characterSheet!.Id;
 			SaveCharacters();
+			LoadManager.DoInMainThread(() => ReplaceCharacterId(localId, character.Id));
 		}
 
-		/// <summary>Remove a <see cref="CharacterSheet"/> associated with the given key.</summary>
-		/// <param name="key">Key associated with the <see cref="CharacterSheet"/> to be removed.</param>
-		public void Remove(int key)
+		/// <summary>Remove the <see cref="CharacterSheet"/> with the given id.</summary>
+		/// <param name="id">Id of the <see cref="CharacterSheet"/> to be removed.</param>
+		public void Remove(int id)
 		{
-			if (IsCharacterKeyValid(key) == false)
+			int index = IndexOfId(id);
+			if (index == -1)
 			{
-				Loggy.Error($"An attempt was made to remove a character with an invalid key \"{key}\". Ignoring.");
+				Loggy.Error($"An attempt was made to remove character id \"{id}\" which doesn't exist. Ignoring.");
 				return;
 			}
 
-			if (ActiveCharacterKey == key)
+			var characterRemove = Characters[index];
+			Characters.RemoveAt(index);
+			if (IsRegisteredOnline(characterRemove))
 			{
-				SetActiveCharacter(key - 1);
-				SetLastCharacterKey(key - 1);
+				_ = PersistenceServer.DeleteAccountsCharacterByID(characterRemove.Id, PlayerManager.Account.Token);
 			}
-
-			var characterRemove = Characters[key];
-			Characters.RemoveAt(key);
-			_ = PersistenceServer.DeleteAccountsCharacterByID(characterRemove.Id, PlayerManager.Account.Token);
 			SaveCharacters();
+
+			if (ActiveCharacterId == id && Characters.Count > 0)
+			{
+				int fallback = Math.Clamp(index - 1, 0, Characters.Count - 1);
+				SetActiveCharacter(Characters[fallback].Id);
+				SetLastCharacter(Characters[fallback].Id);
+			}
 		}
 
 		public async Task LoadOnlineCharacters()

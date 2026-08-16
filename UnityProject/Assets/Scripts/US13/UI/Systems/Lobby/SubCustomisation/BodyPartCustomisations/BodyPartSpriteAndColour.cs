@@ -104,11 +104,15 @@ namespace US13.UI.Systems.Lobby.SubCustomisation.BodyPartCustomisations
 			base.SetUp(incharacterCustomization, Body_Part, path);
 			// Make a list of all available options which can then be passed to the dropdown box
 
-			var itemOptions = OptionalSprites.Select(pcd => pcd.DisplayName == "" ? pcd.name : pcd.DisplayName).ToList();
-			itemOptions.Sort();
+			var itemOptions = new List<string>();
 
 			// Ensure "None" is at the top of the option lists
-			itemOptions.Insert(0, "None");
+			itemOptions.Add("None");
+			foreach (var spriteData in GetSortedSprites(OptionalSprites))
+			{
+				itemOptions.Add(GetChoiceName(spriteData));
+			}
+
 			Dropdown.AddOptions(itemOptions);
 			Dropdown.onValueChanged.AddListener(ItemChange);
 		}
@@ -151,34 +155,58 @@ namespace US13.UI.Systems.Lobby.SubCustomisation.BodyPartCustomisations
 				Body_Part.BodyPartItemSprite.SetColor(BodyPartColour);
 			}
 
-			OptionalSprites = OptionalSprites.OrderBy(pcd => pcd.DisplayName == "" ? pcd.name : pcd.DisplayName).ToList();
-			if (Selected != 0)
-			{
-				if (Selected >= OptionalSprites.Count + 1)
-				{
-					Body_Part.RelatedPresentSprites[0].baseSpriteHandler.Empty();
-					return;
-				}
-
-				Body_Part.RelatedPresentSprites[0].baseSpriteHandler
-					.SetSpriteSO(OptionalSprites[Selected - 1]);
-				if (AppliesToItemsSprite)
-				{
-					Body_Part.BodyPartItemSprite.SetSpriteSO(OptionalSprites[Selected - 1]);
-				}
-
-				var Clothing = SweetExtensions.GetCachedComponent<ClothingV2>((Component)Body_Part);
-				if (Clothing != null)
-				{
-					Clothing.SpriteDataSO.Clear();
-					Clothing.SpriteDataSO.Add(OptionalSprites[Selected - 1]);
-					Clothing.Colour = inColor;
-				}
-			}
-			else
+			var chosenSprite = GetSpriteForChoice(OptionalSprites, Selected);
+			if (chosenSprite == null)
 			{
 				Body_Part.RelatedPresentSprites[0].baseSpriteHandler.Empty();
+				return;
 			}
+
+			Body_Part.RelatedPresentSprites[0].baseSpriteHandler.SetSpriteSO(chosenSprite);
+			if (AppliesToItemsSprite)
+			{
+				Body_Part.BodyPartItemSprite.SetSpriteSO(chosenSprite);
+			}
+
+			var Clothing = SweetExtensions.GetCachedComponent<ClothingV2>((Component)Body_Part);
+			if (Clothing != null)
+			{
+				Clothing.SpriteDataSO.Clear();
+				Clothing.SpriteDataSO.Add(chosenSprite);
+				Clothing.Colour = inColor;
+			}
+		}
+
+		/// <summary>
+		/// Picks the sprite for a saved selection.
+		/// </summary>
+		public static SpriteDataSO GetSpriteForChoice(List<SpriteDataSO> optionalSprites, int chosen)
+		{
+			if (optionalSprites == null) return null;
+			if (chosen == 0) return null;
+			if (chosen >= optionalSprites.Count + 1) return null;
+
+			return GetSortedSprites(optionalSprites)[chosen - 1];
+		}
+
+		private static List<SpriteDataSO> GetSortedSprites(List<SpriteDataSO> optionalSprites)
+		{
+			var sorted = new List<SpriteDataSO>(optionalSprites);
+			sorted.Sort(CompareByDisplayName);
+			return sorted;
+		}
+
+		private static int CompareByDisplayName(SpriteDataSO a, SpriteDataSO b)
+		{
+			return string.Compare(GetChoiceName(a), GetChoiceName(b), StringComparison.CurrentCulture);
+		}
+
+		private static string GetChoiceName(SpriteDataSO spriteData)
+		{
+			if (spriteData == null) return "";
+			if (spriteData.DisplayName == "") return spriteData.name;
+
+			return spriteData.DisplayName;
 		}
 
 		private void ColorChange(Color newColor)

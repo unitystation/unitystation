@@ -175,12 +175,7 @@ namespace US13.UI.Systems.Lobby
 
 		private void InitVolumeSlider()
 		{
-			if (UnityEngine.PlayerPrefs.HasKey(PlayerPrefKeys.MusicVolumeKey))
-			{
-				volumeSlider.value = UnityEngine.PlayerPrefs.GetFloat(PlayerPrefKeys.MusicVolumeKey);
-				return;
-			}
-			volumeSlider.value = 0.8f;
+			volumeSlider.SetValueWithoutNotify(MusicManager.Instance.MusicVolume);
 		}
 
 		private bool IsMutedPref()

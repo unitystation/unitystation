@@ -43,7 +43,7 @@ namespace US13.UI.Systems.Character
 
 		private Vector3 spriteContainerOriginalPos;
 
-		private int editedCharacterKey = -1;
+		private int editedCharacterId = -1;
 
 		private void Awake()
 		{
@@ -70,11 +70,11 @@ namespace US13.UI.Systems.Character
 			UIManager.Instance.isInputFocus = false;
 		}
 
-		public void EditCharacter(int key)
+		public void EditCharacter(int characterId)
 		{
-			editedCharacterKey = key;
+			editedCharacterId = characterId;
 			// Use a copy in case changes are discarded
-			EditedCharacter = (CharacterSheet) CharacterManager.Get(key).Clone();
+			EditedCharacter = (CharacterSheet) CharacterManager.Get(characterId).Clone();
 			ShowCharacterEditor(EditedCharacter);
 			UIManager.Instance.isInputFocus = true;
 		}
@@ -90,7 +90,7 @@ namespace US13.UI.Systems.Character
 
 		public void SaveCharacter(CharacterSheet character)
 		{
-			CharacterManager.Set(editedCharacterKey, character);
+			CharacterManager.Set(editedCharacterId, character);
 		}
 
 		private void ShowCharacterPreviewOnCharacterSelector()
