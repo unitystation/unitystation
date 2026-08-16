@@ -22,11 +22,7 @@ namespace US13.UI.Systems.Lobby
 		[SerializeField]
 		private Button mapEditorButton = default;
 		[SerializeField]
-		private Button logoutButton = default;
-		[SerializeField]
 		private Button dropdownCloseCatcher = default;
-		[SerializeField]
-		private GUI_MainMenu mainMenu = default;
 
 		[SerializeField]
 		private MapEditor mapMode = default;
@@ -36,7 +32,6 @@ namespace US13.UI.Systems.Lobby
 			accountButton.onClick.AddListener(OnAccountBtn);
 			characterEditorButton.onClick.AddListener(OnCharacterEditorBtn);
 			mapEditorButton.onClick.AddListener(OnMapEditorBtn);
-			logoutButton.onClick.AddListener(OnLogoutBtn);
 			dropdownCloseCatcher.onClick.AddListener(CloseDropdown);
 		}
 
@@ -93,17 +88,6 @@ namespace US13.UI.Systems.Lobby
 			GameManager.Instance.SetGameMode(mapMode, true);
 			GameManager.Instance.SecretGameMode = false;
 			LobbyManager.Instance.HostServer();
-		}
-
-		private void OnLogoutBtn()
-		{
-			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			SetDropdownOpen(false);
-			if (mainMenu != null)
-			{
-				mainMenu.HideHome();
-			}
-			LobbyManager.Instance.Logout();
 		}
 	}
 }
