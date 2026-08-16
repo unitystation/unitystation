@@ -1,0 +1,3263 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Project Design and Documentation for development">
+      
+      
+        <meta name="author" content="MrMepper">
+      
+      
+        <link rel="canonical" href="https://unitystation.github.io/unitystation/development/Projectiles/">
+      
+      
+        <link rel="prev" href="../Playing-Sounds/">
+      
+      
+        <link rel="next" href="../Proper-Spawning-and-Despawning-%28Object-Lifecycle%29/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Projectiles - UnityStation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#projectiles" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="UnityStation" class="md-header__button md-logo" aria-label="UnityStation" data-md-component="logo">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            UnityStation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Projectiles
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/unitystation/unitystation/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    unitystation/unitystation
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="UnityStation" class="md-nav__button md-logo" aria-label="UnityStation" data-md-component="logo">
+      
+  <img src="../../assets/images/logo.png" alt="logo">
+
+    </a>
+    UnityStation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/unitystation/unitystation/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    unitystation/unitystation
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../AGPLv3/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LICENSE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CODE_OF_CONDUCT/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Code of Conduct
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../CONTRIBUTING/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contribution and Review Guidelines
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../Documentation-Guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentation Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Admin
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Admin
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../admin/adminlogs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    how use admin search
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contribution guides
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Contribution guides
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contribution-guides/Building-And-Testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Building and Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contribution-guides/Developing-for-UnityStation-on-Unix-Systems-with-the-Unity-Editor-and-JetBrains-Rider/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developing On Linux
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contribution-guides/Development-Standards-Guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development Standards Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../contribution-guides/Starting-contribution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Starting Contribution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Development
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ActionsV2/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ActionsV2
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Addressables/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How to add new sounds to the game
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Async-Net-Messages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How to use RpcMessageQueue (Async Net Messages)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Component-Development-Checklist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Component Development Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Crafting-System/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crafting System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Creating-Items-and-Objects/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating Items and Objects
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Creating-and-Using-Tile-Palettes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Creating and Using Tile Pallettes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Development-Gotchas-and-Common-Mistakes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development Gotchas and Common Mistakes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Development-Protips/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development Protips
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Directory-Structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Directory Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Electricity-Development/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Electricity Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Emotes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EmoteSO, and how to work with it.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GenEmoji/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unitystation Emojis Table
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Helpful-Functions-Cheatsheet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Helpful Functions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hosting-a-Server/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hosting a Server
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../How-To-Pathfind/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Understanding Unitystation's pathfinding solution.
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../How-To-User-Interface/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How To Create a User Interface
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../How-to-Map/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How to Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../How-to-Random-Loot/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How to use random spawners
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../How-to-Sprite/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How to Sprite
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../How-to-use-ReplaceWithPrefab.cs/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How to use ReplaceWithPrefab.cs
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../How-to-use-UIActions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How to use UIActions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../How-to-use-the-in-game-debugger/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Using the In-game Debugger
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Hunger/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Hunger Explained
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Implementing-Interactions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Implementing Interactions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Inventory-System/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inventory System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Item-Traits-System/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Item Traits System
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Mirror-Upgrade-Customization-Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mirror Upgrade Customization Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Mirror/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mirror (Networking library)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Module-Structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Module Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Multiplayer-PlayMode/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction to Multiplayer Playmode
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Navigating-DM-codebases-%28like-tgstation%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Navigating DM codebases (like tgstation)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Networking-%28Network-Messages%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Networking (Network Messages)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Notes-on-SyncObject-and-SyncList/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Note SyncObject And SyncList Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Occupations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Occupations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Physics-Layers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Physics Layers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Playing-Sounds/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Playing Sounds
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projectiles
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Projectiles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-to-bullets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction to bullets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#projectile-behaviours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Projectile behaviours
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Projectile behaviours">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ionshoot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IOnShoot
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ionmove" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IOnMove
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ionhit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IOnHit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iondespawn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IOnDespawn
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-projectile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating a Projectile
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Proper-Spawning-and-Despawning-%28Object-Lifecycle%29/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Proper Spawning and Despawning
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../RPC-vs-Netmsg/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RPC vs Netmsg
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Right-Click-Menu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Right Click Menu
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Sicknesses/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Unitystation Sickness - How to implement new sicknesses
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Simulating-Lag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Simulating Lag
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Species-Notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Species Notes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Stripping-Scenes-For-Quick-Build/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stripping Scenes For Quick Build
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../SyncVar-Best-Practices-for-Easy-Networking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SyncVar Best Practices for Easy Networking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../The-Clearance-System/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What is the Clearance System?
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Undo-RecordObject-vs-EditorUtility-SetDirty/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Undo RecordObject vs EditorUtility SetDirty
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../What-is-a-matrix/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    What is a matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../Working-with-Speech-Modifiers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Working with Speech Modifiers
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Faq
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Faq
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/Building/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Building FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project goals
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project goals
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project-goals/roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RoadMap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_10_2" id="__nav_10_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Current goal scope
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_10_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_10_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Current goal scope
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project-goals/current-goal-scope/additional-job-role-developments/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Additional Job Role Developments
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project-goals/current-goal-scope/antagonist-roles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Antagonist roles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project-goals/current-goal-scope/centcomm-missions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Centcomm missions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project-goals/current-goal-scope/character-customization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Character customization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project-goals/current-goal-scope/mapping-changes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mapping changes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project-goals/current-goal-scope/mining/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mining
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project-goals/current-goal-scope/new-lobby-screen/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    New lobby screen
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project-goals/current-goal-scope/npc-aliens/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Npc aliens
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project-goals/current-goal-scope/player-accounts/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Player accounts
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project-goals/current-goal-scope/shuttles/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Shuttles
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project-goals/current-goal-scope/start-of-round/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start of round
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project-goals/current-goal-scope/the-narrative/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    The narrative
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#introduction-to-bullets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Introduction to bullets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#projectile-behaviours" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Projectile behaviours
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Projectile behaviours">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ionshoot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IOnShoot
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ionmove" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IOnMove
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ionhit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IOnHit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#iondespawn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IOnDespawn
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#creating-a-projectile" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Creating a Projectile
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="projectiles">Projectiles</h1>
+<h2 id="introduction-to-bullets">Introduction to bullets</h2>
+<p>Find bullet folder:</p>
+<p><img alt="" src="../../assets/images/Projectiles/FindBullet.gif" /></p>
+<p>Click on a bullet prefab that's what you will see:</p>
+<p><img alt="" src="../../assets/images/Projectiles/BulletInspector.png" /></p>
+<p>Double click on prefab in the folder or press "Open prefab":</p>
+<p><img alt="" src="../../assets/images/Projectiles/BulletOpened.png" /></p>
+<p>"Bullet_9mm" with an arrow down is main game object that will have all behavior components on it.
+ "projectile_87" is an actual moving game object in the world. It moves in the local space of the "Bullet_9mm".</p>
+<p><img alt="" src="../../assets/images/Projectiles/BulletOpenedChilds.png" /></p>
+<p>Some bullets in the game emmit light or have a sprite. So if your new bullet requires a following light, you will need to add a new child game object to the moving game object.</p>
+<p><img alt="" src="../../assets/images/Projectiles/BulletPlasmaCutter.png" /></p>
+<p>"Bullet_9mm" does not have a sprite or a light attached to it, but it uses <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/LocalTrailRenderer.cs"><strong>LocalTrailRenderer</strong></a> component and <code>LineRenderer</code>.</p>
+<p><a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/LocalTrailRenderer.cs"><strong>LocalTrailRenderer</strong></a> controls drawing in local space.</p>
+<p><img alt="" src="../../assets/images/Projectiles/LocalTrailRenderer.png" /></p>
+<p><a href="https://docs.unity3d.com/Manual/class-LineRenderer.html"><strong>LineRenderer</strong></a> is unity built-in component which renders trail.</p>
+<p><img alt="" src="../../assets/images/Projectiles/LineRenderer.png" /></p>
+<p>Positions control how it will be drawn.</p>
+<p><img alt="" src="../../assets/images/Projectiles/Positions.png" /></p>
+<p>You can change values right there and see how it will look.</p>
+<p><img alt="" src="../../assets/images/Projectiles/PositionsChangeValue.png" /> <img alt="" src="../../assets/images/Projectiles/RenderedTrail.png" /></p>
+<h2 id="projectile-behaviours">Projectile behaviours</h2>
+<p>There are 4 interfaces currently which allow behaviours to control projectile.</p>
+<h3 id="ionshoot"><a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/IOnShoot.cs"><strong>IOnShoot</strong></a></h3>
+<pre><code class="language-c#">/// Interface to gather shooter information
+/// Used for logs or chat messages
+public interface IOnShoot
+{
+    void OnShoot(Vector2 direction,
+                 GameObject shooter,
+                 Gun weapon,
+                 BodyPartType targetZone = BodyPartType.Chest);
+}
+</code></pre>
+<ul>
+<li>Example <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/ProjectileDamageIntegrity.cs"><strong>ProjectileDamageIntegrity</strong></a>:</li>
+</ul>
+<p>This script damages collider if it has an <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Health/Objects/Integrity.cs"><strong>Integrity</strong></a> component.
+But the point is, it caches <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Gun.cs"><strong>Gun</strong></a> and the shooter by using <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/IOnShoot.cs"><strong>OnShoot</strong></a> so it can print a chat message and log details.
+Also don't forget to clear references in <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnDisable.html"><strong>OnDisable</strong></a>.</p>
+<pre><code class="language-c#">public class ProjectileDamageIntegrity : MonoBehaviour, IOnShoot, IOnHit
+{
+    private GameObject shooter;
+    private Gun weapon;
+
+    [SerializeField] private DamageData damageData = null;
+
+    public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, BodyPartType targetZone = BodyPartType.Chest)
+    {
+        this.shooter = shooter;
+        this.weapon = weapon;
+    }
+
+    public bool OnHit(RaycastHit2D hit)
+    {
+        return TryDamage(hit);
+    }
+
+    private bool TryDamage(RaycastHit2D hit)
+    {
+        var coll = hit.collider;
+        var integrity = coll.GetComponent&lt;Integrity&gt;();
+        if (integrity == null) return false;
+
+        integrity.ApplyDamage(damageData.Damage, damageData.AttackType, damageData.DamageType);
+
+        Chat.AddAttackMsgToChat(shooter, coll.gameObject, BodyPartType.None, weapon.gameObject);
+        Logger.LogTraceFormat(&quot;Hit {0} for {1} with HealthBehaviour! bullet absorbed&quot;, Category.Firearms,
+            integrity.gameObject.name, damageData.Damage);
+
+        return true;
+    }
+
+    private void OnDisable()
+    {
+        weapon = null;
+        shooter = null;
+    }
+}
+</code></pre>
+<h3 id="ionmove"><a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/IOnMove.cs"><strong>IOnMove</strong></a></h3>
+<pre><code class="language-c#">/// Called every time projectile moved
+/// Basically allows to have behaviors
+/// which are called when projectile moves.
+public interface IOnMove
+{
+    bool OnMove(Vector2 traveledDistance);
+}
+</code></pre>
+<ul>
+<li>Example is a script which limits projectiles travel distance <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/ProjectileRangeLimited.cs"><strong>ProjectileRangeLimited</strong></a>:</li>
+</ul>
+<p>When maximum distance is reached, it returns <code>true</code> which requests <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Bullet.cs"><strong>Bullet</strong></a> to despawn itself.
+Don't forget to reset data(count in this case) in  <a href="https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnDisable.html"><strong>OnDisable</strong></a>.</p>
+<pre><code class="language-c#">/// Limits projectiles travel distance
+public class ProjectileRangeLimited : MonoBehaviour, IOnMove
+{
+    [Tooltip(&quot;How many tiles it will travel.&quot;)]
+    [SerializeField] private float maxDistance = 15;
+    private float currentDistance;
+
+    public bool OnMove(Vector2 traveledDistance)
+    {
+        return AddDistance(traveledDistance.magnitude);
+    }
+
+    private void OnDisable()
+    {
+        currentDistance = 0;
+    }
+</code></pre>
+<h3 id="ionhit"><a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/IOnHit.cs"><strong>IOnHit</strong></a></h3>
+<pre><code class="language-c#">/// Called when projectiles raycast collides with something
+public interface IOnHit
+{
+    bool OnHit(RaycastHit2D hit);
+}
+</code></pre>
+<ul>
+<li>Simple example <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/ProjectileDecal.cs"><strong>ProjectileDecal</strong></a>:</li>
+</ul>
+<p>This script spawns a decal in the point where bullet hit something.</p>
+<pre><code class="language-c#">public class ProjectileDecal : MonoBehaviour, IOnHit
+{
+    [SerializeField] private GameObject decal = null;
+
+    [Tooltip(&quot;Living time of decal.&quot;)]
+    [SerializeField] private float animationTime = 0;
+
+    public bool OnHit(RaycastHit2D hit)
+    {
+        var newDecal = Spawn.ClientPrefab(decal.name,
+            hit.point).GameObject;
+        var timeLimitedDecal = newDecal.GetComponent&lt;TimeLimitedDecal&gt;();
+        timeLimitedDecal.SetUpDecal(animationTime);
+        return false;
+    }
+}
+</code></pre>
+<h3 id="iondespawn"><a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/IOnDespawn.cs"><strong>IOnDespawn</strong></a></h3>
+<pre><code class="language-c#">public interface IOnDespawn
+{
+    /// Interface for notifying components that
+    /// game object is about to be despawned
+    /// &quot;hit&quot; Collider responsible for despawn, new RaycastHit if nothing was hit
+    /// &quot;point&quot; Coordinate where object is about to despawn
+    void OnDespawn(RaycastHit2D hit,
+                   Vector2 point);
+}
+</code></pre>
+<ul>
+<li>Example <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/ProjectileAnimateTile.cs"><strong>ProjectileAnimateTile</strong></a>:</li>
+</ul>
+<p>This script creates an animated tile.
+The behaviour needs to do it once, when bullet is about to be despawned.
+So if hit is <code>null</code> it will despawn on <code>point</code>.</p>
+<pre><code class="language-c#">public class ProjectileAnimateTile : MonoBehaviour, IOnDespawn
+{
+    [SerializeField] private AnimatedTile animatedTile = null;
+
+    [Tooltip(&quot;Living time of animated tile.&quot;)]
+    [SerializeField] private float animationTime = 0;
+
+    public void OnDespawn(RaycastHit2D hit, Vector2 point)
+    {
+        if (hit.collider == null)
+        {
+            OnBeamEnd(point);
+        }
+        else
+        {
+            OnCollision(hit);
+        }
+    }
+
+    private void OnBeamEnd(Vector2 position)
+    {
+        var interactableTiles = GetComponentInParent&lt;InteractableTiles&gt;();
+
+        interactableTiles.CreateAnimatedTile(position, animatedTile, animationTime);
+    }
+
+    private void OnCollision(RaycastHit2D hit)
+    {
+        var coll = hit.collider;
+        var interactableTiles = coll.GetComponentInParent&lt;InteractableTiles&gt;();
+
+        // Off setting coordinate here is needed to get exactly what tile was hit
+        var bulletHitTarget = Vector3.zero;
+        bulletHitTarget.x = hit.point.x - 0.01f * hit.normal.x;
+        bulletHitTarget.y = hit.point.y - 0.01f * hit.normal.y;
+
+        interactableTiles.CreateAnimatedTile(bulletHitTarget, animatedTile, animationTime);
+    }
+
+}
+</code></pre>
+<p>An example of getting those behaviours in <a href="https://github.com/unitystation/unitystation/blob/3f09f64ec56c92e00c37290667cedc42e73e524c/UnityProject/Assets/Scripts/Weapons/Projectiles/Bullet.cs#L25"><strong>Awake</strong></a>:</p>
+<p>Also we cache <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/MovingProjectile.cs"><strong>MovingProjectile</strong></a>. Its the child game object we talked about which moves in space.</p>
+<pre><code class="language-c#">public class Bullet : Projectile
+{
+    private IOnShoot[] behavioursOnShoot;
+    private IOnMove[] behavioursOnMove;
+    private IOnHit[] behavioursOnBulletHit;
+    private IOnDespawn[] behavioursOnBulletDespawn;
+
+    private MovingProjectile movingProjectile;
+
+    private void Awake()
+    {
+        behavioursOnShoot = GetComponents&lt;IOnShoot&gt;();
+        behavioursOnMove = GetComponentsInParent&lt;IOnMove&gt;();
+        behavioursOnBulletHit = GetComponents&lt;IOnHit&gt;();
+        behavioursOnBulletDespawn = GetComponents&lt;IOnDespawn&gt;();
+
+        movingProjectile = GetComponentInChildren&lt;MovingProjectile&gt;();
+    }
+</code></pre>
+<p>So how they work and why should you use them?
+The behaviour pattern allows you to easily add new game mechanics without touching existing code.</p>
+<p>For example:</p>
+<p>I want my Bullet to <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/ProjectileStun.cs"><strong>STUN</strong></a>!</p>
+<p><img alt="" src="../../assets/images/Projectiles/BulletAddStun.gif" /></p>
+<h2 id="creating-a-projectile">Creating a <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Projectile.cs"><strong>Projectile</strong></a></h2>
+<p>Check what bullet already has similar idea of what you want. Duplicate it with <code>ctrl + d</code>:</p>
+<p><img alt="" src="../../assets/images/Projectiles/BulletCreationTest.gif" /></p>
+<p>Remove game objects you won't need.</p>
+<p><img alt="" src="../../assets/images/Projectiles/BulletCreationRemoveLIghtSprite.gif" /></p>
+<p>!!! warning
+    Make sure the bullet is in the same folder as other bullets.
+    There is pooling system which does not despawn bullets but disables them to use later.
+    It references this folder.</p>
+<h1 id="pool">Pool</h1>
+<p>Find pool with bullets:</p>
+<p><img alt="" src="../../assets/images/Projectiles/FindPool.gif" /></p>
+<p>Open the pool SO. Extend elements count.</p>
+<p><img alt="" src="../../assets/images/Projectiles/OpenPooAndCreate.gif" /></p>
+<p>Search for bullet again and drag and drop the prefab into the new created element in the pool list.</p>
+<p><img alt="" src="../../assets/images/Projectiles/DragAndDropbulletToPool.gif" /></p>
+<h2 id="hit-processor">Hit Processor</h2>
+<p>Open up the <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Bullet.cs"><strong>Bullet</strong></a> component in the editor.</p>
+<p>That's what you will see:</p>
+<p><img alt="" src="../../assets/images/Projectiles/BulletScript.png" /></p>
+<p>Hit processor is a <a href="https://docs.unity3d.com/Manual/class-ScriptableObject.html"><strong>Scriptable Objects</strong></a> which iterates through all components which are inheriting from <code>IOnHit</code> behaviour interface.</p>
+<p>Example <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/ScriptableObject/Gun/DespawnOnHit.cs"><strong>DespawnOnHit</strong></a>:</p>
+<p>This processor iterates through all behaviours and then always returns <code>true</code>. When it returns <code>true</code> <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Bullet.cs"><strong>Bullet</strong></a> despawns the game object.</p>
+<pre><code class="language-c#">public class DespawnOnHit : HitProcessor
+{
+    public override bool ProcessHit(RaycastHit2D hit, IOnHit[] behavioursOnBulletHit)
+    {
+        foreach (var behaviour in behavioursOnBulletHit)
+        {
+            behaviour.OnHit(hit);
+        }
+
+        return true;
+    }
+}
+</code></pre>
+<p>This is a simplest processor you will get.</p>
+<p>Another Example <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/ScriptableObject/Gun/DespawnOnRequest.cs"><strong>DespawnOnRequest</strong></a>:</p>
+<p>This one will only return <code>true</code> if any behaviour returns <code>true</code>.</p>
+<pre><code class="language-c#">public class DespawnOnRequest : HitProcessor
+{
+    public override bool ProcessHit(RaycastHit2D hit, IOnHit[] behavioursOnBulletHit)
+    {
+        var isRequesting = false;
+        foreach (var behaviour in behavioursOnBulletHit)
+        {
+            if (behaviour.OnHit(hit))
+            {
+                isRequesting = true;
+            }
+        }
+
+        return isRequesting;
+    }
+}
+</code></pre>
+<p>So if creating a new projectile you need to process your behaviours in a special way, you will need to
+create a <code>class</code> and inherit from <a href="https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/ScriptableObject/Gun/HitProcessor.cs"><strong>HitProcessor</strong></a>.Write up logic you need and return <code>true</code> when you want bullet to be despawned.</p>
+<p>!!! Tip
+    Make sure you write <code>[CreateAssetMenu(fileName = "DespawnOnRequest", menuName = "ScriptableObjects/Gun/DespawnOnRequest", order = 0)]</code> above your class.
+    It will allow you to create this processor in unity so you can reference it in the <code>Bullet</code> component.</p>
+<h2 id="mask-data">Mask Data</h2>
+<p>Contains layers which <code>Raycast</code> will hit. So if you don't have <code>Walls</code> layer specified for example, the bullets <code>Raycast</code> won't detect the that it hit the wall when colliding it which will result in returning <code>null</code> <code>RaycastHit</code>.</p>
+<p><img alt="" src="../../assets/images/Projectiles/BulletLayers.png" /></p>
+<p>If you need your own data for the bullet, right click in this folder:</p>
+<p><img alt="" src="../../assets/images/Projectiles/FolderWithLayerData.png" /></p>
+<p>And follow those steps:</p>
+<p><img alt="" src="../../assets/images/Projectiles/LayerSOCreation.png" /></p>
+<p>This will create <a href="https://docs.unity3d.com/Manual/class-ScriptableObject.html"><strong>Scriptable Objects</strong></a> with layer data which you can specify for your own needs and then reference in your bullet.</p>
+<p>Also using <a href="https://docs.unity3d.com/Manual/class-ScriptableObject.html"><strong>Scriptable Objects</strong></a> allows you to change layers right in play mode, so feel free to experiment right in game.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.instant", "navigation.instant.progress", "search.suggest"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
