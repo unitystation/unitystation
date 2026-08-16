@@ -40,10 +40,24 @@ namespace US13.UI.Systems.ServerInfoPanel
 
 		public void RefreshWindow()
 		{
-			gameObject.SetActive(true);
 			HideAllButtons();
 			ShowRelevantButtons();
 			ShowFirstPage();
+
+			gameObject.SetActive(HasAnyContent());
+		}
+
+		private bool HasAnyContent()
+		{
+			foreach (var kvp in buttonPanelRelations)
+			{
+				if (kvp.Value == null) continue;
+				if (kvp.Value.HasContent() == false) continue;
+
+				return true;
+			}
+
+			return false;
 		}
 
 		private void HideAllPages()
