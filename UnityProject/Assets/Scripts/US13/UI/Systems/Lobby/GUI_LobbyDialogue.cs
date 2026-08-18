@@ -1,3 +1,4 @@
+using SecureStuff;
 using UnityEngine;
 using UnityEngine.UI;
 using US13.Managers;
@@ -101,7 +102,7 @@ namespace US13.UI.Systems.Lobby
 
 			if (mainMenu == null)
 			{
-				SetTitle("Unitystation");
+				SetTitle(AccessFile.ForkName);
 				mainMenuScript.SetActive(true);
 				return;
 			}
