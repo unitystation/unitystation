@@ -46,7 +46,7 @@ namespace US13.HealthV2.Living.MedicalChemistry
 		/// <param name="sender"></param>
 		/// <param name="reagentMix"></param>
 		/// <param name="maxReactQuantity">The portion in u of the entire blood pool that should react. (5u means it'll take 100 calls for a given reaction to occur to completion in the blood stream)</param>
-		public void React(List<MetabolismComponent> sender, ReagentMix reagentMix, float maxReactQuantity)
+		public virtual void React(List<MetabolismComponent> sender, ReagentMix reagentMix, float maxReactQuantity)
 		{
 			var reactionMultiple = GetReactionMultiple(reagentMix);
 			var UntouchedreactionMultiple = reactionMultiple;
