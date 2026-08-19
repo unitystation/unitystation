@@ -196,6 +196,8 @@ namespace US13.UI.Core.RightClick
 		public static void SetRightClickPreference(string Preference)
 		{
 			UnityEngine.PlayerPrefs.SetString("RightClickPreference", Preference);
+			if (Instance == null) return;
+
 			Instance.CurrentPreference = AvailableRightClickOptions[Preference];
 		}
 

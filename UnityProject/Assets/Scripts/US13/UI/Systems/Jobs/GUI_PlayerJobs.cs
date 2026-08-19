@@ -178,7 +178,7 @@ namespace US13.UI.Systems.Jobs
 			{
 				// Job selection is finished, close the window.
 				waitForSpawnTimer = 0;
-				MusicManager.SongTracker.Stop();
+				MusicManager.Instance.StopPlaylist();
 				gameObject.SetActive(false);
 				waitMessage.SetActive(false);
 				screen_Jobs.SetActive(true);

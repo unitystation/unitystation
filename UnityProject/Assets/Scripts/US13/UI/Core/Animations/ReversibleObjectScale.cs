@@ -8,13 +8,13 @@ namespace US13.UI.Core.Animations
 		private float duration = 0.1f;
 
 		[SerializeField]
-		private Vector3 scaleStart = default;
+		private Vector3 scaleStart = Vector3.one;
 
 		[SerializeField]
-		private Vector3 scaleEnd = default;
+		private Vector3 scaleEnd = new Vector3(1.06f, 1.06f, 1f);
 
 		[SerializeField]
-		private LeanTweenType tweenType = LeanTweenType.linear;
+		private LeanTweenType tweenType = LeanTweenType.easeOutQuad;
 
 		private AnimationDirection Direction { get; set; } = AnimationDirection.None;
 

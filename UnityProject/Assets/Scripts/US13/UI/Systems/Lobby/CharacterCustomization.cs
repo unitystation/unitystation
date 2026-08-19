@@ -521,7 +521,10 @@ namespace US13.UI.Systems.Lobby
 			RefreshPronoun();
 			RefreshRace();
 
-			StartCoroutine(RefreshRotation());
+			if (gameObject.activeInHierarchy)
+			{
+				StartCoroutine(RefreshRotation());
+			}
 		}
 
 		public void RollRandomCharacter()

@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -44,9 +45,11 @@ namespace US13.UI.Systems.Character
 		#endregion
 
 		private CharacterManager CharacterManager => PlayerManager.CharacterManager;
-		private CharacterSheet PreviewedCharacter => CharacterManager.Get(previewedCharacterKey);
+		private CharacterSheet PreviewedCharacter => CharacterManager.Get(PreviewedCharacterId);
 
-		private int previewedCharacterKey = -1;
+		private int PreviewedCharacterId => CharacterManager.Characters[previewedIndex].Id;
+
+		private int previewedIndex = -1;
 
 		private void OnEnable()
 		{
@@ -68,14 +71,14 @@ namespace US13.UI.Systems.Character
 
 			// Only set the key if not already set, in case we came from the character editor
 			// (we'd like to preview the character we just edited, even if it is not selected as the active character yet)
-			if (previewedCharacterKey == -1)
+			if (previewedIndex == -1)
 			{
-				previewedCharacterKey = CharacterManager.ActiveCharacterKey;
+				previewedIndex = Math.Max(CharacterManager.IndexOfId(CharacterManager.ActiveCharacterId), 0);
 			}
 
 			if (TryShowOptions())
 			{
-				LoadManager.RegisterActionDelayed(() => { PreviewCharacterByIndex(previewedCharacterKey); }, 10);
+				LoadManager.RegisterActionDelayed(() => { PreviewCharacterByIndex(previewedIndex); }, 10);
 			}
 		}
 
@@ -120,9 +123,9 @@ namespace US13.UI.Systems.Character
 		private void PreviewCharacterByIndex(int index)
 		{
 			// Map a circular index (-1 => end, length + 1 => start)
-			previewedCharacterKey = MathUtils.Mod(index, CharacterManager.Characters.Count);
+			previewedIndex = MathUtils.Mod(index, CharacterManager.Characters.Count);
 
-			characterPreviewDropdown.value = previewedCharacterKey;
+			characterPreviewDropdown.value = previewedIndex;
 			characterPreviewRace.text = PreviewedCharacter.Species;
 			characterPreviewBodyType.text = PreviewedCharacter.BodyType.ToString();
 			characterCustomization.LoadCharacter(PreviewedCharacter);
@@ -147,13 +150,13 @@ namespace US13.UI.Systems.Character
 
 		private void DeletePreviewedCharacter()
 		{
-			CharacterManager.Remove(previewedCharacterKey);
+			CharacterManager.Remove(PreviewedCharacterId);
 
 			UpdateCharactersDropDown();
 
 			if (TryShowOptions())
 			{
-				PreviewCharacterByIndex(previewedCharacterKey);
+				PreviewCharacterByIndex(previewedIndex);
 			}
 		}
 
@@ -180,13 +183,13 @@ namespace US13.UI.Systems.Character
 		private void OnNextCharacterBtn()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			PreviewCharacterByIndex(previewedCharacterKey + 1);
+			PreviewCharacterByIndex(previewedIndex + 1);
 		}
 
 		private void OnPreviousCharacterBtn()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			PreviewCharacterByIndex(previewedCharacterKey - 1);
+			PreviewCharacterByIndex(previewedIndex - 1);
 		}
 
 		private void OnCreateCharacterBtn()
@@ -198,7 +201,7 @@ namespace US13.UI.Systems.Character
 		private void OnEditCharacterBtn()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			characterSettingsWindow.EditCharacter(previewedCharacterKey);
+			characterSettingsWindow.EditCharacter(PreviewedCharacterId);
 		}
 
 		private void OnDeleteCharacterBtn()
@@ -210,9 +213,21 @@ namespace US13.UI.Systems.Character
 		private void OnSelectCharacterBtn()
 		{
 			_ = SoundManager.Play(CommonSounds.Instance.Click01);
-			CharacterManager.SetActiveCharacter(previewedCharacterKey);
-			CharacterManager.SetLastCharacterKey(previewedCharacterKey);
+			int selectedId = PreviewedCharacterId;
+
+			ConfirmCharacterChoice(selectedId);
+			CharacterManager.SetActiveCharacter(selectedId);
+			CharacterManager.SetLastCharacter(selectedId);
 			characterSettingsWindow.SetActive(false);
+		}
+
+		private void ConfirmCharacterChoice(int characterId)
+		{
+			var character = CharacterManager.Get(characterId);
+			if (character.WasRandomlyGenerated == false) return;
+
+			character.WasRandomlyGenerated = false;
+			CharacterManager.Set(characterId, character);
 		}
 
 		private void OnCancelDeleteCharacterBtn()
@@ -239,11 +254,11 @@ namespace US13.UI.Systems.Character
 
 		public void OnDeleteAllCharacterSheets()
 		{
-			foreach (var sheet in CharacterManager.Characters)
+			var ids = CharacterManager.Characters.Select(sheet => sheet.Id).ToList();
+			foreach (var id in ids)
 			{
-				CharacterManager.Remove(sheet.Id);
+				CharacterManager.Remove(id);
 			}
-			CharacterManager.Characters.Clear();
 			UpdateCharactersDropDown();
 		}
 

@@ -11,16 +11,24 @@ namespace US13.UI.Core.OptionsMenu
 
 		private void OnEnable()
 		{
+			if (ProtipManager.Instance == null)
+			{
+				playerExperienceChoices.value = UnityEngine.PlayerPrefs.GetInt(ProtipManager.EXPERIENCE_PREF_KEY, 0);
+				return;
+			}
+
 			playerExperienceChoices.value = (int)ProtipManager.Instance.PlayerExperienceLevel;
 		}
 
 		public void OnPlayerExpChoiceIndexChange()
 		{
-			ProtipManager.Instance.SetExperienceLevel((ProtipManager.ExperienceLevel)playerExperienceChoices.value);
+			ProtipManager.SavePreferredExperienceLevel((ProtipManager.ExperienceLevel)playerExperienceChoices.value);
 		}
 
 		public void OnPlayerClick3D()
 		{
+			if (Manager3D.Instance == null) return;
+
 			Manager3D.Instance.PromptConvertTo3D();
 		}
 	}

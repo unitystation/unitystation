@@ -1,3 +1,4 @@
+using SecureStuff;
 using UnityEngine;
 using UnityEngine.UI;
 using US13.Managers;
@@ -16,6 +17,8 @@ namespace US13.UI.Systems.Lobby
 		private Text dialogueTitle = default;
 		[SerializeField]
 		private Transform panelContainer;
+		[SerializeField]
+		private GameObject dialogueWindow = default;
 
 		// Static panels
 		[SerializeField]
@@ -38,6 +41,8 @@ namespace US13.UI.Systems.Lobby
 		private JoinPanel joinScript = default;
 		[SerializeField]
 		private ServerHistoryPanel serverHistoryScript = default;
+		[SerializeField]
+		private GUI_MainMenu mainMenu = default;
 
 		#endregion
 
@@ -94,8 +99,16 @@ namespace US13.UI.Systems.Lobby
 		public void ShowMainPanel()
 		{
 			HideAllPanels();
-			SetTitle("Unitystation");
-			mainMenuScript.SetActive(true);
+
+			if (mainMenu == null)
+			{
+				SetTitle(AccessFile.ForkName);
+				mainMenuScript.SetActive(true);
+				return;
+			}
+
+			SetDialogueWindowActive(false);
+			mainMenu.ShowHome();
 		}
 
 		public void ShowLoginPanel()
@@ -177,11 +190,19 @@ namespace US13.UI.Systems.Lobby
 		private void HideAllPanels()
 		{
 			ClearTitle();
+			SetDialogueWindowActive(true);
 
 			foreach (Transform panel in panelContainer)
 			{
 				panel.SetActive(false);
 			}
+		}
+
+		private void SetDialogueWindowActive(bool isActive)
+		{
+			if (dialogueWindow == null) return;
+
+			dialogueWindow.SetActive(isActive);
 		}
 
 		private void DeterminePanel()

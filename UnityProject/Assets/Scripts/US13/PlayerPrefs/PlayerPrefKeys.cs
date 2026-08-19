@@ -20,8 +20,8 @@
 
 		#region Player
 
-		/// <summary>The PlayerPref key for index of the <see cref="CharacterSheet"/> the player the last used.</summary>
-		public static readonly string LastCharacterIndex = "lastCharacter";
+		/// <summary>The PlayerPref key for the id of the <see cref="CharacterSheet"/> the player last used.</summary>
+		public static readonly string LastCharacterId = "lastCharacterId";
 
 		#endregion
 
