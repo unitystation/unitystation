@@ -11,8 +11,8 @@ namespace Util.Debug
 		[NaughtyAttributes.Button]
 		public void getIt()
 		{
-			Loggy.Error(this.gameObject.GetInstanceID().ToString());
-			InstanceID = this.gameObject.GetInstanceID().ToString();
+			Loggy.Error(this.gameObject.GetEntityId().ToString());
+			InstanceID = this.gameObject.GetEntityId().ToString();
 		}
 
 	}

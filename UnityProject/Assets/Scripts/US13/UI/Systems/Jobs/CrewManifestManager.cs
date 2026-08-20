@@ -109,7 +109,7 @@ namespace US13.UI.Systems.Jobs
 			var Data = "";
 			foreach (var Hand in script.DynamicItemStorage.GetHandSlots())
 			{
-				Data += Hand.ItemStorage.gameObject.GetInstanceID() + " , ";
+				Data += Hand.ItemStorage.gameObject.GetEntityId() + " , ";
 			}
 			record.Fingerprints = Data;
 			//Photo stuff

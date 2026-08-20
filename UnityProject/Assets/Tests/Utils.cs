@@ -135,7 +135,7 @@ namespace Tests
 		/// Returns the instanceID of an object. Even if the object is considered Unity's null, GetInstanceID can still
 		/// be accessed. If the instance is a true null, then 0 is returned.
 		/// </summary>
-		public static int GetInstanceID(Object instance) => instance is null ? 0 : instance.GetInstanceID();
+		public static EntityId GetInstanceID(Object instance) => instance?.GetEntityId() ?? EntityId.None;
 
 		private const string MANAGER_PATH = "Assets/Prefabs/SceneConstruction/NestedManagers";
 

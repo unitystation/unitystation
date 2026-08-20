@@ -146,7 +146,7 @@ namespace US13.Items
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			Loggy.Trace().Format("Spawning {0}", Category.ItemSpawn, GetInstanceID());
+			Loggy.Trace().Format("Spawning {0}", Category.ItemSpawn, GetEntityId());
 			InitStacksWith();
 			SyncAmount(amount, initialAmount);
 			amountInit = true;
@@ -155,7 +155,7 @@ namespace US13.Items
 
 		public void OnDespawnServer(DespawnInfo info)
 		{
-			Loggy.Trace().Format("Despawning {0}", Category.ItemSpawn, GetInstanceID());
+			Loggy.Trace().Format("Despawning {0}", Category.ItemSpawn, GetEntityId());
 			amountInit = false;
 		}
 
@@ -183,7 +183,7 @@ namespace US13.Items
 		private void SyncAmount(int oldAmount, int newAmount)
 		{
 			EnsureInit();
-			Loggy.Trace().Format("Amount {0}->{1} for {2}", Category.Objects, amount, newAmount, GetInstanceID());
+			Loggy.Trace().Format("Amount {0}->{1} for {2}", Category.Objects, amount, newAmount, GetEntityId());
 			this.amount = newAmount;
 			pickupable.RefreshUISlotImage();
 			if (CustomNetworkManager.IsServer)
@@ -349,7 +349,7 @@ namespace US13.Items
 			}
 			var amountToConsume = Math.Min(toAdd.amount, SpareCapacity);
 			if (amountToConsume <= 0) return 0;
-			Loggy.Trace().Format("Combining {0} <- {1}", Category.Objects, GetInstanceID(), toAdd.GetInstanceID());
+			Loggy.Trace().Format("Combining {0} <- {1}", Category.Objects, GetEntityId(), toAdd.GetEntityId());
 			toAdd.ServerConsume(amountToConsume);
 			SyncAmount(amount, amount + amountToConsume);
 			return amountToConsume;

@@ -276,7 +276,7 @@ namespace US13.Core.Lifecycle
 					pooledObject = null;
 					return false;
 				}
-				Loggy.Trace().Format("Loading {0} from pool Pooled:{1}", Category.Objects, pooledObject.GetInstanceID(), prefabToPooledObjects[prefab].Count);
+				Loggy.Trace().Format("Loading {0} from pool Pooled:{1}", Category.Objects, pooledObject.GetEntityId(), prefabToPooledObjects[prefab].Count);
 				prefabToPooledObjects[prefab].Pop();
 				return true;
 			}
@@ -322,7 +322,7 @@ namespace US13.Core.Lifecycle
 				// we have capacity, add to pool
 				pooledObjects.Push(poolPrefabTracker.gameObject);
 				Loggy.Trace().Format("Added {0} to pool, deactivated and moved to hiddenpos Pooled: {1}",
-					Category.Objects, poolPrefabTracker.gameObject.GetInstanceID(), pooledObjects.Count);
+					Category.Objects, poolPrefabTracker.gameObject.GetEntityId(), pooledObjects.Count);
 				return true;
 			}
 

@@ -16,7 +16,7 @@ namespace US13.Core.Editor.ScriptableObjectBrowser
 		private readonly TypeDiscoveryService discovery;
 		private readonly Action onFilterChanged;
 
-		private TreeViewState treeViewState;
+		private TreeViewState<EntityId> treeViewState;
 		private CategoryTreeView treeView;
 		private bool needsReload;
 
@@ -26,7 +26,7 @@ namespace US13.Core.Editor.ScriptableObjectBrowser
 			this.discovery = discovery;
 			this.onFilterChanged = onFilterChanged;
 
-			treeViewState = new TreeViewState();
+			treeViewState = new TreeViewState<EntityId>();
 			treeView = new CategoryTreeView(treeViewState, discovery);
 			treeView.SelectByFullPath(state.SelectedNamespaceFilter);
 		}
@@ -98,7 +98,7 @@ namespace US13.Core.Editor.ScriptableObjectBrowser
 			needsReload = true;
 		}
 
-		private bool SelectionChanged(IList<int> before, IList<int> after)
+		private bool SelectionChanged(IList<EntityId> before, IList<EntityId> after)
 		{
 			if (before.Count != after.Count) return true;
 			for (int i = 0; i < before.Count; i++)

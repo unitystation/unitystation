@@ -584,7 +584,7 @@ namespace US13.Objects.Engineering
 				{
 					var strength = power * Mathf.Max(0,
 						(1 + (powerTransmissionBonus / (10 - (bzCompositon * 5))) * freonBonus));
-					RadiationManager.Instance.RequestPulse( registerTile.WorldPositionServer, strength, GetInstanceID());
+					RadiationManager.Instance.RequestPulse( registerTile.WorldPositionServer, strength, GetEntityId().GetHashCode());
 				}
 
 				if (bzCompositon >= 0.4 && DMMath.Prob(30 * bzCompositon))
@@ -906,7 +906,7 @@ namespace US13.Objects.Engineering
 				Spawn.ServerPrefab(energyBall, registerTile.WorldPosition, transform.parent);
 			}
 
-			RadiationManager.Instance.RequestPulse( registerTile.LocalPositionServer, detonationRads, GetInstanceID());
+			RadiationManager.Instance.RequestPulse( registerTile.LocalPositionServer, detonationRads, GetEntityId().GetHashCode());
 
 			Explosion.StartExplosion(registerTile.WorldPositionServer, explosionStrength, stunNearbyPlayers: true);
 
@@ -1189,7 +1189,7 @@ namespace US13.Objects.Engineering
 			}
 
 			matterPower += 150;
-			RadiationManager.Instance.RequestPulse( registerTile.WorldPositionServer, 200, GetInstanceID());
+			RadiationManager.Instance.RequestPulse( registerTile.WorldPositionServer, 200, GetEntityId().GetHashCode());
 			SoundManager.PlayNetworkedAtPos(lightningSound, registerTile.WorldPositionServer, sourceObj: gameObject);
 		}
 
@@ -1224,7 +1224,7 @@ namespace US13.Objects.Engineering
 			//Kill player if they touched with empty hand
 			if (interaction.HandObject == null)
 			{
-				RadiationManager.Instance.RequestPulse(registerTile.WorldPositionServer, 200, GetInstanceID());
+				RadiationManager.Instance.RequestPulse(registerTile.WorldPositionServer, 200, GetEntityId().GetHashCode());
 
 				if (isHugBox && DMMath.Prob(95))
 				{
@@ -1270,7 +1270,7 @@ namespace US13.Objects.Engineering
 				$"You touch the {gameObject.ExpensiveName()} with the {interaction.HandObject.ExpensiveName()}, and everything suddenly goes silent.\n The {interaction.HandObject.ExpensiveName()} flashes into dust as you flinch away from the {gameObject.ExpensiveName()}.",
 				$"As {interaction.Performer.ExpensiveName()} touches the {gameObject.ExpensiveName()} with {interaction.HandObject.ExpensiveName()}, silence fills the room...");
 			_ = Despawn.ServerSingle(interaction.HandObject);
-			RadiationManager.Instance.RequestPulse(registerTile.WorldPositionServer, 150, GetInstanceID());
+			RadiationManager.Instance.RequestPulse(registerTile.WorldPositionServer, 150, GetEntityId().GetHashCode());
 			SoundManager.PlayNetworkedAtPos(lightningSound, registerTile.WorldPositionServer, sourceObj: gameObject);
 			matterPower += 200;
 		}

@@ -33,7 +33,7 @@ namespace US13.Items.Implants.Organs
 		[SerializeField] [FormerlySerializedAs("Storage")]
 		private List<BodyPartUISlots.StorageCharacteristics> storage;
 
-		public int InterfaceGetInstanceID => GetInstanceID();
+		public int InterfaceGetInstanceID => GetEntityId().GetHashCode();
 
 		[System.Serializable]
 		public class StorageCharacteristics
