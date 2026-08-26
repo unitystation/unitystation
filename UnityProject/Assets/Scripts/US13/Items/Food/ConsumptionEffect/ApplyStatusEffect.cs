@@ -2,7 +2,6 @@
 using Logs;
 using UnityEngine;
 using US13.Systems.StatusesAndEffects;
-using US13.Systems.StatusesAndEffects.Interfaces;
 using Util;
 
 namespace US13.Items.Food.ConsumptionEffect
@@ -23,13 +22,6 @@ namespace US13.Items.Food.ConsumptionEffect
 				Loggy.Warning().Format("Game object {0} has no StatusEffectManager",
 					Category.Objects,
 					context.Eater.name);
-				return;
-			}
-
-			if (statusManager.HasStatus(statusEffect) &&
-			    statusEffect is not IStackableStatus &&
-			    statusEffect is not IImmediateEffect)
-			{
 				return;
 			}
 
