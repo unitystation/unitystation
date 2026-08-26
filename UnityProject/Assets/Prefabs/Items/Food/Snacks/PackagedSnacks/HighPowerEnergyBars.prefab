@@ -11,12 +11,12 @@ PrefabInstance:
     - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
@@ -38,6 +38,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
+      propertyPath: 'initialReagentMix.reagents.m_keys.Array.data[3]'
+      value:
+      objectReference: {fileID: 11400000, guid: 6c9b1f701ba4476c895153c0d29eaef1,
+        type: 2}
+    - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
       propertyPath: 'initialReagentMix.reagents.m_values.Array.data[0]'
       value: 10
       objectReference: {fileID: 0}
@@ -49,6 +55,11 @@ PrefabInstance:
     - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: 'initialReagentMix.reagents.m_values.Array.data[2]'
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: 'initialReagentMix.reagents.m_values.Array.data[3]'
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1155915217242832539, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
@@ -178,43 +189,5 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1367782950990450119, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5801753955470824412}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eaf8c1f2a0f9374488e16061fd5b4dcd, type: 3}
---- !u!1 &6537940584556041691 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1367782950990450119, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
-    type: 3}
-  m_PrefabInstance: {fileID: 1362595067615589157}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5801753955470824412
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6537940584556041691}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b4b4c5e337c48f0b597170a20b66351, type: 3}
-  m_Name:
-  m_EditorClassIdentifier: Assets::US13.Items.Food.EffectOnConsumed
-  consumptionEffect:
-    rid: 1972607369206075392
-  condition:
-    rid: 1972607369206075393
-  references:
-    version: 2
-    RefIds:
-    - rid: 1972607369206075392
-      type: {class: ApplyStatusEffect, ns: US13.Items.Food.ConsumptionEffect,
-        asm: Assets}
-      data:
-        statusEffect: {fileID: 11400000, guid: 48a6a8b7f4d1b3549b27fb369c9d3630, type: 2}
-    - rid: 1972607369206075393
-      type: {class: AlwaysTrue, ns: US13.Items.Food.ConsumptionEffect.Conditions,
-        asm: Assets}
-      data: {}
