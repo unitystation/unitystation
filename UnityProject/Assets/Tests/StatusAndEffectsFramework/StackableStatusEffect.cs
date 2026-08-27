@@ -1,24 +1,8 @@
-﻿using UnityEngine;
 using US13.Systems.StatusesAndEffects;
 using US13.Systems.StatusesAndEffects.Interfaces;
 
 namespace Tests.StatusAndEffectsFramework
 {
-	public class MockStatus : StatusEffect
-	{
-
-	}
-
-	public class ImmediateStatusEffect : StatusEffect, IImmediateEffect
-	{
-		public bool DidEffect { get; private set; } = false;
-
-		public override void DoEffect(GameObject target)
-		{
-			DidEffect = true;
-		}
-	}
-
 	public class StackableStatusEffect: StatusEffect, IStackableStatus
 	{
 		public int InitialStacks { get; set; } = 1;
@@ -34,5 +18,4 @@ namespace Tests.StatusAndEffectsFramework
 			Stacks -= amount;
 		}
 	}
-
 }

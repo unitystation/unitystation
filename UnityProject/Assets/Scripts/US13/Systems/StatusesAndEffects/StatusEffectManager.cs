@@ -10,6 +10,7 @@ namespace US13.Systems.StatusesAndEffects
 	public class StatusEffectManager : MonoBehaviour
 	{
 		public HashSet<StatusEffect> Statuses { get; } = new();
+		private readonly List<StatusEffect> statusesToTick = new();
 
 		private void Start()
 		{
@@ -23,22 +24,32 @@ namespace US13.Systems.StatusesAndEffects
 
 		private void TickStatusUpdates()
 		{
-			foreach (var effect in Statuses)
+			statusesToTick.Clear();
+			statusesToTick.AddRange(Statuses);
+			foreach (var effect in statusesToTick)
 			{
-				effect?.DoEffectTick(gameObject);
+				if (effect == false || Statuses.Contains(effect) == false) continue;
+				effect.DoEffectTick(gameObject);
 			}
 		}
 
 		public void AddStatus(StatusEffect status)
 		{
-			if (status == null) return;
-			HandleExpirableStatusAddition(status);
-			HandleStackableStatusAddition(status);
-			HandleImmediateStatusAddition(status);
+			if (status == false) return;
 
-			if (HasStatus(status)) return;
-			status.Initialize(gameObject);
-			Statuses.Add(status);
+			if (TryGetActiveStatus(status, out var activeStatus))
+			{
+				HandleStackableStatusAddition(status, activeStatus);
+				HandleImmediateStatusAddition(activeStatus);
+				return;
+			}
+
+			activeStatus = CreateActiveStatus(status);
+			HandleExpirableStatusAddition(activeStatus);
+			HandleStackableStatusAddition(activeStatus, null);
+			HandleImmediateStatusAddition(activeStatus);
+			activeStatus.Initialize(gameObject);
+			Statuses.Add(activeStatus);
 		}
 
 		private void HandleExpirableStatusAddition(StatusEffect status)
@@ -49,15 +60,12 @@ namespace US13.Systems.StatusesAndEffects
 			}
 		}
 
-		private void HandleStackableStatusAddition(StatusEffect status)
+		private void HandleStackableStatusAddition(StatusEffect status, StatusEffect activeStatus)
 		{
 			if (status is not IStackableStatus newStackable) return;
-			if (Statuses.TryGetValue(status, out var oldStatus))
+			if (activeStatus is IStackableStatus oldStackable)
 			{
-				if (oldStatus is IStackableStatus oldStackable)
-				{
-					oldStackable.AddStack(newStackable.InitialStacks);
-				}
+				oldStackable.AddStack(newStackable.InitialStacks);
 			}
 			else
 			{
@@ -74,10 +82,15 @@ namespace US13.Systems.StatusesAndEffects
 		public void RemoveStatus(StatusEffect status)
 		{
 			if (status == false) return;
-			if (status == null) return;
 			if (gameObject == null ) return;
-			status.OnRemoved(gameObject);
-			Statuses.Remove(status);
+			if (TryGetActiveStatus(status, out var activeStatus) == false) return;
+			if (activeStatus is IExpirableStatus expirable)
+			{
+				expirable.Expired -= OnExpiredStatus;
+			}
+			activeStatus.OnRemoved(gameObject);
+			Statuses.Remove(activeStatus);
+			DestroyStatusInstance(activeStatus);
 		}
 
 		private void OnExpiredStatus(IExpirableStatus expirable)
@@ -92,16 +105,61 @@ namespace US13.Systems.StatusesAndEffects
 
 		public bool HasStatus(StatusEffect status)
 		{
-			return Statuses.Contains(status);
+			return TryGetActiveStatus(status, out _);
 		}
 
 		public bool HasStatusByName(string statusName)
 		{
 			foreach (var status in Statuses)
 			{
-				if (status.name == statusName) return true;
+				if (GetStatusName(status) == statusName) return true;
 			}
 			return false;
+		}
+
+		private StatusEffect CreateActiveStatus(StatusEffect status)
+		{
+			var activeStatus = IsRuntimeClone(status) ? status : Instantiate(status);
+			activeStatus.name = GetStatusName(status);
+			return activeStatus;
+		}
+
+		private bool TryGetActiveStatus(StatusEffect status, out StatusEffect activeStatus)
+		{
+			activeStatus = null;
+			if (status == false) return false;
+			var statusName = GetStatusName(status);
+			foreach (var existingStatus in Statuses)
+			{
+				if (existingStatus == false) continue;
+				if (GetStatusName(existingStatus) != statusName) continue;
+				activeStatus = existingStatus;
+				return true;
+			}
+			return false;
+		}
+
+		private static string GetStatusName(StatusEffect status)
+		{
+			var statusName = status.name ?? string.Empty;
+			const string cloneSuffix = "(Clone)";
+			if (statusName.EndsWith(cloneSuffix, StringComparison.Ordinal) == false) return statusName;
+			return statusName.Substring(0, statusName.Length - cloneSuffix.Length).TrimEnd();
+		}
+
+		private static bool IsRuntimeClone(StatusEffect status)
+		{
+			return (status.name ?? string.Empty).EndsWith("(Clone)", StringComparison.Ordinal);
+		}
+
+		private static void DestroyStatusInstance(StatusEffect status)
+		{
+			if (Application.isPlaying)
+			{
+				Destroy(status);
+				return;
+			}
+			DestroyImmediate(status);
 		}
 	}
 }
