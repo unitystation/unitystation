@@ -131,13 +131,32 @@ namespace Tests
 		/// </summary>
 		public static Type GetObjectType(Object instance) => instance is null ? null : instance.GetType();
 
+		public enum GetEntityIdReturnType
+		{
+			IS_NULL,
+			IS_NOT_NULL,
+			IS_NONE,
+		}
+
+		private const string MANAGER_PATH = "Assets/Prefabs/SceneConstruction/NestedManagers";
+
 		/// <summary>
 		/// Returns the instanceID of an object. Even if the object is considered Unity's null, GetInstanceID can still
 		/// be accessed. If the instance is a true null, then 0 is returned.
 		/// </summary>
-		public static EntityId GetInstanceID(Object instance) => instance?.GetEntityId() ?? EntityId.None;
-
-		private const string MANAGER_PATH = "Assets/Prefabs/SceneConstruction/NestedManagers";
+		public static Tuple<EntityId, GetEntityIdReturnType> GetInstanceID(Object instance)
+		{
+			if (instance is null)
+			{
+				return Tuple.Create(EntityId.None, GetEntityIdReturnType.IS_NULL);
+			}
+			EntityId entityId = instance.GetEntityId();
+			if (entityId == EntityId.None)
+			{
+				return Tuple.Create(entityId, GetEntityIdReturnType.IS_NONE);
+			}
+			return Tuple.Create(entityId, GetEntityIdReturnType.IS_NOT_NULL);
+		}
 
 		/// <summary>
 		/// Get singleton manager prefab

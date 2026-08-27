@@ -85,11 +85,15 @@ namespace Tests
 					}
 
 					// At this point, value is Unity's null but the object may still actually exist.
-					var itemStatus = Utils.GetInstanceID(unityObject) != 0
-						? ReferenceStatus.Missing
-						: ReferenceStatus.Null;
+					Tuple<EntityId, Utils.GetEntityIdReturnType> check = Utils.GetInstanceID(unityObject);
+					var itemStatus = check.Item2 switch
+					{
+						Utils.GetEntityIdReturnType.IS_NOT_NULL => ReferenceStatus.Object,
+						Utils.GetEntityIdReturnType.IS_NULL => ReferenceStatus.Null,
+						_ => ReferenceStatus.None
+					};
 
-					if (itemStatus == ReferenceStatus.Null && !CareAboutNull || itemStatus== ReferenceStatus.Missing  )
+					if (itemStatus == ReferenceStatus.Null && !CareAboutNull || itemStatus== ReferenceStatus.Missing)
 					{
 						combinedStatus = itemStatus; // Missing or Null
 						ExtraInfo += $",at Index {i} ";
@@ -108,14 +112,13 @@ namespace Tests
 				if (unityObject != null) return ReferenceStatus.Object;
 
 				// At this point, value is Unity's null but the object may still actually exist.
-				var status = Utils.GetInstanceID(unityObject) != 0 ? ReferenceStatus.Missing : ReferenceStatus.Null;
-
-				if (status == ReferenceStatus.Null && CareAboutNull == false)
+				Tuple<EntityId, Utils.GetEntityIdReturnType> status = Utils.GetInstanceID(unityObject);
+				return status.Item2 switch
 				{
-					return ReferenceStatus.Object;
-				}
-
-				return status;
+					Utils.GetEntityIdReturnType.IS_NOT_NULL => ReferenceStatus.Object,
+					Utils.GetEntityIdReturnType.IS_NULL => ReferenceStatus.Null,
+					_ => ReferenceStatus.None
+				};
 			}
 		}
 
