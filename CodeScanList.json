@@ -2600,7 +2600,16 @@
             },
             "FindObjectsSortMode": {
                 "All": true
-            }
+            },
+			"EntityId" : {
+				"All": true
+			},
+			"DelegateAutoCleanup" :{
+				"All": true
+			},
+			"Rigidbody" : {
+				
+			}
         },
         "UnityEngine.Events": {
             "UnityEvent": {
@@ -2866,7 +2875,7 @@
             "Profiler": {
                 "Methods": [
                     "long GetTotalAllocatedMemoryLong()",
-                    "void EndThreadProfiling()",
+                    "void BeginThreadProfiling(string, string)",
                     "void EndThreadProfiling()",
                     "long GetTotalReservedMemoryLong()",
                     "long GetMonoUsedSizeLong()",
@@ -3756,6 +3765,11 @@
             "AsyncUniTaskMethodBuilder`1": {
                 "All": true
             }
-        }
+        },
+		"Unity.Scripting.LifecycleManagement" :{
+			"AutoStaticsCleanupAttribute" : {
+				"All": true
+			}
+		}
     }
 }
