@@ -2606,6 +2606,9 @@
 			},
 			"DelegateAutoCleanup" :{
 				"All": true
+			},
+			"Rigidbody" : {
+				
 			}
         },
         "UnityEngine.Events": {
@@ -2872,7 +2875,7 @@
             "Profiler": {
                 "Methods": [
                     "long GetTotalAllocatedMemoryLong()",
-                    "void EndThreadProfiling()",
+                    "void BeginThreadProfiling(string, string)",
                     "void EndThreadProfiling()",
                     "long GetTotalReservedMemoryLong()",
                     "long GetMonoUsedSizeLong()",
