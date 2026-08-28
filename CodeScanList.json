@@ -2600,7 +2600,13 @@
             },
             "FindObjectsSortMode": {
                 "All": true
-            }
+            },
+			"EntityId" : {
+				"All": true
+			},
+			"DelegateAutoCleanup" :{
+				"All": true
+			}
         },
         "UnityEngine.Events": {
             "UnityEvent": {
@@ -3756,6 +3762,11 @@
             "AsyncUniTaskMethodBuilder`1": {
                 "All": true
             }
-        }
+        },
+		"Unity.Scripting.LifecycleManagement" :{
+			"AutoStaticsCleanupAttribute" : {
+				"All": true
+			}
+		}
     }
 }
