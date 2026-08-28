@@ -1,15 +1,20 @@
-﻿using UnityEngine;
+﻿using System;
+using Cysharp.Threading.Tasks;
+using Mirror;
+using UnityEngine;
 using US13.Effects;
 using US13.Managers.NetworkManagement;
 using US13.Managers.UpdateManager;
 using US13.Player.MovementV2;
+using PrimeTween;
+using Util;
 
 namespace US13.Player
 {
 	/// <summary>
 	/// All effects that needed to be played on the player can be called or looked up from here.
 	/// </summary>
-	public class PlayerEffectsManager : MonoBehaviour
+	public class PlayerEffectsManager : NetworkBehaviour
 	{
 		private FloatingEffect floatingEffect;
 		private RotateEffect rotateEffect;
@@ -65,10 +70,30 @@ namespace US13.Player
 			}
 		}
 
-		public void RotatePlayer(int times, float speed, float degree, bool random)
+		[ClientRpc]
+		public async void RotatePlayer(int times, float speed, float degree, bool random, bool resetOnEnd)
 		{
-			rotateEffect.SetupEffectvars(times, speed, degree, random);
-			rotateEffect.StartAnimation();
+			if (random && DMMath.Prob(50))
+			{
+				degree = -degree;
+			}
+			float currentZ = transform.eulerAngles.z;
+
+			for (int i = 0; i < times; i++)
+			{
+				currentZ += degree;
+				await Tween.Rotation(transform, new Vector3(0, 0, currentZ), speed, Easing.Standard(Ease.InOutCubic));
+			}
+			if (resetOnEnd)
+			{
+				ResetRotation();
+			}
+		}
+
+		[ClientRpc]
+		public void ResetRotation()
+		{
+			Tween.Rotation(transform, Vector3.zero, 0.001f);
 		}
 
 		public void ShakePlayer(float duration, float distance, float delay)
