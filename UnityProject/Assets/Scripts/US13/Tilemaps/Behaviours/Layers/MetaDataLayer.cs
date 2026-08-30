@@ -366,7 +366,8 @@ namespace US13.Tilemaps.Behaviours.Layers
 		public Color GetTileColourMix(ReagentMix reagents)
 		{
 			//transparent liquids don't need their alpha bumped when their puddles are full.
-			if (reagents.MajorMixReagent.color.a <= Reagent.MINIMUM_PUDDLE_OPACITY) return reagents.MixColor;
+			if (reagents.MajorMixReagent == null || reagents.MajorMixReagent.color.a <= Reagent.MINIMUM_PUDDLE_OPACITY) return Color.white;
+
 			float fillRatio = Mathf.Clamp01(reagents.Total / REAGENT_LIMIT_PER_CELL);
 			switch (reagents.MixState)
 			{
