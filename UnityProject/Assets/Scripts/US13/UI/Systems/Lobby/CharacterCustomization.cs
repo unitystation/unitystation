@@ -1177,7 +1177,7 @@ namespace US13.UI.Systems.Lobby
 
 		public void TryTTS()
 		{
-			MaryTTS.Instance.Synthesize(TestText.text, MaryTTS.AudioSynthType.NormalSpeech, voicesTTS.options[voicesTTS.value].text);
+			MaryTTS.Instance.Synthesize(TestText.text, MaryTTS.AudioSynthType.NormalSpeech, voicesTTS.options[voicesTTS.value].text, IgnoreRepeatMessage: false);
 		}
 
 		#endregion
@@ -1203,7 +1203,7 @@ namespace US13.UI.Systems.Lobby
 		public void OnPronounChange()
 		{
 			int pronoun = pronounChoice.value;
-			if (pronoun == (int) PlayerPronoun.None)
+			if (pronoun == (int) PlayerPronoun.It_Its)
 			{
 				pronoun = 0;
 			}
