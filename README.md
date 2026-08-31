@@ -1,10 +1,9 @@
 # unitystation
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/bf30df5a44d74ace98fae0769b8a10c4)](https://www.codacy.com/gh/unitystation/unitystation/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=unitystation/unitystation&amp;utm_campaign=Badge_Grade)
-[![Tests](https://github.com/unitystation/unitystation/actions/workflows/test.yml/badge.svg)](https://github.com/unitystation/unitystation/actions/workflows/test.yml)
 [![GitHub last commit](https://img.shields.io/github/last-commit/unitystation/unitystation.svg)](https://github.com/unitystation/unitystation/commits/develop)
+[![Security Tests](https://github.com/unitystation/unitystation/actions/workflows/test-security.yml/badge.svg)](https://github.com/unitystation/unitystation/actions/workflows/test-security.yml)
 [![Discord](https://img.shields.io/discord/273774715741667329.svg)](https://discord.gg/H6EunER)
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-
 
 ![CONTAINS](https://img.shields.io/badge/CONTAINS-TECHNICAL%20DEBT-green?labelColor=blue&style=flat)
 ![BUILT WITH](https://img.shields.io/badge/BUILT%20WITH-RESENTMENT-green?labelColor=blue&style=flat)
@@ -26,7 +25,7 @@ Talk to us on Discord:
 ## Feel like getting involved?
 Read our Quick Start guide [here](https://unitystation.github.io/unitystation/contribution-guides/Starting-contribution/)
 1. [Get Unity Hub](https://unity3d.com/get-unity/download)
-2. Install editor version [**6000.2.10f1**](https://unity.com/releases/editor/archive)
+2. Install editor version [**6000.5.9f1**](https://unity.com/releases/editor/archive)
 3. Fork the repo
 4. Add your changes
 5. Read the contribution guidelines

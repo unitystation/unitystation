@@ -38,7 +38,7 @@ namespace US13.Detective
 			if (interaction.TargetObject != null)
 			{
 				appliedDetails = interaction.TargetObject.GetComponent<Attributes>().OrNull()?.AppliedDetails;
-				ScanningName = interaction.TargetObject.ExpensiveName() + " \n Clue ID " + interaction.TargetObject.gameObject.GetInstanceID();
+				ScanningName = interaction.TargetObject.ExpensiveName() + " \n Clue ID " + interaction.TargetObject.gameObject.GetEntityId();
 			}
 			else
 			{
@@ -71,7 +71,7 @@ namespace US13.Detective
 
 				foreach (var detail in appliedDetails.Details.Take(ScannerDetail))
 				{
-					StringBuilder.AppendLine($" Finding {detail.Description} Clue ID {detail.CausedByInstanceID} ");
+					StringBuilder.AppendLine($" Finding {detail.Description} Clue ID {detail.CausedByEntityId} ");
 				}
 			}
 

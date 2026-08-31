@@ -5,10 +5,10 @@ using Newtonsoft.Json;
 using US13.Managers;
 using US13.Messages.Server;
 using US13.Systems.Lobby;
-using US13.UI.Admin.DIMGUI.Characters;
 
 namespace US13.Messages.Client.Admin
 {
+	[Obsolete("Remove this as we no longer use IMGUI")]
 	public class RequestUpdatePlayerCharacterSheet : ClientMessage<RequestUpdatePlayerCharacterSheet.NetMessage>
 	{
 		public struct NetMessage : NetworkMessage
@@ -85,14 +85,7 @@ namespace US13.Messages.Client.Admin
 
 		public override void Process(NetMessage msg)
 		{
-			if (msg.IsSuccess)
-			{
-				CharacterSheetEditor.Instance.NetMessage_SuccessEvent();
-			}
-			else
-			{
-				CharacterSheetEditor.Instance.NetMessage_FailEvent();
-			}
+
 		}
 
 		public static NetMessage SendSheetUpdate(PlayerInfo requester, bool isSuccess = true)

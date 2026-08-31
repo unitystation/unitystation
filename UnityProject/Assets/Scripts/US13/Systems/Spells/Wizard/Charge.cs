@@ -16,6 +16,8 @@ namespace US13.Systems.Spells.Wizard
 
 			if (Slot == null) return false;
 
+			if (Slot.Item == null) return false;
+
 			if (Slot.Item.TryGetComponent<GunPKA>(out var GunPKA))
 			{
 				var magazine = GunPKA.CurrentMagazine;

@@ -138,7 +138,6 @@ namespace US13.Managers.LobbyManager
 		public static void StopMusic()
 		{
 			Instance.musicAudioSource.Stop();
-			Synth.Instance.StopMusic();
 		}
 
 		/// <summary>
@@ -248,15 +247,6 @@ namespace US13.Managers.LobbyManager
 		{
 			isMusicMute = mute;
 			musicAudioSource.mute = mute;
-			if (mute)
-			{
-				Synth.Instance.SetMusicVolume(Byte.MinValue);
-			}
-			else
-			{
-				var vol = 255 * Instance.MusicVolume;
-				Synth.Instance.SetMusicVolume((byte) (int) vol);
-			}
 		}
 
 		/// <summary>
@@ -266,8 +256,7 @@ namespace US13.Managers.LobbyManager
 		public static bool isMusicPlaying()
 		{
 			if (Instance.musicAudioSource != null
-			    && Instance.musicAudioSource.isPlaying
-			    || (SunVox.SunVox.sv_end_of_song((int) Slot.Music) != 0))
+			    && Instance.musicAudioSource.isPlaying)
 			{
 				return true;
 			}

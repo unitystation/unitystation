@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEditor.IMGUI.Controls;
+using UnityEngine;
 
 namespace US13.Core.Editor.ScriptableObjectBrowser
 {
@@ -7,16 +8,16 @@ namespace US13.Core.Editor.ScriptableObjectBrowser
 	/// TreeView implementation for the namespace category tree.
 	/// Uses Unity's built-in TreeView for proper indentation, expand/collapse, and selection.
 	/// </summary>
-	public class CategoryTreeView : TreeView
+	public class CategoryTreeView : TreeView<EntityId>
 	{
 		private readonly TypeDiscoveryService discovery;
 
 		/// <summary>
 		/// Maps TreeViewItem id -> CategoryNode.FullPath (null for root "All" item).
 		/// </summary>
-		private readonly Dictionary<int, string> idToFullPath = new Dictionary<int, string>();
+		private readonly Dictionary<EntityId, string> idToFullPath = new Dictionary<EntityId, string>();
 
-		public CategoryTreeView(TreeViewState treeViewState, TypeDiscoveryService discovery)
+		public CategoryTreeView(TreeViewState<EntityId> treeViewState, TypeDiscoveryService discovery)
 			: base(treeViewState)
 		{
 			this.discovery = discovery;
@@ -24,18 +25,18 @@ namespace US13.Core.Editor.ScriptableObjectBrowser
 			Reload();
 		}
 
-		protected override TreeViewItem BuildRoot()
+		protected override TreeViewItem<EntityId> BuildRoot()
 		{
 			idToFullPath.Clear();
 
 			// Hidden root at depth -1 (required by TreeView API)
-			var root = new TreeViewItem(0, -1, "Hidden Root");
+			var root = new TreeViewItem<EntityId>(0, -1, "Hidden Root");
 
 			int nextId = 1;
 			var rootNode = discovery.RootNode;
 
 			// "All" item at depth 0
-			var allItem = new TreeViewItem(nextId, 0, $"All ({rootNode.TotalTypeCount})");
+			var allItem = new TreeViewItem<EntityId>(nextId, 0, $"All ({rootNode.TotalTypeCount})");
 			idToFullPath[nextId] = null;
 			nextId++;
 
@@ -51,12 +52,12 @@ namespace US13.Core.Editor.ScriptableObjectBrowser
 			return root;
 		}
 
-		private int AddNodeRecursive(TreeViewItem parent, CategoryNode node, int depth, int nextId)
+		private int AddNodeRecursive(TreeViewItem<EntityId> parent, CategoryNode node, int depth, int nextId)
 		{
 			if (node.TotalTypeCount == 0) return nextId;
 
 			int id = nextId++;
-			var item = new TreeViewItem(id, depth, $"{node.Name} ({node.TotalTypeCount})");
+			var item = new TreeViewItem<EntityId>(id, depth, $"{node.Name} ({node.TotalTypeCount})");
 			idToFullPath[id] = node.FullPath;
 
 			parent.AddChild(item);
@@ -72,7 +73,7 @@ namespace US13.Core.Editor.ScriptableObjectBrowser
 		/// <summary>
 		/// Returns the namespace FullPath for the given tree item id, or null for "All".
 		/// </summary>
-		public string GetFullPathForId(int id)
+		public string GetFullPathForId(EntityId id)
 		{
 			idToFullPath.TryGetValue(id, out string path);
 			return path;
@@ -87,7 +88,7 @@ namespace US13.Core.Editor.ScriptableObjectBrowser
 			{
 				if (kvp.Value == fullPath)
 				{
-					SetSelection(new List<int> { kvp.Key }, TreeViewSelectionOptions.RevealAndFrame);
+					SetSelection(new List<EntityId> { kvp.Key }, TreeViewSelectionOptions.RevealAndFrame);
 					return;
 				}
 			}

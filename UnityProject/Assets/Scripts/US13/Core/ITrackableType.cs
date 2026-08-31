@@ -2,13 +2,15 @@
 using System.Diagnostics;
 using System.Linq;
 using Logs;
+using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 using US13.Items.Traits;
 using Util;
 
 namespace US13.Core
 {
-	public static class ComponentsTracker<T>
+	[AutoStaticsCleanup]
+	public static partial class ComponentsTracker<T>
 	{
 		public static HashSet<T> Instances { get; } = new HashSet<T>();
 		private static Dictionary<GameObject, T> instanceLookup = new Dictionary<GameObject, T>();

@@ -155,7 +155,7 @@ namespace US13.Systems.Inventory
 		private ItemSlot(ItemStorage itemStorage, SlotIdentifier slotIdentifier)
 		{
 			this.itemStorage = itemStorage;
-			this.itemStorageNetId = itemStorage.GetInstanceID();
+			this.itemStorageNetId = itemStorage.GetEntityId().GetHashCode();
 			this.slotIdentifier = slotIdentifier;
 		}
 
@@ -167,7 +167,7 @@ namespace US13.Systems.Inventory
 		{
 			if (itemStorage.HasSlot(slotIdentifier) == false) return null;
 
-			var instanceID = itemStorage.GetInstanceID();
+			var instanceID = itemStorage.GetEntityId().GetHashCode();
 			slots.TryGetValue(instanceID, out var dict);
 			if (dict == null)
 			{
@@ -489,7 +489,7 @@ namespace US13.Systems.Inventory
 
 			if (storageToFree.GetComponent<NetworkIdentity>())
 			{
-				var instanceID = storageToFree.GetComponent<NetworkIdentity>().GetInstanceID();
+				var instanceID = storageToFree.GetComponent<NetworkIdentity>().GetEntityId().GetHashCode();
 				slots.TryGetValue(instanceID, out var dict);
 				if (dict != null)
 				{

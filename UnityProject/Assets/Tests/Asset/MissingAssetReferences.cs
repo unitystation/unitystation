@@ -109,8 +109,8 @@ namespace Tests.Asset
 				{
 					for (int j = 0; j < so.Variance[i].Frames.Count; j++)
 					{
-						var Status =  SerializedObjectFieldsMap.GetReferenceStatus(FieldInfo, so.Variance[i].Frames[j], true, out var Indexs);
-						switch (Status)
+						var status =  SerializedObjectFieldsMap.GetReferenceStatus(FieldInfo, so.Variance[i].Frames[j], true, out var Indexs);
+						switch (status)
 						{
 								case ReferenceStatus.Null:
 									Missing.Add( $"{so.name} Index {i} Subindex {j} is None/Null " + Indexs);

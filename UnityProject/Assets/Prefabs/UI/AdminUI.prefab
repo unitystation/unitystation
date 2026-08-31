@@ -3057,6 +3057,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -4953,6 +4954,7 @@ MonoBehaviour:
   m_VerticalAlignment: 256
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -5651,8 +5653,8 @@ MonoBehaviour:
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
-      m_SubObjectGUID: 
       m_SubObjectType: 
+      m_SubObjectGUID: 
       m_EditorAssetChanged: 0
 --- !u!1 &3965479424432898852
 GameObject:
@@ -6797,8 +6799,8 @@ MonoBehaviour:
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
-      m_SubObjectGUID: 
       m_SubObjectType: 
+      m_SubObjectGUID: 
       m_EditorAssetChanged: 0
 --- !u!1 &4982867252802006474
 GameObject:
@@ -7421,8 +7423,8 @@ MonoBehaviour:
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
-      m_SubObjectGUID: 
       m_SubObjectType: 
+      m_SubObjectGUID: 
       m_EditorAssetChanged: 0
 --- !u!1 &5298459481828212154
 GameObject:
@@ -8815,6 +8817,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
+  m_UseReflectionProbes: 0
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -9738,8 +9741,8 @@ MonoBehaviour:
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
-      m_SubObjectGUID: 
       m_SubObjectType: 
+      m_SubObjectGUID: 
       m_EditorAssetChanged: 0
 --- !u!1 &6787479068599820315
 GameObject:
@@ -9975,8 +9978,8 @@ MonoBehaviour:
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
-      m_SubObjectGUID: 
       m_SubObjectType: 
+      m_SubObjectGUID: 
       m_EditorAssetChanged: 0
 --- !u!1 &6924320007123187704
 GameObject:
@@ -11518,6 +11521,7 @@ MonoBehaviour:
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
+  m_characterHorizontalScale: 1
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
@@ -15786,6 +15790,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -378.3765
       objectReference: {fileID: 0}
+    - target: {fileID: 8548627489656698254, guid: 56a6f9494007d064a8f9c7fde98a31ab,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8552750518125020287, guid: 56a6f9494007d064a8f9c7fde98a31ab,
         type: 3}
       propertyPath: m_AnchorMax.y
@@ -15946,7 +15955,8 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -18.60065
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2778440711077948116, guid: 56a6f9494007d064a8f9c7fde98a31ab, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:

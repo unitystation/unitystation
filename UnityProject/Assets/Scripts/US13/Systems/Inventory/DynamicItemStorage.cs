@@ -214,6 +214,7 @@ namespace US13.Systems.Inventory
 		/// <returns></returns>
 		public ItemSlot GetNamedItemSlot(GameObject relatedPart, NamedSlot namedSlot)
 		{
+			if (relatedPart == null) return null;
 			if (isServer)
 			{
 				if (ServerObjectToSlots.ContainsKey(relatedPart) == false) return null;

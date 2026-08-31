@@ -47,7 +47,7 @@ namespace AssetUsageDetectorNamespace
 		private static readonly HashSet<string> folderContentsSet = new HashSet<string>();
 
 #if UNITY_2018_3_OR_NEWER
-		private static int previousPingedPrefabInstanceId;
+		private static EntityId previousPingedPrefabEntityId;
 		private static double previousPingedPrefabPingTime;
 #endif
 
@@ -60,6 +60,14 @@ namespace AssetUsageDetectorNamespace
 		public static readonly GUILayoutOption GL_HEIGHT_30 = GUILayout.Height( 30 );
 		public static readonly GUILayoutOption GL_HEIGHT_35 = GUILayout.Height( 35 );
 		public static readonly GUILayoutOption GL_HEIGHT_40 = GUILayout.Height( 40 );
+
+		private static EntityId GetEntityId( Object obj )
+		{
+			if( obj == null )
+				return default;
+
+			return EntityId.FromULong( unchecked( (ulong) obj.GetHashCode() ) );
+		}
 
 		private static GUIStyle m_boxGUIStyle; // GUIStyle used to draw the results of the search
 		public static GUIStyle BoxGUIStyle
@@ -232,15 +240,17 @@ namespace AssetUsageDetectorNamespace
 					string assetPath = AssetDatabase.GetAssetPath( objTR.gameObject );
 					var openPrefabStage = UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage();
 
+					EntityId prefabEntityId = GetEntityId( objTR );
+
 					// Try to open the prefab stage of pinged prefabs if they are double clicked
-					if( previousPingedPrefabInstanceId == objTR.GetInstanceID() && EditorApplication.timeSinceStartup - previousPingedPrefabPingTime <= 0.3f &&
+					if( previousPingedPrefabEntityId == prefabEntityId && EditorApplication.timeSinceStartup - previousPingedPrefabPingTime <= 0.3f &&
 						( openPrefabStage == null || !openPrefabStage.stageHandle.IsValid() || assetPath != openPrefabStage.prefabAssetPath ) )
 					{
 						AssetDatabase.OpenAsset( objTR.gameObject );
 						openPrefabStage = UnityEditor.SceneManagement.PrefabStageUtility.GetCurrentPrefabStage();
 					}
 
-					previousPingedPrefabInstanceId = objTR.GetInstanceID();
+					previousPingedPrefabEntityId = prefabEntityId;
 					previousPingedPrefabPingTime = EditorApplication.timeSinceStartup;
 
 					if( openPrefabStage != null && openPrefabStage.stageHandle.IsValid() && assetPath == openPrefabStage.prefabAssetPath )

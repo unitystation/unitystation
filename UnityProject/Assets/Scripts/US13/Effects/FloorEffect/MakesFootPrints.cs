@@ -145,7 +145,7 @@ namespace US13.Effects.FloorEffect
 				{
 					DetailType =  DetailType.Footprints,
 					Description = "A shoe print",
-					CausedByInstanceID = this.gameObject.GetInstanceID()
+					CausedByEntityId = this.gameObject.GetEntityId()
 				});
 			}
 

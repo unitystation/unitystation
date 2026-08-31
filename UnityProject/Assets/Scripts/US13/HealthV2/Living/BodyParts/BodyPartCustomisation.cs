@@ -137,7 +137,7 @@ namespace US13.HealthV2.Living.BodyParts
 
 			var ClientData = new IntName();
 
-			ClientData.Name = name + "_" + newSprite.GetInstanceID(); //is Fine because name is being Networked
+			ClientData.Name = name + "_" + newSprite.GetEntityId(); //is Fine because name is being Networked
 			newSprite.SetName(ClientData.Name);
 			ClientData.Int = CustomNetworkManager.Instance.IndexLookupSpawnablePrefabs[SpritePrefab.gameObject];
 			ClientData.Data = JsonConvert.SerializeObject(newOrder);
