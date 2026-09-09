@@ -139,7 +139,6 @@ namespace US13.Core.Factories
 				var colorDesc = TextUtils.ColorToString(reagents.MixColor);
 				var stateDesc = ChemistryUtils.GetMixStateDescription(reagents);
 				chemTileInst.GameObject.name = $"{colorDesc} {stateDesc}";
-				color.a = Mathf.Min(0.1f, color.a);
 
 				if (chemTileGO)
 				{
@@ -169,8 +168,6 @@ namespace US13.Core.Factories
 				var colorDesc = TextUtils.ColorToString(reagents.MixColor);
 				var stateDesc = ChemistryUtils.GetMixStateDescription(reagents);
 				powderTileInst.GameObject.name = $"{colorDesc} {stateDesc}";
-
-				color.a = Mathf.Min(0.1f, color.a);
 
 				if (powderTileGO)
 				{

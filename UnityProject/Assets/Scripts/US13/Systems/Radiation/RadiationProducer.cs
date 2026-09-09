@@ -39,7 +39,7 @@ namespace US13.Systems.Radiation
 
 		private void Start()
 		{
-			ObjectID = this.GetEntityId().GetHashCode();
+			ObjectID = this.GetInstanceID();
 
 			if (CustomNetworkManager.IsServer == false) return;
 			OutPuttingRadiation = InitialOutPuttingRadiation;

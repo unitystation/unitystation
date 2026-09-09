@@ -133,7 +133,7 @@ namespace US13.Core.Editor
 					SetHidden(panel, hidden == false);
 				}
 
-				string key = "M:" + panel.GetEntityId();
+				string key = "M:" + panel.GetInstanceID();
 				switch (DrawSoloButton(key))
 				{
 					case SoloButtonResult.Solo:

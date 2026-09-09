@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using Logs;
 using UnityEditor;
@@ -773,7 +774,7 @@ namespace IngameDebugConsole.Scripts
 			foreach (var effectManager in managers)
 			{
 				if (effectManager == null) continue;
-				sb.AppendLine($"Status effects on {effectManager.gameObject.name} (ID: {effectManager.gameObject.GetEntityId().GetHashCode()}):");
+				sb.AppendLine($"Status effects on {effectManager.gameObject.name} (ID: {effectManager.gameObject.GetInstanceID()}):");
 				if (effectManager.Statuses.Count == 0)
 				{
 					sb.AppendLine("- None");

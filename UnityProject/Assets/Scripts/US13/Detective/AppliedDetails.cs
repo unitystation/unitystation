@@ -1,11 +1,10 @@
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace US13.Detective
 {
 	public class AppliedDetails
 	{
-		public HashSet<EntityId> Interacted = new HashSet<EntityId>();
+		public HashSet<int> Interacted = new HashSet<int>();
 
 		public List<Detail> Details = new List<Detail>();
 
@@ -13,7 +12,7 @@ namespace US13.Detective
 
 		public void AddDetail(Detail Detail)
 		{
-			if (Interacted.Contains(Detail.CausedByEntityId)) return;
+			if (Interacted.Contains(Detail.CausedByInstanceID)) return;
 			if (Details.Count == 15)
 			{
 				Details.RemoveAt(RNG.Next(0, Details.Count-1));
@@ -28,7 +27,7 @@ namespace US13.Detective
 				Details.Add(Detail);
 			}
 
-			Interacted.Add(Detail.CausedByEntityId);
+			Interacted.Add(Detail.CausedByInstanceID);
 		}
 
 		public void Clean()
@@ -44,7 +43,7 @@ namespace US13.Detective
 
 	public class Detail
 	{
-		public EntityId CausedByEntityId;
+		public int CausedByInstanceID;
 		public string Description;
 		public DetailType DetailType;
 

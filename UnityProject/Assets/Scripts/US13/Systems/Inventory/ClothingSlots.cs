@@ -32,7 +32,7 @@ namespace US13.Systems.Inventory
 
 		private ItemSlot ActiveInSlot;
 
-		public int InterfaceGetInstanceID => GetEntityId().GetHashCode();
+		public int InterfaceGetInstanceID => GetInstanceID();
 
 		public void OnInventoryMoveServer(InventoryMove info)
 		{

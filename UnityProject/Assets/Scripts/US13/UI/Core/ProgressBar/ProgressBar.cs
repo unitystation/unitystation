@@ -92,7 +92,7 @@ namespace US13.UI.Core.ProgressBar
 			timeToFinish = startInfo.TimeForCompletion;
 			registerPlayer = startInfo.Performer.GetComponent<RegisterPlayer>();
 			this.progressAction = progressAction;
-			id = GetEntityId().GetHashCode();
+			id = GetInstanceID();
 
 			if (startInfo.Performer != PlayerManager.LocalPlayerObject)
 			{
@@ -131,6 +131,7 @@ namespace US13.UI.Core.ProgressBar
 		{
 			id = progressBarId;
 			CommonStartProgress();
+
 		}
 
 		/// <summary>

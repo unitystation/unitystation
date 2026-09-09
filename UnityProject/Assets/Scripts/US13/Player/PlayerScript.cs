@@ -702,7 +702,7 @@ namespace US13.Player
 					wearingGloves = true;
 					details.AddDetail(new Detail
 					{
-						CausedByEntityId = slotGlove.Item.gameObject.GetEntityId(),
+						CausedByInstanceID = slotGlove.Item.gameObject.GetInstanceID(),
 						Description = $" A fibre from a {slotGlove.Item.gameObject.ExpensiveName()}",
 						DetailType = DetailType.Fibre
 					});
@@ -715,7 +715,7 @@ namespace US13.Player
 					{
 						details.AddDetail(new Detail
 						{
-							CausedByEntityId = slot.ItemStorage.gameObject.GetEntityId(),
+							CausedByInstanceID = slot.ItemStorage.gameObject.GetInstanceID(),
 							Description = $" A fingerprint ",
 							DetailType = DetailType.Fingerprints
 						});
@@ -731,7 +731,7 @@ namespace US13.Player
 				{
 					details.AddDetail(new Detail
 					{
-						CausedByEntityId = slot.Item.gameObject.GetEntityId(),
+						CausedByInstanceID = slot.Item.gameObject.GetInstanceID(),
 						Description = $" A fibre from a {slot.Item.gameObject.ExpensiveName()}",
 						DetailType = DetailType.Fibre
 					});
@@ -742,7 +742,7 @@ namespace US13.Player
 			{
 				details.AddDetail(new Detail
 				{
-					CausedByEntityId = this.gameObject.GetEntityId(),
+					CausedByInstanceID = this.gameObject.GetInstanceID(),
 					Description = playerSprites.RaceBodyparts.Base.ClueString,
 					DetailType = DetailType.SpeciesIdentify
 				});

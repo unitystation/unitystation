@@ -165,8 +165,6 @@ public class CharacterSheet : ICloneable
 				return "his";
 			case PlayerPronoun.She_her:
 				return "her";
-			case PlayerPronoun.It_Its:
-				return "its";
 			default:
 				return "their";
 		}
@@ -188,8 +186,6 @@ public class CharacterSheet : ICloneable
 				return "he";
 			case PlayerPronoun.She_her:
 				return "she";
-			case PlayerPronoun.It_Its:
-				return "it";
 			default:
 				return "they";
 		}
@@ -210,8 +206,6 @@ public class CharacterSheet : ICloneable
 				return "him";
 			case PlayerPronoun.She_her:
 				return "her";
-			case PlayerPronoun.It_Its:
-				return "it's";
 			default:
 				return "them";
 		}
@@ -232,8 +226,6 @@ public class CharacterSheet : ICloneable
 				return "he's";
 			case PlayerPronoun.She_her:
 				return "she's";
-			case PlayerPronoun.It_Its:
-				return "it's";
 			default:
 				return "they're";
 		}
@@ -254,8 +246,6 @@ public class CharacterSheet : ICloneable
 				return "himself";
 			case PlayerPronoun.She_her:
 				return "herself";
-			case PlayerPronoun.It_Its:
-				return "itself";
 			default:
 				return "themself";
 		}
@@ -269,7 +259,6 @@ public class CharacterSheet : ICloneable
 		}
 		switch (PlayerPronoun)
 		{
-			case PlayerPronoun.It_Its:
 			case PlayerPronoun.He_him:
 			case PlayerPronoun.She_her:
 				return "is";
@@ -287,7 +276,6 @@ public class CharacterSheet : ICloneable
 		}
 		switch (PlayerPronoun)
 		{
-			case PlayerPronoun.It_Its:
 			case PlayerPronoun.He_him:
 			case PlayerPronoun.She_her:
 				return "has";

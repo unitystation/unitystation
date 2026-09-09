@@ -167,7 +167,7 @@ namespace US13.Objects
 			boxCollider2D = GetComponent<BoxCollider2D>();
 
 			lightTransform = light.transform;
-			objectId = GetEntityId().GetHashCode();
+			objectId = GetInstanceID();
 
 			WarpEffectFrontMat = WarpEffectFront.GetComponent<MeshRenderer>().materials[0];
 			WarpEffectBackMat = WarpEffectBack.GetComponent<MeshRenderer>().materials[0];

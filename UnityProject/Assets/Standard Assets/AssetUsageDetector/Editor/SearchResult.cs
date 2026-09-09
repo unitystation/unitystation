@@ -46,7 +46,7 @@ namespace AssetUsageDetectorNamespace
 		[Serializable]
 		public class SerializableNode
 		{
-			public ulong entityId;
+			public int instanceId;
 			public bool isUnityObject;
 			public string description;
 
@@ -875,13 +875,12 @@ namespace AssetUsageDetectorNamespace
 		private readonly int uid;
 
 		internal object nodeObject;
-		private Object unityObjectRef;
-		private EntityId? entityId; // EntityId of the nodeObject when it is backed by an ECS entity
+		private int? instanceId; // instanceId of the nodeObject if it is a Unity object, null otherwise
 		private string description; // String to print on this node
 
 		private readonly List<Link> links;
 
-		public Object UnityObject { get { return unityObjectRef; } }
+		public Object UnityObject { get { return instanceId.HasValue ? EditorUtility.InstanceIDToObject( instanceId.Value ) : null; } }
 
 		public int NumberOfOutgoingLinks { get { return links.Count; } }
 		public Link this[int index] { get { return links[index]; } }
@@ -964,24 +963,21 @@ namespace AssetUsageDetectorNamespace
 			Object unityObject = nodeObject as Object;
 			if( unityObject != null )
 			{
-				unityObjectRef = unityObject;
-				entityId = unityObject.GetEntityId();
+				instanceId = unityObject.GetInstanceID();
 				description = unityObject.name + " (" + unityObject.GetType() + ")";
 			}
 			else if( nodeObject != null )
 			{
-				unityObjectRef = null;
-				entityId = null;
+				instanceId = null;
 				description = nodeObject.GetType() + " object";
 			}
 			else
 			{
-				unityObjectRef = null;
-				entityId = null;
+				instanceId = null;
 				description = "<<destroyed>>";
 			}
 
-			nodeObject = null;
+			nodeObject = null; // don't hold Object reference, allow Unity to GC used memory
 
 			for( int i = 0; i < links.Count; i++ )
 				links[i].targetNode.InitializeRecursively();
@@ -1018,8 +1014,6 @@ namespace AssetUsageDetectorNamespace
 		public void Clear()
 		{
 			nodeObject = null;
-			unityObjectRef = null;
-			entityId = null;
 			links.Clear();
 		}
 
@@ -1070,9 +1064,9 @@ namespace AssetUsageDetectorNamespace
 			}
 			else
 			{
-				if( unityObjectRef != null && !unityObjectRef.Equals( null ) ) // nodeObject is Unity object
+				if( instanceId.HasValue ) // nodeObject is Unity object
 				{
-					if( !startPathsWithSceneObjects || !AssetDatabase.Contains( unityObjectRef ) )
+					if( !startPathsWithSceneObjects || !AssetDatabase.Contains( instanceId.Value ) )
 						latestObjectIndexInPath = currentIndex;
 				}
 
@@ -1096,8 +1090,7 @@ namespace AssetUsageDetectorNamespace
 			return new ReferenceNodeGUI()
 			{
 				label = new GUIContent( string.IsNullOrEmpty( linkToPrevNodeDescription ) ? description : ( linkToPrevNodeDescription + "\n" + description ) ),
-				unityObject = unityObjectRef,
-				entityId = entityId
+				instanceId = instanceId
 			};
 		}
 
@@ -1130,8 +1123,8 @@ namespace AssetUsageDetectorNamespace
 
 			SearchResult.SerializableNode serializedNode = new SearchResult.SerializableNode()
 			{
-				entityId = entityId.HasValue ? EntityId.ToULong(entityId.Value) : 0UL,
-				isUnityObject = unityObjectRef != null,
+				instanceId = instanceId ?? 0,
+				isUnityObject = instanceId.HasValue,
 				description = description
 			};
 
@@ -1157,8 +1150,11 @@ namespace AssetUsageDetectorNamespace
 		// Deserialize this node and its links from the serialized data
 		public void Deserialize( SearchResult.SerializableNode serializedNode, List<ReferenceNode> allNodes )
 		{
-			unityObjectRef = null;
-			entityId = serializedNode.entityId != 0UL ? EntityId.FromULong( serializedNode.entityId ) : (EntityId?) null;
+			if( serializedNode.isUnityObject )
+				instanceId = serializedNode.instanceId;
+			else
+				instanceId = null;
+
 			description = serializedNode.description;
 
 			if( serializedNode.links != null )
@@ -1178,8 +1174,7 @@ namespace AssetUsageDetectorNamespace
 	{
 		public GUIContent label;
 		public ReferenceNodeGUI[] links;
-		public Object unityObject;
-		public EntityId? entityId;
+		public int? instanceId;
 
 		private int depth;
 
@@ -1252,10 +1247,10 @@ namespace AssetUsageDetectorNamespace
 			rect.position += offset;
 			rect.size = size;
 
-			if( GUI.Button( rect, label, Utilities.BoxGUIStyle ) && unityObject != null && !unityObject.Equals( null ) )
+			if( GUI.Button( rect, label, Utilities.BoxGUIStyle ) && instanceId.HasValue )
 			{
 				// If a reference is clicked, highlight it (either on Hierarchy view or Project view)
-				unityObject.SelectInEditor();
+				EditorUtility.InstanceIDToObject( instanceId.Value ).SelectInEditor();
 			}
 
 			for( int i = 0; i < links.Length; i++ )

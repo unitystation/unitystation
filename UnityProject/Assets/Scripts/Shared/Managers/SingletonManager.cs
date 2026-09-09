@@ -1,4 +1,3 @@
-using Unity.Scripting.LifecycleManagement;
 using UnityEngine;
 
 namespace Shared.Managers
@@ -7,10 +6,10 @@ namespace Shared.Managers
 	/// Singleton Manager using static instances without use of FindObject
 	/// If you are using Awake() override and remember to call base.Awake()!
 	/// </summary>
-	[AutoStaticsCleanup]
-	public partial class SingletonManager<T> : MonoBehaviour where T : MonoBehaviour
+	public class SingletonManager<T> : MonoBehaviour where T : MonoBehaviour
 	{
 		public static T Instance;
+
 
 		/// <summary>
 		/// If you override this then make sure you call base.Awake() somewhere in your Awake code.

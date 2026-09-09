@@ -416,8 +416,6 @@ View Off";
 				ColorBlock.normalColor = SelectedColour;
 				MappingItemButton.colors = ColorBlock;
 			}
-
-			MappingItemState = state;
 		}
 
 		public void OnSelectedLightingSystem()

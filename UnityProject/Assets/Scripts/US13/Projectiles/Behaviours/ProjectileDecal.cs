@@ -47,7 +47,7 @@ namespace US13.Projectiles.Behaviours
 
 			AppliedDetails?.AddDetail(new Detail()
 			{
-				CausedByEntityId = EntityId.None,
+				CausedByInstanceID = 0,
 				Description = $"A bullet hole that looks like it was made by a {this.gameObject.name}",
 				DetailType = DetailType.BulletHole
 			});

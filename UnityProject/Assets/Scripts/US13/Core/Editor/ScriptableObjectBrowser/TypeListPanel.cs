@@ -26,7 +26,7 @@ namespace US13.Core.Editor.ScriptableObjectBrowser
 		private GUIStyle namespaceMiniStyle;
 		private GUIContent starOn;
 		private GUIContent starOff;
-		private EntityId lastSkinInstanceId;
+		private int lastSkinInstanceId;
 
 		public TypeListPanel(BrowserState state, TypeDiscoveryService discovery,
 			Action<Type> onTypeSelected, Action<ScriptableObject> onInstanceCreated)
@@ -388,7 +388,7 @@ namespace US13.Core.Editor.ScriptableObjectBrowser
 
 		private void InitStyles()
 		{
-			var skinId = GUI.skin.GetEntityId();
+			int skinId = GUI.skin.GetInstanceID();
 			if (starStyle != null && lastSkinInstanceId == skinId) return;
 			lastSkinInstanceId = skinId;
 			starStyle = new GUIStyle(GUI.skin.button)

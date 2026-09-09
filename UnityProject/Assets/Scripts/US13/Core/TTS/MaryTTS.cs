@@ -18,7 +18,7 @@ namespace US13.Core.TTS
 
 		public static int Fails = 0;
 		private string lastMessage = "";
-		private string lastVoice = "";
+
 		public enum AudioSynthType
 		{
 			NormalSpeech,
@@ -41,23 +41,13 @@ namespace US13.Core.TTS
 			AudioSourceRobot.outputAudioMixerGroup = AudioManager.Instance.TTSMixerRobot;
 		}
 
-		public void Synthesize(string textToSynth, AudioSynthType type, string voice = "", uint originator = UInt32.MinValue, bool IgnoreRepeatMessage = true)
+		public void Synthesize(string textToSynth, AudioSynthType type, string voice = "", uint originator = UInt32.MinValue)
 		{
-			if (IgnoreRepeatMessage)
-			{
-				if ((textToSynth == lastMessage && lastVoice == voice) )
-				{
-					return;
-				}
-			}
-
-			if (Fails > 10)
+			if (Fails > 10 || textToSynth == lastMessage)
 			{
 				return;
 			}
-
 			lastMessage = textToSynth;
-			lastVoice = voice;
 
 			var source = audioSource;
 			if (originator != uint.MinValue && type == AudioSynthType.NormalSpeech)

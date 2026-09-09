@@ -5,7 +5,6 @@ namespace US13.UI.Systems.Lobby
 		They_them,
 		He_him,
 		She_her,
-		None,
-		It_Its
+		None
 	}
 }

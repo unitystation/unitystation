@@ -1837,15 +1837,9 @@ namespace US13.Core.Physics
 			}
 			else
 			{
-				var matrix = registerTile.Matrix;
-				if (matrix == null)
+				if (registerTile.Matrix.HasGravity || HasOwnGravity) //Presuming Register tile has the correct matrix
 				{
-					matrix = MatrixManager.AtPoint(atWorld.Value, CustomNetworkManager.IsServer).Matrix;
-				}
-
-				if (matrix.HasGravity || HasOwnGravity) //Presuming Register tile has the correct matrix
-				{
-					if (matrix.MetaTileMap.IsEmptyTileMap(atWorld.Value.ToLocalInt(matrix)) == false)
+					if (registerTile.Matrix.MetaTileMap.IsEmptyTileMap(atWorld.Value.ToLocalInt(registerTile.Matrix)) == false)
 					{
 						IsCurrentlyFloating = false;
 						return false;
