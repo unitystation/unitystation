@@ -265,7 +265,7 @@ namespace Chemistry
 
 		public Color GetReactionColor()
 		{
-			Color color = Color.antiqueWhite;
+			Color color = Color.white;
 			foreach (var result in results.m_dict)
 			{
 				color += result.Key.color * result.Value;
