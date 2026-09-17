@@ -81,6 +81,8 @@ namespace US13.Core.Lighting
 		[SerializeField] private SpritesDirectional spritesStateOnEffect = null;
 		[SerializeField] private SOLightMountStatesMachine mountStatesMachine = null;
 		[SerializeField, Range(0, 100f)] private float maximumDamageOnTouch = 3f;
+		[SerializeField, Range(0, 80f)] private float minimumAlphaDifferenceToAnimateAlphaChanges = 0.56f;
+		[SerializeField] private float timeToAnimateAlphaTransations = 0.4f;
 
 		[SerializeField] private GameObject sparkObject = null;
 
@@ -347,7 +349,23 @@ namespace US13.Core.Lighting
 		public void SetColor(Color oldState, Color newState)
 		{
 			CurrentOnColor = newState;
-			LightSpriteUsed.Color = new Color(newState.r, newState.g, newState.b, newState.a + intensityLightPower);
+			LeanTween.cancel(LightSpriteUsed.gameObject);
+			if ((LightSpriteUsed.Color.a - newState.a) <= minimumAlphaDifferenceToAnimateAlphaChanges)
+			{
+				LeanTween.value(LightSpriteUsed.gameObject, TweenColor,
+					LightSpriteUsed.Color,
+					new Color(newState.r, newState.g, newState.b, newState.a + intensityLightPower),
+					timeToAnimateAlphaTransations).setEaseOutBounce();
+			}
+			else
+			{
+				LightSpriteUsed.Color = new Color(newState.r, newState.g, newState.b, newState.a + intensityLightPower);
+			}
+		}
+
+		private void TweenColor(Color val)
+		{
+			LightSpriteUsed.Color = val;
 		}
 
 		private void CheckAudioState()
