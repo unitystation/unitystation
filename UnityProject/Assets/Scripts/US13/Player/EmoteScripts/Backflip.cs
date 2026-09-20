@@ -11,7 +11,7 @@ namespace US13.Player.EmoteScripts
 			if (CheckPlayerCritState(actor) == false && CheckIfPlayerIsCrawling(actor) == false)
 			{
 				var manager = actor.GetComponent<PlayerEffectsManager>();
-				manager.RotatePlayer(1, 0.2f, 180, false);
+				manager.RotatePlayer(2, 0.176f, 179, true, true);
 				base.Do(actor);
 			}
 			else
