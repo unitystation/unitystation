@@ -98,6 +98,7 @@ jobs:
           customImage: "unityci/editor:ubuntu-6000.0.48f1-base-3.1.0"
           artifactsPath: ./testReports/${{ matrix.targetPlatform }}
           testMode: editmode
+          githubToken: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.token || '' }}
 
       - name: Upload Raw Test Results
         if: always() && steps.tests.outcome != 'success'
