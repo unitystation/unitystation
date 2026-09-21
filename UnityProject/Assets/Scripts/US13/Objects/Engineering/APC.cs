@@ -289,8 +289,8 @@ namespace US13.Objects.Engineering
 			{
 				for (int i = 0; i < connectedDevicesCount; i++)
 				{
-
-					connectedDevices[i]?.PowerNetworkUpdate(voltages);
+					if (connectedDevices[i] == null) continue;
+					connectedDevices[i].PowerNetworkUpdate(voltages);
 					calculatingResistance += (1 / connectedDevices[i].Resistance);
 				}
 			}
