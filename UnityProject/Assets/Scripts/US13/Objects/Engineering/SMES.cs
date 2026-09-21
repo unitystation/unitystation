@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Text;
 using Mirror;
 using UnityEngine;
 using US13.Core.Addressables;
@@ -17,6 +18,7 @@ using US13.Systems.Electricity.NodeModules;
 using US13.Systems.Explosions;
 using US13.Tilemaps.Behaviours.Objects;
 using Util;
+using Util.Independent.FluentRichText;
 using UniversalObjectPhysics = US13.Core.Physics.UniversalObjectPhysics;
 
 
@@ -50,12 +52,16 @@ namespace US13.Objects.Engineering
 		private int ChargePercent => Mathf.RoundToInt(CurrentCharge * 100 / MaxCharge);
 
 		private bool isExploding = false;
-
-
-		private bool outputEnabled = false;
+		[SyncVar] private bool outputEnabled = false;
 
 		public event Action<PowerState, PowerState> OnStateChangeEvent;
 		private PowerState currentState = PowerState.Off;
+
+		[SerializeField] private float overChargePercentage = 105.0f;
+		[SerializeField] private float lowVoltagePercentage = 5.0f;
+
+		[SerializeField] private Texture2D crowbarIcon = null;
+		[SerializeField] private Texture2D wrenchIcon = null;
 
 		private enum SpriteState
 		{
@@ -135,11 +141,22 @@ namespace US13.Objects.Engineering
 		public string Examine(Vector3 worldPos = default)
 		{
 			UpdateMe();
-			return $"The charge indicator shows a {ChargePercent} percent charge. " +
-				   $"The input level is: {batterySupplyingModule.InputLevel} % The output level is: {batterySupplyingModule.OutputLevel} %. " +
-				   $"The power input/output is " +
-				   $"{(outputEnabled ? $"enabled, and it seems to {(IsCharging ? "be" : "not be")} charging" : "disabled")}. " +
-				   "Use a crowbar to adjust the output level and a wrench to adjust the input level.";
+			StringBuilder examineText = new StringBuilder();
+			examineText.AppendLine($"The charge indicator shows a {ChargePercent} percent charge. ");
+			examineText.AppendLine($"The input level is: {batterySupplyingModule.InputLevel} %.");
+			examineText.AppendLine($"The output level is: {batterySupplyingModule.OutputLevel} %.");
+			examineText.AppendLine($"\nThe power input/output is " +
+			                       $"{(outputEnabled ? $"enabled, and it seems to {(IsCharging ? "be" : "not be")} charging" : "disabled")}.");
+			if (crowbarIcon != null && wrenchIcon != null)
+			{
+				examineText.AppendLine($"Use a <sprite name=\"{crowbarIcon.name}\"> crowbar to adjust the output level and a <sprite name=\"{wrenchIcon.name}\"> wrench to adjust the input level.".Color(RichTextColor.Yellow));
+			}
+			else
+			{
+				examineText.AppendLine($"Use a crowbar to adjust the output level and a wrench to adjust the input level.".Color(RichTextColor.Yellow));
+			}
+			examineText.AppendLine("Use alt-click while adjusting the levels to do increments of 15 instead of 1.".Color(RichTextColor.Yellow));
+			return examineText.ToString();
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -207,45 +224,33 @@ namespace US13.Objects.Engineering
 
 		private void ServerToggleInputLevel(HandApply interaction)
 		{
-			//TrySpark();
-			if (!outputEnabled)
+			var worldPos = registerTile.WorldPositionServer;
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Tick, worldPos, sourceObj: gameObject);
+			if (batterySupplyingModule.InputLevel < 100)
 			{
-				var worldPos = registerTile.WorldPositionServer;
-				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Tick, worldPos, sourceObj: gameObject);
-				if (batterySupplyingModule.InputLevel < 100)
-				{
-					batterySupplyingModule.InputLevel++;
-				}
-				else
-				{
-					batterySupplyingModule.InputLevel = 0;
-				}
+				batterySupplyingModule.InputLevel += interaction.IsAltClick ? 15 : 1;
 			}
 			else
 			{
-				TrySpark();
+				batterySupplyingModule.InputLevel = 0;
 			}
+			Chat.AddExamineMsg(interaction.Performer, $"Changed the input level to {batterySupplyingModule.InputLevel} %.");
 		}
 
 		private void ServerToggleOutputLevel(HandApply interaction)
 		{
-			if (!outputEnabled)
+			TrySpark();
+			var worldPos = registerTile.WorldPositionServer;
+			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Tick, worldPos, sourceObj: gameObject);
+			if (batterySupplyingModule.OutputLevel < 100)
 			{
-				var worldPos = registerTile.WorldPositionServer;
-				SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.Tick, worldPos, sourceObj: gameObject);
-				if (batterySupplyingModule.OutputLevel < 100)
-				{
-					batterySupplyingModule.OutputLevel++;
-				}
-				else
-				{
-					batterySupplyingModule.OutputLevel = 0;
-				}
+				batterySupplyingModule.OutputLevel += interaction.IsAltClick ? 15 : 1;
 			}
 			else
 			{
-				TrySpark();
+				batterySupplyingModule.OutputLevel = 0;
 			}
+			Chat.AddExamineMsg(interaction.Performer, $"Changed the output level to {batterySupplyingModule.OutputLevel} %.");
 		}
 
 		private void ServerToggleOutputModeOn()
@@ -254,6 +259,7 @@ namespace US13.Objects.Engineering
 			outputEnabledIndicator.PushTexture();
 			electricalNodeControl.TurnOnSupply();
 			outputEnabled = true;
+			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} humms as it starts outputting power.");
 		}
 
 		private void ServerToggleOutputModeOff()
@@ -261,6 +267,7 @@ namespace US13.Objects.Engineering
 			outputEnabledIndicator.PushClear();
 			electricalNodeControl.TurnOffSupply();
 			outputEnabled = false;
+			Chat.AddActionMsgToChat(gameObject, $"The {gameObject.ExpensiveName()} steadily goes quite as it stops attempting to output power.");
 		}
 
 		public void PowerNetworkUpdate()
@@ -270,17 +277,35 @@ namespace US13.Objects.Engineering
 
 		public PowerState SetPowerStateFromVoltage()
 		{
-			PowerState newState = currentState;
-
-			if (ChargePercent <= 1.0f) newState = PowerState.Off;
-			else if (ChargePercent <= 1.0f) newState = PowerState.LowVoltage;
-			else if (ChargePercent >= 105.0f) newState = PowerState.LowVoltage;
-			else newState = PowerState.On;
+			PowerState newState = PowerStateFromChargingPercent();
 
 			if (newState == currentState) return currentState;
 			OnStateChangeEvent?.Invoke(currentState, newState);
 			currentState = newState;
 			return currentState;
+		}
+
+		private PowerState PowerStateFromChargingPercent()
+		{
+			PowerState newState;
+			if (ChargePercent <= 0.5f)
+			{
+				newState = PowerState.Off;
+			}
+			else if (ChargePercent <= lowVoltagePercentage)
+			{
+				newState = PowerState.LowVoltage;
+			}
+			else if (ChargePercent >= overChargePercentage)
+			{
+				newState = PowerState.OverVoltage;
+			}
+			else
+			{
+				newState = PowerState.On;
+			}
+
+			return newState;
 		}
 
 		private void TrySpark()
