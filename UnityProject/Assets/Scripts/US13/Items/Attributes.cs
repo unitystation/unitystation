@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Mirror;
 using NaughtyAttributes;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -10,6 +11,7 @@ using US13.Core;
 using US13.Core.Highlight;
 using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Core.Lifecycle;
+using US13.Core.Sprite_Handler;
 using US13.Core.TranslationSystem;
 using US13.Detective;
 using US13.Health.Objects;
@@ -315,13 +317,31 @@ namespace US13.Items
 				displayName = ArticleName;
 			}
 
-			string str = "This is a " + displayName + ".";
+			string spriteText = GetItemEmoji();
+
+			string str = $"This is a {spriteText} <b>{displayName}</b>.\n";
 
 			if (!string.IsNullOrEmpty(ArticleDescription))
 			{
 				str = str + " " + ArticleDescription;
 			}
 			return str;
+		}
+
+		private string GetItemEmoji()
+		{
+			var possibleSprite = GetComponentInChildren<SpriteHandler>();
+			var spriteText = "";
+			if (possibleSprite == null || possibleSprite.CurrentSprite == null) return spriteText;
+			if (TMP_Settings.defaultSpriteAsset.GetSpriteIndexFromName(possibleSprite.CurrentSprite.texture.name) <= 1)
+			{
+				spriteText = "";
+			}
+			else
+			{
+				spriteText = $"<sprite name=\"{possibleSprite.CurrentSprite.texture.name}\">";
+			}
+			return spriteText;
 		}
 
 		public RightClickableResult GenerateRightClickOptions()
