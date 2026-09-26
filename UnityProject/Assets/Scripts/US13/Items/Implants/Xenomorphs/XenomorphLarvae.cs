@@ -72,10 +72,10 @@ namespace US13.Items.Implants.Xenomorphs
 			//Can't hatch is player is dead, shouldn't be getting periodic updates if dead- but just as a double check.
 			if (RelatedPart.HealthMaster.IsDead) return;
 
-			_ = Hatch();
+			Hatch();
 		}
 
-		private async Task Hatch()
+		public void Hatch()
 		{
 			try
 			{
@@ -108,9 +108,6 @@ namespace US13.Items.Implants.Xenomorphs
 				{
 					PlayerSpawn.TransferAccountToSpawnedMind(checkPlayerScript.Component.Mind.ControlledBy, alienMind);
 				}
-
-				//Wait a frame so the spawned mob has finished initialising before we grab its components
-				await Awaitable.NextFrameAsync();
 
 				var alienPlayer = alienMind.GetDeepestBody().GetComponent<AlienPlayer>();
 				alienPlayer.GetComponent<UniversalObjectPhysics>()
