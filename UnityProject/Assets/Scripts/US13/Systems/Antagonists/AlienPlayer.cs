@@ -263,9 +263,11 @@ namespace US13.Systems.Antagonists
 			if(isOwned == false) return;
 
 			UIManager.Instance.panelHudBottomController.AlienUI.SetActive(true);
+			UIManager.Instance.panelHudBottomController.AlienUI.gameObject.SetActive(true);
 			UIManager.Instance.panelHudBottomController.AlienUI.SetUp(this);
 
 			alienLight.SetActive(true);
+			AddNewActions(playerScript.Mind.ControlledBy);
 		}
 
 		public override void OnStopLocalPlayer()
@@ -1683,7 +1685,7 @@ namespace US13.Systems.Antagonists
 		{
 			//This will call after an admin respawn to set up a new player
 			SetNewPlayer(mind);
-			AddNewActions(mind.ControlledBy);
+
 			//TODO: Temporary fix until we find the problem that's causing body parts to not have their systems setup when added to the player.
 			livingHealthMasterBase.IsMute.InterestedParties.Clear();
 			livingHealthMasterBase.IsMute.RecordPosition(this, false);

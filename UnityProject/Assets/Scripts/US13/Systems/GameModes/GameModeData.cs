@@ -1,10 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using Logs;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Util;
+using Random = UnityEngine.Random;
 
 namespace US13.Systems.GameModes
 {
@@ -23,7 +25,7 @@ namespace US13.Systems.GameModes
 		[SerializeField]
 		private GameMode DefaultGameMode;
 
-		private List<GameMode> ShuffledList = new();
+		private static List<GameMode> ShuffledList = new();
 
 		[SerializeField][NotNull]
 		private GameMode extendedReference;
@@ -31,6 +33,11 @@ namespace US13.Systems.GameModes
 		public GameMode ExtendedReference => extendedReference;
 
 		private int shuffledListIndex = -1;
+
+
+		public static Dictionary<GameMode, int> GameModeWeightings = new  Dictionary<GameMode, int>();
+
+		public DateTime RoundStartTime;
 
 		/// <summary>
 		/// Returns a list of game mode names available in the
@@ -96,6 +103,49 @@ namespace US13.Systems.GameModes
 			{
 				shuffledListIndex = 0;
 			}
+		}
+
+		public void PopulateGameModeWeightings(bool allowExtended = false)
+		{
+			if (GameModeWeightings.Count == 0)
+			{
+				RefillCarouselIfNeeded(allowExtended);
+
+				int i = 0;
+				foreach (var GameMode in ShuffledList)
+				{
+					GameModeWeightings[GameMode] = i;
+					i++;
+				}
+			}
+		}
+
+		public GameMode PickFromAppleShuffleGameMode(bool allowExtended = false)
+		{
+
+			PopulateGameModeWeightings(allowExtended);
+
+			foreach (var GameMode in GameModeWeightings.OrderBy(x => x.Value))
+			{
+				if (GameMode.Key != null && GameMode.Key.IsPossible())
+					return Instantiate(GameMode.Key);
+			}
+
+
+			//Basic shuffle
+			//Then it gives a negative weight if it's picked it recently, Proportional to how long the round was
+			//And then always tries to do the highest-rated ones first
+			//hummmmm How to handle a long empty round???
+			//Check for pop?
+			//max debuff of 3 hours?
+			//What about Admin setting the next game mode
+			//Need to record at ending what was ok
+			//How should the waiting look
+			//so = If 3 hours Bag weight = 0
+			//How to decompose this
+			//Problem is how to decompose across multiple rounds lets say 1/10
+			//1/10 Of every hour degrades it
+			return GetDefaultGameMode();
 		}
 
 		public GameMode PickFromCarouselGameMode(bool allowExtended = false)

@@ -769,8 +769,9 @@ namespace US13.Core.Physics
 			{
 
 				var ToResetTo = resetToLocal;
-				SetTransform(resetToLocal, false);
-				InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
+				//TODO Why are we doing it twice it seems like it's not needed Let's see if stuff breaks
+				//SetTransform(resetToLocal, false);
+				//InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
 				if (localTarget != null)
 				{
 					ToResetTo = localTarget.Value;
@@ -783,8 +784,9 @@ namespace US13.Core.Physics
 					ByClient = NetId.Empty,
 					Matrix = matrixID
 				};
+
 				SetTransform(resetToLocal, false);
-				InternalTriggerOnLocalTileReached(resetToLocal);
+				InternalTriggerOnLocalTileReached(resetToLocal.RoundToInt());
 			}
 
 			if (NewtonianMovement.magnitude > 0)

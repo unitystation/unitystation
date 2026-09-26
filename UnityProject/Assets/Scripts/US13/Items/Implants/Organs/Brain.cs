@@ -129,6 +129,7 @@ namespace US13.Items.Implants.Organs
 
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
+
 			livingHealth.SetBrain(this);
 			Itself.SetPossessingObject(livingHealth.gameObject);
 
@@ -397,7 +398,11 @@ namespace US13.Items.Implants.Organs
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
 		public void OnControlPlayer(Mind mind) { }
-		public void OnPossessPlayer(Mind mind, IPlayerPossessable parent) { }
+
+		public void OnPossessPlayer(Mind mind, IPlayerPossessable parent)
+		{
+
+		}
 		#endregion
 	}
 }

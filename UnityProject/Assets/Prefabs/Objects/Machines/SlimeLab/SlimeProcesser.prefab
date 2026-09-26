@@ -134,6 +134,12 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c1436835108e93048ae4ea9c357de54f,
+        type: 2}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
       propertyPath: SubCatalogue.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -154,6 +160,16 @@ PrefabInstance:
       propertyPath: _assetId
       value: 3970754469
       objectReference: {fileID: 0}
+    - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: initialName
+      value: slime processor
+      objectReference: {fileID: 0}
+    - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: initialDescription
+      value: used for processing dead monkeys and slimes.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -166,6 +182,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6924232897156497015}
+    - targetCorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2924639189837964716}
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
 --- !u!1 &2547436927542266137 stripped
 GameObject:
@@ -188,6 +208,14 @@ MonoBehaviour:
   initialContents: {fileID: 0}
   spawnContentsAtRoundstart: 0
   registerTile: {fileID: 0}
+  ObjectPhysics: {fileID: 0}
+  itemStoragePopulator: {fileID: 0}
+  OnObjectStored:
+    m_PersistentCalls:
+      m_Calls: []
+  OnObjectRetrieved:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &6924232897156497015
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -207,6 +235,29 @@ MonoBehaviour:
   MonkeyCharges: 0
   MonkeyChargesNeeded: 3
   Sprite: {fileID: 6992578102075139011}
+--- !u!114 &2924639189837964716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2547436927542266137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48487dad7f2bc0541964880f6187c474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Systems.Construction.WrenchSecurable
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  objectBehaviour: {fileID: 0}
+  isSecuredStateExaminable: 1
+  isExposedFloorPlatingRequired: 0
+  secondsToSecure: 0
+  secondsToUnsecure: 0
+  lockSpriteDirection: 0
+  blockAnchorChange: 0
+  blockMessage: 
 --- !u!114 &6992578102075139011 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,

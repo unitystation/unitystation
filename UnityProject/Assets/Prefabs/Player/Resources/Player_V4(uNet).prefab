@@ -765,6 +765,7 @@ MonoBehaviour:
     SerialisedExternalCustom: []
     Species: Human
     Voice: Male 01
+    WasRandomlyGenerated: 0
   hideClothingFlags: 0
   ToInstantiateSpriteCustomisation: {fileID: 7987984179268195915, guid: 8e0d016d897a86947a17dcc45971c4c1,
     type: 3}
@@ -1510,7 +1511,6 @@ MonoBehaviour:
   Intangible: 0
   MappingIntangible: 0
   SnapToGridOnStart: 0
-  IsPlayer: 1
   ObjectBouncyness: 0.75
   tileMoveSpeed: 1
   HasOwnGravity: 0
@@ -1830,6 +1830,7 @@ MonoBehaviour:
   <Prefab>k__BackingField: {fileID: 3773905765040299103, guid: d872d2c8cd70fc1469183946db69b338,
     type: 3}
   HUDHandler: {fileID: 6363338118611276038}
+  CurrentStage: 0
 --- !u!114 &5323151696653614753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2665,7 +2666,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
-  m_SortingOrder: 31
+  m_SortingOrder: 34
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

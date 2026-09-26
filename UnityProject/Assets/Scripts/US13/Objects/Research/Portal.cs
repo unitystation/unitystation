@@ -126,6 +126,7 @@ namespace US13.Objects.Research
 
 		public virtual async Task Teleport(GameObject eventData)
 		{
+			if (isServer == false) return;
 			if (connectedPortal == null || isOnCooldown) return;
 
 			if (eventData.HasComponent<SparkEffect>()) return;

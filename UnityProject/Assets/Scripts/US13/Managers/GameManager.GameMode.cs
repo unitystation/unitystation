@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Logs;
 using UnityEngine;
+using UnityEngine.Serialization;
 using US13.Systems.GameModes;
 using US13.Systems.Occupations;
 
@@ -25,12 +26,13 @@ namespace US13.Managers
 	/// </summary>
 	public partial class GameManager
 	{
+		[FormerlySerializedAs("GameModeData")]
 		[Header("Game Mode Fields")]
 		/// <summary>
 		/// Holds all gamemodes
 		/// </summary>
 		[SerializeField]
-		private GameModeData GameModeData = null;
+		private GameModeData InstanceGameModeData = null;
 
 		/// <summary>
 		/// Is the current game mode being kept secret?
@@ -72,16 +74,16 @@ namespace US13.Managers
 		{
 			if (ForceExtendedGameMode)
 			{
-				SetGameMode(GameModeData.ExtendedReference);
+				SetGameMode(InstanceGameModeData.ExtendedReference);
 				return;
 			}
-			GameMode selectedGm = GameModeData.GetGameMode(gmName, AllowExtendedGameMode);
+			GameMode selectedGm = InstanceGameModeData.GetGameMode(gmName, AllowExtendedGameMode);
 			SetGameMode(selectedGm);
 		}
 
 		public List<string> GetAvailableGameModeNames()
 		{
-			return GameModeData.GetAvailableGameModeNames(AllowExtendedGameMode);
+			return InstanceGameModeData.GetAvailableGameModeNames(AllowExtendedGameMode);
 		}
 
 		/// <summary>
@@ -103,7 +105,13 @@ namespace US13.Managers
 		/// </summary>
 		private void PickFromCarouselGameMode()
 		{
-			GameMode randomGm = GameModeData.PickFromCarouselGameMode(AllowExtendedGameMode);
+			GameMode randomGm = InstanceGameModeData.PickFromCarouselGameMode(AllowExtendedGameMode);
+			SetGameMode(randomGm);
+		}
+
+		private void PickFromAppleShuffleGameMode()
+		{
+			GameMode randomGm = InstanceGameModeData.PickFromAppleShuffleGameMode(AllowExtendedGameMode);
 			SetGameMode(randomGm);
 		}
 
@@ -112,7 +120,7 @@ namespace US13.Managers
 		/// </summary>
 		private void SetRandomGameMode()
 		{
-			GameMode randomGm = GameModeData.ChooseGameMode(AllowExtendedGameMode);
+			GameMode randomGm = InstanceGameModeData.ChooseGameMode(AllowExtendedGameMode);
 			SetGameMode(randomGm);
 		}
 

@@ -633,9 +633,10 @@ namespace US13.Tilemaps.Behaviours.Objects
 
 		public void UpdatePositionServer()
 		{
-			if (CustomNetworkManager.IsServer == false) return;
+
 			var prevPosition = LocalPositionServer;
 			ServerSetLocalPosition(transform.localPosition.RoundToInt(), true);
+			if (CustomNetworkManager.IsServer == false) return;
 			if (prevPosition != LocalPositionServer)
 			{
 				OnLocalPositionChangedServer.Invoke(LocalPositionServer);

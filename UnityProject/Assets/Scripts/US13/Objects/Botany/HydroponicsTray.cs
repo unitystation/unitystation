@@ -616,6 +616,11 @@ namespace US13.Objects.Botany
 				sb.Append(" No fertiliser is currently being used.");
 			}
 
+			if (plantData != null)
+			{
+				sb.Append(plantData.PlantName + " is currently growing.");
+			}
+
 			return sb.ToString();
 		}
 

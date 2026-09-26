@@ -27,6 +27,7 @@ using US13.Objects.Machines.ServerMachines.Communications;
 using US13.ScriptableObjects.Audio;
 using US13.ScriptableObjects.Characters;
 using US13.Shuttles;
+using US13.Systems.GameModes;
 using US13.Systems.Hacking.HackingProcesses;
 using US13.Systems.Inventory;
 using US13.Systems.Occupations;
@@ -573,6 +574,16 @@ namespace US13.Managers
 
 
 			// Standard round start setup
+			InstanceGameModeData.RoundStartTime = DateTime.UtcNow;
+			try
+			{
+				InstanceGameModeData.PopulateGameModeWeightings(AllowExtendedGameMode); //Since it's always added to even if it's not active, so when you swap to it it knows what's been heavily played and what's not
+
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+			}
 			RoundTime = new DateTime().AddHours(12);
 			RoundTimeInMinutes = 0;
 			counting = true;
@@ -595,6 +606,10 @@ namespace US13.Managers
 			else if (NextGameMode == "Carousel")
 			{
 				PickFromCarouselGameMode();
+			}
+			else if (NextGameMode == "AppleShuffle")
+			{
+				PickFromAppleShuffleGameMode();
 			}
 			else
 			{
@@ -681,7 +696,35 @@ namespace US13.Managers
 
 
 			CurrentRoundState = RoundState.Ended;
+			try
+			{
+				InstanceGameModeData.PopulateGameModeWeightings(AllowExtendedGameMode); //Since it's always added to even if it's not active, so when you swap to it it knows what's been heavily played and what's not
+				var RoundTime = (DateTime.UtcNow - InstanceGameModeData.RoundStartTime).Minutes;
+				var GameModeNonInstants = GameModeData.GameModeWeightings.Keys.FirstOrDefault(x => x.Name == GameMode.Name);
+				foreach (var gameMode in GameModeData.GameModeWeightings.Keys.ToArray())
+				{
+					if (GameModeNonInstants == gameMode) continue;
+					GameModeData.GameModeWeightings[gameMode] =- Mathf.CeilToInt( RoundTime * 0.1f);
+					if (GameModeData.GameModeWeightings[gameMode] < 0)
+					{
+						GameModeData.GameModeWeightings[gameMode] = 0;
+					}
+				}
 
+
+
+				GameModeData.GameModeWeightings[GameModeNonInstants] +=
+					(DateTime.UtcNow - InstanceGameModeData.RoundStartTime).Minutes;
+
+				if (GameModeData.GameModeWeightings[GameModeNonInstants] > 240f)
+				{
+					GameModeData.GameModeWeightings[GameModeNonInstants] = 240;
+				}
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+			}
 
 			try
 			{

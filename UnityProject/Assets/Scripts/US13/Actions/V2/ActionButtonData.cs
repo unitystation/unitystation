@@ -39,6 +39,6 @@ namespace US13.Actions.V2
 		[BoxGroup("Cursor Settings")] public SpriteDataSO CursorTexture;
 
 		[HideInInspector] public NetworkIdentity TrackingObject;
-		[HideInInspector] public GameObject ObjectRelatedToThisAction;
+		[HideInInspector] public NetworkIdentity ObjectRelatedToThisAction;
 	}
 }

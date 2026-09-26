@@ -219,7 +219,20 @@ namespace US13.Systems.Antagonists
 		public static Objective PickRandomObjective(ref List<Objective> objectives, bool checkUnique = true)
 		{
 			// Must use Instantiate or else the objectives in AntagData will be referenced for each player!
-			int randIndex = Random.Range(0, objectives.Count);
+			float totalWeight = objectives.Sum(obj => obj.weight);
+			float roll = Random.Range(0f, totalWeight);
+
+			int randIndex = 0;
+			for (int i = 0; i < objectives.Count; i++)
+			{
+				roll -= objectives[i].weight;
+				if (roll < 0)
+				{
+					randIndex = i;
+					break;
+				}
+			}
+
 			Objective chosenObjective = Instantiate(objectives[randIndex]);
 			if (checkUnique && chosenObjective.IsUnique)
 			{
@@ -227,7 +240,6 @@ namespace US13.Systems.Antagonists
 			}
 			return chosenObjective;
 		}
-
 		public Antagonist FromIndexAntag(short index)
 		{
 			if (index < 0 || index > Antags.Count - 1)

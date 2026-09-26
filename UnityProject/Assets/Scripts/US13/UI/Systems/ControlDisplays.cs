@@ -8,6 +8,7 @@ using US13.Managers;
 using US13.Managers.LobbyManager;
 using US13.Messages.Client.Lobby;
 using US13.Player;
+using US13.Systems.Antagonists;
 using US13.Systems.Antagonists.Antags.Blob;
 using US13.UI.Systems.MainHUD.UI_Bottom;
 using US13.UI.Systems.PreRound;
@@ -108,11 +109,16 @@ namespace US13.UI.Systems
 			}
 			else
 			{
+
 				SetUi(hudBottomHuman);
 				UIManager.Instance.UI_SlotManager.SetActive(true);
 				UIManager.Instance.UI_SlotManager.UpdateUI();
 				UIManager.Internals.SetupListeners();
 				UIManager.Instance.panelHudBottomController.SetupListeners();
+				if (PlayerManager.LocalPlayerObject?.GetComponent<AlienPlayer>() != null)
+				{
+					hudAlien.gameObject.SetActive(true);
+				}
 			}
 		}
 
