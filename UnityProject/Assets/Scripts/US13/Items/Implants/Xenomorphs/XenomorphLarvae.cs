@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Logs;
 using Mirror;
 using UnityEngine;
@@ -70,6 +71,12 @@ namespace US13.Items.Implants.Xenomorphs
 
 			//Can't hatch is player is dead, shouldn't be getting periodic updates if dead- but just as a double check.
 			if (RelatedPart.HealthMaster.IsDead) return;
+
+			_ = Hatch();
+		}
+
+		private async Task Hatch()
+		{
 			try
 			{
 				RelatedPart.HealthMaster.ApplyDamageToBodyPart(
@@ -82,11 +89,11 @@ namespace US13.Items.Implants.Xenomorphs
 
 				var alienMind = PlayerSpawn.NewSpawnCharacterV2(xenomorphLarvaeOccupation, new CharacterSheet()
 				{
-					Name = "Larvae"
+					Name = "Larvae",
+					Species = null
 				});
 
-				alienMind.PossessingObject.GetComponent<UniversalObjectPhysics>()
-					.AppearAtWorldPositionServer(SweetExtensions.AssumedWorldPosServer(RelatedPart.HealthMaster.gameObject));
+
 
 
 
@@ -102,8 +109,12 @@ namespace US13.Items.Implants.Xenomorphs
 					PlayerSpawn.TransferAccountToSpawnedMind(checkPlayerScript.Component.Mind.ControlledBy, alienMind);
 				}
 
-				var alienPlayer = alienMind.PossessingObject.GetComponent<AlienPlayer>();
+				//Wait a frame so the spawned mob has finished initialising before we grab its components
+				await Awaitable.NextFrameAsync();
 
+				var alienPlayer = alienMind.GetDeepestBody().GetComponent<AlienPlayer>();
+				alienPlayer.GetComponent<UniversalObjectPhysics>()
+					.AppearAtWorldPositionServer(SweetExtensions.AssumedWorldPosServer(RelatedPart.HealthMaster.gameObject));
 				alienPlayer.SetNewPlayer(alienMind);
 				alienPlayer.DoConnectCheck();
 

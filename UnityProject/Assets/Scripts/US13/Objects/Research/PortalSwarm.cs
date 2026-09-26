@@ -12,7 +12,7 @@ namespace US13.Objects.Research
 	{
 		public override async Task Teleport(GameObject eventData)
 		{
-
+			if (isServer == false) return;
 
 			if (eventData.HasComponent<SparkEffect>()) return;
 			if(eventData.TryGetComponent<UniversalObjectPhysics>(out var uop) == false) return;

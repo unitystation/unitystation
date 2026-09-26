@@ -59,7 +59,16 @@ namespace US13.Player
 			var ob = GetPossessingObject();
 			if (ob != null)
 			{
-				return ob.GetCommonComponents().IPlayerPossessable;
+				var cp = ob.GetCommonComponents();
+				if (cp != null)
+				{
+					return cp.IPlayerPossessable;
+				}
+				else
+				{
+					return ob.GetComponent<IPlayerPossessable>();
+				}
+
 			}
 
 			return null;

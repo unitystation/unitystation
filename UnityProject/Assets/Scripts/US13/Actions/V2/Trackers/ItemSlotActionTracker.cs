@@ -1,4 +1,5 @@
 ﻿using Logs;
+using Mirror;
 using NaughtyAttributes;
 using SecureStuff;
 using UnityEngine;
@@ -30,7 +31,7 @@ namespace US13.Actions.V2.Trackers
 			// lets the manager know what object this action is on.
 			foreach (var action in ActionData.Keys)
 			{
-				action.ObjectRelatedToThisAction = gameObject;
+				action.ObjectRelatedToThisAction = gameObject.GetComponent<NetworkIdentity>();
 			}
 		}
 

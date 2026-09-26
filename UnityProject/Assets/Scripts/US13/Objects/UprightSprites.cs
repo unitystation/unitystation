@@ -14,7 +14,7 @@ namespace US13.Objects
 	/// Client side component. Keeps object's sprites upright no matter the orientation of their parent matrix.
 	/// Allows defining what should happen to the sprites during a matrix rotation,
 	/// </summary>
-	public class UprightSprites : MonoBehaviour, IMatrixRotation
+	public class UprightSprites : MonoBehaviour, IMatrixRotation, IMatrixRotation90
 	{
 		[Tooltip("Defines how this object's sprites should behave during a matrix rotation")]
 		public SpriteMatrixRotationBehavior spriteMatrixRotationBehavior =
@@ -65,6 +65,11 @@ namespace US13.Objects
 			var Rotation = transform.rotation.eulerAngles;
 			Rotation.z = 0;
 			transform.rotation = Quaternion.Euler(Rotation);
+		}
+
+		public void OnMatrixRotate90(OrientationEnum orientation)
+		{
+			OnMatrixRotate();
 		}
 
 		public void OnMatrixRotate()

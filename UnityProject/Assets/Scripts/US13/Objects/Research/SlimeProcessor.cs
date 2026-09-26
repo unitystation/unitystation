@@ -81,7 +81,7 @@ namespace US13.Objects.Research
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
 
-			return interaction.Intent != Intent.Harm;
+			return interaction.Intent != Intent.Harm && interaction.Intent == Intent.Disarm;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)

@@ -183,7 +183,7 @@ namespace US13.Player
 				electrocutedOverlay.StopOverlay();
 			}
 
-			if (PieOverlay == null && OverlaySprites != null)
+			if (PieOverlay == null && OverlaySprites != null && PiePrefab != null)
 			{
 				PieOverlay = Instantiate(PiePrefab, OverlaySprites.transform).GetComponent<PlayerDirectionalOverlay>();
 				PieOverlay.enabled = true;
@@ -560,6 +560,7 @@ namespace US13.Player
 			if (RaceBodyparts == null)
 			{
 				Loggy.Error($"Failed to find race for {gameObject.ExpensiveName()} with race: {characterSettings.Species}");
+				return;
 			}
 
 			livingHealthMasterBase.InitialiseFromRaceData(RaceBodyparts);
