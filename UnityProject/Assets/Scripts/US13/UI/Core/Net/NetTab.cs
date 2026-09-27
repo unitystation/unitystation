@@ -102,6 +102,7 @@ namespace US13.UI.Core.Net
 		Flatpacker = 73,
 		PlantDNAManipulator = 74,
 		MedBed = 75,
+		NtOS = 76
 		// add new entres to the bottom
 		// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
 		// i.e TabJukeBox
