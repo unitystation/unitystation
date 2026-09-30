@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 9152750516534279210}
   - component: {fileID: 5916890468674971671}
   - component: {fileID: 4985216501981454354}
-  - component: {fileID: 3993911048820863762}
   m_Layer: 5
   m_Name: OutputEntryTemplate
   m_TagString: Untagged
@@ -207,16 +206,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21afa0ea296b4f4091642a323912e6e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assets::US13.UI.Core.Net.Elements.NetText_label
---- !u!114 &3993911048820863762
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6629025372206462282}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f68104f3ca745b4a6c130b193c5a0f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assets::US13.UI.Core.Net.Elements.Dynamic.DynamicEntry
-  Poolble: 0

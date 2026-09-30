@@ -1,9 +1,13 @@
 ﻿using System;
+using System.Text;
 using Cysharp.Threading.Tasks;
 using Logs;
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
+using US13.Managers;
+using US13.Managers.UpdateManager;
 using US13.Systems.NtOS.Core;
 using US13.UI.Core.Net;
 
@@ -12,8 +16,9 @@ namespace US13.UI.Core.NtOS
 	public class TabNtOS : NetTab
 	{
 		private NtOS_Device currentDevice;
-		[SerializeField, BoxGroup("Setup")] private EmptyItemList outputEntries;
+		[SerializeField, BoxGroup("Setup")] private NtOS_OutputEntry output;
 		[SerializeField, BoxGroup("Setup")] private TMP_InputField inputField;
+
 
 		private void Start()
 		{
@@ -32,13 +37,42 @@ namespace US13.UI.Core.NtOS
 			}
 			currentDevice = Provider.GetComponent<NtOS_Device>();
 			Loggy.Info($"NtOS device found: {currentDevice}");
+			OnTabOpened.AddListener(TabOpened);
+			OnTabClosed.AddListener(TabClosed);
+			output.SetDisplayText("");
+			UpdateMe();
+		}
+
+		private void TabOpened(PlayerInfo newPeeper = default)
+		{
+			UpdateManager.Add(UpdateMe, 0.15f);
+			UpdateMe();
+		}
+
+		private void TabClosed(PlayerInfo oldPeeper = default)
+		{
+			// Remove listeners when unobserved (old peeper has not yet been removed).
+			if (Peepers.Count <= 1)
+			{
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+			}
+		}
+
+		private void UpdateMe()
+		{
+			if (currentDevice == null) return;
+			var combinedOutput = new StringBuilder();
+			foreach (var h in currentDevice.History)
+			{
+				combinedOutput.AppendLine(h.Text.ToString());
+			}
+			output.SetDisplayText(combinedOutput.ToString());
 		}
 
 		public override void RefreshTab()
 		{
 			base.RefreshTab();
 			_ = WaitForProvider();
-
 		}
 
 		private void OnEnterCommand(string command)
@@ -49,9 +83,7 @@ namespace US13.UI.Core.NtOS
 				Loggy.Warning("NtOS device not found or still not ready.");
 				return;
 			}
-			var newEntry = outputEntries.AddItem();
-			var NtEntry = newEntry.GetComponent<NtOS_OutputEntry>();
-			currentDevice.ExecuteCommand(command, NtEntry);
+			currentDevice.ExecuteCommand(command);
 			inputField.text = "";
 		}
 	}

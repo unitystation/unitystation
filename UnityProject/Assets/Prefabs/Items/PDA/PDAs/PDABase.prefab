@@ -1212,7 +1212,16 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  StartingModule:
+    rid: 9136327685267259451
   IsTurnedOn: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 9136327685267259451
+      type: {class: WelcomeScreenModule, ns: US13.Systems.NtOS.Commands.Cosmetic,
+        asm: Assets}
+      data: 
 --- !u!4 &239048463826641235 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,
