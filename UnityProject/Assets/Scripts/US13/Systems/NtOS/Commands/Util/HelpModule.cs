@@ -2,6 +2,7 @@
 using System.Text;
 using Cysharp.Threading.Tasks;
 using US13.Systems.NtOS.Core;
+using US13.UI.Core.Net.Elements;
 
 namespace US13.Systems.NtOS.Commands.Util
 {
@@ -9,28 +10,27 @@ namespace US13.Systems.NtOS.Commands.Util
 	{
 		public string CommandName { get; set; }
 
-		public async UniTask<string> Execute(List<string> args, NtOS_Device callingDevice)
+		public async UniTask<string> Execute(NetText_label ownedLabel, string[] args, NtOS_Device callingDevice)
 		{
 			StringBuilder sb = new StringBuilder();
-			if (args.Count == 0)
+			if (args.Length == 0)
 			{
 				foreach (var module in callingDevice.Modules)
 				{
 					sb.AppendLine($"{module.CommandName}: {HelpDoc(callingDevice)}");
+					await UniTask.WaitForSeconds(0.5f);
+					ownedLabel.SetValue(sb.ToString());
 				}
 			}
 			else
 			{
-				var module = callingDevice.Modules.Find(x => x.CommandName == CommandName);
-				if (module != null)
-				{
-					sb.AppendLine($"{module.CommandName}: {HelpDoc(callingDevice)}");
-				}
-				else
-				{
-					sb.AppendLine($"Cannot find command '{CommandName}'");
-				}
+				INtOSModule module = callingDevice.Modules.Find(x => x.CommandName == CommandName);
+				sb.AppendLine(module != null ?
+					$"{module.CommandName}: {HelpDoc(callingDevice)}"
+					:
+					$"Cannot find command '{CommandName}'");
 			}
+			ownedLabel.SetValue(sb.ToString());
 			return sb.ToString();
 		}
 

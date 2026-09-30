@@ -97,7 +97,7 @@ namespace US13.Messages.Client
 			}
 
 			var updatedElement = tabInfo[msg.ElementId];
-			if (updatedElement == null)
+			if (!updatedElement)
 			{
 				//No such element exists on server!
 				FailValidation(player, tabProvider, msg,$"No such element: {tabInfo}[{msg.ElementId}]");
@@ -138,7 +138,7 @@ namespace US13.Messages.Client
 
 		private TabUpdateMessage FailValidation(PlayerInfo player, GameObject tabProvider, NetMessage msg, string reason = "")
 		{
-			Loggy.Warning($"{player.Name}: Tab interaction w/{tabProvider} denied: {reason}", Category.NetUI);
+			Loggy.Error($"{player.Name}: Tab interaction w/{tabProvider} denied: {reason}", Category.NetUI);
 			return TabUpdateMessage.Send(player.GameObject, tabProvider, msg.NetTabType, TabAction.Close);
 		}
 
