@@ -28,6 +28,16 @@ PrefabInstance:
       propertyPath: spriteRenderer
       value: 
       objectReference: {fileID: 581308222893969371}
+    - target: {fileID: 5202462082460340580, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: commonComponentsToRegister.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5202462082460340580, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: 'commonComponentsToRegister.Array.data[5]'
+      value: 
+      objectReference: {fileID: 3353089463247613406}
     - target: {fileID: 7282479286934092243, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: minimumFireDamageForStack
@@ -190,3 +200,15 @@ SpriteRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 7416357292038458215}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3353089463247613406 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5216470946909398713, guid: f866b44bcdd7d734885f7c49999d85c9,
+    type: 3}
+  m_PrefabInstance: {fileID: 7416357292038458215}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e06ddb12acf47158b8cccf9289fd75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

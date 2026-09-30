@@ -65,7 +65,7 @@ namespace US13.Objects.Pipes.Devices
 
 		private List<MetaDataNode> MetaNodes = new List<MetaDataNode>();
 
-		private GasMix pipeMix
+		public GasMix pipeMix
 		{
 			get
 			{

@@ -1,0 +1,504 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3296121625708414423
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 7984675503133383146}
+    - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 959d772ea77c94e4c9f0cb22c12cf9f7,
+        type: 2}
+    - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 959d772ea77c94e4c9f0cb22c12cf9f7,
+        type: 2}
+    - target: {fileID: 1817806423449182988, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: parentID
+      value: 35ef0ee8523cfc342bc863c12a3ac07c
+      objectReference: {fileID: 0}
+    - target: {fileID: 1817806423449182988, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: foreverID
+      value: AMYjkfpWt_U4vDA6YARk
+      objectReference: {fileID: 0}
+    - target: {fileID: 4617501557389857493, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: _assetId
+      value: 3077204932
+      objectReference: {fileID: 0}
+    - target: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: m_Name
+      value: Mouse-Head
+      objectReference: {fileID: 0}
+    - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4725154019080884757, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4859781159729634365, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11433caf457fffc4baa12960619ae6ec,
+        type: 3}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: initialName
+      value: Mouse Head
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: initialDescription
+      value: Why would you do this to such a innocent creature?
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4759c05877cd53c458335083feeb43b2,
+        type: 2}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: a2402731d72264ec4a2baec0351f6858,
+        type: 2}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 57eb2d1faf36d2040ade08046da48bfa,
+        type: 2}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'initialTraits.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: d959db3d812fcd74792e16aedab33f9e,
+        type: 2}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: IsSurface
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: maxHealth
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: DamageContributesToOverallHealth
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3585042287024462177, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5373470104469987690}
+    - targetCorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3400854896985859961}
+    - targetCorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8089850626314321180}
+    - targetCorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2429860941177451140}
+    - targetCorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1463221639661653953}
+    - targetCorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3068304601628335660}
+    - targetCorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4787006568755641587}
+    - targetCorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5065207517541776824}
+    - targetCorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8173932504493696302}
+  m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
+--- !u!114 &6630860405786726698 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8195321311611557117, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+    type: 3}
+  m_PrefabInstance: {fileID: 3296121625708414423}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7799866819818449590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &7799866819818449590 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+    type: 3}
+  m_PrefabInstance: {fileID: 3296121625708414423}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5373470104469987690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7799866819818449590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f0af11106d5149f7a522aab42f362b54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Items.Implants.Organs.Tongue
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  RelatedPart: {fileID: 0}
+  languages:
+  - {fileID: 11400000, guid: 4c50d8735f633d31f92ae1e2f3de6212, type: 2}
+  speechModifiers: 0
+  <CannotSpeak>k__BackingField: 1
+  maximumCharactersCanBeSpokenInOneMessage: 1600
+  VoicesName: 
+  Voice: 
+  MouthAnimation: {fileID: 0}
+  Blank: {fileID: 0}
+--- !u!114 &3400854896985859961
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7799866819818449590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92a26da98f532de4d9524a6148599435, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  RelatedPart: {fileID: 0}
+  Pickupable: {fileID: 0}
+  BaseBlurryVision: 0
+  DimLightColour: {r: 1, g: 1, b: 1, a: 0.11764706}
+  EyeIrritant: {fileID: 11400000, guid: b297c259c012907a19324e8aee4d063e, type: 2}
+  EyeIrritantAmount: 0.25
+  Blinks: 1
+  blinkDurationMin: 0.1
+  blinkDurationMax: 0.15
+  OnBodyID: 0
+  PreventsBlindness: 1
+  DefaultPreventsBlindness_: 0
+  BadEyesight: 0
+  CurrentColourblindness: 0
+  DefaultColourblindness: 0
+  HasXray: 0
+  DefaultHasXray: 0
+--- !u!114 &8089850626314321180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7799866819818449590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b603a9cddd451a98ba3a19d5b72aabfb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Systems.Antagonists.PolymorphForm
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  RelatedPart: {fileID: 6630860405786726698}
+  ReturnToBodyButton:
+    ID: return_to_body
+    DisplayName: Return to Body
+    Description: Discard this form and return to your original body,
+    TriggerType: 0
+    Type: 0
+    CooldownTime: 15
+    CanUseWhileGhosting: 0
+    AnimatedIconCatalogue:
+    - {fileID: 11400000, guid: 4fafc9fe0d5794243bb8e189d4952093, type: 2}
+    TryToGrabSpritesFromRelatedObject: 0
+    HasCustomCursorOffset: 0
+    HasCustomCursor: 0
+    OffsetType: 0
+    CursorOffset: {x: 0, y: 0}
+    CursorTexture: {fileID: 0}
+    TrackingObject: {fileID: 0}
+    ObjectRelatedToThisAction: {fileID: 0}
+--- !u!114 &2429860941177451140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7799866819818449590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e047f4bf88aaba14eb4509ad4da4d9fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Mobs.BrainAI.States.BrainWanderState
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  RelatedPart: {fileID: 6630860405786726698}
+  <Blacklist>k__BackingField: []
+  <UpdateType>k__BackingField: 3
+  <PeriodicUpdateInterval>k__BackingField: 1.5
+  <master>k__BackingField: {fileID: 8173932504493696302}
+--- !u!114 &1463221639661653953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7799866819818449590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c4c1bcae08bdb7e9f89905ee07cd1ba6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Mobs.BrainAI.States.Animals.Mice.MiceThinkingState
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  RelatedPart: {fileID: 6630860405786726698}
+  <Blacklist>k__BackingField: []
+  <UpdateType>k__BackingField: 3
+  <PeriodicUpdateInterval>k__BackingField: 1.5
+  <master>k__BackingField: {fileID: 8173932504493696302}
+  wanderState: {fileID: 2429860941177451140}
+  TraversalStrategies: []
+  squeakActionID: squeak_mouse
+  references:
+    version: 2
+    RefIds: []
+--- !u!114 &3068304601628335660
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7799866819818449590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d950ab9b434a33b969830283d152fc2d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::MouseHeadActions
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  RelatedPart: {fileID: 6630860405786726698}
+  <ActivatedAbilities>k__BackingField:
+    m_keys:
+    - ID: squeak_mouse
+      DisplayName: Squeak!
+      Description: A crude form of communication.
+      TriggerType: 0
+      Type: 0
+      CooldownTime: 2.5
+      CanUseWhileGhosting: 0
+      AnimatedIconCatalogue:
+      - {fileID: 11400000, guid: e36e706c4f7427848844ab4279f0abac, type: 2}
+      TryToGrabSpritesFromRelatedObject: 0
+      HasCustomCursorOffset: 0
+      HasCustomCursor: 0
+      OffsetType: 0
+      CursorOffset: {x: 0, y: 0}
+      CursorTexture: {fileID: 0}
+      TrackingObject: {fileID: 0}
+      ObjectRelatedToThisAction: {fileID: 0}
+    - ID: vent_crawl
+      DisplayName: Vent Crawl
+      Description: Squeeze into the station's pipenet to reach new places.
+      TriggerType: 0
+      Type: 1
+      CooldownTime: 8
+      CanUseWhileGhosting: 0
+      AnimatedIconCatalogue:
+      - {fileID: 11400000, guid: ac362153318c8894684e239fe9aa2927, type: 2}
+      TryToGrabSpritesFromRelatedObject: 0
+      HasCustomCursorOffset: 0
+      HasCustomCursor: 1
+      OffsetType: 1
+      CursorOffset: {x: 0, y: 0}
+      CursorTexture: {fileID: 11400000, guid: f3e23c8b0ccd0334ca8b9d4b92bdff65, type: 2}
+      TrackingObject: {fileID: 0}
+      ObjectRelatedToThisAction: {fileID: 0}
+    m_values:
+    - target: {fileID: 3068304601628335660}
+      methodName: Squeak
+      parameterType: 
+    - target: {fileID: 3068304601628335660}
+      methodName: EnterVent
+      parameterType: 
+  squeakSound:
+    AssetAddress: Assets/Prefabs/Effects/mousesqueek.prefab
+    AssetReference:
+      m_AssetGUID: 
+      m_SubObjectName: 
+      m_SubObjectGUID: 
+      m_SubObjectType: 
+      m_EditorAssetChanged: 0
+  EnterVentID: vent_crawl
+--- !u!114 &4787006568755641587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7799866819818449590}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c54bccf584af80f4dacd9feac205c071, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Systems.Antagonists.Antags.Changeling.ChangelingMain
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+--- !u!114 &5065207517541776824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7799866819818449590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 840609453e4bf334cbd14cd7999c6fb6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 1
+  syncInterval: 0.1
+  RelatedPart: {fileID: 0}
+  OnBodyID: 0
+  drunkReagent: {fileID: 11400000, guid: 6d141e282b2a3ade0a523d28b721aa13, type: 2}
+  highReagent: {fileID: 11400000, guid: 16bdefd1a024c1992a1af5dfef5340f6, type: 2}
+  MaxDrunkAtPercentage: 0.06
+  MaxHighAtPercentage: 0.06
+  hasInbuiltSight: 0
+  hasInbuiltHearing: 1
+  CannotSpeak: 0
+  hasInbuiltSpeech: 0
+  BodyChatModifier: 0
+  ReagentCirculatedComponent: {fileID: 0}
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  OnRevival:
+    m_PersistentCalls:
+      m_Calls: []
+  hasSillyWalk: 0
+--- !u!114 &8173932504493696302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7799866819818449590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f14e9b5b4498704cb98ada2d5271d86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Mobs.BrainAI.BrainMobAI
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  RelatedPart: {fileID: 0}
+  <CurrentActiveStates>k__BackingField: []
+  <MobStates>k__BackingField: []
+  <thinkingState>k__BackingField: {fileID: 1463221639661653953}
+  Brain: {fileID: 5065207517541776824}
+  DEBUGoverride: 0
+  Body: {fileID: 0}
+--- !u!212 &7984675503133383146 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 4859781159729634365, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+    type: 3}
+  m_PrefabInstance: {fileID: 3296121625708414423}
+  m_PrefabAsset: {fileID: 0}

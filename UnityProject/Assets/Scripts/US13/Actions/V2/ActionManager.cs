@@ -254,6 +254,25 @@ namespace US13.Actions.V2
 			}
 		}
 
+		[Server]
+		public void ServerTriggerAction(string actionId, Vector2 mouseLocation)
+		{
+			if (IsActionOnCooldown(actionId)) return;
+			if (ServerActionRegistry.TryGetValue(actionId, out var found) == false) return;
+			try
+			{
+				if (found.Data.CooldownTime > MINIMUM_COOLDOWN_TIME)
+				{
+					AddCooldown(actionId, found.Data.CooldownTime);
+				}
+				found.Action?.Invoke(mouseLocation);
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+			}
+		}
+
 		[Client]
 		public void TriggerClientAction(string actionId, Vector2 mouseLocation)
 		{

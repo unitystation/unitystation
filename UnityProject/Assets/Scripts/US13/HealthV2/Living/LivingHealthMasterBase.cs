@@ -1157,7 +1157,6 @@ namespace US13.HealthV2.Living
 			}
 		}
 
-
 		/// <summary>
 		/// Updates overall health based on damage sustained by body parts thus far.
 		/// Also updates consciousness status and will initiate a heart attack if low enough.

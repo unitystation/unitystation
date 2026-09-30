@@ -30,6 +30,7 @@ using US13.Systems.Inventory;
 using US13.Tilemaps.Behaviours.Layers;
 using US13.Tilemaps.Utils;
 using US13.UI.Core.ProgressBar;
+using US13.UI.Systems.Character;
 using Util;
 
 namespace US13.Systems.Antagonists
@@ -73,6 +74,9 @@ namespace US13.Systems.Antagonists
 		[SerializeField,BoxGroup("Sanguine Dagger")] private GameObject sanguineDaggerPrefab;
 		[SerializeField,BoxGroup("Sanguine Dagger")] private int selfDamage = 20;
 		[SerializeField,BoxGroup("Sanguine Dagger")] private float bloodTaken = 5;
+
+		[SerializeField, BoxGroup("Polymorph")] private List<GameObject> mouseBlueprints;
+
 		private int _lightId;
 		private float squaredCosine;
 
@@ -243,6 +247,21 @@ namespace US13.Systems.Antagonists
 			}
 
 			return true;
+		}
+
+		public void Polymorph(Vector2 worldMousePosition)
+		{
+			GameObject mouse = Spawn.ServerPrefab(mouseBlueprints.PickRandom()).GameObject;
+
+			if (mouse.TryGetComponent<PlayerBlueprint>(out var playerBlueprint) == false) return;
+			var spawnedMouseObject = playerBlueprint.spawnedObject;
+			spawnedMouseObject.GetUniversalObjectPhysics().AppearAtWorldPositionServer(connectedPlayer.AssumedWorldPos);
+			if (spawnedMouseObject.TryGetComponent<PlayerScript>(out var mouseScript) == false) return;
+			if(mouseScript.playerHealth.BodyOrganLookup[typeof(PolymorphForm)]?[0] == null) return;
+			var polymorphForm = mouseScript.playerHealth.BodyOrganLookup[typeof(PolymorphForm)][0] as PolymorphForm;
+			polymorphForm?.EnterBody(connectedPlayer.Mind, true);
+
+			//Store current body for later somehow
 		}
 
 		public void HypnoticStare(Vector2 worldMousePosition)

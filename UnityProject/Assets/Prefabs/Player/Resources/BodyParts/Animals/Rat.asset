@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assets::US13.Player.PlayerHealthData
   Base:
     Head:
-      Elements: []
+      Elements:
+      - {fileID: 7799866819818449590, guid: 97756fbcd6247a896969575035bbc10a, type: 3}
     Torso:
       Elements:
-      - {fileID: 0}
+      - {fileID: 3250516129481264533, guid: ebcd4c139999db8bd95cbf3cd53314ec, type: 3}
     ArmRight:
       Elements: []
     ArmLeft:
@@ -29,12 +30,18 @@ MonoBehaviour:
     allowedToChangeling: 1
     CustomisationSettings: []
     bodyTypeSettings:
-      AvailableBodyTypes: []
+      AvailableBodyTypes:
+      - bodyType: 3
+        Name: Brown
+      - bodyType: 4
+        Name: Grey
+      - bodyType: 5
+        Name: White
     SkinColours: []
     RootImplantProcedure: {fileID: 11400000, guid: 042d01452f7f9ec4aa0e9ca6ea309242,
       type: 2}
     BodyPartsThatShareTheSkinTone: []
-    ClueString: 
+    ClueString: a small but pronouced whisker
     MeatProduce: {fileID: 4301451620404162702, guid: 0220e2b4d42274c4c8f2ef1af25f54a8,
       type: 3}
     SkinProduce: {fileID: 0}
@@ -43,8 +50,79 @@ MonoBehaviour:
     CanBeEmagged: 0
     CanBePlayerChosen: 0
     PreviewSprite: {fileID: 11400000, guid: 20071a4e8da65ba4883ce265738929b2, type: 2}
-    SystemSettings: []
+    SystemSettings:
+    - rid: 3382901063603716155
+    - rid: 3382901063603716157
+    - rid: 3382901078977937527
+    - rid: 3382901078977937530
     StartingMutations: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 3382901063603716155
+      type: {class: ReagentPoolSystem, ns: US13.HealthV2.Living.PolymorphicSystems,
+        asm: Assets}
+      data:
+        Base: {fileID: 0}
+        BloodPool:
+          temperature: 273.15
+          reagents:
+            m_keys: []
+            m_values: []
+          reagentKeys: []
+        StartingBlood: 80
+        NormalBlood: 80
+        bloodReagent: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
+        PumpingDevices: []
+        TempBloodReservoir:
+          temperature: 273.15
+          reagents:
+            m_keys: []
+            m_values: []
+          reagentKeys: []
+        ReservoirReturnMultiplier: 0.15
+    - rid: 3382901063603716157
+      type: {class: ReagentSaturationSystem, ns: US13.HealthV2.Living.PolymorphicSystems,
+        asm: Assets}
+      data:
+        Base: {fileID: 0}
+        BodyParts: []
+    - rid: 3382901078977937527
+      type: {class: HungerSystem, ns: US13.HealthV2.Living.PolymorphicSystems.Hunger,
+        asm: Assets}
+      data:
+        Base: {fileID: 0}
+        BodyParts: []
+        BodyFats: []
+        NumberOfMinutesBeforeStarving: 30
+        BodyNutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
+          type: 2}
+        CashedHungerState: 1
+        HungerStatusEffects:
+          NotHungryStatusEffect: {fileID: 0}
+          StravingStatusEffect: {fileID: 11400000, guid: 8526c1e024fdd1e4d8bc35595159d8a4,
+            type: 2}
+          HungryStatusEffect: {fileID: 11400000, guid: a7b8118c2b73a574cbb4425327020959,
+            type: 2}
+          MalnourishedStatusEffect: {fileID: 11400000, guid: 65e82252aea90134a8bbed1894004066,
+            type: 2}
+          FatStatusEffect: {fileID: 11400000, guid: 8a92c094201a758498a79523323565eb,
+            type: 2}
+        HungerCalculationMethod:
+          rid: 3382901078977937528
+    - rid: 3382901078977937528
+      type: {class: DefaultUnityStationHungerCalculation, ns: US13.HealthV2.Living.PolymorphicSystems.Hunger.HungerCalculationMethods,
+        asm: Assets}
+      data:
+        MinutesThresholdForHunger: 5
+        MinutesThresholdForNormal: 10
+    - rid: 3382901078977937530
+      type: {class: ChemicalMetabolismSystem, ns: US13.HealthV2.Living.PolymorphicSystems,
+        asm: Assets}
+      data:
+        Base: {fileID: 0}
+        InternalMetabolismPerSecond: 1
+        ExternalMetabolismPerSecond: 2
+        MetabolismReactionSets: []
+        ALLMetabolismReactions: []
+        MetabolismComponents: []

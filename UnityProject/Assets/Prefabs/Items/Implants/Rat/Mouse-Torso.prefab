@@ -80,7 +80,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 40
-  m_Sprite: {fileID: 21300000, guid: 913301233decfef43ba93bd08cc9c803, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 9148680e8b55fe943873dfa6cd0b2b3f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -105,7 +105,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  InitialPresentSpriteSet: {fileID: 11400000, guid: c13b7052638d6b54ca38eec567af46b4,
+  InitialPresentSpriteSet: {fileID: 11400000, guid: d02432cb7364b8f4f99c42e1bcdf40bb,
     type: 2}
   randomInitialSprite: 0
   spriteRenderer: {fileID: 1318986182125683303}
@@ -152,6 +152,7 @@ GameObject:
   - component: {fileID: 6569637085981806810}
   - component: {fileID: 2199780078771062037}
   - component: {fileID: 5763321432239831947}
+  - component: {fileID: 7007748930799320794}
   m_Layer: 10
   m_Name: Mouse-Torso
   m_TagString: Abstract
@@ -727,11 +728,11 @@ MonoBehaviour:
       Orders: 03000000010000000300000003000000
     BodyTypes:
     - Sprites:
-      - {fileID: 11400000, guid: ead6d6cf7b85ed043aa6c5d84fe61fb3, type: 2}
+      - {fileID: 11400000, guid: e36e706c4f7427848844ab4279f0abac, type: 2}
     - Sprites:
-      - {fileID: 11400000, guid: ead6d6cf7b85ed043aa6c5d84fe61fb3, type: 2}
+      - {fileID: 11400000, guid: 20071a4e8da65ba4883ce265738929b2, type: 2}
     - Sprites:
-      - {fileID: 11400000, guid: ead6d6cf7b85ed043aa6c5d84fe61fb3, type: 2}
+      - {fileID: 11400000, guid: 9444d10a35377e84395777c3e96d303f, type: 2}
   RelatedPresentSprites: []
   DeathOnRemoval: 1
   ClothingHide: 0
@@ -780,7 +781,7 @@ MonoBehaviour:
     PressureProtectionInKpa: {x: -520, y: 1800}
   SubOrganDamageIncreasePoint: 80
   DamageContributesToOverallHealth: 1
-  maxHealth: 250
+  maxHealth: 40
   Severity: 50
   TotalModified: 1
   SurgeryProcedureBase:
@@ -1031,7 +1032,17 @@ MonoBehaviour:
       ReplacementStrategy: 0
       namedSlotPopulatorEntrys: []
     - DoNotGetFirstEmptySlot: 0
-      Prefab: {fileID: 7889273870754781763, guid: cb2bf5a86ff0c2949aea09b9a60fea63,
+      Prefab: {fileID: 0}
+      StackableAmount: 0
+      UseIndex: 0
+      IndexSlot: 0
+      NamedSlot: 0
+      AlternativeNamedSlots: 
+      IfOccupiedFindEmptySlot: 0
+      ReplacementStrategy: 0
+      namedSlotPopulatorEntrys: []
+    - DoNotGetFirstEmptySlot: 0
+      Prefab: {fileID: 3177982829949495349, guid: 760dc1119d22a8c4ab6fbbf78f8705b0,
         type: 3}
       StackableAmount: 0
       UseIndex: 0
@@ -1042,7 +1053,7 @@ MonoBehaviour:
       ReplacementStrategy: 0
       namedSlotPopulatorEntrys: []
     - DoNotGetFirstEmptySlot: 0
-      Prefab: {fileID: 7615815895924955164, guid: 453f1acec40045c48a2be2b3f98d3df1,
+      Prefab: {fileID: 3419287765834980474, guid: e842d7513d34ec442af969504d96dfd9,
         type: 3}
       StackableAmount: 0
       UseIndex: 0
@@ -1063,7 +1074,8 @@ MonoBehaviour:
       ReplacementStrategy: 0
       namedSlotPopulatorEntrys: []
     - DoNotGetFirstEmptySlot: 0
-      Prefab: {fileID: 0}
+      Prefab: {fileID: 2556953724642564633, guid: 69104df12837d1e48bb456dce5301bfa,
+        type: 3}
       StackableAmount: 0
       UseIndex: 0
       IndexSlot: 0
@@ -1073,7 +1085,8 @@ MonoBehaviour:
       ReplacementStrategy: 0
       namedSlotPopulatorEntrys: []
     - DoNotGetFirstEmptySlot: 0
-      Prefab: {fileID: 0}
+      Prefab: {fileID: 3169642092305287280, guid: a05828ab8602a63449e9b422078fd217,
+        type: 3}
       StackableAmount: 0
       UseIndex: 0
       IndexSlot: 0
@@ -1083,7 +1096,8 @@ MonoBehaviour:
       ReplacementStrategy: 0
       namedSlotPopulatorEntrys: []
     - DoNotGetFirstEmptySlot: 0
-      Prefab: {fileID: 0}
+      Prefab: {fileID: 6161261707722952892, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
       StackableAmount: 0
       UseIndex: 0
       IndexSlot: 0
@@ -1093,17 +1107,8 @@ MonoBehaviour:
       ReplacementStrategy: 0
       namedSlotPopulatorEntrys: []
     - DoNotGetFirstEmptySlot: 0
-      Prefab: {fileID: 0}
-      StackableAmount: 0
-      UseIndex: 0
-      IndexSlot: 0
-      NamedSlot: 0
-      AlternativeNamedSlots: 
-      IfOccupiedFindEmptySlot: 0
-      ReplacementStrategy: 0
-      namedSlotPopulatorEntrys: []
-    - DoNotGetFirstEmptySlot: 0
-      Prefab: {fileID: 0}
+      Prefab: {fileID: 7799866819818449590, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
       StackableAmount: 0
       UseIndex: 0
       IndexSlot: 0
@@ -1263,12 +1268,32 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   RelatedPart: {fileID: 0}
-  requiredReagent: {fileID: 11400000, guid: 23b1fd9d2d60ffd0a8879d7745f1a7fb, type: 2}
-  wasteReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
+  requiredReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
+  wasteReagent: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4, type: 2}
   bloodReagentConsumedPercentageb: 0.7
   reagentCirculatedComponent: {fileID: 0}
   currentBloodSaturation: 0
   isNotBloodReagentConsumed: 0
+--- !u!114 &7007748930799320794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3250516129481264533}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73c8a0e70c3343fd9c7d764c28769377, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Items.Implants.Limbs.HumanoidLeg
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  RelatedPart: {fileID: 0}
+  walkingSpeed: 3
+  runningSpeed: 5
+  crawlingSpeed: 1
+  initialLimbEfficiency: 1
 --- !u!1 &5368559236564554787
 GameObject:
   m_ObjectHideFlags: 0
