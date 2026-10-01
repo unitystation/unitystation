@@ -110,6 +110,7 @@ namespace US13.Core.Chat
 		public bool IsWhispering = false;
 		public bool ShowChatBubble = false;
 		public string Voice = "";
+		public bool ShowRelevantEmoji = false;
 
 		/// <summary>
 		/// Send chat message only to those on this matrix

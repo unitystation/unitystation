@@ -310,6 +310,16 @@ namespace US13.Core.Chat
 
 			if (string.IsNullOrWhiteSpace(chatEvent.message)) return;
 
+			if (chatEvent.ShowRelevantEmoji)
+			{
+				var result = chatEvent.originator.GetTmpEmojiReadyTagFromGameObject();
+				if (string.IsNullOrWhiteSpace(result) == false)
+				{
+					chatEvent.message = $"{result} {chatEvent.message}";
+					chatEvent.messageOthers = $"{result} {chatEvent.messageOthers}";
+				}
+			}
+
 			UpdateChatMessage.Send(playerToSend, channel, chatEvent.modifiers, copiedString, chatEvent.VoiceLevel,
 				chatEvent.messageOthers, chatEvent.originator, chatEvent.speaker, chatEvent.stripTags, languageId, chatEvent.IsWhispering, chatEvent.Voice);
 			if(chatEvent.ShowChatBubble) ShowChatBubbleToPlayer( playerToSend, ref chatEvent, copiedString);

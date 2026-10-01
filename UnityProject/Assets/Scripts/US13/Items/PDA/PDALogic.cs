@@ -44,6 +44,10 @@ namespace US13.Items.PDA
 		[SerializeField, BoxGroup("Settings")]
 		private AddressableAudioSource defaultRingtone;
 
+		[Tooltip("The default ringtone to play")]
+		[field:SerializeField, BoxGroup("Settings")]
+		public string RingtoneText { get; private set; } = "*beep*";
+
 		[Tooltip("A list of all available ringtones")]
 		[SerializeField, BoxGroup("Settings")]
 		private List<AddressableAudioSource> ringtones;
@@ -157,7 +161,7 @@ namespace US13.Items.PDA
 
 		private void Start()
 		{
-			SetRingtone(defaultRingtone);
+			SetRingtoneAudio(defaultRingtone);
 
 			IDSlot = storage.GetIndexedItemSlot(0);
 			CartridgeSlot = storage.GetIndexedItemSlot(1);
@@ -239,7 +243,8 @@ namespace US13.Items.PDA
 				}
 
 				LockUplink();
-				SetRingtone(defaultRingtone);
+				SetRingtone("beep");
+				SetRingtoneAudio(defaultRingtone);
 				PlayRingtone();
 
 				registeredPlayerUpdated?.Invoke();
@@ -260,7 +265,7 @@ namespace US13.Items.PDA
 
 		#region Sounds
 
-		public void SetRingtone(AddressableAudioSource newRingtone)
+		public void SetRingtoneAudio(AddressableAudioSource newRingtone)
 		{
 			Ringtone = newRingtone;
 		}
@@ -268,19 +273,24 @@ namespace US13.Items.PDA
 		public void SetRingtone(string newRingtone)
 		{
 			AddressableAudioSource toSend = ringtones.Find(x => x.AssetAddress.Contains("/" + newRingtone + ".prefab"));
-
 			if(toSend != default(AddressableAudioSource))
-				SetRingtone(toSend);
+			{
+				SetRingtoneAudio(toSend);
+			}
+			RingtoneText = $"*{newRingtone}*";
+			PlayRingtone();
 		}
 
 		public void PlayRingtone()
 		{
 			PlaySound(Ringtone);
+			Chat.AddActionMsgToChat(gameObject, RingtoneText);
 		}
 
 		public void PlayDenyTone()
 		{
 			PlaySound(denialSound);
+			Chat.AddActionMsgToChat(gameObject, "*error*", showRelevantEmoji: true);
 		}
 
 		public void PlaySound(AddressableAudioSource soundName)

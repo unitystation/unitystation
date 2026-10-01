@@ -317,7 +317,7 @@ namespace US13.Items
 				displayName = ArticleName;
 			}
 
-			string spriteText = GetItemEmoji();
+			string spriteText = gameObject.GetTmpEmojiReadyTagFromGameObject();
 
 			string str = $"This is a {spriteText} <b>{displayName}</b>.\n";
 
@@ -326,22 +326,6 @@ namespace US13.Items
 				str = str + " " + ArticleDescription;
 			}
 			return str;
-		}
-
-		private string GetItemEmoji()
-		{
-			var possibleSprite = GetComponentInChildren<SpriteHandler>();
-			var spriteText = "";
-			if (possibleSprite == null || possibleSprite.CurrentSprite == null) return spriteText;
-			if (TMP_Settings.defaultSpriteAsset.GetSpriteIndexFromName(possibleSprite.CurrentSprite.texture.name) <= 1)
-			{
-				spriteText = "";
-			}
-			else
-			{
-				spriteText = $"<sprite name=\"{possibleSprite.CurrentSprite.texture.name}\">";
-			}
-			return spriteText;
 		}
 
 		public RightClickableResult GenerateRightClickOptions()
