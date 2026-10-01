@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Logs;
 using Mirror;
 using NaughtyAttributes;
 using UnityEngine;
@@ -73,13 +74,18 @@ namespace US13.Systems.NtOS.Core
 		public void ExecuteCommand(string command)
 		{
 			//todo: validation
-			var args = command.Split(' ');
+			var args = command.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 			var commandName = args[0];
 			args = args.Skip(1).ToArray();
 			bool success = false;
 			foreach (INtOSModule module in Modules)
 			{
-				if (commandName.ToLower().Contains(module.CommandName.ToLower()) == false) continue;
+				if (module == null)
+				{
+					Loggy.Warning("Null module found on nt device. Make sure to clear them up!!");
+					continue;
+				}
+				if (string.Equals(commandName, module.CommandName, StringComparison.OrdinalIgnoreCase) == false) continue;
 				var builder = new StringBuilder();
 				module.Execute(History.Count + 1, args, this, builder);
 				success = true;
