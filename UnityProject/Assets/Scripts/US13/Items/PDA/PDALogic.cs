@@ -284,7 +284,7 @@ namespace US13.Items.PDA
 		public void PlayRingtone()
 		{
 			PlaySound(Ringtone);
-			Chat.AddActionMsgToChat(gameObject, RingtoneText);
+			Chat.AddActionMsgToChat(gameObject, RingtoneText, showRelevantEmoji: true);
 		}
 
 		public void PlayDenyTone()
