@@ -975,6 +975,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7103160928751749856}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 966745091922057384}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!212 &122497636241256315 stripped
 SpriteRenderer:
@@ -1064,6 +1068,7 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+  <RingtoneText>k__BackingField: '*beep*'
   ringtones:
   - AssetAddress: Assets/Prefabs/Effects/TwoBeep.prefab
     AssetReference:
@@ -1221,6 +1226,34 @@ MonoBehaviour:
     - rid: 9136327685267259451
       type: {class: WelcomeScreenModule, ns: US13.Systems.NtOS.Commands.Cosmetic,
         asm: Assets}
+      data: 
+--- !u!114 &966745091922057384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234969413023505447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e156d105fe6942e589b30c47b5192467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Systems.NtOS.Core.CondensedNtModules
+  ModulesToAdd:
+  - rid: 7654293106854723642
+  - rid: 7654293106854723644
+  - rid: 7654293106854723646
+  references:
+    version: 2
+    RefIds:
+    - rid: 7654293106854723642
+      type: {class: HelpModule, ns: US13.Systems.NtOS.Commands.Util, asm: Assets}
+      data: 
+    - rid: 7654293106854723644
+      type: {class: RingtoneChangeModule, ns: US13.Systems.NtOS.Commands.Util, asm: Assets}
+      data: 
+    - rid: 7654293106854723646
+      type: {class: CrewManifestModule, ns: US13.Systems.NtOS.Commands.Info, asm: Assets}
       data: 
 --- !u!4 &239048463826641235 stripped
 Transform:
