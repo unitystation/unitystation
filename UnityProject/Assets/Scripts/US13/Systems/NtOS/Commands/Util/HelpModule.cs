@@ -8,7 +8,7 @@ namespace US13.Systems.NtOS.Commands.Util
 {
 	public class HelpModule : INtOSModule
 	{
-		public string CommandName { get; set; }
+		public string CommandName { get; set; } = "Help";
 
 		public async UniTask Execute(int id, string[] args, NtOS_Device callingDevice, StringBuilder output)
 		{
@@ -16,8 +16,8 @@ namespace US13.Systems.NtOS.Commands.Util
 			{
 				foreach (var module in callingDevice.Modules)
 				{
-					output.AppendLine($"{module.CommandName}: {HelpDoc(callingDevice)}");
-					await UniTask.WaitForSeconds(0.5f);
+					output.AppendLine($"{module.CommandName}: {module.HelpDoc(callingDevice)}\n");
+					await UniTask.WaitForSeconds(0.1f);
 				}
 			}
 			else
