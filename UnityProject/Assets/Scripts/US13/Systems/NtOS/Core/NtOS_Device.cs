@@ -33,6 +33,15 @@ namespace US13.Systems.NtOS.Core
 
 		public Action OnModulesRefreshed;
 
+		private void Awake()
+		{
+			itemStorage = GetComponent<ItemStorage>();
+			if (itemStorage != null)
+			{
+				itemStorage.ServerInventoryItemSlotSet  += OnInventoryChanged;
+			}
+		}
+
 		private void Start()
 		{
 			RefreshModules();
@@ -43,7 +52,11 @@ namespace US13.Systems.NtOS.Core
 				Id = History.Count + 1,
 				Text = welcomeText
 			});
-			itemStorage = GetComponent<ItemStorage>();
+		}
+
+		private void OnInventoryChanged(Pickupable oldItem, Pickupable newItem)
+		{
+			RefreshModules();
 		}
 
 		/// <summary>
@@ -65,8 +78,10 @@ namespace US13.Systems.NtOS.Core
 				if (slot == null || slot.ItemObject == null) continue;
 				Modules.AddRange(slot.ItemObject.GetComponents<INtOSModule>());
 				Modules.AddRange(slot.ItemObject.GetComponentsInChildren<INtOSModule>());
-				Modules.AddRange(slot.ItemObject.GetComponent<CondensedNtModules>().ModulesToAdd);
-				Modules.AddRange(slot.ItemObject.GetComponentInChildren<CondensedNtModules>().ModulesToAdd);
+				List<INtOSModule> rootModules = slot.ItemObject.GetComponent<CondensedNtModules>()?.ModulesToAdd;
+				if (rootModules != null) Modules.AddRange(rootModules);
+				List<INtOSModule> childModules = slot.ItemObject.GetComponentInChildren<CondensedNtModules>()?.ModulesToAdd;
+				if (childModules != null) Modules.AddRange(childModules);
 			}
 		}
 

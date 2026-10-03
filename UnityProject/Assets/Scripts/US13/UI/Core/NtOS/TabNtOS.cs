@@ -1,12 +1,11 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Cysharp.Threading.Tasks;
 using Logs;
 using NaughtyAttributes;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 using US13.Managers;
+using US13.Managers.NetworkManagement;
 using US13.Managers.UpdateManager;
 using US13.Systems.NtOS.Core;
 using US13.UI.Core.Net;
@@ -19,34 +18,39 @@ namespace US13.UI.Core.NtOS
 		[SerializeField, BoxGroup("Setup")] private NtOS_OutputEntry output;
 		[SerializeField, BoxGroup("Setup")] private TMP_InputField inputField;
 
-
 		private void Start()
 		{
 			inputField ??= GetComponentInChildren<TMP_InputField>();
 			inputField.onSubmit.AddListener(OnEnterCommand);
 			_ = WaitForProvider();
+			if (CustomNetworkManager.IsServer)
+			{
+				OnTabOpened.AddListener(TabOpened);
+				OnTabClosed.AddListener(TabClosed);
+			}
 		}
 
 		private async UniTask WaitForProvider()
 		{
 			var count = 0;
-			while (Provider == null || count < 50)
+			while (Provider == null || count < 124)
 			{
 				await UniTask.WaitForEndOfFrame();
 				count++;
 			}
 			currentDevice = Provider.GetComponent<NtOS_Device>();
 			Loggy.Info($"NtOS device found: {currentDevice}");
-			OnTabOpened.AddListener(TabOpened);
-			OnTabClosed.AddListener(TabClosed);
-			output.SetDisplayText("");
-			UpdateMe();
+			if (IsUnobserved == false)
+			{
+				// Call manually; OnTabOpened is invoked before the Provider is set,
+				// so the initial invoke was missed.
+				TabOpened();
+			}
 		}
 
 		private void TabOpened(PlayerInfo newPeeper = default)
 		{
 			UpdateManager.Add(UpdateMe, 0.15f);
-			UpdateMe();
 		}
 
 		private void TabClosed(PlayerInfo oldPeeper = default)
@@ -61,12 +65,17 @@ namespace US13.UI.Core.NtOS
 		private void UpdateMe()
 		{
 			if (currentDevice == null) return;
+			output.SetDisplayText(GetTextFromDeviceHistory());
+		}
+
+		private string GetTextFromDeviceHistory()
+		{
 			var combinedOutput = new StringBuilder();
 			foreach (var h in currentDevice.History)
 			{
 				combinedOutput.AppendLine(h.Text.ToString());
 			}
-			output.SetDisplayText(combinedOutput.ToString());
+			return combinedOutput.ToString();
 		}
 
 		public override void RefreshTab()

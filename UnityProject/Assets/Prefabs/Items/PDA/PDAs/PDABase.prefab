@@ -1105,7 +1105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: 74bf3e872403e488695c17ecdde194ab,
+  itemStorageStructure: {fileID: 11400000, guid: ee76ba24a0cd443b1a308dd04cdb3678,
     type: 2}
   itemStorageCapacity: {fileID: 11400000, guid: b6353b80914314e4eba7f19cfa358fb4,
     type: 2}
@@ -1113,9 +1113,20 @@ MonoBehaviour:
   forceSpawnContents: 0
   ManuallySpawnContent: 0
   dropItemsOnDespawn: 0
-  UesAddlistPopulater: 0
+  UesAddlistPopulater: 1
   Populater:
-    SlotContents: []
+    SlotContents:
+    - DoNotGetFirstEmptySlot: 0
+      Prefab: {fileID: 171320525014610919, guid: f79006d8fba260d49b6d286553d5b122,
+        type: 3}
+      StackableAmount: 1
+      UseIndex: 0
+      IndexSlot: 0
+      NamedSlot: 0
+      AlternativeNamedSlots: 
+      IfOccupiedFindEmptySlot: 1
+      ReplacementStrategy: 1
+      namedSlotPopulatorEntrys: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
   initialignoreRoundstartGrabObjects: 0
@@ -1218,13 +1229,13 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0
   StartingModule:
-    rid: 9136327685267259451
+    rid: 7654293164555763774
   IsTurnedOn: 1
   references:
     version: 2
     RefIds:
-    - rid: 9136327685267259451
-      type: {class: WelcomeScreenModule, ns: US13.Systems.NtOS.Commands.Cosmetic,
+    - rid: 7654293164555763774
+      type: {class: WelcomeScreenModule, ns: US13.Systems.NtOS.Commands.Simple.Cosmetic,
         asm: Assets}
       data: 
 --- !u!114 &966745091922057384
@@ -1240,20 +1251,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assets::US13.Systems.NtOS.Core.CondensedNtModules
   ModulesToAdd:
-  - rid: 7654293106854723642
-  - rid: 7654293106854723644
-  - rid: 7654293106854723646
+  - rid: 7654293164555763775
   references:
     version: 2
     RefIds:
-    - rid: 7654293106854723642
-      type: {class: HelpModule, ns: US13.Systems.NtOS.Commands.Util, asm: Assets}
-      data: 
-    - rid: 7654293106854723644
-      type: {class: RingtoneChangeModule, ns: US13.Systems.NtOS.Commands.Util, asm: Assets}
-      data: 
-    - rid: 7654293106854723646
-      type: {class: CrewManifestModule, ns: US13.Systems.NtOS.Commands.Info, asm: Assets}
+    - rid: 7654293164555763775
+      type: {class: HelpModule, ns: US13.Systems.NtOS.Commands.Simple.Util, asm: Assets}
       data: 
 --- !u!4 &239048463826641235 stripped
 Transform:

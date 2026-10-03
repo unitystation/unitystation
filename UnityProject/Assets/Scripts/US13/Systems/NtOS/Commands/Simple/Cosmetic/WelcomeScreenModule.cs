@@ -2,7 +2,7 @@
 using Cysharp.Threading.Tasks;
 using US13.Systems.NtOS.Core;
 
-namespace US13.Systems.NtOS.Commands.Cosmetic
+namespace US13.Systems.NtOS.Commands.Simple.Cosmetic
 {
 	public class WelcomeScreenModule : INtOSModule
 	{

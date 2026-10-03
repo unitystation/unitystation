@@ -1,12 +1,12 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 using US13.Items.PDA;
 using US13.Systems.NtOS.Core;
 
-namespace US13.Systems.NtOS.Commands.Util
+namespace US13.Systems.NtOS.Commands.Stateful.Util
 {
-	public class RingtoneChangeModule : INtOSModule
+	public class RingtoneChangeModule : MonoBehaviour, INtOSModule
 	{
 		public string CommandName { get; set; } = "ringtone";
 

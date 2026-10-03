@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7895098378371821324
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3984305633272549510, guid: 5da1f5d5724b4e84f9f92119f23f97c7,
+        type: 3}
+      propertyPath: foreverID
+      value: f79006d8fba260d49b6d286553d5b122
+      objectReference: {fileID: 0}
+    - target: {fileID: 7573994151070020489, guid: 5da1f5d5724b4e84f9f92119f23f97c7,
+        type: 3}
+      propertyPath: initialName
+      value: NtOS Module - PDA
+      objectReference: {fileID: 0}
+    - target: {fileID: 7573994151070020489, guid: 5da1f5d5724b4e84f9f92119f23f97c7,
+        type: 3}
+      propertyPath: initialDescription
+      value: A piece of hardware that holds programs that can be loaded into a Nt
+        OS compatible device. This one seems designed to add specifc functionality
+        to operate PDAs.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7954927736732639583, guid: 5da1f5d5724b4e84f9f92119f23f97c7,
+        type: 3}
+      propertyPath: _assetId
+      value: 3504162226
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062044873890701727, guid: 5da1f5d5724b4e84f9f92119f23f97c7,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062044873890701727, guid: 5da1f5d5724b4e84f9f92119f23f97c7,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062044873890701727, guid: 5da1f5d5724b4e84f9f92119f23f97c7,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062044873890701727, guid: 5da1f5d5724b4e84f9f92119f23f97c7,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062044873890701727, guid: 5da1f5d5724b4e84f9f92119f23f97c7,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062044873890701727, guid: 5da1f5d5724b4e84f9f92119f23f97c7,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062044873890701727, guid: 5da1f5d5724b4e84f9f92119f23f97c7,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062044873890701727, guid: 5da1f5d5724b4e84f9f92119f23f97c7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062044873890701727, guid: 5da1f5d5724b4e84f9f92119f23f97c7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8062044873890701727, guid: 5da1f5d5724b4e84f9f92119f23f97c7,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8066405674749779179, guid: 5da1f5d5724b4e84f9f92119f23f97c7,
+        type: 3}
+      propertyPath: m_Name
+      value: NtModule - PDA - Normal
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8066405674749779179, guid: 5da1f5d5724b4e84f9f92119f23f97c7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5985218307880578908}
+    - targetCorrespondingSourceObject: {fileID: 8066405674749779179, guid: 5da1f5d5724b4e84f9f92119f23f97c7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1593200197893206708}
+  m_SourcePrefab: {fileID: 100100000, guid: 5da1f5d5724b4e84f9f92119f23f97c7, type: 3}
+--- !u!1 &171320525014610919 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8066405674749779179, guid: 5da1f5d5724b4e84f9f92119f23f97c7,
+    type: 3}
+  m_PrefabInstance: {fileID: 7895098378371821324}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5985218307880578908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171320525014610919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03e1138963f6419d9297e55ad33106b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Systems.NtOS.Commands.Stateful.Util.RingtoneChangeModule
+--- !u!114 &1593200197893206708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171320525014610919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d122cf936534b82a478d70c312101aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Systems.NtOS.Commands.Stateful.Info.CrewManifestModule

@@ -1,11 +1,12 @@
 ﻿using System.Text;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 using US13.Systems.NtOS.Core;
 using US13.UI.Systems.Jobs;
 
-namespace US13.Systems.NtOS.Commands.Info
+namespace US13.Systems.NtOS.Commands.Stateful.Info
 {
-	public class CrewManifestModule : INtOSModule
+	public class CrewManifestModule : MonoBehaviour, INtOSModule
 	{
 		public string CommandName { get; set; } = "CrewManifest";
 

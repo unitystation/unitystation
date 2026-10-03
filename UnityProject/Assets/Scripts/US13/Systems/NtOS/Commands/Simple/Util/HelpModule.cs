@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Text;
+﻿using System.Text;
 using Cysharp.Threading.Tasks;
 using US13.Systems.NtOS.Core;
-using US13.UI.Core.Net.Elements;
 
-namespace US13.Systems.NtOS.Commands.Util
+namespace US13.Systems.NtOS.Commands.Simple.Util
 {
 	public class HelpModule : INtOSModule
 	{
