@@ -577,6 +577,7 @@ namespace US13.Player
 				                  ChatChannel.Syndicate | ChatChannel.Alien | ChatChannel.Blob;
 			}
 
+
 			//Ai channels limited when not allowed to use radio
 			if (PlayerType == PlayerTypes.Ai)
 			{
@@ -586,6 +587,13 @@ namespace US13.Player
 					receiveChannels = ChatChannel.Binary | ChatChannel.Local | ChatChannel.Examine |
 					                  ChatChannel.System | ChatChannel.Combat;
 				}
+			}
+
+			if (PlayerType == PlayerTypes.Alien)
+			{
+				transmitChannels = ChatChannel.Alien | ChatChannel.OOC | ChatChannel.Local;
+				receiveChannels = ChatChannel.Alien | ChatChannel.Local | ChatChannel.Examine |
+				                  ChatChannel.System | ChatChannel.Combat;
 			}
 
 			//TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)

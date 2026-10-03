@@ -6,6 +6,7 @@ using Logs;
 using Mirror;
 using Shared.Util;
 using UnityEngine;
+using US13.Core.Input_System;
 using US13.Core.Lifecycle;
 using US13.Core.Sprite_Handler;
 using US13.Managers;
@@ -106,6 +107,59 @@ namespace US13.Actions
 		public bool HasActiveAction => ActiveAction != null;
 
 
+		#region Pooling
+
+		/// <summary>
+		/// Gets a UIAction from the pool, skipping any that have been destroyed, or creates a new one.
+		/// </summary>
+		private static UIAction GetPooledOrNewUIAction()
+		{
+			var pool = Instance.PooledUIAction;
+
+			while (pool.Count > 0)
+			{
+				var pooled = pool[0];
+				pool.RemoveAt(0);
+
+				if (pooled != null) return pooled; // skip destroyed ones
+			}
+
+			var created = Instantiate(Instance.UIAction);
+			created.transform.SetParent(Instance.Panel.transform, false);
+			return created;
+		}
+
+		/// <summary>
+		/// Returns a UIAction to the pool (or destroys it if the pool is full).
+		/// Caller is responsible for removing it from DicIActionGUI.
+		/// </summary>
+		private static void ReturnToPool(UIAction action)
+		{
+			if (action == null) return;
+
+			// Don't leave a pooled/destroyed button as the active aimed action
+			if (Instance.ActiveAction == action)
+			{
+				Instance.ActiveAction = null;
+			}
+
+			if (Instance.PooledUIAction.Count > 20)
+			{
+				Destroy(action.gameObject);
+				return;
+			}
+
+			action.Pool();
+
+			if (Instance.PooledUIAction.Contains(action) == false)
+			{
+				Instance.PooledUIAction.Add(action);
+			}
+		}
+
+		#endregion
+
+
 		public void UpdatePlayer(GameObject Body, NetworkConnection requestedBy)
 		{
 			if (ActivePlayerActions.ContainsKey(Body))
@@ -179,8 +233,6 @@ namespace US13.Actions
 				var IDString = IActionGUIToID[iActionGUI];
 				SpriteHandlerManager.UnRegisterSpecialHandler(IDString+"F"); //Front icon
 				SpriteHandlerManager.UnRegisterSpecialHandler(IDString+"B"); //back icon
-				Instance.IActionGUIToID.Remove(iActionGUI);
-
 
 				IActionGUIToID.Remove(iActionGUI);
 				ActivePlayerActions[Body].Remove(iActionGUI);
@@ -348,6 +400,8 @@ namespace US13.Actions
 				{
 					//Remove old button from list. Don't spawn the same button if it already exists!
 					if (actionButton.Key is IActionGUI keyI &&
+					    actionButton.Value.Count > 0 &&
+					    actionButton.Value[0] != null &&
 					    actionButton.Value[0].iAction == iActionGUI)
 					{
 						Hide(keyI, null);
@@ -355,17 +409,7 @@ namespace US13.Actions
 					}
 				}
 
-				UIAction _UIAction;
-				if (Instance.PooledUIAction.Count > 0)
-				{
-					_UIAction = Instance.PooledUIAction[0];
-					Instance.PooledUIAction.RemoveAt(0);
-				}
-				else
-				{
-					_UIAction = Instantiate(Instance.UIAction);
-					_UIAction.transform.SetParent(Instance.Panel.transform, false);
-				}
+				UIAction _UIAction = GetPooledOrNewUIAction();
 
 				Instance.ClientIActionGUIToID[iActionGUI] = ID;
 				SpriteHandlerManager.RegisterSpecialHandler(ID + "F", _UIAction.IconFront); //Front icon
@@ -392,16 +436,25 @@ namespace US13.Actions
 			if (Body == null)
 			{
 				//Client stuff
-				if (Instance.DicIActionGUI.ContainsKey(iAction) && Instance.ClientIActionGUIToID.ContainsKey(iAction))
+				if (Instance.DicIActionGUI.TryGetValue(iAction, out var uiActions))
 				{
-					var _UIAction = Instance.DicIActionGUI[iAction][0];
-					var ID = Instance.ClientIActionGUIToID[iAction];
-					SpriteHandlerManager.UnRegisterSpecialHandler(ID+"F"); //Front icon
-					SpriteHandlerManager.UnRegisterSpecialHandler(ID+"B"); //back icon
+					if (Instance.ClientIActionGUIToID.TryGetValue(iAction, out var ID))
+					{
+						SpriteHandlerManager.UnRegisterSpecialHandler(ID+"F"); //Front icon
+						SpriteHandlerManager.UnRegisterSpecialHandler(ID+"B"); //back icon
+						Instance.ClientIActionGUIToID.Remove(iAction);
+					}
+					else
+					{
+						Loggy.Warning("Failed to find ID", Category.UI);
+					}
 
-					_UIAction.Pool();
-					Instance.PooledUIAction.Add(_UIAction);
 					Instance.DicIActionGUI.Remove(iAction);
+
+					foreach (var action in uiActions)
+					{
+						ReturnToPool(action);
+					}
 				}
 				else
 				{
@@ -420,22 +473,60 @@ namespace US13.Actions
 			ActiveAction.RunActionWithClick(clickPosition);
 		}
 
+		/// <summary>
+		/// Destroys every UIAction (active and pooled) and resets all client-side state.
+		/// </summary>
 		public void OnRoundEnd()
 		{
-			if (this == null)
-			{
-				Debug.LogError("damn hell");
-			}
+			// HashSet so we never destroy the same one twice
+			var toDestroy = new HashSet<UIAction>();
 
-			foreach (var _Actions in DicIActionGUI)
+			foreach (var kvp in DicIActionGUI)
 			{
-				foreach (var _Action in _Actions.Value)
+				foreach (var action in kvp.Value)
 				{
-					_Action.Pool();
+					if (action != null) toDestroy.Add(action);
 				}
 			}
 
-			DicIActionGUI = new Dictionary<IAction, List<UIAction>>();
+			foreach (var pooled in PooledUIAction)
+			{
+				if (pooled != null) toDestroy.Add(pooled);
+			}
+
+			// Unregister sprite handlers before the IDs are lost
+			foreach (var kvp in ClientIActionGUIToID)
+			{
+				SpriteHandlerManager.UnRegisterSpecialHandler(kvp.Value + "F");
+				SpriteHandlerManager.UnRegisterSpecialHandler(kvp.Value + "B");
+			}
+
+			foreach (var multi in ClientMultiIActionGUIToID)
+			{
+				foreach (var kvp in multi.Value)
+				{
+					SpriteHandlerManager.UnRegisterSpecialHandler(kvp.Value + "F");
+					SpriteHandlerManager.UnRegisterSpecialHandler(kvp.Value + "B");
+				}
+			}
+
+			// Don't leave a custom cursor behind if an aimable action was active
+			if (HasActiveAction && ActiveAction.ActionData != null && ActiveAction.ActionData.HasCustomCursor)
+			{
+				MouseInputController.ResetCursorTexture();
+			}
+
+			ActiveAction = null;
+
+			foreach (var action in toDestroy)
+			{
+				Destroy(action.gameObject);
+			}
+
+			DicIActionGUI.Clear();
+			PooledUIAction.Clear();
+			ClientIActionGUIToID.Clear();
+			ClientMultiIActionGUIToID.Clear();
 		}
 
 		public static void ClearAllActionsServer()
@@ -494,6 +585,7 @@ namespace US13.Actions
 				yield return WaitFor.EndOfFrame;
 			}
 
+			if (action == null || action.CooldownNumber == null) yield break;
 			action.CooldownNumber.text = default;
 		}
 
@@ -569,7 +661,16 @@ namespace US13.Actions
 				MultiIActionGUIToID[iActionGUIMulti].Remove(actionData);
 
 				MultiActivePlayerActions[body][iActionGUIMulti].Remove(actionData);
-				MultiIActionGUIToMind.Remove(iActionGUIMulti);
+
+				// Only forget this multi once ALL of its actions are gone, otherwise the
+				// remaining actions lose their mind/ID lookups and can't update their art
+				if (MultiActivePlayerActions[body][iActionGUIMulti].Count == 0)
+				{
+					MultiActivePlayerActions[body].Remove(iActionGUIMulti);
+					MultiIActionGUIToMind.Remove(iActionGUIMulti);
+					MultiIActionGUIToID.Remove(iActionGUIMulti);
+				}
+
 				HideMulti(body, iActionGUIMulti, actionData);
 			}
 		}
@@ -602,7 +703,7 @@ namespace US13.Actions
 
 				foreach (var action in uiActions)
 				{
-					if (action.ActionData != actionData) continue;
+					if (action == null || action.ActionData != actionData) continue;
 
 					action.IconFront.SetSpriteSO(sprite, networked: false);
 					action.IconFront.SetPaletteOfCurrentSprite(palette);
@@ -635,7 +736,7 @@ namespace US13.Actions
 
 				foreach (var action in uiActions)
 				{
-					if (action.ActionData != actionData) continue;
+					if (action == null || action.ActionData != actionData) continue;
 
 					action.IconFront.SetCatalogueIndexSprite(Location);
 				}
@@ -668,7 +769,7 @@ namespace US13.Actions
 
 				foreach (var action in uiActions)
 				{
-					if (action.ActionData != actionData) continue;
+					if (action == null || action.ActionData != actionData) continue;
 
 					action.IconBackground.SetCatalogueIndexSprite(Location);
 				}
@@ -701,7 +802,7 @@ namespace US13.Actions
 
 				foreach (var action in uiActions)
 				{
-					if (action.ActionData != actionData) continue;
+					if (action == null || action.ActionData != actionData) continue;
 
 					action.CooldownOpacity.LeanScaleY(0f, cooldown).setFrom(1f);
 
@@ -734,19 +835,10 @@ namespace US13.Actions
 
 			if (Body == null)
 			{
+				// Remove any existing button for this exact action first
 				HideMulti(null, iActionGUIMulti, actionData);
 
-				UIAction _UIAction;
-				if (Instance.PooledUIAction.Count > 0)
-				{
-					_UIAction = Instance.PooledUIAction[0];
-					Instance.PooledUIAction.RemoveAt(0);
-				}
-				else
-				{
-					_UIAction = Instantiate(Instance.UIAction);
-					_UIAction.transform.SetParent(Instance.Panel.transform, false);
-				}
+				UIAction _UIAction = GetPooledOrNewUIAction();
 
 				if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti) == false)
 				{
@@ -779,52 +871,44 @@ namespace US13.Actions
 
 			if (Body == null)
 			{
-				if (Instance.DicIActionGUI.ContainsKey(iActionGUIMulti))
+				if (Instance.DicIActionGUI.TryGetValue(iActionGUIMulti, out var uiActions) == false)
 				{
-					var toRemove = new List<IAction>();
-					foreach (var actionButton in Instance.DicIActionGUI)
-					{
-						//Remove old button from list. Don't spawn the same button if it already exists!
-						if (actionButton.Key is IActionGUIMulti keyI && keyI == iActionGUIMulti)
-						{
-							var count = 0;
-							foreach (var action in actionButton.Value)
-							{
-								if (actionData != action.ActionData) continue;
-								count++;
+					Loggy.Info("iActionGUI Not present", Category.UI);
+					return;
+				}
 
-								if (Instance.ClientMultiIActionGUIToID[iActionGUIMulti]
-								    .TryGetValue(actionData, out var id))
-								{
-									SpriteHandlerManager.UnRegisterSpecialHandler(id+"F"); //Front icon
-									SpriteHandlerManager.UnRegisterSpecialHandler(id+"B"); //back icon
-								}
-								else
-								{
-									Loggy.Warning("Failed to find ID", Category.UI);
-								}
-
-								Instance.ClientMultiIActionGUIToID[iActionGUIMulti].Remove(actionData);
-
-								action.Pool();
-								Instance.PooledUIAction.Add(action);
-							}
-
-							if (count == actionButton.Value.Count)
-							{
-								toRemove.Add(iActionGUIMulti);
-							}
-						}
-					}
-
-					foreach (var remove in toRemove)
-					{
-						Instance.DicIActionGUI.Remove(remove);
-					}
+				if (Instance.ClientMultiIActionGUIToID.TryGetValue(iActionGUIMulti, out var idMap)
+				    && idMap.TryGetValue(actionData, out var id))
+				{
+					SpriteHandlerManager.UnRegisterSpecialHandler(id + "F"); //Front icon
+					SpriteHandlerManager.UnRegisterSpecialHandler(id + "B"); //back icon
+					idMap.Remove(actionData);
 				}
 				else
 				{
-					Loggy.Info("iActionGUI Not present", Category.UI);
+					Loggy.Warning("Failed to find ID", Category.UI);
+				}
+
+				// Walk backwards so we can remove as we go
+				for (int i = uiActions.Count - 1; i >= 0; i--)
+				{
+					var action = uiActions[i];
+
+					if (action == null) // already destroyed, just drop it
+					{
+						uiActions.RemoveAt(i);
+						continue;
+					}
+
+					if (action.ActionData != actionData) continue;
+
+					uiActions.RemoveAt(i);
+					ReturnToPool(action);
+				}
+
+				if (uiActions.Count == 0)
+				{
+					Instance.DicIActionGUI.Remove(iActionGUIMulti);
 				}
 			}
 		}

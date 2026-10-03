@@ -9,6 +9,10 @@ namespace US13.Systems.Antagonists.Objectives.EscapeObjectives
 	[CreateAssetMenu(menuName="ScriptableObjects/AntagObjectives/PreventEveryoneFromEscaping")]
 	public class PreventEveryoneFromEscaping : Objective
 	{
+		public bool AllowAntagonists = false;
+
+		public bool AllowPlayerThemselves = false;
+
 		/// <summary>
 		/// The shuttles that will be checked for this objective
 		/// </summary>
@@ -33,13 +37,25 @@ namespace US13.Systems.Antagonists.Objectives.EscapeObjectives
 
 		private bool CheckForPlayersOnShuttle(EscapeShuttle shuttle)
 		{
-			LayerMask layersToCheck = LayerMask.GetMask("Players", "NPC");
-			foreach (Transform trans in shuttle.MatrixInfo.Objects)
+
+
+
+			foreach (var Player in shuttle.MatrixInfo.Matrix.PresentPlayers)
 			{
-				if (((1 << trans.gameObject.layer) & layersToCheck) == 0)
+				if (Player.PlayerScript.playerHealth.IsDead) continue;
+
+				if (AllowAntagonists)
 				{
-					return true;
+					if (Player.PlayerScript?.Mind?.IsAntag == true) continue;
 				}
+
+				if (AllowPlayerThemselves)
+				{
+					if (Player.PlayerScript?.Mind == Owner) continue;
+				}
+
+				return true;
+
 			}
 			return false;
 		}

@@ -138,9 +138,15 @@ namespace US13.Objects.Doors.Modules
 			if ((crowbarRequiresNoPower && master.HasPower) &&
 				(Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor) == false))
 			{
-				Chat.AddActionMsgToChat(interaction.Performer, $"The {master.DoorName} does not budge at all!",
-				$"{verbage[0]} tries to {verbage[5]} the {master.DoorName} {verbage[4]} and fails!");
-				return;
+				if ((interaction.HandObject == null
+				    && interaction.PerformerPlayerScript.PlayerTypeSettings.CanPryDoorsWithHands &&
+				    (interaction.PerformerPlayerScript.TryGetComponent<AlienPlayer>(out var alienPlayer) == false ||
+				     alienPlayer.IsLarva == false)) == false)
+				{
+					Chat.AddActionMsgToChat(interaction.Performer, $"The {master.DoorName} does not budge at all!",
+						$"{verbage[0]} tries to {verbage[5]} the {master.DoorName} {verbage[4]} and fails!");
+					return;
+				}
 			}
 
 			//Try to close the door if open

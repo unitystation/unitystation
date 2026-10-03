@@ -161,9 +161,9 @@ GameObject:
   - component: {fileID: 4441493179746393366}
   - component: {fileID: 20680082919460720}
   - component: {fileID: 124367701722432646}
+  - component: {fileID: 114239165020214558}
   - component: {fileID: 1620099701739618863}
   - component: {fileID: 1578675351978633491}
-  - component: {fileID: 114239165020214558}
   - component: {fileID: 4251233521143295179}
   - component: {fileID: 5935000786866830145}
   - component: {fileID: 3087442223282236594}
@@ -326,38 +326,6 @@ Behaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1365047106309440}
   m_Enabled: 1
---- !u!114 &1620099701739618863
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1365047106309440}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ddb3a4d2cf96f394bb69555821de19c8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shader: {fileID: 4800000, guid: 521fac50d43d6dc41bd4ce7d10d09317, type: 3}
-  lensRadius: 0.5
-  screenTexture: {fileID: 2800000, guid: 9e3a266204395924d9cc89eb0ec2db71, type: 3}
---- !u!114 &1578675351978633491
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1365047106309440}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a281c4ce65a1d346a083ee9a259db72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  displacementMap: {fileID: 2800000, guid: 102b61085292ebf4f8f7a8768a96d80e, type: 3}
-  Shader: {fileID: 4800000, guid: 1cc8c121304b82440ab554889eaefb43, type: 3}
-  intensity: 1
-  flipIntensity: 1
-  colorIntensity: 1
 --- !u!114 &114239165020214558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -430,6 +398,38 @@ MonoBehaviour:
   DoOtherBit: 1
   mShadowMaskRenderer: {fileID: 2384969863347440331}
   FulbrightRenderer: {fileID: 7449586506148813201}
+--- !u!114 &1620099701739618863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365047106309440}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddb3a4d2cf96f394bb69555821de19c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: 521fac50d43d6dc41bd4ce7d10d09317, type: 3}
+  lensRadius: 0.5
+  screenTexture: {fileID: 2800000, guid: 9e3a266204395924d9cc89eb0ec2db71, type: 3}
+--- !u!114 &1578675351978633491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365047106309440}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a281c4ce65a1d346a083ee9a259db72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displacementMap: {fileID: 2800000, guid: 102b61085292ebf4f8f7a8768a96d80e, type: 3}
+  Shader: {fileID: 4800000, guid: 1cc8c121304b82440ab554889eaefb43, type: 3}
+  intensity: 1
+  flipIntensity: 1
+  colorIntensity: 1
 --- !u!114 &4251233521143295179
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1417,6 +1417,7 @@ GameObject:
   - component: {fileID: 3378961504350941671}
   - component: {fileID: 452061501302768027}
   - component: {fileID: 2384969863347440331}
+  - component: {fileID: 3914601486190453609}
   m_Layer: 0
   m_Name: ShadowCamera
   m_TagString: Untagged
@@ -1508,6 +1509,21 @@ MonoBehaviour:
   silhouetteShader: {fileID: 4800000, guid: 4c9fee77a7b287645a02a23adfd5bca5, type: 3}
   blurMaterial: {fileID: 2100000, guid: 31bfbb3a19a411345b8787af665cc514, type: 2}
   blurPasses: 2
+--- !u!114 &3914601486190453609
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2300541606455251866}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddb3a4d2cf96f394bb69555821de19c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: 521fac50d43d6dc41bd4ce7d10d09317, type: 3}
+  lensRadius: 0.5
+  screenTexture: {fileID: 2800000, guid: 9e3a266204395924d9cc89eb0ec2db71, type: 3}
 --- !u!1 &2340036554450610496
 GameObject:
   m_ObjectHideFlags: 0
@@ -1669,6 +1685,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5152702335398206204}
   - component: {fileID: 1409804005276932881}
+  - component: {fileID: 8023840050552544490}
   m_Layer: 0
   m_Name: 'WallCamera '
   m_TagString: Untagged
@@ -1742,6 +1759,21 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &8023840050552544490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3039626202361394896}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddb3a4d2cf96f394bb69555821de19c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: 521fac50d43d6dc41bd4ce7d10d09317, type: 3}
+  lensRadius: 0.5
+  screenTexture: {fileID: 2800000, guid: 9e3a266204395924d9cc89eb0ec2db71, type: 3}
 --- !u!1 &3208441828896950709
 GameObject:
   m_ObjectHideFlags: 0
@@ -2061,6 +2093,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8022381996980320579}
   - component: {fileID: 5605183522629926736}
+  - component: {fileID: 58001213019292688}
   m_Layer: 0
   m_Name: TableCamera
   m_TagString: Untagged
@@ -2134,6 +2167,21 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &58001213019292688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6664730294944887557}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddb3a4d2cf96f394bb69555821de19c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shader: {fileID: 4800000, guid: 521fac50d43d6dc41bd4ce7d10d09317, type: 3}
+  lensRadius: 0.5
+  screenTexture: {fileID: 2800000, guid: 9e3a266204395924d9cc89eb0ec2db71, type: 3}
 --- !u!1 &7586275918728352053
 GameObject:
   m_ObjectHideFlags: 0
