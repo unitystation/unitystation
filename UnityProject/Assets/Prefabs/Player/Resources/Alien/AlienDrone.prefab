@@ -8,54 +8,28 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 424895302473320326, guid: a996723fd909cb046935d6da45aece21, type: 3}
-      propertyPath: m_Name
-      value: AlienDrone
+    - target: {fileID: -4058997492290631606, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: alienType
+      value: 
+      objectReference: {fileID: 11400000, guid: 62556709952f6b246a7146db8ffc2c08,
+        type: 2}
+    - target: {fileID: -4058997492290631606, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: startingAlienType
+      value: 64
       objectReference: {fileID: 0}
-    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21, type: 3}
-      propertyPath: m_RootOrder
+    - target: {fileID: 321652536842267408, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: canVentCrawl
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 321652536842267408, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: playerTypeSettings
+      value: 
+      objectReference: {fileID: 11400000, guid: edeb9e0b09d15b8448058f24ec2bacfe,
+        type: 2}
     - target: {fileID: 321882884905058446, guid: a996723fd909cb046935d6da45aece21,
         type: 3}
       propertyPath: _assetId
@@ -65,6 +39,98 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: f686ce65abc5d4c489d77015b679ab4f
+      objectReference: {fileID: 0}
+    - target: {fileID: 424895302473320326, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: m_Name
+      value: AlienDrone
+      objectReference: {fileID: 0}
+    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 427593315052281734, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 993149558534697070, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 97d70460f61813e4dbf90294f5b33e80,
+        type: 2}
+    - target: {fileID: 993149558534697070, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 97d70460f61813e4dbf90294f5b33e80,
+        type: 2}
+    - target: {fileID: 4708308959865837714, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: parentID
+      value: ZkF10G_?cnxzRpsYtRAm
+      objectReference: {fileID: 0}
+    - target: {fileID: 4708308959865837714, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: foreverID
+      value: f686ce65abc5d4c489d77015b679ab4f
+      objectReference: {fileID: 0}
+    - target: {fileID: 5289416864513968373, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 5289416864513968373, guid: a996723fd909cb046935d6da45aece21,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: -902452607
       objectReference: {fileID: 0}
     - target: {fileID: 8033835934165328875, guid: a996723fd909cb046935d6da45aece21,
         type: 3}
@@ -82,49 +148,6 @@ PrefabInstance:
       propertyPath: m_SortingLayerID
       value: -902452607
       objectReference: {fileID: 0}
-    - target: {fileID: -4058997492290631606, guid: a996723fd909cb046935d6da45aece21,
-        type: 3}
-      propertyPath: alienType
-      value: 
-      objectReference: {fileID: 11400000, guid: 62556709952f6b246a7146db8ffc2c08,
-        type: 2}
-    - target: {fileID: -4058997492290631606, guid: a996723fd909cb046935d6da45aece21,
-        type: 3}
-      propertyPath: startingAlienType
-      value: 64
-      objectReference: {fileID: 0}
-    - target: {fileID: 4708308959865837714, guid: a996723fd909cb046935d6da45aece21,
-        type: 3}
-      propertyPath: parentID
-      value: ZkF10G_?cnxzRpsYtRAm
-      objectReference: {fileID: 0}
-    - target: {fileID: 4708308959865837714, guid: a996723fd909cb046935d6da45aece21,
-        type: 3}
-      propertyPath: foreverID
-      value: f686ce65abc5d4c489d77015b679ab4f
-      objectReference: {fileID: 0}
-    - target: {fileID: 993149558534697070, guid: a996723fd909cb046935d6da45aece21,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: 97d70460f61813e4dbf90294f5b33e80,
-        type: 2}
-    - target: {fileID: 993149558534697070, guid: a996723fd909cb046935d6da45aece21,
-        type: 3}
-      propertyPath: InitialPresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: 97d70460f61813e4dbf90294f5b33e80,
-        type: 2}
-    - target: {fileID: 5289416864513968373, guid: a996723fd909cb046935d6da45aece21,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 22
-      objectReference: {fileID: 0}
-    - target: {fileID: 5289416864513968373, guid: a996723fd909cb046935d6da45aece21,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: -902452607
-      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
     - {fileID: 7462064813207300219, guid: a996723fd909cb046935d6da45aece21, type: 3}
@@ -136,7 +159,7 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: -7717333808656622871}
   m_SourcePrefab: {fileID: 100100000, guid: a996723fd909cb046935d6da45aece21, type: 3}
---- !u!1 &6412127812783434717 stripped
+--- !u!1 &6709794645453941461 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 424895302473320326, guid: a996723fd909cb046935d6da45aece21,
     type: 3}
@@ -148,7 +171,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6412127812783434717}
+  m_GameObject: {fileID: 6709794645453941461}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52a6a264ee47433418b51f654439372f, type: 3}
@@ -177,10 +200,10 @@ MonoBehaviour:
   Intangible: 0
   MappingIntangible: 0
   SnapToGridOnStart: 0
-  IsPlayer: 0
   ObjectBouncyness: 0.75
   tileMoveSpeed: 1
   HasOwnGravity: 0
+  isVisible: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
@@ -190,6 +213,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
+  OnHit:
+    target: {fileID: 0}
+    methodName: 
+    parameterType: 
   Hits: []
   isFlyingSliding: 0
   IsMoving: 0
