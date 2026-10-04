@@ -37,7 +37,7 @@ namespace US13.UI.Items.PDA
 
 		public void UpdateTCCounter()
 		{
-			tcCounter.MasterSetValue($"TC:{mainController.PDA.UplinkTC}");
+			tcCounter.MasterSetValue($"TC:{mainController.PDA.ItemUplink.UplinkTC}");
 		}
 
 		public void LockUplink()
