@@ -42,9 +42,9 @@ namespace US13.Systems.NtOS.Commands.Stateful.Info.APC
 		private void ShowApcStatus(Objects.Engineering.APC apcDevice, StringBuilder output)
 		{
 			output.AppendLine($"APC STATUS  [{apcDevice.State}]");
-			output.AppendLine($"Voltage    : {apcDevice.Voltage}V");
-			output.AppendLine($"Current    : {apcDevice.Current}A");
-			output.AppendLine($"Charge     : {apcDevice.CalculateChargePercentage()*100}%");
+			output.AppendLine($"Voltage    : {apcDevice.Voltage} V");
+			output.AppendLine($"Current    : {apcDevice.Current} A");
+			output.AppendLine($"Charge     : {apcDevice.CalculateChargePercentage()*100} %");
 			output.AppendLine();
 
 			output.AppendLine($"BATTERIES ({apcDevice.ConnectedDepartmentBatteries.Count})");
