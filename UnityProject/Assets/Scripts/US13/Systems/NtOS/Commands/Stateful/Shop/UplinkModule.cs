@@ -3,6 +3,7 @@ using System.Text;
 using Cysharp.Threading.Tasks;
 using Logs;
 using UnityEngine;
+using US13.Items.Devices;
 using US13.Systems.NtOS.Core;
 using US13.UI.Items.PDA;
 using Random = UnityEngine.Random;
@@ -16,9 +17,13 @@ namespace US13.Systems.NtOS.Commands.Stateful.Shop
 
 		public bool HasAccessedBefore = false;
 
+		public const string BUY_COMMAND = "tc-buy";
+		public const string MENU_COMMAND = "tc-catalogue";
+		public const string BALANCE_COMMAND = "tc";
+
 		public async UniTask Execute(int id, string[] args, NtOS_Device callingDevice, StringBuilder output)
 		{
-			if (args.Length <= 0)
+			if (args.Length <= 0 || callingDevice.TryGetComponent<Uplink>(out var uplinkModule) == false)
 			{
 				output.AppendLine("Error: Attack vector prevented.");
 				return;
@@ -37,53 +42,76 @@ namespace US13.Systems.NtOS.Commands.Stateful.Shop
 				ourEntry.Locked = false;
 				return;
 			}
-			HandleShopTree(args, callingDevice, output);
+			HandleShopTree(args, output, uplinkModule);
 			ourEntry.Locked = false;
 		}
 
-		private void HandleShopTree(string[] args, NtOS_Device  callingDevice, StringBuilder output)
+		private void HandleShopTree(string[] args, StringBuilder output, Uplink uplink)
 		{
-			if (args[0] == "catalogue")
+			switch (args[0])
 			{
-				output.AppendLine("Available Catalogue: ");
-				var catalogueIndex = 0;
-				foreach (UplinkCategory category in UplinkCategoryList.Instance.ItemCategoryList)
-				{
-					output.AppendLine($"{catalogueIndex}. {category.CategoryName}");
-					var itemIndex = 0;
-					foreach (UplinkItem item in category.ItemList)
-					{
-						output.AppendLine($"{catalogueIndex}.{itemIndex}. {item.Name} - {item.Cost}");
-						itemIndex++;
-					}
-					catalogueIndex++;
-				}
+				case MENU_COMMAND:
+					ShowCatalogue(output);
+					return;
+				case BUY_COMMAND:
+					BuyLogic(args, output, uplink);
+					return;
+				case BALANCE_COMMAND:
+					output.AppendLine($"TC: {uplink.UplinkTC}");
+					break;
 			}
-			else
+		}
+
+		private static void ShowCatalogue(StringBuilder output)
+		{
+			output.AppendLine("Available Catalogue: ");
+			var catalogueIndex = 0;
+			foreach (UplinkCategory category in UplinkCategoryList.Instance.ItemCategoryList)
 			{
-				output.AppendLine($"Could not process argument: {args[0]}");
+				output.AppendLine($"{catalogueIndex}. {category.CategoryName}");
+				var itemIndex = 0;
+				foreach (UplinkItem item in category.ItemList)
+				{
+					output.AppendLine($"{catalogueIndex}.{itemIndex}. {item.Name} - {item.Cost}");
+					itemIndex++;
+				}
+				catalogueIndex++;
+			}
+		}
+
+		private void BuyLogic(string[] args, StringBuilder output, Uplink uplink)
+		{
+			if (args.Length < 2)
+			{
+				output.AppendLine("Error: Not enough arguments.\n Usage: buy [catalogue number] [item number]\n" +
+				                  "You can find more info on available catalogues and items using the catalogue command.");
+				return;
 			}
 
-			if (args[0] == "buy")
+			try
 			{
-				if (args.Length < 3)
+				if (int.TryParse(args[1], out var catagoryNumber) == false || int.TryParse(args[2], out var itemNumber) == false)
 				{
-					output.AppendLine("Error: Not enough arguments.\n Usage: buy [catalogue number] [item number]\n" +
-					                  "You can find more info on available catalogues and items using the catalogue command.");
+					output.AppendLine("Error: wrong argument type.\n Usage: buy [catalogue *number*] [item *number*]");
 					return;
 				}
+				catagoryNumber = Mathf.Clamp(catagoryNumber, 0, UplinkCategoryList.Instance.ItemCategoryList.Count - 1);
+				UplinkCategory possibleCatagory = UplinkCategoryList.Instance.ItemCategoryList[catagoryNumber];
 
-				try
-				{
-					var possibleCatagory = UplinkCategoryList.Instance.ItemCategoryList[int.Parse(args[1])];
-					var possibleItemCategory = possibleCatagory.ItemList[int.Parse(args[2])];
+				itemNumber = Mathf.Clamp(itemNumber, 0, possibleCatagory.ItemList.Count - 1);
+				UplinkItem possibleItem = possibleCatagory.ItemList[itemNumber];
 
-				}
-				catch (Exception e)
-				{
-					Loggy.Error(e.ToString());
-					output.AppendLine($"NT-OS KERNEL PANIC..\n RECOVERING..\n LOGDUMP:\n{e.ToString()}");
-				}
+				bool result = uplink.SpawnUplinkItem(possibleItem.Item, possibleItem.Cost);
+				output.AppendLine(result
+					? $"Item: {possibleItem.Name} - Purchase successful."
+					: $"Item: {possibleItem.Name} - Purchase unsuccessful.");
+
+				output.AppendLine($"Current Balance: {uplink.UplinkTC}");
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+				output.AppendLine($"NT-OS KERNEL PANIC..\n RECOVERING..\n LOGDUMP:\n{e}");
 			}
 		}
 
@@ -110,6 +138,8 @@ namespace US13.Systems.NtOS.Commands.Stateful.Shop
 		{
 			if (HasAccessedBefore == false)
 			{
+				//should not appear in the help list before its first accessed, but just incase someone forces this
+				//on an NT device.
 				return "Corrupted Binaries detected. Please remove this module.";
 			}
 			StringBuilder guide = new StringBuilder();

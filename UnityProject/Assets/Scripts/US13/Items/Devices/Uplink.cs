@@ -89,19 +89,20 @@ namespace US13.Items.Devices
 		/// Spawns the item requested by the uplink if there are enough TC.
 		/// </summary>
 		[Server]
-		public void SpawnUplinkItem(GameObject objectRequested, int cost)
+		public bool SpawnUplinkItem(GameObject objectRequested, int cost)
 		{
-			if (!IsUplinkCapable || IsUplinkLocked) return;
+			if (!IsUplinkCapable || IsUplinkLocked) return false;
 
-			if (cost > UplinkTC) return;
+			if (cost > UplinkTC) return false;
 			var pickupable = GetComponent<Pickupable>();
 			var player = pickupable.ItemSlot.Player;
 			var result = Spawn.ServerPrefab(objectRequested, player.WorldPosition, PrePickRandom: true);
 
-			if (result.Successful == false) return;
+			if (result.Successful == false) return false;
 			UplinkTC -= cost;
 			var item = result.GameObject;
 			Inventory.ServerAdd(item, ItemSlot.GetBestSlotForPlayer(item, player));
+			return true;
 		}
 	}
 }

@@ -979,6 +979,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 966745091922057384}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8159871808279949248}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!212 &122497636241256315 stripped
 SpriteRenderer:
@@ -1090,9 +1094,7 @@ MonoBehaviour:
   UIOVER: {r: 0, g: 0, b: 0, a: 0}
   OVERLAY: 0
   PDAGui: {fileID: 0}
-  informUplinkCodeDelay: 10
-  telecrystalTrait: {fileID: 11400000, guid: 556eec86dd9773d21b1c44d80f058ab9, type: 2}
-  debugUplink: 0
+  <ItemUplink>k__BackingField: {fileID: 0}
 --- !u!114 &3562618048956884338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1258,6 +1260,25 @@ MonoBehaviour:
     - rid: 7654293164555763775
       type: {class: HelpModule, ns: US13.Systems.NtOS.Commands.Simple.Util, asm: Assets}
       data: 
+--- !u!114 &8159871808279949248
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234969413023505447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dce598778454406084fea352bf894ce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Items.Devices.Uplink
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  informUplinkCodeDelay: 10
+  debugUplink: 0
+  TeleCrystalTrait: {fileID: 11400000, guid: 556eec86dd9773d21b1c44d80f058ab9, type: 2}
+  IsNukeOps: 0
 --- !u!4 &239048463826641235 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,
