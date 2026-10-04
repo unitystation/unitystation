@@ -86,6 +86,12 @@ namespace US13.Systems.NtOS.Core
 			Modules.Add(module);
 		}
 
+		public void UnRegisterSpecificModule(INtOSModule module)
+		{
+			if (Modules.Contains(module) == false) return;
+			Modules.Remove(module);
+		}
+
 		public void ServerClearHistory()
 		{
 			History.RemoveAll(x => x.Locked == false);

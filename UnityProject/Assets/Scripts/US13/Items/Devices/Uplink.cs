@@ -12,8 +12,21 @@ using Util;
 
 namespace US13.Items.Devices
 {
+	/// <summary>
+	/// Component that defines this item as an uplink device for traitors to receive access to the uplink shop.
+	/// This handles transactions, access codes, and locking/unlocking the uplink as a sort of backend.
+	/// You will need to hook the data and functionality of this component to a user-facing interface
+	/// like an NtOS device, or GUI_PDAUplinkMenu (the PDA Tab Window).
+	/// </summary>
 	public class Uplink : NetworkBehaviour, IServerInventoryMove
 	{
+		/// ---- NOTE ----
+		/// This component can probably be reworked to be more "universal" so that more antags can reuse this component
+		/// instead of having to rewrite yet another way for handling their own spendable currencies, upgrade points, and
+		/// antag shops.
+		/// --------------
+		
+
 		[Tooltip("How long the delay before the owner is informed of the uplink code " +
 		         "(intedned to reduce information overload - likely just received objectives)")]
 		[SerializeField, BoxGroup("Uplink"), Range(0, 60)]

@@ -22,7 +22,6 @@ namespace US13.Objects
 		[NonSerialized]
 		private GameObject playerInteracted;
 
-
 		[Tooltip("Network tab to display.")]
 		public NetTabType NetTabType = NetTabType.None;
 
@@ -30,6 +29,8 @@ namespace US13.Objects
 		private bool aiInteractable = true;
 
 		public event Action<GameObject> OnShowUI;
+
+		public bool RequiresAltClick = false;
 
 		/// <summary>
 		/// This method simply tells the script what player last interacted, giving an reference to their gameobject
@@ -56,11 +57,12 @@ namespace US13.Objects
 				return false;
 
 			if (NetTabType == NetTabType.None) return false;
+			if (RequiresAltClick && interaction.IsAltClick == false) return false;
 
 			playerInteracted = interaction.Performer;
+
 			//interaction only works if hand is empty
-			if (interaction.HandObject != null && interaction.IsAltClick == false)
-			{ return false; }
+			if (interaction.HandObject != null && interaction.IsAltClick == false) return false;
 
 			return true;
 		}

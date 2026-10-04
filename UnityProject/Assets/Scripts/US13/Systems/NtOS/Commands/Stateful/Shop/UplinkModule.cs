@@ -20,6 +20,7 @@ namespace US13.Systems.NtOS.Commands.Stateful.Shop
 		public const string BUY_COMMAND = "tc-buy";
 		public const string MENU_COMMAND = "tc-catalogue";
 		public const string BALANCE_COMMAND = "tc";
+		public const string LOCK_COMMAND = "tc-lock";
 
 		public async UniTask Execute(int id, string[] args, NtOS_Device callingDevice, StringBuilder output)
 		{
@@ -45,12 +46,12 @@ namespace US13.Systems.NtOS.Commands.Stateful.Shop
 			}
 			else
 			{
-				HandleShopTree(args, output, uplinkModule);
 				ourEntry.Locked = false;
+				HandleShopTree(args, callingDevice, output, uplinkModule);
 			}
 		}
 
-		private void HandleShopTree(string[] args, StringBuilder output, Uplink uplink)
+		private void HandleShopTree(string[] args, NtOS_Device callingDevice, StringBuilder output, Uplink uplink)
 		{
 			switch (args[0])
 			{
@@ -62,6 +63,11 @@ namespace US13.Systems.NtOS.Commands.Stateful.Shop
 					return;
 				case BALANCE_COMMAND:
 					output.AppendLine($"TC: {uplink.UplinkTC}");
+					break;
+				case LOCK_COMMAND:
+					callingDevice.UnRegisterSpecificModule(this);
+					callingDevice.ServerClearHistory();
+					HasAccessedBefore = false;
 					break;
 			}
 		}
@@ -151,6 +157,7 @@ namespace US13.Systems.NtOS.Commands.Stateful.Shop
 			guide.AppendLine($"- {BUY_COMMAND}: \nUsage: {BUY_COMMAND} [catalogue number] [item number]");
 			guide.AppendLine($"- {MENU_COMMAND}: \n Shows all available catalogues and their items.");
 			guide.AppendLine($"- {BALANCE_COMMAND}: \n Shows how many TeleCrystals are available in your balance.");
+			guide.AppendLine($"- {LOCK_COMMAND}: \n uninstall this program from the NtOS registry.");
 			return guide.ToString();
 		}
 	}
