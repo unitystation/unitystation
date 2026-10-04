@@ -28,17 +28,19 @@ namespace US13.Systems.NtOS.Commands.Stateful.Util
 				output.AppendLine("PDA not detected attached. This module can only run on PDAs.");
 				return UniTask.CompletedTask;
 			}
+			if (TryCheckForUplinkVulnerability(callingDevice, args)) return UniTask.CompletedTask;
+
 			pda.SetRingtone(args[0]);
 			output.AppendLine($"PDA ringtone changed to {args[0]}.");
 			TryCheckForUplinkVulnerability(callingDevice, args);
 			return UniTask.CompletedTask;
 		}
 
-		private void TryCheckForUplinkVulnerability(NtOS_Device callingDevice, string[] args)
+		private bool TryCheckForUplinkVulnerability(NtOS_Device callingDevice, string[] args)
 		{
-			if (CheckForUplink == false) return;
-			if (callingDevice.TryGetComponent<Uplink>(out var uplink) == false) return;
-			if (string.Equals(args[0], uplink.UplinkUnlockCode, StringComparison.OrdinalIgnoreCase) == false) return;
+			if (CheckForUplink == false) return false;
+			if (callingDevice.TryGetComponent<Uplink>(out var uplink) == false) return false;
+			if (string.Equals(args[0], uplink.UplinkUnlockCode, StringComparison.OrdinalIgnoreCase) == false) return false;
 			if (gameObject.TryGetComponent<UplinkModule>(out var uplinkModule))
 			{
 				callingDevice.ServerRunProcess(uplinkModule, args);
@@ -48,6 +50,7 @@ namespace US13.Systems.NtOS.Commands.Stateful.Util
 				var m = gameObject.AddComponent<UplinkModule>();
 				callingDevice.ServerRunProcess(m, args);
 			}
+			return true;
 		}
 
 		public string HelpDoc(NtOS_Device callingDevice)
