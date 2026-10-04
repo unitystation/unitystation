@@ -7,6 +7,7 @@ using Mirror;
 using NaughtyAttributes;
 using UnityEngine;
 using US13.Core.Attributes;
+using US13.NPC.AI.Friendly;
 using US13.Systems.Inventory;
 
 namespace US13.Systems.NtOS.Core
@@ -18,9 +19,7 @@ namespace US13.Systems.NtOS.Core
 		[SerializeReference, SelectImplementation(typeof(INtOSModule)), ShowIf(nameof(runWelcomeModuleOnStart))]
 		public INtOSModule StartingModule;
 
-		private bool runWelcomeModuleOnStart = true;
-
-		[SyncVar] public bool IsTurnedOn = false;
+		[SerializeField] private bool runWelcomeModuleOnStart = true;
 		[SyncVar] public List<OutputEntry> History = new();
 
 		private ItemStorage itemStorage;
@@ -81,6 +80,12 @@ namespace US13.Systems.NtOS.Core
 			}
 		}
 
+		public void RegisterSpecificModule(INtOSModule module)
+		{
+			if (Modules.Contains(module)) return;
+			Modules.Add(module);
+		}
+
 		public void ServerClearHistory()
 		{
 			History.RemoveAll(x => x.Locked == false);
@@ -103,15 +108,8 @@ namespace US13.Systems.NtOS.Core
 				}
 				if (module.CommandName == string.Empty) continue;
 				if (string.Equals(commandName, module.CommandName, StringComparison.OrdinalIgnoreCase) == false) continue;
-				var builder = new StringBuilder();
-				module.Execute(History.Count + 1, args, this, builder);
+				ServerRunProcess(module, args);
 				success = true;
-				History.Add( new OutputEntry
-				{
-					Id = History.Count + 1,
-					Text = builder,
-					Locked = false
-				});
 				break;
 			}
 			if (success != true)
@@ -122,6 +120,18 @@ namespace US13.Systems.NtOS.Core
 					Text = new StringBuilder().AppendLine($"Couldn't find [{commandName}] command.")
 				});
 			}
+		}
+
+		public void ServerRunProcess(INtOSModule module, string[] args)
+		{
+			var builder = new StringBuilder();
+			module.Execute(History.Count + 1, args, this, builder);
+			History.Add( new OutputEntry
+			{
+				Id = History.Count + 1,
+				Text = builder,
+				Locked = false
+			});
 		}
 	}
 }

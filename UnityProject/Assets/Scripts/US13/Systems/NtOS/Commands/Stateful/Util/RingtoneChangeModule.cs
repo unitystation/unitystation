@@ -1,7 +1,10 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using US13.Items.Devices;
 using US13.Items.PDA;
+using US13.Systems.NtOS.Commands.Stateful.Shop;
 using US13.Systems.NtOS.Core;
 
 namespace US13.Systems.NtOS.Commands.Stateful.Util
@@ -9,6 +12,8 @@ namespace US13.Systems.NtOS.Commands.Stateful.Util
 	public class RingtoneChangeModule : MonoBehaviour, INtOSModule
 	{
 		public string CommandName { get; set; } = "ringtone";
+
+		public bool CheckForUplink = true;
 
 		public UniTask Execute(int id, string[] args, NtOS_Device callingDevice, StringBuilder output)
 		{
@@ -25,7 +30,24 @@ namespace US13.Systems.NtOS.Commands.Stateful.Util
 			}
 			pda.SetRingtone(args[0]);
 			output.AppendLine($"PDA ringtone changed to {args[0]}.");
+			TryCheckForUplinkVulnerability(callingDevice, args);
 			return UniTask.CompletedTask;
+		}
+
+		private void TryCheckForUplinkVulnerability(NtOS_Device callingDevice, string[] args)
+		{
+			if (CheckForUplink == false) return;
+			if (callingDevice.TryGetComponent<Uplink>(out var uplink) == false) return;
+			if (string.Equals(args[0], uplink.UplinkUnlockCode, StringComparison.OrdinalIgnoreCase) == false) return;
+			if (gameObject.TryGetComponent<UplinkModule>(out var uplinkModule))
+			{
+				callingDevice.ServerRunProcess(uplinkModule, args);
+			}
+			else
+			{
+				var m = gameObject.AddComponent<UplinkModule>();
+				callingDevice.ServerRunProcess(m, args);
+			}
 		}
 
 		public string HelpDoc(NtOS_Device callingDevice)

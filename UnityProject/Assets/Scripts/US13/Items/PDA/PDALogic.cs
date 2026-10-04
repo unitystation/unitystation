@@ -144,6 +144,7 @@ namespace US13.Items.PDA
 			pickupable = GetComponent<Pickupable>();
 			storage = GetComponent<ItemStorage>();
 			flashlight = GetComponent<ItemLightControl>();
+			ItemUplink = GetComponent<Uplink>();
 		}
 
 		private void Start()

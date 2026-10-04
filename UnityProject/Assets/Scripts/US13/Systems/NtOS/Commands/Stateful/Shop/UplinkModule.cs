@@ -31,19 +31,23 @@ namespace US13.Systems.NtOS.Commands.Stateful.Shop
 			await UniTask.WaitForEndOfFrame(); // wait a frame so its registered in the history.
 			var ourEntry = callingDevice.History.Find(x => x.Id == id);
 			ourEntry.Locked = true; //lock it so we don't delete ourselves
-			callingDevice.ServerClearHistory();
 			if (HasAccessedBefore == false)
 			{
+				callingDevice.ServerClearHistory();
 				await ShowIntro(output);
 				HasAccessedBefore = true;
 				CommandName = args[0];
 				ShowSyndicateLogo(output);
 				output.AppendLine($"Program registered: {CommandName}.\n Use this command to access your uplink from now on.");
+				callingDevice.RegisterSpecificModule(this);
 				ourEntry.Locked = false;
 				return;
 			}
-			HandleShopTree(args, output, uplinkModule);
-			ourEntry.Locked = false;
+			else
+			{
+				HandleShopTree(args, output, uplinkModule);
+				ourEntry.Locked = false;
+			}
 		}
 
 		private void HandleShopTree(string[] args, StringBuilder output, Uplink uplink)
@@ -118,7 +122,7 @@ namespace US13.Systems.NtOS.Commands.Stateful.Shop
 		private void ShowSyndicateLogo(StringBuilder output)
 		{
 			output.AppendLine(
-				"                                              \n    ██████████████████████████████████████    \n  ████   ████████████████████████████   ████  \n  ████     █████              █████     ████  \n  ████   ███████               ██████   ████  \n  ████   ████████      ██████████████   ████  \n  ████   ██████████      ████████████   ████  \n  ████   █         █       █        █   ████  \n  ████   █████████████       ████████   ████  \n  ████   ███████████████      ███████   ████  \n  ████   ███████               ██████   ████  \n  ████     ██████              ████     ████  \n  ████   ████████████████████████████   ████  \n    ██████████████████████████████████████    \n                                              \n");
+				"                                       \n   777777777777777777777777777777777   \n  777   777777           777777   777  \n  777   777777            77777   777  \n  777   777777     777777777777   777  \n  777   77777777     7777777777   777  \n  777   7       7      7      7   777  \n  777   77777777777      777777   777  \n  777   7777777777777     77777   777  \n  777   777777            77777   777  \n  777   7777777           77777   777  \n   777777777777777777777777777777777   \n                                       \n");
 		}
 
 		private async UniTask ShowIntro(StringBuilder output)
@@ -143,6 +147,10 @@ namespace US13.Systems.NtOS.Commands.Stateful.Shop
 				return "Corrupted Binaries detected. Please remove this module.";
 			}
 			StringBuilder guide = new StringBuilder();
+			guide.AppendLine("available arguments:");
+			guide.AppendLine($"- {BUY_COMMAND}: \nUsage: {BUY_COMMAND} [catalogue number] [item number]");
+			guide.AppendLine($"- {MENU_COMMAND}: \n Shows all available catalogues and their items.");
+			guide.AppendLine($"- {BALANCE_COMMAND}: \n Shows how many TeleCrystals are available in your balance.");
 			return guide.ToString();
 		}
 	}
