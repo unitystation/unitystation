@@ -14,6 +14,7 @@ namespace US13.Systems.NtOS.Commands.Simple.Util
 			{
 				foreach (var module in callingDevice.Modules)
 				{
+					if (module.CommandName == string.Empty) continue;
 					output.AppendLine($"{module.CommandName}: {module.HelpDoc(callingDevice)}\n");
 					await UniTask.WaitForSeconds(0.1f);
 				}

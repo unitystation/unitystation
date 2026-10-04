@@ -25,10 +25,11 @@ namespace US13.Systems.NtOS.Core
 
 		private ItemStorage itemStorage;
 
-		public struct OutputEntry
+		public class OutputEntry
 		{
 			public int Id;
 			public StringBuilder Text;
+			public bool Locked;
 		}
 
 		public Action OnModulesRefreshed;
@@ -80,6 +81,11 @@ namespace US13.Systems.NtOS.Core
 			}
 		}
 
+		public void ServerClearHistory()
+		{
+			History.RemoveAll(x => x.Locked == false);
+		}
+
 		[Command(requiresAuthority = false)]
 		public void ExecuteCommand(string command)
 		{
@@ -95,6 +101,7 @@ namespace US13.Systems.NtOS.Core
 					Loggy.Warning("Null module found on nt device. Make sure to clear them up!!");
 					continue;
 				}
+				if (module.CommandName == string.Empty) continue;
 				if (string.Equals(commandName, module.CommandName, StringComparison.OrdinalIgnoreCase) == false) continue;
 				var builder = new StringBuilder();
 				module.Execute(History.Count + 1, args, this, builder);
@@ -102,7 +109,8 @@ namespace US13.Systems.NtOS.Core
 				History.Add( new OutputEntry
 				{
 					Id = History.Count + 1,
-					Text = builder
+					Text = builder,
+					Locked = false
 				});
 				break;
 			}

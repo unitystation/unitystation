@@ -38,10 +38,10 @@ namespace US13.Objects.Consoles
 			PDALogic pdaComp = interaction.UsedObject.GetComponent<PDALogic>();
 			if (pdaComp != null)
 			{
-				if (pdaComp.IsUplinkLocked == false)
+				if (pdaComp.ItemUplink.IsUplinkLocked == false)
 				{
 					var amount = Math.Min(TransferAmount, SyndicateOpConsole.Instance.TcReserve);
-					pdaComp.UplinkTC += amount;
+					pdaComp.ItemUplink.UplinkTC += amount;
 					pdaComp.UpdateTCCountGui();
 					SyndicateOpConsole.Instance.TcReserve -= amount;
 					Chat.AddExamineMsgFromServer(interaction.Performer, $"You successfully transfer {amount} telecrystals into the {interaction.TargetObject.ExpensiveName()}");

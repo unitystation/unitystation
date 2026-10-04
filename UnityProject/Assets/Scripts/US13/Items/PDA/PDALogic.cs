@@ -11,6 +11,7 @@ using US13.Core.Input_System.InteractionV2;
 using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Core.Lifecycle;
+using US13.Items.Devices;
 using US13.Items.Traits;
 using US13.Managers;
 using US13.Managers.NetworkManagement;
@@ -74,19 +75,9 @@ namespace US13.Items.PDA
 
 		public GUI_PDA PDAGui;
 
-		[Tooltip("How long the delay before the owner is informed of the uplink code " +
-			"(intedned to reduce information overload - likely just received objectives)")]
-		[SerializeField, BoxGroup("Uplink"), Range(0, 60)]
-		private float informUplinkCodeDelay = 10;
-
 		private bool isNukeOps = false;
 		public bool IsNukeOps => isNukeOps;
 
-		[SerializeField]
-		private ItemTrait telecrystalTrait;
-
-		[SerializeField, BoxGroup("Uplink")]
-		private bool debugUplink = false;
 
 		#endregion Inspector
 
@@ -100,14 +91,8 @@ namespace US13.Items.PDA
 
 		/// <summary> The name of the currently registered player (since the last PDA reset) </summary>
 		public string RegisteredPlayerName { get; private set; }
-		public AddressableAudioSource Ringtone { get; private set; }
 		/// <summary> The string that must be entered into the ringtone slot for the uplink </summary>
-		public string UplinkUnlockCode { get; private set; }
-		public bool IsUplinkCapable { get; private set; } = false;
-		public bool IsUplinkLocked { get; private set; } = true;
-		/// <summary> The count of how many telecrystals this PDA has </summary>
-		public int UplinkTC { get; set; }
-
+		public AddressableAudioSource Ringtone { get; private set; }
 		public bool FlashlightOn => flashlight.IsOn;
 
 		public Action registeredPlayerUpdated;
@@ -116,6 +101,8 @@ namespace US13.Items.PDA
 
 		private ItemSlot IDSlot = default;
 		private ItemSlot CartridgeSlot = default;
+
+		[field: SerializeField] public Uplink ItemUplink { get; private set; }
 
 		public IEnumerable<Clearance> IssuedClearance
 		{
@@ -187,11 +174,6 @@ namespace US13.Items.PDA
 
 			var pickedUpBy = info.ToRootPlayer.gameObject;
 			RegisterTo(pickedUpBy);
-
-			if (debugUplink)
-			{
-				InstallUplink(info.ToRootPlayer.PlayerScript.Mind, 80, true);
-			}
 		}
 
 		private void RegisterTo(GameObject player)
@@ -375,7 +357,7 @@ namespace US13.Items.PDA
 				return true;
 			}
 
-			if (Validations.HasItemTrait(item, telecrystalTrait))
+			if (Validations.HasItemTrait(item, ItemUplink.TeleCrystalTrait))
 			{
 				return true;
 			}
@@ -405,12 +387,12 @@ namespace US13.Items.PDA
 
 				Inventory.ServerTransfer(fromSlot, CartridgeSlot);
 			}
-			else if (Validations.HasItemTrait(item, telecrystalTrait))
+			else if (Validations.HasItemTrait(item, ItemUplink.TeleCrystalTrait))
 			{
-				if (IsUplinkLocked == false)
+				if (ItemUplink.IsUplinkLocked == false)
 				{
 					var quantity = item.GetComponent<Stackable>().Amount;
-					UplinkTC +=  quantity;
+					ItemUplink.UplinkTC += quantity;
 					_ = Despawn.ServerSingle(item);
 
 					var uplinkMessage =
@@ -443,40 +425,9 @@ namespace US13.Items.PDA
 		/// <param name="isNukie">Determines if the uplink can purchase nukeop exclusive items</param>
 		public void InstallUplink(Mind player, int tcCount, bool isNukie)
 		{
-			UplinkTC = tcCount; // Add; if uplink installed again (e.g. via admin tools (player request more TC)).
-			UplinkUnlockCode = GenerateUplinkUnlockCode();
-			IsUplinkCapable = true;
+			ItemUplink.InstallUplink(player, tcCount, isNukie);
 			isNukeOps = isNukie;
-
-			StartCoroutine(DelayInformUplinkCode(player));
-		}
-
-		private string GenerateUplinkUnlockCode()
-		{
-			var codeList = UplinkPasswordList.Instance.WordList;
-
-			string code = codeList[Random.Range(0, codeList.Count)];
-
-			string nums = Random.Range(111, 999).ToString();
-			return code + nums;
-		}
-
-		private IEnumerator DelayInformUplinkCode(Mind player)
-		{
-			// We delay the uplink code inform to reduce information overload (player was likely just given objectives)
-			yield return WaitFor.Seconds(informUplinkCodeDelay);
-			InformUplinkCode(player);
-		}
-
-		private void InformUplinkCode(Mind player)
-		{
-			var uplinkMessage =
-					$"{(debugUplink ? "<b>UPLINK DEBUGGING ENABLED: </b>" : "")}" +
-					$"</i>The Syndicate has cunningly disguised a <i>Syndicate Uplink</i> as your <i>{gameObject.ExpensiveName()}</i>. " +
-					$"Simply enter the code <b>{UplinkUnlockCode}</b> into the ringtone select to unlock its hidden features.<i>";
-
 			PlaySoundPrivate(Ringtone);
-			Chat.AddExamineMsgFromServer(player.gameObject, uplinkMessage);
 		}
 
 		#endregion Uplink-Init
@@ -486,34 +437,15 @@ namespace US13.Items.PDA
 		[Server]
 		public void LockUplink()
 		{
-			IsUplinkLocked = true;
+			ItemUplink.ControlUplinkLock(true);
 		}
 
 		[Server]
 		public void UnlockUplink(string attemptedCode)
 		{
-			if (attemptedCode == UplinkUnlockCode)
+			if (attemptedCode == ItemUplink.UplinkUnlockCode)
 			{
-				IsUplinkLocked = false;
-			}
-		}
-
-		/// <summary>
-		/// Spawns the item requested by the uplink if there are enough TC.
-		/// </summary>
-		[Server]
-		public void SpawnUplinkItem(GameObject objectRequested, int cost)
-		{
-			if (!IsUplinkCapable || IsUplinkLocked) return;
-
-			if (cost > UplinkTC) return;
-
-			var result = Spawn.ServerPrefab(objectRequested,GetComponent<Pickupable>().ItemSlot.Player.WorldPosition, PrePickRandom: true);
-			if (result.Successful)
-			{
-				UplinkTC -= cost;
-				var item = result.GameObject;
-				Inventory.ServerAdd(item, GetBestSlot(item));
+				ItemUplink.ControlUplinkLock(false);
 			}
 		}
 
@@ -549,23 +481,11 @@ namespace US13.Items.PDA
 
 		private void EjectSlotContents(ItemSlot slot)
 		{
-			var bestSlot = GetBestSlot(slot.ItemObject);
-			if (!Inventory.ServerTransfer(slot, bestSlot))
+			ItemSlot bestSlot = ItemSlot.GetBestSlotForPlayer(slot.ItemObject, slot.Player);
+			if (Inventory.ServerTransfer(slot, bestSlot) == false)
 			{
 				Inventory.ServerDrop(slot);
 			}
-		}
-
-		private ItemSlot GetBestSlot(GameObject item)
-		{
-			var player = GetPlayerByParentInventory();
-			if (player == null)
-			{
-				return default;
-			}
-
-			var playerStorage = player.Script.DynamicItemStorage;
-			return playerStorage.GetBestHandOrSlotFor(item);
 		}
 
 		#endregion Inventory

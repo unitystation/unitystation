@@ -97,6 +97,14 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 1593200197893206708}
+    - targetCorrespondingSourceObject: {fileID: 8066405674749779179, guid: 5da1f5d5724b4e84f9f92119f23f97c7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7906389328885044814}
+    - targetCorrespondingSourceObject: {fileID: 8066405674749779179, guid: 5da1f5d5724b4e84f9f92119f23f97c7,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 880363461397642578}
   m_SourcePrefab: {fileID: 100100000, guid: 5da1f5d5724b4e84f9f92119f23f97c7, type: 3}
 --- !u!1 &171320525014610919 stripped
 GameObject:
@@ -128,3 +136,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d122cf936534b82a478d70c312101aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assets::US13.Systems.NtOS.Commands.Stateful.Info.CrewManifestModule
+--- !u!114 &7906389328885044814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171320525014610919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d54910dba9d47d4b3b93b5797c1f239, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Systems.NtOS.Commands.Stateful.Util.LightToggleModule
+--- !u!114 &880363461397642578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 171320525014610919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 25b8850973294fe595453a1acd797fe0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Systems.NtOS.Commands.Stateful.Info.NotesModule
+  notes: 

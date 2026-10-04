@@ -918,11 +918,11 @@ namespace US13.Player
 				{
 					if (item.IsEmpty) continue;
 					if (item.ItemObject.TryGetComponent<PDALogic>(out var PDA) == false) continue;
-					if (PDA.IsUplinkCapable == false) continue;
+					if (PDA.ItemUplink.IsUplinkCapable == false) continue;
 
 					//Send Uplink code
-					Chat.AddExamineMsgFromServer(playerMob, $"PDA uplink code retrieved: {PDA.UplinkUnlockCode}");
-					pdaUplinkCode = PDA.UplinkUnlockCode;
+					Chat.AddExamineMsgFromServer(playerMob, $"PDA uplink code retrieved: {PDA.ItemUplink.UplinkUnlockCode}");
+					pdaUplinkCode = PDA.ItemUplink.UplinkUnlockCode;
 					//TODO Store same place as objectives it's Dumb being here,
 					//Means you can View the code of Any PDA If you're an antagonist
 				}

@@ -38,7 +38,7 @@ namespace US13.UI.Items.PDA
 
 		public void SelectItem(UplinkItem item)
 		{
-			controller.mainController.PDA.SpawnUplinkItem(item.Item, item.Cost);
+			controller.mainController.PDA.ItemUplink.SpawnUplinkItem(item.Item, item.Cost);
 			controller.UpdateTCCounter();
 		}
 
