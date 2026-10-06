@@ -7,6 +7,7 @@ using Mirror;
 using NaughtyAttributes;
 using UnityEngine;
 using US13.Core.Attributes;
+using US13.Managers;
 using US13.NPC.AI.Friendly;
 using US13.Systems.Inventory;
 
@@ -16,10 +17,14 @@ namespace US13.Systems.NtOS.Core
 	{
 		public List<INtOSModule> Modules { get; private set; } = new List<INtOSModule>();
 
+		[SerializeReference, SelectImplementation(typeof(INtOSCommandValidation)), ShowIf(nameof(requiresValidationToRunCommands))]
+		public List<INtOSCommandValidation> CommandValidations = new();
+
 		[SerializeReference, SelectImplementation(typeof(INtOSModule)), ShowIf(nameof(runWelcomeModuleOnStart))]
 		public INtOSModule StartingModule;
 
 		[SerializeField] private bool runWelcomeModuleOnStart = true;
+		[SerializeField] private bool requiresValidationToRunCommands = false;
 		[SyncVar] public List<OutputEntry> History = new();
 
 		private ItemStorage itemStorage;
@@ -97,10 +102,20 @@ namespace US13.Systems.NtOS.Core
 			History.RemoveAll(x => x.Locked == false);
 		}
 
-		[Command(requiresAuthority = false)]
-		public void ExecuteCommand(string command)
+		public bool CanRunCommands(PlayerInfo callingPlayer)
 		{
-			//todo: validation
+			foreach (var validation in CommandValidations)
+			{
+				if (validation.CanRun(this, callingPlayer) == false) return false;
+			}
+
+			return true;
+		}
+
+		[Command(requiresAuthority = false)]
+		public void ExecuteCommand(string command, PlayerInfo callingPlayer)
+		{
+			if (requiresValidationToRunCommands && CanRunCommands(callingPlayer) == false) return;
 			var args = command.Split(' ', StringSplitOptions.RemoveEmptyEntries);
 			var commandName = args[0];
 			args = args.Skip(1).ToArray();

@@ -1232,7 +1232,7 @@ MonoBehaviour:
   syncInterval: 0
   StartingModule:
     rid: 7654293164555763774
-  IsTurnedOn: 1
+  runWelcomeModuleOnStart: 1
   references:
     version: 2
     RefIds:
@@ -1254,11 +1254,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assets::US13.Systems.NtOS.Core.CondensedNtModules
   ModulesToAdd:
   - rid: 7654293164555763775
+  - rid: 7654293221461196858
   references:
     version: 2
     RefIds:
     - rid: 7654293164555763775
       type: {class: HelpModule, ns: US13.Systems.NtOS.Commands.Simple.Util, asm: Assets}
+      data: 
+    - rid: 7654293221461196858
+      type: {class: ClearHistoryModule, ns: US13.Systems.NtOS.Commands.Simple.Util,
+        asm: Assets}
       data: 
 --- !u!114 &8159871808279949248
 MonoBehaviour:

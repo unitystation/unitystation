@@ -680,9 +680,11 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  CommandValidations: []
   StartingModule:
     rid: 7654293164555763777
   runWelcomeModuleOnStart: 1
+  requiresValidationToRunCommands: 0
   references:
     version: 2
     RefIds:

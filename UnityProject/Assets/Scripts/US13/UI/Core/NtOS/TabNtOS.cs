@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
 using Cysharp.Threading.Tasks;
 using Logs;
 using NaughtyAttributes;
@@ -7,6 +9,7 @@ using UnityEngine;
 using US13.Managers;
 using US13.Managers.NetworkManagement;
 using US13.Managers.UpdateManager;
+using US13.Player;
 using US13.Systems.NtOS.Core;
 using US13.UI.Core.Net;
 
@@ -18,6 +21,9 @@ namespace US13.UI.Core.NtOS
 		[SerializeField, BoxGroup("Setup")] private NtOS_OutputEntry output;
 		[SerializeField, BoxGroup("Setup")] private TMP_InputField inputField;
 
+		private List<string> inputHistory = new();
+		private int historyIndex = 0;
+
 		private void Start()
 		{
 			inputField ??= GetComponentInChildren<TMP_InputField>();
@@ -27,6 +33,34 @@ namespace US13.UI.Core.NtOS
 			{
 				OnTabOpened.AddListener(TabOpened);
 				OnTabClosed.AddListener(TabClosed);
+			}
+		}
+
+		private void Update()
+		{
+			if (Input.GetKeyDown(KeyCode.UpArrow) && inputHistory.Count > 0)
+			{
+				historyIndex++;
+				if (historyIndex > inputHistory.Count - 1)
+				{
+					historyIndex = Mathf.Clamp(historyIndex, 0, inputHistory.Count - 1);
+				}
+				inputField.text = inputHistory[historyIndex];
+				return;
+			}
+			if (Input.GetKeyDown(KeyCode.DownArrow) && inputHistory.Count > 0)
+			{
+				historyIndex--;
+				if (historyIndex < 0)
+				{
+					historyIndex = Mathf.Clamp(historyIndex, 0, inputHistory.Count - 1);
+				}
+				inputField.text = inputHistory[historyIndex];
+				return;
+			}
+			if (Input.anyKey)
+			{
+				historyIndex = 0;
 			}
 		}
 
@@ -92,7 +126,10 @@ namespace US13.UI.Core.NtOS
 				Loggy.Warning("NtOS device not found or still not ready.");
 				return;
 			}
-			currentDevice.ExecuteCommand(command);
+
+			var playerInfo = PlayerManager.LocalPlayerScript.PlayerInfo;
+			currentDevice.ExecuteCommand(command, playerInfo);
+			inputHistory.Add(inputField.text);
 			inputField.text = "";
 		}
 	}

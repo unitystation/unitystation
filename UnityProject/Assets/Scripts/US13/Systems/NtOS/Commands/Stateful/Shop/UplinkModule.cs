@@ -42,6 +42,7 @@ namespace US13.Systems.NtOS.Commands.Stateful.Shop
 				output.AppendLine($"Program registered: {CommandName}.\n Use this command to access your uplink from now on.");
 				callingDevice.RegisterSpecificModule(this);
 				ourEntry.Locked = false;
+				uplinkModule.ControlUplinkLock(false);
 				return;
 			}
 			else
@@ -65,6 +66,7 @@ namespace US13.Systems.NtOS.Commands.Stateful.Shop
 					output.AppendLine($"TC: {uplink.UplinkTC}");
 					break;
 				case LOCK_COMMAND:
+					uplink.ControlUplinkLock(true);
 					callingDevice.UnRegisterSpecificModule(this);
 					callingDevice.ServerClearHistory();
 					HasAccessedBefore = false;
