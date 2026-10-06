@@ -13,6 +13,12 @@ using US13.Systems.Inventory;
 
 namespace US13.Systems.NtOS.Core
 {
+	/// <summary>
+	/// General purpose component for loading different modules that can be run on the server.
+	/// It allows devices to have a modular way for adding new commands via dedicated in-game items that implement INtOSModule,
+	/// or by bolting them down in components like CondensedNtModules.
+	/// Output is displayed via frontends like TabNtOS.cs.
+	/// </summary>
 	public class NtOS_Device : NetworkBehaviour
 	{
 		public List<INtOSModule> Modules { get; private set; } = new List<INtOSModule>();
@@ -44,6 +50,14 @@ namespace US13.Systems.NtOS.Core
 			if (itemStorage != null)
 			{
 				itemStorage.ServerInventoryItemSlotSet  += OnInventoryChanged;
+			}
+		}
+
+		private void OnDestroy()
+		{
+			if (itemStorage != null)
+			{
+				itemStorage.ServerInventoryItemSlotSet -= OnInventoryChanged;
 			}
 		}
 
