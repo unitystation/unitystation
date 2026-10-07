@@ -1230,9 +1230,12 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
+  CommandValidations:
+  - rid: 7654293236831223867
   StartingModule:
     rid: 7654293164555763774
   runWelcomeModuleOnStart: 1
+  requiresValidationToRunCommands: 1
   references:
     version: 2
     RefIds:
@@ -1240,6 +1243,10 @@ MonoBehaviour:
       type: {class: WelcomeScreenModule, ns: US13.Systems.NtOS.Commands.Simple.Cosmetic,
         asm: Assets}
       data: 
+    - rid: 7654293236831223867
+      type: {class: IsPlayerNearDevice, ns: US13.Systems.NtOS.Validation, asm: Assets}
+      data:
+        MinimumDistance: 4
 --- !u!114 &966745091922057384
 MonoBehaviour:
   m_ObjectHideFlags: 0
