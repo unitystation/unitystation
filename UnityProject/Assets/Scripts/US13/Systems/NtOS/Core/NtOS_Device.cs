@@ -9,6 +9,7 @@ using UnityEngine;
 using US13.Core.Attributes;
 using US13.Managers;
 using US13.NPC.AI.Friendly;
+using US13.Player;
 using US13.Systems.Inventory;
 
 namespace US13.Systems.NtOS.Core
@@ -116,7 +117,7 @@ namespace US13.Systems.NtOS.Core
 			History.RemoveAll(x => x.Locked == false);
 		}
 
-		public bool CanRunCommands(PlayerInfo callingPlayer)
+		public bool CanRunCommands(PlayerScript callingPlayer)
 		{
 			try
 			{
@@ -134,7 +135,7 @@ namespace US13.Systems.NtOS.Core
 		}
 
 		[Command(requiresAuthority = false)]
-		public void ExecuteCommand(string command, PlayerInfo callingPlayer)
+		public void ExecuteCommand(string command, PlayerScript callingPlayer)
 		{
 			if (requiresValidationToRunCommands && CanRunCommands(callingPlayer) == false) return;
 			var args = command.Split(' ', StringSplitOptions.RemoveEmptyEntries);

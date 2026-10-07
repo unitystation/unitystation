@@ -8,6 +8,7 @@ using UnityEngine;
 using US13.Core.Admin.Logs;
 using US13.Core.Chat;
 using US13.Core.Lifecycle;
+using US13.Items.Devices;
 using US13.Managers;
 using US13.Managers.SubSceneManager;
 using US13.Messages.Server.LocalGuiMessages;
@@ -240,6 +241,11 @@ namespace US13.Systems.Antagonists
 				if (slot.Item.TryGetComponent<Items.PDA.PDALogic>(out var pda))
 				{
 					pda.InstallUplink(player, tcCount, isNukeOps);
+					continue;
+				}
+				if (slot.Item.TryGetComponent<Uplink>(out var uplink))
+				{
+					uplink.InstallUplink(player, tcCount, isNukeOps);
 				}
 			}
 		}

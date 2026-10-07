@@ -126,7 +126,7 @@ namespace US13.UI.Core.NtOS
 				return;
 			}
 
-			var playerInfo = PlayerManager.LocalPlayerScript.PlayerInfo;
+			var playerInfo = PlayerManager.LocalPlayerScript;
 			currentDevice.ExecuteCommand(command, playerInfo);
 			inputHistory.Add(inputField.text);
 			inputField.text = "";

@@ -75,8 +75,7 @@ namespace US13.Items.PDA
 
 		public GUI_PDA PDAGui;
 
-		private bool isNukeOps = false;
-		public bool IsNukeOps => isNukeOps;
+		public bool IsNukeOps => ItemUplink.IsNukeOps;
 
 
 		#endregion Inspector
@@ -427,7 +426,6 @@ namespace US13.Items.PDA
 		public void InstallUplink(Mind player, int tcCount, bool isNukie)
 		{
 			ItemUplink.InstallUplink(player, tcCount, isNukie);
-			isNukeOps = isNukie;
 			PlaySoundPrivate(Ringtone);
 		}
 
