@@ -89,7 +89,10 @@ namespace US13.Systems.NtOS.Core
 			// support embedding modules directly on devices instead of via dedicated items
 			// so players don't mess with important functions.
 			Modules.AddRange(GetComponents<INtOSModule>());
-			Modules.AddRange(GetComponent<CondensedNtModules>().ModulesToAdd);
+			if (TryGetComponent<CondensedNtModules>(out var condensedNtModules))
+			{
+				Modules.AddRange(condensedNtModules.ModulesToAdd);
+			}
 			if (itemStorage == null) return;
 			foreach (ItemSlot slot in itemStorage.GetOccupiedSlots())
 			{
