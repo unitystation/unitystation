@@ -1,159 +1,119 @@
 ﻿Shader "PostProcess/Mask Blit"
 {
-	Properties
-	{
-		_MainTex ("Texture", 2D) = "white" {}
-	}
-	SubShader
-	{
-		Cull Off ZWrite Off ZTest Always
+    Properties
+    {
+        _MainTex ("Texture", 2D) = "white" {}
+    }
+    SubShader
+    {
+        Cull Off ZWrite Off ZTest Always
 
-		Pass
-		{
-			CGPROGRAM
-			#pragma vertex vert
-			#pragma fragment frag
-			
-			#include "UnityCG.cginc"
+        Pass
+        {
+            CGPROGRAM
+            #pragma vertex vert
+            #pragma fragment frag
 
-			struct appdata
-			{
-				float4 vertex : POSITION;
-				float2 uv : TEXCOORD0;
-			};
+            #include "UnityCG.cginc"
 
-			struct v2f
-			{
-				float2 uv : TEXCOORD0;
-				float2 lightUv : TEXCOORD1;
-				float2 occlusionUv : TEXCOORD2;
-				float4 vertex : SV_POSITION;
-			};
-					
-			sampler2D _OcclusionMask;
-			sampler2D _ObstacleLightMask;
-			sampler2D _LightMask;
-			sampler2D _MainTex;
-			sampler2D _BackgroundTex;
-			sampler2D _ShadowTex;
-			sampler2D _ItemTex;
-			sampler2D _FullbrightTex; 
-			
-			float4 _LightTransform;
-			float4 _OcclusionTransform;
+            struct appdata
+            {
+                float4 vertex : POSITION;
+                float2 uv : TEXCOORD0;
+            };
 
-			float4 _AmbLightBloomSA;
-			float _BackgroundMultiplier;
-			float _ShadowAlpha;
-			
-			v2f vert (appdata v)
-			{
-				v2f o;
+            struct v2f
+            {
+                float2 uv : TEXCOORD0;
+                float2 lightUv : TEXCOORD1;
+                float2 occlusionUv : TEXCOORD2;
+                float4 vertex : SV_POSITION;
+            };
 
-				o.vertex = UnityObjectToClipPos(v.vertex);
-				o.uv = v.uv;
-				o.lightUv = (v.uv - 0.5 + _LightTransform.xy) * _LightTransform.zw + 0.5;
-				o.occlusionUv = (v.uv - 0.5 + _OcclusionTransform.xy) * _OcclusionTransform.zw + 0.5;
-				return o;
-			}
+            sampler2D _OcclusionMask;
+            sampler2D _ObstacleLightMask;
+            sampler2D _LightMask;
+            sampler2D _MainTex;
+            sampler2D _BackgroundTex;
+            sampler2D _ShadowTex;
+            sampler2D _ItemTex;
+            sampler2D _FullbrightTex;
 
-			fixed4 frag (v2f i) : SV_Target
-			{
-				// Mix Lights.
-				fixed4 occlusionSample = tex2D(_OcclusionMask, i.occlusionUv);
-				half4 lightSample = tex2D(_LightMask, i.lightUv);
-				//return occlusionSample;
-				fixed4 occLightSample = tex2D(_ObstacleLightMask, i.lightUv);
+            float4 _LightTransform;
+            float4 _OcclusionTransform;
+            float _ShadowAlpha;
 
-				float _obstacleMask = occlusionSample.r;
-			
-				fixed4 screen = tex2D(_MainTex, i.uv);
-				fixed4 Item = tex2D(_ItemTex, i.uv);
-				screen.rgb = Item.rgb + screen.rgb * (1 - Item.a);
-				screen.a = saturate(Item.a + screen.a * (1 - Item.a));
-				// Mix Background.
-				half4 background = tex2D(_BackgroundTex, i.uv);
-				//return  tex2D(_MainTex, i.uv);
-				//return tex2D(_ItemTex, i.uv);
-				//screen = screen + tex2D(_ItemTex, i.uv); //so We only do the item render once when it's doing shadows
+            v2f vert(appdata v)
+            {
+                v2f o;
 
-				
-				half4 mixedLight = lightSample;
-				//Times the light so it's a little bit brighter, this is from the reduced range we have 0 to 0.66 = normal light 0.66 to 1 blown out light
-				mixedLight = mixedLight *1.5;
+                o.vertex = UnityObjectToClipPos(v.vertex);
+                o.uv = v.uv;
+                o.lightUv = (v.uv - 0.5 + _LightTransform.xy) * _LightTransform.zw + 0.5;
+                o.occlusionUv = (v.uv - 0.5 + _OcclusionTransform.xy) * _OcclusionTransform.zw + 0.5;
+                return o;
+            }
 
-				//We square root and get the "normal" vector of it So the magnitude of the light doesn't play any role in the brightness
-				//since brightness is determined by the alpha
-				float sqSum = (mixedLight.r + mixedLight.g + mixedLight.b) * 2.0;
-				float length = sqrt(sqSum);
+            fixed4 frag(v2f i) : SV_Target
+            {
+                // Sample masks
+                fixed4 occlusionSample = tex2D(_OcclusionMask, i.occlusionUv);
+                half4 lightSample = tex2D(_LightMask, i.lightUv);
+                fixed4 occLightSample = tex2D(_ObstacleLightMask, i.lightUv);
 
-				//2.25 Is balancing numbers
-				half3 normaliseColour = (mixedLight.rgb * 2.25) / (length + 0.0001); 
+                half obstacleMask = occlusionSample.r;
 
-				//generate bloom 
-				half3 balancedMixLight =  clamp(normaliseColour*(mixedLight.a - 0.66), 0, 10)*1;
-				mixedLight.a = (mixedLight.a - 0.5) * 1.1;
-				
-				//Adding the occlusion and wall stuff
-				half3 BalanceLight = clamp(normaliseColour * clamp( occLightSample.a +  mixedLight.a + 0.55, 0,1), 0, 1);
+                // Composite item over screen
+                fixed4 screen = tex2D(_MainTex, i.uv);
+                fixed4 item = tex2D(_ItemTex, i.uv);
+                half invItemA = 1.0 - item.a;
+                screen.rgb = mad(screen.rgb, invItemA, item.rgb);
+                screen.a = saturate(mad(screen.a, invItemA, item.a));
 
-			
-				//return  occLightSample;
-			
-				
-				//Adding the occlusion and wall stuff
-				BalanceLight = BalanceLight + (( occLightSample * 0.75 ) * (_obstacleMask));
-				
-				//BalanceLight = BalanceLight + (invertedBackgroundColor);
-				
-				// Blend light with scene.
-				half4 screenLit =  fixed4( ((screen.rgb*BalanceLight+balancedMixLight)) , screen.a);
-				
-				
-				//return screen;
-				float backgroundMask = clamp(occlusionSample.g-(screen.a * 2), 0, 1);
-				half4 screenLitBackground = background * backgroundMask + screenLit;
-				//fixed4 invertedBackgroundColor = 1-saturate((background)*10);
-				//return backgroundMask;
-				//return invertedBackgroundColor;
-				//return screen;
-				
-		
-				float4 shadowSample = tex2D(_ShadowTex, i.uv);
-				//shadowSample.a = 1;
-				//return shadowSample;
-				float shadowMask = 0.0;
-				//shadowSample.a = 1;
-				//return shadowSample;
-				
-				//return fixed4(shadowSample.a,shadowSample.a, shadowSample.a, shadowSample.a);
-				float mask_mid = step(0.45, shadowSample.a) * step(shadowSample.a, 0.95);
-				float mask_low = step(shadowSample.a, 0.1);
-				shadowMask = mask_mid * max(shadowSample.r, shadowSample.b) + mask_low * (shadowSample.r + shadowSample.g + shadowSample.b);
-			
-				//if (shadowMask > 0)
-				//{
-				//	return fixed4(shadowMask,shadowMask, shadowMask,1);
-				//}
-				
-				
-				//return shadowMask;
-				screenLitBackground.rgb *= 1.0 - (shadowMask * _ShadowAlpha * 2);
-				
-				
-				// Fulbright layer: rendered wherever occlusionSample.g says it's in FOV,
-				// bypasses BalanceLight/mixedLight/shadow entirely — no lighting or shadow applied.
-				fixed4 fullbright = tex2D(_FullbrightTex, i.uv);
-				//return occlusionSample;
-				fullbright.a *= occlusionSample.g + occlusionSample.r;
+                half4 background = tex2D(_BackgroundTex, i.uv);
 
-				screenLitBackground.rgb = fullbright.rgb * fullbright.a + screenLitBackground.rgb * (1 - fullbright.a);
-				screenLitBackground.a = saturate(fullbright.a + screenLitBackground.a * (1 - fullbright.a));
+                // Light mixing
+                half4 mixedLight = lightSample * 1.5;
+                half mixedA = mixedLight.a;
 
-				return screenLitBackground;
-			}
-			
-			ENDCG
-		}
-	}
+                half sumRGB = mixedLight.r + mixedLight.g + mixedLight.b;
+                half length = sqrt(sumRGB * 2.0);
+
+                half3 normaliseColour = mixedLight.rgb * (2.25 / (length + 0.0001));
+
+                half3 balancedMixLight = clamp(normaliseColour * (mixedA - 0.66), 0.0, 10.0);
+                mixedA = mad(mixedA, 1.1, -0.55); // (a - 0.5) * 1.1
+
+                half3 BalanceLight = saturate(normaliseColour * saturate(occLightSample.a + mixedA + 0.55));
+                BalanceLight = mad(occLightSample.rgb, 0.75 * obstacleMask, BalanceLight);
+
+                half4 screenLit = half4(mad(screen.rgb, BalanceLight, balancedMixLight), screen.a);
+
+                // Background blend
+                half backgroundMask = saturate(occlusionSample.g - screen.a * 2.0);
+                half4 screenLitBackground = mad(background, backgroundMask, screenLit);
+
+                // Shadows
+                half4 shadowSample = tex2D(_ShadowTex, i.uv);
+                half mask_mid = step(0.45, shadowSample.a) * step(shadowSample.a, 0.95);
+                half mask_low = step(shadowSample.a, 0.1);
+                half shadowMask = mask_mid * max(shadowSample.r, shadowSample.b)
+                    + mask_low * (shadowSample.r + shadowSample.g + shadowSample.b);
+
+                screenLitBackground.rgb *= 1.0 - shadowMask * _ShadowAlpha * 2.0;
+
+                // Fullbright overlay
+                fixed4 fullbright = tex2D(_FullbrightTex, i.uv);
+                fullbright.a *= occlusionSample.g + occlusionSample.r;
+
+                half invFullbrightA = 1.0 - fullbright.a;
+                screenLitBackground.rgb = mad(fullbright.rgb, fullbright.a,
+                                              screenLitBackground.rgb * invFullbrightA);
+                screenLitBackground.a = saturate(mad(screenLitBackground.a, invFullbrightA, fullbright.a));
+
+                return screenLitBackground;
+            }
+            ENDCG
+        }
+    }
 }
