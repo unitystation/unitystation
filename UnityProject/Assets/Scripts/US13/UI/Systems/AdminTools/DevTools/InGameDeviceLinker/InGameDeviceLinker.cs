@@ -8,6 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using US13.Core.GameGizmos;
 using US13.Core.Input_System;
+using US13.Core.Lighting_System;
 using US13.Core.ObjectConnection;
 using US13.Managers.MatrixManager;
 using US13.Managers.NetworkManagement;

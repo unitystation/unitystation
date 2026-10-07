@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using US13.Core.Input_System;
+using US13.Core.Lighting_System;
 using US13.Managers.UpdateManager;
 using US13.Messages.Client.Admin;
 using US13.Systems.Inventory;

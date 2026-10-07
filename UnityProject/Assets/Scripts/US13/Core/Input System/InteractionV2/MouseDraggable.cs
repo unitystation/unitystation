@@ -3,6 +3,7 @@ using Logs;
 using UnityEngine;
 using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Core.Lighting_System;
 using US13.Managers.NetworkManagement;
 using US13.Managers.UpdateManager;
 using US13.Player;

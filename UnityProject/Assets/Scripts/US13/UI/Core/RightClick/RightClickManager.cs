@@ -9,6 +9,7 @@ using Shared.Managers;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using US13.Core.Input_System;
+using US13.Core.Lighting_System;
 using US13.Items;
 using US13.Managers;
 using US13.Managers.NetworkManagement;

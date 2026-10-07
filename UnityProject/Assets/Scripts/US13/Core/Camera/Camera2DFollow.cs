@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.U2D;
 using US13.Core.Input_System;
+using US13.Core.Lighting_System;
 using US13.Managers;
 using US13.Managers.UpdateManager;
 using US13.UI.Systems;

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using US13.Core.Camera;
+using US13.Core.Lighting_System;
 using US13.Player;
 
 namespace US13.Objects.Wallmounts

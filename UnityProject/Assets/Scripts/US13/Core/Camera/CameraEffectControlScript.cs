@@ -7,6 +7,7 @@ using Shaders.GlitchEffect;
 using Shared.Managers;
 using UnityEngine;
 using UnityEngine.Serialization;
+using US13.Core.Lighting_System;
 using US13.Core.Utils;
 using US13.Managers;
 using US13.Managers.MatrixManager;
