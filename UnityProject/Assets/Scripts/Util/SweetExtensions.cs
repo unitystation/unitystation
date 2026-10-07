@@ -6,10 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Core.RootSillys;
+using JetBrains.Annotations;
 using Logs;
 using Mirror;
-using Newtonsoft.Json;
+using TMPro;
 using UnityEngine;
+using US13.Core.Sprite_Handler;
 using US13.Core.Transform;
 using US13.Core.Utils;
 using US13.HealthV2;
@@ -1212,7 +1214,28 @@ namespace Util
 				return text;
 			}
 			return text.Substring(0, pos) + replace + text.Substring(pos + search.Length);
+		}
 
+		/// <summary>
+		/// Returns a ready sprite tag for an emoji by looking at the gameobject's children sprite handlers.
+		/// </summary>
+		/// <param name="gameObject">the gameobject with the spritehandler child</param>
+		/// <returns>Returns an empty string if nothing found. Otherwise, will return a valid TMP BBCode for an emoji.</returns>
+		[CanBeNull]
+		public static string GetTmpEmojiReadyTagFromGameObject(this GameObject gameObject)
+		{
+			var possibleSprite = gameObject.GetComponentInChildren<SpriteHandler>();
+			var spriteText = "";
+			if (possibleSprite == null || possibleSprite.CurrentSprite == null) return spriteText;
+			if (TMP_Settings.defaultSpriteAsset.GetSpriteIndexFromName(possibleSprite.CurrentSprite.texture.name) <= 1)
+			{
+				spriteText = "";
+			}
+			else
+			{
+				spriteText = $"<sprite name=\"{possibleSprite.CurrentSprite.texture.name}\">";
+			}
+			return spriteText;
 		}
 	}
 }

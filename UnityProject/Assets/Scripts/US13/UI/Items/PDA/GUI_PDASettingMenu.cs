@@ -22,12 +22,12 @@ namespace US13.UI.Items.PDA
 		{
 			if (string.IsNullOrEmpty(ringtone)) return;
 
-			if (controller.PDA.IsUplinkCapable)
+			if (controller.PDA.ItemUplink.IsUplinkCapable)
 			{
 				controller.PDA.UnlockUplink(ringtone);
 			}
 
-			if (!controller.PDA.IsUplinkLocked)
+			if (!controller.PDA.ItemUplink.IsUplinkLocked)
 			{
 				controller.OpenPage(controller.uplinkPage);
 			}

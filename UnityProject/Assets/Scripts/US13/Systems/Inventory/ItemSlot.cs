@@ -8,6 +8,7 @@ using US13.Clothing.BackPack;
 using US13.Core.Chat;
 using US13.Health.Objects;
 using US13.Items;
+using US13.Managers;
 using US13.Managers.NetworkManagement;
 using US13.Messages.Server;
 using US13.Player;
@@ -570,6 +571,16 @@ namespace US13.Systems.Inventory
 				return GetNamed(itemStorage, namedSlot);
 			}
 			return GetIndexed(itemStorage, slotIndex);
+		}
+
+		public static ItemSlot GetBestSlotForPlayer(GameObject item, RegisterPlayer playerInfo)
+		{
+			if (playerInfo == null)
+			{
+				return default;
+			}
+			var playerStorage = playerInfo.PlayerScript.DynamicItemStorage;
+			return playerStorage.GetBestHandOrSlotFor(item);
 		}
 
 		public static NamedSlotFlagged GetFlaggedSlot(NamedSlot slot)

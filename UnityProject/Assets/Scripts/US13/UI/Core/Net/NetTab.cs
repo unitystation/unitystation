@@ -102,6 +102,7 @@ namespace US13.UI.Core.Net
 		Flatpacker = 73,
 		PlantDNAManipulator = 74,
 		MedBed = 75,
+		NtOS = 76
 		// add new entres to the bottom
 		// the enum name must match that of the prefab except the prefab has the word tab infront of the enum name
 		// i.e TabJukeBox
@@ -114,11 +115,14 @@ namespace US13.UI.Core.Net
 	{
 		public NetTabType Type = NetTabType.None;
 
+		/// <summary>
+		/// Sever-side event for when a player stops peering into this window.
+		/// </summary>
 		[SerializeField]
 		public ConnectedPlayerEvent OnTabClosed = new ConnectedPlayerEvent();
 
 		/// <summary>
-		/// Invoked when there is a new peeper to this tab
+		/// Invoked when there is a new peeper to this tab. Server-side.
 		/// </summary>
 		[SerializeField]
 		public ConnectedPlayerEvent OnTabOpened = new ConnectedPlayerEvent();

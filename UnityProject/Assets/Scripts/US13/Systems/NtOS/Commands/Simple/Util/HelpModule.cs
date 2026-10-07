@@ -1,0 +1,37 @@
+﻿using System.Text;
+using Cysharp.Threading.Tasks;
+using US13.Systems.NtOS.Core;
+
+namespace US13.Systems.NtOS.Commands.Simple.Util
+{
+	public class HelpModule : INtOSModule
+	{
+		public string CommandName { get; set; } = "Help";
+
+		public async UniTask Execute(int id, string[] args, NtOS_Device callingDevice, StringBuilder output)
+		{
+			if (args.Length == 0)
+			{
+				foreach (var module in callingDevice.Modules)
+				{
+					if (module.CommandName == string.Empty) continue;
+					output.AppendLine($"{module.CommandName}: {module.HelpDoc(callingDevice)}\n");
+					await UniTask.WaitForSeconds(0.1f);
+				}
+			}
+			else
+			{
+				INtOSModule module = callingDevice.Modules.Find(x => x.CommandName == CommandName);
+				output.AppendLine(module != null ?
+					$"{module.CommandName}: {HelpDoc(callingDevice)}"
+					:
+					$"Cannot find command '{CommandName}'");
+			}
+		}
+
+		public string HelpDoc(NtOS_Device callingDevice)
+		{
+			return "Shows all commands available on this device.";
+		}
+	}
+}

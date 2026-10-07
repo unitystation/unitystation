@@ -659,7 +659,8 @@ namespace US13.Core.Chat
 		/// </summary>
 		/// <param name="originator"> The player who caused the action</param>
 		/// <param name="everyoneMessage"> The message that everyone (including the orignator) will see</param>
-		public static void AddActionMsgToChat(GameObject originator, string everyoneMessage)
+		/// <param name="showRelevantEmoji"> If chat can embed an emoji next to the text that is relevant for the originator.</param>
+		public static void AddActionMsgToChat(GameObject originator, string everyoneMessage, bool showRelevantEmoji = false)
 		{
 			if (!IsServer()) return;
 			if (string.IsNullOrWhiteSpace(everyoneMessage)) return;
@@ -671,7 +672,8 @@ namespace US13.Core.Chat
 				message = everyoneMessage,
 				messageOthers = everyoneMessage,
 				position = originator.AssumedWorldPosServer(),
-				originator = originator
+				originator = originator,
+				ShowRelevantEmoji = showRelevantEmoji
 			});
 		}
 

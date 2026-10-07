@@ -1,0 +1,189 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Logs;
+using Mirror;
+using NaughtyAttributes;
+using UnityEngine;
+using US13.Core.Attributes;
+using US13.Managers;
+using US13.NPC.AI.Friendly;
+using US13.Player;
+using US13.Systems.Inventory;
+
+namespace US13.Systems.NtOS.Core
+{
+	/// <summary>
+	/// General purpose component for loading different modules that can be run on the server.
+	/// It allows devices to have a modular way for adding new commands via dedicated in-game items that implement INtOSModule,
+	/// or by bolting them down in components like CondensedNtModules.
+	/// Output is displayed via frontends like TabNtOS.cs.
+	/// </summary>
+	public class NtOS_Device : NetworkBehaviour
+	{
+		public List<INtOSModule> Modules { get; private set; } = new List<INtOSModule>();
+
+		[SerializeReference, SelectImplementation(typeof(INtOSCommandValidation)), ShowIf(nameof(requiresValidationToRunCommands))]
+		public List<INtOSCommandValidation> CommandValidations = new();
+
+		[SerializeReference, SelectImplementation(typeof(INtOSModule)), ShowIf(nameof(runWelcomeModuleOnStart))]
+		public INtOSModule StartingModule;
+
+		[SerializeField] private bool runWelcomeModuleOnStart = true;
+		[SerializeField] private bool requiresValidationToRunCommands = false;
+		[SyncVar] public List<OutputEntry> History = new();
+
+		private ItemStorage itemStorage;
+
+		public class OutputEntry
+		{
+			public int Id;
+			public StringBuilder Text;
+			public bool Locked;
+		}
+
+		public Action OnModulesRefreshed;
+
+		private void Awake()
+		{
+			itemStorage = GetComponent<ItemStorage>();
+			if (itemStorage != null)
+			{
+				itemStorage.ServerInventoryItemSlotSet  += OnInventoryChanged;
+			}
+		}
+
+		private void OnDestroy()
+		{
+			if (itemStorage != null)
+			{
+				itemStorage.ServerInventoryItemSlotSet -= OnInventoryChanged;
+			}
+		}
+
+		private void Start()
+		{
+			RefreshModules();
+			var welcomeText = new StringBuilder();
+			StartingModule.Execute(History.Count + 1, Array.Empty<string>(), this, welcomeText);
+			History.Add(new OutputEntry
+			{
+				Id = History.Count + 1,
+				Text = welcomeText
+			});
+		}
+
+		private void OnInventoryChanged(Pickupable oldItem, Pickupable newItem)
+		{
+			RefreshModules();
+		}
+
+		/// <summary>
+		/// Grabs all modules that can be hosted on the device itself, or via an item module.
+		/// Use this sparingly as it does a lot of GetComponent checks on itself, its children, and item storage if available.
+		/// </summary>
+		private void RefreshModules()
+		{
+			Modules.Clear();
+			// support embedding modules directly on devices instead of via dedicated items
+			// so players don't mess with important functions.
+			Modules.AddRange(GetComponents<INtOSModule>());
+			Modules.AddRange(GetComponent<CondensedNtModules>().ModulesToAdd);
+			if (itemStorage == null) return;
+			foreach (ItemSlot slot in itemStorage.GetOccupiedSlots())
+			{
+				if (slot == null || slot.ItemObject == null) continue;
+				Modules.AddRange(slot.ItemObject.GetComponents<INtOSModule>());
+				List<INtOSModule> rootModules = slot.ItemObject.GetComponent<CondensedNtModules>()?.ModulesToAdd;
+				if (rootModules != null) Modules.AddRange(rootModules);
+			}
+		}
+
+		public void RegisterSpecificModule(INtOSModule module)
+		{
+			if (Modules.Contains(module)) return;
+			Modules.Add(module);
+		}
+
+		public void UnRegisterSpecificModule(INtOSModule module)
+		{
+			if (Modules.Contains(module) == false) return;
+			Modules.Remove(module);
+		}
+
+		public void ServerClearHistory()
+		{
+			History.RemoveAll(x => x.Locked == false);
+		}
+
+		public bool CanRunCommands(PlayerScript callingPlayer)
+		{
+			try
+			{
+				foreach (var validation in CommandValidations)
+				{
+					if (validation.CanRun(this, callingPlayer) == false) return false;
+				}
+			}
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+				return false;
+			}
+			return true;
+		}
+
+		[Command(requiresAuthority = false)]
+		public void ExecuteCommand(string command, PlayerScript callingPlayer)
+		{
+			if (requiresValidationToRunCommands && CanRunCommands(callingPlayer) == false) return;
+			var args = command.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+			var commandName = args[0];
+			args = args.Skip(1).ToArray();
+			bool success = false;
+			foreach (INtOSModule module in Modules)
+			{
+				if (module == null)
+				{
+					Loggy.Warning("Null module found on nt device. Make sure to clear them up!!");
+					continue;
+				}
+				if (module.CommandName == string.Empty) continue;
+				if (string.Equals(commandName, module.CommandName, StringComparison.OrdinalIgnoreCase) == false) continue;
+				ServerRunProcess(module, args);
+				success = true;
+				break;
+			}
+			if (success != true)
+			{
+				History.Add( new OutputEntry
+				{
+					Id = History.Count + 1,
+					Text = new StringBuilder().AppendLine($"Couldn't find [{commandName}] command.")
+				});
+			}
+		}
+
+		public void ServerRunProcess(INtOSModule module, string[] args)
+		{
+			// bod hates assert logic in mirror sow e have to wrap this in a trycatch to avoid booting players
+			// out of the game if an NRE happens.
+			try
+			{
+				var builder = new StringBuilder();
+				module.Execute(History.Count + 1, args, this, builder);
+				History.Add( new OutputEntry
+				{
+					Id = History.Count + 1,
+					Text = builder,
+					Locked = false
+				});
+			}
+			catch (Exception e)
+			{
+				Loggy.Error($"{e}");
+			}
+		}
+	}
+}
