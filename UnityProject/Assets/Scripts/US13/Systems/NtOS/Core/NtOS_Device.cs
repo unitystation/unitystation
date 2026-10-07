@@ -118,11 +118,18 @@ namespace US13.Systems.NtOS.Core
 
 		public bool CanRunCommands(PlayerInfo callingPlayer)
 		{
-			foreach (var validation in CommandValidations)
+			try
 			{
-				if (validation.CanRun(this, callingPlayer) == false) return false;
+				foreach (var validation in CommandValidations)
+				{
+					if (validation.CanRun(this, callingPlayer) == false) return false;
+				}
 			}
-
+			catch (Exception e)
+			{
+				Loggy.Error(e.ToString());
+				return false;
+			}
 			return true;
 		}
 
@@ -159,14 +166,23 @@ namespace US13.Systems.NtOS.Core
 
 		public void ServerRunProcess(INtOSModule module, string[] args)
 		{
-			var builder = new StringBuilder();
-			module.Execute(History.Count + 1, args, this, builder);
-			History.Add( new OutputEntry
+			// bod hates assert logic in mirror sow e have to wrap this in a trycatch to avoid booting players
+			// out of the game if an NRE happens.
+			try
 			{
-				Id = History.Count + 1,
-				Text = builder,
-				Locked = false
-			});
+				var builder = new StringBuilder();
+				module.Execute(History.Count + 1, args, this, builder);
+				History.Add( new OutputEntry
+				{
+					Id = History.Count + 1,
+					Text = builder,
+					Locked = false
+				});
+			}
+			catch (Exception e)
+			{
+				Loggy.Error($"{e}");
+			}
 		}
 	}
 }
