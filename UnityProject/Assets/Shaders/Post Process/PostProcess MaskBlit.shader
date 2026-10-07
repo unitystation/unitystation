@@ -84,10 +84,11 @@
 
 				//We square root and get the "normal" vector of it So the magnitude of the light doesn't play any role in the brightness
 				//since brightness is determined by the alpha
-				float length = sqrt( (mixedLight.r*2) + (mixedLight.g*2) + (mixedLight.b*2));
+				float sqSum = (mixedLight.r + mixedLight.g + mixedLight.b) * 2.0;
+				float length = sqrt(sqSum);
 
 				//2.25 Is balancing numbers
-				half3 normaliseColour = (mixedLight / (length/2.25)) ; 
+				half3 normaliseColour = (mixedLight.rgb * 2.25) / (length + 0.0001); 
 
 				//generate bloom 
 				half3 balancedMixLight =  clamp(normaliseColour*(mixedLight.a - 0.66), 0, 10)*1;
@@ -126,21 +127,9 @@
 				//return shadowSample;
 				
 				//return fixed4(shadowSample.a,shadowSample.a, shadowSample.a, shadowSample.a);
-				if (shadowSample.a > 0.95)
-				{
-				
-				}
-				else if (shadowSample.a > 0.45 )
-				{
-					shadowMask = max(shadowSample.r, shadowSample.b);
-				}
-				else if (shadowSample.a > 0.1)
-				{
-				}
-				else
-				{
-					shadowMask = shadowSample.r + shadowSample.g + shadowSample.b;
-				}
+				float mask_mid = step(0.45, shadowSample.a) * step(shadowSample.a, 0.95);
+				float mask_low = step(shadowSample.a, 0.1);
+				shadowMask = mask_mid * max(shadowSample.r, shadowSample.b) + mask_low * (shadowSample.r + shadowSample.g + shadowSample.b);
 			
 				//if (shadowMask > 0)
 				//{
