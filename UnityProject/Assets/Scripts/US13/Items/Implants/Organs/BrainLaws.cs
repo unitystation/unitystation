@@ -10,6 +10,7 @@ using US13.Core.Chat;
 using US13.Core.Input_System.InteractionV2;
 using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Input_System.InteractionV2.Interfaces;
+using US13.Core.Lighting_System;
 using US13.Managers;
 using US13.Managers.NetworkManagement;
 using US13.Objects.Research;

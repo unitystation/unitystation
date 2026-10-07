@@ -13,6 +13,7 @@ using US13.Core.Cooldowns;
 using US13.Core.Input_System;
 using US13.Core.Input_System.InteractionV2;
 using US13.Core.Input_System.InteractionV2.Interactions.Internal;
+using US13.Core.Lighting_System;
 using US13.Core.Physics;
 using US13.Core.Sound;
 using US13.Core.Transform;

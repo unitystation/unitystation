@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using US13.Core.Camera;
+using US13.Core.Lighting_System;
 
 namespace US13.UI.Systems.MainHUD.UI_Bottom.Ghost
 {
