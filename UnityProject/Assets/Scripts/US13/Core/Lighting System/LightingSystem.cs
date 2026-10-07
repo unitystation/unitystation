@@ -541,7 +541,7 @@ namespace US13.Core.Lighting_System
 				// Note: This blur is used only with shaders during scene render, so 1 pass should be enough.
 				mPostProcessingStack.BlurOcclusionMask(objectOcclusionMask.renderTexture, renderSettings, operationParameters.cameraOrthographicSize);
 
-				objectOcclusionMask.renderTexture.filterMode = FilterMode.Point;
+				SetFilterMode(objectOcclusionMask.renderTexture, FilterMode.Point);
 			}
 
 
@@ -696,9 +696,9 @@ namespace US13.Core.Lighting_System
 
 			using(new DisposableProfiler("10. Blit Scene with Mixed Lights"))
 			{
-				mlightPPRT.renderTexture.filterMode = FilterMode.Bilinear;
-				obstacleLightMask.renderTexture.filterMode = FilterMode.Bilinear;
-				floorOcclusionMask.renderTexture.filterMode = matrixRotationMode ? FilterMode.Bilinear : FilterMode.Point;
+				SetFilterMode(mlightPPRT.renderTexture, FilterMode.Bilinear);
+				SetFilterMode(obstacleLightMask.renderTexture, FilterMode.Bilinear);
+				SetFilterMode(floorOcclusionMask.renderTexture, matrixRotationMode ? FilterMode.Bilinear : FilterMode.Point);
 
 				var _blitMaterial = materialContainer.blitMaterial;
 				_blitMaterial.SetTexture("_LightMask", mlightPPRT.renderTexture);
@@ -749,6 +749,14 @@ namespace US13.Core.Lighting_System
 			}
 
 			RenderTexture.ReleaseTemporary(uiRenderTexture);
+		}
+
+		private static void SetFilterMode(RenderTexture iTexture, FilterMode iMode)
+		{
+			if (iTexture != null && iTexture.filterMode != iMode)
+			{
+				iTexture.filterMode = iMode;
+			}
 		}
 	}
 }
