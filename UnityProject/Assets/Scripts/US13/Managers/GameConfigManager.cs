@@ -139,6 +139,8 @@ namespace US13.Managers
 		public string AccountAPIHost;
 		public float ExplosionStepTimeInSeconds = 0.14f;
 		public float MinimumThrustStrengthToKnockdownPlayers = 0.85f;
+		public float MaximumKnockDownTimeFromThrusters = 2.5f;
+		public float ThrusterKnockdownImmunityCooldown = 5f;
 
 		public bool EnableReactionsGuide = true;
 

@@ -17,7 +17,9 @@
     "ExplosionStepTimeInSeconds": 0.14
   },
   "Gameplay.Shuttles": {
-    "MinimumThrustStrengthToKnockdownPlayers": 0.85
+    "MinimumThrustStrengthToKnockdownPlayers": 0.85,
+    "MaximumKnockDownTimeFromThrusters": 5.0,
+    "ThrusterKnockdownImmunityCooldown": 5.0
   },
   "Gameplay.Meta": {
     "EnableReactionsGuide": true

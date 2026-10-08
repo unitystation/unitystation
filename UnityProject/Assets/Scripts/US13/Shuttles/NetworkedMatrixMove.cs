@@ -354,6 +354,8 @@ namespace US13.Shuttles
 
 		public MatrixSync MatrixSync;
 
+		private readonly Dictionary<RegisterPlayer, float> lastKnockdownTimes = new();
+
 		public void Awake()
 		{
 			if (TargetTransform == null) TargetTransform = transform.parent;
@@ -399,9 +401,6 @@ namespace US13.Shuttles
 			UpdateManager.Remove(CallbackType.EARLY_UPDATE, UpdateMe);
 			ElapsedTimeSinceLastUpdate.Stop();
 		}
-
-
-
 
 		private void KnockDownPlayers(OrientationEnum OrientationEnum)
 		{
@@ -628,16 +627,47 @@ namespace US13.Shuttles
 			if (multiplier < GameConfigManager.GameConfig.MinimumThrustStrengthToKnockdownPlayers) return;
 			if (multiplier < lastThrusterStrength) return;
 
+			float now = Time.time;
+
+			// Drop entries for destroyed players and expired cooldowns so the dictionary doesn't grow forever
+			CleanupKnockdownTimes(now);
+
 			foreach (NetworkedMatrixMove networkedMatrixMove in matrixMoves)
 			foreach (RegisterPlayer mob in networkedMatrixMove.MetaTileMap.matrix.PresentPlayers)
 			{
-				if (mob == null || mob.IsLayingDown || mob?.PlayerScript?.ObjectPhysics?.IsBuckled == true || mob?.PlayerScript?.playerMove?.CanBeWindPushed == false) return;
-				mob.ServerStun(Mathf.Clamp(multiplier * 2, 1, 5), checkForArmor: false);
-				Chat.AddExamineMsg(mob.PlayerScript.gameObject,
-					"A sudden jolt from below throws you off your feet!");
+				if (mob == null || mob.IsLayingDown
+				                || mob?.PlayerScript?.ObjectPhysics?.IsBuckled == true
+				                || mob?.PlayerScript?.playerMove?.CanBeWindPushed == false) return;
+
+				if (lastKnockdownTimes.TryGetValue(mob, out float lastTime)
+				    && now - lastTime < GameConfigManager.GameConfig.ThrusterKnockdownImmunityCooldown) continue;
+
+				lastKnockdownTimes[mob] = now;
+				mob.ServerStun(
+					Mathf.Clamp(multiplier * 2, 0.25f, GameConfigManager.GameConfig.MaximumKnockDownTimeFromThrusters),
+					checkForArmor: false
+					);
+				Chat.AddExamineMsg(mob.gameObject, "A sudden jolt from below throws you off your feet!");
 			}
 
 			lastThrusterStrength = multiplier;
+		}
+
+		private void CleanupKnockdownTimes(float now)
+		{
+			List<RegisterPlayer> toRemove = null;
+
+			foreach (var kvp in lastKnockdownTimes)
+			{
+				if (kvp.Key == null || now - kvp.Value >= GameConfigManager.GameConfig.ThrusterKnockdownImmunityCooldown)
+				{
+					toRemove ??= new List<RegisterPlayer>();
+					toRemove.Add(kvp.Key);
+				}
+			}
+
+			if (toRemove == null) return;
+			foreach (var key in toRemove) lastKnockdownTimes.Remove(key);
 		}
 
 		public void AddConnector(ShuttleConnector ShuttleConnector)
