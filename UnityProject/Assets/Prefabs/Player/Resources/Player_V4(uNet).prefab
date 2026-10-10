@@ -1310,6 +1310,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94d325b8fa17d3b43a314cb8add77f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
 --- !u!114 &-8106636780342977062
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1898,7 +1901,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   light: {fileID: 4196149980577959187}
-  lightColor: {r: 1, g: 1, b: 1, a: 0.003921569}
+  lightColor: {r: 1, g: 1, b: 1, a: 0.039215688}
+  _defaultColor: {r: 0.74901974, g: 0.74901974, b: 0.74901974, a: 0.039215688}
 --- !u!114 &8039750332941386657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15305,7 +15309,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758,
+      objectReference: {fileID: 21300000, guid: d3d68d996fdfe89458fb2adb538670aa,
         type: 3}
     - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
         type: 3}
@@ -15322,6 +15326,12 @@ PrefabInstance:
       propertyPath: InitialColour.a
       value: 0.003921569
       objectReference: {fileID: 0}
+    - target: {fileID: 4436086651214663511, guid: e2b1333de46384f95876864de1911fff,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f8179d74ed84de34ab93e0142821cd37,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

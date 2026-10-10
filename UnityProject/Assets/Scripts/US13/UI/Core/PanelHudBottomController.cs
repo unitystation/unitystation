@@ -1,12 +1,15 @@
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using US13.Core.Chat;
+using US13.Managers;
 using US13.Player;
 using US13.Systems.Inventory;
 using US13.UI.Systems.MainHUD.UI_Bottom;
 using US13.UI.Systems.MainHUD.UI_Bottom.Alien;
 using Util;
+using Event = UnityEngine.Event;
 
 namespace US13.UI.Core
 {
@@ -164,6 +167,23 @@ namespace US13.UI.Core
 			}
 
 			alienUI.gameObject.SetActive(PlayerManager.LocalPlayerScript.PlayerType == PlayerTypes.Alien);
+		}
+
+
+		public void Awake()
+		{
+			EventManager.AddHandler(Managers.Event.Cleanup ,onRoundEnd);
+		}
+
+		public void OnDestroy()
+		{
+			EventManager.RemoveHandler(Managers.Event.Cleanup ,onRoundEnd);
+		}
+
+
+		public void onRoundEnd()
+		{
+			vampireHud?.SetVisible(false);
 		}
 
 		private void OnDisable()
