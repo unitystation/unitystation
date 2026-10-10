@@ -9,8 +9,8 @@ namespace US13.Player
 	public class DimPlayerLightController : NetworkBehaviour
 	{
 		[SerializeField] private LightSprite light;
-		[SyncVar(hook = nameof(SynclightColor))] public Color lightColor = new Color(255, 255, 255, 10);
-		private Color _defaultColor = new Color(255, 255, 255, 10);
+		[SyncVar(hook = nameof(SynclightColor))] public Color lightColor = new Color(255, 255, 255, 50);
+		private Color _defaultColor = new Color(255, 255, 255, 50);
 
 		public const float DEFAULT_SIZE = 4;
 		private const float ALPHA_SCALE_FACTOR = 25; //Scales the light sprite by the light colours alpha

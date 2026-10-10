@@ -1004,6 +1004,8 @@ namespace US13.HealthV2.Living
 		{
 			if (BleedStacks > 0)
 			{
+				if (IsDead) return;
+
 				var bloodTolose = BleedStacks;
 
 				if (BleedStacks >= 40)
