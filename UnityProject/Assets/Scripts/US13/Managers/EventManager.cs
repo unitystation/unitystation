@@ -15,35 +15,35 @@ namespace US13.Managers
 // For simple broadcasts:
 	public enum Event
 	{
-		UpdateFov,
-		PowerNetSelfCheck,
-		ChatFocused,
-		ChatUnfocused,
-		AccountLoggedOut,
-		ServerLoggedOut,
-		RoundStarted,
-		PostRoundStarted,
-		SceneUnloading,
-		RoundEnded,
-		DisableInternals,
-		EnableInternals,
-		PlayerSpawned,
-		PlayerDied,
-		GhostSpawned,
-		LogLevelAdjusted,
-		UpdateChatChannels,
-		ToggleChatBubbles,
-		PlayerRejoined,
-		PreRoundStarted,
-		MatrixManagerInit,
-		BlobSpawned,
-		ScenesLoadedServer,
-		LavalandFirstEntered,
-		ChatQuickUnfocus,
-		Cleanup,
-		CleanupEnd,
-		ReadyToInitialiseMatrices,
-		GhostRolesInitialized,
+		UpdateFov, // Not used
+		PowerNetSelfCheck, // Not used
+		ChatFocused, // Used: Player opens/focuses chat window (ChatUI.cs)
+		ChatUnfocused, // Not used
+		AccountLoggedOut, // Not used
+		ServerLoggedOut, // Not used
+		RoundStarted, // Used: Game mode officially starts, players can act (GameMode.cs)
+		PostRoundStarted, // Used: Post-round phase begins, results shown (GameManager.cs, LobbyManager.cs)
+		SceneUnloading, // Used: Current map/scene is being unloaded (GameManager.cs, LobbyManager.cs)
+		RoundEnded, // Used: Round concludes, win/lose conditions met (GameManager.cs, LobbyManager.cs)
+		DisableInternals, // Used: Player's internal organs disabled (ControlInternals.cs, PlayerManager.cs)
+		EnableInternals, // Not used
+		PlayerSpawned, // Not used
+		PlayerDied, // Not used
+		GhostSpawned, // Not used
+		LogLevelAdjusted, // Not used
+		UpdateChatChannels, // Used: Available chat channels list updated (PlayerScript.cs)
+		ToggleChatBubbles, // Not used
+		PlayerRejoined, // Not used
+		PreRoundStarted, // Used: Pre-round lobby phase begins (GameManager.cs)
+		MatrixManagerInit, // Used: Matrix manager completes initialization (MatrixManager.cs)
+		BlobSpawned, // Not used
+		ScenesLoadedServer, // Used: All scenes finished loading on server (SubSceneManager.cs)
+		LavalandFirstEntered, // Used: Player first enters lavaland via QuantumPad (QuantumPad.cs)
+		ChatQuickUnfocus, // Not used
+		Cleanup, // Used: Round cleanup phase, clearing entities (GameManager.cs)
+		CleanupEnd, // Used: Cleanup phase finished (GameManager.cs)
+		ReadyToInitialiseMatrices, // Used: Ready to initialize matrix systems (SubSceneManager.cs)
+		GhostRolesInitialized, // Used: Ghost roles assigned to players (GhostRoleManager.cs)
 	} // + other events. Add them as you need them
 
 	[ExecuteInEditMode]
