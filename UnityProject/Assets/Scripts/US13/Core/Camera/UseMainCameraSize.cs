@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using US13.Managers.UpdateManager;
 
 namespace US13.Core.Camera
@@ -18,6 +19,8 @@ namespace US13.Core.Camera
 		private void OnEnable()
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			var overlayData = Camera.GetUniversalAdditionalCameraData();
+			overlayData.renderType = CameraRenderType.Overlay;
 		}
 
 		private void OnDisable()

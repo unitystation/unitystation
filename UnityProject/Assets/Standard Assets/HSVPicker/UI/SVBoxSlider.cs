@@ -59,7 +59,7 @@ namespace Standard_Assets.HSVPicker.UI
 		{
 			if ( renderTexture == null )
 			{
-				renderTexture = new RenderTexture (textureWidth, textureHeight, 0, RenderTextureFormat.RGB111110Float);
+				renderTexture = new RenderTexture (textureWidth, textureHeight, 24, RenderTextureFormat.RGB111110Float);
 				renderTexture.enableRandomWrite = true;
 				renderTexture.Create ();
 			}

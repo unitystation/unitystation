@@ -67,7 +67,7 @@ public class BackgroundRenderer : MonoBehaviour
 		int _textureWidth = iParameters.screenSize.x;
 		int _textureHeight = iParameters.screenSize.y;
 
-		var _newRenderTexture = new RenderTexture(_textureWidth, _textureHeight, 0, RenderTextureFormat.Default);
+		var _newRenderTexture = new RenderTexture(_textureWidth, _textureHeight, 24, RenderTextureFormat.Default);
 		_newRenderTexture.name = "Background Mask";
 		_newRenderTexture.autoGenerateMips = false;
 		_newRenderTexture.useMipMap = false;

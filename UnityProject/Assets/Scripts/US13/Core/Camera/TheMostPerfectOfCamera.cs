@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.U2D;
+using UnityEngine.Rendering.Universal;
 
 namespace US13.Core.Camera
 {
@@ -47,7 +47,5 @@ namespace US13.Core.Camera
 			PixelPerfectCamera.refResolutionX = width;
 			PixelPerfectCamera.refResolutionY = height ;
 		}
-
-
 	}
 }

@@ -1,53 +1,48 @@
-// Upgrade NOTE: replaced 'mul(UNITY_MATRIX_MVP,*)' with 'UnityObjectToClipPos(*)'
-
 Shader "Unitystation/Shader/UIBlending"
 {
-    Properties {
+    Properties
+    {
         _MainTex ("Main Texture", 2D) = "white" {}
         _UITexture ("UI Texture", 2D) = "white" {}
     }
 
-    SubShader {
-        Tags { "RenderType" = "Transparent" "Queue" = "Transparent" }
-        Blend SrcAlpha OneMinusSrcAlpha
+    SubShader
+    {
+        Tags { "RenderPipeline" = "UniversalPipeline" }
 
-        Pass {
-            CGPROGRAM
-            #pragma vertex vert
+        // No fixed-function blending: the render graph blit pass can't be relied on to preserve
+        // the destination, so the blend is done in the shader from a copy of the scene (_MainTex).
+        Cull Off ZWrite Off ZTest Always Blend Off
+
+        Pass
+        {
+            Name "UIBlending"
+
+            HLSLPROGRAM
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
+
+            #pragma vertex Vert
             #pragma fragment frag
 
-            #include "UnityCG.cginc"
+            TEXTURE2D(_MainTex);   SAMPLER(sampler_MainTex);
+            TEXTURE2D(_UITexture); SAMPLER(sampler_UITexture);
 
-            struct appdata {
-                float4 position : POSITION;
-                half2 texCoord : TEXCOORD0;
-            };
+            half4 frag(Varyings input) : SV_Target
+            {
+                float2 uv = input.texcoord;
 
-            struct v2f {
-                float4 position : SV_POSITION;
-                float2 uv : TEXCOORD0;
-                float alpha : TEXCOORD1;
-            };
+                half4 scene = SAMPLE_TEXTURE2D(_MainTex, sampler_MainTex, uv);
+                half4 ui = SAMPLE_TEXTURE2D(_UITexture, sampler_UITexture, uv);
 
-            sampler2D _MainTex;
-            sampler2D _UITexture;
-            float4 _MainTex_ST;
-            float4 _UITexture_ST;
-
-            v2f vert (appdata v) {
-                v2f o;
-                o.position = UnityObjectToClipPos(v.position);
-                o.uv = (v.texCoord - _MainTex_ST.zw) / _MainTex_ST.xy;
-                return o;
+                // Same result as the old "Blend SrcAlpha OneMinusSrcAlpha" applied to rgb and alpha:
+                //   out = ui * ui.a + scene * (1 - ui.a)
+                half4 result;
+                result.rgb = ui.rgb * ui.a + scene.rgb * (1.0 - ui.a);
+                result.a = ui.a * ui.a + scene.a * (1.0 - ui.a);
+                return result;
             }
-
-            fixed4 frag (v2f i) : SV_Target {
-                fixed4 uiTex = tex2D(_UITexture,i.uv);
-                return uiTex;
-            }
-            ENDCG
+            ENDHLSL
         }
     }
-
-    Fallback "Transparent/Cutout/Diffuse"
 }
