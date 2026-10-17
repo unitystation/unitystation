@@ -50,6 +50,7 @@ namespace US13.Actions.V2
 
 		private void Start()
 		{
+			PlayerManager.OnMindset += RefreshUI;
 			cachedNetIdentity = gameObject.NetWorkIdentity();
 			switch (ActionButtonOnType)
 			{
@@ -68,6 +69,7 @@ namespace US13.Actions.V2
 
 		private void OnDestroy()
 		{
+			PlayerManager.OnMindset -= RefreshUI;
 			ActionButtons.Callback -= OnActionButtonsChanged;
 			ClearCooldowns();
 

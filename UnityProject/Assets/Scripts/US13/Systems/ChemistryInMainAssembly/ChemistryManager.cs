@@ -26,6 +26,7 @@ namespace US13.Systems.ChemistryInMainAssembly
 			ReagentMix CurrentReagentMix,
 			HashSet<Chemistry.Reaction> ContainedAdditionalReactions,
 			HashSet<Chemistry.Reaction> possibleReactions,
+			HashSet<Chemistry.Reaction> FlippossibleReactions,
 			[CanBeNull] ReactionSet ReactionSet,
 			Vector3 HappeningAtWorld,
 			bool ReactionSounds = true,
@@ -37,8 +38,9 @@ namespace US13.Systems.ChemistryInMainAssembly
 				ReactionSet = ChemistryManager.Instance.ReactionSet;
 			}
 
-
 			possibleReactions.Clear();
+			FlippossibleReactions.Clear();
+			
 			foreach (var reagents in CurrentReagentMix.reagents.m_dict)
 			{
 				var reactions = reagents.Key.RelatedReactions;
@@ -67,7 +69,7 @@ namespace US13.Systems.ChemistryInMainAssembly
 
 			if (applyChange == true)
 			{
-				var Changed = ReactionSet.Apply(sender, HappeningAtWorld, CurrentReagentMix, possibleReactions);
+				var Changed = ReactionSet.Apply(sender, HappeningAtWorld, CurrentReagentMix,possibleReactions, FlippossibleReactions , ContainedAdditionalReactions, ReactionSet );
 
 				if (Changed && ReactionSounds)
 				{

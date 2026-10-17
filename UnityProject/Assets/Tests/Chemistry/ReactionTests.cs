@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using Chemistry;
 using NUnit.Framework;
 using ScriptableObjects;
@@ -15,7 +16,7 @@ namespace Tests.Chemistry
 		[TestCaseSource(nameof(ReactionTestData))]
 		public void SimpleReaction(ReagentMix mix, Reaction reaction, ReagentMix result)
 		{
-			reaction.Apply(null,  Vector3.zero, mix);
+			reaction.Apply(null,  Vector3.zero, mix, new HashSet<Reaction>(), new  HashSet<Reaction>(),null);
 
 			Assert.True(mix.ContentEquals(result));
 		}

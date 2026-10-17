@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Shared.Managers;
 using Shared.Util;
@@ -75,6 +76,8 @@ namespace US13.Player
 		private readonly List<MoveAction> heldMoveActionRecency = new List<MoveAction>();
 
 		public static PlayerManager Instance => FindUtils.LazyFindObject(ref playerManager);
+
+		public static event Action OnMindset;
 
 		public override void Awake()
 		{
@@ -182,6 +185,7 @@ namespace US13.Player
 		public static void SetMind(Mind inMind)
 		{
 			LocalMindScript = inMind;
+			OnMindset?.Invoke();
 		}
 
 		/// <summary>
