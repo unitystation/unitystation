@@ -22,7 +22,10 @@ namespace US13.HealthV2.Living.MedicalChemistry
 		//public List<ItemTrait> SingleRequired = new List<ItemTrait>(); TODO add ability to Apply to multiple tags
 		public List<ItemTrait> ExternalBlacklist  = new List<ItemTrait>();
 
-		public override bool Apply(object sender, Vector3 WorldPosition , ReagentMix reagentMix)
+		public override bool Apply(object sender, Vector3 woldPosition , ReagentMix reagentMix,
+			HashSet<Chemistry.Reaction> ContainedAdditionalReactions,
+			HashSet<Chemistry.Reaction> FlippossibleReactions,
+			ReactionSet ReactionSet)
 		{
 			if (IsReactionValid(reagentMix) == false)
 			{

@@ -17,11 +17,13 @@ namespace US13.Core.Lighting
 	{
 		[HideInInspector] public readonly SyncList<LightData> Lights = new SyncList<LightData>();
 
-		[SerializeField] private UnityEngine.Transform lightsParent;
+		[SerializeField] public UnityEngine.Transform lightsParent;
 		[SerializeField] private GameObject lightSpriteObject;
 		[SerializeField] private Rotatable rotatable;
 
 		private OrientationEnum currentOrientation = OrientationEnum.Default;
+
+		public event Action OnChange;
 
 		public override void OnStartClient()
 		{
@@ -119,9 +121,11 @@ namespace US13.Core.Lighting
 				{
 					var Handler = sprite.gameObject.GetComponent<SpriteHandler>();
 					Handler?.UnregisterFromManager();
-					Despawn.ClientSingle(sprite.gameObject);
+					DestroyImmediate(sprite.gameObject);
 				}
 			}
+
+			OnChange?.Invoke();
 		}
 
 		private void OnLightsListChange(SyncList<LightData>.Operation op, int index, LightData oldItem,
@@ -166,6 +170,7 @@ namespace US13.Core.Lighting
 					SetLightData(Lights[i], lightSprite);
 				}
 			}
+			OnChange?.Invoke();
 		}
 
 		private void SetLightData(LightData data, LightSprite lightSprite)
@@ -201,8 +206,9 @@ namespace US13.Core.Lighting
 			{
 				var Handler = sprite.gameObject.GetComponent<SpriteHandler>();
 				Handler?.UnregisterFromManager();
-				Despawn.ClientSingle(sprite.gameObject);
+				DestroyImmediate(sprite.gameObject);
 			}
+			OnChange?.Invoke();
 		}
 	}
 

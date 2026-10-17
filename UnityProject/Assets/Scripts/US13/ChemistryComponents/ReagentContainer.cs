@@ -250,6 +250,7 @@ namespace US13.ChemistryComponents
 		}
 
 		private HashSet<Reaction> possibleReactions = new HashSet<Reaction>();
+		private HashSet<Reaction> FlippossibleReactions = new HashSet<Reaction>();
 
 		//Warning main thread only for now
 		public void ReagentsChanged(bool applyChange = true, bool cacheEffects = false)
@@ -261,6 +262,7 @@ namespace US13.ChemistryComponents
 				CurrentReagentMix,
 				ContainedAdditionalReactions,
 				possibleReactions,
+				FlippossibleReactions,
 				ReactionSet,
 				this.gameObject.AssumedWorldPosServer(false),
 				ReactionSounds,

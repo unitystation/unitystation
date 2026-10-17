@@ -1902,7 +1902,6 @@ MonoBehaviour:
   syncInterval: 0.1
   light: {fileID: 4196149980577959187}
   lightColor: {r: 1, g: 1, b: 1, a: 0.039215688}
-  _defaultColor: {r: 0.74901974, g: 0.74901974, b: 0.74901974, a: 0.039215688}
 --- !u!114 &8039750332941386657
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2152,7 +2151,6 @@ MonoBehaviour:
   syncMode: 1
   syncInterval: 0
   <ActionButtonOnType>k__BackingField: 0
-  <ActionButtonRefreshRate>k__BackingField: 0.25
 --- !u!114 &3913575896194237634
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14965,7 +14963,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5e6cf56e407117e4faa5cbed4663a515, type: 2}
   - {fileID: 11400000, guid: 8edd9df57e0eca742973f14d8e27ff52, type: 2}
   - {fileID: 11400000, guid: ddf681d078c0be44eaa104e2c182b78a, type: 2}
-  timeBetweenAmbience: 135
+  timeBetweenAmbience: 100
 --- !u!1 &7706745016017648645
 GameObject:
   m_ObjectHideFlags: 0
@@ -15256,6 +15254,18 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.008
       objectReference: {fileID: 0}
@@ -15319,12 +15329,12 @@ PrefabInstance:
     - target: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
         type: 3}
       propertyPath: InitialColour.a
-      value: 0.003921569
+      value: 0.039215688
       objectReference: {fileID: 0}
     - target: {fileID: 4436086651214663511, guid: e2b1333de46384f95876864de1911fff,
         type: 3}
       propertyPath: InitialColour.a
-      value: 0.003921569
+      value: 0.039215688
       objectReference: {fileID: 0}
     - target: {fileID: 4436086651214663511, guid: e2b1333de46384f95876864de1911fff,
         type: 3}

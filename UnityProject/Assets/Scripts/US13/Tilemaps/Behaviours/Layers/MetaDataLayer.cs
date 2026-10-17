@@ -588,6 +588,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 				cell.ReagentsOnTile,
 				null,
 				cell.possibleReactions,
+				cell.possibleReactionsFlip,
 				null,
 				cell.WorldPosition);
 
@@ -683,8 +684,7 @@ namespace US13.Tilemaps.Behaviours.Layers
 					neighbor.ReagentsOnTile.Add(splitMix);
 
 					CleanAndMoveToExcess(neighbor.LocalPosition.ToWorldInt(matrix), neighbor.LocalPosition,neighbor.ReagentsOnTile);
-
-					ChemistryManager.ReagentsChanged(null, neighbor.ReagentsOnTile, null, neighbor.possibleReactions, null,
+					ChemistryManager.ReagentsChanged(null, neighbor.ReagentsOnTile, null, neighbor.possibleReactions,neighbor.possibleReactionsFlip,  null,
 						neighbor.WorldPosition);
 
 					SetOrUpdateTile(neighbor, neighbor.LocalPosition);

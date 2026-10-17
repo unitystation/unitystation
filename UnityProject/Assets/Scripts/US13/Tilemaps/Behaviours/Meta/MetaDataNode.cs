@@ -196,6 +196,7 @@ namespace US13.Tilemaps.Behaviours.Meta
 		public ReagentMix ReagentsOnTile = new ReagentMix();
 
 		public HashSet<Chemistry.Reaction> possibleReactions = new HashSet<Reaction>();
+		public HashSet<Chemistry.Reaction> possibleReactionsFlip = new HashSet<Reaction>();
 
 		public Vector3Int? ReagentOverlayTileLocation = null;
 		public Chemistry.ReagentState? ReagentStateTile = null;

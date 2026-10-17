@@ -2,6 +2,7 @@
 using Logs;
 using Mirror;
 using UnityEngine;
+using US13.Core.Lighting;
 using Util;
 
 namespace US13.Player
@@ -9,12 +10,16 @@ namespace US13.Player
 	public class DimPlayerLightController : NetworkBehaviour
 	{
 		[SerializeField] private LightSprite light;
-		[SyncVar(hook = nameof(SynclightColor))] public Color lightColor = new Color(255, 255, 255, 50);
-		private Color _defaultColor = new Color(255, 255, 255, 50);
 
-		public const float DEFAULT_SIZE = 4;
-		private const float ALPHA_SCALE_FACTOR = 25; //Scales the light sprite by the light colours alpha
+		[SyncVar(hook = nameof(SynclightColor))]
+		public Color lightColor = new Color(255, 255, 255, 10);
+
+		private Color _defaultColor = new Color(255, 255, 255, 10);
+
+		public const float DEFAULT_SIZE = 1.5f;
+		private const float ALPHA_SCALE_FACTOR = 25.5f; //Scales the light sprite by the light colours alpha
 		private float _size = DEFAULT_SIZE; //Override for dim light size independent from the light sprite colour
+		private LightsHolder _lightsHolder;
 
 		private void Awake()
 		{
@@ -25,6 +30,30 @@ namespace US13.Player
 			}
 
 			_defaultColor = lightColor;
+			_lightsHolder ??= GetComponent<LightsHolder>();
+			if (_lightsHolder != null)
+			{
+				_lightsHolder.OnChange += OnLightsListChange;
+				CheckLightsState();
+			}
+		}
+
+		private void OnLightsListChange()
+		{
+			CheckLightsState();
+		}
+
+		private void CheckLightsState()
+		{
+			if (_lightsHolder == null) return;
+			if (_lightsHolder.lightsParent.GetComponentsInChildren<LightSprite>().Length > 0)
+			{
+				TurnOffLight2D();
+			}
+			else
+			{
+				TurnOnLight2D();
+			}
 		}
 
 		public void UpdateLightLocally()
@@ -42,7 +71,8 @@ namespace US13.Player
 
 		public void UpdateLightData(float newSize, bool updateColour = true)
 		{
-			if(updateColour) light.Color = lightColor;
+			//1.5 ,  light.Color.a
+			if (updateColour) light.Color = lightColor;
 
 			_size = newSize;
 			var scale = Vector3.one * _size;

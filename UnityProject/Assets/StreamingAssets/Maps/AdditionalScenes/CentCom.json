@@ -21945,10 +21945,10 @@
         "CommonPrefabs": [],
         "PrefabData": [
           {
-            "GitID": "69ffc1053dc39a24fb870b2248780be4_-34┼-30┼0┼",
+            "GitID": "69ffc1053dc39a24fb870b2248780be4_-60┼-30┼0┼",
             "PrefabID": "69ffc1053dc39a24fb870b2248780be4",
             "Name": "Buoy (3)",
-            "LocalPRS": "-34┼-30┼0┼",
+            "LocalPRS": "-60┼-30┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -21964,7 +21964,7 @@
                     },
                     {
                       "Name": "In@NextInLine",
-                      "Data": "69ffc1053dc39a24fb870b2248780be4_-12┼-30┼0┼@0@GuidanceBuoy@0"
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_-32┼-30┼0┼@0@GuidanceBuoy@0"
                     }
                   ]
                 }
@@ -21972,10 +21972,10 @@
             }
           },
           {
-            "GitID": "69ffc1053dc39a24fb870b2248780be4_-12┼-30┼0┼",
+            "GitID": "69ffc1053dc39a24fb870b2248780be4_-32┼-30┼0┼",
             "PrefabID": "69ffc1053dc39a24fb870b2248780be4",
             "Name": "Buoy (2)",
-            "LocalPRS": "-12┼-30┼0┼",
+            "LocalPRS": "-32┼-30┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -21991,7 +21991,7 @@
                     },
                     {
                       "Name": "Out@NextInLine",
-                      "Data": "69ffc1053dc39a24fb870b2248780be4_-34┼-30┼0┼@0@GuidanceBuoy@0"
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_-60┼-30┼0┼@0@GuidanceBuoy@0"
                     },
                     {
                       "Name": "In@UseConnectorAsCentreOfShuttle",
@@ -23943,7 +23943,7 @@
                   "Data": [
                     {
                       "Name": "CentCommGuidanceBuoy",
-                      "Data": "69ffc1053dc39a24fb870b2248780be4_-34┼-30┼0┼@0@GuidanceBuoy@0"
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_-60┼-30┼0┼@0@GuidanceBuoy@0"
                     }
                   ]
                 }
@@ -27980,7 +27980,7 @@
                     },
                     {
                       "Name": "Out@NextInLine",
-                      "Data": "69ffc1053dc39a24fb870b2248780be4_-12┼-30┼0┼@0@GuidanceBuoy@0"
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_-32┼-30┼0┼@0@GuidanceBuoy@0"
                     },
                     {
                       "Name": "In@UseConnectorAsCentreOfShuttle",
@@ -29200,13 +29200,6 @@
             "LocalPRS": "17.994┼17.07┼0┼"
           },
           {
-            "GitID": "e9d40516785485e4186335c8a0127177_17.995┼17.07┼0┼",
-            "PrefabID": "e9d40516785485e4186335c8a0127177",
-            "NameMatches": true,
-            "Name": "BoxMagazine7.12x82mm",
-            "LocalPRS": "17.995┼17.07┼0┼"
-          },
-          {
             "GitID": "43c86c953fb5f494dbc3f862e8c95a4d_18┼-29┼0┼",
             "PrefabID": "43c86c953fb5f494dbc3f862e8c95a4d",
             "Name": "BlastDoor",
@@ -30219,6 +30212,13 @@
             "NameMatches": true,
             "Name": "BoxMagazine7.12x82mm",
             "LocalPRS": "18.001┼17.07┼0┼"
+          },
+          {
+            "GitID": "e9d40516785485e4186335c8a0127177_18.002┼17.07┼0┼",
+            "PrefabID": "e9d40516785485e4186335c8a0127177",
+            "NameMatches": true,
+            "Name": "BoxMagazine7.12x82mm",
+            "LocalPRS": "18.002┼17.07┼0┼"
           },
           {
             "GitID": "f021fb89430b809c6aa885598328383b_18.01┼16.12┼0┼",
@@ -32827,11 +32827,11 @@
             "LocalPRS": "21.025┼16.06┼0┼"
           },
           {
-            "GitID": "a65c9499c9842d84798d2b981cc16662_21.026┼16.06┼0┼",
+            "GitID": "a65c9499c9842d84798d2b981cc16662_21.03┼16.06┼0┼",
             "PrefabID": "a65c9499c9842d84798d2b981cc16662",
             "NameMatches": true,
             "Name": "PistolMagazine.44",
-            "LocalPRS": "21.026┼16.06┼0┼"
+            "LocalPRS": "21.03┼16.06┼0┼"
           },
           {
             "GitID": "a5027447659489d10ae1b27b000a46d6_21.05┼15.31┼0┼",
@@ -35976,8 +35976,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "-0.5,5.5,0",
-          "Size": "67,71,0"
+          "Pos": "-13.5,5.5,0",
+          "Size": "93,71,0"
         }
       ]
     },
