@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Logs;
@@ -7,6 +8,7 @@ using UnityEngine;
 using US13.Core.Addressables.Types;
 using US13.Core.Sound;
 using US13.Messages.Server.SoundMessages;
+using US13.Managers.Music;
 using US13.Managers.NetworkManagement;
 using US13.Managers.UpdateManager;
 using US13.PlayerPrefs;
@@ -23,6 +25,195 @@ namespace US13.Managers.LobbyManager
 
 		private bool isMusicMute;
 		[Range(0f, 1f)] public float MusicVolume = 0.5f;
+
+		#region Robust Music Manager (bounty #6787)
+
+		[Header("Robust Music Manager")]
+		[Tooltip("Optional server-host configurable music library. Allows adding lobby, admin, and trigger music without code changes.")]
+		[SerializeField] private MusicLibrarySO musicLibrary = null;
+
+		/// <summary>
+		/// The track currently managed by the scoring system (may be null).
+		/// </summary>
+		public MusicTrackSO CurrentTrack { get; private set; }
+
+		/// <summary>
+		/// True while a scored track is playing (used for override decisions).
+		/// </summary>
+		public bool IsScoredTrackPlaying => CurrentTrack != null && isMusicPlaying();
+
+		private Coroutine fadeCoroutine;
+
+		/// <summary>
+		/// Assigns a server-host music library at runtime (e.g. loaded from config).
+		/// </summary>
+		public void SetMusicLibrary(MusicLibrarySO library)
+		{
+			musicLibrary = library;
+		}
+
+		/// <summary>
+		/// Plays a scored track, respecting playback mode and the override/scoring rules.
+		/// A higher-score Global track fades out and replaces a lower-score Local track.
+		/// A lower-score track is ignored while a higher-score track is playing.
+		/// Diagetic tracks are routed through the ambient system and do not compete here.
+		/// </summary>
+		/// <returns>True if the track was accepted and playback started (or is fading in).</returns>
+		public async Task<bool> PlayScoredTrack(MusicTrackSO track)
+		{
+			if (track == null || track.Clip == null)
+			{
+				Loggy.Warning("MusicManager.PlayScoredTrack called with a null track or clip.", Category.Audio);
+				return false;
+			}
+
+			if (GameData.IsHeadlessServer) return false;
+
+			// Diagetic tracks are positional and handled by the ambient/sound system, not this manager.
+			if (track.PlaybackMode == MusicPlaybackMode.Diagetic)
+			{
+				await PlayDiagetic(track);
+				return true;
+			}
+
+			// Scoring: reject a track that cannot override the currently playing scored track.
+			if (IsScoredTrackPlaying && track.Score < CurrentTrack.Score)
+			{
+				Loggy.Info($"MusicManager: ignoring \"{track.TrackName}\" (score {track.Score}) — " +
+				           $"\"{CurrentTrack.TrackName}\" (score {CurrentTrack.Score}) is playing.", Category.Audio);
+				return false;
+			}
+
+			// Fade out whatever is playing before starting the new track.
+			if (isMusicPlaying())
+			{
+				var fadeOut = CurrentTrack != null ? CurrentTrack.FadeOutDuration : 1f;
+				await FadeOutAndStop(fadeOut);
+			}
+
+			CurrentTrack = track;
+			await PlayTrackInternal(track);
+			return true;
+		}
+
+		/// <summary>
+		/// Fires a registered trigger by id. Rolls the trigger's chance/cooldown and, on success,
+		/// plays the chosen track via the scoring system.
+		/// </summary>
+		/// <returns>True if a track was selected and playback was attempted.</returns>
+		public async Task<bool> FireTrigger(string triggerId)
+		{
+			if (musicLibrary == null)
+			{
+				Loggy.Warning("MusicManager.FireTrigger: no MusicLibrarySO assigned.", Category.Audio);
+				return false;
+			}
+
+			var trigger = musicLibrary.GetTrigger(triggerId);
+			if (trigger == null)
+			{
+				Loggy.Warning($"MusicManager.FireTrigger: trigger \"{triggerId}\" not found in library.", Category.Audio);
+				return false;
+			}
+
+			var track = trigger.TryFire();
+			if (track == null) return false; // failed the chance roll or cooldown
+
+			return await PlayScoredTrack(track);
+		}
+
+		/// <summary>
+		/// Stops the current scored track with its configured fade-out duration.
+		/// </summary>
+		public async Task StopScoredTrack()
+		{
+			var fadeOut = CurrentTrack != null ? CurrentTrack.FadeOutDuration : 1f;
+			await FadeOutAndStop(fadeOut);
+			CurrentTrack = null;
+		}
+
+		private async Task PlayTrackInternal(MusicTrackSO track)
+		{
+			var audioSource = await AudioManager.GetAddressableAudioSourceFromCache(
+				new List<AddressableAudioSource> { track.Clip });
+			if (audioSource == null || audioSource.AudioSource == null || audioSource.AudioSource.clip == null)
+			{
+				Loggy.Error("MusicManager failed to load a scored track; is Addressables loaded?", Category.Audio);
+				CurrentTrack = null;
+				return;
+			}
+
+			if (musicAudioSource == null) Init();
+
+			musicAudioSource.clip = audioSource.AudioSource.clip;
+			musicAudioSource.mute = isMusicMute;
+			musicAudioSource.volume = MusicVolume;
+			musicAudioSource.Play();
+
+			AudioManager.MusicVolume(0f, false);
+			if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
+			fadeCoroutine = StartCoroutine(FadeMixerTo(track.FadeInDuration, MusicVolume));
+
+			currentNetworkedSong = track.TrackName;
+		}
+
+		private async Task PlayDiagetic(MusicTrackSO track)
+		{
+			// Diagetic music is positional; route through the ambient manager at the listener's position.
+			if (SoundAmbientManager.Instance == null) return;
+			var audioSource = await AudioManager.GetAddressableAudioSourceFromCache(
+				new List<AddressableAudioSource> { track.Clip });
+			if (audioSource?.AudioSource?.clip != null)
+			{
+				SoundAmbientManager.PlayAudio(track.Clip.name);
+			}
+		}
+
+		private async Task FadeOutAndStop(float duration)
+		{
+			if (duration <= 0f || !isMusicPlaying())
+			{
+				StopMusic();
+				return;
+			}
+
+			if (fadeCoroutine != null) StopCoroutine(fadeCoroutine);
+			fadeCoroutine = StartCoroutine(FadeMixerTo(duration, 0f, stopAfter: true));
+			// Await roughly the fade duration so the next track starts after the fade completes.
+			await Task.Delay(TimeSpan.FromSeconds(duration));
+		}
+
+		private IEnumerator FadeMixerTo(float duration, float targetVolume, bool stopAfter = false)
+		{
+			if (duration <= 0f)
+			{
+				AudioManager.MusicVolume(targetVolume, false);
+				if (stopAfter) StopMusic();
+				yield break;
+			}
+
+			float startVolume = musicAudioSource != null ? musicAudioSource.volume : 0f;
+			float elapsed = 0f;
+
+			while (elapsed < duration)
+			{
+				elapsed += Time.deltaTime;
+				float t = Mathf.Clamp01(elapsed / duration);
+				float volume = Mathf.Lerp(startVolume, targetVolume, t);
+
+				if (musicAudioSource != null) musicAudioSource.volume = volume;
+				AudioManager.MusicVolume(volume, false);
+
+				yield return null;
+			}
+
+			if (musicAudioSource != null) musicAudioSource.volume = targetVolume;
+			AudioManager.MusicVolume(targetVolume, false);
+			if (stopAfter) StopMusic();
+			fadeCoroutine = null;
+		}
+
+		#endregion
 
 		private readonly List<AddressableAudioSource> trackHistory = new List<AddressableAudioSource>();
 		private int historyIndex = -1;
