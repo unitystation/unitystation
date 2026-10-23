@@ -6,39 +6,51 @@ namespace US13.Core.Camera
 	[Flags]
 	public enum ColourBlindMode
 	{
-		None =  0,
+		None   = 0,
 		Tritan = 1 << 0,
 		Protan = 1 << 1,
-		Deuntan = 1 << 2,
+		Deuntan = 1 << 2
 	}
 
-	public class ColourblindEmulation : MonoBehaviour
+	public class ColourblindEmulation : CameraEffectBase
 	{
 		public Material material;
 
-		[SerializeField] [NaughtyAttributes.EnumFlags] private ColourBlindMode CurrentColourMode;
+		[SerializeField]
+		[NaughtyAttributes.EnumFlags]
+		private ColourBlindMode CurrentColourMode;
 
-		public void SetColourMode(ColourBlindMode InColourMode)
+		public void SetColourMode(ColourBlindMode inColourMode)
 		{
-			if (InColourMode == ColourBlindMode.None)
-			{
-				this.enabled = false;
-			}
-			else
-			{
-				this.enabled = true;
-				CurrentColourMode = InColourMode;
-			}
+			CurrentColourMode = inColourMode;
+
+			enabled = CurrentColourMode != ColourBlindMode.None;
 		}
 
-
-		void OnRenderImage(RenderTexture source, RenderTexture destination)
+		public override Material GetMaterial()
 		{
-			material.SetInt("_DEUNTAN",  CurrentColourMode.HasFlag(ColourBlindMode.Deuntan) ? 1 : 0);
-			material.SetInt("_TRITAN",  CurrentColourMode.HasFlag(ColourBlindMode.Tritan) ? 1 : 0);
-			material.SetInt("_PROTAN",  CurrentColourMode.HasFlag(ColourBlindMode.Protan) ? 1 : 0);
+			if (CurrentColourMode == ColourBlindMode.None) return null;
 
-			Graphics.Blit(source, destination, material);
+			Material mat = GetInstance(material);
+
+			if (mat == null) return null;
+
+			mat.SetInt(
+				"_TRITAN",
+				CurrentColourMode.HasFlag(ColourBlindMode.Tritan) ? 1 : 0
+			);
+
+			mat.SetInt(
+				"_PROTAN",
+				CurrentColourMode.HasFlag(ColourBlindMode.Protan) ? 1 : 0
+			);
+
+			mat.SetInt(
+				"_DEUNTAN",
+				CurrentColourMode.HasFlag(ColourBlindMode.Deuntan) ? 1 : 0
+			);
+
+			return mat;
 		}
 	}
 }

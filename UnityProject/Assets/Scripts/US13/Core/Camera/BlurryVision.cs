@@ -2,48 +2,45 @@ using UnityEngine;
 
 namespace US13.Core.Camera
 {
-	public class BlurryVision : MonoBehaviour
+	public class BlurryVision : CameraEffectBase
 	{
 		public Material material;
 
-		[SerializeField] private int _BlurryStrength = 20;
+		[SerializeField]
+		private int _BlurryStrength = 20;
 
 		private bool HasEyeCorrection = false;
 
-		public void SetHasEyeCorrection(bool InState)
+		public void SetHasEyeCorrection(bool inState)
 		{
-			HasEyeCorrection = InState;
-			this.enabled = !HasEyeCorrection;
+			HasEyeCorrection = inState;
+			enabled = !HasEyeCorrection && _BlurryStrength > 0;
 		}
 
-		public void SetBlurStrength(int InStrength)
+		public void SetBlurStrength(int inStrength)
 		{
-			if (InStrength <= 0)
+			if (inStrength <= 0)
 			{
 				_BlurryStrength = 1;
-				this.enabled = false;
 			}
 			else
 			{
-				this.enabled = true;
-				if (InStrength > 30)
-				{
-					InStrength = 30;
-				}
-
-				_BlurryStrength = InStrength;
-			}
-
-			if (HasEyeCorrection == true)
-			{
-				this.enabled = false;
+				_BlurryStrength = Mathf.Clamp(inStrength, 1, 30);
+				enabled = !HasEyeCorrection;
 			}
 		}
 
-		void OnRenderImage(RenderTexture source, RenderTexture destination)
+		public override Material GetMaterial()
 		{
-			material.SetInt("_BlurryStrength", _BlurryStrength);
-			Graphics.Blit(source, destination, material);
+			if (HasEyeCorrection || _BlurryStrength <= 0) return null;
+
+			Material mat = GetInstance(material);
+
+			if (mat == null) return null;
+
+			mat.SetInt("_BlurryStrength", _BlurryStrength);
+
+			return mat;
 		}
 	}
 }

@@ -1,76 +1,102 @@
 ﻿Shader "Hidden/Vampire Vision"
 {
-	Properties{
-		_MainTex("Base (RGB)", RECT) = "white" {}
-	}
+    Properties
+    {
+        _MainTex("Base (RGB)", 2D) = "white" {}
+        _LensRadius("Lens Radius", Float) = 0.5
+    }
 
-		SubShader{
-			Pass {
-				ZTest Always Cull Off ZWrite Off
-				Fog { Mode off }
+    SubShader
+    {
+        Tags
+        {
+            "RenderPipeline" = "UniversalPipeline"
+        }
 
-				CGPROGRAM
-					#pragma vertex vert_img
-					#pragma fragment frag
-					#pragma fragmentoption ARB_precision_hint_fastest
-					#include "UnityCG.cginc"
+        Pass
+        {
+            Name "VampireVision"
+            ZTest Always
+            Cull Off
+            ZWrite Off
 
-				// frag shaders data
-				uniform sampler2D _MainTex;
-				uniform float _LensRadius;
-					
-				static const float3 BT709 = float3(0.2126f, 0.7152f, 0.0722f);
+            HLSLPROGRAM
+            #pragma vertex Vert
+            #pragma fragment Frag
 
-				static const float _RedThreshold = 0.3f; //How close a hue needs to be to red to be considered red
-				static const float _RedSoftness = 0.05f;  //Smooths out the cutoff for the above threshold
-				static const float _RedDominance = 0.35f; //Red channels below this amplitude are considered less red (overwise dim objects are counted as overly red)
-				static const float _HueClamp = 1.0f;       // hue clamp strength        (e.g. 0.65)
-				static const float _HueRange = 0.2f;       // hue clamp redness range   (e.g. 0.25)
-				static const float _GrainSpeed = 0.1f;
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
 
-				// frag shader
-				float4 frag(v2f_img i) : COLOR
-				{
-					float4 col = tex2D(_MainTex, i.uv);
+            CBUFFER_START(UnityPerMaterial)
+                float _LensRadius;
+            CBUFFER_END
 
-					float redness = col.r - max(col.g, col.b);
-					float saturation = col.r - min(col.g, col.b);
-					
-					float rMask = smoothstep(_RedThreshold - _RedSoftness, _RedSoftness + _RedThreshold, redness);
-					//Creates a mask texture where white is red pixels, black is non read
-					rMask *= smoothstep(0.0f, _RedDominance, col.r);
-					rMask *= smoothstep(0.1f, 0.4f, saturation);
-					
-					float nearRed  = smoothstep(0.0, _HueRange, redness);
-                   
-					//smoothstep(0.0, uDominance * 0.5, r);
-					float3  clampedHue  = float3(col.r,
-                        col.g * (1.0 - _HueClamp * nearRed),
-                        col.b * (1.0 - _HueClamp * nearRed));
-				
-    // --- Luma + final mix ---
-					//BT709 is a standard colour vector meant to replicate how humans percieve luminosity (greens contributing more etc).
-					//This calculates luminosity by seeing how close our colour aligns with that vector
-					float luminosity = dot(clampedHue, BT709);
-					
-					float3 outputColour = lerp(luminosity, clampedHue, rMask);
-					float dist = distance(i.uv, float2(0.5, 0.5))/1.1f;
-					outputColour.rgb *= smoothstep(_LensRadius,  _LensRadius - 0.2f, dist);
+            static const float3 BT709 = float3(0.2126, 0.7152, 0.0722);
 
-					//Grain noise... remove for now
-				
-					//float2 uv_time = i.uv + frac(_Time.y * _GrainSpeed);
-					//float noise = (frac(sin(dot(uv_time, float2(12.9898, 78.233))) * 43758.5453) - 0.5) * 2.0;
-					//outputColour.rgb += (noise * 0.06f);
-					
-					
-					// return col pixel
-					return float4(outputColour, 1.0f);
-				}
+            static const float _RedThreshold = 0.3;
+            static const float _RedSoftness = 0.05;
+            static const float _RedDominance = 0.35;
+            static const float _HueClamp = 1.0;
+            static const float _HueRange = 0.2;
 
-				ENDCG
+            half4 Frag(Varyings input) : SV_Target
+            {
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-			}
-		}
-	Fallback off
+                float2 uv = input.texcoord;
+
+                half4 col = SAMPLE_TEXTURE2D_X(
+                    _BlitTexture,
+                    sampler_LinearClamp,
+                    uv
+                );
+
+                float redness = col.r - max(col.g, col.b);
+                float saturation = col.r - min(col.g, col.b);
+
+                // Identify strongly red pixels.
+                float rMask = smoothstep(
+                    _RedThreshold - _RedSoftness,
+                    _RedThreshold + _RedSoftness,
+                    redness
+                );
+
+                rMask *= smoothstep(0.0, _RedDominance, col.r);
+                rMask *= smoothstep(0.1, 0.4, saturation);
+
+                // Reduce green and blue in red hues.
+                float nearRed = smoothstep(0.0, _HueRange, redness);
+
+                float3 clampedHue = float3(
+                    col.r,
+                    col.g * (1.0 - _HueClamp * nearRed),
+                    col.b * (1.0 - _HueClamp * nearRed)
+                );
+
+                // Preserve red hues; desaturate other colors.
+                float luminosity = dot(clampedHue, BT709);
+                float3 outputColour = lerp(
+                    luminosity.xxx,
+                    clampedHue,
+                    rMask
+                );
+
+                // Lens vignette.
+                float dist = distance(uv, float2(0.5, 0.5)) / 1.1;
+
+                float vignette = 1.0 - smoothstep(
+                    _LensRadius - 0.2,
+                    _LensRadius,
+                    dist
+                );
+
+                outputColour *= vignette;
+
+                return half4(outputColour, col.a);
+            }
+            ENDHLSL
+        }
+    }
+
+    Fallback Off
 }

@@ -3,85 +3,94 @@ Shader "Custom/BadEyesightShader"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _BlurryStrength ("Int", Int) = 20
-    	_COLORBLIND_MODE ("Int", Int) = 1
+        _BlurryStrength ("Blur Strength", Int) = 20
+        _COLORBLIND_MODE ("Colorblind Mode", Int) = 1
     }
+
     SubShader
     {
-    	Pass
-		{
-        CGPROGRAM
-        	#pragma vertex vert
-			#pragma fragment frag
-			#pragma multi_compile DUMMY PIXELSNAP_ON
-			#pragma target 2.0
-			#include "UnityCG.cginc"
+        Tags
+        {
+            "RenderPipeline" = "UniversalPipeline"
+        }
 
-			sampler2D _MainTex;
-			uniform int _BlurryStrength;
-			uniform int _COLORBLIND_MODE;
-            float4 _MainTex_TexelSize;
+        Pass
+        {
+            Name "BadEyesight"
 
-			struct appdata_t
+            Cull Off
+            ZWrite Off
+            ZTest Always
+
+            HLSLPROGRAM
+            #pragma vertex Vert
+            #pragma fragment Frag
+
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
+
+            CBUFFER_START(UnityPerMaterial)
+                int _BlurryStrength;
+                int _COLORBLIND_MODE;
+            CBUFFER_END
+
+            half4 Frag(Varyings input) : SV_Target
             {
-                float4 vertex   : POSITION;
-                float4 color    : COLOR;
-                float2 texcoord : TEXCOORD0;
-            };
- 
-            struct v2f
-            {
-                float4 vertex   : SV_POSITION;
-                fixed4 color    : COLOR;
-                half2 texcoord  : TEXCOORD0;
-            };
+                float2 uv = input.texcoord;
 
-			v2f vert(appdata_t IN)
-            {
-                v2f OUT;
-                OUT.vertex = UnityObjectToClipPos(IN.vertex);
-                OUT.texcoord = IN.texcoord;
-                OUT.color = IN.color;
-                #ifdef PIXELSNAP_ON
-                OUT.vertex = UnityPixelSnap (OUT.vertex);
-                #endif
+                half4 original = SAMPLE_TEXTURE2D_X(
+                    _BlitTexture,
+                    sampler_LinearClamp,
+                    uv
+                );
 
-                return OUT;
+                // Preserve the original edge-based blur mask.
+                float strength = clamp(
+                    (length(float2(0.5, 0.5) - uv) * 4.0) - 0.05,
+                    0.0,
+                    1.0
+                );
+
+                float2 texelSize = _BlitTexture_TexelSize.xy;
+
+                int blurSteps = clamp(_BlurryStrength, 1, 30);
+
+                half4 addColour = half4(0, 0, 0, 0);
+
+                // Four directional samples for each blur step.
+                // Step zero samples the original pixel four times,
+                // matching the structure of the original shader.
+                [loop]
+                for (int i = 0; i < blurSteps; i++)
+                {
+                    float offset = (float)i;
+
+                    addColour += SAMPLE_TEXTURE2D_X(
+                        _BlitTexture, sampler_LinearClamp,
+                        uv + float2(texelSize.x * offset, 0)
+                    );
+
+                    addColour += SAMPLE_TEXTURE2D_X(
+                        _BlitTexture, sampler_LinearClamp,
+                        uv + float2(0, texelSize.y * offset)
+                    );
+
+                    addColour += SAMPLE_TEXTURE2D_X(
+                        _BlitTexture, sampler_LinearClamp,
+                        uv - float2(texelSize.x * offset, 0)
+                    );
+
+                    addColour += SAMPLE_TEXTURE2D_X(
+                        _BlitTexture, sampler_LinearClamp,
+                        uv - float2(0, texelSize.y * offset)
+                    );
+                }
+
+                half4 blurred = addColour / (4.0 * blurSteps);
+
+                return lerp(original, blurred, strength);
             }
-        
-
-			fixed4 frag(v2f IN) : COLOR
-            {
-				float2 offset0 = IN.texcoord;
-				float4 colour = tex2D(_MainTex,offset0);
-				float4 addColour = float4(0,0,0,0);
-
-				//20 , Square looks good
-				
-				float Strength = clamp(( length(float2(0.5,0.5) - offset0)*4) - 0.05, 0, 1);  //TODO Change to pixel Due to Weird screen stretching
-            	
-				int NumberOfAdditions = 4;
-				for(float i=0; i<_BlurryStrength; i++)
-				{
-					//int2(0,1) + int2(1,-1)  *
-					addColour += tex2D(_MainTex,(offset0 + float2 (_MainTex_TexelSize.x,0)*i));//* (1-(i / _BlurryStrength));
-					addColour += tex2D(_MainTex,(offset0+ float2 (0,_MainTex_TexelSize.y)*i));// * (1-(i / _BlurryStrength)) ;
-					addColour += tex2D(_MainTex,(offset0+ float2 (-_MainTex_TexelSize.x,0)*i));// * (1-(i / _BlurryStrength)) ;
-					addColour += tex2D(_MainTex,(offset0 + float2 (0,-_MainTex_TexelSize.y)*i));// * (1-(i / _BlurryStrength)) ;
-
-					//addColour += tex2D(_MainTex, (offset0 + float2 (-_MainTex_TexelSize.x,-_MainTex_TexelSize.y)*i) ) * (1-(i / _BlurryStrength)) ;
-					//addColour += tex2D(_MainTex, (offset0 + float2 (_MainTex_TexelSize.x,-_MainTex_TexelSize.y)*i)   ) * (1-(i / _BlurryStrength)) ;
-					//addColour += tex2D(_MainTex, (offset0 + float2 (-_MainTex_TexelSize.x,_MainTex_TexelSize.y)*i)  ) * (1-(i / _BlurryStrength)) ;
-					//addColour += tex2D(_MainTex, (offset0 + float2 (_MainTex_TexelSize.x,_MainTex_TexelSize.y)*i)   ) * (1-(i / _BlurryStrength)) ;
-				}
- 
-            	
-				
-				//return addColour / (float4 (1,1,1,1) * BlurStrength * NumberOfAdditions);
-				return lerp(colour, addColour / ((float4 (1,1,1,1) * _BlurryStrength * NumberOfAdditions)), float4(Strength,Strength,Strength,Strength));
-				return float4(Strength,Strength,Strength,Strength);
-			}
-			ENDCG
-		}
+            ENDHLSL
+        }
     }
 }
