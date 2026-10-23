@@ -82,7 +82,7 @@ namespace US13.Systems.ChemistryEffects
 
 				if (Explode)
 				{
-					AfflictRadius(WorldPosition, sender.gameObject, strength);
+					AfflictRadius(WorldPosition, sender?.gameObject, strength);
 					Explosion.StartExplosion(WorldPosition.RoundToInt(), strength, node, stunNearbyPlayers: false, radiusMultiplier: 3);
 
 				}

@@ -349,7 +349,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 8
   m_SortingOrder: 12
-  m_Sprite: {fileID: 21300000, guid: 2cea459d2cb20ee43b38e0d85f1e6420, type: 3}
+  m_Sprite: {fileID: 21300002, guid: 2cea459d2cb20ee43b38e0d85f1e6420, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -735,8 +735,8 @@ MonoBehaviour:
   InitialToggleCanSupport: 1
   InitialSlowResponse: 0
   InitialSlowResponseTime: 6
-  InitialDropOffAtPercentage: 0.1
-  InitialMinimumDropOffCurrentPercentage: 0.1
+  InitialDropOffAtPercentage: 0.3
+  InitialMinimumDropOffCurrentPercentage: 0.3
   PullingWatts: 0
   ChargingWatts: 0
   TimeAtLowVoltage: 9999

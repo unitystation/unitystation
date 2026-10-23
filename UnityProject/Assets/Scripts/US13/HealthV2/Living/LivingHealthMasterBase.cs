@@ -658,7 +658,8 @@ namespace US13.HealthV2.Living
 						}
 					}
 				}
-				if (hasBodyPart) reaction.Key.Apply(this, this.gameObject.AssumedWorldPosServer(),  storage.Value);
+				if (hasBodyPart) reaction.Key.Apply(this, this.gameObject.AssumedWorldPosServer(),
+					storage.Value, null, null, null);
 			}
 		}
 
@@ -1004,6 +1005,8 @@ namespace US13.HealthV2.Living
 		{
 			if (BleedStacks > 0)
 			{
+				if (IsDead) return;
+
 				var bloodTolose = BleedStacks;
 
 				if (BleedStacks >= 40)

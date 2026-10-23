@@ -67,11 +67,14 @@ namespace Chemistry
 #endif
 		}
 
-		public virtual bool Apply(object sender, Vector3 woldPosition , ReagentMix reagentMix)
+		public virtual bool Apply(object sender, Vector3 woldPosition , ReagentMix reagentMix,
+			HashSet<Chemistry.Reaction> ContainedAdditionalReactions,
+			HashSet<Chemistry.Reaction> FlippossibleReactions,
+			ReactionSet ReactionSet)
 		{
 			if (IsReactionValid(reagentMix) == false) return false;
 
-			ApplyReaction(sender as MonoBehaviour, woldPosition,  reagentMix);
+			ApplyReaction(sender as MonoBehaviour, woldPosition,  reagentMix,  ContainedAdditionalReactions, FlippossibleReactions, ReactionSet);
 
 			return true;
 		}
@@ -109,7 +112,10 @@ namespace Chemistry
 			return true;
 		}
 
-		public void ApplyReaction(MonoBehaviour sender, Vector3 WorldPosition, ReagentMix reagentMix)
+		public void ApplyReaction(MonoBehaviour sender, Vector3 WorldPosition, ReagentMix reagentMix,
+			HashSet<Chemistry.Reaction> ContainedAdditionalReactions,
+			HashSet<Chemistry.Reaction> FlippossibleReactions,
+			ReactionSet ReactionSet)
 		{
 			var reactionMultiplier = GetReactionMultiple(reagentMix);
 
@@ -122,6 +128,23 @@ namespace Chemistry
 			{
 				var reactionResult = reactionMultiplier * result.Value;
 				reagentMix.Add(result.Key, reactionResult);
+
+				var reactions = result.Key.RelatedReactions;
+				int reactionsCount = reactions.Length;
+				for (int i = 0; i < reactionsCount; i++)
+				{
+					var reaction = reactions[i];
+					if (ReactionSet != null && ReactionSet.ContainedReactionss.Contains(reaction))
+					{
+						FlippossibleReactions.Add(reaction);
+					}
+					else if (ContainedAdditionalReactions is {Count: > 0} &&
+					         ContainedAdditionalReactions.Contains(reaction))
+					{
+						FlippossibleReactions.Add(reaction);
+					}
+				}
+
 			}
 
 			foreach (var effect in effectDict.m_dict)

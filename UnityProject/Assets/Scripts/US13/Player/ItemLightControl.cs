@@ -18,6 +18,7 @@ namespace US13.Player
 	{
 		public LightSprite ObjectLightSprite { get; }
 	}
+
 	[RequireComponent(typeof(Pickupable))]
 	public class ItemLightControl : BodyPartFunctionality, IItemInOutMovedPlayer, ILightControl
 	{
@@ -27,10 +28,10 @@ namespace US13.Player
 		[Tooltip("Controls the light the object emits while out of a player's or other object's inventory.")]
 		public GameObject objectLightEmission;
 
-		[SyncVar(hook = nameof(SyncState))]
-		public bool IsOn = true;
+		[SyncVar(hook = nameof(SyncState))] public bool IsOn = true;
 
 		[FormerlySerializedAs("Colour")] [SerializeField] private Color colour = default;
+
 		[SerializeField] private LightSprite objectLightSprite;
 		public LightSprite ObjectLightSprite => objectLightSprite;
 		[SerializeField] private CommonComponents commonComponents;
@@ -55,6 +56,7 @@ namespace US13.Player
 		private int lightID;
 		[SerializeField] private bool weakenOnGround = false;
 		[SerializeField] private bool revertToOldConsistencyBehavior = false;
+
 		[SerializeField, ShowIf(nameof(weakenOnGround))] private float weakenStrength = 1.45f;
 
 		public RegisterPlayer CurrentlyOn { get; set; }
@@ -65,7 +67,8 @@ namespace US13.Player
 		{
 			if (objectLightEmission == null)
 			{
-				Loggy.Error($"{this} field objectLightEmission is null, please check {gameObject} prefab.", Category.Lighting);
+				Loggy.Error($"{this} field objectLightEmission is null, please check {gameObject} prefab.",
+					Category.Lighting);
 				return;
 			}
 
@@ -101,8 +104,8 @@ namespace US13.Player
 		{
 			if (revertToOldConsistencyBehavior) return;
 			objectLightSprite.Color = playerLightData.lightColor;
-			objectLightSprite.transform.localScale = weakenOnGround ?
-				new Vector3(Size / weakenStrength, Size / weakenStrength, Size / weakenStrength)
+			objectLightSprite.transform.localScale = weakenOnGround
+				? new Vector3(Size / weakenStrength, Size / weakenStrength, Size / weakenStrength)
 				: new Vector3(Size, Size, Size);
 		}
 
@@ -121,6 +124,8 @@ namespace US13.Player
 				var aLight = HideForPlayer.GetComponent<LightsHolder>();
 				aLight.RemoveLight(playerLightData);
 				LightEmission = null;
+				// Deactivate object light when picked up
+				objectLightEmission.SetActive(false);
 			}
 
 			if (ShowForPlayer != null)
@@ -128,8 +133,9 @@ namespace US13.Player
 				LightEmission = ShowForPlayer.GetComponent<LightsHolder>();
 				if (IsOn == false || LightEmission.Lights.Contains(playerLightData)) return;
 				LightEmission.AddLight(playerLightData);
+				// Reactivate object light when dropped if it's on
+				objectLightEmission.SetActive(IsOn);
 			}
-
 		}
 
 
@@ -178,7 +184,8 @@ namespace US13.Player
 		private void SyncState(bool oldState, bool newState)
 		{
 			IsOn = newState;
-			if (commonComponents.UniversalObjectPhysics.IsVisible == false)
+			// Only update object light if not held by a player
+			if (CurrentlyOn == null)
 			{
 				objectLightEmission.SetActive(newState);
 			}
@@ -190,7 +197,11 @@ namespace US13.Player
 			if (IsOn)
 			{
 				LightEmission?.AddLight(playerLightData);
-				objectLightEmission.SetActive(true);
+				// Only activate object light if not held by a player
+				if (CurrentlyOn == null)
+				{
+					objectLightEmission.SetActive(true);
+				}
 			}
 			else
 			{

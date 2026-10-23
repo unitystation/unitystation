@@ -17,7 +17,10 @@ namespace US13.HealthV2.Living.MedicalChemistry
 		[SerializeReference, SelectImplementation(typeof(IStatusMetabolismReagentSelector))]
 		public IStatusMetabolismReagentSelector ReagentSelector = new AnyStatusMetabolismReagentSelector();
 
-		public override bool Apply(object sender, Vector3 WorldPosition, ReagentMix reagentMix)
+		public override bool Apply(object sender, Vector3 woldPosition , ReagentMix reagentMix,
+			HashSet<Chemistry.Reaction> ContainedAdditionalReactions,
+			HashSet<Chemistry.Reaction> FlippossibleReactions,
+			ReactionSet ReactionSet)
 		{
 			if (ReagentSelector == null || ReagentSelector.HasMatch(reagentMix) == false) return false;
 

@@ -431,6 +431,9 @@
                     "void Kill()",
                     "System.Diagnostics.Process GetCurrentProcess()"
                 ]
+            },
+            "ConditionalAttribute": {
+                "All": true
             }
         },
         "System.CodeDom.Compiler": {
@@ -660,7 +663,8 @@
                     "System.Reflection.Assembly GetAssembly(System.Type)",
                     "System.Reflection.Assembly GetExecutingAssembly()",
                     "System.Type[] GetTypes()",
-                    "System.Reflection.AssemblyName GetName()"
+                    "System.Reflection.AssemblyName GetName()",
+                    "bool op_Equality(System.Reflection.Assembly, System.Reflection.Assembly)"
                 ]
             },
             "AssemblyCompanyAttribute": {
@@ -699,19 +703,25 @@
                     "System.Reflection.MemberTypes get_MemberType()",
                     "System.Type get_DeclaringType()",
                     "System.Type get_ReturnType()",
-                    "System.Type get_ReflectedType()"
+                    "System.Type get_ReflectedType()",
+                    "bool op_Equality(System.Reflection.MemberInfo, System.Reflection.MemberInfo)",
+                    "System.Reflection.Module get_Module()"
                 ]
             },
             "MemberTypes": {},
             "MethodBase": {
                 "Methods": [
                     "System.Reflection.ParameterInfo[] GetParameters()",
-                    "bool get_IsStatic()"
+                    "bool get_IsStatic()",
+                    "object Invoke(object, object[])",
+                    "System.Reflection.MethodBase GetMethodFromHandle(System.RuntimeMethodHandle)",
+                    "bool get_IsGenericMethod()"
                 ]
             },
             "MethodInfo": {
                 "Methods": [
-                    "System.Type get_ReturnType()"
+                    "System.Type get_ReturnType()",
+                    "System.Delegate CreateDelegate(System.Type)"
                 ]
             },
             "TypeAttributes": {},
@@ -736,12 +746,20 @@
             },
             "CustomAttributeExtensions": {
                 "Methods": [
-                    "!!0 GetCustomAttribute(System.Reflection.MemberInfo, bool)"
+                    "!!0 GetCustomAttribute(System.Reflection.MemberInfo, bool)",
+                    "System.Collections.Generic.IEnumerable`1<System.Attribute> GetCustomAttributes(System.Reflection.MemberInfo)",
+                    "System.Collections.Generic.IEnumerable`1<System.Attribute> GetCustomAttributes(System.Reflection.Assembly)",
+                    "!!0 GetCustomAttribute<>(System.Reflection.MemberInfo)",
+                    "!!0 GetCustomAttribute<>(System.Reflection.Assembly)"
                 ]
             },
-			"AssemblyDefaultAliasAttribute" : {
-				
-			}
+            "AssemblyDefaultAliasAttribute": {},
+            "RuntimeTypeHandle": {
+                "All": true
+            },
+            "RuntimeMethodHandle": {
+                "All": true
+            }
         },
         "System.Runtime.CompilerServices": {
             "AsyncStateMachineAttribute": {
@@ -839,6 +857,12 @@
             },
             "CallerFilePathAttribute": {
                 "All": true
+            },
+            "UnsafeValueTypeAttribute": {
+                "All": true
+            },
+            "FixedBufferAttribute": {
+                "All": true
             }
         },
         "System.Runtime.ExceptionServices": {
@@ -855,7 +879,19 @@
             "InAttribute": {
                 "All": true
             },
-            "UnmanagedType": {}
+            "UnmanagedType": {},
+            "CallingConvention": {
+                "All": true
+            },
+            "Marshal": {
+                "All": true
+            },
+            "GCHandle": {
+                "All": true
+            },
+            "UnmanagedFunctionPointerAttribute": {
+                "All": true
+            }
         },
         "System.Runtime.Versioning": {
             "TargetFrameworkAttribute": {
@@ -1463,7 +1499,9 @@
                     "int get_ProcessorCount()",
                     "string get_NewLine()",
                     "string get_StackTrace()",
-                    "string[] GetCommandLineArgs() "
+                    "string[] GetCommandLineArgs() ",
+                    "string GetEnvironmentVariable(string)",
+                    "string get_CurrentDirectory()"
                 ]
             },
             "EventArgs": {
@@ -1701,8 +1739,16 @@
                 "All": true
             },
             "RuntimeFieldHandle": {},
-            "RuntimeMethodHandle": {},
-            "RuntimeTypeHandle": {},
+            "RuntimeMethodHandle": {
+                "Methods": [
+                    "native int get_Value()"
+                ]
+            },
+            "RuntimeTypeHandle": {
+                "Methods": [
+                    "native int get_Value()"
+                ]
+            },
             "SByte": {
                 "All": true
             },
@@ -1987,7 +2033,9 @@
                     "System.Type[] GetNestedTypes(System.Reflection.BindingFlags)",
                     "System.Type[] GetGenericArguments()",
                     "System.Reflection.PropertyInfo[] GetProperties()",
-                    "System.Reflection.FieldInfo[] GetFields()"
+                    "System.Reflection.FieldInfo[] GetFields()",
+                    "System.Reflection.MethodInfo GetMethod(string)",
+                    "System.Reflection.MethodInfo GetMethod(string, System.Reflection.BindingFlags)"
                 ],
                 "Fields": [
                     "System.Reflection.MemberFilter FilterAttribute",
@@ -2094,6 +2142,21 @@
                 "All": true
             },
             "Half": {
+                "All": true
+            },
+            "ThreadStaticAttribute": {
+                "All": true
+            },
+            "Reflection.Module": {
+                "All": true
+            },
+            "Reflection.BindingFlags": {
+                "All": true
+            },
+            "IntPtr": {
+                "All": true
+            },
+            "FormatException": {
                 "All": true
             }
         },
@@ -2426,7 +2489,7 @@
                 "All": true
             },
             "GradientColorKey": {
-                "All":true
+                "All": true
             },
             "Gradient": {
                 "All": true
@@ -2604,15 +2667,34 @@
             "FindObjectsSortMode": {
                 "All": true
             },
-			"EntityId" : {
-				"All": true
-			},
-			"DelegateAutoCleanup" :{
-				"All": true
-			},
-			"Rigidbody" : {
-				
-			}
+            "EntityId": {
+                "All": true
+            },
+            "DelegateAutoCleanup": {
+                "All": true
+            },
+            "Rigidbody": {},
+            "ExecuteAlways": {
+                "All": true
+            },
+            "CameraType": {
+                "All": true
+            },
+            "DefaultExecutionOrder": {
+                "All": true
+            },
+            "Hash128": {
+                "All": true
+            },
+            "PreserveAttribute": {
+                "All": true
+            },
+            "ScaleMode": {
+                "All": true
+            },
+            "EventType": {
+                "All": true
+            }
         },
         "UnityEngine.Events": {
             "UnityEvent": {
@@ -2871,6 +2953,33 @@
                 "All": true
             },
             "AsyncGPUReadback": {
+                "All": true
+            },
+            "SortingCriteria": {
+                "All": true
+            },
+            "ShaderTagId": {
+                "All": true
+            },
+            "RenderQueueRange": {
+                "All": true
+            },
+            "RenderPipeline": {
+                "All": true
+            },
+            "RendererListParams": {
+                "All": true
+            },
+            "RendererList": {
+                "All": true
+            },
+            "FilteringSettings": {
+                "All": true
+            },
+            "DrawingSettings": {
+                "All": true
+            },
+            "CullingResults": {
                 "All": true
             }
         },
@@ -3364,9 +3473,9 @@
             "FontStyles": {
                 "All": true
             },
-			"TMP_Settings" : {
-				"All": true
-			}
+            "TMP_Settings": {
+                "All": true
+            }
         },
         "SecureStuff": {
             "SafeURL": {
@@ -3521,13 +3630,13 @@
             "MissingMemberHandling": {
                 "All": true
             },
-            "JsonToken":{
+            "JsonToken": {
                 "All": true
             },
-            "JsonTextReader":{
+            "JsonTextReader": {
                 "All": true
             },
-            "JsonReaderException":{
+            "JsonReaderException": {
                 "All": true
             }
         },
@@ -3772,30 +3881,104 @@
                 "All": true
             }
         },
-		"Unity.Scripting.LifecycleManagement" :{
-			"AutoStaticsCleanupAttribute" : {
-				"All": true
-			}
-		},
-		"PrimeTween" : {
-			"PrimeTween" : {
-				"All": true
-			},
-			"TweenAwaiter" : {
-				"All": true
-			},
-			"Easing" : {
-				"All": true
-			},
-			"Ease" : {
-				"All": true
-			},
-			"CycleMode" : {
-				"All": true
-			},
-			"Tween" : {
-				"All": true
-			}
-		}
+        "Unity.Scripting.LifecycleManagement": {
+            "AutoStaticsCleanupAttribute": {
+                "All": true
+            }
+        },
+        "PrimeTween": {
+            "PrimeTween": {
+                "All": true
+            },
+            "TweenAwaiter": {
+                "All": true
+            },
+            "Easing": {
+                "All": true
+            },
+            "Ease": {
+                "All": true
+            },
+            "CycleMode": {
+                "All": true
+            },
+            "Tween": {
+                "All": true
+            }
+        },
+        "UnityEngine.Scripting": {
+            "PreserveAttribute": {
+                "All": true
+            }
+        },
+        "Unity.Jobs.LowLevel.Unsafe": {
+            "JobsUtility": {
+                "All": true
+            },
+            "JobProducerTypeAttribute": {
+                "All": true
+            }
+        },
+        "Unity.Collections.LowLevel.Unsafe": {
+            "UnsafeUtility": {
+                "All": true
+            },
+            "NativeDisableUnsafePtrRestrictionAttribute": {
+                "All": true
+            }
+        },
+        "Unity.Burst.Intrinsics.X86": {
+            "Fma": {
+                "NestedTypes": {
+                    "Union": {
+                        "All": true
+                    }
+                }
+            }
+        },
+        "Unity.Burst.Intrinsics": {
+            "v64": {
+                "All": true
+            },
+            "v256": {
+                "All": true
+            },
+            "v128": {
+                "All": true
+            }
+        },
+        "Unity.Burst": {
+            "BurstDiscardAttribute": {
+                "All": true
+            },
+            "BurstString": {
+                "NestedTypes": {
+                    "tFloatUnion64": {
+                        "All": true
+                    },
+                    "tFloatUnion32": {
+                        "All": true
+                    }
+                }
+            }
+        },
+        "Unity.Burst.LowLevel": {
+            "BurstCompilerService": {
+                "All": true
+            },
+            "BurstCompilerService/BurstLogType": {
+                "All": true
+            }
+        },
+        "AOT": {
+            "MonoPInvokeCallbackAttribute": {
+                "All": true
+            }
+        },
+        "System.Security": {
+            "UnverifiableCodeAttribute": {
+                "All": true
+            }
+        }
     }
 }
