@@ -1,61 +1,82 @@
 ﻿Shader "Hidden/Noir Effect"
 {
-	Properties{
-		_MainTex("Base (RGB)", RECT) = "white" {}
-		_GrainSpeed ("Grain Speed", Range(0.0, 1.0)) = 0.1
-	}
+    Properties
+    {
+        _MainTex("Base (RGB)", 2D) = "white" {}
+        _GrainSpeed("Grain Speed", Range(0.0, 1.0)) = 0.1
+        _LensRadius("Lens Radius", Float) = 0.5
+    }
 
-		SubShader{
-			Pass {
-				ZTest Always Cull Off ZWrite Off
-				Fog { Mode off }
+    SubShader
+    {
+        Tags
+        {
+            "RenderPipeline" = "UniversalPipeline"
+        }
 
-				CGPROGRAM
-					#pragma vertex vert_img
-					#pragma fragment frag
-					#pragma fragmentoption ARB_precision_hint_fastest
-					#include "UnityCG.cginc"
+        Pass
+        {
+            Name "NoirEffect"
+            ZTest Always
+            Cull Off
+            ZWrite Off
 
-				// frag shaders data
-				uniform sampler2D _MainTex;
-				uniform float _LensRadius;
-				uniform float _GrainSpeed = 0.1f;
+            HLSLPROGRAM
+            #pragma vertex Vert
+            #pragma fragment Frag
 
-				// frag shader
-				float4 frag(v2f_img i) : COLOR
-				{
-					float4 col = tex2D(_MainTex, i.uv);
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
 
-					//col = max(0.1f, col);
-					col *= 1.1f;
+            CBUFFER_START(UnityPerMaterial)
+                float _LensRadius;
+                float _GrainSpeed;
+            CBUFFER_END
 
-					col.r = abs(col.rgb);
-					col.gb = col.r;
+            half4 Frag(Varyings input) : SV_Target
+            {
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-					//add lens circle effect
-					float dist = distance(i.uv, float2(0.5, 0.5))/1.1f;
-					col.rgb *= smoothstep(_LensRadius,  _LensRadius - 0.2f, dist);
+                float2 uv = input.texcoord;
 
-					
-					// Generate random noise
-					float2 uv_time = i.uv + frac(_Time.y * _GrainSpeed);
-					
-					//Lots of magic numbers, the first two are two random primes used as the seed for the grain noise.
-					//The hold no value other than being appropriate values I found online
-					//The number 43k, is again just an arbritarily large number used so that pixels next to each other are significantly different
-					//This is then scaled and shifted from the [0 1] range to the [-1 1] range.
-					float noise = (frac(sin(dot(uv_time, float2(12.9898, 78.233))) * 43758.5453) - 0.5) * 2.0;
+                half4 col = SAMPLE_TEXTURE2D_X(
+                    _BlitTexture,
+                    sampler_LinearClamp,
+                    uv
+                );
+                
+                col.rgb *= 1.1;
 
-					// Add noise to the original color
-					col.rgb += (noise * 0.06f);
-					
-					// return col pixel
-					return col;
-				}
+                col.r = abs(col.r);
+                col.gb = col.r;
 
-				ENDCG
+                // Lens vignette.
+                float dist = distance(uv, float2(0.5, 0.5)) / 1.1;
 
-			}
-		}
-	Fallback off
+                float vignette = 1.0 - smoothstep(
+                    _LensRadius - 0.2,
+                    _LensRadius,
+                    dist
+                );
+
+                col.rgb *= vignette;
+
+                // Animated grain.
+                float2 uvTime = uv + frac(_Time.y * _GrainSpeed);
+
+                float noise =
+                (frac(
+                    sin(dot(uvTime, float2(12.9898, 78.233)))
+                    * 43758.5453
+                ) - 0.5) * 2.0;
+
+                col.rgb += noise * 0.06;
+
+                return col;
+            }
+            ENDHLSL
+        }
+    }
+
+    Fallback Off
 }
