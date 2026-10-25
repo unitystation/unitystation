@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 [RequireComponent(typeof(Camera))]
 public class OcclusionMaskRenderer : MonoBehaviour
@@ -14,8 +15,7 @@ public class OcclusionMaskRenderer : MonoBehaviour
 
 	public static OcclusionMaskRenderer InitializeMaskRenderer(
 		GameObject iRoot,
-		LayerMask iOcclusionLayers,
-		Shader iReplacementShader)
+		LayerMask iOcclusionLayers)
 	{
 		// Get or create base camera.
 		var _cameraTransform = iRoot.transform.Find(MaskCameraName);
@@ -29,15 +29,12 @@ public class OcclusionMaskRenderer : MonoBehaviour
 			throw new Exception("FovMaskProcessor Unable to properly initialize mask camera.");
 
 		// Setup camera based on main camera.
-		var _maskProcessor = SetUpCameraObject(_maskCamera, iOcclusionLayers, iReplacementShader);
+		var _maskProcessor = SetUpCameraObject(_maskCamera, iOcclusionLayers, 1);
 
 		return _maskProcessor;
 	}
 
-	public PixelPerfectRT Render(
-		Camera iCameraToMatch,
-		PixelPerfectRTParameter iPPRTParameter,
-		bool iMatrixRotationMode)
+	public PixelPerfectRT Render(Camera iCameraToMatch, PixelPerfectRTParameter iPPRTParameter, bool iMatrixRotationMode)
 	{
 		// Arrange.
 		Vector2 _renderPosition;
@@ -79,10 +76,7 @@ public class OcclusionMaskRenderer : MonoBehaviour
 		return mPPRenderTexture;
 	}
 
-	private static OcclusionMaskRenderer SetUpCameraObject(
-		Camera iSetupCamera,
-		LayerMask iOcclusionLayers,
-		Shader iReplacementShader)
+	private static OcclusionMaskRenderer SetUpCameraObject(Camera iSetupCamera, LayerMask iOcclusionLayers, int iRendererIndex)
 	{
 		// Make sure camera is placed properly.
 		iSetupCamera.transform.localPosition = Vector3.zero;
@@ -98,7 +92,11 @@ public class OcclusionMaskRenderer : MonoBehaviour
 
 		iSetupCamera.nearClipPlane = -3f;
 		iSetupCamera.farClipPlane = 3f;
-		iSetupCamera.SetReplacementShader(iReplacementShader, string.Empty);
+		var data = iSetupCamera.GetUniversalAdditionalCameraData();
+		data.SetRenderer(iRendererIndex); // index of the new renderer in the URP asset
+		data.renderPostProcessing = false;
+		data.renderShadows = false;
+		iSetupCamera.allowMSAA = false;
 
 		// Get or add processor component.
 		var _processor = iSetupCamera.gameObject.GetComponent<OcclusionMaskRenderer>();

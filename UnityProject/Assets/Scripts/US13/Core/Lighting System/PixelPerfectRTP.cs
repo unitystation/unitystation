@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 /// <summary>
 /// A pixel perfect render texture, designed so that we can have post processing effects which don't require
@@ -160,7 +162,7 @@ public class PixelPerfectRT
 
 	private static RenderTexture CreateRenderTexture(PixelPerfectRTParameter iPprtParameter)
 	{
-		var _newRenderTexture = new RenderTexture(iPprtParameter.resolution.x, iPprtParameter.resolution.y, 0, RenderTextureFormat.Default);
+		var _newRenderTexture = new RenderTexture(iPprtParameter.resolution.x, iPprtParameter.resolution.y, 24, RenderTextureFormat.Default);
 		_newRenderTexture.name = "Dynamic PPRenderTexture";
 		_newRenderTexture.autoGenerateMips = false;
 		_newRenderTexture.useMipMap = false;
@@ -171,18 +173,19 @@ public class PixelPerfectRT
 		return _newRenderTexture;
 	}
 
-	public void Render(Camera iCamera, Shader Shader = null)
+	public void Render(Camera iCamera)
 	{
-		iCamera.targetTexture = renderTexture;
+		iCamera.targetTexture = null; // the request supplies the destination
 
-		if (Shader == null)
+		var request = new UniversalRenderPipeline.SingleCameraRequest
 		{
-			iCamera.Render();
-		}
+			destination = renderTexture
+		};
+
+		if (RenderPipeline.SupportsRenderRequest(iCamera, request))
+			RenderPipeline.SubmitRenderRequest(iCamera, request);
 		else
-		{
-			iCamera.RenderWithShader(Shader, "RenderType");
-		}
+			Debug.LogWarning($"Camera {iCamera.name} can't take a render request (is it an Overlay camera?)");
 
 		renderPosition = iCamera.transform.position;
 	}

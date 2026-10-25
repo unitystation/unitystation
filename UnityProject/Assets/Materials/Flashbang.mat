@@ -44,9 +44,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Texture: {fileID: 2800000, guid: ad4148593b05d0f47980774815c325fe, type: 3}
+        m_Scale: {x: 6.94, y: 1}
+        m_Offset: {x: 0, y: 2.34}
     - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -80,9 +80,11 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
+    - _VignetteCoverage: 0
+    - _VignetteSoftness: 0.309
     - _ZWrite: 1
-    - _vignetteIntensity: 0.00020718575
-    - _vignetteSize: 0.00020718575
+    - _vignetteIntensity: 1.61
+    - _vignetteSize: 6.15
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

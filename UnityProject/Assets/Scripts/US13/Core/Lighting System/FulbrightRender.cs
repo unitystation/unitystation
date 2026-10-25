@@ -32,7 +32,7 @@ public class FulbrightRenderer : MonoBehaviour
 		int _textureHeight = iParameters.screenSize.y;
 
 
-		var _newRenderTexture = new RenderTexture(_textureWidth, _textureHeight, 0, RenderTextureFormat.Default);
+		var _newRenderTexture = new RenderTexture(_textureWidth, _textureHeight, 24, RenderTextureFormat.Default);
 		_newRenderTexture.name = "Fulbright RT";
 		_newRenderTexture.autoGenerateMips = false;
 		_newRenderTexture.useMipMap = false;

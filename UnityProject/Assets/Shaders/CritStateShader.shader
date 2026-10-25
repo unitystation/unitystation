@@ -1,81 +1,140 @@
-﻿Shader "Hidden/Crit State"
+﻿
+Shader "Hidden/Crit State"
 {
-	Properties{
-		_MainTex("Base (RGB)", RECT) = "white" {}
-	}
+    Properties
+    {
+        _MainTex("Base (RGB)", 2D) = "white" {}
+    }
 
-		SubShader{
-			Pass {
-				ZTest Always Cull Off ZWrite Off
-				Fog { Mode off }
+    SubShader
+    {
+        Tags { "RenderPipeline" = "UniversalPipeline" }
 
-				CGPROGRAM
-					#pragma vertex vert_img
-					#pragma fragment frag
-					#pragma fragmentoption ARB_precision_hint_fastest
-					#include "UnityCG.cginc"
+        Pass
+        {
+            Name "CritState"
+            ZTest Always
+            Cull Off
+            ZWrite Off
+            Blend Off
 
-				// frag shaders data
-				uniform sampler2D _MainTex;
-				uniform float _CurrentHealth = 0.0f;
-					
-				static const float _GrainSpeed = 0.1f;
-				static const int vignetteStart = 50.0f;
-				static const int vignetteEnd = -100.0f;
-				static const int greyScaleStart = 50.0f;
-				static const int greScaleEnd = -15.0f;
-				static const int redTintStart = 30.0f;
-				static const int redTintEnd = -60.0f;
-				static const int darkeningStart = 15.0f;
-				static const int darkeningEnd = -100.0f;
-					
-				static const float3 BT709 = float3(0.2126f, 0.7152f, 0.0722f);
-				static const float noiseIntensity = 0.04f;
-					
-				///As these effects trigger instantly, please lerp the _CurrentHealth input to this shader
-				///else you might have a jarring player experience.
-				float4 frag(v2f_img i) : COLOR
-				{
-					float4 col = tex2D(_MainTex, i.uv);
-					float luminosity = dot(col.rgb, BT709);
-				
-					float greyScaleIntensity = smoothstep(greyScaleStart, greScaleEnd, _CurrentHealth);
-					float redTintIntensity = smoothstep(redTintStart, redTintEnd, _CurrentHealth) * 0.8f;
-					float darkeningIntensity = smoothstep(darkeningStart, darkeningEnd, _CurrentHealth);
-					float vignetteIntensity = smoothstep(vignetteStart, vignetteEnd, _CurrentHealth);
-					
-					float lensRadius = lerp(1.3f, 0.4f, min(vignetteIntensity, 0.7f));
-					float softness = (1 - step(vignetteStart, _CurrentHealth)) * 0.4f;
+            HLSLPROGRAM
+            #pragma vertex Vert
+            #pragma fragment Frag
 
-					//Vignette
-					float2 centeredUV = i.uv - float2(0.5, 0.5);
-					centeredUV.x *= _ScreenParams.x / _ScreenParams.y; // correct for aspect ratio
-					float dist = length(centeredUV);
-					float vignette = max(0.1f,smoothstep(lensRadius,  lensRadius - softness, dist));
-					
-					// Generate random noise
-					float2 uv_time = i.uv + frac(_Time.y * _GrainSpeed);
-					float noise = (frac(sin(dot(uv_time, float2(12.9898, 78.233))) * 43758.5453) - 0.5) * 2.0 * noiseIntensity * greyScaleIntensity;
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
 
-					//Colour effects
-					float4 redFilter = float4(luminosity, luminosity * (1 - redTintIntensity), luminosity * (1 - redTintIntensity), 1);
-					float4 outputColour = lerp(col, float4(luminosity,luminosity,luminosity,1), greyScaleIntensity); //Desaturate by stage one intensity
-					outputColour = lerp(outputColour, redFilter, redTintIntensity); //Make red by stage two intensity
-					outputColour = lerp(outputColour, float4(0.0f,0.0f,0.0f,1.0f), min(darkeningIntensity, 0.7f));
+            CBUFFER_START(UnityPerMaterial)
+                float _CurrentHealth;
+            CBUFFER_END
 
-					//Apply noise
-					outputColour += noise; 
+            static const float _GrainSpeed = 0.1;
+            static const float vignetteStart = 50.0;
+            static const float vignetteEnd = -100.0;
+            static const float greyScaleStart = 50.0;
+            static const float greyScaleEnd = -15.0;
+            static const float redTintStart = 30.0;
+            static const float redTintEnd = -60.0;
+            static const float darkeningStart = 15.0;
+            static const float darkeningEnd = -100.0;
 
-					//Apply vignette
-					outputColour *= vignette;
+            static const float3 BT709 = float3(0.2126, 0.7152, 0.0722);
+            static const float noiseIntensity = 0.04;
 
-					
-					return outputColour;
-				}
+            // Supports the descending health thresholds from the original shader.
+            float DescendingSmoothstep(float startValue, float endValue, float value)
+            {
+                return 1.0 - smoothstep(endValue, startValue, value);
+            }
 
-				ENDCG
+            half4 Frag(Varyings input) : SV_Target
+            {
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-			}
-		}
-	Fallback off
+                float2 uv = input.texcoord;
+                half4 col = SAMPLE_TEXTURE2D_X(
+                    _BlitTexture,
+                    sampler_LinearClamp,
+                    uv
+                );
+
+                float luminosity = dot(col.rgb, BT709);
+
+                float greyScaleIntensity =
+                    DescendingSmoothstep(greyScaleStart, greyScaleEnd, _CurrentHealth);
+
+                float redTintIntensity =
+                    DescendingSmoothstep(redTintStart, redTintEnd, _CurrentHealth) * 0.8;
+
+                float darkeningIntensity =
+                    DescendingSmoothstep(darkeningStart, darkeningEnd, _CurrentHealth);
+
+                float vignetteIntensity =
+                    DescendingSmoothstep(vignetteStart, vignetteEnd, _CurrentHealth);
+
+                float lensRadius = lerp(1.3, 0.4, min(vignetteIntensity, 0.7));
+                float softness =
+                    (1.0 - step(vignetteStart, _CurrentHealth)) * 0.4;
+
+                // Vignette, adjusted for the screen aspect ratio.
+                float2 centeredUV = uv - float2(0.5, 0.5);
+                centeredUV.x *= _ScreenParams.x / max(_ScreenParams.y, 1.0);
+
+                float dist = length(centeredUV);
+                float vignette = max(
+                    0.1,
+                    1.0 - smoothstep(
+                        lensRadius - max(softness, 0.0001),
+                        lensRadius,
+                        dist
+                    )
+                );
+
+                // Animated grain.
+                float2 uvTime = uv + frac(_Time.y * _GrainSpeed);
+                float noise =
+                    (frac(sin(dot(uvTime, float2(12.9898, 78.233)))
+                    * 43758.5453) - 0.5) * 2.0
+                    * noiseIntensity * greyScaleIntensity;
+
+                // Desaturate.
+                float4 outputColour = lerp(
+                    col,
+                    float4(luminosity, luminosity, luminosity, col.a),
+                    greyScaleIntensity
+                );
+
+                // Add the red tint.
+                float4 redFilter = float4(
+                    luminosity,
+                    luminosity * (1.0 - redTintIntensity),
+                    luminosity * (1.0 - redTintIntensity),
+                    col.a
+                );
+
+                outputColour = lerp(
+                    outputColour,
+                    redFilter,
+                    redTintIntensity
+                );
+
+                // Darken the image as health falls.
+                outputColour = lerp(
+                    outputColour,
+                    float4(0.0, 0.0, 0.0, col.a),
+                    min(darkeningIntensity, 0.7)
+                );
+
+                // Apply grain and vignette.
+                outputColour.rgb += noise;
+                outputColour.rgb *= vignette;
+
+                return outputColour;
+            }
+            ENDHLSL
+        }
+    }
+
+    Fallback Off
 }

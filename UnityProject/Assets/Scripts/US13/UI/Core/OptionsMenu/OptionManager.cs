@@ -8,6 +8,7 @@ using UnityEngine.AddressableAssets;
 using US13.Core.Chat;
 using US13.Core.Highlight;
 using US13.Core.Initialisation;
+using US13.Core.Lighting_System;
 using US13.Core.TranslationSystem;
 using US13.Core.TTS;
 using US13.Items.Implants.Organs;

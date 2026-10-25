@@ -3,123 +3,136 @@ Shader "Custom/Colourblind"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _TRITAN ("Int", int) = 0
-        _PROTAN ("Int", int) = 0
-        _DEUNTAN("Int", int) = 0
+        _TRITAN ("Tritan", Int) = 0
+        _PROTAN ("Protan", Int) = 0
+        _DEUNTAN ("Deuntan", Int) = 0
     }
+
     SubShader
     {
-    	Pass
-		{
-        CGPROGRAM
-			#pragma vertex vert
-			#pragma fragment frag
-			#pragma multi_compile DUMMY PIXELSNAP_ON
-			#pragma target 2.0
-			#include "UnityCG.cginc"
-			sampler2D _MainTex;
-			uniform int _TRITAN;
-            uniform int _PROTAN;
-            uniform int _DEUNTAN;
-            
-			struct appdata_t
-            {
-                float4 vertex   : POSITION;
-                float4 color    : COLOR;
-                float2 texcoord : TEXCOORD0;
-            };
- 
-            struct v2f
-            {
-                float4 vertex   : SV_POSITION;
-                fixed4 color    : COLOR;
-                half2 texcoord  : TEXCOORD0;
-            };
+        Tags
+        {
+            "RenderPipeline" = "UniversalPipeline"
+        }
 
-			v2f vert(appdata_t IN)
-            {
-                v2f OUT;
-                OUT.vertex = UnityObjectToClipPos(IN.vertex);
-                OUT.texcoord = IN.texcoord;
-                OUT.color = IN.color;
-                #ifdef PIXELSNAP_ON
-                OUT.vertex = UnityPixelSnap (OUT.vertex);
-                #endif
+        Pass
+        {
+            Name "Colourblind"
 
-                return OUT;
+            Cull Off
+            ZWrite Off
+            ZTest Always
+
+            HLSLPROGRAM
+            #pragma vertex Vert
+            #pragma fragment Frag
+
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
+
+            CBUFFER_START(UnityPerMaterial)
+                int _TRITAN;
+                int _PROTAN;
+                int _DEUNTAN;
+            CBUFFER_END
+
+            // Convert RGB to LMS.
+            void RGBToLMS(
+                float3 colour,
+                out float L,
+                out float M,
+                out float S)
+            {
+                L = 17.8824 * colour.r
+                    + 43.5161 * colour.g
+                    + 4.11935 * colour.b;
+
+                M = 3.45565 * colour.r
+                    + 27.1554 * colour.g
+                    + 3.86714 * colour.b;
+
+                S = 0.0299566 * colour.r
+                    + 0.184309 * colour.g
+                    + 1.46709 * colour.b;
             }
-        
 
-			fixed4 frag(v2f IN) : COLOR
+            // Convert LMS back to RGB using the original coefficients.
+            float3 LMSToRGB(float l, float m, float s)
             {
-            //float4 pixel_shader(float4 vertex:SV_POSITION) : COLOR
-            //{
-                half2 offset0 = IN.texcoord;
-                // Flip sampling of the Texture if DirectX
-                //
-                
+                return float3(
+                    0.0809444479 * l
+                    - 0.130504409 * m
+                    + 0.116721066 * s,
 
-                float4 colour = tex2D(_MainTex, offset0 );
-                // RGB to LMS matrix conversion
-                float3 L = float3(0,0,0);
-                float3 M = float3(0,0,0);
-                float3 S = float3(0,0,0);
-                float l = 0.0f;
-                float m = 0.0f;
-                float s = 0.0f;
-                // Simulate color blindness
-                if (_TRITAN == 1) // Tritan
+                    -0.0102485335 * l
+                    + 0.0540193266 * m
+                    - 0.113614708 * s,
+
+                    -0.000365296938 * l
+                    - 0.00412161469 * m
+                    + 0.693511405 * s
+                );
+            }
+
+            half4 Frag(Varyings input) : SV_Target
+            {
+                float2 uv = input.texcoord;
+
+                half4 colour = SAMPLE_TEXTURE2D_X(
+                    _BlitTexture,
+                    sampler_LinearClamp,
+                    uv
+                );
+
+                float L, M, S;
+                float l, m, s;
+
+                // Tritan simulation.
+                if (_TRITAN == 1)
                 {
+                    RGBToLMS(colour.rgb, L, M, S);
 
-                    L = (17.8824f * colour.r) + (43.5161f * colour.g) + (4.11935f * colour.b);
-                    M = (3.45565f * colour.r) + (27.1554f * colour.g) + (3.86714f * colour.b);
-                    S = (0.0299566f * colour.r) + (0.184309f * colour.g) + (1.46709f * colour.b);
-                
-                    l = 1.0f * L + 0.0f * M + 0.0f * S;
-                    m = 0.0f * L + 1.0f * M + 0.0f * S;
-                    s = -0.01224491f * L + 0.07203435f * M + 0.0f * S;
+                    l = L;
+                    m = M;
+                    s = -0.01224491 * L
+                        + 0.07203435 * M;
 
-                    colour.r = (0.0809444479f * l) + (-0.130504409f * m) + (0.116721066f * s);
-                    colour.g = (-0.0102485335f * l) + (0.0540193266f * m) + (-0.113614708f * s);
-                    colour.b = (-0.000365296938f * l) + (-0.00412161469f * m) + (0.693511405f * s);
-                    
-                }
-                
-                if (_PROTAN == 1)  //protan 
-                {
-
-                    L = (17.8824f * colour.r) + (43.5161f * colour.g) + (4.11935f * colour.b);
-                    M = (3.45565f * colour.r) + (27.1554f * colour.g) + (3.86714f * colour.b);
-                    S = (0.0299566f * colour.r) + (0.184309f * colour.g) + (1.46709f * colour.b);
-                    l = 0.0f * L +  2.27376148f * M + -5.92721645 * S;
-                    m = 0.0f * L + 1.0f * M + 0.0f * S;
-                    s = 0.0f * L + 0.0f * M + 1.0f * S;
-
-                    colour.r = (0.0809444479f * l) + (-0.130504409f * m) + (0.116721066f * s);
-                    colour.g = (-0.0102485335f * l) + (0.0540193266f * m) + (-0.113614708f * s);
-                    colour.b = (-0.000365296938f * l) + (-0.00412161469f * m) + (0.693511405f * s);
+                    colour.rgb = LMSToRGB(l, m, s);
                 }
 
-                if (_DEUNTAN == 1)  // deuntan
+                // Protan simulation.
+                // Applied after Tritan if both are enabled.
+                if (_PROTAN == 1)
                 {
+                    RGBToLMS(colour.rgb, L, M, S);
 
-                    L = (17.8824f * colour.r) + (43.5161f * colour.g) + (4.11935f * colour.b);
-                    M = (3.45565f * colour.r) + (27.1554f * colour.g) + (3.86714f * colour.b);
-                    S = (0.0299566f * colour.r) + (0.184309f * colour.g) + (1.46709f * colour.b);
-                    
-                    l = 1.0f * L + 0.0f * M + 0.0f * S;
-                    m = 0.494207f * L + 0.0f * M + 1.24827f * S;
-                    s = 0.0f * L + 0.0f * M + 1.0f * S;
+                    l = 2.27376148 * M
+                        - 5.92721645 * S;
 
-                    colour.r = (0.0809444479f * l) + (-0.130504409f * m) + (0.116721066f * s);
-                    colour.g = (-0.0102485335f * l) + (0.0540193266f * m) + (-0.113614708f * s);
-                    colour.b = (-0.000365296938f * l) + (-0.00412161469f * m) + (0.693511405f * s);
+                    m = M;
+                    s = S;
+
+                    colour.rgb = LMSToRGB(l, m, s);
                 }
-                
+
+                // Deuntan simulation.
+                // Applied after the previous enabled modes.
+                if (_DEUNTAN == 1)
+                {
+                    RGBToLMS(colour.rgb, L, M, S);
+
+                    l = L;
+                    m = 0.494207 * L
+                        + 1.24827 * S;
+
+                    s = S;
+
+                    colour.rgb = LMSToRGB(l, m, s);
+                }
+
                 return colour;
             }
-			
-			ENDCG
-		}
+            ENDHLSL
+        }
     }
 }

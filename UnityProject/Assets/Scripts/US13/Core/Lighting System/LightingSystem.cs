@@ -2,27 +2,36 @@
 using Logs;
 using UnityEngine;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 namespace US13.Core.Lighting_System
 {
-	/// <summary>
-	/// Lighting System manager.
-	/// Orchestrates Mask Renderers and Post Processor to apply lighting to the game scene.
-	/// </summary>
+	[DefaultExecutionOrder(10000)]
 	[RequireComponent(typeof(Camera))]
 	public class LightingSystem : MonoBehaviour
 	{
+		/// What the renderer feature should do for this camera this frame.
+		public enum CompositeMode
+		{
+			/// Leave the camera output untouched
+			None,
+			/// Run blitMaterial over the camera color.
+			Lit,
+			/// Copy DebugHandle over the camera color.
+			Debug
+		}
+
 		/// <summary>
 		/// FoV Projector position offset in local space.
 		/// Assumption that it may be changed during game. Otherwise it should be moved in to rendering settings.
 		/// </summary>
 		public Vector3 fovCenterOffset;
+
 		public float fovDistance;
 		public RenderSettings renderSettings;
 		public MaterialContainer materialContainer;
 
 		private static Func<Vector3, Vector3, Vector2, Vector2> HandlePPPositionRequest;
-
 
 		public Camera UICamera;
 
@@ -53,6 +62,18 @@ namespace US13.Core.Lighting_System
 		//used for FOV checking is async readback is NOT supported
 		private Texture2D mTex2DWallFloorOcclusionMask;
 		private OperationParameters mOperationParameters;
+
+		// Persistent screen-sized targets (replace the per-frame GetTemporary / iDestination usage).
+		private RenderTexture mUIRenderTexture;
+		private RenderTexture mDebugRenderTexture;
+		private RTHandle mDebugHandle;
+
+		// State consumed by LightingRendererFeature.
+		public CompositeMode compositeMode { get; private set; } = CompositeMode.None;
+		public bool compositeUI { get; private set; }
+		public Material compositeMaterial => materialContainer != null ? materialContainer.blitMaterial : null;
+		public Material uiCompositeMaterial => materialContainer != null ? materialContainer.uiBlitMaterial : null;
+		public RTHandle DebugHandle => mDebugHandle;
 
 		/// <summary>
 		/// Lighting system was enabled/disabled
@@ -101,7 +122,6 @@ namespace US13.Core.Lighting_System
 				Shader.SetGlobalTexture("_ObjectFovMask", value.renderTexture);
 			}
 		}
-
 
 		/// <summary>
 		/// Used to hold the UI layer
@@ -298,12 +318,6 @@ namespace US13.Core.Lighting_System
 				Loggy.Info("FovSystem Camera Validation: Camera does not cull one of Light Source Layers!" +
 				           " Light System may not work currently.", Category.Lighting);
 			}
-
-			/*if (((LayerMask)iMainCamera.cullingMask).HasAny(iRenderSettings.backgroundLayers))
-		{
-			Loggy.Log("FovSystem Camera Validation: Camera does not cull one of Background Layers!" +
-				"Light System wound be able to mask background and would not work correctly.", Category.Lighting);
-		}*/
 		}
 
 		private void OnEnable()
@@ -333,9 +347,15 @@ namespace US13.Core.Lighting_System
 
 			mMainCamera.cullingMask = renderSettings.LightingEnabledMainCameraLayers;
 
+			// The UI camera is rendered manually into a texture, so it must never render on its own.
+			if (UICamera != null)
+			{
+				UICamera.enabled = false;
+			}
+
 			if (mOcclusionRenderer == null)
 			{
-				mOcclusionRenderer = OcclusionMaskRenderer.InitializeMaskRenderer(gameObject, renderSettings.occlusionLayers, materialContainer.OcclusionMaskShader);
+				mOcclusionRenderer = OcclusionMaskRenderer.InitializeMaskRenderer(gameObject, renderSettings.occlusionLayers);
 			}
 
 			mShadowMaskRenderer.SetUp(gameObject);
@@ -361,7 +381,7 @@ namespace US13.Core.Lighting_System
 				mTextureDataRequest = new TextureDataRequest();
 			}
 
-			operationParameters = new OperationParameters(mMainCamera, renderSettings, matrixRotationMode);;
+			operationParameters = new OperationParameters(mMainCamera, renderSettings, matrixRotationMode);
 
 			OnLightingSystemEnabled?.Invoke(true);
 
@@ -382,6 +402,8 @@ namespace US13.Core.Lighting_System
 				return;
 			}
 
+			compositeMode = CompositeMode.None;
+
 			OnLightingSystemEnabled?.Invoke(false);
 			mMainCamera.cullingMask = renderSettings.LightingDisabledMainCameraLayers;
 			// Set object occlusion white, so occlusion dependent shaders will show appropriately while system is off.
@@ -392,7 +414,6 @@ namespace US13.Core.Lighting_System
 
 			HandlePPPositionRequest -= ProviderPPPosition;
 
-
 			if (mTextureDataRequest != null)
 			{
 				mTextureDataRequest.Dispose();
@@ -400,7 +421,10 @@ namespace US13.Core.Lighting_System
 			}
 		}
 
-
+		private void OnDestroy()
+		{
+			ReleaseScreenTargets();
+		}
 
 		public void LateUpdate()
 		{
@@ -431,6 +455,30 @@ namespace US13.Core.Lighting_System
 			{
 				mMatrixRotationModeBlend = 0;
 			}
+
+			compositeMode = CompositeMode.None;
+			compositeUI = false;
+
+			RunMaskPhase();   // formerly OnPreRender
+			RunLightPhase();  // formerly OnRenderImage (everything except the final blits)
+		}
+
+		/// <summary>
+		/// Renders a camera into a texture via the SRP render request API.
+		/// Must be called outside the render loop (e.g. from LateUpdate).
+		/// </summary>
+		public static void RenderToTexture(Camera cam, RenderTexture rt)
+		{
+			var request = new UniversalRenderPipeline.SingleCameraRequest { destination = rt };
+
+			if (RenderPipeline.SupportsRenderRequest(cam, request))
+			{
+				RenderPipeline.SubmitRenderRequest(cam, request);
+			}
+			else
+			{
+				Loggy.Warning($"LightingSystem: camera '{cam.name}' does not support render requests (is it an Overlay camera?).", Category.Lighting);
+			}
 		}
 
 		private void ResolveRenderingTextures(OperationParameters iParameters)
@@ -438,6 +486,11 @@ namespace US13.Core.Lighting_System
 			// Prepare render textures.
 			floorOcclusionMask = new PixelPerfectRT(operationParameters.fovPPRTParameter);
 			wallFloorOcclusionMask = new PixelPerfectRT(operationParameters.fovPPRTParameter);
+
+			if (mTex2DWallFloorOcclusionMask != null)
+			{
+				Destroy(mTex2DWallFloorOcclusionMask);
+			}
 			mTex2DWallFloorOcclusionMask = new Texture2D(wallFloorOcclusionMask.renderTexture.width, wallFloorOcclusionMask.renderTexture.height, TextureFormat.RGB24, false);
 
 			UILayer = new PixelPerfectRT(operationParameters.UICameraPPRTParameter);
@@ -456,24 +509,20 @@ namespace US13.Core.Lighting_System
 			mMainCamera.orthographicSize = iParameters.cameraOrthographicSize;
 		}
 
-		private void OnPreRender()
+		// Phase 1: occlusion + FoV masks (was OnPreRender)
+		private void RunMaskPhase()
 		{
-			//don't run lighting system on headless
-			if (GameInfo.IsHeadlessServer)
-			{
-				return;
-			}
 			if (renderSettings.doubleFrameRenderingMode && mDoubleFrameRendererSwitch == false)
 			{
 				Shader.SetGlobalVector("_ObjectFovMaskTransformation", objectOcclusionMask.GetTransformation(mMainCamera));
 				return;
 			}
-			if(!Application.isPlaying)
+			if (!Application.isPlaying)
 			{
 				return;
 			}
 
-			using(new DisposableProfiler("1. Occlusion Mask Render (No Gfx Time)"))
+			using (new DisposableProfiler("1. Occlusion Mask Render (No Gfx Time)"))
 			{
 				mOcclusionPPRT = mOcclusionRenderer.Render(mMainCamera, operationParameters.occlusionPPRTParameter, matrixRotationMode);
 
@@ -483,7 +532,7 @@ namespace US13.Core.Lighting_System
 				}
 			}
 
-			using(new DisposableProfiler("2. Generate FoV"))
+			using (new DisposableProfiler("2. Generate FoV"))
 			{
 				if (wallFloorOcclusionMask == null)
 				{
@@ -522,10 +571,11 @@ namespace US13.Core.Lighting_System
 					RenderTexture.active = wallFloorOcclusionMask.renderTexture;
 					mTex2DWallFloorOcclusionMask.ReadPixels(new Rect(0, 0, wallFloorOcclusionMask.renderTexture.width, wallFloorOcclusionMask.renderTexture.height), 0, 0);
 					mTex2DWallFloorOcclusionMask.Apply();
+					RenderTexture.active = null;
 				}
 			}
 
-			using(new DisposableProfiler("3. Object Occlusion Mask"))
+			using (new DisposableProfiler("3. Object Occlusion Mask"))
 			{
 				// These step calculates the objectOcclusionMask using the wallFloorOcclusionMask, so that objects / wallmounts will be hidden
 				// if they are not in view
@@ -536,17 +586,13 @@ namespace US13.Core.Lighting_System
 				Shader.SetGlobalVector("_ObjectFovMaskTransformation", objectOcclusionMask.GetTransformation(mMainCamera));
 			}
 
-			using(new DisposableProfiler("4. Blur Object Occlusion Mask"))
+			using (new DisposableProfiler("4. Blur Object Occlusion Mask"))
 			{
 				// Note: This blur is used only with shaders during scene render, so 1 pass should be enough.
 				mPostProcessingStack.BlurOcclusionMask(objectOcclusionMask.renderTexture, renderSettings, operationParameters.cameraOrthographicSize);
 
 				SetFilterMode(objectOcclusionMask.renderTexture, FilterMode.Point);
 			}
-
-
-
-			// Note: After execution of this method, MainCamera.Render will be executed and scene will be drawn.
 		}
 
 		/// <summary>
@@ -564,23 +610,24 @@ namespace US13.Core.Lighting_System
 			mTextureDataRequest.StoreData(iRequest);
 		}
 
-		private void OnRenderImage(RenderTexture iSource, RenderTexture iDestination)
+		// Phase 2: light / shadow / background / UI textures + composite setup
+		// The final blit of the camera color is done by LightingRendererFeature.
+		private void RunLightPhase()
 		{
-			// Don't run lighting system on headless.
-			if (GameInfo.IsHeadlessServer)
-			{
-				return;
-			}
+			var _blitMaterial = materialContainer.blitMaterial;
 
 			if (renderSettings.doubleFrameRenderingMode)
 			{
 				if (mDoubleFrameRendererSwitch)
 				{
-					var _blitMaterial = materialContainer.blitMaterial;
-					_blitMaterial.SetVector("_LightTransform", mlightPPRT.GetTransformation(mMainCamera));
-					_blitMaterial.SetVector("_OcclusionTransform", floorOcclusionMask.GetTransformation(mMainCamera));
-
-					Graphics.Blit(iSource, iDestination, _blitMaterial);
+					// Second frame: reuse last frame's textures, only update transforms.
+					if (_blitMaterial != null && mlightPPRT != null)
+					{
+						_blitMaterial.SetVector("_LightTransform", mlightPPRT.GetTransformation(mMainCamera));
+						_blitMaterial.SetVector("_OcclusionTransform", floorOcclusionMask.GetTransformation(mMainCamera));
+						compositeMode = CompositeMode.Lit;
+						compositeUI = false;
+					}
 
 					mDoubleFrameRendererSwitch = false;
 					return;
@@ -589,7 +636,7 @@ namespace US13.Core.Lighting_System
 				mDoubleFrameRendererSwitch = true;
 			}
 
-			if (materialContainer.blitMaterial == null)
+			if (_blitMaterial == null)
 			{
 				Loggy.Info().Format("FovSystemManager: Unable to blit Fov mask. {0} not provided.", Category.Lighting, nameof(materialContainer.blitMaterial));
 				return;
@@ -597,11 +644,10 @@ namespace US13.Core.Lighting_System
 
 			if (objectOcclusionMask == null)
 			{
-				Graphics.Blit(iSource, iDestination);
-				return;
+				return; // CompositeMode.None: camera output is left as rendered.
 			}
 
-			using(new DisposableProfiler("5. Light Mask Render (No Gfx Time)"))
+			using (new DisposableProfiler("5. Light Mask Render (No Gfx Time)"))
 			{
 				mlightPPRT = mLightMaskRenderer.Render(
 					mMainCamera,
@@ -611,7 +657,7 @@ namespace US13.Core.Lighting_System
 					matrixRotationMode);
 			}
 
-			using(new DisposableProfiler("6. Generate Obstacle Light Mask"))
+			using (new DisposableProfiler("6. Generate Obstacle Light Mask"))
 			{
 				mPostProcessingStack.CreateWallLightMask(
 					mlightPPRT,
@@ -621,51 +667,36 @@ namespace US13.Core.Lighting_System
 			}
 
 			// Debug View Selection.
-			if (renderSettings.viewMode == RenderSettings.ViewMode.LightLayer)
+			switch (renderSettings.viewMode)
 			{
-				PixelPerfectRT.Transform(mlightPPRT, iDestination, mMainCamera, materialContainer);
-
-				return;
-			}
-			else if (renderSettings.viewMode == RenderSettings.ViewMode.WallLayer)
-			{
-				PixelPerfectRT.Transform(obstacleLightMask, iDestination, mMainCamera, materialContainer);
-
-				return;
-			}
-			else if (renderSettings.viewMode == RenderSettings.ViewMode.FovObjectOcclusion)
-			{
-				PixelPerfectRT.Transform(objectOcclusionMask, iDestination, mMainCamera, materialContainer);
-
-				return;
-			}
-			else if (renderSettings.viewMode == RenderSettings.ViewMode.FovFloorOcclusion)
-			{
-				PixelPerfectRT.Transform(floorOcclusionMask, iDestination, mMainCamera, materialContainer);
-
-				return;
-			}
-			else if (renderSettings.viewMode == RenderSettings.ViewMode.FovWallAndFloorOcclusion)
-			{
-				PixelPerfectRT.Transform(wallFloorOcclusionMask, iDestination, mMainCamera, materialContainer);
-
-				return;
-			}
-			else if (renderSettings.viewMode == RenderSettings.ViewMode.Obstacle)
-			{
-				PixelPerfectRT.Transform(mOcclusionPPRT, iDestination, mMainCamera, materialContainer);
-
-				return;
+				case RenderSettings.ViewMode.LightLayer:
+					ShowDebugView(mlightPPRT);
+					return;
+				case RenderSettings.ViewMode.WallLayer:
+					ShowDebugView(obstacleLightMask);
+					return;
+				case RenderSettings.ViewMode.FovObjectOcclusion:
+					ShowDebugView(objectOcclusionMask);
+					return;
+				case RenderSettings.ViewMode.FovFloorOcclusion:
+					ShowDebugView(floorOcclusionMask);
+					return;
+				case RenderSettings.ViewMode.FovWallAndFloorOcclusion:
+					ShowDebugView(wallFloorOcclusionMask);
+					return;
+				case RenderSettings.ViewMode.Obstacle:
+					ShowDebugView(mOcclusionPPRT);
+					return;
 			}
 
-			using(new DisposableProfiler("7. Light Mask Blur"))
+			using (new DisposableProfiler("7. Light Mask Blur"))
 			{
 				mPostProcessingStack.BlurLightMask(mlightPPRT.renderTexture, renderSettings, operationParameters.cameraOrthographicSize, mMatrixRotationModeBlend);
 			}
 
 			RenderTexture _backgroundMask = null;
 
-			using(new DisposableProfiler("8. Render Background"))
+			using (new DisposableProfiler("8. Render Background"))
 			{
 				_backgroundMask = mBackgroundRenderer.Render(renderSettings);
 			}
@@ -673,14 +704,14 @@ namespace US13.Core.Lighting_System
 			// Debug Views Selection.
 			if (renderSettings.viewMode == RenderSettings.ViewMode.LightLayerBlurred)
 			{
-				PixelPerfectRT.Transform(mlightPPRT, iDestination, mMainCamera, materialContainer);
-
+				ShowDebugView(mlightPPRT);
 				return;
 			}
 			else if (renderSettings.viewMode == RenderSettings.ViewMode.Background)
 			{
-				Graphics.Blit(_backgroundMask, iDestination);
-
+				EnsureScreenTargets();
+				Graphics.Blit(_backgroundMask, mDebugRenderTexture);
+				compositeMode = CompositeMode.Debug;
 				return;
 			}
 
@@ -694,13 +725,12 @@ namespace US13.Core.Lighting_System
 				FulbrightRenderer.Render(mMainCamera);
 			}
 
-			using(new DisposableProfiler("10. Blit Scene with Mixed Lights"))
+			using (new DisposableProfiler("10. Configure Mixed Lights Blit"))
 			{
 				SetFilterMode(mlightPPRT.renderTexture, FilterMode.Bilinear);
 				SetFilterMode(obstacleLightMask.renderTexture, FilterMode.Bilinear);
 				SetFilterMode(floorOcclusionMask.renderTexture, matrixRotationMode ? FilterMode.Bilinear : FilterMode.Point);
 
-				var _blitMaterial = materialContainer.blitMaterial;
 				_blitMaterial.SetTexture("_LightMask", mlightPPRT.renderTexture);
 				_blitMaterial.SetTexture("_OcclusionMask", floorOcclusionMask.renderTexture);
 				_blitMaterial.SetTexture("_ObstacleLightMask", obstacleLightMask.renderTexture);
@@ -712,43 +742,97 @@ namespace US13.Core.Lighting_System
 				_blitMaterial.SetFloat("_BackgroundMultiplier", renderSettings.backgroundMultiplier);
 
 				_blitMaterial.SetTexture("_FullbrightTex", FulbrightRenderer._FulbrightRT);
-				_blitMaterial.SetTexture("_ItemTex",   mShadowMaskRenderer._ItemRT);
-				_blitMaterial.SetTexture("_ShadowTex",   mShadowMaskRenderer._pongRT);
-				_blitMaterial.SetFloat  ("_ShadowAlpha", ShadowMaskRenderer.shadowAlpha);
+				_blitMaterial.SetTexture("_ItemTex", mShadowMaskRenderer._ItemRT);
+				_blitMaterial.SetTexture("_ShadowTex", mShadowMaskRenderer._pongRT);
+				_blitMaterial.SetFloat("_ShadowAlpha", ShadowMaskRenderer.shadowAlpha);
 
-
-				Graphics.Blit(iSource, iDestination, _blitMaterial);
+				compositeMode = CompositeMode.Lit;
 			}
 
-
-			RenderTexture uiRenderTexture = RenderTexture.GetTemporary(Screen.width, Screen.height, 0, RenderTextureFormat.ARGB32);
 			using (new DisposableProfiler("11. Render UI Layer"))
 			{
-				if (DoUICamera)
+				if (DoUICamera && UICamera != null)
 				{
-					// Perform rendering for objects with the UI layer here.
-					UICamera.targetTexture = uiRenderTexture;
-					UICamera.Render();
-					UICamera.targetTexture = null;
+					EnsureScreenTargets();
+
+					// UI camera renders into a persistent texture (replaces GetTemporary + Camera.Render).
+					RenderToTexture(UICamera, mUIRenderTexture);
 				}
 			}
 
-			if (DoOtherBit)
+			if (DoOtherBit && uiCompositeMaterial != null && mUIRenderTexture != null)
 			{
-				using (new DisposableProfiler("12. Blit Scene with UI"))
-				{
-					//TODO optimist
-					// Combine the UI render texture with the existing output.
-					var uiBlitMaterial = materialContainer.uiBlitMaterial;
-					uiBlitMaterial.SetTexture("_UITexture", uiRenderTexture);
-					uiBlitMaterial.SetTexture("_MainTex", iSource);
+				uiCompositeMaterial.SetTexture("_UITexture", mUIRenderTexture);
+				compositeUI = true;
+			}
+		}
 
-					// Perform the blending operation.
-					Graphics.Blit(iSource, iDestination, uiBlitMaterial);
+		private void ShowDebugView(PixelPerfectRT iSource)
+		{
+			EnsureScreenTargets();
+			PixelPerfectRT.Transform(iSource, mDebugRenderTexture, mMainCamera, materialContainer);
+			compositeMode = CompositeMode.Debug;
+		}
+
+		/// <summary>
+		/// (Re)creates the screen sized UI and debug targets when the camera size changes.
+		/// Both have a depth buffer, which URP's Render Graph requires on camera output textures.
+		/// </summary>
+		private void EnsureScreenTargets()
+		{
+			int _w = Mathf.Max(1, mMainCamera.pixelWidth);
+			int _h = Mathf.Max(1, mMainCamera.pixelHeight);
+
+			if (mUIRenderTexture == null || mUIRenderTexture.width != _w || mUIRenderTexture.height != _h)
+			{
+				if (mUIRenderTexture != null)
+				{
+					mUIRenderTexture.Release();
+					Destroy(mUIRenderTexture);
 				}
+
+				mUIRenderTexture = new RenderTexture(_w, _h, 24, RenderTextureFormat.ARGB32)
+				{
+					name = "LightingSystem UI"
+				};
 			}
 
-			RenderTexture.ReleaseTemporary(uiRenderTexture);
+			if (mDebugRenderTexture == null || mDebugRenderTexture.width != _w || mDebugRenderTexture.height != _h)
+			{
+				mDebugHandle?.Release();
+
+				if (mDebugRenderTexture != null)
+				{
+					mDebugRenderTexture.Release();
+					Destroy(mDebugRenderTexture);
+				}
+
+				mDebugRenderTexture = new RenderTexture(_w, _h, 0, RenderTextureFormat.ARGB32)
+				{
+					name = "LightingSystem Debug"
+				};
+				mDebugHandle = RTHandles.Alloc(mDebugRenderTexture);
+			}
+		}
+
+		private void ReleaseScreenTargets()
+		{
+			mDebugHandle?.Release();
+			mDebugHandle = null;
+
+			if (mDebugRenderTexture != null)
+			{
+				mDebugRenderTexture.Release();
+				Destroy(mDebugRenderTexture);
+				mDebugRenderTexture = null;
+			}
+
+			if (mUIRenderTexture != null)
+			{
+				mUIRenderTexture.Release();
+				Destroy(mUIRenderTexture);
+				mUIRenderTexture = null;
+			}
 		}
 
 		private static void SetFilterMode(RenderTexture iTexture, FilterMode iMode)

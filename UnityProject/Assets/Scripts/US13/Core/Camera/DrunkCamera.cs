@@ -1,102 +1,57 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 
 namespace US13.Core.Camera
 {
-	public class DrunkCamera : MonoBehaviour
-	{
-		public Material material;
+    public class DrunkCamera : CameraEffectBase
+    {
+        public Material material;
 
-		[Range(0f, 10f)]
-		public float LightScale = 5f;
-		[Range(0f, 0.1f)]
-		public float VertWave = 0.05f;
-		[Range(0f, 0.1f)]
-		public float HozWave = 0.05f;
-		[Range(0f, 0.5f)]
-		public float Waves = 0.25f;
-		[Range(0f, 1f)]
-		public float Speed = 0.5f;
-		[Range(0f, 0.02f)]
-		public float DoubleVision = 0.01f;
+        [Range(0f, 10f)]
+        public float LightScale = 5f;
 
-		public void Hungover()
-		{
-			LightScale = 2.8f;
-			VertWave = 0.005f;
-			HozWave = 0.01f;
-			Waves = 0.0f;
-			Speed = 0.0f;
-			DoubleVision = 0.0f;
-		}
+        [Range(0f, 0.1f)]
+        public float VertWave = 0.05f;
 
+        [Range(0f, 0.1f)]
+        public float HozWave = 0.05f;
 
-		public void Tipsy()
-		{
-			LightScale = 4.5f;
-			VertWave = 0.003f;
-			HozWave = 0.003f;
-			Waves = 0;
-			Speed = 0;
-			DoubleVision = 0;
-		}
-		public void LightDrunk()
-		{
-			LightScale = 4f;
-			VertWave = 0.01f;
-			HozWave = 0.01f;
-			Waves = 0.2f;
-			Speed = 0.5f;
-			DoubleVision = 0.002f;
-		}
-		public void ModerateDrunk()
-		{
-			LightScale = 4.5f;
-			VertWave = 0.025f;
-			HozWave = 0.025f;
-			Waves = 0.25f;
-			Speed = 0.5f;
-			DoubleVision = 0.003f;
-		}
-		public void HeavyDrunk()
-		{
-			LightScale = 5f;
-			VertWave = 0.04f;
-			HozWave = 0.04f;
-			Waves = 0.3f;
-			Speed = 0.3f;
-			DoubleVision = 0.005f;
-		}
-		public void BlackoutDrunk()
-		{
-			LightScale = 8f;
-			VertWave = 0.06f;
-			HozWave = 0.07f;
-			Waves = 0.5f;
-			Speed = 0.6f;
-			DoubleVision = 0.015f;
-		}
+        [Range(0f, 0.5f)]
+        public float Waves = 0.25f;
 
+        [Range(0f, 1f)]
+        public float Speed = 0.5f;
 
-		public void SetDrunkStrength(float Strength)
-		{
-			VertWave = Mathf.Lerp(0, 0.06f, Strength);
-			HozWave = Mathf.Lerp(0,  0.07f, Strength);
-			Waves = Mathf.Lerp(0,  0.5f, Strength);
-			Speed = Mathf.Lerp(0,  0.6f, Strength);
-			DoubleVision = Mathf.Lerp(0,  0.015f, Strength);
-			this.enabled = true;
-		}
+        [Range(0f, 0.02f)]
+        public float DoubleVision = 0.01f;
 
-		void OnRenderImage(RenderTexture source, RenderTexture destination)
-		{
-			material.SetFloat("_LightAmount", LightScale);
-			material.SetFloat("_CosAmount", VertWave);
-			material.SetFloat("_SinAmount", HozWave);
-			material.SetFloat("_Waves", Waves);
-			material.SetFloat("_Speed", Speed);
-			material.SetFloat("_DoubleVision", DoubleVision);
+        public void SetDrunkStrength(float strength)
+        {
+            strength = Mathf.Clamp01(strength);
 
-			Graphics.Blit(source, destination, material);
-		}
-	}
+            VertWave = Mathf.Lerp(0f, 0.06f, strength);
+            HozWave = Mathf.Lerp(0f, 0.07f, strength);
+            Waves = Mathf.Lerp(0f, 0.5f, strength);
+            Speed = Mathf.Lerp(0f, 0.6f, strength);
+            DoubleVision = Mathf.Lerp(0f, 0.015f, strength);
+
+            enabled = true;
+        }
+
+        public override Material GetMaterial()
+        {
+            Material mat = GetInstance(material);
+            if (mat == null)
+                return null;
+
+            mat.SetFloat("_LightAmount", LightScale);
+            mat.SetFloat("_CosAmount", VertWave);
+            mat.SetFloat("_SinAmount", HozWave);
+            mat.SetFloat("_Waves", Waves);
+            mat.SetFloat("_Speed", Speed);
+            mat.SetFloat("_DoubleVision", DoubleVision);
+
+            return mat;
+        }
+    }
 }

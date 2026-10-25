@@ -1,268 +1,214 @@
-using System;
 using UnityEngine;
-using UnityEngine.U2D;
+using UnityEngine.Rendering.Universal;
 
-public class ShadowMaskRenderer : MonoBehaviour
+namespace US13.Core.Lighting_System
 {
-	public Camera mTableMaskCamera;
-	public Camera mWallMaskCamera; //It is because the other one is pixel perfect for some reason
-	public Camera mShadowCamera;
-	private Vector3 mPreviousCameraPosition;
-	private Vector2 mPreviousFilteredPosition;
-
-	private RenderTexture m_pingRT;
-	private RenderTexture m_pongRT;
-	private RenderTexture m_tableRT;
-	private RenderTexture m_WallRT;
-	private RenderTexture m_itemRT;
-
-
-	public RenderTexture _WallRT
+	public class ShadowMaskRenderer : MonoBehaviour
 	{
-		get
+		public Camera mTableMaskCamera;
+		public Camera mWallMaskCamera; //It is because the other one is pixel perfect for some reason
+		public Camera mShadowCamera;
+		private Vector3 mPreviousCameraPosition;
+		private Vector2 mPreviousFilteredPosition;
+
+		private RenderTexture m_pingRT;
+		private RenderTexture m_pongRT;
+		private RenderTexture m_tableRT;
+		private RenderTexture m_WallRT;
+		private RenderTexture m_itemRT;
+
+		[Header("Debug")]
+		[Tooltip("Draws the intermediate render textures in the top-left corner of the Game view.")]
+		public bool debugDrawTextures;
+
+		public RenderTexture _WallRT
 		{
-			return m_WallRT;
+			get { return m_WallRT; }
+			set { Replace(ref m_WallRT, value); }
 		}
 
-		set
+		private RenderTexture _pingRT
 		{
-			// Release old texture.
-			if (m_WallRT != null)
+			get { return m_pingRT; }
+			set { Replace(ref m_pingRT, value); }
+		}
+
+		public RenderTexture _ItemRT
+		{
+			get { return m_itemRT; }
+			set { Replace(ref m_itemRT, value); }
+		}
+
+		public RenderTexture _pongRT
+		{
+			get { return m_pongRT; }
+			set { Replace(ref m_pongRT, value); }
+		}
+
+		private RenderTexture _tableRT
+		{
+			get { return m_tableRT; }
+			set { Replace(ref m_tableRT, value); }
+		}
+
+		[Header("Shadow — Shaders")]
+		[Tooltip("ShadowSilhouette.shader — renders casters as flat black into the shadow RT.")]
+		public Shader   silhouetteShader;
+		[Tooltip("Material using ShadowBlur.shader — separable Gaussian blur + classification pass.")]
+		public Material blurMaterial;
+
+		public int   blurPasses = 2;
+
+		public static float shadowAlpha = 0.4f;
+
+		public static float blurSpread = 10f;
+
+		/// <summary>
+		/// Releases AND destroys the old texture. Release() alone only frees GPU memory and leaks the object.
+		/// </summary>
+		private static void Replace(ref RenderTexture iField, RenderTexture iNew)
+		{
+			if (iField != null && iField != iNew)
 			{
-				m_WallRT.Release();
+				iField.Release();
+				Destroy(iField);
 			}
 
-			m_WallRT = value;
-		}
-	}
-
-
-	private RenderTexture _pingRT
-	{
-		get
-		{
-			return m_pingRT;
+			iField = iNew;
 		}
 
-		set
+		private void OnDestroy()
 		{
-			// Release old texture.
-			if (m_pingRT != null)
+			_tableRT = null;
+			_ItemRT = null;
+			_pongRT = null;
+			_pingRT = null;
+			_WallRT = null;
+		}
+
+		public void SetUp(GameObject iRoot)
+		{
+			// Setup camera based on main camera.
+			SetUpCameraObject(mTableMaskCamera);
+			SetUpCameraObject(mShadowCamera);
+			SetUpCameraObject(mWallMaskCamera);
+		}
+
+		private static RenderTexture CreateRT(string iName, int iWidth, int iHeight, RenderTextureFormat iFormat)
+		{
+			var _rt = new RenderTexture(iWidth, iHeight, 24, iFormat);
+			_rt.name = iName;
+			_rt.autoGenerateMips = false;
+			_rt.useMipMap = false;
+			_rt.filterMode = FilterMode.Point;
+			return _rt;
+		}
+
+		public void ResetRenderingTextures(OperationParameters iParameters)
+		{
+			// Prepare and assign RenderTexture. (All have a 24-bit depth buffer, required for camera output in URP.)
+			int _textureWidth = iParameters.screenSize.x;
+			int _textureHeight = iParameters.screenSize.y;
+
+			_tableRT = CreateRT("Table Mask", _textureWidth, _textureHeight, RenderTextureFormat.Default);
+			_ItemRT = CreateRT("Item", _textureWidth, _textureHeight, RenderTextureFormat.ARGB32);
+			_pongRT = CreateRT("pong", _textureWidth, _textureHeight, RenderTextureFormat.Default);
+			_pingRT = CreateRT("ping", _textureWidth, _textureHeight, RenderTextureFormat.Default);
+			_WallRT = CreateRT("_WallRT", _textureWidth, _textureHeight, RenderTextureFormat.Default);
+
+			mShadowCamera.rect = iParameters.Rect;
+			mTableMaskCamera.rect = iParameters.Rect;
+			mWallMaskCamera.rect = iParameters.Rect;
+			mTableMaskCamera.orthographicSize = iParameters.cameraOrthographicSize;
+			mShadowCamera.orthographicSize = iParameters.cameraOrthographicSize;
+			mWallMaskCamera.orthographicSize = iParameters.cameraOrthographicSize;
+		}
+
+		/// <summary>
+		/// Must be called outside the render loop (LightingSystem calls it from LateUpdate).
+		/// </summary>
+		public void Render(Camera iCameraToMatch)
+		{
+			PrepareCamera(mShadowCamera, iCameraToMatch);
+			PrepareCamera(mTableMaskCamera, iCameraToMatch);
+			PrepareCamera(mWallMaskCamera, iCameraToMatch);
+
+			RenderCamera(mShadowCamera, _ItemRT);
+			RenderCamera(mTableMaskCamera, _tableRT);
+			RenderCamera(mWallMaskCamera, _WallRT);
+
+			blurMaterial.SetTexture("_WallFloorOcclusionTex", _WallRT);
+			blurMaterial.SetTexture("_TableOcclusionTex",     _tableRT);
+
+			Graphics.Blit(_ItemRT, _pongRT, blurMaterial, 1);
+
+			for (int i = 0; i < blurPasses; i++)
 			{
-				m_pingRT.Release();
+				blurMaterial.SetVector("_Direction", new Vector4(1, 0, 0, 0));
+				blurMaterial.SetFloat ("_Spread",    blurSpread /iCameraToMatch.orthographicSize );
+				Graphics.Blit(_pongRT, _pingRT, blurMaterial, 0);
+
+				blurMaterial.SetVector("_Direction", new Vector4(0, 1, 0, 0));
+				Graphics.Blit(_pingRT, _pongRT, blurMaterial, 0);
 			}
-
-			m_pingRT = value;
 		}
-	}
 
-
-	public RenderTexture _ItemRT
-	{
-		get
+		private static void PrepareCamera(Camera iCamera, Camera iCameraToMatch)
 		{
-			return m_itemRT;
+			iCamera.rect = iCameraToMatch.rect;
+			iCamera.enabled = false;
+			iCamera.backgroundColor = new Color(0, 0, 0, 0);
+			iCamera.aspect = iCameraToMatch.aspect;
 		}
 
-		set
+		private static void RenderCamera(Camera iCamera, RenderTexture iTarget)
 		{
-			// Release old texture.
-			if (m_itemRT != null)
-			{
-				m_itemRT.Release();
-			}
-
-			m_itemRT = value;
+			// The request supplies the destination, so the camera must not also have a target texture.
+			iCamera.targetTexture = null;
+			LightingSystem.RenderToTexture(iCamera, iTarget);
 		}
-	}
 
-	public RenderTexture _pongRT
-	{
-		get
+		private void SetUpCameraObject(Camera iSetupCamera)
 		{
-			return m_pongRT;
+			iSetupCamera.transform.localPosition = Vector3.zero;
+			iSetupCamera.transform.localScale = Vector3.one;
+			iSetupCamera.transform.localEulerAngles = Vector3.zero;
+
+			iSetupCamera.orthographic = true;
+			iSetupCamera.clearFlags = CameraClearFlags.Color;
+			iSetupCamera.backgroundColor = Color.clear;
+			iSetupCamera.depth = 9;
+			iSetupCamera.allowHDR = false;
+			iSetupCamera.allowMSAA = false;
+
+			iSetupCamera.nearClipPlane = -3f;
+			iSetupCamera.farClipPlane = 3f;
+
+			// Render requests only work on Base cameras. Skip anything these masks don't need.
+			var _data = iSetupCamera.GetUniversalAdditionalCameraData();
+			_data.renderType = CameraRenderType.Base;
+			_data.renderPostProcessing = false;
+			_data.renderShadows = false;
 		}
 
-		set
+		private void OnGUI()
 		{
-			// Release old texture.
-			if (m_pongRT != null)
-			{
-				m_pongRT.Release();
-			}
+			if (!debugDrawTextures || Event.current.type != EventType.Repaint)
+				return;
 
-			m_pongRT = value;
+			const float size = 200f;
+			DrawDebug(_ItemRT, 0, size);
+			DrawDebug(_tableRT, 1, size);
+			DrawDebug(_WallRT, 2, size);
+			DrawDebug(_pongRT, 3, size);
 		}
-	}
 
-	private RenderTexture _tableRT
-	{
-		get
+		private static void DrawDebug(RenderTexture iTexture, int iIndex, float iSize)
 		{
-			return m_tableRT;
-		}
+			if (iTexture == null)
+				return;
 
-		set
-		{
-			// Release old texture.
-			if (m_tableRT != null)
-			{
-				m_tableRT.Release();
-			}
-
-			m_tableRT = value;
+			GUI.DrawTexture(new Rect(iIndex * (iSize + 4), 0, iSize, iSize), iTexture, ScaleMode.ScaleToFit, false);
 		}
 	}
-
-
-
-	[Header("Shadow — Shaders")]
-	[Tooltip("ShadowSilhouette.shader — renders casters as flat black into the shadow RT.")]
-	public Shader   silhouetteShader;
-	[Tooltip("Material using ShadowBlur.shader — separable Gaussian blur + classification pass.")]
-	public Material blurMaterial;
-
-	public int   blurPasses = 2;
-
-	public static float shadowAlpha = 0.4f;
-
-	public static float blurSpread = 10f;
-
-	public void SetUp(GameObject iRoot)
-	{
-		// Setup camera based on main camera.
-		SetUpCameraObject(mTableMaskCamera);
-		SetUpCameraObject(mShadowCamera);
-	}
-
-	public void ResetRenderingTextures(OperationParameters iParameters)
-	{
-		// Prepare and assign RenderTexture.
-		int _textureWidth = iParameters.screenSize.x;
-		int _textureHeight = iParameters.screenSize.y;
-
-
-		var _newRenderTexture = new RenderTexture(_textureWidth, _textureHeight, 0, RenderTextureFormat.Default);
-		_newRenderTexture.name = "Table Mask";
-		_newRenderTexture.autoGenerateMips = false;
-		_newRenderTexture.useMipMap = false;
-		_newRenderTexture.filterMode = FilterMode.Point;
-
-		_tableRT = _newRenderTexture;
-
-
-		_newRenderTexture = new RenderTexture(_textureWidth, _textureHeight, 0, RenderTextureFormat.ARGB32);
-		_newRenderTexture.name = "Item";
-		_newRenderTexture.autoGenerateMips = false;
-		_newRenderTexture.useMipMap = false;
-		_newRenderTexture.filterMode = FilterMode.Point;
-
-		_ItemRT = _newRenderTexture;
-
-		_newRenderTexture = new RenderTexture(_textureWidth, _textureHeight, 0, RenderTextureFormat.Default);
-		_newRenderTexture.name = "pong";
-		_newRenderTexture.autoGenerateMips = false;
-		_newRenderTexture.useMipMap = false;
-		_newRenderTexture.filterMode = FilterMode.Point;
-
-		_pongRT = _newRenderTexture;
-
-
-		_newRenderTexture = new RenderTexture(_textureWidth, _textureHeight, 0, RenderTextureFormat.Default);
-		_newRenderTexture.name = "ping";
-		_newRenderTexture.autoGenerateMips = false;
-		_newRenderTexture.useMipMap = false;
-		_newRenderTexture.filterMode = FilterMode.Point;
-
-		_pingRT = _newRenderTexture;
-
-
-		_newRenderTexture = new RenderTexture(_textureWidth, _textureHeight, 0, RenderTextureFormat.Default);
-		_newRenderTexture.name = "_WallRT";
-		_newRenderTexture.autoGenerateMips = false;
-		_newRenderTexture.useMipMap = false;
-		_newRenderTexture.filterMode = FilterMode.Point;
-
-		_WallRT = _newRenderTexture;
-
-
-		mShadowCamera.rect = iParameters.Rect;
-		mTableMaskCamera.rect = iParameters.Rect;
-		mWallMaskCamera.rect = iParameters.Rect;
-		mTableMaskCamera.orthographicSize = iParameters.cameraOrthographicSize;
-		mShadowCamera.orthographicSize = iParameters.cameraOrthographicSize;
-		mWallMaskCamera.orthographicSize = iParameters.cameraOrthographicSize;
-	}
-
-	public void Render(Camera iCameraToMatch)
-	{
-
-		mShadowCamera.rect = iCameraToMatch.rect;
-		mTableMaskCamera.rect = iCameraToMatch.rect;
-		mWallMaskCamera.rect = iCameraToMatch.rect;
-
-		mTableMaskCamera.enabled = false;
-		mTableMaskCamera.backgroundColor = new Color(0, 0, 0, 0);
-		mTableMaskCamera.aspect             = iCameraToMatch.aspect;
-
-		mShadowCamera.enabled = false;
-		mShadowCamera.backgroundColor = new Color(0, 0, 0, 0); ;
-		mShadowCamera.aspect             = iCameraToMatch.aspect;
-
-		mWallMaskCamera.enabled = false;
-		mWallMaskCamera.backgroundColor = new Color(0, 0, 0, 0); ;
-		mWallMaskCamera.aspect             = iCameraToMatch.aspect;
-
-
-		mShadowCamera.targetTexture = _ItemRT;
-		//mShadowCamera.RenderWithShader(silhouetteShader, "RenderType");
-		mShadowCamera.Render();
-
-
-		mTableMaskCamera.targetTexture = _tableRT;
-		//mTableMaskCamera.RenderWithShader(silhouetteShader, "RenderType");
-		mTableMaskCamera.Render();
-
-		mWallMaskCamera.targetTexture = _WallRT;
-		//mWallMaskCamera.RenderWithShader(silhouetteShader, "RenderType");
-		mWallMaskCamera.Render();
-
-		blurMaterial.SetTexture("_WallFloorOcclusionTex", _WallRT);
-		blurMaterial.SetTexture("_TableOcclusionTex",     _tableRT);
-
-		Graphics.Blit(_ItemRT, _pongRT, blurMaterial, 1);
-
-		for (int i = 0; i < blurPasses; i++)
-		{
-			blurMaterial.SetVector("_Direction", new Vector4(1, 0, 0, 0));
-			blurMaterial.SetFloat ("_Spread",    blurSpread /iCameraToMatch.orthographicSize );
-			Graphics.Blit(_pongRT, _pingRT, blurMaterial, 0);
-
-			blurMaterial.SetVector("_Direction", new Vector4(0, 1, 0, 0));
-			Graphics.Blit(_pingRT, _pongRT, blurMaterial, 0);
-		}
-
-
-	}
-
-	private void SetUpCameraObject(Camera iSetupCamera)
-	{
-		// Make sure camera is placed properly.
-		iSetupCamera.transform.localPosition = Vector3.zero;
-		iSetupCamera.transform.localScale = Vector3.one;
-		iSetupCamera.transform.localEulerAngles = Vector3.zero;
-
-		iSetupCamera.orthographic = true;
-		iSetupCamera.clearFlags = CameraClearFlags.Color;
-		iSetupCamera.backgroundColor = Color.clear;
-		iSetupCamera.depth = 9;
-		iSetupCamera.allowHDR = false;
-
-		iSetupCamera.nearClipPlane = -3f;
-		iSetupCamera.farClipPlane = 3f;
-	}
-
-
-
-
 }

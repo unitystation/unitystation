@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
-using UnityEngine.U2D;
 using US13.Core.Camera;
 using US13.Core.Input_System;
 using US13.Managers.SettingsManager;

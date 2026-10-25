@@ -1,5 +1,6 @@
+using System;
 using UnityEngine;
-using UnityEngine.U2D;
+using UnityEngine.Rendering.Universal;
 
 namespace US13.Core.Camera
 {
@@ -11,6 +12,11 @@ namespace US13.Core.Camera
 		public bool tolgge = true;
 
 		public PixelPerfectCamera PixelPerfectCamera;
+
+		private void Awake()
+		{
+			PixelPerfectCamera ??= GetComponent<PixelPerfectCamera>();
+		}
 
 		private void Update()
 		{
@@ -47,7 +53,5 @@ namespace US13.Core.Camera
 			PixelPerfectCamera.refResolutionX = width;
 			PixelPerfectCamera.refResolutionY = height ;
 		}
-
-
 	}
 }

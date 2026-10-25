@@ -1,52 +1,97 @@
-﻿using UnityEngine;
+﻿
+using UnityEngine;
+using US13.Core.Camera;
 using US13.Player;
 using Util;
 
 namespace US13.UI.Systems.CameraOverlays
 {
-	public class OverlayCrits : MonoBehaviour
-	{
-		public static OverlayCrits Instance;
+    public class OverlayCrits : CameraEffectBase
+    {
+        public static OverlayCrits Instance;
+        private static readonly int currentHealth = Shader.PropertyToID("_CurrentHealth");
 
-		public Shader shader;
-		private Material critMaterial;
+        [SerializeField]
+        private Material material;
 
-		private bool MonitorTarget = false;
+        [SerializeField]
+        private Shader shader;
 
-		private float inHealth = 100.0f;
-		private float outHealth = 100.0f;
+        [SerializeField]
+        private float healthLerpSpeed = 5f;
 
-		public void Awake()
-		{
-			Instance = this;
-		}
+        private Material runtimeMaterial;
+        private float inHealth = 100f;
+        private float outHealth = 100f;
 
-		void OnRenderImage(RenderTexture source, RenderTexture destination)
-		{
-			if (shader == null)
-			{
-				Graphics.Blit(source, destination);
-				return;
-			}
+        private void Awake()
+        {
+            Instance = this;
+            EnsureMaterial();
+        }
 
-			if (critMaterial == false) critMaterial = new Material(shader);
+        private void EnsureMaterial()
+        {
+            if (material != null || runtimeMaterial != null) return;
 
-			if (PlayerManager.LocalPlayerScript.OrNull()?.Mind != null && PlayerManager.LocalMindScript.IsGhosting || PlayerManager.LocalPlayerScript?.playerHealth == null)
-			{
-				inHealth = 100.0f; //Clear crit effect but gradually
-			}
+            if (shader == null) shader = Shader.Find("Hidden/Crit State");
 
-			float t = 1f - Mathf.Exp(-5f * Time.deltaTime);
-			outHealth = Mathf.Lerp(outHealth, inHealth, t);
+            if (shader == null)
+            {
+                Debug.LogError(
+                    "OverlayCrits: Could not find shader 'Hidden/Crit State'. " +
+                    "Make sure the shader is included in the build.",
+                    this
+                );
+                return;
+            }
 
+            runtimeMaterial = new Material(shader)
+            {
+                name = "Runtime Crit State Material",
+                hideFlags = HideFlags.HideAndDontSave
+            };
+        }
 
-			critMaterial.SetFloat("_CurrentHealth", outHealth);
-			Graphics.Blit(source, destination, critMaterial);
-		}
+        public override Material GetMaterial()
+        {
+            EnsureMaterial();
 
-		public void SetNewHealthValue(float newHealth)
-		{
-			inHealth = newHealth;
-		}
-	}
+            Material mat = material != null ? material : runtimeMaterial;
+            if (mat == null) return null;
+
+            mat = GetInstance(mat);
+            if (mat == null) return null;
+
+            mat.SetFloat(currentHealth, outHealth);
+            return mat;
+        }
+
+        private void Update()
+        {
+            var localPlayer = PlayerManager.LocalPlayerScript.OrNull();
+
+            if ((localPlayer?.Mind != null && PlayerManager.LocalMindScript.IsGhosting) || localPlayer?.playerHealth == null)
+            {
+                inHealth = 100f;
+            }
+
+            float t = 1f - Mathf.Exp(-healthLerpSpeed * Time.deltaTime);
+            outHealth = Mathf.Lerp(outHealth, inHealth, t);
+        }
+
+        public void SetNewHealthValue(float newHealth)
+        {
+            inHealth = newHealth;
+        }
+
+        protected override void OnDestroy()
+        {
+            if (Instance == this) Instance = null;
+
+            if (runtimeMaterial == null) return;
+            Destroy(runtimeMaterial);
+            runtimeMaterial = null;
+        }
+    }
 }

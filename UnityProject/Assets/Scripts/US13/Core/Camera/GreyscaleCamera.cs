@@ -1,30 +1,30 @@
-﻿using UnityEngine;
+﻿using NaughtyAttributes;
+using UnityEngine;
 
 namespace US13.Core.Camera
 {
-	public class GreyscaleCamera : MonoBehaviour
+	public class GreyscaleCamera : CameraEffectBase
 	{
 		public Material material;
-		[Range(0f, 1.0f)]
-		public float amount;
-
+		[Range(0f, 1.0f)] public float amount;
 		public Color tint = new Color(1, 1, 1, 1);
 
-		public void Desaturate(float greyAmount)
+		public void Desaturate(float greyAmount) => amount = greyAmount;
+		public void TintVision(Color toTint) => tint = toTint;
+
+		[Button("Debug")]
+		public void DebugRandomValue()
 		{
-			material.SetFloat("_EffectAmount", greyAmount);
+			Desaturate(Random.Range(0, 1));
 		}
-		public void TintVision(Color toTint)
+
+		public override Material GetMaterial()
 		{
-			material.SetColor("_Color", toTint);
-		}
-		void OnRenderImage(RenderTexture source, RenderTexture destination)
-		{
-			material.SetColor("_Color", tint);
-			material.SetFloat("_EffectAmount", amount);
-			Graphics.Blit(source, destination, material);
+			var mat = GetInstance(material);
+			if (mat == null) return null;
+			mat.SetColor("_Color", tint);
+			mat.SetFloat("_EffectAmount", amount);
+			return mat;
 		}
 	}
 }
-
-
