@@ -22,10 +22,13 @@ public static class ThisMain
 	{
 		// Get the location of the executable.
 		string executablePath = Assembly.GetEntryAssembly().Location.Replace("CodeScan.dll", "");
+		string correctedWhitelistPath = Path.Combine(Path.GetDirectoryName(executablePath), "CodeScanList.corrected.json");
 		AssemblyTypeChecker dat = null;
 
 		try
 		{
+			if (File.Exists(correctedWhitelistPath)) File.Delete(correctedWhitelistPath);
+
 			bool MemoryClearingMode = false;
 
 			foreach (var arg in args)
@@ -151,11 +154,11 @@ public static class ThisMain
 
 
 
-		if (dat != null && !args.Any(arg => string.Equals(arg, "-supressCorrectedWhitelist", StringComparison.OrdinalIgnoreCase)))
+		if (dat != null && dat.HasWhitelistSuggestions &&
+		    !args.Any(arg => string.Equals(arg, "-supressCorrectedWhitelist", StringComparison.OrdinalIgnoreCase)))
 		{
 			try
 			{
-				var correctedWhitelistPath = Path.Combine(Path.GetDirectoryName(executablePath), "CodeScanList.corrected.json");
 				dat.WriteCorrectedWhitelist(correctedWhitelistPath);
 			}
 			catch (Exception e)

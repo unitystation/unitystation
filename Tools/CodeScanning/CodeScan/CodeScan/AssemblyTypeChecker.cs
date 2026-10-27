@@ -31,9 +31,9 @@ namespace UnitystationLauncher.ContentScanning
 	{
 		// Used to be in Sandbox.yml, moved out of there to facilitate faster loading.
 		private const string SystemAssemblyName = "mscorlib"; //TODO check security
-		//UnityEngine
-		//mscorlib
-		//System.Runtime
+															  //UnityEngine
+															  //mscorlib
+															  //System.Runtime
 
 		/// <summary>
 		///     Completely disables type checking, allowing everything.
@@ -45,6 +45,7 @@ namespace UnitystationLauncher.ContentScanning
 
 		public readonly Task<SandboxConfig> _config;
 		private readonly ConcurrentBag<WhitelistSuggestion> _whitelistSuggestions = new();
+		public bool HasWhitelistSuggestions => !_whitelistSuggestions.IsEmpty;
 
 		private sealed record WhitelistSuggestion(string Namespace, string[] TypePath, bool AllowAll, string Member, bool AllowInheritance = false);
 
@@ -53,51 +54,58 @@ namespace UnitystationLauncher.ContentScanning
 			var config = _config.GetAwaiter().GetResult();
 			foreach (var suggestion in _whitelistSuggestions.Distinct())
 			{
-				if (!config.Types.TryGetValue(suggestion.Namespace, out var namespaceTypes))
+				try
 				{
-					namespaceTypes = new Dictionary<string, TypeConfig>();
-					config.Types[suggestion.Namespace] = namespaceTypes;
-				}
-
-				if (!namespaceTypes.TryGetValue(suggestion.TypePath[0], out var typeConfig))
-				{
-					typeConfig = new TypeConfig();
-					namespaceTypes[suggestion.TypePath[0]] = typeConfig;
-				}
-
-				for (var i = 1; i < suggestion.TypePath.Length; i++)
-				{
-					typeConfig.NestedTypes ??= new Dictionary<string, TypeConfig>();
-					if (!typeConfig.NestedTypes.TryGetValue(suggestion.TypePath[i], out var nested))
+					if (!config.Types.TryGetValue(suggestion.Namespace, out var namespaceTypes))
 					{
-						nested = new TypeConfig();
-						typeConfig.NestedTypes[suggestion.TypePath[i]] = nested;
+						namespaceTypes = new Dictionary<string, TypeConfig>();
+						config.Types[suggestion.Namespace] = namespaceTypes;
 					}
 
-					typeConfig = nested;
-				}
+					if (!namespaceTypes.TryGetValue(suggestion.TypePath[0], out var typeConfig))
+					{
+						typeConfig = new TypeConfig();
+						namespaceTypes[suggestion.TypePath[0]] = typeConfig;
+					}
 
-				if (suggestion.AllowAll)
-				{
-					typeConfig.All = true;
-					typeConfig.Methods = null;
-					typeConfig.Fields = null;
-				}
-				else if (suggestion.AllowInheritance)
-				{
-					typeConfig.Inherit = InheritMode.Allow;
-				}
-				else if (!typeConfig.All && !string.IsNullOrEmpty(suggestion.Member))
-				{
-					if (suggestion.Member.StartsWith("FIELD:", StringComparison.Ordinal))
+					for (var i = 1; i < suggestion.TypePath.Length; i++)
 					{
-						var field = suggestion.Member.Substring("FIELD:".Length);
-						typeConfig.Fields = (typeConfig.Fields ?? Array.Empty<string>()).Append(field).Distinct().ToArray();
+						typeConfig.NestedTypes ??= new Dictionary<string, TypeConfig>();
+						if (!typeConfig.NestedTypes.TryGetValue(suggestion.TypePath[i], out var nested))
+						{
+							nested = new TypeConfig();
+							typeConfig.NestedTypes[suggestion.TypePath[i]] = nested;
+						}
+
+						typeConfig = nested;
 					}
-					else
+
+					if (suggestion.AllowAll)
 					{
-						typeConfig.Methods = (typeConfig.Methods ?? Array.Empty<string>()).Append(suggestion.Member).Distinct().ToArray();
+						typeConfig.All = true;
+						typeConfig.Methods = null;
+						typeConfig.Fields = null;
 					}
+					else if (suggestion.AllowInheritance)
+					{
+						typeConfig.Inherit = InheritMode.Allow;
+					}
+					else if (!typeConfig.All && !string.IsNullOrEmpty(suggestion.Member))
+					{
+						if (suggestion.Member.StartsWith("FIELD:", StringComparison.Ordinal))
+						{
+							var field = suggestion.Member.Substring("FIELD:".Length);
+							typeConfig.Fields = (typeConfig.Fields ?? Array.Empty<string>()).Append(field).Distinct().ToArray();
+						}
+						else
+						{
+							typeConfig.Methods = (typeConfig.Methods ?? Array.Empty<string>()).Append(suggestion.Member).Distinct().ToArray();
+						}
+					}
+				}
+				catch (Exception e)
+				{
+					Console.WriteLine($"Error processing suggestion for {suggestion.Namespace}.{string.Join(".", suggestion.TypePath)}: {e.Message}");
 				}
 			}
 
@@ -105,6 +113,7 @@ namespace UnitystationLauncher.ContentScanning
 				config,
 				Newtonsoft.Json.Formatting.Indented,
 				new Newtonsoft.Json.Converters.StringEnumConverter()));
+			Console.WriteLine($"Whitelist suggestions written to {path}");
 		}
 
 		private void SuggestType(ScanningTypes.MTypeReferenced type)
@@ -187,77 +196,77 @@ namespace UnitystationLauncher.ContentScanning
 		}
 
 
-	 private sealed class Resolver : IResolver
-    {
-        private readonly DirectoryInfo _managedPath;
+		private sealed class Resolver : IResolver
+		{
+			private readonly DirectoryInfo _managedPath;
 
-        private readonly DirectoryInfo BackupDlls = new DirectoryInfo(@"Q:\Fast programmes\ss13 development\unitystation\Tools\CodeScanning\CodeScan\CodeScan\bin\Debug\net7.0\MissingAssemblies");
-        private readonly Dictionary<string, PEReader> _dictionaryLookup = new Dictionary<string, PEReader>();
+			private readonly DirectoryInfo BackupDlls = new DirectoryInfo(@"Q:\Fast programmes\ss13 development\unitystation\Tools\CodeScanning\CodeScan\CodeScan\bin\Debug\net7.0\MissingAssemblies");
+			private readonly Dictionary<string, PEReader> _dictionaryLookup = new Dictionary<string, PEReader>();
 
-        public void Dispose()
-        {
-            foreach (var Lookup in _dictionaryLookup)
-            {
-                Lookup.Value.Dispose();
-            }
-        }
+			public void Dispose()
+			{
+				foreach (var Lookup in _dictionaryLookup)
+				{
+					Lookup.Value.Dispose();
+				}
+			}
 
-        PEReader IResolver.ResolveAssembly(AssemblyName assemblyName)
-        {
-            if (assemblyName.Name == null)
-            {
-	            ThisMain.Errors.Add("Unable to find " + assemblyName.FullName);
-                throw new FileNotFoundException("Unable to find " + assemblyName.FullName);
-            }
+			PEReader IResolver.ResolveAssembly(AssemblyName assemblyName)
+			{
+				if (assemblyName.Name == null)
+				{
+					ThisMain.Errors.Add("Unable to find " + assemblyName.FullName);
+					throw new FileNotFoundException("Unable to find " + assemblyName.FullName);
+				}
 
-            if (_dictionaryLookup.TryGetValue(assemblyName.Name, out var assembly))
-            {
-                return assembly;
-            }
+				if (_dictionaryLookup.TryGetValue(assemblyName.Name, out var assembly))
+				{
+					return assembly;
+				}
 
-            FileInfo[] files = _managedPath.GetFiles("*"); // Change the file extension to match your DLLs
+				FileInfo[] files = _managedPath.GetFiles("*"); // Change the file extension to match your DLLs
 
-            foreach (FileInfo file in files)
-            {
-                string fileName = Path.GetFileNameWithoutExtension(file.Name);
-                if (string.Equals(fileName, assemblyName.Name, StringComparison.OrdinalIgnoreCase))
-                {
-                    Console.WriteLine($"Found DLL for assembly '{assemblyName.Name}': {file.FullName}");
-                    _dictionaryLookup[assemblyName.Name] =
-                        new PEReader(file.Open(FileMode.Open, FileAccess.Read, FileShare.Read));
-                    return _dictionaryLookup[assemblyName.Name];
-                }
-            }
+				foreach (FileInfo file in files)
+				{
+					string fileName = Path.GetFileNameWithoutExtension(file.Name);
+					if (string.Equals(fileName, assemblyName.Name, StringComparison.OrdinalIgnoreCase))
+					{
+						Console.WriteLine($"Found DLL for assembly '{assemblyName.Name}': {file.FullName}");
+						_dictionaryLookup[assemblyName.Name] =
+							new PEReader(file.Open(FileMode.Open, FileAccess.Read, FileShare.Read));
+						return _dictionaryLookup[assemblyName.Name];
+					}
+				}
 
-	        files = BackupDlls.GetFiles("*"); // Change the file extension to match your DLLs
+				files = BackupDlls.GetFiles("*"); // Change the file extension to match your DLLs
 
-            foreach (FileInfo file in files)
-            {
-	            string fileName = Path.GetFileNameWithoutExtension(file.Name);
-	            if (string.Equals(fileName, assemblyName.Name, StringComparison.OrdinalIgnoreCase))
-	            {
-		            Console.WriteLine($"Found DLL for assembly '{assemblyName.Name}': {file.FullName}");
-		            _dictionaryLookup[assemblyName.Name] =
-			            new PEReader(file.Open(FileMode.Open, FileAccess.Read, FileShare.Read));
-		            return _dictionaryLookup[assemblyName.Name];
-	            }
-            }
+				foreach (FileInfo file in files)
+				{
+					string fileName = Path.GetFileNameWithoutExtension(file.Name);
+					if (string.Equals(fileName, assemblyName.Name, StringComparison.OrdinalIgnoreCase))
+					{
+						Console.WriteLine($"Found DLL for assembly '{assemblyName.Name}': {file.FullName}");
+						_dictionaryLookup[assemblyName.Name] =
+							new PEReader(file.Open(FileMode.Open, FileAccess.Read, FileShare.Read));
+						return _dictionaryLookup[assemblyName.Name];
+					}
+				}
 
-            ThisMain.Errors.Add("Unable to find it " + assemblyName.FullName);
-            throw new FileNotFoundException("Unable to find it " + assemblyName.FullName);
-        }
+				ThisMain.Errors.Add("Unable to find it " + assemblyName.FullName);
+				throw new FileNotFoundException("Unable to find it " + assemblyName.FullName);
+			}
 
-        public Resolver(DirectoryInfo inManagedPath)
-        {
-            _managedPath = inManagedPath;
-        }
+			public Resolver(DirectoryInfo inManagedPath)
+			{
+				_managedPath = inManagedPath;
+			}
 
-        PEReader IResolver.ResolveModule(AssemblyName referencingAssembly, string fileName)
-        {
-            //TODO idk This is never used anywhere
-            throw new NotImplementedException(
-                $"idk How IResolver.ResolveModule(AssemblyName {referencingAssembly}, string {fileName}) , And it's never been called so.. ");
-        }
+			PEReader IResolver.ResolveModule(AssemblyName referencingAssembly, string fileName)
+			{
+				//TODO idk This is never used anywhere
+				throw new NotImplementedException(
+					$"idk How IResolver.ResolveModule(AssemblyName {referencingAssembly}, string {fileName}) , And it's never been called so.. ");
+			}
 		}
 
 		private Resolver CreateResolver(DirectoryInfo ManagedPath)
@@ -288,7 +297,7 @@ namespace UnitystationLauncher.ContentScanning
 
 			var asmName = reader.GetString(reader.GetAssemblyDefinition().Name);
 
-			if (peReader.PEHeaders.CorHeader?.ManagedNativeHeaderDirectory is {Size: not 0})
+			if (peReader.PEHeaders.CorHeader?.ManagedNativeHeaderDirectory is { Size: not 0 })
 			{
 				Errors.Invoke($"\n- Assembly {asmName} contains native code.");
 				return false;
@@ -423,7 +432,7 @@ namespace UnitystationLauncher.ContentScanning
 
 			sb.AppendLine($@"{pad}}}");
 		}
-		
+
 		private bool DoVerifyIL(
 			string name,
 			IResolver resolver,
@@ -531,8 +540,8 @@ namespace UnitystationLauncher.ContentScanning
 				var attr = methodDef.Attributes;
 
 				if ((implAttr & MethodImplAttributes.Unmanaged) != 0 ||
-				    (implAttr & MethodImplAttributes.CodeTypeMask) is not (MethodImplAttributes.IL
-				    or MethodImplAttributes.Runtime))
+					(implAttr & MethodImplAttributes.CodeTypeMask) is not (MethodImplAttributes.IL
+					or MethodImplAttributes.Runtime))
 				{
 					var err = $"\n-- Method has illegal MethodImplAttributes: {FormatMethodName(reader, methodDef)} in Assembly {AssemblyName} ";
 					errors.Add(new SandboxError(err));
@@ -586,30 +595,30 @@ namespace UnitystationLauncher.ContentScanning
 						switch (baseType)
 						{
 							case ScanningTypes.MTypeGeneric generic:
-							{
-								baseType = generic.GenericType;
+								{
+									baseType = generic.GenericType;
 
-								break;
-							}
+									break;
+								}
 							case ScanningTypes.MTypeWackyArray:
-							{
-								// Members on arrays (not to be confused with vectors) are all fine.
-								// See II.14.2 in ECMA-335.
-								return;
-							}
+								{
+									// Members on arrays (not to be confused with vectors) are all fine.
+									// See II.14.2 in ECMA-335.
+									return;
+								}
 							case ScanningTypes.MTypeDefined:
-							{
-								// Valid for this to show up, safe to ignore.
-								return;
-							}
+								{
+									// Valid for this to show up, safe to ignore.
+									return;
+								}
 							default:
-							{
-								throw new ArgumentOutOfRangeException();
-							}
+								{
+									throw new ArgumentOutOfRangeException();
+								}
 						}
 					}
 
-					var baseTypeReferenced = (ScanningTypes.MTypeReferenced) baseType;
+					var baseTypeReferenced = (ScanningTypes.MTypeReferenced)baseType;
 
 					if (IsTypeAccessAllowed(sandboxConfig, baseTypeReferenced, out var typeCfg) == false)
 					{
@@ -629,29 +638,29 @@ namespace UnitystationLauncher.ContentScanning
 					switch (memberRef)
 					{
 						case ScanningTypes.MMemberRefField mMemberRefField:
-						{
-							foreach (var field in typeCfg.FieldsParsed)
 							{
-								if (field.Name == mMemberRefField.Name &&
-								    mMemberRefField.FieldType.WhitelistEquals(field.FieldType))
+								foreach (var field in typeCfg.FieldsParsed)
 								{
-									return; // Found
+									if (field.Name == mMemberRefField.Name &&
+										mMemberRefField.FieldType.WhitelistEquals(field.FieldType))
+									{
+										return; // Found
+									}
 								}
-							}
 
-							SuggestMember(memberRef);
-							errors.Add(new SandboxError($"\n- Access to field not allowed: {mMemberRefField}"));
-							break;
-						}
+								SuggestMember(memberRef);
+								errors.Add(new SandboxError($"\n- Access to field not allowed: {mMemberRefField}"));
+								break;
+							}
 						case ScanningTypes.MMemberRefMethod mMemberRefMethod:
 							foreach (var parsed in typeCfg.MethodsParsed)
 							{
 								bool notParamMismatch = true;
 
 								if (parsed.Name == mMemberRefMethod.Name &&
-								    mMemberRefMethod.ReturnType.WhitelistEquals(parsed.ReturnType) &&
-								    mMemberRefMethod.ParameterTypes.Length == parsed.ParameterTypes.Count &&
-								    mMemberRefMethod.GenericParameterCount == parsed.GenericParameterCount)
+									mMemberRefMethod.ReturnType.WhitelistEquals(parsed.ReturnType) &&
+									mMemberRefMethod.ParameterTypes.Length == parsed.ParameterTypes.Count &&
+									mMemberRefMethod.GenericParameterCount == parsed.GenericParameterCount)
 								{
 									for (var i = 0; i < mMemberRefMethod.ParameterTypes.Length; i++)
 									{
@@ -690,30 +699,30 @@ namespace UnitystationLauncher.ContentScanning
 						switch (baseType)
 						{
 							case ScanningTypes.MTypeGeneric generic:
-							{
-								baseType = generic.GenericType;
+								{
+									baseType = generic.GenericType;
 
-								break;
-							}
+									break;
+								}
 							case ScanningTypes.MTypeWackyArray:
-							{
-								// Members on arrays (not to be confused with vectors) are all fine.
-								// See II.14.2 in ECMA-335.
-								continue;
-							}
+								{
+									// Members on arrays (not to be confused with vectors) are all fine.
+									// See II.14.2 in ECMA-335.
+									continue;
+								}
 							case ScanningTypes.MTypeDefined:
-							{
-								// Valid for this to show up, safe to ignore.
-								continue;
-							}
+								{
+									// Valid for this to show up, safe to ignore.
+									continue;
+								}
 							default:
-							{
-								throw new ArgumentOutOfRangeException();
-							}
+								{
+									throw new ArgumentOutOfRangeException();
+								}
 						}
 					}
 
-					var baseTypeReferenced = (ScanningTypes.MTypeReferenced) baseType;
+					var baseTypeReferenced = (ScanningTypes.MTypeReferenced)baseType;
 
 					if (IsTypeAccessAllowed(sandboxConfig, baseTypeReferenced, out var typeCfg) == false)
 					{
@@ -733,28 +742,28 @@ namespace UnitystationLauncher.ContentScanning
 					switch (memberRef)
 					{
 						case ScanningTypes.MMemberRefField mMemberRefField:
-						{
-							foreach (var field in typeCfg.FieldsParsed)
 							{
-								if (field.Name == mMemberRefField.Name &&
-								    mMemberRefField.FieldType.WhitelistEquals(field.FieldType))
+								foreach (var field in typeCfg.FieldsParsed)
 								{
-									continue; // Found
+									if (field.Name == mMemberRefField.Name &&
+										mMemberRefField.FieldType.WhitelistEquals(field.FieldType))
+									{
+										continue; // Found
+									}
 								}
-							}
 
-							SuggestMember(memberRef);
-							errors.Add(new SandboxError($"\n- Access to field not allowed: {mMemberRefField} in Assembly {asmName}"));
-							break;
-						}
+								SuggestMember(memberRef);
+								errors.Add(new SandboxError($"\n- Access to field not allowed: {mMemberRefField} in Assembly {asmName}"));
+								break;
+							}
 						case ScanningTypes.MMemberRefMethod mMemberRefMethod:
 							bool notParamMismatch = true;
 							foreach (var parsed in typeCfg.MethodsParsed)
 							{
 								if (parsed.Name == mMemberRefMethod.Name &&
-								    mMemberRefMethod.ReturnType.WhitelistEquals(parsed.ReturnType) &&
-								    mMemberRefMethod.ParameterTypes.Length == parsed.ParameterTypes.Count &&
-								    mMemberRefMethod.GenericParameterCount == parsed.GenericParameterCount)
+									mMemberRefMethod.ReturnType.WhitelistEquals(parsed.ReturnType) &&
+									mMemberRefMethod.ParameterTypes.Length == parsed.ParameterTypes.Count &&
+									mMemberRefMethod.GenericParameterCount == parsed.GenericParameterCount)
 								{
 									for (var i = 0; i < mMemberRefMethod.ParameterTypes.Length; i++)
 									{
@@ -820,7 +829,7 @@ namespace UnitystationLauncher.ContentScanning
 					switch (inheritType)
 					{
 						case ScanningTypes.MTypeGeneric generic:
-							realBaseType = (ScanningTypes.MTypeReferenced) generic.GenericType;
+							realBaseType = (ScanningTypes.MTypeReferenced)generic.GenericType;
 							break;
 						case ScanningTypes.MTypeReferenced referenced:
 							realBaseType = referenced;
@@ -850,8 +859,8 @@ namespace UnitystationLauncher.ContentScanning
 			{
 				if (type.ResolutionScope is ScanningTypes.MResScopeType parentType)
 				{
-					if (IsTypeAccessAllowed(sandboxConfig, (ScanningTypes.MTypeReferenced) parentType.Type,
-						    out var parentCfg) == false)
+					if (IsTypeAccessAllowed(sandboxConfig, (ScanningTypes.MTypeReferenced)parentType.Type,
+							out var parentCfg) == false)
 					{
 						cfg = null;
 						return false;
@@ -876,7 +885,7 @@ namespace UnitystationLauncher.ContentScanning
 				}
 
 				if (type.ResolutionScope is ScanningTypes.MResScopeAssembly mResScopeAssembly &&
-				    (sandboxConfig.MultiAssemblyOtherReferences.Contains(mResScopeAssembly.Name) || sandboxConfig.EditorOnlyAssemblies.Contains(mResScopeAssembly.Name)))
+					(sandboxConfig.MultiAssemblyOtherReferences.Contains(mResScopeAssembly.Name) || sandboxConfig.EditorOnlyAssemblies.Contains(mResScopeAssembly.Name)))
 				{
 					cfg = TypeConfig.DefaultAll; //TODO DEBUG!!!
 					return true;
@@ -898,7 +907,7 @@ namespace UnitystationLauncher.ContentScanning
 			}
 
 			if (type.ResolutionScope is ScanningTypes.MResScopeAssembly resScopeAssembly &&
-			    (sandboxConfig.MultiAssemblyOtherReferences.Contains(resScopeAssembly.Name) || sandboxConfig.EditorOnlyAssemblies.Contains(resScopeAssembly.Name)))
+				(sandboxConfig.MultiAssemblyOtherReferences.Contains(resScopeAssembly.Name) || sandboxConfig.EditorOnlyAssemblies.Contains(resScopeAssembly.Name)))
 			{
 				cfg = TypeConfig.DefaultAll; //TODO DEBUG!!!
 				return true;
@@ -949,67 +958,67 @@ namespace UnitystationLauncher.ContentScanning
 						{
 							// See II.22.25 in ECMA-335.
 							case HandleKind.TypeReference:
-							{
-								// Regular type reference.
-								try
 								{
-									parent = ParseTypeReference(reader, (TypeReferenceHandle) memRef.Parent);
-								}
-								catch (UnsupportedMetadataException u)
-								{
-									errors.Add(new SandboxError(u));
-									return null;
-								}
+									// Regular type reference.
+									try
+									{
+										parent = ParseTypeReference(reader, (TypeReferenceHandle)memRef.Parent);
+									}
+									catch (UnsupportedMetadataException u)
+									{
+										errors.Add(new SandboxError(u));
+										return null;
+									}
 
-								break;
-							}
+									break;
+								}
 							case HandleKind.TypeDefinition:
-							{
-								try
 								{
-									parent = GetTypeFromDefinition(reader, (TypeDefinitionHandle) memRef.Parent);
-								}
-								catch (UnsupportedMetadataException u)
-								{
-									errors.Add(new SandboxError(u));
-									return null;
-								}
+									try
+									{
+										parent = GetTypeFromDefinition(reader, (TypeDefinitionHandle)memRef.Parent);
+									}
+									catch (UnsupportedMetadataException u)
+									{
+										errors.Add(new SandboxError(u));
+										return null;
+									}
 
-								break;
-							}
+									break;
+								}
 							case HandleKind.TypeSpecification:
-							{
-								var typeSpec = reader.GetTypeSpecification((TypeSpecificationHandle) memRef.Parent);
-								// Generic type reference.
-								var provider = new TypeProvider();
-								parent = typeSpec.DecodeSignature(provider, 0);
-
-								if (parent.IsCoreTypeDefined())
 								{
-									// Ensure this isn't a self-defined type.
-									// This can happen due to generics since MethodSpec needs to point to MemberRef.
+									var typeSpec = reader.GetTypeSpecification((TypeSpecificationHandle)memRef.Parent);
+									// Generic type reference.
+									var provider = new TypeProvider();
+									parent = typeSpec.DecodeSignature(provider, 0);
+
+									if (parent.IsCoreTypeDefined())
+									{
+										// Ensure this isn't a self-defined type.
+										// This can happen due to generics since MethodSpec needs to point to MemberRef.
+										return null;
+									}
+
+									break;
+								}
+							case HandleKind.ModuleReference:
+								{
+									errors.Add(new SandboxError(
+										$"\n- Module global variables and methods are unsupported. Name: {memName}"));
 									return null;
 								}
-
-								break;
-							}
-							case HandleKind.ModuleReference:
-							{
-								errors.Add(new SandboxError(
-									$"\n- Module global variables and methods are unsupported. Name: {memName}"));
-								return null;
-							}
 							case HandleKind.MethodDefinition:
-							{
-								errors.Add(new SandboxError($"\n- Vararg calls are unsupported. Name: {memName}"));
-								return null;
-							}
+								{
+									errors.Add(new SandboxError($"\n- Vararg calls are unsupported. Name: {memName}"));
+									return null;
+								}
 							default:
-							{
-								errors.Add(new SandboxError(
-									$"\n- Unsupported member ref parent type: {memRef.Parent.Kind}. Name: {memName}"));
-								return null;
-							}
+								{
+									errors.Add(new SandboxError(
+										$"\n- Unsupported member ref parent type: {memRef.Parent.Kind}. Name: {memName}"));
+									return null;
+								}
 						}
 
 						ScanningTypes.MMemberRef memberRef;
@@ -1017,24 +1026,24 @@ namespace UnitystationLauncher.ContentScanning
 						switch (memRef.GetKind())
 						{
 							case MemberReferenceKind.Method:
-							{
-								var sig = memRef.DecodeMethodSignature(new TypeProvider(), 0);
+								{
+									var sig = memRef.DecodeMethodSignature(new TypeProvider(), 0);
 
-								memberRef = new ScanningTypes.MMemberRefMethod(
-									parent,
-									memName,
-									sig.ReturnType,
-									sig.GenericParameterCount,
-									sig.ParameterTypes);
+									memberRef = new ScanningTypes.MMemberRefMethod(
+										parent,
+										memName,
+										sig.ReturnType,
+										sig.GenericParameterCount,
+										sig.ParameterTypes);
 
-								break;
-							}
+									break;
+								}
 							case MemberReferenceKind.Field:
-							{
-								var fieldType = memRef.DecodeFieldSignature(new TypeProvider(), 0);
-								memberRef = new ScanningTypes.MMemberRefField(parent, memName, fieldType);
-								break;
-							}
+								{
+									var fieldType = memRef.DecodeFieldSignature(new TypeProvider(), 0);
+									memberRef = new ScanningTypes.MMemberRefField(parent, memName, fieldType);
+									break;
+								}
 							default:
 								throw new ArgumentOutOfRangeException();
 						}
@@ -1055,67 +1064,67 @@ namespace UnitystationLauncher.ContentScanning
 						{
 							// See II.22.25 in ECMA-335.
 							case HandleKind.TypeReference:
-							{
-								// Regular type reference.
-								try
 								{
-									parent = ParseTypeReference(reader, (TypeReferenceHandle) memRef.Parent);
-								}
-								catch (UnsupportedMetadataException u)
-								{
-									errors.Add(new SandboxError(u));
-									return null;
-								}
+									// Regular type reference.
+									try
+									{
+										parent = ParseTypeReference(reader, (TypeReferenceHandle)memRef.Parent);
+									}
+									catch (UnsupportedMetadataException u)
+									{
+										errors.Add(new SandboxError(u));
+										return null;
+									}
 
-								break;
-							}
+									break;
+								}
 							case HandleKind.TypeDefinition:
-							{
-								try
 								{
-									parent = GetTypeFromDefinition(reader, (TypeDefinitionHandle) memRef.Parent);
-								}
-								catch (UnsupportedMetadataException u)
-								{
-									errors.Add(new SandboxError(u));
-									return null;
-								}
+									try
+									{
+										parent = GetTypeFromDefinition(reader, (TypeDefinitionHandle)memRef.Parent);
+									}
+									catch (UnsupportedMetadataException u)
+									{
+										errors.Add(new SandboxError(u));
+										return null;
+									}
 
-								break;
-							}
+									break;
+								}
 							case HandleKind.TypeSpecification:
-							{
-								var typeSpec = reader.GetTypeSpecification((TypeSpecificationHandle) memRef.Parent);
-								// Generic type reference.
-								var provider = new TypeProvider();
-								parent = typeSpec.DecodeSignature(provider, 0);
-
-								if (parent.IsCoreTypeDefined())
 								{
-									// Ensure this isn't a self-defined type.
-									// This can happen due to generics since MethodSpec needs to point to MemberRef.
+									var typeSpec = reader.GetTypeSpecification((TypeSpecificationHandle)memRef.Parent);
+									// Generic type reference.
+									var provider = new TypeProvider();
+									parent = typeSpec.DecodeSignature(provider, 0);
+
+									if (parent.IsCoreTypeDefined())
+									{
+										// Ensure this isn't a self-defined type.
+										// This can happen due to generics since MethodSpec needs to point to MemberRef.
+										return null;
+									}
+
+									break;
+								}
+							case HandleKind.ModuleReference:
+								{
+									errors.Add(new SandboxError(
+										$"\n- Module global variables and methods are unsupported. Name: {memName}"));
 									return null;
 								}
-
-								break;
-							}
-							case HandleKind.ModuleReference:
-							{
-								errors.Add(new SandboxError(
-									$"\n- Module global variables and methods are unsupported. Name: {memName}"));
-								return null;
-							}
 							case HandleKind.MethodDefinition:
-							{
-								errors.Add(new SandboxError($"\n- Vararg calls are unsupported. Name: {memName}"));
-								return null;
-							}
+								{
+									errors.Add(new SandboxError($"\n- Vararg calls are unsupported. Name: {memName}"));
+									return null;
+								}
 							default:
-							{
-								errors.Add(new SandboxError(
-									$"\n- Unsupported member ref parent type: {memRef.Parent.Kind}. Name: {memName}"));
-								return null;
-							}
+								{
+									errors.Add(new SandboxError(
+										$"\n- Unsupported member ref parent type: {memRef.Parent.Kind}. Name: {memName}"));
+									return null;
+								}
 						}
 
 						ScanningTypes.MMemberRef memberRef;
@@ -1123,24 +1132,24 @@ namespace UnitystationLauncher.ContentScanning
 						switch (memRef.GetKind())
 						{
 							case MemberReferenceKind.Method:
-							{
-								var sig = memRef.DecodeMethodSignature(new TypeProvider(), 0);
+								{
+									var sig = memRef.DecodeMethodSignature(new TypeProvider(), 0);
 
-								memberRef = new ScanningTypes.MMemberRefMethod(
-									parent,
-									memName,
-									sig.ReturnType,
-									sig.GenericParameterCount,
-									sig.ParameterTypes);
+									memberRef = new ScanningTypes.MMemberRefMethod(
+										parent,
+										memName,
+										sig.ReturnType,
+										sig.GenericParameterCount,
+										sig.ParameterTypes);
 
-								break;
-							}
+									break;
+								}
 							case MemberReferenceKind.Field:
-							{
-								var fieldType = memRef.DecodeFieldSignature(new TypeProvider(), 0);
-								memberRef = new ScanningTypes.MMemberRefField(parent, memName, fieldType);
-								break;
-							}
+								{
+									var fieldType = memRef.DecodeFieldSignature(new TypeProvider(), 0);
+									memberRef = new ScanningTypes.MMemberRefField(parent, memName, fieldType);
+									break;
+								}
 							default:
 								throw new ArgumentOutOfRangeException();
 						}
@@ -1211,7 +1220,7 @@ namespace UnitystationLauncher.ContentScanning
 					// Regular type reference.
 					try
 					{
-						type = ParseTypeReference(reader, (TypeReferenceHandle) handle);
+						type = ParseTypeReference(reader, (TypeReferenceHandle)handle);
 						return true;
 					}
 					catch (UnsupportedMetadataException u)
@@ -1221,7 +1230,7 @@ namespace UnitystationLauncher.ContentScanning
 					}
 
 				case HandleKind.TypeSpecification:
-					var typeSpec = reader.GetTypeSpecification((TypeSpecificationHandle) handle);
+					var typeSpec = reader.GetTypeSpecification((TypeSpecificationHandle)handle);
 					// Generic type reference.
 					var provider = new TypeProvider();
 					type = typeSpec.DecodeSignature(provider, 0);
@@ -1282,27 +1291,27 @@ namespace UnitystationLauncher.ContentScanning
 			switch (typeRef.ResolutionScope.Kind)
 			{
 				case HandleKind.AssemblyReference:
-				{
-					// Different assembly.
-					var assemblyRef =
-						reader.GetAssemblyReference((AssemblyReferenceHandle) typeRef.ResolutionScope);
-					var assemblyName = reader.GetString(assemblyRef.Name);
-					resScope = new ScanningTypes.MResScopeAssembly(assemblyName);
-					break;
-				}
+					{
+						// Different assembly.
+						var assemblyRef =
+							reader.GetAssemblyReference((AssemblyReferenceHandle)typeRef.ResolutionScope);
+						var assemblyName = reader.GetString(assemblyRef.Name);
+						resScope = new ScanningTypes.MResScopeAssembly(assemblyName);
+						break;
+					}
 				case HandleKind.TypeReference:
-				{
-					// Nested type.
-					var enclosingType = ParseTypeReference(reader, (TypeReferenceHandle) typeRef.ResolutionScope);
-					resScope = new ScanningTypes.MResScopeType(enclosingType);
-					break;
-				}
+					{
+						// Nested type.
+						var enclosingType = ParseTypeReference(reader, (TypeReferenceHandle)typeRef.ResolutionScope);
+						resScope = new ScanningTypes.MResScopeType(enclosingType);
+						break;
+					}
 				case HandleKind.ModuleReference:
-				{
-					// Same-assembly-different-module
-					throw new UnsupportedMetadataException(
-						$"Cross-module reference to type {nameSpace}.{name}. ");
-				}
+					{
+						// Same-assembly-different-module
+						throw new UnsupportedMetadataException(
+							$"Cross-module reference to type {nameSpace}.{name}. ");
+					}
 				default:
 					// Edge cases not handled:
 					// https://github.com/dotnet/runtime/blob/b2e5a89085fcd87e2fa9300b4bb00cd499c5845b/src/libraries/System.Reflection.Metadata/tests/Metadata/Decoding/DisassemblingTypeProvider.cs#L130-L132
