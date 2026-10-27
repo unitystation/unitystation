@@ -1,3 +1,14 @@
 dotnet build -c Debug -r linux-x64
 dotnet build -c Debug -r win-x64
 dotnet build -c Debug -r osx-x64
+
+To publish self-contained packages and refresh all three runtime archives, run
+Build-Releases.ps1 from this directory's parent:
+
+  ..\Build-Releases.ps1
+
+The script writes win-x64.zip, linux-x64.zip, and osx-x64.zip under
+CodeScan\bin\Debug\net7.0 by default. Pass -Configuration Release to build
+and archive Release outputs instead. FilesToMoveToManaged.json is included at
+the archive root beside each runtime directory; pass -FilesToMoveToManagedPath
+if the file is not present in the selected bin output directory.

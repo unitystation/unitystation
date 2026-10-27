@@ -151,7 +151,7 @@ namespace UnitystationLauncher.ContentScanning
 					// ReSharper disable once StringLiteralTypo
 					PrimitiveTypeCode.IntPtr => "nint",
 					// ReSharper disable once StringLiteralTypo
-					PrimitiveTypeCode.UIntPtr => "unint",
+					PrimitiveTypeCode.UIntPtr => "nuint",
 					PrimitiveTypeCode.Object => "object",
 					_ => "???"
 				};

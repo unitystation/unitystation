@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -6,6 +7,7 @@ using Newtonsoft.Json;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 
 namespace Tests
@@ -84,10 +86,20 @@ namespace Tests
 				BuildPath += @"/Mac";
 			}
 
-			if (File.Exists(ExecutablePath) == false)
+			try
 			{
-				ZipFile.ExtractToDirectory(FolderZip, ExtractionPath);
+				if (File.Exists(ExecutablePath) == false ||
+				    File.GetLastWriteTimeUtc(FolderZip) > File.GetLastWriteTimeUtc(ExecutablePath))
+				{
+					ZipFile.ExtractToDirectory(FolderZip, ExtractionPath, overwriteFiles: true);
+				}
+				Debug.Log($"CodeScanning finished in {FolderZip}.");
 			}
+			catch(Exception e)
+			{
+				Debug.Log(e);
+			}
+
 
 			if (Application.platform == RuntimePlatform.LinuxEditor || Application.platform == RuntimePlatform.OSXEditor)
 			{
@@ -145,6 +157,15 @@ namespace Tests
 			process.Close();
 			process.Dispose();
 
+			var generatedWhitelistPath = Path.Combine(FolderError, "CodeScanList.corrected.json");
+			if (File.Exists(generatedWhitelistPath))
+			{
+				var extractedWhitelistPath = Path.Combine(ExtractionPath, "CodeScanList.corrected.json");
+				File.Copy(generatedWhitelistPath, extractedWhitelistPath, overwrite: true);
+				report.Fail()
+					.AppendLine($"CodeScan whitelist suggestions were saved to: {extractedWhitelistPath}")
+					.Log();
+			}
 
 			var Errors = JsonConvert.DeserializeObject<List<string>>(File.ReadAllText(
 				FolderError + "/errors.json"));
