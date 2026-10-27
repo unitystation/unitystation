@@ -1,14 +1,20 @@
+using System.Collections;
 using SecureStuff;
 using UnityEngine;
 using US13.Core.Transform;
 using US13.Managers.NetworkManagement;
 using US13.Managers.UpdateManager;
+using US13.Tilemaps.Behaviours.Meta;
 using Util;
 
 namespace US13.Shuttles
 {
-	public class AutopilotShipMachine : MonoBehaviour
+	public class AutopilotShipMachine : MonoBehaviour, IInitialiseSystem
 	{
+		public int Priority => priority;
+
+		public int priority = 90;
+
 		[PlayModeOnly]
 		public GuidanceBuoy CurrentTarget;
 
@@ -29,6 +35,17 @@ namespace US13.Shuttles
 
 		private GuidanceBuoy PreviouslyReached = null;
 
+		[PlayModeOnly]
+		public bool HasPositionTarget = false;
+
+		[PlayModeOnly]
+		public Vector3 CurrentTargetPosition;
+
+
+		public GuidanceBuoy InItAsIfDockedToBuoy;
+
+		private MatrixSystemManager MatrixSystemManager;
+
 		[PlayModeOnly] public OrientationEnum DirectionOverride = OrientationEnum.Default;
 		private void OnEnable()
 		{
@@ -42,15 +59,54 @@ namespace US13.Shuttles
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
+
+
+		/// <summary>
+		/// Travel to a world position instead of a guidance buoy.
+		/// Server only.
+		/// </summary>
+		public void MoveToPosition(Vector3 worldPosition, bool ignoreCollisions = true)
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			ShuttlesMainConnector?.Disconnect();
+
+			//Drop any buoy chain state so Reached() / MoveToTargetBuoy don't interfere
+			PreviouslyReached = null;
+			CurrentTarget = null;
+			StartOfChain = null;
+			MovedToAfterFinishingChain = null;
+			MoveDirectionIn = false;
+
+			var rounded = worldPosition.RoundToInt();
+			HasPositionTarget = true;
+			CurrentTargetPosition = rounded;
+
+			mm.NetworkedMatrixMove.HasMoveToTarget = true;
+			mm.NetworkedMatrixMove.CentreObjectOverride = null;
+			mm.NetworkedMatrixMove.TargetFaceDirectionOverride = OrientationEnum.Default;
+			mm.NetworkedMatrixMove.IgnorePotentialCollisions = ignoreCollisions;
+
+			mm.NetworkedMatrixMove.SetAITravelToPosition(rounded, null);
+		}
+
 		public virtual void Start()
 		{
+			MatrixSystemManager = GetComponentInParent<MatrixSystemManager>();
+			MatrixSystemManager.Register(this);
 			mm = this.GetComponentInParent<MatrixMove>();
 			mm.NetworkedMatrixMove.RCSRequiresThrusters = false;
 			mm.NetworkedMatrixMove.SpinneyThreshold = 9999;
 			mm.NetworkedMatrixMove.rotationSpeed = 90;
 			mm.NetworkedMatrixMove.ShuttleNonSpinneyModeRounding = 90;
+		}
 
-
+		public void Initialize()
+		{
+			if (InItAsIfDockedToBuoy != null)
+			{
+				MoveDirectionIn = true;
+				InItAsIfDockedTo(InItAsIfDockedToBuoy);
+			}
 		}
 
 		public void InItAsIfDockedTo(GuidanceBuoy Buoy)
@@ -58,7 +114,6 @@ namespace US13.Shuttles
 			if (CustomNetworkManager.IsServer == false) return;
 			StartOfChain = Buoy;
 			CurrentTarget = Buoy;
-
 			while (CurrentTarget.In.NextInLine != null)
 			{
 				CurrentTarget = CurrentTarget.In.NextInLine;
@@ -94,7 +149,7 @@ namespace US13.Shuttles
 		protected void MoveToInternal(GuidanceBuoy pos)
 		{
 			if (CustomNetworkManager.IsServer == false) return;
-			ShuttlesMainConnector.Disconnect();
+			ShuttlesMainConnector?.Disconnect();
 			CurrentTarget = pos;
 			mm.NetworkedMatrixMove.HasMoveToTarget = true;
 			//mm.NetworkedMatrixMove.IgnoreMatrix = pos.RegisterTile.Matrix.MatrixInfo;
@@ -102,7 +157,7 @@ namespace US13.Shuttles
 			{
 				if (CurrentTarget.In.UseConnectorAsCentreOfShuttle)
 				{
-					mm.NetworkedMatrixMove.CentreObjectOverride = ShuttlesMainConnector.gameObject;
+					mm.NetworkedMatrixMove.CentreObjectOverride = ShuttlesMainConnector?.gameObject;
 				}
 				else
 				{
@@ -129,7 +184,7 @@ namespace US13.Shuttles
 			{
 				if (CurrentTarget.Out.UseConnectorAsCentreOfShuttle)
 				{
-					mm.NetworkedMatrixMove.CentreObjectOverride = ShuttlesMainConnector.gameObject;
+					mm.NetworkedMatrixMove.CentreObjectOverride = ShuttlesMainConnector?.gameObject;
 				}
 				else
 				{
@@ -170,6 +225,7 @@ namespace US13.Shuttles
 						ShuttlesMainConnector.TryConnectAdjacent();
 					}
 					mm.NetworkedMatrixMove.IgnoreMatrixs.Clear();
+					mm.NetworkedMatrixMove.IgnorePotentialCollisions = true;
 					ReachedEndOfInBuoyChain(CurrentTarget, StartOfChain);
 				}
 				else
@@ -216,6 +272,17 @@ namespace US13.Shuttles
 			}
 		}
 
+		protected void ReachedPosition()
+		{
+			HasPositionTarget = false;
+			mm.NetworkedMatrixMove.HasMoveToTarget = false;
+			mm.NetworkedMatrixMove.IgnorePotentialCollisions = false;
+			mm.NetworkedMatrixMove.ClosestCashed = null;
+			mm.NetworkedMatrixMove.IgnoreMatrixs.Clear();
+
+			ReachedEndOfPositionTravel(CurrentTargetPosition);
+		}
+
 		public virtual void ReachedEndOfOutBuoyChain(GuidanceBuoy GuidanceBuoy)
 		{
 
@@ -226,10 +293,25 @@ namespace US13.Shuttles
 
 		}
 
+		public virtual void ReachedEndOfPositionTravel(Vector3 position)
+		{
+
+		}
 		public virtual void UpdateMe()
 		{
 			if (mm.NetworkedMatrixMove.IsMoving == false)
 			{
+				if (HasPositionTarget)
+				{
+					var PositionDifference = (mm.NetworkedMatrixMove.CentreOfAIMovementWorld.RoundToInt() - CurrentTargetPosition).magnitude;
+
+					if (PositionDifference < 0.5f)
+					{
+						ReachedPosition();
+					}
+					return;
+				}
+
 				if (CurrentTarget == null) return;
 				var Difference = (mm.NetworkedMatrixMove.CentreOfAIMovementWorld.RoundToInt() - CurrentTarget.transform.position).magnitude;
 
