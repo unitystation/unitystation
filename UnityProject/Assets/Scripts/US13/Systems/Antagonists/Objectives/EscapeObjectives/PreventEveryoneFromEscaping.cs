@@ -3,6 +3,8 @@ using System.Linq;
 using UnityEngine;
 using US13.Managers;
 using US13.Shuttles;
+using US13.Tilemaps.Behaviours.Layers;
+using US13.Tilemaps.Behaviours.Objects;
 
 namespace US13.Systems.Antagonists.Objectives.EscapeObjectives
 {
@@ -32,15 +34,28 @@ namespace US13.Systems.Antagonists.Objectives.EscapeObjectives
 		/// </summary>
 		protected override bool CheckCompletion()
 		{
-			return !ValidShuttles.Any( shuttle => shuttle.MatrixInfo != null && CheckForPlayersOnShuttle(shuttle));
+			return ValidShuttles.Any( shuttle => shuttle.MatrixInfo != null && CheckForPlayersOnMatrix(shuttle.MatrixInfo.Matrix)) == false &&
+			       CheckEscapePods();
 		}
 
-		private bool CheckForPlayersOnShuttle(EscapeShuttle shuttle)
+		private bool CheckEscapePods()
 		{
+			foreach (var pod in EscapePodGuidanceSystem.EscapePods)
+			{
+				var val = CheckForPlayersOnMatrix(pod.GetComponent<RegisterTile>().Matrix);
+				if (val)
+				{
+					return true;
+				}
+			}
+
+			return false;
+		}
 
 
-
-			foreach (var Player in shuttle.MatrixInfo.Matrix.PresentPlayers)
+		private bool CheckForPlayersOnMatrix(Matrix Matrix)
+		{
+			foreach (var Player in Matrix.PresentPlayers)
 			{
 				if (Player.PlayerScript.playerHealth.IsDead) continue;
 

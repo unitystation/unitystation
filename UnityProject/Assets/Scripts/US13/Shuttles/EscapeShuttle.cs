@@ -273,6 +273,7 @@ namespace US13.Shuttles
 			}
 		}
 
+
 		public override void UpdateMe()
 		{
 			base.UpdateMe();
@@ -356,7 +357,7 @@ namespace US13.Shuttles
 			if (blockCall && !bypassLimits)
 			{
 				callResult = "The emergency shuttle cannot be called at this time.";
-				
+
 
 				return false;
 			}
@@ -476,6 +477,11 @@ namespace US13.Shuttles
 			SoundManager.PlayNetworkedAtPos(CommonSounds.Instance.HyperSpaceProgress, transform.position, sourceObj: gameObject);
 
 			Status = EscapeShuttleStatus.OnRouteToStationTeleport;
+
+			foreach (var EscapePod in EscapePodGuidanceSystem.EscapePods)
+			{
+				EscapePod.MoveToCentcom();
+			}
 
 			MoveToTargetBuoy( TargetDestinationBuoy );
 		}

@@ -84,7 +84,8 @@ namespace US13.Systems.Antagonists.Objectives.EscapeObjectives
 
 			return ValidShuttles.Any(
 				shuttle => shuttle.MatrixInfo != null && CheckOnShip(Owner.Body.RegisterPlayer, shuttle.MatrixInfo.Matrix)
-				);
+				) ||  EscapePodGuidanceSystem.EscapePods.Any(
+				pod => pod.GetComponent<RegisterTile>().Matrix != null && CheckOnShip(Owner.Body.RegisterPlayer,  pod.GetComponent<RegisterTile>().Matrix));
 		}
 	}
 }
