@@ -22,6 +22,7 @@ public static class ThisMain
 	{
 		// Get the location of the executable.
 		string executablePath = Assembly.GetEntryAssembly().Location.Replace("CodeScan.dll", "");
+		AssemblyTypeChecker dat = null;
 
 		try
 		{
@@ -66,7 +67,7 @@ public static class ThisMain
 
 
 					List<string> multiAssemblyReference = new List<string>();
-					var dat = new AssemblyTypeChecker();
+					dat = new AssemblyTypeChecker();
 
 					var OSText = "";
 					var ManagedPath = "";
@@ -149,6 +150,19 @@ public static class ThisMain
 		}
 
 
+
+		if (dat != null && !args.Any(arg => string.Equals(arg, "-supressCorrectedWhitelist", StringComparison.OrdinalIgnoreCase)))
+		{
+			try
+			{
+				var correctedWhitelistPath = Path.Combine(Path.GetDirectoryName(executablePath), "CodeScanList.corrected.json");
+				dat.WriteCorrectedWhitelist(correctedWhitelistPath);
+			}
+			catch (Exception e)
+			{
+				Errors.Add($"Unable to write corrected whitelist: {e}");
+			}
+		}
 
 		// Construct the JSON file path next to the executable
 		string jsonFilePath = Path.Combine(Path.GetDirectoryName(executablePath), "errors.json");

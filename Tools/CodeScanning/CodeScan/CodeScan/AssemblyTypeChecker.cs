@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CodeScan;
 using ILVerify;
+using Pidgin;
 
 // psst
 // You know ECMA-335 right? The specification for the CLI that .NET runs on?
@@ -43,6 +44,138 @@ namespace UnitystationLauncher.ContentScanning
 		public bool VerifyIl { get; set; }
 
 		public readonly Task<SandboxConfig> _config;
+		private readonly ConcurrentBag<WhitelistSuggestion> _whitelistSuggestions = new();
+
+		private sealed record WhitelistSuggestion(string Namespace, string[] TypePath, bool AllowAll, string Member, bool AllowInheritance = false);
+
+		public void WriteCorrectedWhitelist(string path)
+		{
+			var config = _config.GetAwaiter().GetResult();
+			foreach (var suggestion in _whitelistSuggestions.Distinct())
+			{
+				if (!config.Types.TryGetValue(suggestion.Namespace, out var namespaceTypes))
+				{
+					namespaceTypes = new Dictionary<string, TypeConfig>();
+					config.Types[suggestion.Namespace] = namespaceTypes;
+				}
+
+				if (!namespaceTypes.TryGetValue(suggestion.TypePath[0], out var typeConfig))
+				{
+					typeConfig = new TypeConfig();
+					namespaceTypes[suggestion.TypePath[0]] = typeConfig;
+				}
+
+				for (var i = 1; i < suggestion.TypePath.Length; i++)
+				{
+					typeConfig.NestedTypes ??= new Dictionary<string, TypeConfig>();
+					if (!typeConfig.NestedTypes.TryGetValue(suggestion.TypePath[i], out var nested))
+					{
+						nested = new TypeConfig();
+						typeConfig.NestedTypes[suggestion.TypePath[i]] = nested;
+					}
+
+					typeConfig = nested;
+				}
+
+				if (suggestion.AllowAll)
+				{
+					typeConfig.All = true;
+					typeConfig.Methods = null;
+					typeConfig.Fields = null;
+				}
+				else if (suggestion.AllowInheritance)
+				{
+					typeConfig.Inherit = InheritMode.Allow;
+				}
+				else if (!typeConfig.All && !string.IsNullOrEmpty(suggestion.Member))
+				{
+					if (suggestion.Member.StartsWith("FIELD:", StringComparison.Ordinal))
+					{
+						var field = suggestion.Member.Substring("FIELD:".Length);
+						typeConfig.Fields = (typeConfig.Fields ?? Array.Empty<string>()).Append(field).Distinct().ToArray();
+					}
+					else
+					{
+						typeConfig.Methods = (typeConfig.Methods ?? Array.Empty<string>()).Append(suggestion.Member).Distinct().ToArray();
+					}
+				}
+			}
+
+			File.WriteAllText(path, Newtonsoft.Json.JsonConvert.SerializeObject(
+				config,
+				Newtonsoft.Json.Formatting.Indented,
+				new Newtonsoft.Json.Converters.StringEnumConverter()));
+		}
+
+		private void SuggestType(ScanningTypes.MTypeReferenced type)
+		{
+			var chain = GetTypePath(type);
+			if (chain.Length > 0)
+				_whitelistSuggestions.Add(new WhitelistSuggestion(chain[0], chain.Skip(1).ToArray(), true, null));
+		}
+
+		private void SuggestMember(ScanningTypes.MMemberRef member)
+		{
+			var parent = member.ParentType;
+			while (parent is ScanningTypes.MTypeGeneric generic)
+				parent = generic.GenericType;
+			if (parent is not ScanningTypes.MTypeReferenced referenced) return;
+
+			var chain = GetTypePath(referenced);
+			if (chain.Length == 0) return;
+
+			string signature;
+			if (member is ScanningTypes.MMemberRefMethod method)
+			{
+				var arity = method.GenericParameterCount == 0 ? "" : "<" + new string(',', method.GenericParameterCount - 1) + ">";
+				signature = $"{method.ReturnType.WhitelistToString()} {method.Name}{arity}({string.Join(", ", method.ParameterTypes.Select(p => p.WhitelistToString()))})";
+			}
+			else if (member is ScanningTypes.MMemberRefField field)
+			{
+				signature = "FIELD:" + field.FieldType.WhitelistToString() + " " + field.Name;
+			}
+			else return;
+
+			try
+			{
+				if (signature.StartsWith("FIELD:", StringComparison.Ordinal))
+					Parsers.FieldParser.ParseOrThrow(signature.Substring("FIELD:".Length));
+				else
+					Parsers.MethodParser.ParseOrThrow(signature);
+			}
+			catch (Pidgin.ParseException)
+			{
+				return;
+			}
+
+			_whitelistSuggestions.Add(new WhitelistSuggestion(chain[0], chain.Skip(1).ToArray(), false, signature));
+		}
+
+		private void SuggestInheritance(ScanningTypes.MTypeReferenced type)
+		{
+			var chain = GetTypePath(type);
+			if (chain.Length > 0)
+				_whitelistSuggestions.Add(new WhitelistSuggestion(chain[0], chain.Skip(1).ToArray(), false, null, true));
+		}
+
+		private static string[] GetTypePath(ScanningTypes.MTypeReferenced type)
+		{
+			var names = new List<string>();
+			var current = type;
+			while (current != null)
+			{
+				names.Insert(0, current.Name);
+				if (current.ResolutionScope is not ScanningTypes.MResScopeType parent) break;
+				current = parent.Type as ScanningTypes.MTypeReferenced;
+			}
+
+			var root = type;
+			while (root.ResolutionScope is ScanningTypes.MResScopeType parentScope && parentScope.Type is ScanningTypes.MTypeReferenced parentType)
+				root = parentType;
+			var ns = root.Namespace;
+			if (string.IsNullOrEmpty(ns)) return Array.Empty<string>();
+			return new[] { ns }.Concat(names).ToArray();
+		}
 
 
 		public AssemblyTypeChecker()
@@ -199,8 +332,8 @@ namespace UnitystationLauncher.ContentScanning
 			foreach (var type in types)
 			{
 				if (IsTypeAccessAllowed(loadedConfig, type, out _)) continue;
-				var sb = BuildFixSuggestionStringForTypes(type);
-				errors.Add(new SandboxError($"\n-- Access to type not allowed: {type} (Assembly Name: {asmName})\n{sb}"));
+				SuggestType(type);
+				errors.Add(new SandboxError($"\n-- Access to type not allowed: {type} (Assembly Name: {asmName})"));
 			}
 
 			info.Invoke($"Types... {fullStopwatch.ElapsedMilliseconds}ms");
@@ -506,6 +639,7 @@ namespace UnitystationLauncher.ContentScanning
 								}
 							}
 
+							SuggestMember(memberRef);
 							errors.Add(new SandboxError($"\n- Access to field not allowed: {mMemberRefField}"));
 							break;
 						}
@@ -538,6 +672,7 @@ namespace UnitystationLauncher.ContentScanning
 								}
 							}
 
+							SuggestMember(memberRef);
 							errors.Add(new SandboxError($"\n- Access to method not allowed: {mMemberRefMethod} in Assembly {asmName}"));
 							break;
 						default:
@@ -608,6 +743,7 @@ namespace UnitystationLauncher.ContentScanning
 								}
 							}
 
+							SuggestMember(memberRef);
 							errors.Add(new SandboxError($"\n- Access to field not allowed: {mMemberRefField} in Assembly {asmName}"));
 							break;
 						}
@@ -646,6 +782,7 @@ namespace UnitystationLauncher.ContentScanning
 								continue;
 							}
 
+							SuggestMember(memberRef);
 							errors.Add(new SandboxError($"\n- Access to method not allowed: {mMemberRefMethod} in Assembly {asmName}"));
 							break;
 						default:
@@ -699,7 +836,9 @@ namespace UnitystationLauncher.ContentScanning
 						return false;
 					}
 
-					return cfg.Inherit != InheritMode.Block && (cfg.Inherit == InheritMode.Allow || cfg.All);
+					var allowed = cfg.Inherit != InheritMode.Block && (cfg.Inherit == InheritMode.Allow || cfg.All);
+					if (!allowed) SuggestInheritance(realBaseType);
+					return allowed;
 				}
 			}
 		}
