@@ -193,10 +193,8 @@ namespace US13.Objects.Closets
 		{
 			if (CustomNetworkManager.IsServer)
 			{
-				if (GetComponent<RuntimeSpawned>() == null)
-				{
-					CollectObjects();
-				}
+				//if (GetComponent<RuntimeSpawned>() == null) //Why is this here idk Allow it for everything that is if it breaks
+				CollectObjects();
 			}
 		}
 

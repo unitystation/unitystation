@@ -2326,13 +2326,21 @@ namespace US13.Tilemaps.Behaviours.Layers
 						//but For now since the z is left hanging is ok
 						//If it was vector4int then Use that directlydddd
 						var positionnew = position;
+
+						bool Tile = false;
 						for (int i = 0; i < 50; i++)
 						{
 							positionnew.z = 1 - i;
 							if (layer.RemoveTile(positionnew))
 							{
+								Tile = true;
 								break;
 							}
+						}
+
+						if (Tile)
+						{
+							break;
 						}
 					}
 					else
