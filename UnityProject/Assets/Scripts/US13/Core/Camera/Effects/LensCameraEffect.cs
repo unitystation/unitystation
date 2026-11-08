@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace US13.Core.Camera
+namespace US13.Core.Camera.Effects
 {
 	public abstract class LensCameraEffect : CameraEffectBase
 	{

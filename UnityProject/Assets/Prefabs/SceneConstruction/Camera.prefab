@@ -273,9 +273,9 @@ Camera:
   m_LensShift: {x: 0, y: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.36973178
+    x: 0.36887607
     y: 0
-    width: 0.48701575
+    width: 0.48841926
     height: 0.4766667
   near clip plane: -1
   far clip plane: 1000
@@ -285,7 +285,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 692331142
+    m_Bits: 692331158
   m_RenderingPath: 1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -338,7 +338,7 @@ MonoBehaviour:
       m_Bits: 16
     LightingDisabledMainCameraLayers:
       serializedVersion: 2
-      m_Bits: 702545831
+      m_Bits: 702545847
     LightingEnabledMainCameraLayers:
       serializedVersion: 2
       m_Bits: 700785286
@@ -449,6 +449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc8f9734d728f6e45a2c41d3bd4eda6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _order: 0
   material: {fileID: 2100000, guid: 9aa5bc02f6f899a4980f7610aa09b122, type: 2}
   LightScale: 5
   VertWave: 0.05
@@ -468,6 +469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c6d8683beb0918542af1264504278a9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _order: 0
   _HueSpeed: 0
   _HueIntensity: 0
   _PlasmaSpeed: 0
@@ -488,6 +490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a6cc1fccf9de4147b6c51e0218f3e43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _order: 0
   material: {fileID: 2100000, guid: aad05d4fe726a4ae4bddf6f152db8fe6, type: 2}
   amount: 0
   tint: {r: 1, g: 1, b: 1, a: 1}
@@ -503,6 +506,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7b73f854890209498f5b76b8c766865, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _order: 0
   material: {fileID: 2100000, guid: 7fa8fb6e8d18c1b4881342a9d4f6b7a7, type: 2}
   _BlurryStrength: 1
 --- !u!114 &8481840996761083126
@@ -517,6 +521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 85d63a13c98f9894caccf10763d28c84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _order: 0
   material: {fileID: 2100000, guid: 99ecfeede2d287d4eb583cf0f6914645, type: 2}
   CurrentColourMode: 1
 --- !u!45 &7940020621871424808
@@ -540,6 +545,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53df904fb5344f9db34e6ba9ff84b868, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _order: 0
   Power: 0
   material: {fileID: 2100000, guid: cef4fc4729339bf489a24c0cf7c0672b, type: 2}
 --- !u!114 &9154780659634512158
@@ -554,7 +560,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3033b5d39951d430299684ac3cd06d7e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _order: 0
+  material: {fileID: 0}
   shader: {fileID: 4800000, guid: 1ff9149423ea76347afaed3233259686, type: 3}
+  healthLerpSpeed: 5
 --- !u!114 &4216804807468684203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -611,8 +620,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0db41cbaecf4dcf41bd4c35f1d95a3bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assets::US13.Core.Camera.NoirCamera
+  _order: 0
   shader: {fileID: 4800000, guid: f19942450fdefea45827fd6e0544d972, type: 3}
   lensRadius: 0.54
+  grainSpeed: 0.1
 --- !u!114 &6048891234820401937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -625,6 +636,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2afc63f99d3ff944a82b8758b2e17004, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assets::US13.Core.Camera.NightEyesCamera
+  _order: 0
   shader: {fileID: 4800000, guid: e27b3b0c35a1bfb42a91dde0d43a2161, type: 3}
   lensRadius: 0.5
 --- !u!114 &3123843063229354728
@@ -872,6 +884,12 @@ MonoBehaviour:
   backgroundTiles: []
   PrePlaced:
   - {fileID: 114064285827146992}
+  targetCamera: {fileID: 0}
+  autoGenerateOnAwake: 1
+  dynamicLayers: []
+  cameraPositionColors: []
+  cameraColorWorldScale: 0.002
+  cameraColorPositionPrecision: 0.01
   tileBounds: {x: 15, y: 15}
   ObjectScale: {x: 1, y: 1, z: 1}
   moveMultiplier: 0.95
@@ -1663,9 +1681,23 @@ MonoBehaviour:
   Rows: 7
   backgroundTiles: []
   PrePlaced: []
+  targetCamera: {fileID: 0}
+  autoGenerateOnAwake: 1
+  dynamicLayers: []
+  cameraPositionColors:
+  - {r: 0.45, g: 1, b: 0.82, a: 0.33333334}
+  - {r: 1, g: 0.81110114, b: 0.45882356, a: 0.3882353}
+  - {r: 0.49271947, g: 1, b: 0.2783019, a: 0.3882353}
+  - {r: 1, g: 0.045223378, b: 0, a: 0.3882353}
+  - {r: 0.4729858, g: 0.2028302, b: 1, a: 0.3882353}
+  - {r: 0, g: 0.8291399, b: 0.8396226, a: 0.3882353}
+  - {r: 1, g: 0.28773582, b: 0.49899328, a: 0.3882353}
+  - {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 0.3882353}
+  cameraColorWorldScale: 0.004
+  cameraColorPositionPrecision: 0.01
   tileBounds: {x: 15, y: 15}
-  ObjectScale: {x: 15, y: 15, z: 1}
-  moveMultiplier: 0.98
+  ObjectScale: {x: 3.125, y: 3.125, z: 1}
+  moveMultiplier: 0.99
   zOffset: -20
 --- !u!1 &3039626202361394896
 GameObject:
@@ -1979,8 +2011,14 @@ MonoBehaviour:
   Rows: 3
   backgroundTiles: []
   PrePlaced: []
+  targetCamera: {fileID: 0}
+  autoGenerateOnAwake: 1
+  dynamicLayers: []
+  cameraPositionColors: []
+  cameraColorWorldScale: 0.002
+  cameraColorPositionPrecision: 0.01
   tileBounds: {x: 15, y: 15}
-  ObjectScale: {x: 60, y: 60, z: 1}
+  ObjectScale: {x: 4, y: 4, z: 1}
   moveMultiplier: 0.97
   zOffset: -40
 --- !u!1 &5275776960399017506
@@ -2161,8 +2199,14 @@ MonoBehaviour:
   Rows: 3
   backgroundTiles: []
   PrePlaced: []
+  targetCamera: {fileID: 0}
+  autoGenerateOnAwake: 1
+  dynamicLayers: []
+  cameraPositionColors: []
+  cameraColorWorldScale: 0.002
+  cameraColorPositionPrecision: 0.01
   tileBounds: {x: 15, y: 15}
-  ObjectScale: {x: 60, y: 60, z: 1}
+  ObjectScale: {x: 4, y: 4, z: 1}
   moveMultiplier: 0.99
   zOffset: -60
 --- !u!1 &6664730294944887557
@@ -2314,6 +2358,12 @@ MonoBehaviour:
   Rows: 9
   backgroundTiles: []
   PrePlaced: []
+  targetCamera: {fileID: 0}
+  autoGenerateOnAwake: 1
+  dynamicLayers: []
+  cameraPositionColors: []
+  cameraColorWorldScale: 0.002
+  cameraColorPositionPrecision: 0.01
   tileBounds: {x: 15, y: 15}
   ObjectScale: {x: 50, y: 50, z: 1}
   moveMultiplier: 0

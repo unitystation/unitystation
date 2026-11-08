@@ -6,6 +6,7 @@ using Logs;
 using Mirror;
 using UnityEngine;
 using US13.Core.Camera;
+using US13.Core.Camera.Effects;
 using US13.Core.Transform;
 using US13.Core.Utils;
 using US13.HealthV2;

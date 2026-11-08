@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using US13._3D;
 using US13.Core.Camera;
+using US13.Core.Camera.Parallax;
 using US13.Managers.NetworkManagement;
 using US13.Messages.Server;
 using US13.ScriptableObjects;

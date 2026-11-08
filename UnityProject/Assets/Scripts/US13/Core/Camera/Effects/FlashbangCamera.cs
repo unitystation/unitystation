@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using US13.Managers;
 
-namespace US13.Core.Camera
+namespace US13.Core.Camera.Effects
 {
 	public class FlashbangCamera : CameraEffectBase
 	{

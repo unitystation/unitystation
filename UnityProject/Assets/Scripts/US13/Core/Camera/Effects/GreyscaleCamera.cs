@@ -1,7 +1,7 @@
 ﻿using NaughtyAttributes;
 using UnityEngine;
 
-namespace US13.Core.Camera
+namespace US13.Core.Camera.Effects
 {
 	public class GreyscaleCamera : CameraEffectBase
 	{

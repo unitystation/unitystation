@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace US13.Core.Camera
+namespace US13.Core.Camera.Effects
 {
 	[ExecuteAlways]
 	public class NightEyesCamera : CameraEffectBase
