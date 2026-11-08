@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace US13.Core.Camera
+namespace US13.Core.Camera.Effects
 {
 	[Flags]
 	public enum ColourBlindMode

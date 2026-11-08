@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using US13.Core.Camera.Effects;
 
 namespace US13.Core.Camera
 {
