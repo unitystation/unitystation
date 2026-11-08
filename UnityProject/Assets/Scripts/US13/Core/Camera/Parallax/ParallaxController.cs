@@ -6,7 +6,7 @@ using US13.Managers.NetworkManagement;
 using US13.Managers.UpdateManager;
 using Random = System.Random;
 
-namespace US13.Core.Camera
+namespace US13.Core.Camera.Parallax
 {
 	public class ParallaxController : MonoBehaviour
 	{

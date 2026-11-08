@@ -2,7 +2,7 @@
 using UnityEngine;
 using Util;
 
-namespace US13.Core.Camera
+namespace US13.Core.Camera.Parallax
 {
 	public class ParallaxStars : MonoBehaviour
 	{

@@ -16,7 +16,6 @@ using US13.Managers.NetworkManagement;
 using US13.Managers.UpdateManager;
 using US13.Objects;
 using US13.Player;
-using US13.Tilemaps.Behaviours.Layers;
 using US13.Tilemaps.Behaviours.Objects;
 using US13.Tilemaps.Utils;
 using Util;
