@@ -1693,11 +1693,15 @@ MonoBehaviour:
   - {r: 1, g: 0.4575472, b: 0.4575472, a: 0.3882353}
   - {r: 1, g: 0.81110114, b: 0.45882356, a: 0.3882353}
   - {r: 0.62068945, g: 1, b: 0.45882356, a: 0.3882353}
+  - {r: 1, g: 0.045223378, b: 0, a: 0.3882353}
+  - {r: 0.4729858, g: 0.2028302, b: 1, a: 0.3882353}
+  - {r: 0, g: 0.8291399, b: 0.8396226, a: 0.3882353}
+  - {r: 0.9887359, g: 1, b: 0, a: 0.3882353}
   cameraColorWorldScale: 0.004
   cameraColorPositionPrecision: 0.01
   tileBounds: {x: 15, y: 15}
   ObjectScale: {x: 3.125, y: 3.125, z: 1}
-  moveMultiplier: 0.5
+  moveMultiplier: 0.99
   zOffset: -20
 --- !u!1 &3039626202361394896
 GameObject:
