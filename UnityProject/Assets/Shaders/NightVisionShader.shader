@@ -1,53 +1,72 @@
 ﻿Shader "Hidden/Night Vision"
 {
-	Properties{
-		_MainTex("Base (RGB)", RECT) = "white" {}
-		_ScreenTexture("Texture", 2D) = "white" {}
-		_Color ("Some Color", Color) = (1,1,1,1) 
-	}
+    Properties
+    {
+        _MainTex("Base (RGB)", 2D) = "white" {}
+        _ScreenTexture("Texture", 2D) = "white" {}
+        _Color("Some Color", Color) = (1, 1, 1, 1)
+        _LensRadius("Lens Radius", Float) = 0.5
+    }
 
-		SubShader{
-			Pass {
-				ZTest Always Cull Off ZWrite Off
-				Fog { Mode off }
+    SubShader
+    {
+        Tags
+        {
+            "RenderPipeline" = "UniversalPipeline"
+        }
 
-				CGPROGRAM
-					#pragma vertex vert_img
-					#pragma fragment frag
-					#pragma fragmentoption ARB_precision_hint_fastest
-					#include "UnityCG.cginc"
+        Pass
+        {
+            Name "NightVision"
+            ZTest Always
+            Cull Off
+            ZWrite Off
 
-				// frag shaders data
-				uniform sampler2D _MainTex;
-					uniform sampler2D _ScreenTexture;
-					uniform fixed4 _Color;
-				uniform float _LensRadius;
+            HLSLPROGRAM
+            #pragma vertex Vert
+            #pragma fragment Frag
 
-				// frag shader
-				float4 frag(v2f_img i) : COLOR
-				{
-					float4 col = tex2D(_MainTex, i.uv);
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "Packages/com.unity.render-pipelines.core/Runtime/Utilities/Blit.hlsl"
 
-					col = max(0.1f, col);
-					col *= 2.5f;
+            TEXTURE2D(_ScreenTexture);
+            SAMPLER(sampler_ScreenTexture);
 
-					col.r = abs(col.rgb);
-					col.gb = col.r;
+            CBUFFER_START(UnityPerMaterial)
+                float _LensRadius;
+                float4 _Color;
+            CBUFFER_END
 
-					//add lens circle effect
-					//(could be optimised by using texture)
-					float dist = distance(i.uv, float2(0.5, 0.5));
-					col.rgb *= smoothstep(_LensRadius,  _LensRadius - 0.2f, dist);
+            half4 Frag(Varyings input) : SV_Target
+            {
+                UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 
-					
-					col.rgb *= _Color * tex2D(_ScreenTexture, float2(i.uv.x*0.2f, i.uv.y*0.2f + _Time.y/100 % 0.25f));
-					// return col pixel
-					return col;
-				}
+                float2 uv = input.texcoord;
+                half4 col = SAMPLE_TEXTURE2D_X(_BlitTexture, sampler_LinearClamp, uv);
 
-				ENDCG
+                col = max(0.1, col);
+                col *= 2.5;
 
-			}
-		}
-	Fallback off
+                col.rgb = abs(col.rgb);
+                col.g = col.r;
+                col.b = col.r;
+
+                float dist = distance(uv, float2(0.5, 0.5));
+                float vignette = 1.0 - smoothstep(_LensRadius - 0.2, _LensRadius, dist / 1.1);
+                col.rgb *= vignette;
+
+                float2 screenUV = float2(
+                    uv.x * 0.2,
+                    uv.y * 0.2 + fmod(_Time.y / 100.0, 0.25)
+                );
+                half4 screen = SAMPLE_TEXTURE2D(_ScreenTexture, sampler_ScreenTexture, screenUV);
+                col.rgb *= _Color.rgb * screen.rgb;
+
+                return col;
+            }
+            ENDHLSL
+        }
+    }
+
+    Fallback Off
 }
