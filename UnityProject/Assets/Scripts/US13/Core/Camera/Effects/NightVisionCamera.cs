@@ -2,45 +2,76 @@
 
 namespace US13.Core.Camera.Effects
 {
-	public class NightVisionCamera : MonoBehaviour
+	[ExecuteAlways]
+	public class NightVisionCamera : CameraEffectBase
 	{
-		// Public data
+		private static readonly int radius = Shader.PropertyToID("_LensRadius");
+		private static readonly int screenTexture = Shader.PropertyToID("_ScreenTexture");
+		private static readonly int color = Shader.PropertyToID("_Color");
+
+		[Header("Night Vision")]
 		public Shader shader;
+
 		[Range(0.5f, 2f)]
 		public float lensRadius = 0.5f;
 
 		private const float MAX_LENS_RADIUS = 4f;
-		// Private data
-		Material _material;
+		private Material runtimeMaterial;
+		private bool lensRadiusMaxed;
 
-		private bool lensRadiusMaxed = false;
+		[SerializeField] private Texture2D screenTexture2D;
+		public Color ToShaderColour { get; set; } = Color.white;
 
-		[SerializeField] private Texture2D screenTexture;
-
-		public Color ToShaderColour { get; set; }
-
-
-		// Called by Camera to apply image effect
-		void OnRenderImage(RenderTexture source, RenderTexture destination)
+		private void OnEnable()
 		{
-			if (shader == null)
+			EnsureShader();
+		}
+
+		private void OnValidate()
+		{
+			EnsureShader();
+		}
+
+		private void EnsureShader()
+		{
+			if (shader == null) shader = Shader.Find("Hidden/Night Vision");
+		}
+
+		public override Material GetMaterial()
+		{
+			EnsureShader();
+			if (shader == null) return null;
+
+			if (runtimeMaterial == null)
 			{
-				Graphics.Blit(source, destination);
-				return;
+				runtimeMaterial = new Material(shader)
+				{
+					name = "Runtime Night Vision Material",
+					hideFlags = HideFlags.HideAndDontSave
+				};
 			}
-			if (_material == false) _material = new Material(shader);
 
-			if (lensRadiusMaxed == false) _material.SetFloat("_LensRadius", lensRadius);
-			else _material.SetFloat("_LensRadius", MAX_LENS_RADIUS);
-			_material.SetTexture("_ScreenTexture", screenTexture);
-			_material.SetColor("_Color", ToShaderColour);
+			var mat = GetInstance(runtimeMaterial);
+			if (mat == null) return null;
 
-			Graphics.Blit(source, destination, _material);
+			mat.SetFloat(radius, lensRadiusMaxed ? MAX_LENS_RADIUS : lensRadius);
+			mat.SetTexture(screenTexture, screenTexture2D);
+			mat.SetColor(color, ToShaderColour);
+			return mat;
 		}
 
 		public void HasMaxedLensRadius(bool set)
 		{
 			lensRadiusMaxed = set;
+		}
+
+		protected override void OnDestroy()
+		{
+			if (runtimeMaterial != null)
+			{
+				DestroyImmediate(runtimeMaterial);
+				runtimeMaterial = null;
+			}
 		}
 	}
 }
