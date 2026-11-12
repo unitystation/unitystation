@@ -36,7 +36,7 @@ namespace US13.ChemistryComponents
 	/// </summary>
 	public partial class ReagentContainer : NetworkBehaviour, IServerSpawn, IRightClickable,
 		ICheckedInteractable<ContextMenuApply>,
-		IEnumerable<KeyValuePair<Reagent, float>>, IServerDespawn
+		IEnumerable<KeyValuePair<Reagent, float>>, IServerDespawn, IServerInventoryMove
 	{
 		[Flags]
 		private enum ShowMenuOptions
@@ -556,6 +556,49 @@ namespace US13.ChemistryComponents
 			       $" {nameof(IsEmpty)}: {IsEmpty}," +
 			       $" {nameof(IsFull)}: {IsFull}" +
 			       "]";
+		}
+
+		/// <summary>
+		/// Spills the contents onto the wearer when an open container (e.g. a bucket)
+		/// is put on someone's head
+		/// </summary>
+		/// <param name="info">Information about the inventory move</param>
+		public void OnInventoryMoveServer(InventoryMove info)
+		{
+			// ItemStorage forwards move events to the items inside it, so ignore moves of other objects
+			if (gameObject != info.MovedObject.gameObject)
+			{
+				return;
+			}
+
+			if (info.ToSlot == null)
+			{
+				return;
+			}
+
+			if (info.ToSlot.NamedSlot != NamedSlot.head)
+			{
+				return;
+			}
+
+			var player = info.ToRootPlayer;
+			if (player == null)
+			{
+				return;
+			}
+
+			if (IsEmpty)
+			{
+				return;
+			}
+
+			// SpillOnThrow marks open containers; closed ones (bottles etc.) shouldn't spill
+			if (Validations.HasItemTrait(gameObject, CommonTraits.Instance.SpillOnThrow) == false)
+			{
+				return;
+			}
+
+			SpillAll(player.WorldPositionServer);
 		}
 
 		public RightClickableResult GenerateRightClickOptions()
