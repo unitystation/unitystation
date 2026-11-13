@@ -54,6 +54,5 @@ namespace US13.HealthV2.Living
 			RelatedPart = GetComponent<BodyPart>();
 			if (RelatedPart == null) RelatedPart = GetComponentInParent<BodyPart>();
 		}
-
 	}
 }
