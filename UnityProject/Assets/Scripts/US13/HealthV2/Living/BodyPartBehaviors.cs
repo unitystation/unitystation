@@ -4,6 +4,7 @@ using Mirror;
 using UnityEngine;
 using US13.Core.Attributes;
 using US13.HealthV2.Living.BodyParts;
+using US13.Managers.UpdateManager;
 
 namespace US13.HealthV2.Living
 {
@@ -12,9 +13,11 @@ namespace US13.HealthV2.Living
 		[SerializeReference, SelectImplementation(typeof(IBodyPartBehavior))]
 		public List<IBodyPartBehavior> Behaviors = new();
 
+		public float SecondsUntilNextTick = 1f;
+
 		private void Awake()
 		{
-
+			UpdateManager.Add(BehaviorsTick, SecondsUntilNextTick);
 		}
 
 		private void BehaviorsTick()
