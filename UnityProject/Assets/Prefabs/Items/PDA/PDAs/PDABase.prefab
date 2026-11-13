@@ -277,7 +277,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &942112324551643117
 Transform:
   m_ObjectHideFlags: 0
@@ -369,7 +369,7 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 83ceb2386faa5bb46a76b523fd847202,
     type: 2}
   randomInitialSprite: 0
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 6594419158271239431}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -1038,7 +1038,7 @@ MonoBehaviour:
   syncInterval: 0.1
   RelatedPart: {fileID: 0}
   LightEmission: {fileID: 0}
-  objectLightEmission: {fileID: 5359090116188643623}
+  objectLightEmission: {fileID: 2026811695652215225}
   IsOn: 0
   colour: {r: 1, g: 0.9764706, b: 0.88235295, a: 0.1882353}
   objectLightSprite: {fileID: 1769808791634081217}
@@ -1090,6 +1090,7 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   willResetName: 0
+  flashlightOverlay: {fileID: 3548447184806082631}
   UIBG: {r: 0.63529414, g: 0.7058824, b: 0.8117647, a: 1}
   UIOVER: {r: 0, g: 0, b: 0, a: 0}
   OVERLAY: 0
