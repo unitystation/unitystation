@@ -607,6 +607,8 @@ namespace US13.Player
 			if (ghostLocked) return;
 
 			StopGhosting();
+
+			if (IsGhosting) Chat.AddExamineMsgFromServer(gameObject, "<color=red>You have no body!</color>");
 		}
 
 		public void StopGhosting()
