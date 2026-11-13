@@ -338,6 +338,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 6812290110784052155}
+    - targetCorrespondingSourceObject: {fileID: 5203532174433049318, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8681153487752135086}
   m_SourcePrefab: {fileID: 100100000, guid: 364841a08150e9345b119e71191c8dcf, type: 3}
 --- !u!210 &3287814896275168614 stripped
 SortingGroup:
@@ -423,3 +427,30 @@ MonoBehaviour:
   amount: 1
   prefabToSpawn: {fileID: 5914959498962467419, guid: 487e0ccc7184595408fc207296ee20d9,
     type: 3}
+--- !u!114 &8681153487752135086
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8724836040044288808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08b20eb04ffa1984fa85e72ce6be3aca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.Items.InventoryMoveEffects.EffectOnInventoryMove
+  slots: 02000000
+  effect:
+    rid: 2578288000481886276
+  references:
+    version: 2
+    RefIds:
+    - rid: 2578288000481886276
+      type: {class: SpillReagentsEffect, ns: US13.Items.InventoryMoveEffects, asm: Assets}
+      data: 
+--- !u!212 &8927592113956759668 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5388378204652235194, guid: 364841a08150e9345b119e71191c8dcf,
+    type: 3}
+  m_PrefabInstance: {fileID: 3540516328072298958}
+  m_PrefabAsset: {fileID: 0}
