@@ -8,6 +8,7 @@ using US13.Managers.UpdateManager;
 
 namespace US13.HealthV2.Living
 {
+	[DisallowMultipleComponent]
 	public sealed class BodyPartBehaviors : NetworkBehaviour
 	{
 		[SerializeReference, SelectImplementation(typeof(IBodyPartBehavior))]
