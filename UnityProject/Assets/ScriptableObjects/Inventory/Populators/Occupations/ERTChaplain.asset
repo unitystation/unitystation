@@ -16,6 +16,7 @@ MonoBehaviour:
   - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 6882223381654481943, guid: 0752564faba63e84389f3aacd5c19bfb,
       type: 3}
+    StackableAmount: 0
     UseIndex: 0
     IndexSlot: 0
     NamedSlot: 3
@@ -26,6 +27,7 @@ MonoBehaviour:
   - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 3011710637427380133, guid: 2364289c293fa6744bacf25005359952,
       type: 3}
+    StackableAmount: 0
     UseIndex: 0
     IndexSlot: 0
     NamedSlot: 6
@@ -36,6 +38,7 @@ MonoBehaviour:
   - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 5503798693895374846, guid: 59a6ef96ce997eb428ea5d786ad8312a,
       type: 3}
+    StackableAmount: 0
     UseIndex: 0
     IndexSlot: 0
     NamedSlot: 12
@@ -46,6 +49,7 @@ MonoBehaviour:
   - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 6404652678407139925, guid: e560948fdd6edc3448ac06d10906c4fc,
       type: 3}
+    StackableAmount: 0
     UseIndex: 0
     IndexSlot: 0
     NamedSlot: 5
@@ -56,6 +60,7 @@ MonoBehaviour:
   - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 6373161644663410599, guid: cf31a682867c234409b80f763fc9a1b9,
       type: 3}
+    StackableAmount: 0
     UseIndex: 0
     IndexSlot: 0
     NamedSlot: 11
@@ -65,6 +70,7 @@ MonoBehaviour:
     namedSlotPopulatorEntrys: []
   - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 371902914783069491, guid: 56cfb724879d54c49bf28514d6b10369, type: 3}
+    StackableAmount: 0
     UseIndex: 0
     IndexSlot: 0
     NamedSlot: 0
@@ -74,6 +80,7 @@ MonoBehaviour:
     namedSlotPopulatorEntrys: []
   - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 336459008656538952, guid: 1563696519ad9d94fbb187ed6467ba07, type: 3}
+    StackableAmount: 0
     UseIndex: 0
     IndexSlot: 0
     NamedSlot: 2
@@ -84,6 +91,7 @@ MonoBehaviour:
   - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 9123735576796949734, guid: af55ba14547dfec46b2d63d9a768ca6e,
       type: 3}
+    StackableAmount: 0
     UseIndex: 0
     IndexSlot: 0
     NamedSlot: 10
@@ -94,6 +102,7 @@ MonoBehaviour:
   - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 5316882905438950620, guid: 725d217f992b8d247b2f034c4a69136a,
       type: 3}
+    StackableAmount: 0
     UseIndex: 0
     IndexSlot: 0
     NamedSlot: 1
@@ -104,6 +113,7 @@ MonoBehaviour:
   - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 3431291279286482953, guid: ddd85a66da8b22448806f0f8454c01ab,
       type: 3}
+    StackableAmount: 0
     UseIndex: 0
     IndexSlot: 0
     NamedSlot: 9
@@ -114,9 +124,21 @@ MonoBehaviour:
   - DoNotGetFirstEmptySlot: 0
     Prefab: {fileID: 8652821319832697528, guid: 5b53ac009fb889245b31f44fd7807bf9,
       type: 3}
+    StackableAmount: 0
     UseIndex: 0
     IndexSlot: 0
     NamedSlot: 15
+    AlternativeNamedSlots: 08000000
+    IfOccupiedFindEmptySlot: 1
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
+  - DoNotGetFirstEmptySlot: 0
+    Prefab: {fileID: 2626574395781294155, guid: 4db12a6785da27f469cc7d36b637c2cd,
+      type: 3}
+    StackableAmount: 0
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 16
     AlternativeNamedSlots: 08000000
     IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 1

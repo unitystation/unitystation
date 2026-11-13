@@ -144,6 +144,17 @@ MonoBehaviour:
     IfOccupiedFindEmptySlot: 1
     ReplacementStrategy: 1
     namedSlotPopulatorEntrys: []
+  - DoNotGetFirstEmptySlot: 0
+    Prefab: {fileID: 2626574395781294155, guid: 4db12a6785da27f469cc7d36b637c2cd,
+      type: 3}
+    StackableAmount: 0
+    UseIndex: 0
+    IndexSlot: 0
+    NamedSlot: 16
+    AlternativeNamedSlots: 08000000
+    IfOccupiedFindEmptySlot: 1
+    ReplacementStrategy: 1
+    namedSlotPopulatorEntrys: []
   skirtVariant: {fileID: 0}
   duffelVariant: {fileID: 2015050775720392236, guid: 5d8d6e37a8f9cd747a5cff8750a23f98,
     type: 3}
