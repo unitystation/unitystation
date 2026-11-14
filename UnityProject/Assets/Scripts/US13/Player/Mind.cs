@@ -31,6 +31,7 @@ using US13.UI.Systems;
 using US13.UI.Systems.AdminTools;
 using US13.UI.Systems.Lobby;
 using Util;
+using Util.Independent.FluentRichText;
 
 namespace US13.Player
 {
@@ -607,6 +608,8 @@ namespace US13.Player
 			if (ghostLocked) return;
 
 			StopGhosting();
+
+			if (IsGhosting) Chat.AddExamineMsgFromServer(gameObject, "You have no body!".Color(Color.red));
 		}
 
 		public void StopGhosting()
