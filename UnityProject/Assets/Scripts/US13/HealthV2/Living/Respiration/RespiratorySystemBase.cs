@@ -1,3 +1,5 @@
+using System.Linq;
+using System.Collections.Generic;
 ﻿using Chemistry;
 using Mirror;
 using UnityEngine;
@@ -35,7 +37,9 @@ namespace US13.HealthV2.Living.Respiration
 
 		public bool IsSuffocating => healthStateController.IsSuffocating;
 
-		public readonly SyncList<BreathingTubeImplant> CurrentBreathingTubes = new SyncList<BreathingTubeImplant>();
+		private readonly SyncList<GameObject> breathingTubeObjects = new SyncList<GameObject>();
+		public IReadOnlyList<BreathingTubeImplant> CurrentBreathingTubes => breathingTubeObjects
+			.Select(tube => tube.GetBodyPartBehavior<BreathingTubeImplant>()).Where(tube => tube != null).ToArray();
 
 		private void Awake()
 		{
@@ -205,13 +209,13 @@ namespace US13.HealthV2.Living.Respiration
 
 		public void AddImplant(BreathingTubeImplant implant)
 		{
-			CurrentBreathingTubes.Add(implant);
+			breathingTubeObjects.Add(implant.gameObject);
 			netIdentity.isDirty = true;
 		}
 
 		public void RemoveImplant(BreathingTubeImplant implant)
 		{
-			CurrentBreathingTubes.Remove(implant);
+			breathingTubeObjects.Remove(implant.gameObject);
 			netIdentity.isDirty = true;
 		}
 	}

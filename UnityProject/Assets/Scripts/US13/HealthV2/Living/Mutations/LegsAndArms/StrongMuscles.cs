@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using UnityEngine;
 using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
@@ -30,8 +31,8 @@ namespace US13.HealthV2.Living.Mutations.LegsAndArms
 
 			public override void SetUp()
 			{
-				Leg = BodyPart.GetComponent<HumanoidLeg>();
-				HumanoidArm = BodyPart.GetComponent<HumanoidArm>();
+				Leg = BodyPart.GetBodyPartBehavior<HumanoidLeg>();
+				HumanoidArm = BodyPart.GetBodyPartBehavior<HumanoidArm>();
 
 				if (Leg != null)
 				{

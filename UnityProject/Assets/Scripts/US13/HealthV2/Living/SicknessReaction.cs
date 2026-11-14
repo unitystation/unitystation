@@ -104,7 +104,7 @@ namespace US13.HealthV2.Living
 			{
 				foreach (var sender in senders)
 				{
-					stageEffect.Apply(sender, reagentMix, sender.gameObject.AssumedWorldPosServer(), diseaseAmountPerOrgan);
+					stageEffect.Apply(sender.Owner, reagentMix, sender.gameObject.AssumedWorldPosServer(), diseaseAmountPerOrgan);
 				}
 			}
 

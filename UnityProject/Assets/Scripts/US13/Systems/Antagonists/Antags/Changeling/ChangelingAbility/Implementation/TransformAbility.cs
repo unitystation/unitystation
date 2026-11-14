@@ -358,9 +358,9 @@ namespace US13.Systems.Antagonists.Antags.Changeling.ChangelingAbility.Implement
 					itemStrg = itemStorage;
 					continue;
 				}
-				if (comp is ItemActionButton actionButton)
+				if (comp is BodyPartBehaviors behaviors)
 				{
-					actionButton.OnRemovedFromBody(health);
+					behaviors.OnRemovedFromBody(health);
 					continue;
 				}
 				if (comp is not Pickupable && comp is not UprightSprites && comp is not UniversalObjectPhysics

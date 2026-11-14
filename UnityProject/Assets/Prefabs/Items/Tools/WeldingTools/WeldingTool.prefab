@@ -627,7 +627,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8610225452865205335, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3461664886430747399}
+      addedObject: {fileID: 5907733357141384708}
   m_SourcePrefab: {fileID: 100100000, guid: c9c58a9243d494537abcb4ee470efab0, type: 3}
 --- !u!4 &6984298448623192707 stripped
 Transform:
@@ -702,18 +702,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  UseStandardExamine: 1
-  ExamineAmount: 1
-  ExamineContent: 0
-  traitWhitelist: []
-  reagentWhitelist:
-  - {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
-  transferMode: 3
-  onlyAllowSyringeFilling: 0
-  SyringePulling: 0
-  possibleTransferAmounts: []
-  transferAmount: 100
-  transferSound: []
   ReactionSounds: 1
   maxCapacity: 20
   DEBUGReagent: {fileID: 0}
@@ -739,7 +727,19 @@ MonoBehaviour:
       m_values: []
     reagentKeys: []
   spriteHandler: {fileID: 0}
---- !u!114 &3461664886430747399
+  UseStandardExamine: 1
+  ExamineAmount: 1
+  ExamineContent: 0
+  traitWhitelist: []
+  reagentWhitelist:
+  - {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
+  transferMode: 3
+  onlyAllowSyringeFilling: 0
+  SyringePulling: 0
+  possibleTransferAmounts: []
+  transferAmount: 100
+  transferSound: []
+--- !u!114 &5907733357141384708
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -748,24 +748,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 6989221924687263735}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
+  m_Script: {fileID: 11500000, guid: 72e9f842fdda4c2e99853e2e8d2b8066, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assets::US13.Player.ItemLightControl
+  m_EditorClassIdentifier: Assets::US13.HealthV2.Living.BodyPartBehaviors
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  RelatedPart: {fileID: 0}
-  LightEmission: {fileID: 0}
-  objectLightEmission: {fileID: 201349347631512414}
-  IsOn: 0
-  colour: {r: 0.64705884, g: 0.9254902, b: 1, a: 0.37254903}
-  objectLightSprite: {fileID: 852208843642430082}
-  commonComponents: {fileID: 0}
-  SpriteShape: 0
-  Size: 4
-  weakenOnGround: 1
-  revertToOldConsistencyBehavior: 0
-  weakenStrength: 1.5
+  Behaviors:
+  - rid: 5041995600707191266
+  SecondsUntilNextTick: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 5041995600707191266
+      type: {class: ItemLightControl, ns: US13.Player, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        LightEmission: {fileID: 0}
+        objectLightEmission: {fileID: 201349347631512414}
+        _networkIsOn: 0
+        colour: {r: 0.64705884, g: 0.9254902, b: 1, a: 0.37254903}
+        objectLightSprite: {fileID: 852208843642430082}
+        commonComponents: {fileID: 0}
+        SpriteShape: 0
+        Size: 4
+        weakenOnGround: 1
+        revertToOldConsistencyBehavior: 0
+        weakenStrength: 1.5
 --- !u!212 &7065938717226960043 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 8470250495983453963, guid: c9c58a9243d494537abcb4ee470efab0,

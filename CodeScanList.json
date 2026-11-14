@@ -1695,6 +1695,13 @@
                 "Methods": null,
                 "Fields": null,
                 "NestedTypes": null
+            },
+            "BindingFlags": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
             }
         },
         "System.Runtime.CompilerServices": {
@@ -3792,7 +3799,8 @@
                     "System.Reflection.PropertyInfo[] GetProperties()",
                     "System.Reflection.FieldInfo[] GetFields()",
                     "System.Reflection.MethodInfo GetMethod(string)",
-                    "System.Reflection.MethodInfo GetMethod(string, System.Reflection.BindingFlags)"
+                    "System.Reflection.MethodInfo GetMethod(string, System.Reflection.BindingFlags)",
+                    "System.Reflection.MethodInfo[] GetMethods(System.Reflection.BindingFlags)"
                 ],
                 "Fields": [
                     "System.Reflection.MemberFilter FilterAttribute",
@@ -5286,6 +5294,13 @@
                 "NestedTypes": null
             },
             "EventType": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "JsonUtility": {
                 "All": true,
                 "Inherit": "Default",
                 "Methods": null,

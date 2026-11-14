@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -68,9 +69,9 @@ namespace Util
 			return go.TryGetComponent<T>(out _);
 		}
 
-		public static bool ContainsAndHasComponentInStorage<T>(this GameObject go) where T : Component
+		public static bool ContainsAndHasComponentInStorage<T>(this GameObject go) where T : class
 		{
-			if (go.GetCachedComponent<T>())
+			if (go.GetComponentOrBodyPartBehavior<T>() != null)
 			{
 				return true;
 			}
@@ -95,7 +96,7 @@ namespace Util
 			foreach (var itemSlot in obj.GetItemSlotTree())
 			{
 				if (itemSlot.IsEmpty) continue;
-				if (itemSlot.Item.GetCachedComponent<T>())
+				if (itemSlot.Item.GetComponentOrBodyPartBehavior<T>() != null)
 				{
 					return true;
 				}

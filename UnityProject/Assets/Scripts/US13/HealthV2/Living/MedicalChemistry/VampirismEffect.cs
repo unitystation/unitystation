@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using Chemistry;
 using UnityEngine;
 using US13.HealthV2.Living.PolymorphicSystems.Bodypart;
@@ -24,8 +25,8 @@ namespace US13.HealthV2.Living.MedicalChemistry
 			}
 
 
-			var metabolismComponent = sender as MetabolismComponent;
-			if (metabolismComponent == false) return;
+			var metabolismComponent = sender.GetBodyPartBehavior<MetabolismComponent>();
+			if (metabolismComponent == null) return;
 
 			PlayerScript playerScript = metabolismComponent.AssociatedSystem?.Base?.playerScript;
 			if (playerScript == false) return;

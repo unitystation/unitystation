@@ -156,7 +156,7 @@ PrefabInstance:
     - target: {fileID: 4089031872439371531, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
       propertyPath: m_Name
-      value: cyborg leg right
+      value: CyborgRightLeg
       objectReference: {fileID: 0}
     - target: {fileID: 4119418491440855743, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
         type: 3}
@@ -218,38 +218,187 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 340915af2988c77408fbe3b874e80582,
         type: 2}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: Behaviors.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[0]'
+      value: 5041995600707191180
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[1]'
+      value: 5041995600707191181
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[2]'
+      value: 5041995600707191182
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[3]'
+      value: 5041995600707191183
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191180]'
+      value: Assets US13.UI.Core.Alerts.BodyPartAlerts
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191181]'
+      value: Assets US13.HealthV2.Living.BodyPartMutations
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191182]'
+      value: Assets US13.HealthV2.Living.PolymorphicSystems.Bodypart.BatteryPoweredComponent
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191183]'
+      value: Assets US13.Items.Implants.Limbs.HumanoidLeg
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191180].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191181].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191182].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191183].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191181].Stability
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191183].runningSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191183].walkingSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191183].crawlingSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191181].PlayerHealthData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191181].TOMutateBodyPart
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191182].WattsConsumption
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191181].MutationRestriction
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191180].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191181].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191182].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191183].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191183].initialLimbEfficiency
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191181].SecondsForSpeciesMutation
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191181].CapableMutations.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191181].ActiveMutationsSO.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191181].MutationRestrictionItemTrait
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191181].StartingMutations.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191181].CapableMutations.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 11fc1b84d220b6742a4912446b0e7e2b,
+        type: 2}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191181].CapableMutations.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 85b46608a403da74892b9bb16d3b712c,
+        type: 2}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191181].CapableMutations.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ebd5df789d07f8141ab3534b7fa87618,
+        type: 2}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191181].CapableMutations.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ee12f11044a2b742867f1431ca8bf77,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4089031872439371531, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4413753318189553516}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8, type: 3}
---- !u!1 &4146909570655625759 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4089031872439371531, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
-    type: 3}
-  m_PrefabInstance: {fileID: 86659771044160788}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &4413753318189553516
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4146909570655625759}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73c8a0e70c3343fd9c7d764c28769377, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  walkingSpeed: 1.5
-  runningSpeed: 3
-  crawlingSpeed: 0.5
-  initialLimbEfficiency: 1

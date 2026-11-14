@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using System.Collections.Generic;
 using Chemistry;
 using UnityEngine;
@@ -36,7 +37,7 @@ namespace US13.Systems.ChemistryEffects.Body
 			if (sender == null) return;
 			if (DMMath.Prob(damageChancePercent) == false) return;
 
-			var metabolismComponent = sender as MetabolismComponent;
+			var metabolismComponent = sender.GetBodyPartBehavior<MetabolismComponent>();
 			if (metabolismComponent is null) return;
 
 			if (requiredItemTrait != null && metabolismComponent.RelatedPart.ItemAttributes.HasTrait(requiredItemTrait) == false) return;

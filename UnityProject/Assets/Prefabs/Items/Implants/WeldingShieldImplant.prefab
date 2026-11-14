@@ -252,44 +252,162 @@ PrefabInstance:
       propertyPath: foreverID
       value: weldingshield
       objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: Behaviors.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[-2]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[0]'
+      value: 5041995600707191088
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[1]'
+      value: 5041995600707191089
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[2]'
+      value: 5041995600707191090
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191088]'
+      value: Assets US13.UI.Core.Alerts.BodyPartAlerts
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191089]'
+      value: Assets US13.HealthV2.Living.BodyPartMutations
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191090]'
+      value: Assets US13.Items.Science.Implants.WeldingShieldImplant
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191090].flash
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191088].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191089].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191090].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191089].Stability
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191089].PlayerHealthData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191089].TOMutateBodyPart
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191089].MutationRestriction
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191088].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191089].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191090].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191089].SecondsForSpeciesMutation
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191089].CapableMutations.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191089].ActiveMutationsSO.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191089].MutationRestrictionItemTrait
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191089].StartingMutations.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191089].CapableMutations.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 11fc1b84d220b6742a4912446b0e7e2b,
+        type: 2}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191089].CapableMutations.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 85b46608a403da74892b9bb16d3b712c,
+        type: 2}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191089].CapableMutations.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ebd5df789d07f8141ab3534b7fa87618,
+        type: 2}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191089].CapableMutations.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ee12f11044a2b742867f1431ca8bf77,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 505266869520174722}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1162a9966a460f940a18b4d183b04c30, type: 3}
---- !u!1 &4785539145425236049 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
-    type: 3}
-  m_PrefabInstance: {fileID: 5930475597155213129}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &505266869520174722
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4785539145425236049}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f1ec97140d0af94290aa0393ed3b4bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
 --- !u!114 &7374505056648468181 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3754534672887286172, guid: 1162a9966a460f940a18b4d183b04c30,
     type: 3}
   m_PrefabInstance: {fileID: 5930475597155213129}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4785539145425236049}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13b3f20d3b30cb24fb70b1f35524c360, type: 3}

@@ -21,7 +21,7 @@ namespace US13.Systems.ChemistryEffects.Body
 			if (DMMath.Prob(emissionChance) == false) return;
 
 			//IDK I've commented out since I don't know what it does should be fine like this?
-			// if (sender is MetabolismComponent metabolismComponent == false) return;
+			// if (sender is MetabolismComponent metabolismComponent == null) return;
 			// if (metabolismComponent.RelatedPart.HealthMaster == false) return;
 			//
 			// LivingHealthMasterBase healthMaster = metabolismComponent.RelatedPart.HealthMaster;

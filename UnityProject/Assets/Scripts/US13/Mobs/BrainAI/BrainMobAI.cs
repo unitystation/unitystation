@@ -10,13 +10,14 @@ using US13.Mobs.Traversal;
 
 namespace US13.Mobs.BrainAI
 {
-	public class BrainMobAI : BodyPartFunctionality
+	[System.Serializable]
+	public class BrainMobAI : BodyPartBehavior
 	{
-		[field: ReadOnly, SerializeField] public List<BrainMobState> CurrentActiveStates { get; private set; } = new List<BrainMobState>();
-		[field: SerializeField] public List<BrainMobState> MobStates { get; private set; } = new List<BrainMobState>();
-		[field: SerializeField] public BrainMobState thinkingState { get; private set; }
+		[field: ReadOnly, SerializeReference] public List<BrainMobState> CurrentActiveStates { get; private set; } = new List<BrainMobState>();
+		[field: SerializeReference] public List<BrainMobState> MobStates { get; private set; } = new List<BrainMobState>();
+		[field: SerializeReference] public BrainMobState thinkingState { get; private set; }
 
-		public Brain Brain;
+		[UnityEngine.SerializeReference] public Brain Brain;
 		public MobTraversal Traversal => Brain.Traversal;
 
 		public bool DEBUGoverride = false;
@@ -48,16 +49,16 @@ namespace US13.Mobs.BrainAI
 		} //Warning only add body parts do not remove body parts in this
 
 
-		private void Start()
+		public override void OnBehaviorStarted()
 		{
-			Brain = this.GetComponent<Brain>();
+			Brain = GetBodyPartBehavior<Brain>();
 			GatherAllStates();
 			RemoveAddState(null, thinkingState);
 		}
 
 		private void GatherAllStates()
 		{
-			var states = GetComponentsInChildren<BrainMobState>();
+			var states = GetBodyPartBehaviorsInChildren<BrainMobState>();
 			foreach (var state in states)
 			{
 				if (MobStates.Contains(state)) continue;
@@ -96,7 +97,7 @@ namespace US13.Mobs.BrainAI
 		}
 
 
-		public void OnDestroy()
+		public override void OnBehaviorDestroyed()
 		{
 			foreach (var State in CurrentActiveStates.ToArray())
 			{

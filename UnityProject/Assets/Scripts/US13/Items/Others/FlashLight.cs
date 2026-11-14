@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using Mirror;
 using UnityEngine;
 using US13.Actions;
@@ -11,7 +12,7 @@ using US13.Systems.Explosions;
 
 namespace US13.Items.Others
 {
-	[RequireComponent(typeof(ItemLightControl))]
+	[RequireComponent(typeof(BodyPartBehaviors))]
 	public class FlashLight : NetworkBehaviour, ICheckedInteractable<HandActivate>, IEmpAble
 	{
 		[Tooltip("The SpriteHandler this flashlight type should use when setting the on/off sprite.")]
@@ -30,8 +31,8 @@ namespace US13.Items.Others
 
 		private void Awake()
 		{
-			lightControl = GetComponent<ItemLightControl>();
-			actionButton = GetComponent<ItemActionButton>();
+			lightControl = gameObject.GetBodyPartBehavior<ItemLightControl>();
+			actionButton = gameObject.GetBodyPartBehavior<ItemActionButton>();
 		}
 
 		private void OnEnable()

@@ -92,12 +92,12 @@ namespace US13.Systems.Antagonists.Antags.Changeling.ChangelingAbility.Implement
 			var breakLoop = false;
 			foreach (var bodyPart in target.Mind.Body.playerHealth.BodyPartList)
 			{
-				foreach (BodyPartFunctionality organ in bodyPart.OrganList)
+				foreach (IBodyPartBehavior organ in bodyPart.OrganList)
 				{
 					if (organ is Brain brain)
 					{
 						brain.SyncDrunkenness(brain.DrunkAmount, 0);
-						_ = Despawn.ServerSingle(organ.gameObject);
+						_ = Despawn.ServerSingle(organ.RelatedPart.gameObject);
 						breakLoop = true;
 						break;
 					}

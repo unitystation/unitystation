@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -227,6 +228,14 @@ namespace US13.UI.Core.RightClick
 				}
 			}
 
+			foreach (var type in typeof(IBodyPartBehavior).Assembly.GetTypes().Where(t => typeof(IBodyPartBehavior).IsAssignableFrom(t) && !t.IsAbstract))
+			{
+				var methods = type.GetMethods(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+					.Where(method => method.GetCustomAttribute<RightClickMethod>() != null)
+					.Select(method => new MethodInfoAndRightClick { MethodInfo = method, RightClickMethod = method.GetCustomAttribute<RightClickMethod>() }).ToList();
+				if (methods.Count > 0) result.Add(new RightClickAttributedComponent { ComponentType = type, AttributedMethods = methods });
+			}
+
 			attributedTypes = result;
 		}
 
@@ -374,7 +383,9 @@ namespace US13.UI.Core.RightClick
 				{
 					foreach (var attributedType in attributedTypes)
 					{
-						var components = curObject.GetComponents(attributedType.ComponentType);
+						var components = typeof(IBodyPartBehavior).IsAssignableFrom(attributedType.ComponentType)
+							? curObject.GetBodyPartBehaviors<IBodyPartBehavior>().Where(behavior => behavior.GetType() == attributedType.ComponentType).Cast<object>()
+							: curObject.GetComponents(attributedType.ComponentType).Cast<object>();
 						foreach (var component in components)
 						{
 							//only add the item if the concrete type matches
@@ -414,13 +425,13 @@ namespace US13.UI.Core.RightClick
 
 		//creates sub menu items for the specified component, hooking them up the the corresponding method on the
 		//actual component
-		private IEnumerable<RightClickMenuItem> CreateSubMenuOptions(RightClickAttributedComponent attributedType, Component actualComponent)
+		private IEnumerable<RightClickMenuItem> CreateSubMenuOptions(RightClickAttributedComponent attributedType, object actualComponent)
 		{
 			return attributedType.AttributedMethods
 				.Select(m => CreateSubMenuOption(m.MethodInfo, actualComponent, m.RightClickMethod));
 		}
 
-		private RightClickMenuItem CreateSubMenuOption(MethodInfo forMethod, Component actualComponent,  RightClickMethod rightClickMethod)
+		private RightClickMenuItem CreateSubMenuOption(MethodInfo forMethod, object actualComponent,  RightClickMethod rightClickMethod)
 		{
 			return rightClickMethod.AsMenu(forMethod, actualComponent);
 		}

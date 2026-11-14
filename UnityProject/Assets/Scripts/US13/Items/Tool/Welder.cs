@@ -1,4 +1,5 @@
-﻿using System;
+using US13.HealthV2.Living;
+using System;
 using System.Collections;
 using Mirror;
 using UnityEngine;
@@ -36,7 +37,7 @@ namespace US13.Items.Tool
 
 		public SpriteHandler flameSpriteHandler;
 
-		public ItemLightControl lightControl;
+		[System.NonSerialized] public ItemLightControl lightControl;
 
 		public Chemistry.Reagent fuel;
 		public float FuelLevel
@@ -103,7 +104,7 @@ namespace US13.Items.Tool
 		void Awake()
 		{
 			EnsureInit();
-			lightControl = GetComponent<ItemLightControl>();
+			lightControl = gameObject.GetBodyPartBehavior<ItemLightControl>();
 		}
 
 		private void EnsureInit()

@@ -9,7 +9,7 @@ namespace US13.Items.Food.ConsumptionEffect.Conditions
 	/// </summary>
 	public class AllOfCondition: IConsumptionEffectCondition
 	{
-		[SerializeReference]
+		[UnityEngine.SerializeReference]
 		[SelectImplementation(typeof(IConsumptionEffectCondition))]
 		private List<IConsumptionEffectCondition> conditions;
 

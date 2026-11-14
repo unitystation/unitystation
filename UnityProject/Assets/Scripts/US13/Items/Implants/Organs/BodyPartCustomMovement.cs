@@ -1,4 +1,3 @@
-using Mirror;
 using UnityEngine;
 using US13.Core.Physics;
 using US13.HealthV2.Living;
@@ -8,10 +7,22 @@ using Util;
 namespace US13.Items.Implants.Organs
 {
 
-public class BodyPartCustomMovement : BodyPartFunctionality
+[System.Serializable]
+public class BodyPartCustomMovement : BodyPartBehavior
 {
 
-	[SyncVar(hook = nameof(SyncBody))] public uint RelatedHealth;
+	[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("RelatedHealth")] private uint _networkRelatedHealth;
+		public uint RelatedHealth
+		{
+			get => _networkRelatedHealth;
+			set
+			{
+				if (System.Collections.Generic.EqualityComparer<uint>.Default.Equals(_networkRelatedHealth, value)) return;
+				var previous = _networkRelatedHealth;
+				_networkRelatedHealth = value;
+				if (isClient) SyncBody(previous, value);
+			}
+		}
 
 
 	public ICustomTilePassable ICustomTilePassable;
@@ -30,7 +41,7 @@ public class BodyPartCustomMovement : BodyPartFunctionality
 
 	public void SyncBody(uint oldv, uint newv)
 	{
-		RelatedHealth = newv;
+		_networkRelatedHealth = newv;
 		if (oldv != NetId.Empty)
 		{
 			var Object = oldv.NetIdToGameObject().GetComponent<MovementSynchronisation>();
@@ -47,11 +58,28 @@ public class BodyPartCustomMovement : BodyPartFunctionality
 
 	}
 
-	public void Awake()
+	public override void OnInitialize()
 	{
-		base.Awake();
+		base.OnInitialize();
 		ICustomTilePassable = GetComponent<ICustomTilePassable>();
 	}
+
+		[System.Serializable]
+		private sealed class BehaviorNetworkState
+		{
+			public uint RelatedHealth;
+		}
+
+		public override string CaptureNetworkState() => JsonUtility.ToJson(new BehaviorNetworkState
+		{
+			RelatedHealth = this.RelatedHealth,
+		});
+
+		public override void ApplyNetworkState(string json)
+		{
+			var state = JsonUtility.FromJson<BehaviorNetworkState>(json);
+			RelatedHealth = state.RelatedHealth;
+		}
 
 
 }

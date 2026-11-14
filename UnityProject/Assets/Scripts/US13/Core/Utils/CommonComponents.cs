@@ -36,7 +36,7 @@ namespace US13.Core.Utils
 
 		private void Awake()
 		{
-			IPlayerPossessable = this.GetComponent<IPlayerPossessable>();
+			IPlayerPossessable = this.GetComponentOrBodyPartBehavior<IPlayerPossessable>();
 			ComponentsTracker<CommonComponents>.RegisterInstance(this);
 			foreach (var c in commonComponentsToRegister)
 			{

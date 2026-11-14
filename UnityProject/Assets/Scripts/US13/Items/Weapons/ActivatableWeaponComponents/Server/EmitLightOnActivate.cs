@@ -1,13 +1,14 @@
+using US13.HealthV2.Living;
 using System.Collections;
 using UnityEngine;
 using US13.Player;
 
 namespace US13.Items.Weapons.ActivatableWeaponComponents.Server
 {
-	[RequireComponent(typeof(ItemLightControl))]
+	[RequireComponent(typeof(BodyPartBehaviors))]
 	public class EmitLightOnActivate : ServerActivatableWeaponComponent
 	{
-		[SerializeField] private ItemLightControl lightControl;
+		private ItemLightControl lightControl => gameObject.GetBodyPartBehavior<ItemLightControl>();
 
 		[SerializeField] public Color Color;
 

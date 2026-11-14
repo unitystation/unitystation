@@ -1,8 +1,8 @@
+using Mirror;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Logs;
-using Mirror;
 using UnityEngine;
 using US13.Core.Lifecycle;
 using US13.Health.Objects;
@@ -18,7 +18,8 @@ using UniversalObjectPhysics = US13.Core.Physics.UniversalObjectPhysics;
 
 namespace US13.Items.Implants.Xenomorphs
 {
-	public class XenomorphLarvae : BodyPartFunctionality
+	[System.Serializable]
+	public class XenomorphLarvae : BodyPartBehavior
 	{
 		[SerializeField]
 		[Tooltip("This Character will be spawned from the Larvae when its time")]
@@ -182,7 +183,7 @@ namespace US13.Items.Implants.Xenomorphs
 			infectedPlayers = new Dictionary<PlayerScript, short>();
 		}
 
-		private void OnDisable()
+		public override void OnBehaviorDisabled()
 		{
 			if(checkPlayerScript.HasComponent == false) return;
 

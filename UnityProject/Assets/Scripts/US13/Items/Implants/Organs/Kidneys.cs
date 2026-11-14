@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Chemistry;
 using US13.HealthV2.Living;
 using US13.HealthV2.Living.PolymorphicSystems.Bodypart;
 
 namespace US13.Items.Implants.Organs
 {
-	public class Kidneys : BodyPartFunctionality
+	[System.Serializable]
+	public class Kidneys : BodyPartBehavior
 	{
 		public List<ReagentNPercentage> BlacklistReagents = new List<ReagentNPercentage>();
 		//add Special nutrients in body
@@ -19,15 +20,15 @@ namespace US13.Items.Implants.Organs
 
 		}
 
-		public ReagentCirculatedComponent _ReagentCirculatedComponent;
+		[UnityEngine.SerializeReference] public ReagentCirculatedComponent _ReagentCirculatedComponent;
 
 
 		public float ProcessingPercentage = 0.05f;
 
-		public override void Awake()
+		public override void OnInitialize()
 		{
-			base.Awake();
-			_ReagentCirculatedComponent = this.GetComponent<ReagentCirculatedComponent>();
+			base.OnInitialize();
+			_ReagentCirculatedComponent = GetBodyPartBehavior<ReagentCirculatedComponent>();
 		}
 
 

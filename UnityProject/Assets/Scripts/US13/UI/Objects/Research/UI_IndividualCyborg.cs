@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using US13.Items.Implants.Organs;
 using US13.UI.Core.Net.Elements;
 using US13.UI.Core.Net.Elements.Dynamic;
@@ -10,7 +11,7 @@ namespace US13.UI.Objects.Research
 		public NetText_label EnableDisable;
 		public NetText_label Name;
 
-		public RemotelyControlledBrain AssociatedBrain;
+		[System.NonSerialized] public RemotelyControlledBrain AssociatedBrain;
 		public GUI_RemoteSyntheticControl AssociatedRemoteSyntheticControl;
 		public void Setup(RemotelyControlledBrain Brain, GUI_RemoteSyntheticControl GUI_RemoteSyntheticControl)
 		{
@@ -32,7 +33,7 @@ namespace US13.UI.Objects.Research
 				EnableDisable.MasterSetValue("Disable");
 			}
 
-			var AName = AssociatedBrain.GetComponent<Brain>()?.PossessingMind.OrNull()?.name;
+			var AName = AssociatedBrain.GetBodyPartBehavior<Brain>()?.PossessingMind.OrNull()?.name;
 
 			if (string.IsNullOrEmpty(AName))
 			{

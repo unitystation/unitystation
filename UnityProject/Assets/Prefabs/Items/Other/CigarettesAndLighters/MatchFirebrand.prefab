@@ -13,6 +13,96 @@ PrefabInstance:
       propertyPath: Size
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1633746424604345608, guid: c94f0c553fec1af4cb4d7289fcaf0701,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[0]'
+      value: 5041995600707191226
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633746424604345608, guid: c94f0c553fec1af4cb4d7289fcaf0701,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191226]'
+      value: Assets US13.Player.ItemLightControl
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633746424604345608, guid: c94f0c553fec1af4cb4d7289fcaf0701,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191226].Size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633746424604345608, guid: c94f0c553fec1af4cb4d7289fcaf0701,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191226].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633746424604345608, guid: c94f0c553fec1af4cb4d7289fcaf0701,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191226].colour.a
+      value: 0.50980395
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633746424604345608, guid: c94f0c553fec1af4cb4d7289fcaf0701,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191226].colour.b
+      value: 0.26666668
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633746424604345608, guid: c94f0c553fec1af4cb4d7289fcaf0701,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191226].colour.g
+      value: 0.81960785
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633746424604345608, guid: c94f0c553fec1af4cb4d7289fcaf0701,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191226].colour.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633746424604345608, guid: c94f0c553fec1af4cb4d7289fcaf0701,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191226].SpriteShape
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633746424604345608, guid: c94f0c553fec1af4cb4d7289fcaf0701,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191226]._networkIsOn
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633746424604345608, guid: c94f0c553fec1af4cb4d7289fcaf0701,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191226].LightEmission
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633746424604345608, guid: c94f0c553fec1af4cb4d7289fcaf0701,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191226].weakenOnGround
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633746424604345608, guid: c94f0c553fec1af4cb4d7289fcaf0701,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191226].weakenStrength
+      value: 1.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633746424604345608, guid: c94f0c553fec1af4cb4d7289fcaf0701,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191226].commonComponents
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633746424604345608, guid: c94f0c553fec1af4cb4d7289fcaf0701,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191226].objectLightSprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633746424604345608, guid: c94f0c553fec1af4cb4d7289fcaf0701,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191226].objectLightEmission
+      value: 
+      objectReference: {fileID: 851579423550332386}
+    - target: {fileID: 1633746424604345608, guid: c94f0c553fec1af4cb4d7289fcaf0701,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191226].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633746424604345608, guid: c94f0c553fec1af4cb4d7289fcaf0701,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191226].revertToOldConsistencyBehavior
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3277144588670988188, guid: c94f0c553fec1af4cb4d7289fcaf0701,
         type: 3}
       propertyPath: parentID
@@ -118,3 +208,9 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c94f0c553fec1af4cb4d7289fcaf0701, type: 3}
+--- !u!1 &851579423550332386 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 637022993697736321, guid: c94f0c553fec1af4cb4d7289fcaf0701,
+    type: 3}
+  m_PrefabInstance: {fileID: 217936333998644067}
+  m_PrefabAsset: {fileID: 0}

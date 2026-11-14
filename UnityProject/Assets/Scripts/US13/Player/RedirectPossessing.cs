@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using UnityEngine;
 using US13.HealthV2.Living.PolymorphicSystems.Bodypart;
 using US13.Systems.Inventory;
@@ -15,7 +16,7 @@ namespace US13.Player
 
 		public void Awake()
 		{
-			IPlayerPossessable = this.GetComponent<IPlayerPossessable>();
+			IPlayerPossessable = this.GetComponentOrBodyPartBehavior<IPlayerPossessable>();
 			IPlayerPossessable.OnPossessedBy.AddListener(Possessing);
 
 			ItemStorage.ServerInventoryItemSlotSet += BrainInTransfer;
@@ -28,7 +29,7 @@ namespace US13.Player
 				{
 					if (Slot.Item != null)
 					{
-						ToPossessTo = Slot.Item.GetComponent<IPlayerPossessable>();
+						ToPossessTo = Slot.Item.GetComponentOrBodyPartBehavior<IPlayerPossessable>();
 						return;
 					}
 				}
@@ -40,18 +41,18 @@ namespace US13.Player
 			if (NewPart)
 			{
 
-				if (NewPart.TryGetCachedComponent<SaturationComponent>(out var component))
+				if (NewPart.TryGetBodyPartBehavior<SaturationComponent>(out var component))
 				{
-					component.enabled = false;
+					component.Enabled = false;
 				}
 
-				if (NewPart.TryGetCachedComponent<HungerComponent>(out var component1))
+				if (NewPart.TryGetBodyPartBehavior<HungerComponent>(out var component1))
 				{
-					component.enabled = false;
+					component1.Enabled = false;
 				}
-				if (NewPart.TryGetCachedComponent<NaturalChemicalReleaseComponent>(out var component2))
+				if (NewPart.TryGetBodyPartBehavior<NaturalChemicalReleaseComponent>(out var component2))
 				{
-					component.enabled = false;
+					component2.Enabled = false;
 				}
 
 
@@ -60,18 +61,18 @@ namespace US13.Player
 			else if (prevPart)
 			{
 
-				if (NewPart.TryGetCachedComponent<SaturationComponent>(out var component))
+				if (prevPart.TryGetBodyPartBehavior<SaturationComponent>(out var component))
 				{
-					component.enabled = true;
+					component.Enabled = true;
 				}
 
-				if (NewPart.TryGetCachedComponent<HungerComponent>(out var component1))
+				if (prevPart.TryGetBodyPartBehavior<HungerComponent>(out var component1))
 				{
-					component.enabled = true;
+					component1.Enabled = true;
 				}
-				if (NewPart.TryGetCachedComponent<NaturalChemicalReleaseComponent>(out var component2))
+				if (prevPart.TryGetBodyPartBehavior<NaturalChemicalReleaseComponent>(out var component2))
 				{
-					component.enabled = true;
+					component2.Enabled = true;
 				}
 
 			}
@@ -91,7 +92,7 @@ namespace US13.Player
 				{
 					if (Slot.Item != null)
 					{
-						ToPossessTo = Slot.Item.GetComponent<IPlayerPossessable>();
+						ToPossessTo = Slot.Item.GetComponentOrBodyPartBehavior<IPlayerPossessable>();
 						break;
 					}
 				}

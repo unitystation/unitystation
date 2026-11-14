@@ -1,4 +1,5 @@
-﻿using Mirror;
+using US13.HealthV2.Living;
+using Mirror;
 using UnityEngine;
 using US13.Core.Chat;
 using US13.Core.Input_System.InteractionV2;
@@ -41,7 +42,7 @@ namespace US13.Items.Food
 		{
 			fireSource   = GetComponent<FireSource>();
 			pickupable   = GetComponent<Pickupable>();
-			lightControl = GetComponent<ItemLightControl>();
+			lightControl = gameObject.GetBodyPartBehavior<ItemLightControl>();
 		}
 
 		public bool WillInteract(HandActivate interaction, NetworkSide side)
@@ -66,7 +67,7 @@ namespace US13.Items.Food
 		{
 			// toggle flame (will fire things around)
 			if (fireSource)   fireSource.IsBurning = isLit;
-			if (lightControl) lightControl.Toggle(isLit);
+			if (lightControl != null) lightControl.Toggle(isLit);
 
 			// set each render to new state
 			foreach (var handler in spriteHandlers)

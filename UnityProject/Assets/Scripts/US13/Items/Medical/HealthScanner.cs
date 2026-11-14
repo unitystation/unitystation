@@ -125,7 +125,7 @@ namespace US13.Items.Medical
 			}
 
 
-			if (health.brain)
+			if (health.brain != null)
 			{
 				fullDamage[(int) DamageType.Oxy] = health.brain.RelatedPart.Oxy;
 			}

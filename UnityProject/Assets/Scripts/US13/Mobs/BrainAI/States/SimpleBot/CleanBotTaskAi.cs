@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Chemistry;
 using Cysharp.Threading.Tasks;
@@ -13,6 +13,7 @@ using Util;
 
 namespace US13.Mobs.BrainAI.States.SimpleBot
 {
+	[System.Serializable]
 	public class CleanBotTaskAi : SimpleBotTaskAi
 	{
 		[SerializeField] private Reagent reagentToSpill = null;

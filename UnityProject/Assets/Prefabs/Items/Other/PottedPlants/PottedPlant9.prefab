@@ -246,7 +246,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 183087353082436583, guid: 0271f252689106348ad30060b7abea96,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6082362842374168899}
+      addedObject: {fileID: 1557557207028952687}
   m_SourcePrefab: {fileID: 100100000, guid: 0271f252689106348ad30060b7abea96, type: 3}
 --- !u!212 &1488569541138924772 stripped
 SpriteRenderer:
@@ -266,7 +266,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1500815208261626975}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6082362842374168899
+--- !u!114 &1557557207028952687
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -275,21 +275,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 1610462930538100664}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
+  m_Script: {fileID: 11500000, guid: 72e9f842fdda4c2e99853e2e8d2b8066, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assets::US13.HealthV2.Living.BodyPartBehaviors
   syncDirection: 0
   syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  LightEmission: {fileID: 0}
-  objectLightEmission: {fileID: 8722500347396248980}
-  IsOn: 1
-  colour: {r: 0.1882353, g: 0.76862746, b: 1, a: 0.36862746}
-  objectLightSprite: {fileID: 0}
-  commonComponents: {fileID: 0}
-  SpriteShape: 0
-  Size: 4
-  weakenOnGround: 0
-  revertToOldConsistencyBehavior: 0
-  weakenStrength: 1.45
+  syncInterval: 0
+  Behaviors:
+  - rid: 5041995600707191231
+  SecondsUntilNextTick: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 5041995600707191231
+      type: {class: ItemLightControl, ns: US13.Player, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        LightEmission: {fileID: 0}
+        objectLightEmission: {fileID: 8722500347396248980}
+        _networkIsOn: 1
+        colour: {r: 0.1882353, g: 0.76862746, b: 1, a: 0.36862746}
+        objectLightSprite: {fileID: 0}
+        commonComponents: {fileID: 0}
+        SpriteShape: 0
+        Size: 4
+        weakenOnGround: 0
+        revertToOldConsistencyBehavior: 0
+        weakenStrength: 1.45

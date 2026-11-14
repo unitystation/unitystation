@@ -6,20 +6,21 @@ using US13.HealthV2.Living;
 
 namespace US13.Player
 {
-	public class BodyPartControllableLight : BodyPartFunctionality
+	[System.Serializable]
+	public class BodyPartControllableLight : BodyPartBehavior
 	{
 
-		private ItemLightControl ItemLightControl;
-		private ItemActionButton actionButton;
+		[UnityEngine.SerializeReference] private ItemLightControl ItemLightControl;
+		[UnityEngine.SerializeReference] private ItemActionButton actionButton;
 
 		[SerializeField] private SpriteDataSO baseEyeSprite;
 		[SerializeField] private SpriteDataSO litEyeSprite;
 
 
-		private void Awake()
+		public override void OnInitialize()
 		{
-			ItemLightControl = GetComponent<ItemLightControl>();
-			actionButton = GetComponent<ItemActionButton>();
+			ItemLightControl = GetBodyPartBehavior<ItemLightControl>();
+			actionButton = GetBodyPartBehavior<ItemActionButton>();
 		}
 
 		public List<ColourAndSize> IntensityColours = new List<ColourAndSize>();
@@ -33,17 +34,17 @@ namespace US13.Player
 
 		public int Index = 0;
 
-		private void OnEnable()
+		public override void OnBehaviorEnabled()
 		{
-			if (actionButton)
+			if (actionButton != null)
 			{
 				actionButton.ServerActionClicked += ToggleLight;
 			}
 		}
 
-		private void OnDisable()
+		public override void OnBehaviorDisabled()
 		{
-			if (actionButton)
+			if (actionButton != null)
 			{
 				actionButton.ServerActionClicked -= ToggleLight;
 			}

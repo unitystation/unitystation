@@ -277,7 +277,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &942112324551643117
 Transform:
   m_ObjectHideFlags: 0
@@ -369,7 +369,7 @@ MonoBehaviour:
   InitialPresentSpriteSet: {fileID: 11400000, guid: 83ceb2386faa5bb46a76b523fd847202,
     type: 2}
   randomInitialSprite: 0
-  spriteRenderer: {fileID: 0}
+  spriteRenderer: {fileID: 6594419158271239431}
   doReverseAnimation: 0
   pushTextureOnStartUp: 1
   initialVariantIndex: 0
@@ -946,10 +946,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: -2461206429612825053}
-    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1293357877581254245}
     - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -983,6 +979,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8159871808279949248}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5999536977152290968}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!212 &122497636241256315 stripped
 SpriteRenderer:
@@ -1021,33 +1021,6 @@ MonoBehaviour:
   disallowConsume: 0
   Colour: {r: 1, g: 1, b: 1, a: 1}
   SpriteVisibleColour: {r: 1, g: 1, b: 1, a: 1}
---- !u!114 &-2461206429612825053
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 234969413023505447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  LightEmission: {fileID: 0}
-  objectLightEmission: {fileID: 5359090116188643623}
-  IsOn: 0
-  colour: {r: 1, g: 0.9764706, b: 0.88235295, a: 0.1882353}
-  objectLightSprite: {fileID: 1769808791634081217}
-  commonComponents: {fileID: 2845395725340097187}
-  SpriteShape: 0
-  Size: 4
-  weakenOnGround: 1
-  revertToOldConsistencyBehavior: 0
-  weakenStrength: 1.3333
 --- !u!114 &1293357877581254245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1090,6 +1063,7 @@ MonoBehaviour:
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   willResetName: 0
+  flashlightOverlay: {fileID: 3548447184806082631}
   UIBG: {r: 0.63529414, g: 0.7058824, b: 0.8117647, a: 1}
   UIOVER: {r: 0, g: 0, b: 0, a: 0}
   OVERLAY: 0
@@ -1291,6 +1265,43 @@ MonoBehaviour:
   debugUplink: 0
   TeleCrystalTrait: {fileID: 11400000, guid: 556eec86dd9773d21b1c44d80f058ab9, type: 2}
   IsNukeOps: 0
+--- !u!114 &5999536977152290968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234969413023505447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e9f842fdda4c2e99853e2e8d2b8066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.HealthV2.Living.BodyPartBehaviors
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  Behaviors:
+  - rid: 5041995600707191233
+  SecondsUntilNextTick: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 5041995600707191233
+      type: {class: ItemLightControl, ns: US13.Player, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        LightEmission: {fileID: 0}
+        objectLightEmission: {fileID: 5359090116188643623}
+        _networkIsOn: 0
+        colour: {r: 1, g: 0.9764706, b: 0.88235295, a: 0.1882353}
+        objectLightSprite: {fileID: 1769808791634081217}
+        commonComponents: {fileID: 2845395725340097187}
+        SpriteShape: 0
+        Size: 4
+        weakenOnGround: 1
+        revertToOldConsistencyBehavior: 0
+        weakenStrength: 1.3333
 --- !u!4 &239048463826641235 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,

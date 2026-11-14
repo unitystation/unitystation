@@ -5,7 +5,8 @@ using US13.Player;
 
 namespace US13.Items.Implants.Organs
 {
-	public class BodyPartRadioAccess : BodyPartFunctionality
+	[System.Serializable]
+	public class BodyPartRadioAccess : BodyPartBehavior
 	{
 		[NaughtyAttributes.EnumFlags]
 		public ChatChannel AvailableChannels;

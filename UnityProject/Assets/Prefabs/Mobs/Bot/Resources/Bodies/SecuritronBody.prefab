@@ -123,6 +123,204 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f4b6a4ee62d55e84d9365a94b51837ae,
         type: 2}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[0]'
+      value: 5041995600707191336
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[1]'
+      value: 5041995600707191337
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[2]'
+      value: 5041995600707191338
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[3]'
+      value: 5041995600707191339
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191336]'
+      value: Assets US13.UI.Core.Alerts.BodyPartAlerts
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191337]'
+      value: Assets US13.HealthV2.Living.BodyPartMutations
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191338]'
+      value: Assets US13.Items.Implants.Limbs.HumanoidLeg
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191339]'
+      value: Assets US13.Mobs.BrainAI.States.SimpleBot.SimpleBotBody
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191336].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191337].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191338].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191339].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191337].Stability
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191338].runningSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191338].walkingSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191338].crawlingSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191337].PlayerHealthData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191337].TOMutateBodyPart
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191337].MutationRestriction
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191336].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191337].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191338].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191338].initialLimbEfficiency
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191339].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191337].SecondsForSpeciesMutation
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191339].possibleSprites.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191337].CapableMutations.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191337].ActiveMutationsSO.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191337].MutationRestrictionItemTrait
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191337].StartingMutations.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191339].possibleSprites.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f4b6a4ee62d55e84d9365a94b51837ae,
+        type: 2}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191339].possibleSprites.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 61803a9b02530464c896b330c7df8a76,
+        type: 2}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191339].possibleSprites.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: d5b8239309450174188017b8bbceb841,
+        type: 2}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191339].possibleSprites.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 61803a9b02530464c896b330c7df8a76,
+        type: 2}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191337].CapableMutations.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 11fc1b84d220b6742a4912446b0e7e2b,
+        type: 2}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191337].CapableMutations.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 85b46608a403da74892b9bb16d3b712c,
+        type: 2}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191337].CapableMutations.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ebd5df789d07f8141ab3534b7fa87618,
+        type: 2}
+    - target: {fileID: 5228638650447319264, guid: a2b54580e9de99a4d9edfba6814ad865,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191337].CapableMutations.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ee12f11044a2b742867f1431ca8bf77,
+        type: 2}
     - target: {fileID: 6192198274555612466, guid: a2b54580e9de99a4d9edfba6814ad865,
         type: 3}
       propertyPath: foreverID

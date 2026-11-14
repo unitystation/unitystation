@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using System.Collections;
 using Mirror;
 using UnityEngine;
@@ -28,7 +29,7 @@ namespace US13.Items.Others
 
 		private void Awake()
 		{
-			actionButton = GetComponent<ItemActionButton>();
+			actionButton = gameObject.GetBodyPartBehavior<ItemActionButton>();
 		}
 
 		private void OnEnable()

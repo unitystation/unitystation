@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Logs;
@@ -771,7 +771,7 @@ namespace US13.Systems.Antagonists
 				bodyPart.SetMaxHealth(alienType.MaxBodyPartHealth);
 
 				//TODO when limb is separated out into Arm and Leg redo this
-				if(bodyPart.TryGetComponent<Limb>(out var limb) == false) continue;
+				if(bodyPart.TryGetBodyPartBehavior<Limb>(out var limb) == false) continue;
 				if(limb is HumanoidLeg c) c.SetNewSpeeds(alienType.RunningLegSpeed, alienType.WalkingLegSpeed);
 				if(limb is HumanoidArm a) a.SetNewCrawlingSpeeds(a.CrawlingSpeedModifier);
 			}

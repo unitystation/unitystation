@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using UnityEngine;
 using US13.Core.Chat;
 using US13.HealthV2.Living.BodyParts;
@@ -26,7 +27,7 @@ namespace US13.HealthV2.Living.Mutations.Brain
 
 			public override void SetUp()
 			{
-				RelatedBrain = BodyPart.GetComponent<Items.Implants.Organs.Brain>();
+				RelatedBrain = BodyPart.GetBodyPartBehavior<Items.Implants.Organs.Brain>();
 				RelatedBrain.BodyChatModifier |= ChatModifierToApply;
 				RelatedBrain.UpdateChatModifier(true);
 			}

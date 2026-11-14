@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,23 +50,27 @@ namespace US13.Actions
 		public GameObject Panel;
 		public GameObject TooltipPrefab;
 
+		private static bool IsActionAlive(object action) => action is BodyPartBehavior behavior
+			? behavior.Owner != null
+			: action as MonoBehaviour != null;
+
 		public void Clear()
 		{
-			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(IActionGUIToID, (u,k)=> u as MonoBehaviour != null) + " from UIActionManager.IActionGUIToID", LogOption: LogOption.NoStacktrace);
-			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(ClientIActionGUIToID, (u, k) => u as MonoBehaviour != null) + " from UIActionManager.ClientIActionGUIToID", LogOption: LogOption.NoStacktrace);
-			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(MultiIActionGUIToMind, (u, k) => u as MonoBehaviour != null) + " from UIActionManager.MultiIActionGUIToMind", LogOption: LogOption.NoStacktrace);
-			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(MultiIActionGUIToID, (u, k) => u as MonoBehaviour != null) + " from UIActionManager.MultiIActionGUIToID", LogOption: LogOption.NoStacktrace);
-			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(ClientMultiIActionGUIToID, (u, k) => u as MonoBehaviour != null) + " from UIActionManager.ClientMultiIActionGUIToID", LogOption: LogOption.NoStacktrace);
+			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(IActionGUIToID, (u,k)=> IsActionAlive(u)) + " from UIActionManager.IActionGUIToID", LogOption: LogOption.NoStacktrace);
+			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(ClientIActionGUIToID, (u, k) => IsActionAlive(u)) + " from UIActionManager.ClientIActionGUIToID", LogOption: LogOption.NoStacktrace);
+			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(MultiIActionGUIToMind, (u, k) => IsActionAlive(u)) + " from UIActionManager.MultiIActionGUIToMind", LogOption: LogOption.NoStacktrace);
+			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(MultiIActionGUIToID, (u, k) => IsActionAlive(u)) + " from UIActionManager.MultiIActionGUIToID", LogOption: LogOption.NoStacktrace);
+			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(ClientMultiIActionGUIToID, (u, k) => IsActionAlive(u)) + " from UIActionManager.ClientMultiIActionGUIToID", LogOption: LogOption.NoStacktrace);
 			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(ActivePlayerActions, (u, k) => u != null) + " from UIActionManager.ActivePlayerActions", LogOption: LogOption.NoStacktrace);
-			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(Instance.DicIActionGUI, (u, k) => u as MonoBehaviour != null) + " from Instance.DicIActionGUI", LogOption: LogOption.NoStacktrace);
-			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(Instance.IActionGUIToMind, (u, k) => u as MonoBehaviour != null) + " from Instance.IActionGUIToMind", LogOption: LogOption.NoStacktrace);
+			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(Instance.DicIActionGUI, (u, k) => IsActionAlive(u)) + " from Instance.DicIActionGUI", LogOption: LogOption.NoStacktrace);
+			Loggy.Info("removed " + CleanupUtil.RidDictionaryOfDeadElements(Instance.IActionGUIToMind, (u, k) => IsActionAlive(u)) + " from Instance.IActionGUIToMind", LogOption: LogOption.NoStacktrace);
 
 			{
 				int internals = 0;
 
 				foreach (var a in ActivePlayerActions)
 				{
-					internals += CleanupUtil.RidListOfDeadElements(a.Value, u => u as MonoBehaviour);
+					internals += a.Value.RemoveAll(action => !IsActionAlive(action));
 				}
 
 				Loggy.Info("removed " + internals + " from internals of UIActionManager.ActivePlayerActions", LogOption: LogOption.NoStacktrace);

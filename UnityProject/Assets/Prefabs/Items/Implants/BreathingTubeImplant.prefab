@@ -252,46 +252,167 @@ PrefabInstance:
       propertyPath: foreverID
       value: breathing_tube
       objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: Behaviors.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[0]'
+      value: 5041995600691986752
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[1]'
+      value: 5041995600691986753
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[2]'
+      value: 5041995600691986754
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986752]'
+      value: Assets US13.UI.Core.Alerts.BodyPartAlerts
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986753]'
+      value: Assets US13.HealthV2.Living.BodyPartMutations
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986754]'
+      value: Assets US13.Items.Science.Implants.BreathingTubeImplant
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986752].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986753].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986754].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986753].Stability
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986754].EMPResistance
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986754].isEMPVunerable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986754]._networkIsEMPed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986753].PlayerHealthData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986753].TOMutateBodyPart
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986753].MutationRestriction
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986752].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986753].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986754].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986753].SecondsForSpeciesMutation
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986753].CapableMutations.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986753].ActiveMutationsSO.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986753].MutationRestrictionItemTrait
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986753].StartingMutations.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986753].CapableMutations.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 11fc1b84d220b6742a4912446b0e7e2b,
+        type: 2}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986753].CapableMutations.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 85b46608a403da74892b9bb16d3b712c,
+        type: 2}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986753].CapableMutations.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ebd5df789d07f8141ab3534b7fa87618,
+        type: 2}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986753].CapableMutations.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ee12f11044a2b742867f1431ca8bf77,
+        type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5167324495866497367}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1162a9966a460f940a18b4d183b04c30, type: 3}
---- !u!1 &4785539145425236049 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
-    type: 3}
-  m_PrefabInstance: {fileID: 5930475597155213129}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5167324495866497367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4785539145425236049}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 950a39b567eac844590f5776f592f514, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  isEMPVunerable: 1
-  EMPResistance: 3
 --- !u!114 &7374505056648468181 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3754534672887286172, guid: 1162a9966a460f940a18b4d183b04c30,
     type: 3}
   m_PrefabInstance: {fileID: 5930475597155213129}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4785539145425236049}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 13b3f20d3b30cb24fb70b1f35524c360, type: 3}

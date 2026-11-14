@@ -123,7 +123,7 @@ namespace US13.Player
 					if (CustomNetworkManager.Spawned.ContainsKey(IDActivelyControlling) == false) return this.gameObject;
 					var Possessing = CustomNetworkManager.Spawned[IDActivelyControlling];
 
-					var Possessable = Possessing.GetComponent<IPlayerPossessable>();
+					var Possessable = Possessing.GetComponentOrBodyPartBehavior<IPlayerPossessable>();
 					if (Possessable != null)
 					{
 						return 	Possessable.ControllingObject;
@@ -158,7 +158,7 @@ namespace US13.Player
 		{
 			get
 			{
-				return PossessingObject.OrNull()?.GetComponent<IPlayerPossessable>();
+				return PossessingObject.OrNull()?.GetComponentOrBodyPartBehavior<IPlayerPossessable>();
 				//TODO Looking to optimising some time
 			}
 		}
@@ -417,7 +417,7 @@ namespace US13.Player
 		public void SetPossessingObject(GameObject obj)
 		{
 			Ghost();
-			var InPossessing = obj.OrNull()?.GetComponent<IPlayerPossessable>();
+			var InPossessing = obj.OrNull()?.GetComponentOrBodyPartBehavior<IPlayerPossessable>();
 			List<NetworkIdentity> gaining = new List<NetworkIdentity>();
 			if (InPossessing != null)
 			{
@@ -657,13 +657,13 @@ namespace US13.Player
 
 			if (spawned.ContainsKey(oldID))
 			{
-				var oldPossessable = spawned[oldID].GetComponent<IPlayerPossessable>();
+				var oldPossessable = spawned[oldID].GetComponentOrBodyPartBehavior<IPlayerPossessable>();
 				oldPossessable?.InternalOnLosePossess(this);
 			}
 
 			if (spawned.ContainsKey(newID))
 			{
-				var Possessable = spawned[newID].GetComponent<IPlayerPossessable>();
+				var Possessable = spawned[newID].GetComponentOrBodyPartBehavior<IPlayerPossessable>();
 				Possessable?.InternalOnPossessPlayer(this, null);
 			}
 		}
@@ -676,7 +676,7 @@ namespace US13.Player
 			{
 				if (spawned.ContainsKey(oldID))
 				{
-					var possessableOld = spawned[oldID].GetComponent<IPlayerPossessable>();
+					var possessableOld = spawned[oldID].GetComponentOrBodyPartBehavior<IPlayerPossessable>();
 					if (possessableOld != null)
 					{
 						possessableOld.InternalOnPlayerLeave(this);
@@ -691,7 +691,7 @@ namespace US13.Player
 				ControlledBy.GameObject = spawned[newID].gameObject;
 			}
 
-			var possessable = spawned[newID].GetComponent<IPlayerPossessable>();
+			var possessable = spawned[newID].GetComponentOrBodyPartBehavior<IPlayerPossessable>();
 
 			if (possessable != null)
 			{
@@ -768,7 +768,7 @@ namespace US13.Player
 			{
 				PlayerSpawn.TransferOwnershipFromToConnection(ControlledBy, Lost, null);
 
-				var playerPositionable = Lost.GetComponent<IPlayerPossessable>();
+				var playerPositionable = Lost.GetComponentOrBodyPartBehavior<IPlayerPossessable>();
 				if (playerPositionable != null)
 				{
 					playerPositionable.InternalOnLosePossess(this);

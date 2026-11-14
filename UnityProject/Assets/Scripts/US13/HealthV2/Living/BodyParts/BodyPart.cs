@@ -1,4 +1,5 @@
-﻿using System;
+using US13.HealthV2.Living;
+using System;
 using System.Collections.Generic;
 using Logs;
 using Mirror;
@@ -76,7 +77,7 @@ namespace US13.HealthV2.Living.BodyParts
 		[HideInInspector] public CommonComponents CommonComponents;
 
 		//Organs on the same body part
-		[NonSerialized] public List<BodyPartFunctionality> OrganList = new List<BodyPartFunctionality>();
+		[NonSerialized] public List<IBodyPartBehavior> OrganList = new List<IBodyPartBehavior>();
 
 		/// <summary>
 		/// Player sprites for rendering equipment and clothing on the body part container
@@ -135,7 +136,9 @@ namespace US13.HealthV2.Living.BodyParts
 
 		public string SetCustomisationData;
 
-		private bool SystemSetup = false;
+		private BodyPartBehaviors behaviorHost;
+		private bool systemsRegistered;
+		private bool removingFromBody;
 
 		public ItemAttributesV2 ItemAttributes;
 
@@ -147,18 +150,27 @@ namespace US13.HealthV2.Living.BodyParts
 			CommonComponents = GetComponent<CommonComponents>();
 			ItemAttributes = GetComponent<ItemAttributesV2>();
 			OrganStorage = GetComponent<ItemStorage>();
-			OrganStorage.ServerInventoryItemSlotSet += BodyPartTransfer;
-			OrganList.Clear();
-			OrganList.AddRange(this.GetComponents<BodyPartFunctionality>());
-
-			foreach (var Organ in OrganList)
-			{
-				Organ.RelatedPart = this;
-			}
+			if (OrganStorage != null) OrganStorage.ServerInventoryItemSlotSet += BodyPartTransfer;
+			InitializeBehaviors();
 
 			health = maxHealth;
 			AddModifier(DamageModifier);
 			UpdateSeverity();
+		}
+
+		private void InitializeBehaviors()
+		{
+			if (behaviorHost == null) behaviorHost = GetComponent<BodyPartBehaviors>();
+			if (behaviorHost == null) return;
+			behaviorHost.Initialize();
+			// Preserve the lookup API without maintaining a second callback collection.
+			OrganList = behaviorHost.Behaviors;
+		}
+
+		private void OnDestroy()
+		{
+			if (OrganStorage != null) OrganStorage.ServerInventoryItemSlotSet -= BodyPartTransfer;
+			BodyPartRemoveHealthMaster();
 		}
 
 		/// <summary>
@@ -167,19 +179,8 @@ namespace US13.HealthV2.Living.BodyParts
 		/// </summary>
 		public void ImplantPeriodicUpdate()
 		{
-			for (int i = OrganList.Count - 1; i >= 0; i--)
-			{
-				var organ = OrganList[i];
-				try
-				{
-					organ.ImplantPeriodicUpdate();
-				}
-				catch (Exception e)
-				{
-					Loggy.Error($"Error on organ: {organ.name}:\n" + e.ToString());
-				}
-			}
-
+			if (HealthMaster == null) return;
+			behaviorHost?.BehaviorsTick();
 			CalculateRadiationDamage();
 		}
 
@@ -193,7 +194,6 @@ namespace US13.HealthV2.Living.BodyParts
 
 
 			UpdateIcons();
-			SetUpSystemsThis();
 
 			var dynamicItemStorage = HealthMaster.GetComponent<DynamicItemStorage>();
 			if (dynamicItemStorage != null)
@@ -214,7 +214,7 @@ namespace US13.HealthV2.Living.BodyParts
 
 
 			//TODO Make this generic \/ for mobs
-			OrganStorage.SetRegisterPlayer(HealthMaster?.GetComponent<RegisterPlayer>());
+			if (OrganStorage != null) OrganStorage.SetRegisterPlayer(HealthMaster?.GetComponent<RegisterPlayer>());
 		}
 
 		/// <summary>
@@ -273,12 +273,14 @@ namespace US13.HealthV2.Living.BodyParts
 		/// </summary>
 		public void BodyPartAddHealthMaster(LivingHealthMasterBase livingHealth) //Only add Body parts
 		{
-			livingHealth.AddingBodyPart(this);
-
+			if (livingHealth == null || HealthMaster == livingHealth) return;
+			if (HealthMaster != null) BodyPartRemoveHealthMaster();
+			InitializeBehaviors();
 			SetHealthMaster(livingHealth);
+			livingHealth.AddingBodyPart(this, notifySystems: false);
 			BodyType bodyType = BodyType.NonBinary;
-			if (isCybernetic == true && playerSprites.ThisCharacter.Species != "Cyborg") bodyType = BodyType.Other2; //Synthetic
-			else if (playerSprites.ThisCharacter != null) //This check is important, otherwise cyborg limbs on humans will change role based on gender
+			if (isCybernetic && playerSprites != null && playerSprites.ThisCharacter?.Species != "Cyborg") bodyType = BodyType.Other2; //Synthetic
+			else if (playerSprites != null && playerSprites.ThisCharacter != null) //This check is important, otherwise cyborg limbs on humans will change role based on gender
 			{
 				bodyType = playerSprites.ThisCharacter.BodyType;
 			}
@@ -287,16 +289,18 @@ namespace US13.HealthV2.Living.BodyParts
 
 			foreach (var organ in OrganList)
 			{
-
+				if (organ == null) continue;
 				var organType = organ.GetType();
-				while (organType != typeof(BodyPartFunctionality) && organType != typeof(NetworkBehaviour))
+				while (organType != null && organType != typeof(BodyPartBehavior) && organType != typeof(object))
 				{
 					livingHealth.AddOrgan(organType,organ);
 					organType = organType.BaseType;
 				}
 
-				organ.OnAddedToBody(HealthMaster); //Only add Body parts
 			}
+			behaviorHost?.OnBodyPartAdded(livingHealth);
+			systemsRegistered = true;
+			livingHealth.NotifyBodyPartAdded(this);
 
 			for (int i = 0; i < containBodyParts.Count; i++) //Only add Body parts
 			{
@@ -313,16 +317,20 @@ namespace US13.HealthV2.Living.BodyParts
 		/// </summary>
 		public void BodyPartRemoveHealthMaster()
 		{
+			if (HealthMaster == null || removingFromBody) return;
+			removingFromBody = true;
+			if (behaviorHost != null) behaviorHost.OnRemovedFromBody(HealthMaster);
+			NotifySystemsRemoved(HealthMaster);
 			foreach (var organ in OrganList)
 			{
+				if (organ == null) continue;
 				var Type = organ.GetType();
-				while (Type != typeof(BodyPartFunctionality) && Type != typeof(NetworkBehaviour))
+				while (Type != null && Type != typeof(BodyPartBehavior) && Type != typeof(object))
 				{
 					HealthMaster.RemoveOrgan(Type,organ);
 					Type = Type.BaseType;
 				}
 
-				organ.OnRemovedFromBody(HealthMaster);
 			}
 
 			foreach (var organ in containBodyParts)
@@ -335,6 +343,14 @@ namespace US13.HealthV2.Living.BodyParts
 			HealthMaster.RemovingBodyPart(this);
 			HealthMaster.BodyPartListChange();
 			HealthMaster = null;
+			removingFromBody = false;
+		}
+
+		internal void NotifySystemsRemoved(LivingHealthMasterBase livingHealth)
+		{
+			if (!systemsRegistered) return;
+			systemsRegistered = false;
+			livingHealth.NotifyBodyPartRemoved(this);
 		}
 
 
@@ -475,13 +491,7 @@ namespace US13.HealthV2.Living.BodyParts
 
 		public void SetUpSystemsThis()
 		{
-			if (SystemSetup) return;
-			SystemSetup = true;
-
-			foreach (var Organ in OrganList)
-			{
-				Organ.SetUpSystems();
-			}
+			behaviorHost?.SetUpSystems();
 		}
 	}
 

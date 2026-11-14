@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Logs;
 using NaughtyAttributes;
 using UnityEngine;
@@ -10,6 +10,7 @@ using Util;
 
 namespace US13.Mobs.BrainAI.States.SimpleBot
 {
+	[System.Serializable]
 	public class FindSimpleTaskAi : BrainMobState, ICanBeEmaggedMob
 	{
 		private Vector3Int targetCell;
@@ -19,8 +20,8 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 
 		private MobTraversal pathfinder => master.Traversal;
 
-		[SerializeField] private BrainWanderState wanderState;
-		private SimpleBotTaskAi taskState;
+		[UnityEngine.SerializeReference] private BrainWanderState wanderState;
+		[UnityEngine.SerializeReference] private SimpleBotTaskAi taskState;
 
 		[SerializeReference, SelectImplementation(typeof(ITraversalStrat))]
 		public List<ITraversalStrat> TraversalStrategies = new List<ITraversalStrat>();
@@ -39,7 +40,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 
 		[SerializeField] private float dialogueChancePercent = 50;
 
-		private void Start()
+		public override void OnBehaviorStarted()
 		{
 			traversalDetails = new MobTraversal.TraversalDetails
 			{
@@ -49,7 +50,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 				CancelOnSlip = true,
 				Algorithm = PathfinderType.AStar
 			};
-			taskState = GetComponent<SimpleBotTaskAi>();
+			taskState = GetBodyPartBehavior<SimpleBotTaskAi>();
 			if (taskState == null)
 			{
 				Loggy.Error(
@@ -74,7 +75,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 		{
 			UnsubscribeToPathfinderEvents();
 			foundTarget = false;
-			if (taskState == false) return;
+			if (taskState == null) return;
 			if (DMMath.Prob(dialogueChancePercent))
 			{
 				AudibleMobDialogue toSay = taskState.IsEmagged ? idleEmaggedDialogue.PickRandom() : idleDialogue.PickRandom();
@@ -84,7 +85,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 
 		public override void OnUpdateTick()
 		{
-			if (taskState == false) return;
+			if (taskState == null) return;
 
 			if (IsStillTraversing()) return;
 
