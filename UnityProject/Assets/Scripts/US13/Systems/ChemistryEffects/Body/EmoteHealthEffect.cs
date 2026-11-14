@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using Chemistry;
 using UnityEngine;
 using US13.Core.Chat;
@@ -28,8 +29,8 @@ namespace US13.Systems.ChemistryEffects.Body
 			if (sender.TryGetComponent<ItemAttributesV2>(out var attributes) == false) return;
 			if (requiredTrait == true && attributes.HasTrait(requiredTrait) == false) return;
 
-			var metabolismComponent = sender as MetabolismComponent;
-			if (metabolismComponent == false) return;
+			var metabolismComponent = sender.GetBodyPartBehavior<MetabolismComponent>();
+			if (metabolismComponent == null) return;
 
 			GameObject player = metabolismComponent.RelatedPart.HealthMaster.gameObject;
 			if (EmoteEffect.CustomEmote)

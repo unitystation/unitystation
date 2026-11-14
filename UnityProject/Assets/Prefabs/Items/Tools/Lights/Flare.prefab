@@ -109,6 +109,137 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[0]'
+      value: 5041995600707191290
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[1]'
+      value: 5041995600707191291
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191290]'
+      value: Assets US13.Actions.ItemActionButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191291]'
+      value: Assets US13.Player.ItemLightControl
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191291]._networkIsOn
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191291].Size
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191290].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191291].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191291].colour.a
+      value: 0.50980395
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191291].colour.b
+      value: 0.26666668
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191291].colour.g
+      value: 0.36862746
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191291].colour.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191290].actionData
+      value: 
+      objectReference: {fileID: 11400000, guid: 9cf6b1b6994732d4cb5f023e0cefaf19,
+        type: 2}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191291].SpriteShape
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191290].allowedSlots
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191290].spriteHandler
+      value: 
+      objectReference: {fileID: 1666505115895660852}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191291].LightEmission
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191291].weakenOnGround
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191291].weakenStrength
+      value: 1.3333
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191290].useSpriteHandler
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191291].commonComponents
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191291].objectLightSprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191291].objectLightEmission
+      value: 
+      objectReference: {fileID: 2586558177838671487}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191290].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191291].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191291].revertToOldConsistencyBehavior
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
       propertyPath: exportCost
@@ -392,18 +523,6 @@ MonoBehaviour:
   palette: []
   initialSortingOrder: -1
   initialSortingLayerName: 
---- !u!114 &2755709628018005534 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: -6066636166583991181, guid: 6f371050bff8b32438f91c7c680900bb,
-    type: 3}
-  m_PrefabInstance: {fileID: 1004520157929427565}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4784655301099371187}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1360d2b65a03cdf449035cd3c4cd0153, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &4784655301099371187 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5734849685452875998, guid: 6f371050bff8b32438f91c7c680900bb,
@@ -458,4 +577,4 @@ MonoBehaviour:
   sparkOnOpen: 1
   runsOutOverTime: 1
   runsOutOverSeconds: 356
-  actionButton: {fileID: 2755709628018005534}
+  actionButton: {fileID: 0}

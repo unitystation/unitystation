@@ -66,7 +66,7 @@ namespace US13.Player
 				}
 				else
 				{
-					return ob.GetComponent<IPlayerPossessable>();
+					return ob.GetComponentOrBodyPartBehavior<IPlayerPossessable>();
 				}
 
 			}

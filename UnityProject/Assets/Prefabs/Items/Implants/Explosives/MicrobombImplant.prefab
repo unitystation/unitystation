@@ -184,6 +184,46 @@ PrefabInstance:
       propertyPath: detonateImmediatelyOnSignal
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8174907041068440031, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[0]'
+      value: 5041995600691986757
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174907041068440031, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986757]'
+      value: Assets US13.Items.Weapons.ImplantExplosiveTrigger
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174907041068440031, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986757].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174907041068440031, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986757].EMPResistance
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174907041068440031, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986757].isEMPVunerable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174907041068440031, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986757].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174907041068440031, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986757].<TriggerOnDeath>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8174907041068440031, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986757].<OverrideDeathCountDown>k__BackingField
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8358811179410753561, guid: 414ec5b5318df6f4bbd000a4dfb298ca,
         type: 3}
       propertyPath: OrganStorage

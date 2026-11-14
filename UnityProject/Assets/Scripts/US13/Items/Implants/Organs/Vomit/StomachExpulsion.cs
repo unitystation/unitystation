@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Logs;
 using NaughtyAttributes;
 using UnityEngine;
@@ -12,20 +12,21 @@ using Util;
 
 namespace US13.Items.Implants.Organs.Vomit
 {
-	[RequireComponent(typeof(Stomach))]
-	public class StomachExpulsion : BodyPartFunctionality
+
+	[System.Serializable]
+	public class StomachExpulsion : BodyPartBehavior
 	{
-		[SerializeField] private Stomach stomach;
+		[UnityEngine.SerializeReference] private Stomach stomach;
 		[SerializeField] private EmoteSO dryHeavingEmote;
 		[SerializeField] private GameObject vomitReagentPrefab;
 		[SerializeField] private float divisbleVomitAmount = 4;
 		[SerializeField] private AddressableAudioSource vomitSound;
 		private readonly List<IVomitExtension> vomitLogicExtensions = new List<IVomitExtension>();
 
-		public override void Awake()
+		public override void OnInitialize()
 		{
-			base.Awake();
-			stomach ??= GetComponent<Stomach>();
+			base.OnInitialize();
+			stomach ??= GetBodyPartBehavior<Stomach>();
 			vomitLogicExtensions.AddRange(GetComponentsInChildren<IVomitExtension>());
 		}
 

@@ -752,7 +752,7 @@ namespace IngameDebugConsole.Scripts
 				Loggy.Error("Cannot execute this command from client.", Category.DebugConsole);
 				return;
 			}
-			var fats = GameObject.FindObjectsByType<BodyFat>(sortMode: FindObjectsSortMode.InstanceID);
+			var fats = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.OfType<BodyFat>(System.Linq.Enumerable.SelectMany(GameObject.FindObjectsByType<BodyPartBehaviors>(sortMode: FindObjectsSortMode.InstanceID), host => host.Behaviors)));
 			foreach (var fat in fats)
 			{
 				if (fat == null) continue;

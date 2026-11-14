@@ -24,6 +24,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1b5f00f4d05e87e4490435ab9702e11d,
         type: 2}
+    - target: {fileID: 3138167408386266108, guid: d243d9aff97ede04581d82563a576f0c,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1b5f00f4d05e87e4490435ab9702e11d,
+        type: 2}
     - target: {fileID: 5688082005075186663, guid: d243d9aff97ede04581d82563a576f0c,
         type: 3}
       propertyPath: DamageThreshold
@@ -90,7 +96,7 @@ PrefabInstance:
     - target: {fileID: 9136428800030075003, guid: d243d9aff97ede04581d82563a576f0c,
         type: 3}
       propertyPath: m_Name
-      value: MothWings
+      value: Moth Wings
       objectReference: {fileID: 0}
     - target: {fileID: 9140231048508249359, guid: d243d9aff97ede04581d82563a576f0c,
         type: 3}

@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using Mirror;
 using UnityEngine;
 using US13.Managers.NetworkManagement;
@@ -19,7 +20,7 @@ namespace US13.Player
 			{
 				if (IsGhosting) return this.gameObject;
 				if (IDActivelyControlling is NetId.Invalid or NetId.Empty) return this.gameObject;
-				var Possessable = CustomNetworkManager.Spawned[IDActivelyControlling].GetComponent<IPlayerPossessable>();
+				var Possessable = CustomNetworkManager.Spawned[IDActivelyControlling].GetComponentOrBodyPartBehavior<IPlayerPossessable>();
 				return 	Possessable.ControllingObject;
 			}
 		}

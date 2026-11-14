@@ -33,7 +33,8 @@ namespace US13.Systems.ChemistryEffects.Body
 		public override void Apply(MonoBehaviour sender, ReagentMix ReagentMix, Vector3 WorldPosition, float amount)
 		{
 			if (sender == null) return;
-			if (sender is MetabolismComponent metabolismComponent == false) return;
+			var metabolismComponent = sender.GetBodyPartBehavior<MetabolismComponent>();
+			if (metabolismComponent == null) return;
 			if (metabolismComponent.RelatedPart.HealthMaster == false) return;
 
 			LivingHealthMasterBase healthMaster = metabolismComponent.RelatedPart.HealthMaster;

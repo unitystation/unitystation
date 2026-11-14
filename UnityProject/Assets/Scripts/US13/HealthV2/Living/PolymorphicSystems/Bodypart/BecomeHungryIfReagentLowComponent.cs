@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using Chemistry;
 using UnityEngine;
 using US13.HealthV2.Living.Metabolism;
@@ -5,19 +6,21 @@ using Util;
 
 namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
 {
-	[RequireComponent(typeof(HungerComponent))]
-	[RequireComponent(typeof(ReagentCirculatedComponent))]
-	public class BecomeHungryIfReagentLowComponent : BodyPartFunctionality
+
+
+	[System.Serializable]
+
+	public class BecomeHungryIfReagentLowComponent : BodyPartBehavior
 	{
-		private HungerComponent HungerComponent;
+		[UnityEngine.SerializeReference] private HungerComponent HungerComponent;
 		public Reagent ScanningFor;
 		public float TriggerHungerAtLevel = 55;
 
 
-		public override void Awake()
+		public override void OnInitialize()
 		{
-			base.Awake();
-			HungerComponent = this.GetCachedComponent<HungerComponent>();
+			base.OnInitialize();
+			HungerComponent = GetBodyPartBehavior<HungerComponent>();
 		}
 
 

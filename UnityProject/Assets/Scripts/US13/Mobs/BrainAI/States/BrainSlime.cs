@@ -11,6 +11,7 @@ using Util;
 
 namespace US13.Mobs.BrainAI.States
 {
+	[System.Serializable]
 	public class BrainSlime : BrainMobState
 	{
 		public AddressableAudioSource eatFoodSound;
@@ -26,9 +27,9 @@ namespace US13.Mobs.BrainAI.States
 			new Vector3Int(0, -1, 0),
 		};
 
-		private SlimeCore SlimeCore;
+		[UnityEngine.SerializeReference] private SlimeCore SlimeCore;
 
-		private SlimeEat SlimeEat;
+		[UnityEngine.SerializeReference] private SlimeEat SlimeEat;
 
 
 		private readonly System.Random random = new System.Random();
@@ -57,15 +58,15 @@ namespace US13.Mobs.BrainAI.States
 
 			foreach (var BodyPart in livingHealth.BodyPartList)
 			{
-				SlimeEat = BodyPart.GetComponent<SlimeEat>();
+				SlimeEat = BodyPart.GetBodyPartBehavior<SlimeEat>();
 				if (BodyPart != null) return;
 			}
 		} //Warning only add body parts do not remove body parts in this
 
 
-		private void Awake()
+		public override void OnInitialize()
 		{
-			SlimeCore = this.GetComponent<SlimeCore>();
+			SlimeCore = GetBodyPartBehavior<SlimeCore>();
 		}
 
 		public override void OnEnterState()
@@ -150,7 +151,7 @@ namespace US13.Mobs.BrainAI.States
 					if (player.gameObject == master.Body.gameObject) continue;
 					if (player.gameObject. GetComponent<LivingHealthMasterBase>().IsDead) continue;
 					if (player.gameObject.GetComponent<LivingHealthMasterBase>().brain == null) continue;
-					if (player.gameObject.GetComponent<LivingHealthMasterBase>().brain.GetComponent<SlimeCore>() != null) continue;
+					if (player.gameObject.GetComponent<LivingHealthMasterBase>().brain.GetBodyPartBehavior<SlimeCore>() != null) continue;
 
 					if (GoodPlayers.ContainsKey(player.gameObject) == false)
 					{

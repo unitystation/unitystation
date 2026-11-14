@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using US13.Core;
 using US13.Core.Addressables.Types;
@@ -9,12 +9,13 @@ using UniversalObjectPhysics = US13.Core.Physics.UniversalObjectPhysics;
 
 namespace US13.Mobs.BrainAI.States.Arial
 {
+	[System.Serializable]
 	public class CauseTroubleArialAi : BrainMobState
 	{
 		public GameObject Target;
 		private UniversalObjectPhysics thingToThrow;
 		private TimeSpan troubleEnterTime;
-		[SerializeField] private LookForTroubleArialAi troubleState;
+		[UnityEngine.SerializeReference] private LookForTroubleArialAi troubleState;
 		[SerializeField] private AddressableAudioSource stateEnter;
 		[SerializeField] private AddressableAudioSource stateExit;
 

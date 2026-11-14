@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using US13.ChemistryComponents;
 using US13.Core.Chat;
@@ -10,7 +10,8 @@ using Util;
 
 namespace US13.Items.Implants.Organs
 {
-	public class Stomach : BodyPartFunctionality
+	[System.Serializable]
+	public class Stomach : BodyPartBehavior
 	{
 		public ReagentContainer StomachContents;
 
@@ -18,19 +19,19 @@ namespace US13.Items.Implants.Organs
 
 		public float StomachIsConsideredFullWhenSpareCapacityIsLessThan = 15f;
 
-		public List<BodyFat> BodyFats = new List<BodyFat>();
+		[UnityEngine.SerializeReference] public List<BodyFat> BodyFats = new List<BodyFat>();
 
-		public BodyFat BodyFatToInstantiate;
+		public GameObject BodyFatToInstantiate;
 
-		public ReagentCirculatedComponent _ReagentCirculatedComponent;
-		public HungerComponent HungerComponent;
+		[UnityEngine.SerializeReference] public ReagentCirculatedComponent _ReagentCirculatedComponent;
+		[UnityEngine.SerializeReference] public HungerComponent HungerComponent;
 
 
-		public override void Awake()
+		public override void OnInitialize()
 		{
-			base.Awake();
-			_ReagentCirculatedComponent = this.GetCachedComponent<ReagentCirculatedComponent>();
-			HungerComponent = this.GetCachedComponent<HungerComponent>();
+			base.OnInitialize();
+			_ReagentCirculatedComponent = GetBodyPartBehavior<ReagentCirculatedComponent>();
+			HungerComponent = GetBodyPartBehavior<HungerComponent>();
 		}
 
 		public override void ImplantPeriodicUpdate()
@@ -77,8 +78,8 @@ namespace US13.Items.Implants.Organs
 
 		public void AddFat()
 		{
-			var added = Spawn.ServerPrefab(BodyFatToInstantiate.gameObject, spawnManualContents: true).GameObject
-				.GetComponent<BodyFat>();
+			var added = Spawn.ServerPrefab(BodyFatToInstantiate, spawnManualContents: true).GameObject
+				.GetBodyPartBehavior<BodyFat>();
 			BodyFats.Add(added);
 			added.RelatedStomach = this;
 			added.SetAbsorbedAmount(0);

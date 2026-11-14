@@ -4,6 +4,7 @@ using Util;
 
 namespace US13.Items.Implants.Limbs
 {
+	[System.Serializable]
 	public class HumanoidLeg : Limb
 	{
 

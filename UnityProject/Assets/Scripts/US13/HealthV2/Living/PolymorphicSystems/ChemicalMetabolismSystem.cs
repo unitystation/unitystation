@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -100,8 +101,8 @@ namespace US13.HealthV2.Living.PolymorphicSystems
 
 		public override void BodyPartAdded(BodyPart bodyPart)
 		{
-			var component = bodyPart.GetComponent<MetabolismComponent>();
-			if (component != null)
+			var component = bodyPart.GetBodyPartBehavior<MetabolismComponent>();
+			if (component != null && component.Enabled)
 			{
 				if (MetabolismComponents.Contains(component) == false)
 				{
@@ -113,7 +114,7 @@ namespace US13.HealthV2.Living.PolymorphicSystems
 
 		public override void BodyPartRemoved(BodyPart bodyPart)
 		{
-			var component = bodyPart.GetComponent<MetabolismComponent>();
+			var component = bodyPart.GetBodyPartBehavior<MetabolismComponent>();
 			if (component != null)
 			{
 				if (MetabolismComponents.Contains(component))

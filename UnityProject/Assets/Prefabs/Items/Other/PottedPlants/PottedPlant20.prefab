@@ -241,7 +241,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 183087353082436583, guid: 0271f252689106348ad30060b7abea96,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5864912850942061666}
+      addedObject: {fileID: 1800155804590208321}
   m_SourcePrefab: {fileID: 100100000, guid: 0271f252689106348ad30060b7abea96, type: 3}
 --- !u!4 &1164968030392107538 stripped
 Transform:
@@ -255,7 +255,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1347485146735535233}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5864912850942061666
+--- !u!114 &1800155804590208321
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -264,24 +264,34 @@ MonoBehaviour:
   m_GameObject: {fileID: 1169051753645162342}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
+  m_Script: {fileID: 11500000, guid: 72e9f842fdda4c2e99853e2e8d2b8066, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assets::US13.HealthV2.Living.BodyPartBehaviors
   syncDirection: 0
   syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  LightEmission: {fileID: 0}
-  objectLightEmission: {fileID: 4997324947772619753}
-  IsOn: 1
-  colour: {r: 1, g: 0.99607843, b: 0.88235295, a: 0.39215687}
-  objectLightSprite: {fileID: 0}
-  commonComponents: {fileID: 0}
-  SpriteShape: 0
-  Size: 5
-  weakenOnGround: 0
-  revertToOldConsistencyBehavior: 0
-  weakenStrength: 1.45
+  syncInterval: 0
+  Behaviors:
+  - rid: 5041995600707191230
+  SecondsUntilNextTick: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 5041995600707191230
+      type: {class: ItemLightControl, ns: US13.Player, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        LightEmission: {fileID: 0}
+        objectLightEmission: {fileID: 4997324947772619753}
+        _networkIsOn: 1
+        colour: {r: 1, g: 0.99607843, b: 0.88235295, a: 0.39215687}
+        objectLightSprite: {fileID: 0}
+        commonComponents: {fileID: 0}
+        SpriteShape: 0
+        Size: 5
+        weakenOnGround: 0
+        revertToOldConsistencyBehavior: 0
+        weakenStrength: 1.45
 --- !u!212 &1353538381542591546 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 34763699688138939, guid: 0271f252689106348ad30060b7abea96,

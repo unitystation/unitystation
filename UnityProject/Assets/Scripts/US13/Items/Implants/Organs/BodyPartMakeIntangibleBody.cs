@@ -6,7 +6,9 @@ namespace US13.Items.Implants.Organs
 {
 
 
-public class BodyPartMakeIntangibleBody : BodyPartFunctionality
+[System.Serializable]
+
+public class BodyPartMakeIntangibleBody : BodyPartBehavior
 {
 	public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 	{

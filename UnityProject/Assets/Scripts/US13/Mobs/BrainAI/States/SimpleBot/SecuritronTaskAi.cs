@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -19,6 +19,7 @@ using Util;
 namespace US13.Mobs.BrainAI.States.SimpleBot
 {
 
+	[System.Serializable]
 	public class SecuritronTaskAi : SimpleBotTaskAi
 	{
 		private ItemAttributesV2 stunBatonItem = null;

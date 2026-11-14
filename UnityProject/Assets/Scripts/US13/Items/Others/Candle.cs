@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using Mirror;
 using UnityEngine;
 using US13.Clothing;
@@ -14,7 +15,7 @@ using Util;
 
 namespace US13.Items.Others
 {
-	[RequireComponent(typeof(ItemLightControl))]
+	[RequireComponent(typeof(BodyPartBehaviors))]
 	public class Candle : NetworkBehaviour, ICheckedInteractable<InventoryApply>, IServerDespawn
 	{
 		private ItemLightControl lightControl;
@@ -32,7 +33,7 @@ namespace US13.Items.Others
 
 		public void Awake()
 		{
-			lightControl = GetComponent<ItemLightControl>();
+			lightControl = gameObject.GetBodyPartBehavior<ItemLightControl>();
 		}
 
 		public void Start()

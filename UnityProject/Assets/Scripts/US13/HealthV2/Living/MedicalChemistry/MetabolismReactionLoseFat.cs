@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using System.Collections.Generic;
 using Chemistry;
 using UnityEngine;
@@ -22,7 +23,7 @@ namespace US13.HealthV2.Living.MedicalChemistry
 			var Toloop = senders;
 			foreach (var bodyPart in Toloop)
 			{
-				var BodyPart = bodyPart.GetCachedComponent<BodyFat>();
+				var BodyPart = bodyPart.GetBodyPartBehavior<BodyFat>();
 				if (BodyPart != null)
 				{
 					if (BodyPart.AbsorbedAmount > 0.4)
@@ -51,7 +52,7 @@ namespace US13.HealthV2.Living.MedicalChemistry
 					processDamageCalculation(overdose, bodyPart, TotalChemicalsProcessedByBodyPart);
 				}
 
-				var BodyPart = bodyPart.GetCachedComponent<BodyFat>();
+				var BodyPart = bodyPart.GetBodyPartBehavior<BodyFat>();
 				if (BodyPart != null)
 				{
 					var Total = BodyPart.AbsorbedAmount;

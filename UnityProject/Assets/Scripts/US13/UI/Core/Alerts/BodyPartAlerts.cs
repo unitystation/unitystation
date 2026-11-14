@@ -4,7 +4,8 @@ using US13.HealthV2.Living;
 
 namespace US13.UI.Core.Alerts
 {
-	public class BodyPartAlerts : BodyPartFunctionality
+	[System.Serializable]
+	public class BodyPartAlerts : BodyPartBehavior
 	{
 		private List<AlertSO> alerts = new List<AlertSO>();
 

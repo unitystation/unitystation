@@ -417,7 +417,12 @@ namespace US13.HealthV2.Living.BodyParts
 			};
 
 			AffectDamage(damageToLimb, (int) damageType);
-			if (invokeOnDamageEvent) OnDamageTaken?.Invoke(LastDamageData);
+			if (invokeOnDamageEvent)
+			{
+				InitializeBehaviors();
+				behaviorHost?.OnBodyPartDamage(LastDamageData);
+				OnDamageTaken?.Invoke(LastDamageData);
+			}
 
 			// May be changed to individual damage
 			// May also want it so it can miss sub organs
@@ -565,7 +570,7 @@ namespace US13.HealthV2.Living.BodyParts
 		/// </summary>
 		private void UpdateIcons()
 		{
-			UIManager.PlayerHealthUI.SetBodyTypeOverlay(this);
+			if (UIManager.Instance != null) UIManager.PlayerHealthUI?.SetBodyTypeOverlay(this);
 		}
 
 		public float GetDamage(DamageType damageType)

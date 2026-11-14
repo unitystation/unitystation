@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using US13.HealthV2.Living;
+using System.Collections;
 using NaughtyAttributes;
 using UnityEngine;
 using US13.Actions;
@@ -9,7 +10,7 @@ using Util;
 
 namespace US13.Items.Others
 {
-	[RequireComponent(typeof(ItemLightControl))]
+	[RequireComponent(typeof(BodyPartBehaviors))]
 	public class LightPreparable : HandPreparable
 	{
 		private ItemLightControl lightControl;
@@ -22,12 +23,12 @@ namespace US13.Items.Others
 		private bool runsOutOverTime = false;
 		[SerializeField, ShowIf(nameof(runsOutOverTime))]
 		private float runsOutOverSeconds = 356;
-		[SerializeField] private ItemActionButton actionButton;
+		private ItemActionButton actionButton => gameObject.GetBodyPartBehavior<ItemActionButton>();
 
 
 		private void Awake()
 		{
-			lightControl = GetComponent<ItemLightControl>();
+			lightControl = gameObject.GetBodyPartBehavior<ItemLightControl>();
 			if (runsOutOverTime)
 			{
 				destroyThisComponentOnOpen = false;

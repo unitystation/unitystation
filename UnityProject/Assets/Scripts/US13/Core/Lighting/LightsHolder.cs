@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 ﻿using System;
 using System.Linq;
 using Light2D;
@@ -180,9 +181,9 @@ namespace US13.Core.Lighting
 			lightSprite.Shape = data.lightShape;
 			if (data.lightSpriteObject != null)
 			{
-				lightSprite.Sprite = data.lightSpriteObject.GetComponent<ILightControl>()?.ObjectLightSprite.Sprite;
+				lightSprite.Sprite = data.lightSpriteObject.GetComponentOrBodyPartBehavior<ILightControl>()?.ObjectLightSprite.Sprite;
 				var Handler =  lightSprite?.GetComponent<LightSpriteHandler>();
-				var SourceHandler = data.lightSpriteObject.GetComponent<ILightControl>()?.ObjectLightSprite?.GetComponent<LightSpriteHandler>();
+				var SourceHandler = data.lightSpriteObject.GetComponentOrBodyPartBehavior<ILightControl>()?.ObjectLightSprite?.GetComponent<LightSpriteHandler>();
 				if (Handler != null && SourceHandler != null)
 				{
 					Handler.SetSpriteSO(SourceHandler.GetCurrentSpriteSO());

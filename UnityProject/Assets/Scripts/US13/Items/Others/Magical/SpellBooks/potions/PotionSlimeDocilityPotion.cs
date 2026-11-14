@@ -44,7 +44,7 @@ namespace US13.Items.Others.Magical.SpellBooks.potions
 		{
 			if (CheckTarget(Target))
 			{
-				var core = Target.GetComponent<LivingHealthMasterBase>().brain.GetComponent<BrainSlime>();
+				var core = Target.GetComponent<LivingHealthMasterBase>().brain.GetBodyPartBehavior<BrainSlime>();
 				core.FriendlySlime = true;
 				_ = Despawn.ServerSingle(this.gameObject);
 			}
@@ -55,7 +55,7 @@ namespace US13.Items.Others.Magical.SpellBooks.potions
 		{
 			if (Validations.HasComponent<LivingHealthMasterBase>(Target) ==false) return false;
 			if (Target.GetComponent<LivingHealthMasterBase>().IsDead) return false;
-			var core = Target.GetComponent<LivingHealthMasterBase>().brain.GetComponent<BrainSlime>();
+			var core = Target.GetComponent<LivingHealthMasterBase>().brain.GetBodyPartBehavior<BrainSlime>();
 			if (core == null) return false;
 			if (core.FriendlySlime) return false;
 			return true;

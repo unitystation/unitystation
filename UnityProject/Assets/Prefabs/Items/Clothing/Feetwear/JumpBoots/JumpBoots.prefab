@@ -125,11 +125,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1864679013969520924, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8370397637180805116}
+      addedObject: {fileID: 5722696453417709158}
     - targetCorrespondingSourceObject: {fileID: 1864679013969520924, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5722696453417709158}
+      addedObject: {fileID: 1327187554544641939}
   m_SourcePrefab: {fileID: 100100000, guid: 502f496beb9034b9b9c97868e845ed7e, type: 3}
 --- !u!114 &2005470918676389307 stripped
 MonoBehaviour:
@@ -149,26 +149,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6301215052459462432}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8370397637180805116
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5661801104673318460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1360d2b65a03cdf449035cd3c4cd0153, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  actionData: {fileID: 11400000, guid: efb698793e277f371b48175d6de8a2f7, type: 2}
-  allowedSlots: 8
-  useSpriteHandler: 1
-  spriteHandler: {fileID: 2005470918676389307}
 --- !u!114 &5722696453417709158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,3 +183,33 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+--- !u!114 &1327187554544641939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5661801104673318460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e9f842fdda4c2e99853e2e8d2b8066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.HealthV2.Living.BodyPartBehaviors
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  Behaviors:
+  - rid: 5041995600691986438
+  SecondsUntilNextTick: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 5041995600691986438
+      type: {class: ItemActionButton, ns: US13.Actions, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        actionData: {fileID: 11400000, guid: efb698793e277f371b48175d6de8a2f7, type: 2}
+        allowedSlots: 8
+        useSpriteHandler: 1
+        spriteHandler: {fileID: 2005470918676389307}

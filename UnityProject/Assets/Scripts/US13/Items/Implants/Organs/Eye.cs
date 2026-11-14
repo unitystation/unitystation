@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Chemistry;
 using Cysharp.Threading.Tasks;
 using Logs;
-using Mirror;
 using UnityEngine;
 using US13.Core.Camera;
 using US13.Core.Camera.Effects;
@@ -19,7 +18,8 @@ using Random = UnityEngine.Random;
 
 namespace US13.Items.Implants.Organs
 {
-	public class Eye : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchronisedEffect
+	[System.Serializable]
+	public class Eye : BodyPartBehavior, IItemInOutMovedPlayer, IClientSynchronisedEffect
 	{
 		//TODO
 		//Probably should make it so the shader has Multi-interest bool /  Think of a system to We never have this issue with Things overlap with what they control
@@ -49,7 +49,7 @@ namespace US13.Items.Implants.Organs
 		public float blinkDurationMin = 0.10f;
 		public float blinkDurationMax = 0.15f;
 
-		private void OnEnable()
+		public override void OnBehaviorEnabled()
 		{
 			_secondsUntilBlink = SampleInterval();
 		}
@@ -140,12 +140,17 @@ namespace US13.Items.Implants.Organs
 		}
 
 
-		public override void Awake()
+		public override void OnInitialize()
 		{
-			base.Awake();
+			base.OnInitialize();
 			Pickupable = this.GetComponent<Pickupable>();
 			RelatedPart.ModifierChange += UpdateBlurryEye;
 			UpdateBlurryEye();
+		}
+
+		public override void OnBehaviorDestroyed()
+		{
+			if (RelatedPart != null) RelatedPart.ModifierChange -= UpdateBlurryEye;
 		}
 
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
@@ -190,33 +195,84 @@ namespace US13.Items.Implants.Organs
 
 		private IClientSynchronisedEffect Preimplemented => (IClientSynchronisedEffect) this;
 
-		[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
+		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("OnBodyID")] private uint _networkOnBodyID;
+		public uint OnBodyID
+		{
+			get => _networkOnBodyID;
+			set
+			{
+				if (System.Collections.Generic.EqualityComparer<uint>.Default.Equals(_networkOnBodyID, value)) return;
+				var previous = _networkOnBodyID;
+				_networkOnBodyID = value;
+				if (isClient) SyncOnPlayer(previous, value);
+			}
+		}
 
 		public uint OnPlayerID => OnBodyID;
 
-		[SyncVar(hook = nameof(SyncPreventBlindness))]
-		public bool PreventsBlindness = true; //TODO change to multi-interest bool, Is good enough for now, For multiple eyes
+		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("PreventsBlindness")] private bool _networkPreventsBlindness = true;
+		public bool PreventsBlindness
+		{
+			get => _networkPreventsBlindness;
+			set
+			{
+				if (System.Collections.Generic.EqualityComparer<bool>.Default.Equals(_networkPreventsBlindness, value)) return;
+				var previous = _networkPreventsBlindness;
+				_networkPreventsBlindness = value;
+				if (isClient) SyncPreventBlindness(previous, value);
+			}
+		} //TODO change to multi-interest bool, Is good enough for now, For multiple eyes
 		private bool DefaultPreventsBlindness_ = false;
 
-		[SyncVar(hook = nameof(SyncBadEyesight))]
-		public int BadEyesight = 0;
+		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("BadEyesight")] private int _networkBadEyesight = 0;
+		public int BadEyesight
+		{
+			get => _networkBadEyesight;
+			set
+			{
+				if (System.Collections.Generic.EqualityComparer<int>.Default.Equals(_networkBadEyesight, value)) return;
+				var previous = _networkBadEyesight;
+				_networkBadEyesight = value;
+				if (isClient) SyncBadEyesight(previous, value);
+			}
+		}
 		private int DefaultBadEyesight = 0;
 
 		public MultiInterestFloat BadEyesightRecord = new MultiInterestFloat(0, InSetFloatBehaviour: MultiInterestFloat.FloatBehaviour.PickTop);
 
-		[SyncVar(hook = nameof(SyncColourBlindMode))]
-		public ColourBlindMode CurrentColourblindness = ColourBlindMode.None;
+		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("CurrentColourblindness")] private ColourBlindMode _networkCurrentColourblindness = ColourBlindMode.None;
+		public ColourBlindMode CurrentColourblindness
+		{
+			get => _networkCurrentColourblindness;
+			set
+			{
+				if (System.Collections.Generic.EqualityComparer<ColourBlindMode>.Default.Equals(_networkCurrentColourblindness, value)) return;
+				var previous = _networkCurrentColourblindness;
+				_networkCurrentColourblindness = value;
+				if (isClient) SyncColourBlindMode(previous, value);
+			}
+		}
 		private ColourBlindMode DefaultColourblindness = ColourBlindMode.None;
 
-		[SyncVar(hook = nameof(SyncXrayState))]
-		public bool HasXray = false;
+		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("HasXray")] private bool _networkHasXray = false;
+		public bool HasXray
+		{
+			get => _networkHasXray;
+			set
+			{
+				if (System.Collections.Generic.EqualityComparer<bool>.Default.Equals(_networkHasXray, value)) return;
+				var previous = _networkHasXray;
+				_networkHasXray = value;
+				if (isClient) SyncXrayState(previous, value);
+			}
+		}
 		private bool DefaultHasXray = false;
 
 
 		public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)
 		{
-			OnBodyID = CurrentlyOn;
-			Preimplemented.ImplementationSyncOnPlayer(PreviouslyOn, CurrentlyOn);
+			_networkOnBodyID = CurrentlyOn;
+			if (isClient) Preimplemented.ImplementationSyncOnPlayer(PreviouslyOn, CurrentlyOn);
 		}
 
 		public void ApplyDefaultOrCurrentValues(bool Default)
@@ -230,7 +286,7 @@ namespace US13.Items.Implants.Organs
 
 		public void SyncPreventBlindness(bool oldValue, bool newState)
 		{
-			PreventsBlindness = newState;
+			_networkPreventsBlindness = newState;
 			if (Preimplemented.IsOnLocalPlayer)
 			{
 				ApplyChangesBlindness(PreventsBlindness);
@@ -253,7 +309,7 @@ namespace US13.Items.Implants.Organs
 
 		public void SyncBadEyesight(int oldValue, int newState)
 		{
-			BadEyesight = newState;
+			_networkBadEyesight = newState;
 			if (Preimplemented.IsOnLocalPlayer)
 			{
 				ApplyChangesBlurryVision((int) BadEyesight);
@@ -269,7 +325,7 @@ namespace US13.Items.Implants.Organs
 
 		public void SyncColourBlindMode(ColourBlindMode NotSetValueServer, ColourBlindMode newState)
 		{
-			CurrentColourblindness = newState;
+			_networkCurrentColourblindness = newState;
 			if (Preimplemented.IsOnLocalPlayer)
 			{
 				ApplyChangesColourBlindMode(CurrentColourblindness);
@@ -284,7 +340,7 @@ namespace US13.Items.Implants.Organs
 
 		public void SyncXrayState(bool old, bool newState)
 		{
-			HasXray = newState;
+			_networkHasXray = newState;
 			if (Preimplemented.IsOnLocalPlayer)
 			{
 				ApplyChangesXrayState(HasXray);
@@ -304,5 +360,34 @@ namespace US13.Items.Implants.Organs
 		}
 
 		#endregion
+		[System.Serializable]
+		private sealed class BehaviorNetworkState
+		{
+			public uint OnBodyID;
+			public bool PreventsBlindness;
+			public int BadEyesight;
+			public ColourBlindMode CurrentColourblindness;
+			public bool HasXray;
+		}
+
+		public override string CaptureNetworkState() => JsonUtility.ToJson(new BehaviorNetworkState
+		{
+			OnBodyID = this.OnBodyID,
+			PreventsBlindness = this.PreventsBlindness,
+			BadEyesight = this.BadEyesight,
+			CurrentColourblindness = this.CurrentColourblindness,
+			HasXray = this.HasXray,
+		});
+
+		public override void ApplyNetworkState(string json)
+		{
+			var state = JsonUtility.FromJson<BehaviorNetworkState>(json);
+			OnBodyID = state.OnBodyID;
+			PreventsBlindness = state.PreventsBlindness;
+			BadEyesight = state.BadEyesight;
+			CurrentColourblindness = state.CurrentColourblindness;
+			HasXray = state.HasXray;
+		}
+
 	}
 }

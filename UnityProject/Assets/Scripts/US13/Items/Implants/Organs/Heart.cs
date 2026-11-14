@@ -1,5 +1,6 @@
 ﻿using System;
 using Chemistry;
+using Logs;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -12,8 +13,9 @@ using Util;
 
 namespace US13.Items.Implants.Organs
 {
-	[RequireComponent(typeof(ReagentCirculatedComponent))]
-	public class Heart : BodyPartFunctionality
+
+	[System.Serializable]
+	public class Heart : BodyPartBehavior
 	{
 		public bool CanHaveHeartAttack = true;
 
@@ -34,9 +36,9 @@ namespace US13.Items.Implants.Organs
 
 		[SerializeField] private float dangerSaltLevel = 20f; //in u
 
-		public HungerComponent HungerComponent;
+		[UnityEngine.SerializeReference] public HungerComponent HungerComponent;
 
-		public ReagentCirculatedComponent _ReagentCirculatedComponent;
+		[UnityEngine.SerializeReference] public ReagentCirculatedComponent _ReagentCirculatedComponent;
 
 		public ReagentPoolSystem CashedReagentPoolSystem = null;
 
@@ -49,11 +51,11 @@ namespace US13.Items.Implants.Organs
 
 		public int BeatFrameCash = 0;
 		public float BeatStrength = 0;
-		public override void Awake()
+		public override void OnInitialize()
 		{
-			base.Awake();
-			HungerComponent = this.GetCachedComponent<HungerComponent>();
-			_ReagentCirculatedComponent = this.GetCachedComponent<ReagentCirculatedComponent>();
+			base.OnInitialize();
+			HungerComponent = GetBodyPartBehavior<HungerComponent>();
+			_ReagentCirculatedComponent = GetBodyPartBehavior<ReagentCirculatedComponent>();
 		}
 
 		public override void OnEmp(int strength)
@@ -68,6 +70,7 @@ namespace US13.Items.Implants.Organs
 
 		public override void ImplantPeriodicUpdate()
 		{
+			if (CashedReagentPoolSystem == null || RelatedPart.HealthMaster == null) return;
 			base.ImplantPeriodicUpdate();
 			if (CanHaveHeartAttack)
 			{
@@ -105,14 +108,24 @@ namespace US13.Items.Implants.Organs
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
-			CashedReagentPoolSystem.PumpingDevices.Remove(this);
+			CashedReagentPoolSystem?.PumpingDevices.Remove(this);
 			CashedReagentPoolSystem = null;
+			BeatFrameCash = -1;
+			BeatStrength = 0;
 		}
 
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			CashedReagentPoolSystem = _ReagentCirculatedComponent.AssociatedSystem;
-			CashedReagentPoolSystem.PumpingDevices.Add(this);
+			var system = _ReagentCirculatedComponent?.AssociatedSystem;
+			if (CashedReagentPoolSystem != system) CashedReagentPoolSystem?.PumpingDevices.Remove(this);
+			CashedReagentPoolSystem = system;
+			BeatFrameCash = -1;
+			if (system == null)
+			{
+				Loggy.Error($"Heart on {name} requires an enabled ReagentCirculatedComponent bound to a blood system.");
+				return;
+			}
+			if (!system.PumpingDevices.Contains(this)) system.PumpingDevices.Add(this);
 		}
 
 		public void DoHeartBeat()
@@ -134,7 +147,7 @@ namespace US13.Items.Implants.Organs
 			if (salt != null && (_ReagentCirculatedComponent.AssociatedSystem.BloodPool.MajorMixReagent == salt ||
 			    _ReagentCirculatedComponent.AssociatedSystem.BloodPool[salt] > dangerSaltLevel))
 			{
-				Chat.AddActionMsgToChat((GameObject)RelatedPart.HealthMaster.gameObject,
+				Chat.AddActionMsgToChat(RelatedPart.HealthMaster.gameObject,
 					"<color=red>Your body spasms as a jolt of pain surges all over your body then into your heart!</color>",
 					$"<color=red>{RelatedPart.HealthMaster.playerScript.visibleName} spasms before holding " +
 					$"{RelatedPart.HealthMaster.playerScript.characterSettings.TheirPronoun(RelatedPart.HealthMaster.playerScript)} chest in shock before falling to the ground!</color>");
@@ -145,6 +158,11 @@ namespace US13.Items.Implants.Organs
 
 		public float CalculateHeartbeat()
 		{
+			if (!Enabled || CashedReagentPoolSystem == null || RelatedPart.HealthMaster == null)
+			{
+				BeatStrength = 0;
+				return 0;
+			}
 			if (BeatFrameCash == UpdateManager.CurrentFrameCashed)
 			{
 				return BeatStrength;
@@ -176,7 +194,7 @@ namespace US13.Items.Implants.Organs
 						toMultiply = Mathf.Max(0f,
 							Mathf.Max((float)(RelatedPart.MaxHealth - RelatedPart.TotalDamageWithoutOxyCloneRadStam), 0) / RelatedPart.MaxHealth);
 					}
-					else if (modifier == HungerComponent.OrNull()?.HungerModifier)
+					else if (modifier == HungerComponent?.HungerModifier)
 					{
 						continue;
 					}
@@ -196,11 +214,9 @@ namespace US13.Items.Implants.Organs
 
 		public void DoHeartAttack()
 		{
-			if (CanHaveHeartAttack)
-			{
-				HeartAttack = true;
-				RelatedPart.HealthMaster.Death();
-			}
+			if (CanHaveHeartAttack == false) return;
+			HeartAttack = true;
+			RelatedPart.HealthMaster.Death();
 		}
 	}
 }

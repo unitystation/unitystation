@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using UnityEngine;
 using US13.HealthV2.Living.BodyParts;
 using US13.Items.Implants.Organs;
@@ -25,8 +26,8 @@ namespace US13.HealthV2.Living.Mutations.Speech
 			public override void SetUp()
 			{
 
-				RelatedTongue = BodyPart.GetComponent<Tongue>();
-				RelatedBrain = BodyPart.GetComponent<Items.Implants.Organs.Brain>();
+				RelatedTongue = BodyPart.GetBodyPartBehavior<Tongue>();
+				RelatedBrain = BodyPart.GetBodyPartBehavior<Items.Implants.Organs.Brain>();
 
 				if (RelatedTongue != null)
 				{

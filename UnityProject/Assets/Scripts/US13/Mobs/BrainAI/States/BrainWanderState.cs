@@ -6,6 +6,7 @@ using US13.Player.MovementV2;
 
 namespace US13.Mobs.BrainAI.States
 {
+	[System.Serializable]
 	public class BrainWanderState : BrainMobState
 	{
 		private enum TurnDirection

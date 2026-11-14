@@ -8,7 +8,8 @@ using US13.Systems.Inventory;
 
 namespace US13.Items.Implants.Organs.Functionality
 {
-	public class EyeFlash : BodyPartFunctionality
+	[System.Serializable]
+	public class EyeFlash : BodyPartBehavior
 	{
 		public ItemTrait FlashProtection;
 

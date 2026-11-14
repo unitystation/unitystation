@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -170,8 +171,8 @@ namespace US13.HealthV2.Living.PolymorphicSystems
 
 		public override void BodyPartAdded(BodyPart bodyPart)
 		{
-			var newSaturation =  bodyPart.GetComponent<BatteryPoweredComponent>();
-			if (newSaturation != null)
+			var newSaturation =  bodyPart.GetBodyPartBehavior<BatteryPoweredComponent>();
+			if (newSaturation != null && newSaturation.Enabled)
 			{
 				if (Consuming.Contains(newSaturation) == false)
 				{
@@ -192,7 +193,7 @@ namespace US13.HealthV2.Living.PolymorphicSystems
 
 		public override void BodyPartRemoved(BodyPart bodyPart)
 		{
-			var Consumption =  bodyPart.GetComponent<BatteryPoweredComponent>();
+			var Consumption =  bodyPart.GetBodyPartBehavior<BatteryPoweredComponent>();
 			if (Consumption != null)
 			{
 				if (Consuming.Contains(Consumption))

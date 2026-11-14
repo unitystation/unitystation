@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using UnityEngine;
 using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
@@ -27,7 +28,7 @@ namespace US13.HealthV2.Living.Mutations.Eyes
 
 			public override void SetUp()
 			{
-				RelatedEye = BodyPart.GetComponent<Eye>();
+				RelatedEye = BodyPart.GetBodyPartBehavior<Eye>();
 				RelatedEye.BaseBlurryVision = Strength;
 				RelatedEye.UpdateBlurryEye();
 			}

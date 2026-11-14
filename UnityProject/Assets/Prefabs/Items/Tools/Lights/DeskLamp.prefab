@@ -62,6 +62,137 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[0]'
+      value: 5041995600707191284
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[1]'
+      value: 5041995600707191285
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191284]'
+      value: Assets US13.Actions.ItemActionButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191285]'
+      value: Assets US13.Player.ItemLightControl
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191285]._networkIsOn
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191285].Size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191284].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191285].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191285].colour.a
+      value: 0.43137255
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191285].colour.b
+      value: 0.7137255
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191285].colour.g
+      value: 0.9529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191285].colour.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191284].actionData
+      value: 
+      objectReference: {fileID: 11400000, guid: 9cf6b1b6994732d4cb5f023e0cefaf19,
+        type: 2}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191285].SpriteShape
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191284].allowedSlots
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191284].spriteHandler
+      value: 
+      objectReference: {fileID: 4225858837334078580}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191285].LightEmission
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191285].weakenOnGround
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191285].weakenStrength
+      value: 1.3333
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191284].useSpriteHandler
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191285].commonComponents
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191285].objectLightSprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191285].objectLightEmission
+      value: 
+      objectReference: {fileID: 1035992148402475839}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191284].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191285].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117759320731273600, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191285].revertToOldConsistencyBehavior
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5091645988084169630, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
       propertyPath: hasActionButton
@@ -349,3 +480,21 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f371050bff8b32438f91c7c680900bb, type: 3}
+--- !u!1 &1035992148402475839 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3320711171919508498, guid: 6f371050bff8b32438f91c7c680900bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 2338806819598722861}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4225858837334078580 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1932141341405303641, guid: 6f371050bff8b32438f91c7c680900bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 2338806819598722861}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

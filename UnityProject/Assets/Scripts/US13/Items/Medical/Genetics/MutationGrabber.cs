@@ -55,7 +55,7 @@ namespace US13.Items.Medical.Genetics
 					toCustomise += "Customisation of " + bodypart.SetCustomisationData;
 				}
 
-				var mutations = bodypart.GetComponent<BodyPartMutations>();
+				var mutations = bodypart.GetBodyPartBehavior<BodyPartMutations>();
 				if (mutations != null)
 				{
 					if (mutations.ActiveMutations.Count > 0)

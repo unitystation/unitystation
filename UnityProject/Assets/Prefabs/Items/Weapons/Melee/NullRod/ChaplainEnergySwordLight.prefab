@@ -328,7 +328,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 6312338506369003408, guid: 9c123336301845541830989cb9e3d606,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5958573218485135227}
+      addedObject: {fileID: 7657144195132078247}
   m_SourcePrefab: {fileID: 100100000, guid: 9c123336301845541830989cb9e3d606, type: 3}
 --- !u!4 &4426067211459729608 stripped
 Transform:
@@ -342,7 +342,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7703091468747868716}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &5958573218485135227
+--- !u!114 &7657144195132078247
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -351,21 +351,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 4431276560014370236}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
+  m_Script: {fileID: 11500000, guid: 72e9f842fdda4c2e99853e2e8d2b8066, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assets::US13.Player.ItemLightControl
+  m_EditorClassIdentifier: Assets::US13.HealthV2.Living.BodyPartBehaviors
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  RelatedPart: {fileID: 0}
-  LightEmission: {fileID: 0}
-  objectLightEmission: {fileID: 7009375757528547559}
-  IsOn: 1
-  colour: {r: 0.2509804, g: 0.80784315, b: 1, a: 0.47058824}
-  objectLightSprite: {fileID: 0}
-  commonComponents: {fileID: 0}
-  SpriteShape: 0
-  Size: 4
-  weakenOnGround: 0
-  revertToOldConsistencyBehavior: 0
-  weakenStrength: 1.45
+  Behaviors:
+  - rid: 5041995600707191313
+  SecondsUntilNextTick: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 5041995600707191313
+      type: {class: ItemLightControl, ns: US13.Player, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        LightEmission: {fileID: 0}
+        objectLightEmission: {fileID: 7009375757528547559}
+        _networkIsOn: 1
+        colour: {r: 0.2509804, g: 0.80784315, b: 1, a: 0.47058824}
+        objectLightSprite: {fileID: 0}
+        commonComponents: {fileID: 0}
+        SpriteShape: 0
+        Size: 4
+        weakenOnGround: 0
+        revertToOldConsistencyBehavior: 0
+        weakenStrength: 1.45

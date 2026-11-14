@@ -5,6 +5,7 @@ using US13.HealthV2;
 
 namespace US13.Items.Implants.Limbs
 {
+	[System.Serializable]
 	public class HumanoidArm : Limb
 	{
 		[Header("Arm Damage Stats")]

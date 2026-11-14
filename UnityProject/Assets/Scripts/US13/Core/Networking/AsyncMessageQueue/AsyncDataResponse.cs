@@ -41,3 +41,19 @@ namespace US13.Core.Networking.AsyncMessageQueue
 		}
 	}
 }
+namespace US13.Core.Networking.AsyncMessageQueue
+{
+	public sealed class RpcQueueNotification : US13.Messages.Server.ServerMessage<RpcQueueNotification.NetMessage>
+	{
+		public struct NetMessage : NetworkMessage
+		{
+			public string Key;
+			public string Json;
+		}
+
+		public override void Process(NetMessage message)
+		{
+			RpcMessageQueue.Instance?.ProcessNotification(message.Key, message.Json);
+		}
+	}
+}

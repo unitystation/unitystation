@@ -622,7 +622,7 @@ namespace US13.Player
 			}
 
 
-			var BodyPartRadioAccess = gameObject.GetComponent<BodyPartRadioAccess>(); //TODO interface?
+			var BodyPartRadioAccess = gameObject.GetBodyPartBehavior<BodyPartRadioAccess>(); //TODO interface?
 			if (BodyPartRadioAccess != null)
 			{
 				transmitChannels |= BodyPartRadioAccess.AvailableChannels;
@@ -801,7 +801,7 @@ namespace US13.Player
 			if (mind == null) return;
 			if (IsNormal && parent == null &&  playerTypeSettings.PlayerType != PlayerTypes.Ghost)//Can't be possessed directly
 			{
-				mind.SetPossessingObject(playerHealth.OrNull()?.brain.OrNull()?.gameObject);
+				mind.SetPossessingObject(playerHealth.OrNull()?.brain?.gameObject);
 				mind.StopGhosting();
 				return;
 			}

@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using System.Collections.Generic;
 using Chemistry;
 using UnityEngine;
@@ -76,11 +77,11 @@ namespace US13.HealthV2.Living.PolymorphicSystems
 
 		public override void BodyPartAdded(BodyPart bodyPart)
 		{
-			var component = bodyPart.GetComponent<NaturalChemicalReleaseComponent>();
+			var component = bodyPart.GetBodyPartBehavior<NaturalChemicalReleaseComponent>();
 
 			if (component != null)
 			{
-				if (component.enabled == false) return;
+				if (component.Enabled == false) return;
 				if (BodyParts.Contains(component) == false)
 				{
 					BodyParts.Add(component);
@@ -91,7 +92,7 @@ namespace US13.HealthV2.Living.PolymorphicSystems
 
 		public override void BodyPartRemoved(BodyPart bodyPart)
 		{
-			var component = bodyPart.GetComponent<NaturalChemicalReleaseComponent>();
+			var component = bodyPart.GetBodyPartBehavior<NaturalChemicalReleaseComponent>();
 			if (component != null)
 			{
 				if (BodyParts.Contains(component))

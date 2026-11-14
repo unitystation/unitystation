@@ -8,6 +8,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 214677476424355345, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: Behaviors.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 226526901835897784, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
       propertyPath: clothData

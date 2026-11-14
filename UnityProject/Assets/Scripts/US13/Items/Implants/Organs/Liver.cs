@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Chemistry;
@@ -12,7 +12,8 @@ using Util;
 
 namespace US13.Items.Implants.Organs
 {
-	public class Liver : BodyPartFunctionality
+	[System.Serializable]
+	public class Liver : BodyPartBehavior
 	{
 		/// <summary>
 		/// ReagentContainer which the liver uses to hold reagents it will process. Reagents like alcohol will be broken down into their ethanol reagent via ReactionSet
@@ -50,12 +51,12 @@ namespace US13.Items.Implants.Organs
 
 
 
-		public ReagentCirculatedComponent ReagentCirculatedComponent;
+		[UnityEngine.SerializeReference] public ReagentCirculatedComponent ReagentCirculatedComponent;
 
-		public override void Awake()
+		public override void OnInitialize()
 		{
-			base.Awake();
-			ReagentCirculatedComponent = this.GetCachedComponent<ReagentCirculatedComponent>();
+			base.OnInitialize();
+			ReagentCirculatedComponent = GetBodyPartBehavior<ReagentCirculatedComponent>();
 		}
 
 		public override void SetUpSystems()

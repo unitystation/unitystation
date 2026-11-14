@@ -10,7 +10,8 @@ using UniversalObjectPhysics = US13.Core.Physics.UniversalObjectPhysics;
 
 namespace US13.Items.Science.Implants
 {
-	public class ReviverImplant : BodyPartFunctionality
+	[System.Serializable]
+	public class ReviverImplant : BodyPartBehavior
 	{
 
 		[SerializeField] private UniversalObjectPhysics objectPhysics;
@@ -51,7 +52,7 @@ namespace US13.Items.Science.Implants
 			{
 				Heart heart = RelatedPart.HealthMaster.reagentPoolSystem?.PumpingDevices?.PickRandom();
 
-				heart.OrNull()?.DoHeartAttack();
+				heart?.DoHeartAttack();
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using US13.Core.Chat;
@@ -14,7 +14,8 @@ using Util;
 
 namespace US13.Items.Implants.Organs
 {
-	public class Tongue : BodyPartFunctionality
+	[System.Serializable]
+	public class Tongue : BodyPartBehavior
 	{
 		public static bool SpeechAnimationEnabled = true;
 

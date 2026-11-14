@@ -1,28 +1,23 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Logs;
 using UnityEngine;
 
 namespace US13.HealthV2.Living.BodyParts.Damage.Trauma
 {
-	public class BodyPartTrauma : BodyPartFunctionality
+	[System.Serializable]
+	public class BodyPartTrauma : BodyPartBehavior
 	{
 		[SerializeField] private List<TraumaLogic> traumaTypesOnBodyPart;
 		public List<TraumaLogic> TraumaTypesOnBodyPart => traumaTypesOnBodyPart;
 
-		private void Start()
+		public override void OnBehaviorStarted()
 		{
 			if (RelatedPart != null) return;
 			Loggy.Error($"No component found on parent. Make sure to put this component on a child of the bodyPart");
 		}
 
-		private void OnDestroy()
-		{
-			RelatedPart.OnDamageTaken -= OnTakeDamage;
-		}
-
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
-			RelatedPart.OnDamageTaken += OnTakeDamage;
 			var creatureTraumaAPI = livingHealth.GetComponent<CreatureTraumaManager>();
 			if (creatureTraumaAPI == null)
 			{
@@ -35,7 +30,6 @@ namespace US13.HealthV2.Living.BodyParts.Damage.Trauma
 
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
-			RelatedPart.OnDamageTaken -= OnTakeDamage;
 			var creatureTraumaAPI = livingHealth.GetComponent<CreatureTraumaManager>();
 			if (creatureTraumaAPI == null) return;
 			creatureTraumaAPI.Traumas.Remove(RelatedPart);
@@ -43,7 +37,7 @@ namespace US13.HealthV2.Living.BodyParts.Damage.Trauma
 
 		public override void OnTakeDamage(BodyPartDamageData data)
 		{
-			if (data == null) return;
+			if (data == null || LivingHealthMaster == null) return;
 			if (data.DamageAmount < 0) return;
 			foreach (var logic in traumaTypesOnBodyPart)
 			{
