@@ -1,7 +1,9 @@
+using US13.HealthV2.Living;
 using UnityEngine;
 
 namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
 {
+	[System.Serializable]
 	public class NaturalChemicalReleaseComponent : BodyPartComponentBase<NaturalChemicalReleaseSystem>
 	{
 		//public Chemistry.Reagent NaturalToxinReagent;
@@ -19,7 +21,7 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
 		[field: SerializeField] public Chemistry.Reagent NaturalToxinReagent  {get; set; }
 
 		[HideInInspector]
-		public ReagentCirculatedComponent reagentCirculatedComponent;
+		[UnityEngine.SerializeReference] public ReagentCirculatedComponent reagentCirculatedComponent;
 
 		public float BloodThroughput
 		{
@@ -30,10 +32,10 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
 			}
 		}
 
-		public override void Awake()
+		public override void OnInitialize()
 		{
-			base.Awake();
-			reagentCirculatedComponent = GetComponent<ReagentCirculatedComponent>();
+			base.OnInitialize();
+			reagentCirculatedComponent = GetBodyPartBehavior<ReagentCirculatedComponent>();
 		}
 	}
 }

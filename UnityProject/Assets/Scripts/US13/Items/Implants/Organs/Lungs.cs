@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Chemistry;
@@ -20,7 +20,8 @@ using Util;
 
 namespace US13.Items.Implants.Organs
 {
-	public class Lungs : BodyPartFunctionality
+	[System.Serializable]
+	public class Lungs : BodyPartBehavior
 	{
 		/// <summary>
 		/// The number of ticks to wait until next breath is attempted
@@ -67,11 +68,11 @@ namespace US13.Items.Implants.Organs
 		[SerializeField] private float internalBleedingCooldown = 4f;
 		private bool onCooldown = false;
 
-		public ReagentCirculatedComponent ReagentCirculatedComponent;
-		public SaturationComponent SaturationComponent;
-		public HungerComponent HungerComponent;
+		[UnityEngine.SerializeReference] public ReagentCirculatedComponent ReagentCirculatedComponent;
+		[UnityEngine.SerializeReference] public SaturationComponent SaturationComponent;
+		[UnityEngine.SerializeReference] public HungerComponent HungerComponent;
 
-		public BodyPartAlerts BodyPartAlerts;
+		[UnityEngine.SerializeReference] public BodyPartAlerts BodyPartAlerts;
 
 		public bool hasToxinsCash =false;
 
@@ -86,13 +87,13 @@ namespace US13.Items.Implants.Organs
 
 		private readonly List<Reagent> specialCarrier = new List<Reagent>();
 
-		public override void Awake()
+		public override void OnInitialize()
 		{
-			base.Awake();
-			ReagentCirculatedComponent = this.GetCachedComponent<ReagentCirculatedComponent>();
-			SaturationComponent = this.GetCachedComponent<SaturationComponent>();
-			HungerComponent = this.GetCachedComponent<HungerComponent>();
-			BodyPartAlerts = this.GetCachedComponent<BodyPartAlerts>();
+			base.OnInitialize();
+			ReagentCirculatedComponent = GetBodyPartBehavior<ReagentCirculatedComponent>();
+			SaturationComponent = GetBodyPartBehavior<SaturationComponent>();
+			HungerComponent = GetBodyPartBehavior<HungerComponent>();
+			BodyPartAlerts = GetBodyPartBehavior<BodyPartAlerts>();
 		}
 
 		public override void ImplantPeriodicUpdate()
@@ -104,7 +105,7 @@ namespace US13.Items.Implants.Organs
 				return;
 
 			Brain brain = RelatedPart.HealthMaster.brain;
-			if (brain && brain.RelatedPart.TotalDamageWithoutOxyCloneRadStam > 100)
+			if (brain != null && brain.RelatedPart.TotalDamageWithoutOxyCloneRadStam > 100)
 				return;
 
 			Vector3Int position = RelatedPart.HealthMaster.ObjectBehaviour.registerTile.WorldPosition;
@@ -120,7 +121,7 @@ namespace US13.Items.Implants.Organs
 						Mathf.Max((float)(RelatedPart.MaxHealth - RelatedPart.TotalDamageWithoutOxyCloneRadStam), 0) /
 						RelatedPart.MaxHealth);
 				}
-				else if (modifier == HungerComponent.OrNull()?.HungerModifier)
+				else if (modifier == HungerComponent?.HungerModifier)
 				{
 					continue;
 				}

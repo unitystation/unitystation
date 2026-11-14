@@ -188,6 +188,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 0faaccdf4877d2f4cbc73370fcb0428e,
         type: 2}
+    - target: {fileID: 4999823976648774815, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0faaccdf4877d2f4cbc73370fcb0428e,
+        type: 2}
     - target: {fileID: 5232716269704749941, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: parentID
@@ -198,227 +204,603 @@ PrefabInstance:
       propertyPath: foreverID
       value: b9175d51a587d71459c05924e205f937
       objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: Behaviors.Array.size
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[-2]'
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[0]'
+      value: 5041995600691987414
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[1]'
+      value: 5041995600691987415
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[2]'
+      value: 5041995600691987416
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[3]'
+      value: 5041995600691987417
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[4]'
+      value: 5041995600691987418
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[5]'
+      value: 5041995600691987419
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[6]'
+      value: 5041995600691987420
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[7]'
+      value: 5041995600691987421
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[8]'
+      value: 5041995600691987422
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[9]'
+      value: 5041995600691987423
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691987414]'
+      value: Assets US13.UI.Core.Alerts.BodyPartAlerts
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691987415]'
+      value: Assets US13.HealthV2.Living.BodyPartMutations
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691987416]'
+      value: Assets US13.HealthV2.Living.PolymorphicSystems.Bodypart.ReagentCirculatedComponent
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691987417]'
+      value: Assets US13.HealthV2.Living.PolymorphicSystems.Bodypart.HungerComponent
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691987418]'
+      value: Assets US13.Items.Implants.Organs.SlimeBody
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691987419]'
+      value: Assets US13.HealthV2.Living.PolymorphicSystems.Bodypart.BecomeHungryIfReagentLowComponent
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691987420]'
+      value: Assets US13.Items.Implants.Limbs.HumanoidLeg
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691987421]'
+      value: Assets US13.HealthV2.Living.PolymorphicSystems.Bodypart.MetabolismComponent
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691987422]'
+      value: Assets US13.Items.Implants.Organs.SlimeEat
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691987423]'
+      value: Assets US13.Items.Implants.Organs.Heart
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].salt
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987414].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987415].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987416].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987417].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987418].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987419].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987420].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987421].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987422].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987415].Stability
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987417].Nutriment
+      value: 
+      objectReference: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5,
+        type: 2}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987422].Nutriment
+      value: 
+      objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
+        type: 2}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987416].Throughput
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987418].SlimeJelly
+      value: 
+      objectReference: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5,
+        type: 2}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987422].SlimeJelly
+      value: 
+      objectReference: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5,
+        type: 2}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987419].ScanningFor
+      value: 
+      objectReference: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5,
+        type: 2}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].ForcedBeats
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].HeartAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987416].bloodReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5,
+        type: 2}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987417]._HungerState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987420].runningSpeed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987420].walkingSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].BeatStrength
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].CurrentPulse
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987420].crawlingSpeed
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].BeatFrameCash
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].EMPResistance
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987417].FullMultiplier
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987418].AdultThreshold
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].isEMPVunerable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987419].HungerComponent
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].HungerComponent
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].dangerSaltLevel
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987415].PlayerHealthData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987415].TOMutateBodyPart
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987417].NormalMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987417].HungaryMultiplier
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987421].ReagentMetabolism
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987417].StarvingMultiplier
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].CanHaveHeartAttack
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987415].MutationRestriction
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987421].saturationComponent
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987419].TriggerHungerAtLevel
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987422].DUBUGCurrentlyEating
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].SecondsOfRevivePulse
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].heartAttackThreshold
+      value: -80
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987414].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987415].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987416].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987417].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987418].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987419].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987420].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987420].initialLimbEfficiency
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987421].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987422].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987417].MalnourishedMultiplier
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987415].SecondsForSpeciesMutation
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987417].HealingNutrimentMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987417].reagentCirculatedComponent
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987418].ReagentCirculatedComponent
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987421].reagentCirculatedComponent
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987422].ReagentCirculatedComponent
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].EfficiencyLinksToModifiers
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987415].CapableMutations.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423]._ReagentCirculatedComponent
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987415].ActiveMutationsSO.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987415].MutationRestrictionItemTrait
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987415].StartingMutations.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].CashedReagentPoolSystem.Base
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691987415].CapableMutations.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 11fc1b84d220b6742a4912446b0e7e2b,
+        type: 2}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691987415].CapableMutations.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 85b46608a403da74892b9bb16d3b712c,
+        type: 2}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691987415].CapableMutations.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ebd5df789d07f8141ab3534b7fa87618,
+        type: 2}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691987415].CapableMutations.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ee12f11044a2b742867f1431ca8bf77,
+        type: 2}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987417].ActualHealingNutrimentMultiplier
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987417].NOTDeterminesStatusFromHungerSystem
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].CashedReagentPoolSystem.NormalBlood
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].CashedReagentPoolSystem.bloodReagent
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].CashedReagentPoolSystem.StartingBlood
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].CashedReagentPoolSystem.BloodPool.temperature
+      value: 273.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].CashedReagentPoolSystem.PumpingDevices.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].CashedReagentPoolSystem.ReservoirReturnMultiplier
+      value: 0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987421]._networkComponentImmuneResponse.ImmuneResponseBaseRate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].CashedReagentPoolSystem.TempBloodReservoir.temperature
+      value: 273.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].CashedReagentPoolSystem.BloodPool.reagentKeys.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987421]._networkComponentImmuneResponse.ImmuneResponseRelativeRate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987421]._networkComponentImmuneResponse.ImmuneResponseChancePercent
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].CashedReagentPoolSystem.BloodPool.reagents.m_keys.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].CashedReagentPoolSystem.BloodPool.reagents.m_values.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].CashedReagentPoolSystem.TempBloodReservoir.reagentKeys.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].CashedReagentPoolSystem.TempBloodReservoir.reagents.m_keys.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987423].CashedReagentPoolSystem.TempBloodReservoir.reagents.m_values.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2474015058891497189}
-    - targetCorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2992292589787974618}
-    - targetCorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3112491456799726097}
-    - targetCorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4338165651726550389}
-    - targetCorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5062934451910240119}
-    - targetCorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5160987048973235502}
-    - targetCorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 8898726088625958075}
-    - targetCorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 9064598536239669808}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1162a9966a460f940a18b4d183b04c30, type: 3}
---- !u!1 &960852636360704351 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30,
-    type: 3}
-  m_PrefabInstance: {fileID: 2121560723397291591}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &2474015058891497189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 960852636360704351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a9ebd1817f5f0547a70d4591eca98a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  Throughput: 0
-  bloodReagent: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5, type: 2}
---- !u!114 &2992292589787974618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 960852636360704351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 132a8f200f593b24cb7bc31ef84a253c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  Nutriment: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5, type: 2}
-  HealingNutrimentMultiplier: 2
-  HungerState: 1
-  reagentCirculatedComponent: {fileID: 0}
---- !u!114 &3112491456799726097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 960852636360704351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c1b53b561690594d8e7781acb1d85bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  SlimeJelly: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5, type: 2}
-  AdultThreshold: 50
---- !u!114 &4338165651726550389
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 960852636360704351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c8a6b99984130574fa2656f5b841f52c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  ScanningFor: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5, type: 2}
-  TriggerHungerAtLevel: 55
---- !u!114 &5062934451910240119
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 960852636360704351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73c8a0e70c3343fd9c7d764c28769377, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  walkingSpeed: 2
-  runningSpeed: 5
-  legEfficiency: 1
---- !u!114 &5160987048973235502
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 960852636360704351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49e8d56bad352cc47925df17616dded1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  ReagentMetabolism: 0.2
-  reagentCirculatedComponent: {fileID: 0}
-  saturationComponent: {fileID: 0}
---- !u!114 &8898726088625958075
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 960852636360704351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee907d2275dd9f244a48f957426ed737, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  DUBUGCurrentlyEating: {fileID: 0}
-  SlimeJelly: {fileID: 11400000, guid: 00d9a9827ebcc49ab8b0df647c4f7da5, type: 2}
-  Nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
---- !u!114 &9064598536239669808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 960852636360704351}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d907426271c5e5544a1c7131da7c493c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  CanHaveHeartAttack: 0
-  EfficiencyLinksToModifiers: 0
-  HeartAttack: 0
-  heartAttackThreshold: -80
-  SecondsOfRevivePulse: 30
-  CurrentPulse: 0
-  salt: {fileID: 0}
-  dangerSaltLevel: 20
-  HungerComponent: {fileID: 0}
-  _ReagentCirculatedComponent: {fileID: 0}
-  CashedReagentPoolSystem:
-    Base: {fileID: 0}
-    BloodPool:
-      temperature: 273.15
-      reagents:
-        m_keys: []
-        m_values: []
-      reagentKeys: []
-    StartingBlood: 500
-    NormalBlood: 500
-    bloodReagent: {fileID: 0}
-    PumpingDevices: []
-    RegenBloodPool:
-      temperature: 273.15
-      reagents:
-        m_keys: []
-        m_values: []
-      reagentKeys: []
-    RegenEfficiency: 0.15
-  ForcedBeats: 0
-  isEMPVunerable: 0
-  EMPResistance: 2
-  BeatFrameCash: 0
-  BeatStrength: 0

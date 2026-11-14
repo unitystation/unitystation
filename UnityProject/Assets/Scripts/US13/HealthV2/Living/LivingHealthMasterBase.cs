@@ -1,10 +1,12 @@
-﻿using System;
+using US13.HealthV2.Living;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Chemistry;
 using JetBrains.Annotations;
+using Logs;
 using Mirror;
 using NaughtyAttributes;
 using UnityEngine;
@@ -144,7 +146,7 @@ namespace US13.HealthV2.Living
 
 		public ReagentPoolSystem reagentPoolSystem => SweetExtensions.OfType<ReagentPoolSystem>(ActiveSystems).FirstOrDefault();
 
-		public Dictionary<Type, List<BodyPartFunctionality>> BodyOrganLookup = new Dictionary<Type, List<BodyPartFunctionality>>();
+		public Dictionary<Type, List<IBodyPartBehavior>> BodyOrganLookup = new Dictionary<Type, List<IBodyPartBehavior>>();
 
 		[field: SerializeField] public EmaggableMob EmaggableMob { get; private set; } = null;
 
@@ -468,7 +470,7 @@ namespace US13.HealthV2.Living
 
 			if (spawnedList.ContainsKey(newID))
 			{
-				brain = spawnedList[newID].GetComponent<Brain>();
+				brain = spawnedList[newID].GetBodyPartBehavior<Brain>();
 			}
 		}
 
@@ -532,7 +534,7 @@ namespace US13.HealthV2.Living
 			}
 		}
 
-		public void AddingBodyPart(BodyPart BodyPart)
+		public void AddingBodyPart(BodyPart BodyPart, bool notifySystems = true)
 		{
 			if (BodyPartList.Contains(BodyPart) == false)
 			{
@@ -547,10 +549,24 @@ namespace US13.HealthV2.Living
 				}
 			}
 
+			if (notifySystems) NotifyBodyPartAdded(BodyPart);
+		}
 
-			foreach (var sys in ActiveSystems)
+		public void NotifyBodyPartAdded(BodyPart part)
+		{
+			foreach (var system in ActiveSystems.ToArray())
 			{
-				sys.BodyPartAdded(BodyPart);
+				try { system.BodyPartAdded(part); }
+				catch (Exception exception) { Loggy.Error($"Error adding body part to {system.GetType().Name}:\n{exception}"); }
+			}
+		}
+
+		public void NotifyBodyPartRemoved(BodyPart part)
+		{
+			foreach (var system in ActiveSystems.ToArray())
+			{
+				try { system.BodyPartRemoved(part); }
+				catch (Exception exception) { Loggy.Error($"Error removing body part from {system.GetType().Name}:\n{exception}"); }
 			}
 		}
 
@@ -568,25 +584,25 @@ namespace US13.HealthV2.Living
 		}
 
 
-		public void AddOrgan(Type OrganType, BodyPartFunctionality BodyPartFunctionality)
+		public void AddOrgan(Type OrganType, IBodyPartBehavior behavior)
 		{
 			if (BodyOrganLookup.ContainsKey(OrganType) == false)
 			{
-				BodyOrganLookup[OrganType] = new List<BodyPartFunctionality>();
+				BodyOrganLookup[OrganType] = new List<IBodyPartBehavior>();
 			}
 
 			var List = BodyOrganLookup[OrganType];
-			if (List.Contains(BodyPartFunctionality) == false)
+			if (List.Contains(behavior) == false)
 			{
-				List.Add(BodyPartFunctionality);
+				List.Add(behavior);
 			}
 		}
 
-		public void RemoveOrgan(Type OrganType, BodyPartFunctionality Organ)
+		public void RemoveOrgan(Type OrganType, IBodyPartBehavior Organ)
 		{
 			if (BodyOrganLookup.ContainsKey(OrganType) == false)
 			{
-				BodyOrganLookup[OrganType] = new List<BodyPartFunctionality>();
+				BodyOrganLookup[OrganType] = new List<IBodyPartBehavior>();
 			}
 
 			var List = BodyOrganLookup[OrganType];
@@ -596,11 +612,11 @@ namespace US13.HealthV2.Living
 			}
 		}
 
-		public List<BodyPartFunctionality> GetOrgans(Type OrganType)
+		public List<IBodyPartBehavior> GetOrgans(Type OrganType)
 		{
 			if (BodyOrganLookup.ContainsKey(OrganType) == false)
 			{
-				BodyOrganLookup[OrganType] = new List<BodyPartFunctionality>();
+				BodyOrganLookup[OrganType] = new List<IBodyPartBehavior>();
 			}
 
 			return BodyOrganLookup[OrganType];
@@ -621,7 +637,7 @@ namespace US13.HealthV2.Living
 				{
 					if (bodyPart.ItemAttributes.HasAllTraits(externalReaction.ExternalAllRequired)
 					    && bodyPart.ItemAttributes.HasAnyTrait(externalReaction.ExternalBlacklist) == false
-					    && bodyPart.TryGetComponent<MetabolismComponent>(out var MetabolismComponent))
+					    && bodyPart.TryGetBodyPartBehavior<MetabolismComponent>(out var MetabolismComponent))
 					{
 						if (PrecalculatedMetabolismReactions.ContainsKey(externalReaction) == false)
 						{
@@ -813,7 +829,7 @@ namespace US13.HealthV2.Living
 			Stability = 0;
 			foreach (var BP in BodyPartList)
 			{
-				var Mutation = BP.CommonComponents.SafeGetComponent<BodyPartMutations>();
+				var Mutation = BP.CommonComponents.GetBodyPartBehavior<BodyPartMutations>();
 				if (Mutation != null)
 				{
 					Stability += Mutation.Stability;
@@ -842,7 +858,7 @@ namespace US13.HealthV2.Living
 
 				foreach (var BP in BodyPartList)
 				{
-					var Mutation = BP.CommonComponents.SafeGetComponent<BodyPartMutations>();
+					var Mutation = BP.CommonComponents.GetBodyPartBehavior<BodyPartMutations>();
 					if (Mutation != null)
 					{
 						Mutation.GetAvailableNegativeMutations(AvailableMutations);
@@ -891,7 +907,7 @@ namespace US13.HealthV2.Living
 				foreach (var BP in BodyPartList)
 				{
 					if (BP.name.ToLower().Contains(InDNAMutationData.BodyPartSearchString.ToLower()) == false) continue;
-					var Mutation = BP.GetComponent<BodyPartMutations>();
+					var Mutation = BP.GetBodyPartBehavior<BodyPartMutations>();
 					if (Mutation == null) continue;
 					if (skipWaiting == false)
 						yield return WaitFor.Seconds(1f);
@@ -1430,7 +1446,7 @@ namespace US13.HealthV2.Living
 			return null;
 		}
 
-		public List<T> GetBodyFunctionsOfType<T>() where T : BodyPartFunctionality
+		public List<T> GetBodyFunctionsOfType<T>() where T : IBodyPartBehavior
 		{
 			List<T> returnList = new List<T>();
 			foreach (var bodyPart in BodyPartList)
@@ -1489,7 +1505,7 @@ namespace US13.HealthV2.Living
 			var eyes = GetBodyPartsInArea(BodyPartType.Eyes, false);
 			foreach (var eye in eyes)
 			{
-				var eyeFlash = SweetExtensions.GetCachedComponent<EyeFlash>((Component)eye);
+				var eyeFlash = eye.GetBodyPartBehavior<EyeFlash>();
 				if (eyeFlash != null && eyeFlash.TryFlash(flashDuration, checkForProtectiveCloth))
 				{
 					didFlash = true;
@@ -1507,7 +1523,7 @@ namespace US13.HealthV2.Living
 			var ears = GetBodyPartsInArea(BodyPartType.Ears, false);
 			foreach (var ear in ears)
 			{
-				var earDeafen = SweetExtensions.GetCachedComponent<Ears>((Component)ear);
+				var earDeafen = ear.GetBodyPartBehavior<Ears>();
 				if (earDeafen != null && earDeafen.TryDeafen(sender, deafenDuration, checkForProtectiveCloth))
 				{
 					didDeafen = true;
@@ -1644,7 +1660,7 @@ namespace US13.HealthV2.Living
 		{
 			foreach (var bodyPart in BodyPartList)
 			{
-				foreach (BodyPartFunctionality organ in bodyPart.OrganList)
+				foreach (IBodyPartBehavior organ in bodyPart.OrganList)
 				{
 					if (organ is Heart heart)
 					{
@@ -1670,7 +1686,7 @@ namespace US13.HealthV2.Living
 			stopHealthSystems = false;
 			foreach (var bodyPart in BodyPartList)
 			{
-				foreach (BodyPartFunctionality organ in bodyPart.OrganList)
+				foreach (IBodyPartBehavior organ in bodyPart.OrganList)
 				{
 					if (organ is Eye eye)
 					{

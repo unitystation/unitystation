@@ -11,7 +11,8 @@ using US13.Tilemaps.Behaviours.Objects;
 
 namespace US13.Actions
 {
-	public class ItemActionButton : BodyPartFunctionality, IServerActionGUI, IItemInOutMovedPlayer
+	[System.Serializable]
+	public class ItemActionButton : BodyPartBehavior, IServerActionGUI, IItemInOutMovedPlayer
 	{
 		[Tooltip("The button action data SO this component should use.")]
 		[SerializeField]
@@ -35,7 +36,7 @@ namespace US13.Actions
 		public event System.Action ServerActionClicked;
 		public event System.Action ClientActionClicked;
 
-		private void Awake()
+		public override void OnInitialize()
 		{
 			pickupable = GetComponent<Pickupable>();
 

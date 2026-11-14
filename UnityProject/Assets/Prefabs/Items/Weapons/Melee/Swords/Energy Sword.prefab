@@ -415,10 +415,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 2350815963227468493}
-    - targetCorrespondingSourceObject: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 4821844458157436374}
     - targetCorrespondingSourceObject: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
@@ -452,6 +448,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 7753542122139011966}
+    - targetCorrespondingSourceObject: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3087934567853297670}
   m_SourcePrefab: {fileID: 100100000, guid: 93af1c166793efb498012ddc7370f8ec, type: 3}
 --- !u!114 &4520221803203555702 stripped
 MonoBehaviour:
@@ -483,33 +483,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4236242615490559816}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &2350815963227468493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7781396554342910705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  LightEmission: {fileID: 0}
-  objectLightEmission: {fileID: 5667522765297587855}
-  IsOn: 0
-  colour: {r: 0, g: 0, b: 0, a: 0}
-  objectLightSprite: {fileID: 0}
-  commonComponents: {fileID: 0}
-  SpriteShape: 0
-  Size: 4
-  weakenOnGround: 0
-  revertToOldConsistencyBehavior: 0
-  weakenStrength: 1.25
 --- !u!114 &4821844458157436374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -714,7 +687,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 422bd67945f84036bb931100359a319f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lightControl: {fileID: 2350815963227468493}
+  lightControl: {fileID: 0}
   Color: {r: 1, g: 0.003921569, b: 0.003921569, a: 0.5882353}
 --- !u!114 &1637920947562625228
 MonoBehaviour:
@@ -772,3 +745,40 @@ MonoBehaviour:
       m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
+--- !u!114 &3087934567853297670
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7781396554342910705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e9f842fdda4c2e99853e2e8d2b8066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.HealthV2.Living.BodyPartBehaviors
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  Behaviors:
+  - rid: 5041995600707191317
+  SecondsUntilNextTick: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 5041995600707191317
+      type: {class: ItemLightControl, ns: US13.Player, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        LightEmission: {fileID: 0}
+        objectLightEmission: {fileID: 5667522765297587855}
+        _networkIsOn: 0
+        colour: {r: 0, g: 0, b: 0, a: 0}
+        objectLightSprite: {fileID: 0}
+        commonComponents: {fileID: 0}
+        SpriteShape: 0
+        Size: 4
+        weakenOnGround: 0
+        revertToOldConsistencyBehavior: 0
+        weakenStrength: 1.25

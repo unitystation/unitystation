@@ -1,4 +1,3 @@
-using Mirror;
 using NaughtyAttributes;
 using UnityEngine;
 using US13.HealthV2.Living;
@@ -6,9 +5,19 @@ using Util;
 
 namespace US13.Items.Science.Implants
 {
-	public class BreathingTubeImplant : BodyPartFunctionality
+	[System.Serializable]
+	public class BreathingTubeImplant : BodyPartBehavior
 	{
-		[field: SyncVar] public bool isEMPed { get; private set; } = false;
+		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("isEMPed")] private bool _networkIsEMPed = false;
+		public bool isEMPed
+		{
+			get => _networkIsEMPed;
+			private set
+			{
+				if (System.Collections.Generic.EqualityComparer<bool>.Default.Equals(_networkIsEMPed, value)) return;
+				_networkIsEMPed = value;
+			}
+		}
 
 		public bool isEMPVunerable = false;
 
@@ -33,6 +42,23 @@ namespace US13.Items.Science.Implants
 			{
 				isEMPed = true;
 			}
+		}
+
+		[System.Serializable]
+		private sealed class BehaviorNetworkState
+		{
+			public bool isEMPed;
+		}
+
+		public override string CaptureNetworkState() => JsonUtility.ToJson(new BehaviorNetworkState
+		{
+			isEMPed = this.isEMPed,
+		});
+
+		public override void ApplyNetworkState(string json)
+		{
+			var state = JsonUtility.FromJson<BehaviorNetworkState>(json);
+			isEMPed = state.isEMPed;
 		}
 
 	}

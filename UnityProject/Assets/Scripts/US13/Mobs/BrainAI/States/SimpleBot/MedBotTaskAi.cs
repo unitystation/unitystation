@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
@@ -17,6 +17,7 @@ using Util;
 namespace US13.Mobs.BrainAI.States.SimpleBot
 {
 
+	[System.Serializable]
 	public class MedBotTaskAi : SimpleBotTaskAi
 	{
 		private LivingHealthMasterBase creatureToHeal = null;

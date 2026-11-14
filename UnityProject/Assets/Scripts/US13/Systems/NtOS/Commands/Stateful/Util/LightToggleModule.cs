@@ -1,4 +1,5 @@
-﻿using System.Text;
+using US13.HealthV2.Living;
+using System.Text;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using US13.Items.PDA;
@@ -18,7 +19,7 @@ namespace US13.Systems.NtOS.Commands.Stateful.Util
 				pda.ToggleFlashlight();
 				return UniTask.CompletedTask;
 			}
-			if (callingDevice.TryGetComponent<ItemLightControl>(out var itemLightControl) == false)
+			if (callingDevice.TryGetBodyPartBehavior<ItemLightControl>(out var itemLightControl) == false)
 			{
 				output.AppendLine("No lights found");
 				return UniTask.CompletedTask;

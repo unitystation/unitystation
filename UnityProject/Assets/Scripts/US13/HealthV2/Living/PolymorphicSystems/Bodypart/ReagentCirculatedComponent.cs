@@ -5,6 +5,7 @@ using US13.HealthV2.Living.CirculatorySystem.BloodTypes;
 
 namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
 {
+	[System.Serializable]
 	public class ReagentCirculatedComponent : BodyPartComponentBase<ReagentPoolSystem>
 	{
 		[Tooltip(" doesn't contribute to the volume of the blood pool, Just used for How much bleeding happens That type of thing")]

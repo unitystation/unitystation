@@ -18,6 +18,96 @@ PrefabInstance:
       propertyPath: Size
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 3087934567853297670, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[0]'
+      value: 5041995600707191318
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087934567853297670, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191318]'
+      value: Assets US13.Player.ItemLightControl
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087934567853297670, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191318].Size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087934567853297670, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191318].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087934567853297670, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191318].colour.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087934567853297670, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191318].colour.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087934567853297670, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191318].colour.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087934567853297670, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191318].colour.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087934567853297670, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191318].SpriteShape
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087934567853297670, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191318]._networkIsOn
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087934567853297670, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191318].LightEmission
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087934567853297670, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191318].weakenOnGround
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087934567853297670, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191318].weakenStrength
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087934567853297670, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191318].commonComponents
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087934567853297670, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191318].objectLightSprite
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087934567853297670, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191318].objectLightEmission
+      value: 
+      objectReference: {fileID: 5943875378661696098}
+    - target: {fileID: 3087934567853297670, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191318].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3087934567853297670, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191318].revertToOldConsistencyBehavior
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3285035241223762049, guid: bb89e4eb0756de04b8ab904221c23296,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -305,6 +395,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1544404097124063281}
   m_SourcePrefab: {fileID: 100100000, guid: bb89e4eb0756de04b8ab904221c23296, type: 3}
+--- !u!1 &5943875378661696098 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5667522765297587855, guid: bb89e4eb0756de04b8ab904221c23296,
+    type: 3}
+  m_PrefabInstance: {fileID: 2079526989270791405}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &8585800665280577052 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7781396554342910705, guid: bb89e4eb0756de04b8ab904221c23296,

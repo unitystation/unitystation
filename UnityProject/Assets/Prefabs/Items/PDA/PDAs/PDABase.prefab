@@ -946,10 +946,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: -2461206429612825053}
-    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1293357877581254245}
     - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -983,6 +979,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8159871808279949248}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5999536977152290968}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!212 &122497636241256315 stripped
 SpriteRenderer:
@@ -1292,6 +1292,43 @@ MonoBehaviour:
   debugUplink: 0
   TeleCrystalTrait: {fileID: 11400000, guid: 556eec86dd9773d21b1c44d80f058ab9, type: 2}
   IsNukeOps: 0
+--- !u!114 &5999536977152290968
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 234969413023505447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e9f842fdda4c2e99853e2e8d2b8066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.HealthV2.Living.BodyPartBehaviors
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  Behaviors:
+  - rid: 5041995600707191233
+  SecondsUntilNextTick: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 5041995600707191233
+      type: {class: ItemLightControl, ns: US13.Player, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        LightEmission: {fileID: 0}
+        objectLightEmission: {fileID: 5359090116188643623}
+        _networkIsOn: 0
+        colour: {r: 1, g: 0.9764706, b: 0.88235295, a: 0.1882353}
+        objectLightSprite: {fileID: 1769808791634081217}
+        commonComponents: {fileID: 2845395725340097187}
+        SpriteShape: 0
+        Size: 4
+        weakenOnGround: 1
+        revertToOldConsistencyBehavior: 0
+        weakenStrength: 1.3333
 --- !u!4 &239048463826641235 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,

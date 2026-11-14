@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using SecureStuff;
 using UnityEngine;
 using US13.HealthV2.Living;
@@ -10,7 +10,8 @@ using Util;
 
 namespace US13.Items.Implants.Organs
 {
-	public class BodyFat : BodyPartFunctionality, IMovementEffect
+	[System.Serializable]
+	public class BodyFat : BodyPartBehavior, IMovementEffect
 	{
 		[SerializeField] private float maxRunSpeedDebuff = -2;
 		[SerializeField] private float maxWalkingDebuff = -1.5f;
@@ -22,7 +23,7 @@ namespace US13.Items.Implants.Organs
 
 		public float CrawlingSpeedModifier { get; private set; }
 
-		public Stomach RelatedStomach;
+		[UnityEngine.SerializeReference] public Stomach RelatedStomach;
 
 		public float ReleaseNutrimentPercentage = 0.01f;
 
@@ -42,13 +43,13 @@ namespace US13.Items.Implants.Organs
 
 		public bool isFreshBlood;
 
-		public HungerComponent HungerComponent;
-		public ReagentCirculatedComponent ReagentCirculatedComponent;
+		[UnityEngine.SerializeReference] public HungerComponent HungerComponent;
+		[UnityEngine.SerializeReference] public ReagentCirculatedComponent ReagentCirculatedComponent;
 
-		public void Awake()
+		public override void OnInitialize()
 		{
-			HungerComponent = this.GetCachedComponent<HungerComponent>();
-			ReagentCirculatedComponent = this.GetCachedComponent<ReagentCirculatedComponent>();
+			HungerComponent = GetBodyPartBehavior<HungerComponent>();
+			ReagentCirculatedComponent = GetBodyPartBehavior<ReagentCirculatedComponent>();
 		}
 
 		public void SetAbsorbedAmount(float newAbsorbedAmount)

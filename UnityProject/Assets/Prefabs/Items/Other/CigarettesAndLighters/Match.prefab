@@ -299,15 +299,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: -7688275746107830249}
-    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 36671965758988609}
     - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 5572634870823457060}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1633746424604345608}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &8484913947780604913 stripped
 GameObject:
@@ -331,33 +331,6 @@ MonoBehaviour:
   groundReagents:
     m_keys: []
     m_values: []
---- !u!114 &-7688275746107830249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8484913947780604913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  LightEmission: {fileID: 0}
-  objectLightEmission: {fileID: 637022993697736321}
-  IsOn: 0
-  colour: {r: 1, g: 0.81960785, b: 0.26666668, a: 0.50980395}
-  objectLightSprite: {fileID: 0}
-  commonComponents: {fileID: 0}
-  SpriteShape: 0
-  Size: 3
-  weakenOnGround: 0
-  revertToOldConsistencyBehavior: 0
-  weakenStrength: 1.45
 --- !u!114 &36671965758988609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -392,7 +365,44 @@ MonoBehaviour:
     type: 3}
   burnTimeSeconds: 18
   LightableSurface: {fileID: 11400000, guid: 7410b4f6e26235e4f93aa1ebcbab0cec, type: 2}
-  lightControl: {fileID: -7688275746107830249}
+  lightControl: {fileID: 0}
+--- !u!114 &1633746424604345608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8484913947780604913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e9f842fdda4c2e99853e2e8d2b8066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.HealthV2.Living.BodyPartBehaviors
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  Behaviors:
+  - rid: 5041995600707191225
+  SecondsUntilNextTick: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 5041995600707191225
+      type: {class: ItemLightControl, ns: US13.Player, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        LightEmission: {fileID: 0}
+        objectLightEmission: {fileID: 637022993697736321}
+        _networkIsOn: 0
+        colour: {r: 1, g: 0.81960785, b: 0.26666668, a: 0.50980395}
+        objectLightSprite: {fileID: 0}
+        commonComponents: {fileID: 0}
+        SpriteShape: 0
+        Size: 3
+        weakenOnGround: 0
+        revertToOldConsistencyBehavior: 0
+        weakenStrength: 1.45
 --- !u!4 &8490405046320373381 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,

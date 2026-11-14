@@ -317,16 +317,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8568559315124099881, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
-      propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 5334267868750357690}
-    - target: {fileID: 8568559315124099881, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
-      propertyPath: OnThrow.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 5334267868750357690}
-    - target: {fileID: 8568559315124099881, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
       propertyPath: OnDrop.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -431,10 +421,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8610225452865205335, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: -6066636166583991181}
-    - targetCorrespondingSourceObject: {fileID: 8610225452865205335, guid: c9c58a9243d494537abcb4ee470efab0,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: -760478612880655057}
     - targetCorrespondingSourceObject: {fileID: 8610225452865205335, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -443,7 +429,7 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8610225452865205335, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 5334267868750357690}
+      addedObject: {fileID: 4117759320731273600}
   m_SourcePrefab: {fileID: 100100000, guid: c9c58a9243d494537abcb4ee470efab0, type: 3}
 --- !u!114 &1932141341405303641 stripped
 MonoBehaviour:
@@ -475,26 +461,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4101632511642393737}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-6066636166583991181
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5734849685452875998}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1360d2b65a03cdf449035cd3c4cd0153, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  actionData: {fileID: 11400000, guid: 9cf6b1b6994732d4cb5f023e0cefaf19, type: 2}
-  allowedSlots: -1
-  useSpriteHandler: 1
-  spriteHandler: {fileID: 1932141341405303641}
 --- !u!114 &-760478612880655057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -536,7 +502,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   spriteHandler: {fileID: 1932141341405303641}
---- !u!114 &5334267868750357690
+--- !u!114 &4117759320731273600
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -545,21 +511,41 @@ MonoBehaviour:
   m_GameObject: {fileID: 5734849685452875998}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
+  m_Script: {fileID: 11500000, guid: 72e9f842fdda4c2e99853e2e8d2b8066, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assets::US13.HealthV2.Living.BodyPartBehaviors
   syncDirection: 0
   syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  LightEmission: {fileID: 0}
-  objectLightEmission: {fileID: 3320711171919508498}
-  IsOn: 0
-  colour: {r: 1, g: 0.9529412, b: 0.7137255, a: 0.43137255}
-  objectLightSprite: {fileID: 0}
-  commonComponents: {fileID: 0}
-  SpriteShape: 0
-  Size: 4
-  weakenOnGround: 1
-  revertToOldConsistencyBehavior: 0
-  weakenStrength: 1.3333
+  syncInterval: 0
+  Behaviors:
+  - rid: 5041995600707191278
+  - rid: 5041995600707191279
+  SecondsUntilNextTick: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 5041995600707191278
+      type: {class: ItemActionButton, ns: US13.Actions, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        actionData: {fileID: 11400000, guid: 9cf6b1b6994732d4cb5f023e0cefaf19, type: 2}
+        allowedSlots: -1
+        useSpriteHandler: 1
+        spriteHandler: {fileID: 1932141341405303641}
+    - rid: 5041995600707191279
+      type: {class: ItemLightControl, ns: US13.Player, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        LightEmission: {fileID: 0}
+        objectLightEmission: {fileID: 3320711171919508498}
+        _networkIsOn: 0
+        colour: {r: 1, g: 0.9529412, b: 0.7137255, a: 0.43137255}
+        objectLightSprite: {fileID: 0}
+        commonComponents: {fileID: 0}
+        SpriteShape: 0
+        Size: 4
+        weakenOnGround: 1
+        revertToOldConsistencyBehavior: 0
+        weakenStrength: 1.3333

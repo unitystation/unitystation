@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using System;
 using Chemistry;
 using UnityEngine;
@@ -8,6 +9,7 @@ using US13.HealthV2.Living.PolymorphicSystems.Hunger;
 
 namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
 {
+	[System.Serializable]
 	public class HungerComponent : BodyPartComponentBase<HungerSystem>
 	{
 		public bool NOTDeterminesStatusFromHungerSystem = false;
@@ -57,7 +59,7 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
 		public HungerState _HungerState = HungerState.Normal;
 
 		[FormerlySerializedAs("ReagentCirculated")] [HideInInspector]
-		public ReagentCirculatedComponent reagentCirculatedComponent;
+		[UnityEngine.SerializeReference] public ReagentCirculatedComponent reagentCirculatedComponent;
 
 		public float FullMultiplier = 1.1f;
 		public float NormalMultiplier = 1;
@@ -93,10 +95,10 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
 			}
 		}
 
-		public override void Awake()
+		public override void OnInitialize()
 		{
-			base.Awake();
-			reagentCirculatedComponent = GetComponent<ReagentCirculatedComponent>();
+			base.OnInitialize();
+			reagentCirculatedComponent = GetBodyPartBehavior<ReagentCirculatedComponent>();
 			RelatedPart.AddModifier(HungerModifier);
 		}
 

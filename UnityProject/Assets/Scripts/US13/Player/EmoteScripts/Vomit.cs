@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using US13.Core.Chat;
 using US13.HealthV2.Living;
 using US13.Items.Implants.Organs.Vomit;
@@ -38,7 +38,7 @@ namespace US13.Player.EmoteScripts
 			foreach (var part in bodyParts)
 			{
 				if (part == null) continue;
-				if (part.TryGetComponent<StomachExpulsion>(out var stomach) == false) continue;
+				if (part.TryGetBodyPartBehavior<StomachExpulsion>(out var stomach) == false) continue;
 				if (stomach.WillDryHeave())
 				{
 					FailedDryHeave = true;

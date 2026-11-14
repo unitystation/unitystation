@@ -8,6 +8,439 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: Behaviors.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[0]'
+      value: 5041995600691986791
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[1]'
+      value: 5041995600691986792
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[2]'
+      value: 5041995600691986793
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[3]'
+      value: 5041995600691986794
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[4]'
+      value: 5041995600691986795
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[5]'
+      value: 5041995600691986796
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[6]'
+      value: 5041995600691986797
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[7]'
+      value: 5041995600691986798
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986791]'
+      value: Assets US13.UI.Core.Alerts.BodyPartAlerts
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986792]'
+      value: Assets US13.HealthV2.Living.BodyPartMutations
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986793]'
+      value: Assets US13.HealthV2.Living.PolymorphicSystems.Bodypart.NaturalChemicalReleaseComponent
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986794]'
+      value: Assets US13.HealthV2.Living.PolymorphicSystems.Bodypart.MetabolismComponent
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986795]'
+      value: Assets US13.HealthV2.Living.PolymorphicSystems.Bodypart.ReagentCirculatedComponent
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986796]'
+      value: Assets US13.HealthV2.Living.PolymorphicSystems.Bodypart.HungerComponent
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986797]'
+      value: Assets US13.HealthV2.Living.PolymorphicSystems.Bodypart.SaturationComponent
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986798]'
+      value: Assets US13.Items.Implants.Organs.Tongue
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986798].Blank
+      value: 
+      objectReference: {fileID: 11400000, guid: e4eb608982005d94e9d3ab683cd83d7f,
+        type: 2}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986798].Voice
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986791].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986792].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986793].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986794].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986795].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986796].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986797].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986798].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986792].Stability
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986796].Nutriment
+      value: 
+      objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
+        type: 2}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986795].Throughput
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986798].VoicesName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986795].bloodReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816,
+        type: 2}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986796]._HungerState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986797].wasteReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4,
+        type: 2}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986796].FullMultiplier
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986798].MouthAnimation
+      value: 
+      objectReference: {fileID: 11400000, guid: c393e6142ef47b644a8a2d5009c615df,
+        type: 2}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986797].requiredReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c,
+        type: 2}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986798].speechModifiers
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986792].PlayerHealthData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986792].TOMutateBodyPart
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986796].NormalMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986794].ReagentMetabolism
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986796].HungaryMultiplier
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986796].StarvingMultiplier
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986792].MutationRestriction
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986794].saturationComponent
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986798].languages.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986791].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986792].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986793].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986794].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986795].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986796].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986797].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986798].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986796].MalnourishedMultiplier
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986797].currentBloodSaturation
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986798].languages.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 90699dd78f8cfad4e983185c4f67ae72,
+        type: 2}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986792].SecondsForSpeciesMutation
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986797].isNotBloodReagentConsumed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986793].reagentCirculatedComponent
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986794].reagentCirculatedComponent
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986796].HealingNutrimentMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986796].reagentCirculatedComponent
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986797].reagentCirculatedComponent
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986792].CapableMutations.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986792].ActiveMutationsSO.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986792].MutationRestrictionItemTrait
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986792].StartingMutations.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986798].<CannotSpeak>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986792].CapableMutations.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 11fc1b84d220b6742a4912446b0e7e2b,
+        type: 2}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986792].CapableMutations.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 85b46608a403da74892b9bb16d3b712c,
+        type: 2}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986792].CapableMutations.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ebd5df789d07f8141ab3534b7fa87618,
+        type: 2}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986792].CapableMutations.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ee12f11044a2b742867f1431ca8bf77,
+        type: 2}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691986792].CapableMutations.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6f4827e9e317a844298816ebf349090e,
+        type: 2}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986797].bloodReagentConsumedPercentageb
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986793].<ToxinGeneration>k__BackingField
+      value: 0.00005
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986796].ActualHealingNutrimentMultiplier
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986796].NOTDeterminesStatusFromHungerSystem
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986793].<NaturalToxinReagent>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
+        type: 2}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986798].maximumCharactersCanBeSpokenInOneMessage
+      value: 1600
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986794]._networkComponentImmuneResponse.ImmuneResponseBaseRate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986794]._networkComponentImmuneResponse.ImmuneResponseRelativeRate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 313815926157508318, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: managedReferences[5041995600691986794]._networkComponentImmuneResponse.ImmuneResponseChancePercent
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1497028632681747686, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
       propertyPath: spriteRenderer
@@ -208,11 +641,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 3113739160240451436}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
 --- !u!212 &7339590508352225404 stripped
 SpriteRenderer:
@@ -220,34 +649,3 @@ SpriteRenderer:
     type: 3}
   m_PrefabInstance: {fileID: 2786074062965431361}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &7433898389568025376 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4719944670933102433, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
-    type: 3}
-  m_PrefabInstance: {fileID: 2786074062965431361}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &3113739160240451436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7433898389568025376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0af11106d5149f7a522aab42f362b54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  languages:
-  - {fileID: 11400000, guid: 90699dd78f8cfad4e983185c4f67ae72, type: 2}
-  speechModifiers: 0
-  <CannotSpeak>k__BackingField: 0
-  maximumCharactersCanBeSpokenInOneMessage: 1600
-  VoicesName: 
-  Voice: 
-  MouthAnimation: {fileID: 11400000, guid: c393e6142ef47b644a8a2d5009c615df, type: 2}
-  Blank: {fileID: 11400000, guid: e4eb608982005d94e9d3ab683cd83d7f, type: 2}

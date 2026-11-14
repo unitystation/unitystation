@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using US13.Systems.Inventory;
@@ -58,7 +59,7 @@ namespace US13.Actions
 
 		void Start()
 		{
-			var ActionGUIs = this.GetComponents<IActionGUI>();
+			var ActionGUIs = this.GetComponentsAndBodyPartBehaviors<IActionGUI>();
 			foreach (var ActionGUI in ActionGUIs)
 			{
 				if (ActionGUI.ActionData.PreventBeingControlledBy.Contains(ActionControllerType) == false)

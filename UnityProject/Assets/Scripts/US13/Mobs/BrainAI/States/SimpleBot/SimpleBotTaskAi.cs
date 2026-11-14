@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using Cysharp.Threading.Tasks;
-using Mirror;
 using NaughtyAttributes;
 using UnityEngine;
 using US13.Core.Addressables.Types;
@@ -14,9 +13,10 @@ using Util;
 
 namespace US13.Mobs.BrainAI.States.SimpleBot
 {
+	[System.Serializable]
 	public class SimpleBotTaskAi : BrainMobState
 	{
-		[SerializeField] protected FindSimpleTaskAi findSimpleTaskAi = null;
+		[UnityEngine.SerializeReference] protected FindSimpleTaskAi findSimpleTaskAi = null;
 		[SerializeField] protected AddressableAudioSource taskPerformSound;
 		[SerializeField] protected AddressableAudioSource emaggedPerformSound;
 
@@ -28,7 +28,16 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 		protected Matrix targetMatrix;
 		protected Vector3Int targetCell;
 
-		[field: SyncVar] public bool IsEmagged { get; private set; } = false;
+		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("IsEmagged")] private bool _networkIsEmagged = false;
+		public bool IsEmagged
+		{
+			get => _networkIsEmagged;
+			private set
+			{
+				if (System.Collections.Generic.EqualityComparer<bool>.Default.Equals(_networkIsEmagged, value)) return;
+				_networkIsEmagged = value;
+			}
+		}
 
 
 		public delegate void SpriteChangeEvent(bool isEmagged, bool isPerformingTask);
@@ -127,5 +136,22 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 		{
 			return targetMatrix;
 		}
+		[System.Serializable]
+		private sealed class BehaviorNetworkState
+		{
+			public bool IsEmagged;
+		}
+
+		public override string CaptureNetworkState() => JsonUtility.ToJson(new BehaviorNetworkState
+		{
+			IsEmagged = this.IsEmagged,
+		});
+
+		public override void ApplyNetworkState(string json)
+		{
+			var state = JsonUtility.FromJson<BehaviorNetworkState>(json);
+			IsEmagged = state.IsEmagged;
+		}
+
 	}
 }

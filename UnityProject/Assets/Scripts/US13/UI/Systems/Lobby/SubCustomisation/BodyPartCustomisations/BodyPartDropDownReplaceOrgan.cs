@@ -82,7 +82,7 @@ namespace US13.UI.Systems.Lobby.SubCustomisation.BodyPartCustomisations
 
 
 
-			var IPlayerPossessable = bodyPart.GetComponent<IPlayerPossessable>();
+			var IPlayerPossessable = bodyPart.GetComponentOrBodyPartBehavior<IPlayerPossessable>();
 
 			if (bodyPart.ContainedIn)
 			{

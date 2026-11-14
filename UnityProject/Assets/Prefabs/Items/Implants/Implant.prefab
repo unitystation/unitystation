@@ -125,14 +125,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 832554512957402842}
-    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1644590815055589727}
-    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2314801526373061764}
     - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -142,6 +134,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8113072997116454967}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6196556278140927655}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &1163316686972202776 stripped
 GameObject:
@@ -149,51 +145,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1164032867585741730}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &832554512957402842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1163316686972202776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea3b715ac32a0014787603458c14c14c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
---- !u!114 &1644590815055589727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1163316686972202776}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d72619b419eb784d89be0849c02177b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  CapableMutations:
-  - {fileID: 11400000, guid: 11fc1b84d220b6742a4912446b0e7e2b, type: 2}
-  - {fileID: 11400000, guid: 85b46608a403da74892b9bb16d3b712c, type: 2}
-  - {fileID: 11400000, guid: ebd5df789d07f8141ab3534b7fa87618, type: 2}
-  - {fileID: 11400000, guid: 4ee12f11044a2b742867f1431ca8bf77, type: 2}
-  StartingMutations: []
-  ActiveMutationsSO: []
-  Stability: 0
-  SecondsForSpeciesMutation: 150
-  MutationRestriction: 0
-  MutationRestrictionItemTrait: {fileID: 0}
-  PlayerHealthData: {fileID: 0}
-  TOMutateBodyPart: {fileID: 0}
 --- !u!114 &2314801526373061764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,6 +303,52 @@ MonoBehaviour:
   possibleTransferAmounts: []
   transferAmount: 20
   transferSound: []
+--- !u!114 &6196556278140927655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1163316686972202776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e9f842fdda4c2e99853e2e8d2b8066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.HealthV2.Living.BodyPartBehaviors
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  Behaviors:
+  - rid: 5041995600691986675
+  - rid: 5041995600691986676
+  SecondsUntilNextTick: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 5041995600691986675
+      type: {class: BodyPartAlerts, ns: US13.UI.Core.Alerts, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+    - rid: 5041995600691986676
+      type: {class: BodyPartMutations, ns: US13.HealthV2.Living,
+        asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        CapableMutations:
+        - {fileID: 11400000, guid: 11fc1b84d220b6742a4912446b0e7e2b, type: 2}
+        - {fileID: 11400000, guid: 85b46608a403da74892b9bb16d3b712c, type: 2}
+        - {fileID: 11400000, guid: ebd5df789d07f8141ab3534b7fa87618, type: 2}
+        - {fileID: 11400000, guid: 4ee12f11044a2b742867f1431ca8bf77, type: 2}
+        StartingMutations: []
+        ActiveMutationsSO: []
+        Stability: 0
+        SecondsForSpeciesMutation: 150
+        MutationRestriction: 0
+        MutationRestrictionItemTrait: {fileID: 0}
+        PlayerHealthData: {fileID: 0}
+        TOMutateBodyPart: {fileID: 0}
 --- !u!210 &4940620596253206870 stripped
 SortingGroup:
   m_CorrespondingSourceObject: {fileID: 6104600676241079028, guid: a7abba22164ce49f0bf9b9b219f39298,

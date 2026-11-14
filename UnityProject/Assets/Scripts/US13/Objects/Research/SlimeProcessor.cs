@@ -55,7 +55,7 @@ namespace US13.Objects.Research
 			{
 				if (Health.IsDead == false) return false;
 				if (Health.brain == null) return false;
-				var Slime = Health.brain.GetComponent<SlimeCore>();
+				var Slime = Health.brain.GetBodyPartBehavior<SlimeCore>();
 				if (Slime != null)
 				{
 					return true;
@@ -132,13 +132,13 @@ namespace US13.Objects.Research
 
 			var Health = Remov.Key.gameObject.GetComponent<LivingHealthMasterBase>();
 
-			var Slime = Health.brain.GetComponent<SlimeCore>();
+			var Slime = Health.brain.GetBodyPartBehavior<SlimeCore>();
 			if (Slime != null)
 			{
 				List<SlimeCore> SlimeCores = new List<SlimeCore>();
 				foreach (var bp in Health.BodyPartList)
 				{
-					var core = bp.GetComponent<SlimeCore>();
+					var core = bp.GetBodyPartBehavior<SlimeCore>();
 					if (core != null)
 					{
 						SlimeCores.Add(core);

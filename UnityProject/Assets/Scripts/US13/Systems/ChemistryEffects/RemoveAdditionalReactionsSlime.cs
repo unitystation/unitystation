@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using System;
 using System.Collections.Generic;
 using Chemistry;
@@ -21,7 +22,7 @@ namespace US13.Systems.ChemistryEffects
 		{
 			if (sender == null) return;
 
-			var core = sender.GetComponent<SlimeCore>();
+			var core = sender.GetBodyPartBehavior<SlimeCore>();
 
 			if (core.Enhanced )
 			{

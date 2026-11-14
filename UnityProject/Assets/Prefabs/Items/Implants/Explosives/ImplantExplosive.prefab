@@ -230,10 +230,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: -1335230176832777347}
-    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2959315849646831725}
     - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -259,6 +255,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8358811179410753561}
+    - targetCorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8174907041068440031}
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!114 &2925014835611581738 stripped
 MonoBehaviour:
@@ -278,26 +278,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3348901509889601266}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &-1335230176832777347
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3349033025192972872}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 08a5324d1ed58d54eb78577c22157392, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  <TriggerOnDeath>k__BackingField: 0
-  <OverrideDeathCountDown>k__BackingField: -1
-  isEMPVunerable: 1
-  EMPResistance: 2
 --- !u!114 &2959315849646831725
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -540,6 +520,37 @@ MonoBehaviour:
   TotalModified: 1
   SurgeryProcedureBase:
   - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}
+--- !u!114 &8174907041068440031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3349033025192972872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e9f842fdda4c2e99853e2e8d2b8066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.HealthV2.Living.BodyPartBehaviors
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  Behaviors:
+  - rid: 5041995600691986755
+  SecondsUntilNextTick: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 5041995600691986755
+      type: {class: ImplantExplosiveTrigger, ns: US13.Items.Weapons,
+        asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        <TriggerOnDeath>k__BackingField: 0
+        <OverrideDeathCountDown>k__BackingField: -1
+        isEMPVunerable: 1
+        EMPResistance: 2
 --- !u!114 &8880035226631236047 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,

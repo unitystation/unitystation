@@ -92,7 +92,7 @@ namespace US13.Objects
 
 				foreach (var BodyPart in health.SurfaceBodyParts)
 				{
-					var leg = BodyPart.CommonComponents.SafeGetComponent<HumanoidLeg>();
+					var leg = BodyPart.CommonComponents.GetBodyPartBehavior<HumanoidLeg>();
 					if (leg != null)
 					{
 						//Check if the leg we have on has any protective traits against the floor hazard.

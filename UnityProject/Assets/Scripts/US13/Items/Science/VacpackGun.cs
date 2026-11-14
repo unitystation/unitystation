@@ -63,7 +63,7 @@ namespace US13.Items.Science
 				var Object = interaction.TargetObject.GetComponent<LivingHealthMasterBase>();
 
 				if (Object.brain == null) return;
-				var SlimeCore = Object.brain.GetComponent<SlimeCore>();
+				var SlimeCore = Object.brain.GetBodyPartBehavior<SlimeCore>();
 
 				if (SlimeCore == null)
 				{

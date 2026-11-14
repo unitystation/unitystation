@@ -133,6 +133,120 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 436c360190de82d478b504bc06616f54,
         type: 2}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: Behaviors.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[0]'
+      value: 5041995600707191165
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[1]'
+      value: 5041995600707191166
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191165]'
+      value: Assets US13.UI.Core.Alerts.BodyPartAlerts
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191166]'
+      value: Assets US13.HealthV2.Living.BodyPartMutations
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191165].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191166].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191166].Stability
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191166].PlayerHealthData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191166].TOMutateBodyPart
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191166].MutationRestriction
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191165].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191166].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191166].SecondsForSpeciesMutation
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191166].CapableMutations.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191166].ActiveMutationsSO.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191166].MutationRestrictionItemTrait
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191166].StartingMutations.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191166].CapableMutations.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 11fc1b84d220b6742a4912446b0e7e2b,
+        type: 2}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191166].CapableMutations.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 85b46608a403da74892b9bb16d3b712c,
+        type: 2}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191166].CapableMutations.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ebd5df789d07f8141ab3534b7fa87618,
+        type: 2}
+    - target: {fileID: 9035717929575028404, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191166].CapableMutations.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ee12f11044a2b742867f1431ca8bf77,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 5951585778736723187, guid: da2b6aaaa6bb94f4f963d5193aa2e1a8, type: 3}
     m_RemovedGameObjects: []
@@ -213,6 +327,7 @@ MonoBehaviour:
   canQuickEmpty: 0
   TopLevelAlt: 0
   NoInteractionIfInventoryFull: 0
+  actAsOpenInventory: 0
   actionData: {fileID: 11400000, guid: be9856a38a3b7d44198fc4fcd9df4d47, type: 2}
   DoNotShowInventoryOnUI: 0
 --- !u!114 &8875872263943656018
@@ -241,6 +356,7 @@ MonoBehaviour:
     - DoNotGetFirstEmptySlot: 0
       Prefab: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
+      StackableAmount: 0
       UseIndex: 1
       IndexSlot: 0
       NamedSlot: 0
@@ -251,6 +367,7 @@ MonoBehaviour:
     - DoNotGetFirstEmptySlot: 0
       Prefab: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
+      StackableAmount: 0
       UseIndex: 1
       IndexSlot: 0
       NamedSlot: 0
@@ -261,6 +378,7 @@ MonoBehaviour:
     - DoNotGetFirstEmptySlot: 0
       Prefab: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
+      StackableAmount: 0
       UseIndex: 1
       IndexSlot: 0
       NamedSlot: 0
@@ -271,6 +389,7 @@ MonoBehaviour:
     - DoNotGetFirstEmptySlot: 0
       Prefab: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
+      StackableAmount: 0
       UseIndex: 1
       IndexSlot: 0
       NamedSlot: 0
@@ -281,6 +400,7 @@ MonoBehaviour:
     - DoNotGetFirstEmptySlot: 0
       Prefab: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
+      StackableAmount: 0
       UseIndex: 1
       IndexSlot: 0
       NamedSlot: 0

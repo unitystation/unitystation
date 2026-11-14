@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using UnityEngine;
 using US13.Core.Sprite_Handler;
 using US13.Managers;
@@ -27,7 +28,7 @@ namespace US13.Systems.GhostRoles
 
 		public void Start()
 		{
-			IPlayerPossessable = this.GetComponent<IPlayerPossessable>();
+			IPlayerPossessable = this.GetComponentOrBodyPartBehavior<IPlayerPossessable>();
 
 			IPlayerPossessable.OnBodyPossesedByPlayer.AddListener(OnPlayerPossessing);
 			IPlayerPossessable.OnBodyUnPossesedByPlayer.AddListener(OnPlayerPossessing);
@@ -84,7 +85,7 @@ namespace US13.Systems.GhostRoles
 				GhostRoleManager.Instance.ServerRemoveRole(createdRoleKey);
 			}
 
-			var Possessedble = this.GetComponent<IPlayerPossessable>();
+			var Possessedble = this.GetComponentOrBodyPartBehavior<IPlayerPossessable>();
 
 			//Remove current player
 			if (Possessedble.PossessingMind != null)

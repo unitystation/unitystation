@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using UnityEngine;
 using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
@@ -28,7 +29,7 @@ namespace US13.HealthV2.Living.Mutations.Metabolism
 
 			public override void SetUp()
 			{
-				Related = BodyPart.GetComponent<HungerComponent>();
+				Related = BodyPart.GetBodyPartBehavior<HungerComponent>();
 				if (Related == null) return;
 				Related.HealingNutrimentMultiplier += Regeneration.HealingNutriment;
 				Related.ActualHealingNutrimentMultiplier += Regeneration.Healing;

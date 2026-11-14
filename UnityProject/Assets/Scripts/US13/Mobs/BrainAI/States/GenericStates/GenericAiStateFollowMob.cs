@@ -11,6 +11,7 @@ namespace US13.Mobs.BrainAI.States.GenericStates
 	/// <summary>
 	/// A generic AI state that allows a mob to follow another mob. Will pathfind automatically once the target is far enough.
 	/// </summary>
+	[System.Serializable]
 	public class GenericAiStateFollowMob : BrainMobState
 	{
 		[SerializeField] private AddressableAudioSource stateEnterSound;

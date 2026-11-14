@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using US13.Core.Factories;
 using US13.HealthV2;
 using US13.HealthV2.Living;
@@ -17,7 +17,7 @@ namespace US13.Items.Implants.Organs.Vomit.LogicExtensions
 
 		public void OnVomit(float amount, LivingHealthMasterBase health, Stomach stomach)
 		{
-			if (stomach.RelatedPart.TryGetComponent<BodyPartTrauma>(out var trauma) == false) return;
+			if (stomach.RelatedPart.TryGetBodyPartBehavior<BodyPartTrauma>(out var trauma) == false) return;
 			foreach (var traumaLogic in trauma.TraumaTypesOnBodyPart)
 			{
 				if (traumaLogic.traumaTypes.HasFlag(traumaTypes) == false) continue;

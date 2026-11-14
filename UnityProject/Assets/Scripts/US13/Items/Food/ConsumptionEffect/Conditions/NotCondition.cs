@@ -8,7 +8,7 @@ namespace US13.Items.Food.ConsumptionEffect.Conditions
 	/// </summary>
 	public class NotCondition: IConsumptionEffectCondition
 	{
-		[SerializeReference]
+		[UnityEngine.SerializeReference]
 		[SelectImplementation(typeof(IConsumptionEffectCondition))]
 		private IConsumptionEffectCondition condition;
 

@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using System;
 using System.Collections.Generic;
 using Chemistry;
@@ -100,9 +101,10 @@ namespace US13.HealthV2.Living.PolymorphicSystems
 
 			foreach (var x in currentBodyParts)
 			{
-				if (x.TryGetComponent<Heart>(out var hrt))
+				foreach (var heart in x.GetBodyPartBehaviors<Heart>())
 				{
-					PumpingDevices.Add(hrt);
+					if (heart.CashedReagentPoolSystem == this && heart.Owner.IsBehaviorAttached(heart) && !PumpingDevices.Contains(heart))
+						PumpingDevices.Add(heart);
 				}
 			}
 		}

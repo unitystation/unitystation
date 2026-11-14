@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ using Random = UnityEngine.Random;
 namespace US13.Items.PDA
 {
 	[RequireComponent(typeof(ItemStorage))]
-	[RequireComponent(typeof(ItemLightControl))]
+	[RequireComponent(typeof(BodyPartBehaviors))]
 	[RequireComponent(typeof(ItemAttributesV2))]
 	[RequireComponent(typeof(PDANotesNetworkHandler))]
 	public class PDALogic : NetworkBehaviour,
@@ -147,7 +148,7 @@ namespace US13.Items.PDA
 		{
 			pickupable = GetComponent<Pickupable>();
 			storage = GetComponent<ItemStorage>();
-			flashlight = GetComponent<ItemLightControl>();
+			flashlight = gameObject.GetBodyPartBehavior<ItemLightControl>();
 			ItemUplink = GetComponent<Uplink>();
 		}
 

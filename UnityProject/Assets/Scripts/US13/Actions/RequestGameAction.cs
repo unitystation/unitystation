@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,13 +42,13 @@ namespace US13.Actions
 
 		public override void Process(NetMessage msg)
 		{
-			var type = componentIDToComponentType[msg.ComponentID];
+			if (!componentIDToComponentType.TryGetValue(msg.ComponentID, out var type)) return;
 			LoadNetworkObject(msg.NetObject);
 
 			if (SentByPlayer == PlayerInfo.Invalid) return;
 
-			var IActionGUIs = NetworkObject.GetComponentsInChildren(type);
-			if (IActionGUIs.Length > msg.ComponentLocation)
+			var IActionGUIs = ActionSource.GetActions(NetworkObject, type);
+			if (msg.ComponentLocation >= 0 && IActionGUIs.Length > msg.ComponentLocation)
 			{
 				if (IActionGUIs[msg.ComponentLocation] is IServerActionGUI IServerActionGUI)
 				{
@@ -57,14 +58,15 @@ namespace US13.Actions
 
 				if (IActionGUIs[msg.ComponentLocation] is IServerActionGUIMulti IServerActionGUIMulti)
 				{
-					IServerActionGUIMulti.CallActionServer(IServerActionGUIMulti.ActionData[msg.listIndex], SentByPlayer);
+					if (msg.listIndex >= 0 && msg.listIndex < IServerActionGUIMulti.ActionData.Count)
+						IServerActionGUIMulti.CallActionServer(IServerActionGUIMulti.ActionData[msg.listIndex], SentByPlayer);
 				}
 			}
 		}
 
 		public static void Send(IActionGUI iServerActionGUI)
 		{
-			if (iServerActionGUI is Component)
+			if (iServerActionGUI is Component or IBodyPartBehavior)
 			{
 				SendToComponent(iServerActionGUI);
 			}
@@ -73,9 +75,9 @@ namespace US13.Actions
 
 		private static void SendToComponent(IActionGUI actionComponent)
 		{
-			var netObject = ((Component) actionComponent).GetComponent<NetworkIdentity>();
+			var netObject = ActionSource.GetNetworkIdentity(actionComponent);
 			var componentType = actionComponent.GetType();
-			var childActions = netObject.GetComponentsInChildren(componentType);
+			var childActions = ActionSource.GetActions(netObject == null ? null : netObject.gameObject, componentType);
 			int componentLocation = 0;
 			bool found = false;
 
@@ -106,7 +108,7 @@ namespace US13.Actions
 
 		public static void Send(IActionGUIMulti iServerActionGUIMulti, ActionData action)
 		{
-			if (iServerActionGUIMulti is Component)
+			if (iServerActionGUIMulti is Component or IBodyPartBehavior)
 			{
 				SendToComponent(iServerActionGUIMulti, action);
 			}
@@ -115,9 +117,9 @@ namespace US13.Actions
 
 		private static void SendToComponent(IActionGUIMulti actionComponent, ActionData actionChosen)
 		{
-			var netObject = ((Component) actionComponent).GetComponent<NetworkIdentity>();
+			var netObject = ActionSource.GetNetworkIdentity(actionComponent);
 			var componentType = actionComponent.GetType();
-			var childActions = netObject.GetComponentsInChildren(componentType);
+			var childActions = ActionSource.GetActions(netObject == null ? null : netObject.gameObject, componentType);
 			int componentLocation = 0;
 			bool found = false;
 
@@ -159,4 +161,26 @@ namespace US13.Actions
 			return 0;
 		}
 	}
+	/// <summary>Resolve the network owner and action instances for both components and managed behaviors.</summary>
+	public static class ActionSource
+	{
+		public static NetworkIdentity GetNetworkIdentity(IAction action) => action switch
+		{
+			BodyPartBehavior behavior => behavior.netIdentity,
+			Component component => component.GetComponentInParent<NetworkIdentity>(),
+			_ => null
+		};
+
+		public static IAction[] GetActions(GameObject root, Type type)
+		{
+			if (root == null) return Array.Empty<IAction>();
+			var native = typeof(Component).IsAssignableFrom(type) || type.IsInterface
+				? root.GetComponentsInChildren(type).Cast<object>()
+				: Enumerable.Empty<object>();
+			var managed = root.GetComponentsInChildren<BodyPartBehaviors>()
+				.SelectMany(host => host.Behaviors).Where(type.IsInstanceOfType).Cast<object>();
+			return native.Concat(managed).OfType<IAction>().ToArray();
+		}
+	}
+
 }

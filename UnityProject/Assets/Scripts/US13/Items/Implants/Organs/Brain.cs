@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using Chemistry;
-using Mirror;
 using SecureStuff;
 using UnityEngine;
 using UnityEngine.Events;
@@ -23,13 +22,36 @@ using Util;
 namespace US13.Items.Implants.Organs
 {
 	//NOTE SyncVar Only visible to owner!!!
-	public class Brain : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchronisedEffect, IPlayerPossessable
+	[System.Serializable]
+	public class Brain : BodyPartBehavior, IItemInOutMovedPlayer, IClientSynchronisedEffect, IPlayerPossessable
 	{
 		public IPlayerPossessable Itself => this as IPlayerPossessable;
 		private IClientSynchronisedEffect Preimplemented => (IClientSynchronisedEffect)this;
 
-		[PlayModeOnly,SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
-		[PlayModeOnly,SyncVar(hook = nameof(SyncPossessingID))] private uint possessingID;
+		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("OnBodyID")] private uint _networkOnBodyID;
+		public uint OnBodyID
+		{
+			get => _networkOnBodyID;
+			set
+			{
+				if (System.Collections.Generic.EqualityComparer<uint>.Default.Equals(_networkOnBodyID, value)) return;
+				var previous = _networkOnBodyID;
+				_networkOnBodyID = value;
+				if (isClient) SyncOnPlayer(previous, value);
+			}
+		}
+		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("possessingID")] private uint _networkPossessingID;
+		private uint possessingID
+		{
+			get => _networkPossessingID;
+			set
+			{
+				if (System.Collections.Generic.EqualityComparer<uint>.Default.Equals(_networkPossessingID, value)) return;
+				var previous = _networkPossessingID;
+				_networkPossessingID = value;
+				if (isClient) SyncPossessingID(previous, value);
+			}
+		}
 
 		[FormerlySerializedAs("DrunkReagent")] [SerializeField] private Reagent drunkReagent;
 		[SerializeField] private Reagent highReagent;
@@ -48,11 +70,44 @@ namespace US13.Items.Implants.Organs
 		//stuff in here?
 		//nah
 
-		[SyncVar(hook = nameof(SyncTelekinesis))] private bool hasTelekinesis = false;
+		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("hasTelekinesis")] private bool _networkHasTelekinesis = false;
+		private bool hasTelekinesis
+		{
+			get => _networkHasTelekinesis;
+			set
+			{
+				if (System.Collections.Generic.EqualityComparer<bool>.Default.Equals(_networkHasTelekinesis, value)) return;
+				var previous = _networkHasTelekinesis;
+				_networkHasTelekinesis = value;
+				if (isClient) SyncTelekinesis(previous, value);
+			}
+		}
 
-		[SyncVar(hook = nameof(SyncDrunkenness))] private float drunkAmount = 0;
+		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("drunkAmount")] private float _networkDrunkAmount = 0;
+		private float drunkAmount
+		{
+			get => _networkDrunkAmount;
+			set
+			{
+				if (System.Collections.Generic.EqualityComparer<float>.Default.Equals(_networkDrunkAmount, value)) return;
+				var previous = _networkDrunkAmount;
+				_networkDrunkAmount = value;
+				if (isClient) SyncDrunkenness(previous, value);
+			}
+		}
 
-		[SyncVar(hook = nameof(SyncHighness))] private float highAmount = 0;
+		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("highAmount")] private float _networkHighAmount = 0;
+		private float highAmount
+		{
+			get => _networkHighAmount;
+			set
+			{
+				if (System.Collections.Generic.EqualityComparer<float>.Default.Equals(_networkHighAmount, value)) return;
+				var previous = _networkHighAmount;
+				_networkHighAmount = value;
+				if (isClient) SyncHighness(previous, value);
+			}
+		}
 
 		public MobTraversal Traversal => LivingHealthMaster?.playerScript.Traversal;
 
@@ -62,7 +117,7 @@ namespace US13.Items.Implants.Organs
 
 		public ChatModifier BodyChatModifier = ChatModifier.None;
 
-		public ReagentCirculatedComponent ReagentCirculatedComponent;
+		[UnityEngine.SerializeReference] public ReagentCirculatedComponent ReagentCirculatedComponent;
 
 		public UnityEvent OnDeath = new UnityEvent();
 		public UnityEvent OnRevival = new UnityEvent();
@@ -100,14 +155,14 @@ namespace US13.Items.Implants.Organs
 		}
 
 
-		public override void Awake()
+		public override void OnInitialize()
 		{
-			base.Awake();
-			RelatedPart = this.GetCachedComponent<BodyPart>();
-			ReagentCirculatedComponent = this.GetCachedComponent<ReagentCirculatedComponent>();
+			base.OnInitialize();
+			RelatedPart = gameObject.GetCachedComponent<BodyPart>();
+			ReagentCirculatedComponent = GetBodyPartBehavior<ReagentCirculatedComponent>();
 		}
 
-		public void Start()
+		public override void OnBehaviorStarted()
 		{
 			SyncOnPlayer(this.netId, this.netId);
 		}
@@ -118,7 +173,9 @@ namespace US13.Items.Implants.Organs
 			RelatedPart.HealthMaster.SetBrain(this);
 		}
 
-		public void OnDestroy()
+		void IPlayerPossessable.OnDestroy() => OnBehaviorDestroyed();
+
+		public override void OnBehaviorDestroyed()
 		{
 			Itself.PreImplementedOnDestroy();
 			OnDeath.RemoveAllListeners();
@@ -172,12 +229,12 @@ namespace US13.Items.Implants.Organs
 
 		public void SyncTelekinesis(bool Oldvalue, bool NewValue)
 		{
-			hasTelekinesis = NewValue;
+			_networkHasTelekinesis = NewValue;
 		}
 
 		public void SyncHighness(float Oldvalue, float NewValue)
 		{
-			highAmount = NewValue;
+			_networkHighAmount = NewValue;
 			if (Preimplemented.IsOnLocalPlayer)
 			{
 				ApplyChangesHighness(highAmount);
@@ -186,7 +243,7 @@ namespace US13.Items.Implants.Organs
 
 		public void SyncDrunkenness(float Oldvalue, float NewValue)
 		{
-			drunkAmount = NewValue;
+			_networkDrunkAmount = NewValue;
 			if (Preimplemented.IsOnLocalPlayer)
 			{
 				ApplyChangesDrunkenness(drunkAmount);
@@ -207,14 +264,14 @@ namespace US13.Items.Implants.Organs
 
 		public void SyncPossessingID(uint previouslyPossessing, uint currentlyPossessing)
 		{
-			possessingID = currentlyPossessing;
+			_networkPossessingID = currentlyPossessing;
 			Itself.PreImplementedSyncPossessingID(previouslyPossessing, currentlyPossessing);
 		}
 
 		public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)
 		{
-			OnBodyID = CurrentlyOn;
-			Preimplemented.ImplementationSyncOnPlayer(PreviouslyOn, CurrentlyOn);
+			_networkOnBodyID = CurrentlyOn;
+			if (isClient) Preimplemented.ImplementationSyncOnPlayer(PreviouslyOn, CurrentlyOn);
 		}
 
 
@@ -230,7 +287,7 @@ namespace US13.Items.Implants.Organs
 
 		private void DrunkCheck()
 		{
-			if (ReagentCirculatedComponent.OrNull()?.AssociatedSystem == null) return;
+			if (ReagentCirculatedComponent?.AssociatedSystem == null) return;
 			if (ReagentCirculatedComponent.AssociatedSystem.BloodPool.reagents.Contains(drunkReagent) == false) return;
 			float drunkPercentage = ReagentCirculatedComponent.AssociatedSystem.BloodPool.GetPercent(drunkReagent);
 			if (drunkPercentage > 0)
@@ -258,7 +315,7 @@ namespace US13.Items.Implants.Organs
 
 		private void HighCheck()
 		{
-			if (ReagentCirculatedComponent.OrNull()?.AssociatedSystem == null) return;
+			if (ReagentCirculatedComponent?.AssociatedSystem == null) return;
 			if (ReagentCirculatedComponent.AssociatedSystem.BloodPool.reagents.Contains(highReagent) == false) return;
 			float drunkPercentage = ReagentCirculatedComponent.AssociatedSystem.BloodPool.GetPercent(highReagent);
 			if (drunkPercentage > 0)
@@ -404,5 +461,34 @@ namespace US13.Items.Implants.Organs
 
 		}
 		#endregion
+		[System.Serializable]
+		private sealed class BehaviorNetworkState
+		{
+			public uint OnBodyID;
+			public uint possessingID;
+			public bool hasTelekinesis;
+			public float drunkAmount;
+			public float highAmount;
+		}
+
+		public override string CaptureNetworkState() => JsonUtility.ToJson(new BehaviorNetworkState
+		{
+			OnBodyID = this.OnBodyID,
+			possessingID = this.possessingID,
+			hasTelekinesis = this.hasTelekinesis,
+			drunkAmount = this.drunkAmount,
+			highAmount = this.highAmount,
+		});
+
+		public override void ApplyNetworkState(string json)
+		{
+			var state = JsonUtility.FromJson<BehaviorNetworkState>(json);
+			OnBodyID = state.OnBodyID;
+			possessingID = state.possessingID;
+			hasTelekinesis = state.hasTelekinesis;
+			drunkAmount = state.drunkAmount;
+			highAmount = state.highAmount;
+		}
+
 	}
 }

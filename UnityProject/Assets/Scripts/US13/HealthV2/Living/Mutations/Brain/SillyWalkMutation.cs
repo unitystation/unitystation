@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using UnityEngine;
 using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
@@ -28,7 +29,7 @@ namespace US13.HealthV2.Living.Mutations.Brain
 
 			public override void SetUp()
 			{
-				Brain = SweetExtensions.GetCachedComponent<Items.Implants.Organs.Brain>((Component)BodyPart);
+				Brain = BodyPart.GetBodyPartBehavior<Items.Implants.Organs.Brain>();
 				Brain.SetSillyWalk(true);
 
 			}

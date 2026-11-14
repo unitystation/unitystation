@@ -48,7 +48,7 @@ namespace US13.Messages.Server
 
 			// Action pre-placed on a networked object
 			LoadNetworkObject(msg.NetObject);
-			var actionsOther = NetworkObject.GetComponentsInChildren(DeserializeType(msg.ComponentID));
+			var actionsOther = ActionSource.GetActions(NetworkObject, DeserializeType(msg.ComponentID));
 			if ((actionsOther.Length > msg.ComponentLocation))
 			{
 				actionMulti = (actionsOther[msg.ComponentLocation] as IActionGUIMulti);
@@ -110,11 +110,11 @@ namespace US13.Messages.Server
 			{
 				// Action pre-placed on a networked object
 				LoadNetworkObject(msg.NetObject);
-				var actions = new Component[]{};
+				var actions = Array.Empty<IAction>();
 				try
 				{
 					var typeToFind = DeserializeType(msg.ComponentID);
-					actions = NetworkObject.GetComponentsInChildren(typeToFind);
+					actions = ActionSource.GetActions(NetworkObject, typeToFind);
 				}
 				catch (Exception e)
 				{
@@ -225,11 +225,11 @@ namespace US13.Messages.Server
 			else
 			{
 				// Action pre-placed on a networked object
-				var netObject = (action as Component).GetComponent<NetworkIdentity>();
+				var netObject = ActionSource.GetNetworkIdentity(action);
 				if (netObject != null)
 				{
 					var type = action.GetType();
-					var foundActions = netObject.GetComponentsInChildren(type);
+					var foundActions = ActionSource.GetActions(netObject.gameObject, type);
 					var componentLocation = 0;
 					bool isFound = false;
 					foreach (var foundAction in foundActions)
@@ -471,9 +471,9 @@ namespace US13.Messages.Server
 			else
 			{
 				// Action pre-placed on a networked object
-				var netObject = (action as Component).GetComponent<NetworkIdentity>();
+				var netObject = ActionSource.GetNetworkIdentity(action);
 				var type = action.GetType();
-				var foundActions = netObject.GetComponentsInChildren(type);
+				var foundActions = ActionSource.GetActions(netObject.gameObject, type);
 				var componentLocation = 0;
 				bool isFound = false;
 				foreach (var foundAction in foundActions)

@@ -16,7 +16,8 @@ using Util;
 
 namespace US13.Items.Implants.Organs
 {
-	public class Ears : BodyPartFunctionality, IItemInOutMovedPlayer, IClientSynchronisedEffect
+	[System.Serializable]
+	public class Ears : BodyPartBehavior, IItemInOutMovedPlayer, IClientSynchronisedEffect
 	{
 
 		[SerializeField]
@@ -29,8 +30,18 @@ namespace US13.Items.Implants.Organs
 		public float MutationMultiplier = 1;
 
 
-		[SyncVar(hook = nameof(ApplyChangesDeafness))]
-		public float TotalMultiplier = 1;
+		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("TotalMultiplier")] private float _networkTotalMultiplier = 1;
+		public float TotalMultiplier
+		{
+			get => _networkTotalMultiplier;
+			set
+			{
+				if (System.Collections.Generic.EqualityComparer<float>.Default.Equals(_networkTotalMultiplier, value)) return;
+				var previous = _networkTotalMultiplier;
+				_networkTotalMultiplier = value;
+				if (isClient) ApplyChangesDeafness(previous, value);
+			}
+		}
 
 		public Pickupable Pickupable;
 		public RegisterPlayer CurrentlyOn { get; set; }
@@ -42,21 +53,38 @@ namespace US13.Items.Implants.Organs
 		private float deafenMultiplier = 1;
 		private Coroutine deafenCoroutine;
 
-		[SyncVar(hook = nameof(SyncOnPlayer))] public uint OnBodyID;
+		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("OnBodyID")] private uint _networkOnBodyID;
+		public uint OnBodyID
+		{
+			get => _networkOnBodyID;
+			set
+			{
+				if (System.Collections.Generic.EqualityComparer<uint>.Default.Equals(_networkOnBodyID, value)) return;
+				var previous = _networkOnBodyID;
+				_networkOnBodyID = value;
+				if (isClient) SyncOnPlayer(previous, value);
+			}
+		}
 
 		public uint OnPlayerID => OnBodyID;
 
 		public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)
 		{
-			OnBodyID = CurrentlyOn;
-			Preimplemented.ImplementationSyncOnPlayer(PreviouslyOn, CurrentlyOn);
+			_networkOnBodyID = CurrentlyOn;
+			if (isClient) Preimplemented.ImplementationSyncOnPlayer(PreviouslyOn, CurrentlyOn);
 		}
 
-		public override void Awake()
+		public override void OnInitialize()
 		{
-			base.Awake();
+			base.OnInitialize();
 			Pickupable = this.GetComponent<Pickupable>();
 			RelatedPart.ModifierChange += UpDateTotalValue;
+		}
+
+		public override void OnBehaviorDestroyed()
+		{
+			if (RelatedPart != null) RelatedPart.ModifierChange -= UpDateTotalValue;
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckPressure);
 		}
 
 		public bool IsValidSetup(RegisterPlayer player)
@@ -94,7 +122,7 @@ namespace US13.Items.Implants.Organs
 
 			RelatedPart.TakeDamage(sender, deafenDuration * 0.5f, AttackType.Energy, DamageType.Burn);
 
-			TargetDeafenPlayer(CurrentlyOn.netIdentity.connectionToClient, deafenDuration);
+			DeafenPlayer(CurrentlyOn.netIdentity.connectionToClient, deafenDuration);
 			return true;
 		}
 
@@ -155,6 +183,7 @@ namespace US13.Items.Implants.Organs
 			if (RelatedPart.HealthMaster == null)
 			{
 				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckPressure);
+				return;
 			}
 
 			var localPosition = Matrix.GetLocalPositionFromRootObject(Pickupable.UniversalObjectPhysics);
@@ -180,7 +209,7 @@ namespace US13.Items.Implants.Organs
 
 		public void ApplyChangesDeafness(float Oldv, float Newv)
 		{
-			TotalMultiplier = Newv;
+			_networkTotalMultiplier = Newv;
 			if (Preimplemented.IsOnLocalPlayer)
 			{
 				ApplyDeafness(false,TotalMultiplier);
@@ -194,8 +223,19 @@ namespace US13.Items.Implants.Organs
 			ApplyChangesDeafness(TotalMultiplier, PressureMultiplier * MutationMultiplier * EfficiencyMultiplier * deafenMultiplier);
 		}
 
-		[TargetRpc]
-		public void TargetDeafenPlayer(NetworkConnection target, float deafenLength)
+		public void DeafenPlayer(NetworkConnection target, float deafenLength)
+		{
+			Owner.SendEvent(this, "deafen", deafenLength.ToString(System.Globalization.CultureInfo.InvariantCulture), target);
+		}
+
+		public override void OnNetworkEvent(string eventName, string payload)
+		{
+			if (eventName != "deafen") return;
+			float deafenLength = float.Parse(payload, System.Globalization.CultureInfo.InvariantCulture);
+			DeafenLocally(deafenLength);
+		}
+
+		private void DeafenLocally(float deafenLength)
 		{
 			if (deafenCoroutine != null) StopCoroutine(deafenCoroutine);
 			deafenCoroutine = StartCoroutine(TemporaryDeafen(deafenLength));
@@ -222,5 +262,25 @@ namespace US13.Items.Implants.Organs
 			}
 
 		}
+		[System.Serializable]
+		private sealed class BehaviorNetworkState
+		{
+			public float TotalMultiplier;
+			public uint OnBodyID;
+		}
+
+		public override string CaptureNetworkState() => JsonUtility.ToJson(new BehaviorNetworkState
+		{
+			TotalMultiplier = this.TotalMultiplier,
+			OnBodyID = this.OnBodyID,
+		});
+
+		public override void ApplyNetworkState(string json)
+		{
+			var state = JsonUtility.FromJson<BehaviorNetworkState>(json);
+			TotalMultiplier = state.TotalMultiplier;
+			OnBodyID = state.OnBodyID;
+		}
+
 	}
 }

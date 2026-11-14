@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Chemistry;
 using Cysharp.Threading.Tasks;
@@ -17,6 +17,7 @@ using Effect = US13.Effects.Effect;
 namespace US13.Mobs.BrainAI.States.SimpleBot
 {
 
+	[System.Serializable]
 	public class FirebotTaskAi : SimpleBotTaskAi
 	{
 		[SerializeField] private List<PlayerHealthData> blackListedSpecies = new List<PlayerHealthData>();

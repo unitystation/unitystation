@@ -1,5 +1,6 @@
 namespace US13.Mobs.BrainAI.States
 {
+	[System.Serializable]
 	public class BrainIdleThink : BrainMobState
 	{
 		public override void OnEnterState()

@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using UnityEngine;
 using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
@@ -29,7 +30,7 @@ namespace US13.HealthV2.Living.Mutations.Bones
 
 			public override void SetUp()
 			{
-				Bone = BodyPart.GetComponent<Items.Implants.Organs.Bones>();
+				Bone = BodyPart.GetBodyPartBehavior<Items.Implants.Organs.Bones>();
 				Bone.BloodGeneratedByOneNutriment += BigBoned.AddedBloodGeneratedByOneNutriment;
 			}
 

@@ -13,6 +13,11 @@ PrefabInstance:
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3442741923849517114, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: parentID
@@ -115,11 +120,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8610225452865205335, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3649480993215755858}
+      addedObject: {fileID: 7703631092889365240}
     - targetCorrespondingSourceObject: {fileID: 8610225452865205335, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7703631092889365240}
+      addedObject: {fileID: 2004246083922562929}
   m_SourcePrefab: {fileID: 100100000, guid: c9c58a9243d494537abcb4ee470efab0, type: 3}
 --- !u!1 &2734203284396546865 stripped
 GameObject:
@@ -127,26 +132,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5948266683916824422}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3649480993215755858
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2734203284396546865}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1360d2b65a03cdf449035cd3c4cd0153, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  actionData: {fileID: 11400000, guid: 1a6d538370bbd7e498bfec2b538f1767, type: 2}
-  allowedSlots: 384
-  useSpriteHandler: 1
-  spriteHandler: {fileID: 8122180704106389686}
 --- !u!114 &7703631092889365240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,14 +155,44 @@ MonoBehaviour:
   graffitiListsWalls: {fileID: 11400000, guid: 6b22e9fd96237144b94ee30e9468e752, type: 2}
   isCan: 1
   spraySound:
-    SetLoadSetting: 0
     AssetAddress: Assets/Prefabs/Effects/Spray2.prefab
     AssetReference:
       m_AssetGUID: 
       m_SubObjectName: 
+      m_SubObjectGUID: 
       m_SubObjectType: 
       m_EditorAssetChanged: 0
   crayonBoxCapacity: {fileID: 0}
+--- !u!114 &2004246083922562929
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2734203284396546865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e9f842fdda4c2e99853e2e8d2b8066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.HealthV2.Living.BodyPartBehaviors
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  Behaviors:
+  - rid: 5041995600707191269
+  SecondsUntilNextTick: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: 5041995600707191269
+      type: {class: ItemActionButton, ns: US13.Actions, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        actionData: {fileID: 11400000, guid: 1a6d538370bbd7e498bfec2b538f1767, type: 2}
+        allowedSlots: 384
+        useSpriteHandler: 1
+        spriteHandler: {fileID: 8122180704106389686}
 --- !u!114 &8122180704106389686 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,

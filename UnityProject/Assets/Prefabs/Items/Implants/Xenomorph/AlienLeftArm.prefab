@@ -110,6 +110,190 @@ PrefabInstance:
       propertyPath: m_Name
       value: AlienLeftArm
       objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: Behaviors.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[0]'
+      value: 5041995600707191114
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[1]'
+      value: 5041995600707191115
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[2]'
+      value: 5041995600707191116
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191114]'
+      value: Assets US13.UI.Core.Alerts.BodyPartAlerts
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191115]'
+      value: Assets US13.HealthV2.Living.BodyPartMutations
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191116]'
+      value: Assets US13.Items.Implants.Limbs.HumanoidArm
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191114].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191115].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191116].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191115].Stability
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191116].runningSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191116].walkingSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191116].ArmDamageType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191116].crawlingSpeed
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191116].ArmMeleeDamage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191115].PlayerHealthData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191115].TOMutateBodyPart
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191116].ArmTraumaticChance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191116].ArmTraumaticDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191115].MutationRestriction
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191114].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191115].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191116].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191116].initialLimbEfficiency
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191116].ArmHitSound.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191115].SecondsForSpeciesMutation
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191116].ArmDamageVerbs.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191115].CapableMutations.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191115].ActiveMutationsSO.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191115].MutationRestrictionItemTrait
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191115].StartingMutations.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191115].CapableMutations.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 11fc1b84d220b6742a4912446b0e7e2b,
+        type: 2}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191115].CapableMutations.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 85b46608a403da74892b9bb16d3b712c,
+        type: 2}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191115].CapableMutations.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ebd5df789d07f8141ab3534b7fa87618,
+        type: 2}
+    - target: {fileID: 7666624635555579765, guid: 1f74ff76597345148a3687fa9467b3ab,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191115].CapableMutations.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ee12f11044a2b742867f1431ca8bf77,
+        type: 2}
     - target: {fileID: 8576422551938030247, guid: 1f74ff76597345148a3687fa9467b3ab,
         type: 3}
       propertyPath: parentID
@@ -127,10 +311,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3440516173299570378, guid: 1f74ff76597345148a3687fa9467b3ab,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 879321704953524796}
-    - targetCorrespondingSourceObject: {fileID: 3440516173299570378, guid: 1f74ff76597345148a3687fa9467b3ab,
-        type: 3}
-      insertIndex: -1
       addedObject: {fileID: 2288932229244256589}
     - targetCorrespondingSourceObject: {fileID: 3440516173299570378, guid: 1f74ff76597345148a3687fa9467b3ab,
         type: 3}
@@ -143,24 +323,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7898896040612738270}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &879321704953524796
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4765282443109851668}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79a26cefea34ae3ad4615dab28acf61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  armEfficiency: 1
-  crawlingSpeed: 0.3
 --- !u!114 &2288932229244256589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,4 +374,5 @@ MonoBehaviour:
     SlotContents: []
     DeprecatedContents: []
   SetSlotItemNotRemovableOnStartUp: 0
+  initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}

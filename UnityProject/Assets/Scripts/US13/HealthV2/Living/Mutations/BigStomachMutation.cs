@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using UnityEngine;
 using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.CirculatorySystem;
@@ -23,13 +24,13 @@ namespace US13.HealthV2.Living.Mutations
 
 			public override void SetUp()
 			{
-				var Stomach = BodyPart.GetComponent<Stomach>();
+				var Stomach = BodyPart.GetBodyPartBehavior<Stomach>();
 				Stomach.StomachContents.SetMaxCapacity(99); //TODO better implementation //idk Custom thing, if it's preset custom
 			}
 
 			public override void Remove()
 			{
-				var Stomach = BodyPart.GetComponent<Stomach>();
+				var Stomach = BodyPart.GetBodyPartBehavior<Stomach>();
 				Stomach.StomachContents.SetMaxCapacity(2); //TODO better implementation
 			}
 

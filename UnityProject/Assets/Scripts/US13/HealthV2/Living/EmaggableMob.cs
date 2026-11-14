@@ -41,10 +41,11 @@ namespace US13.HealthV2.Living
 		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
 			if (Cooldowns.TryStart(interaction, this, side: NetworkSide.Server) == false) return;
-			if (_connectedBrain == false || _canBeEmagged == false) return;
+			if (_connectedBrain == null || _canBeEmagged == false) return;
 
 			if (Vector3.Distance(interaction.Performer.gameObject.AssumedWorldPosServer(), _connectedBrain.gameObject.AssumedWorldPosServer()) > 2f) return;
-			if (_connectedBrain.gameObject.TryGetComponent<ICanBeEmaggedMob>(out var emaggableMob))
+			var emaggableMob = _connectedBrain.gameObject.GetComponentOrBodyPartBehavior<ICanBeEmaggedMob>();
+			if (emaggableMob != null)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, $"You successfully sabotage the {gameObject.ExpensiveName()}");
 				emaggableMob.EmagMob();

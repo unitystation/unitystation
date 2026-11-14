@@ -14,6 +14,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c5527ce27561cfa4ab549a8daea515d2,
         type: 2}
+    - target: {fileID: 56063919708023611, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: InitialPresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c5527ce27561cfa4ab549a8daea515d2,
+        type: 2}
     - target: {fileID: 953508599766752465, guid: cfda4a920ce328d449993498e023ddfc,
         type: 3}
       propertyPath: parentID
@@ -23,6 +29,521 @@ PrefabInstance:
         type: 3}
       propertyPath: foreverID
       value: b4c8161620e628d49aa507f8cde6de81
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[0]'
+      value: 5041995600707191128
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[1]'
+      value: 5041995600707191129
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[2]'
+      value: 5041995600707191130
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[3]'
+      value: 5041995600707191131
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[4]'
+      value: 5041995600707191132
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[5]'
+      value: 5041995600707191133
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[6]'
+      value: 5041995600707191134
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: 'Behaviors.Array.data[7]'
+      value: 5041995600707191135
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191128]'
+      value: Assets US13.UI.Core.Alerts.BodyPartAlerts
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191129]'
+      value: Assets US13.HealthV2.Living.BodyPartMutations
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191130]'
+      value: Assets US13.HealthV2.Living.PolymorphicSystems.Bodypart.NaturalChemicalReleaseComponent
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191131]'
+      value: Assets US13.HealthV2.Living.PolymorphicSystems.Bodypart.MetabolismComponent
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191132]'
+      value: Assets US13.HealthV2.Living.PolymorphicSystems.Bodypart.ReagentCirculatedComponent
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191133]'
+      value: Assets US13.HealthV2.Living.PolymorphicSystems.Bodypart.HungerComponent
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191134]'
+      value: Assets US13.HealthV2.Living.PolymorphicSystems.Bodypart.SaturationComponent
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191135]'
+      value: Assets US13.Items.Implants.Xenomorphs.XenomorphLungs
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191128].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191129].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191130].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191131].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191132].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191133].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191134].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].LungSize
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191129].Stability
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191133].Nutriment
+      value: 
+      objectReference: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237,
+        type: 2}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191132].Throughput
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].ToxinAlert
+      value: 
+      objectReference: {fileID: 11400000, guid: 2c812669f183287449afa3e620bfcef6,
+        type: 2}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].coughEmote
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].requiredGas
+      value: 
+      objectReference: {fileID: 11400000, guid: d7d4e6085864f9f4e83593f63d102d08,
+        type: 2}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191132].bloodReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816,
+        type: 2}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191133]._HungerState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191134].wasteReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a39c514112f198858f2c7407b75d8c4,
+        type: 2}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].coughCooldown
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].hasToxinsCash
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191133].FullMultiplier
+      value: 1.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].BodyPartAlerts
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].LungEfficiency
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191134].requiredReagent
+      value: 
+      objectReference: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c,
+        type: 2}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].HungerComponent
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].breatheCooldown
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].pressureSafeMin
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191129].PlayerHealthData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191129].TOMutateBodyPart
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191133].NormalMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].SuffocatingAlert
+      value: 
+      objectReference: {fileID: 11400000, guid: a242a18320bcd0345b83fe02838d0460,
+        type: 2}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191131].ReagentMetabolism
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191133].HungaryMultiplier
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191133].StarvingMultiplier
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191129].MutationRestriction
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191131].saturationComponent
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].SaturationComponent
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191128].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191129].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191130].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191131].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191132].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191133].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191134].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].toxicGases.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191133].MalnourishedMultiplier
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191134].currentBloodSaturation
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].circulatedReagentAmount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].internalBleedingCooldown
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191129].SecondsForSpeciesMutation
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191134].isNotBloodReagentConsumed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191130].reagentCirculatedComponent
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191131].reagentCirculatedComponent
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191133].HealingNutrimentMultiplier
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191133].reagentCirculatedComponent
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191134].reagentCirculatedComponent
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].ReagentCirculatedComponent
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].sickeningGasses.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191129].CapableMutations.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191129].ActiveMutationsSO.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191129].MutationRestrictionItemTrait
+      value: 
+      objectReference: {fileID: 11400000, guid: cf7011331adb47d4880a8f62edf3259d,
+        type: 2}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191129].StartingMutations.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191129].CapableMutations.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 11fc1b84d220b6742a4912446b0e7e2b,
+        type: 2}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191129].CapableMutations.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 85b46608a403da74892b9bb16d3b712c,
+        type: 2}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191129].CapableMutations.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: ebd5df789d07f8141ab3534b7fa87618,
+        type: 2}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191129].CapableMutations.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ee12f11044a2b742867f1431ca8bf77,
+        type: 2}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191134].bloodReagentConsumedPercentageb
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191130].<ToxinGeneration>k__BackingField
+      value: 0.00005
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191133].ActualHealingNutrimentMultiplier
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].toxicGases.Array.data[0].GasType
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d3c38fe76e3df249ade18fd6fdac274,
+        type: 2}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].toxicGases.Array.data[1].GasType
+      value: 
+      objectReference: {fileID: 11400000, guid: b466ee2bb3ca27941b3c2393555d4fab,
+        type: 2}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].coughChanceWhenInternallyBleeding
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191133].NOTDeterminesStatusFromHungerSystem
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191130].<NaturalToxinReagent>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 6c3a3878e8878972ea633a27c6d0ba12,
+        type: 2}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].toxicGases.Array.data[0].PressureSafeMax
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].toxicGases.Array.data[1].PressureSafeMax
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].toxicGases.Array.data[0].UnsafeLevelDamage
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].toxicGases.Array.data[1].UnsafeLevelDamage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191131]._networkComponentImmuneResponse.ImmuneResponseBaseRate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].toxicGases.Array.data[0].UnsafeLevelDamageType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191135].toxicGases.Array.data[1].UnsafeLevelDamageType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191131]._networkComponentImmuneResponse.ImmuneResponseRelativeRate
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1178618906173391107, guid: cfda4a920ce328d449993498e023ddfc,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191131]._networkComponentImmuneResponse.ImmuneResponseChancePercent
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6058757090799070472, guid: cfda4a920ce328d449993498e023ddfc,
         type: 3}
@@ -104,56 +625,5 @@ PrefabInstance:
     - {fileID: 62102685253320784, guid: cfda4a920ce328d449993498e023ddfc, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6161261707722952892, guid: cfda4a920ce328d449993498e023ddfc,
-        type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 5545930436049008223}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cfda4a920ce328d449993498e023ddfc, type: 3}
---- !u!1 &3792525331974941799 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6161261707722952892, guid: cfda4a920ce328d449993498e023ddfc,
-    type: 3}
-  m_PrefabInstance: {fileID: 6998861359798713563}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &5545930436049008223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3792525331974941799}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c77429c487d746ee9613fc6e24339249, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  breatheCooldown: 4
-  pressureSafeMin: 16
-  toxicGases:
-  - GasType: {fileID: 11400000, guid: 2d3c38fe76e3df249ade18fd6fdac274, type: 2}
-    PressureSafeMax: 0.4
-    UnsafeLevelDamage: 0.2
-    UnsafeLevelDamageType: 2
-  - GasType: {fileID: 11400000, guid: b466ee2bb3ca27941b3c2393555d4fab, type: 2}
-    PressureSafeMax: 10
-    UnsafeLevelDamage: 1
-    UnsafeLevelDamageType: 3
-  requiredGas: {fileID: 11400000, guid: d7d4e6085864f9f4e83593f63d102d08, type: 2}
-  LungSize: 0.3
-  coughChanceWhenInternallyBleeding: 1
-  internalBleedingCooldown: 4
-  ReagentCirculatedComponent: {fileID: 0}
-  SaturationComponent: {fileID: 0}
-  HungerComponent: {fileID: 0}
-  BodyPartAlerts: {fileID: 0}
-  hasToxinsCash: 0
-  ToxinAlert: {fileID: 11400000, guid: 2c812669f183287449afa3e620bfcef6, type: 2}
-  SuffocatingAlert: {fileID: 11400000, guid: a242a18320bcd0345b83fe02838d0460, type: 2}
-  coughEmote: {fileID: 0}
-  coughCooldown: 6
-  circulatedReagentAmount: 10

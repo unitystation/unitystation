@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using UnityEngine;
 using US13.Core.Camera;
 using US13.Core.Camera.Effects;
@@ -29,7 +30,7 @@ namespace US13.HealthV2.Living.Mutations.Eyes
 
 			public override void SetUp()
 			{
-				RelatedEye = BodyPart.GetComponent<Eye>();
+				RelatedEye = BodyPart.GetBodyPartBehavior<Eye>();
 				RelatedEye.SyncColourBlindMode(RelatedEye.CurrentColourblindness, RelatedEye.CurrentColourblindness | Mode);
 
 			}

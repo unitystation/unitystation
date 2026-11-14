@@ -18,8 +18,8 @@ GameObject:
   - component: {fileID: 4524393934061931853}
   - component: {fileID: 6608488744510329496}
   - component: {fileID: 2773625917735950037}
-  - component: {fileID: 3615296830884964240}
   - component: {fileID: 7779026839075567770}
+  - component: {fileID: 2364603325784301894}
   m_Layer: 7
   m_Name: VomitSplat
   m_TagString: Untagged
@@ -165,7 +165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 819688005
+  _assetId: 0
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
@@ -193,10 +193,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   ReactionSounds: 1
   maxCapacity: 100
   DEBUGReagent: {fileID: 0}
   DEBUGAmount: 0
+  StopReactions: 0
   reactionSet: {fileID: 0}
   AdditionalReactions: []
   initialReagentMix:
@@ -210,6 +214,12 @@ MonoBehaviour:
   destroyOnEmpty: 0
   ContentsSet: 0
   menuOptions: 0
+  currentReagentMix:
+    temperature: 0
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []
   spriteHandler: {fileID: 0}
   UseStandardExamine: 1
   ExamineAmount: 0
@@ -217,6 +227,7 @@ MonoBehaviour:
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 4
+  onlyAllowSyringeFilling: 0
   SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 20
@@ -256,10 +267,10 @@ MonoBehaviour:
   Intangible: 0
   MappingIntangible: 0
   SnapToGridOnStart: 0
-  IsPlayer: 0
   ObjectBouncyness: 0.75
   tileMoveSpeed: 1
   HasOwnGravity: 0
+  isVisible: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
@@ -269,6 +280,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
+  OnHit:
+    target: {fileID: 0}
+    methodName: 
+    parameterType: 
   Hits: []
   isFlyingSliding: 0
   IsMoving: 0
@@ -276,6 +291,9 @@ MonoBehaviour:
   LastUpdateClientFlying: 0
   TimeSpentFlying: 0
   <Scale>k__BackingField: {fileID: 0}
+  OnEnteredNewMatrix:
+    m_PersistentCalls:
+      m_Calls: []
   DEBUG: 0
   isNotPushable: 1
   Pushing: []
@@ -314,29 +332,6 @@ MonoBehaviour:
       m_Calls: []
   MaxDamage: 0
   reagentContainer: {fileID: 4524393934061931853}
---- !u!114 &3615296830884964240
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1069497300762596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6db4404109ee5304895b5058a7eff177, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  StomachContents: {fileID: 0}
-  DigesterAmountPerSecond: 1
-  BodyFats: []
-  BodyFatToInstantiate: {fileID: 0}
-  InitialFatSpawned: 0
-  _ReagentCirculatedComponent: {fileID: 0}
-  HungerComponent: {fileID: 0}
 --- !u!114 &7779026839075567770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -353,6 +348,43 @@ MonoBehaviour:
   foreverID: dde8d9bf0726b3140971ecd9d5ddcb87
   <AlternativePrefabName>k__BackingField: 
   <CanBeSpawnedByAdmin>k__BackingField: 1
+--- !u!114 &2364603325784301894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069497300762596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72e9f842fdda4c2e99853e2e8d2b8066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assets::US13.HealthV2.Living.BodyPartBehaviors
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
+  Behaviors:
+  - rid: 5041995600691986432
+  SecondsUntilNextTick: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 5041995600691986432
+      type: {class: Stomach, ns: US13.Items.Implants.Organs, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        StomachContents: {fileID: 0}
+        DigesterAmountPerSecond: 1
+        StomachIsConsideredFullWhenSpareCapacityIsLessThan: 15
+        BodyFats: []
+        BodyFatToInstantiate: {fileID: 0}
+        _ReagentCirculatedComponent:
+          rid: -2
+        HungerComponent:
+          rid: -2
 --- !u!1 &1230737790073880
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,6 +438,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -427,6 +461,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 322132419
   m_SortingLayer: 2
   m_SortingOrder: 30

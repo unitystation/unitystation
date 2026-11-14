@@ -40,11 +40,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
         type: 3}
-      propertyPath: <ActionData>k__BackingField.m_values.Array.data[2].target
-      value: 
-      objectReference: {fileID: 2135692139899353105}
-    - target: {fileID: 1926668629546310274, guid: 68d45976839d081429fc3adc1bdb7e76,
-        type: 3}
       propertyPath: <ActionData>k__BackingField.m_keys.Array.data[2].OffsetType
       value: 1
       objectReference: {fileID: 0}
@@ -179,15 +174,3 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 68d45976839d081429fc3adc1bdb7e76, type: 3}
---- !u!114 &2135692139899353105 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6035124000564632535, guid: 68d45976839d081429fc3adc1bdb7e76,
-    type: 3}
-  m_PrefabInstance: {fileID: 5648237282547573702}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 83d33c80238b4874bae68a70320ae067, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

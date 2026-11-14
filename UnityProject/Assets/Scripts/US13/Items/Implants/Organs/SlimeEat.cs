@@ -10,8 +10,9 @@ using UniversalObjectPhysics = US13.Core.Physics.UniversalObjectPhysics;
 
 namespace US13.Items.Implants.Organs
 {
-	[RequireComponent( typeof(ReagentCirculatedComponent))]
-	public class SlimeEat : BodyPartFunctionality
+
+	[System.Serializable]
+	public class SlimeEat : BodyPartBehavior
 	{
 		public bool CurrentlyEating => EdibleCurrentlyEating || CurrentlyBuckledToObject;
 		public UniversalObjectPhysics EdibleCurrentlyEating => GameObjectExtensions.OrNull<LivingHealthMasterBase>(RelatedPart.HealthMaster)?.ObjectBehaviour.OrNull()?.ObjectIsBuckling;
@@ -25,12 +26,12 @@ namespace US13.Items.Implants.Organs
 		public Reagent SlimeJelly;
 		public Reagent Nutriment;
 
-		private ReagentCirculatedComponent ReagentCirculatedComponent;
+		[UnityEngine.SerializeReference] private ReagentCirculatedComponent ReagentCirculatedComponent;
 
-		public override void Awake()
+		public override void OnInitialize()
 		{
-			base.Awake();
-			ReagentCirculatedComponent = this.GetCachedComponent<ReagentCirculatedComponent>();
+			base.OnInitialize();
+			ReagentCirculatedComponent = GetBodyPartBehavior<ReagentCirculatedComponent>();
 		}
 
 		[NaughtyAttributes.Button()]

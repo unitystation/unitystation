@@ -10,7 +10,7 @@ namespace US13.Core.Networking.AsyncMessageQueue
 	public class RpcMessageQueue : SingletonManager<RpcMessageQueue>
 	{
 		private Dictionary<string, QueuedMessage> _client_ReceivedMessages = new();
-		private Dictionary<string, Func<string>> _server_RequestHandlers = new();
+		private Dictionary<string, Func<NetworkConnection, string>> _server_RequestHandlers = new();
 
 		public async UniTask<QueuedMessage> Queue(string requestedTicket, int minimumTimeoutTimeInMillaSecond = 25225)
 		{
@@ -50,7 +50,40 @@ namespace US13.Core.Networking.AsyncMessageQueue
 		/// <param name="handler">The function that returns a string value</param>
 		public void RegisterHandler(string key, Func<string> handler)
 		{
+			_server_RequestHandlers[key] = _ => handler();
+		}
+
+		public void RegisterHandler(string key, Func<NetworkConnection, string> handler)
+		{
 			_server_RequestHandlers[key] = handler;
+		}
+
+		private readonly Dictionary<string, Action<string>> notificationHandlers = new();
+
+		public void Subscribe(string key, Action<string> handler)
+		{
+			notificationHandlers.TryGetValue(key, out var existing);
+			notificationHandlers[key] = existing + handler;
+		}
+
+		public void Unsubscribe(string key, Action<string> handler)
+		{
+			if (!notificationHandlers.TryGetValue(key, out var existing)) return;
+			existing -= handler;
+			if (existing == null) notificationHandlers.Remove(key);
+			else notificationHandlers[key] = existing;
+		}
+
+		/// <summary>Deliver an update to a subscribed client without a per-component RPC.</summary>
+		public void Publish(string key, string json, NetworkConnection recipient)
+		{
+			if (!NetworkServer.active || recipient == null) return;
+			RpcQueueNotification.SendTo(recipient, new RpcQueueNotification.NetMessage { Key = key, Json = json });
+		}
+
+		public void ProcessNotification(string key, string json)
+		{
+			if (notificationHandlers.TryGetValue(key, out var handler)) handler.Invoke(json);
 		}
 
 		/// <summary>
@@ -85,7 +118,7 @@ namespace US13.Core.Networking.AsyncMessageQueue
 			{
 				try
 				{
-					string resultValue = func.Invoke();
+					string resultValue = func.Invoke(connection);
 					var queuedMessage = new QueuedMessage
 					{
 						Requester = null,

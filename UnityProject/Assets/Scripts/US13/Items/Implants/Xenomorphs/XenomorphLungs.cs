@@ -1,10 +1,11 @@
-﻿using Chemistry;
+using Chemistry;
 using UnityEngine;
 using US13.Items.Implants.Organs;
 using US13.Tilemaps.Behaviours.Meta.Atmospherics.Data;
 
 namespace US13.Items.Implants.Xenomorphs
 {
+	[System.Serializable]
 	public class XenomorphLungs : Lungs
 	{
 		[SerializeField]

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Chemistry;
 using Logs;
 using UnityEngine;
@@ -43,9 +43,9 @@ namespace US13.ScriptableObjects.RP.EmoteBehaviors
 			var result = new List<Lungs>();
 			foreach (var part in health.BodyPartList)
 			{
-				if (part.TryGetComponent<Lungs>(out var t))
+				if (part.TryGetBodyPartBehavior<Lungs>(out var t))
 				{
-					if(t) result.Add(t);
+					if (t != null) result.Add(t);
 				}
 			}
 			return result;

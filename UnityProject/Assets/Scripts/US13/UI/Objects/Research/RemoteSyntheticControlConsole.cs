@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using System.Collections.Generic;
 using UnityEngine;
 using US13.Items.Implants.Organs;
@@ -41,7 +42,7 @@ namespace US13.UI.Objects.Research
 				foreach (var Player in RegisterTile.Matrix.PresentPlayers)
 				{
 					var Brain = Player.OrNull()?.PlayerScript.OrNull()?.playerHealth.OrNull()?.brain;
-					if (Brain != null && Brain.TryGetComponent<RemotelyControlledBrain>(out var RemotelyControlledBrain))
+					if (Brain != null && Brain.TryGetBodyPartBehavior<RemotelyControlledBrain>(out var RemotelyControlledBrain))
 					{
 						CyborgsOnMatrix.Add(RemotelyControlledBrain);
 					}

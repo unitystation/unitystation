@@ -1,4 +1,4 @@
-﻿using Chemistry;
+using Chemistry;
 using UnityEngine;
 using US13.HealthV2.Living;
 using US13.HealthV2.Living.PolymorphicSystems.Bodypart;
@@ -6,22 +6,23 @@ using Util;
 
 namespace US13.Items.Implants.Organs
 {
-	public class Bones : BodyPartFunctionality
+	[System.Serializable]
+	public class Bones : BodyPartBehavior
 	{
 		[SerializeField] public float BloodGeneratedByOneNutriment = 30;
 		[SerializeField] private Reagent GeneratesThis;
 
 		public float GenerationOvershoot = 1;
 
-		public HungerComponent HungerComponent;
+		[UnityEngine.SerializeReference] public HungerComponent HungerComponent;
 
-		public ReagentCirculatedComponent ReagentCirculatedComponent;
+		[UnityEngine.SerializeReference] public ReagentCirculatedComponent ReagentCirculatedComponent;
 
-		public override void Awake()
+		public override void OnInitialize()
 		{
-			base.Awake();
-			HungerComponent = this.GetCachedComponent<HungerComponent>();
-			ReagentCirculatedComponent = this.GetCachedComponent<ReagentCirculatedComponent>();
+			base.OnInitialize();
+			HungerComponent = GetBodyPartBehavior<HungerComponent>();
+			ReagentCirculatedComponent = GetBodyPartBehavior<ReagentCirculatedComponent>();
 		}
 
 		public override void SetUpSystems()
@@ -35,6 +36,7 @@ namespace US13.Items.Implants.Organs
 
 		public override void ImplantPeriodicUpdate()
 		{
+			if (ReagentCirculatedComponent?.AssociatedSystem == null || HungerComponent == null || GeneratesThis == null) return;
 			if ((ReagentCirculatedComponent.AssociatedSystem.StartingBlood * GenerationOvershoot) > ReagentCirculatedComponent.AssociatedSystem.BloodPool.Total)  //Assuming this is blood cap max)
 			{
 				float toConsume = HungerComponent.PassiveConsumptionNutriment * HungerComponent.HealingNutrimentMultiplier;

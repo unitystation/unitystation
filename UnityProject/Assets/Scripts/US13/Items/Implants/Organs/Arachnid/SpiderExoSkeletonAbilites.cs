@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks;
 using Logs;
@@ -19,9 +19,11 @@ using Util;
 
 namespace US13.Items.Implants.Organs.Arachnid
 {
-	[RequireComponent(typeof(BodyPartActionTracker))]
-	[RequireComponent(typeof(BodyPart))]
-	public class SpiderExoSkeletonAbilites : BodyPartFunctionality
+
+
+	[System.Serializable]
+
+	public class SpiderExoSkeletonAbilites : BodyPartBehavior
 	{
 		[SerializeField] private float empStaggerTime = 0.5f;
 		[SerializeField] private float crawlTime = 6f;

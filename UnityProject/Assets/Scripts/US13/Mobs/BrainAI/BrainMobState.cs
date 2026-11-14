@@ -8,13 +8,14 @@ using Util;
 
 namespace US13.Mobs.BrainAI
 {
-	public abstract class BrainMobState : BodyPartFunctionality
+	[System.Serializable]
+	public abstract class BrainMobState : BodyPartBehavior
 	{
-		[field: SerializeField] public List<BrainMobState> Blacklist { get; private set; } = new List<BrainMobState>();
+		[field: SerializeReference] public List<BrainMobState> Blacklist { get; private set; } = new List<BrainMobState>();
 		[field: SerializeField] public CallbackType UpdateType { get; private set; } = CallbackType.PERIODIC_UPDATE;
 		[field: SerializeField] public float PeriodicUpdateInterval { get; set; } = 1.5f;
 
-		[field: SerializeField] public BrainMobAI master { get; set; }
+		[field: SerializeReference] public BrainMobAI master { get; set; }
 
 		public void OnEnterStateInternal()
 		{
@@ -43,7 +44,7 @@ namespace US13.Mobs.BrainAI
 		public void InternalOnUpdateTick()
 		{
 			if (LivingHealthMaster?.RegisterTile?.Matrix?.PresentPlayers?.Count == 0) return;
-			if (master.OrNull()?.Body.OrNull()?.LivingHealth == null) return;
+			if (master?.Body.OrNull()?.LivingHealth == null) return;
 			if (master.IsControlledByPlayer) return;
 			if (master.Body.LivingHealth.IsDead) return;
 			if (master.Body.UniversalObjectPhysics.IsVisible == false) return;

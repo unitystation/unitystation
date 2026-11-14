@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using System.Threading;
-using Cysharp.Threading.Tasks;
 using Logs;
 using UnityEditor;
 using UnityEngine;
@@ -21,6 +19,7 @@ using US13.Managers.NetworkManagement;
 using US13.Messages.Client.Admin;
 using US13.Messages.Server;
 using US13.Messages.Server.HealthMessages;
+using US13.Objects.Medical;
 using US13.Player;
 using US13.ScriptableObjects;
 using US13.Shuttles;
@@ -752,7 +751,7 @@ namespace IngameDebugConsole.Scripts
 				Loggy.Error("Cannot execute this command from client.", Category.DebugConsole);
 				return;
 			}
-			var fats = GameObject.FindObjectsByType<BodyFat>(sortMode: FindObjectsSortMode.InstanceID);
+			var fats = System.Linq.Enumerable.ToArray(System.Linq.Enumerable.OfType<BodyFat>(System.Linq.Enumerable.SelectMany(GameObject.FindObjectsByType<BodyPartBehaviors>(sortMode: FindObjectsSortMode.InstanceID), host => host.Behaviors)));
 			foreach (var fat in fats)
 			{
 				if (fat == null) continue;
@@ -912,6 +911,20 @@ namespace IngameDebugConsole.Scripts
 				Value = value,
 				VariableName = variableName
 			});
+		}
+
+		[ConsoleMethod("UnlockAllDNAConsoles", "Looks up all DNA consoles on the main station and unlocks all available mutations on them.")]
+		public static void UnlockAllDNAConsoles()
+		{
+			if (IsAdmin() == false)
+			{
+				Loggy.Warning("Unauthorized attempt to set game config variable.");
+				return;
+			}
+			foreach (var stationObject in MatrixManager.MainStationMatrix.Objects.GetComponentsInChildren<DNAConsole>())
+			{
+				stationObject.UnlockAll();
+			}
 		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEngine;
 using US13.HealthV2.Living;
 using US13.Items.Implants.Organs;
@@ -28,7 +28,7 @@ namespace US13.ScriptableObjects.RP.EmoteBehaviors
 			var result = new List<Lungs>();
 			foreach (var part in health.BodyPartList)
 			{
-				if (part.TryGetComponent<Lungs>(out var t)) result.Add(t);
+				if (part.TryGetBodyPartBehavior<Lungs>(out var t)) result.Add(t);
 			}
 			return result;
 		}
