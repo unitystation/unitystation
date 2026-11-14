@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -9,14 +9,15 @@ using Util;
 
 namespace US13.Items.Implants.Organs
 {
-	public class DamageSymptoms : BodyPartFunctionality
+	[System.Serializable]
+	public class DamageSymptoms : BodyPartBehavior
 	{
 		[SerializeField,FormerlySerializedAs("severityAndSymptoms")] private List<SeverityAndSymptoms> InitialseverityAndSymptoms = new List<SeverityAndSymptoms>();
 		private List<SeverityAndSymptoms> severityAndSymptoms = new List<SeverityAndSymptoms>();
 		public float TimeBetweenSymptoms;
 		private float time;
 
-		public void Awake()
+		public override void OnInitialize()
 		{
 			severityAndSymptoms = InitialseverityAndSymptoms.OrderByDescending(x => x.HealthPercentageAndBelow).Reverse().ToList();
 		}

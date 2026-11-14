@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using US13.HealthV2.Living;
+using System.Collections;
 using Mirror;
 using UnityEngine;
 using US13.Core.Chat;
@@ -38,7 +39,7 @@ namespace US13.Items.Food
 
 		[SerializeField]
 		[Tooltip("Light to cast while the torch is active")]
-		public ItemLightControl lightControl;
+		[System.NonSerialized] public ItemLightControl lightControl;
 
 		[SyncVar]
 		private bool isLit = false;
@@ -54,7 +55,7 @@ namespace US13.Items.Food
 			pickupable = GetComponent<Pickupable>();
 			if (lightControl == null)
 			{
-				lightControl = GetComponent<ItemLightControl>();
+				lightControl = gameObject.GetBodyPartBehavior<ItemLightControl>();
 			}
 		}
 

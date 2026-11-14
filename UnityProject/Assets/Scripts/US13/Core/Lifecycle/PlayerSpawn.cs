@@ -415,7 +415,7 @@ namespace US13.Core.Lifecycle
 					{
 						foreach (var Bodypart in Health.BodyPartList)
 						{
-							var BodyPartMutations = SweetExtensions.GetCachedComponent<BodyPartMutations>((Component)Bodypart);
+							var BodyPartMutations = Bodypart.GetBodyPartBehavior<BodyPartMutations>();
 							if (BodyPartMutations.CapableMutations.Contains(Mutation))
 							{
 								BodyPartMutations.AddMutation(Mutation);

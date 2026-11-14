@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
@@ -145,7 +145,7 @@ namespace US13.Items.Weapons
 			{
 				//weaponAttributes is null so we are punching
 				GameObject activeArm = playerScript.PlayerNetworkActions.activeHand;
-				HumanoidArm armStats = activeArm.GetComponent<HumanoidArm>();
+				HumanoidArm armStats = activeArm.GetBodyPartBehavior<HumanoidArm>();
 				if (armStats != null)
 				{
 					stats = MeleeStats.Init(armStats);

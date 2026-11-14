@@ -43,7 +43,7 @@ namespace US13.Systems.Antagonists.Antags.Changeling.ChangelingAbility.Implement
 			if (CustomNetworkManager.IsServer == false) return false;
 			foreach (var bodyPart in changeling.ChangelingMind.Body.playerHealth.BodyPartList)
 			{
-				foreach (BodyPartFunctionality organ in bodyPart.OrganList)
+				foreach (IBodyPartBehavior organ in bodyPart.OrganList)
 				{
 					if (organ is Eye eye)
 					{

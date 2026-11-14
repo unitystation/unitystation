@@ -4,11 +4,12 @@ using US13.Systems.Clearance;
 
 namespace US13.Items.Implants.Organs
 {
-	public class BodyPartAccess : BodyPartFunctionality
+	[System.Serializable]
+	public class BodyPartAccess : BodyPartBehavior
 	{
 		public IClearanceSource IClearanceSource;
 
-		public void Awake()
+		public override void OnInitialize()
 		{
 			IClearanceSource = this.GetComponent<IClearanceSource>();
 		}

@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using System.Collections.Generic;
 using Chemistry;
 using UnityEngine;
@@ -29,7 +30,7 @@ namespace US13.HealthV2.Living.MedicalChemistry
 			foreach (var Processing in senders)
 			{
 
-				var Mutation = Processing.RelatedPart.GetComponent<BodyPartMutations>();
+				var Mutation = Processing.RelatedPart.GetBodyPartBehavior<BodyPartMutations>();
 				if (Mutation == null) continue;
 
 				if (AddRandomMutation)

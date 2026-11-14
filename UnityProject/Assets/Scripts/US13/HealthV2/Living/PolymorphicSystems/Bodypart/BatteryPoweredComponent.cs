@@ -3,6 +3,7 @@ using US13.HealthV2.Living.BodyParts;
 
 namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
 {
+	[System.Serializable]
 	public class BatteryPoweredComponent : BodyPartComponentBase<BatterySystem>
 	{
 		/// <summary>
@@ -13,9 +14,9 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
 
 		public float WattsConsumption = 0.25f;
 
-		public override void Awake()
+		public override void OnInitialize()
 		{
-			base.Awake();
+			base.OnInitialize();
 			RelatedPart.AddModifier(PowerModifier);
 		}
 	}

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using US13.Core.Utils;
 using US13.HealthV2.Living;
 using US13.HealthV2.Living.BodyParts;
@@ -8,7 +8,8 @@ using Util;
 
 namespace US13.Items.Implants
 {
-	public class Limb : BodyPartFunctionality, IMovementEffect
+	[System.Serializable]
+	public class Limb : BodyPartBehavior, IMovementEffect
 	{
 		[SerializeField]
 		[Tooltip("The walking speed that will be used when attached as a leg.\n" +
@@ -51,9 +52,9 @@ namespace US13.Items.Implants
 
 		protected PlayerHealthV2 playerHealth;
 
-		public override void Awake()
+		public override void OnInitialize()
 		{
-			base.Awake();
+			base.OnInitialize();
 			limbEfficiency.RecordPosition(this, initialLimbEfficiency);
 		}
 

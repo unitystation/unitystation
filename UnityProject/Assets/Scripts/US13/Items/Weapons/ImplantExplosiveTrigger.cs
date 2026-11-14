@@ -6,7 +6,8 @@ using Util;
 
 namespace US13.Items.Weapons
 {
-	public class ImplantExplosiveTrigger : BodyPartFunctionality
+	[System.Serializable]
+	public class ImplantExplosiveTrigger : BodyPartBehavior
 	{
 		[field: SerializeField] public bool TriggerOnDeath { get; private set; } = false;
 

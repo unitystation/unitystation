@@ -6,7 +6,8 @@ using US13.UI.Core.Alerts;
 
 namespace US13.Items.Implants.Organs
 {
-	public class RemotelyControlledBrain : BodyPartFunctionality
+	[System.Serializable]
+	public class RemotelyControlledBrain : BodyPartBehavior
 	{
 
 		public AlertSO LockeddownAlertSO;
@@ -17,9 +18,9 @@ namespace US13.Items.Implants.Organs
 
 		private BasicClearanceSource BasicClearanceSource;
 
-		public override void Awake()
+		public override void OnInitialize()
 		{
-			base.Awake();
+			base.OnInitialize();
 
 			BasicClearanceSource = this.GetComponent<BasicClearanceSource>();
 		}

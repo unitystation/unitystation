@@ -53,6 +53,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -74,6 +76,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 40
@@ -139,17 +142,12 @@ GameObject:
   - component: {fileID: 8967572955972591767}
   - component: {fileID: 3021027047723924543}
   - component: {fileID: 7005436243129969229}
-  - component: {fileID: 6884750662550391818}
-  - component: {fileID: 797611327945070251}
   - component: {fileID: 6707030517574008012}
   - component: {fileID: 8024857237178113389}
   - component: {fileID: 4545535388637668072}
-  - component: {fileID: 8487662831144965116}
   - component: {fileID: 2859684190708692452}
   - component: {fileID: 6569637085981806810}
-  - component: {fileID: 1134813588633635910}
-  - component: {fileID: 2199780078771062037}
-  - component: {fileID: 5763321432239831947}
+  - component: {fileID: 3915255674842610329}
   m_Layer: 10
   m_Name: GiantSpider-Torso
   m_TagString: Abstract
@@ -249,6 +247,7 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+  CustomMeleeBehaviours: []
   CanBeUsedOnSelfOnHelpIntent: 0
   InitialitemSprites:
     SpriteInventoryIcon: {fileID: 0}
@@ -265,6 +264,9 @@ MonoBehaviour:
     - {r: 0, g: 0, b: 0, a: 0}
     IsPaletted: 0
   IsFakeItem: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &3067713698455326771
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,7 +415,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 2818746018
+  _assetId: 0
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
@@ -530,10 +532,10 @@ MonoBehaviour:
   Intangible: 0
   MappingIntangible: 0
   SnapToGridOnStart: 0
-  IsPlayer: 0
   ObjectBouncyness: 0.75
   tileMoveSpeed: 1
   HasOwnGravity: 0
+  isVisible: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
@@ -543,6 +545,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
+  OnHit:
+    target: {fileID: 0}
+    methodName: 
+    parameterType: 
   Hits: []
   isFlyingSliding: 0
   IsMoving: 0
@@ -632,61 +638,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   scaleTransform: {x: 1, y: 1, z: 1}
---- !u!114 &6884750662550391818
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3250516129481264533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea3b715ac32a0014787603458c14c14c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
---- !u!114 &797611327945070251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3250516129481264533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d72619b419eb784d89be0849c02177b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  CapableMutations:
-  - {fileID: 11400000, guid: 11fc1b84d220b6742a4912446b0e7e2b, type: 2}
-  - {fileID: 11400000, guid: 85b46608a403da74892b9bb16d3b712c, type: 2}
-  - {fileID: 11400000, guid: ebd5df789d07f8141ab3534b7fa87618, type: 2}
-  - {fileID: 11400000, guid: 4ee12f11044a2b742867f1431ca8bf77, type: 2}
-  - {fileID: 11400000, guid: 23a909396b4f9fe4fa1dd3e968e6a3e6, type: 2}
-  - {fileID: 11400000, guid: f9bc26ea4ea4ef642b20cf5c52edf3e6, type: 2}
-  - {fileID: 11400000, guid: f3bbcc06d720d6941a8b9ee7c8b7aad0, type: 2}
-  - {fileID: 11400000, guid: 3450fe44b4c6d444a8418acb4cfcba1b, type: 2}
-  - {fileID: 11400000, guid: 13caac55b2f66da4682b57ec7fbff8d8, type: 2}
-  - {fileID: 11400000, guid: 699c1c5473f58314f960b5fbb60c0b82, type: 2}
-  - {fileID: 11400000, guid: 3bc94400b68e1544ea426b94b243b938, type: 2}
-  - {fileID: 11400000, guid: 88aebd769e120f8449c74effaca5c5a2, type: 2}
-  - {fileID: 11400000, guid: 3450fe44b4c6d444a8418acb4cfcba1b, type: 2}
-  - {fileID: 11400000, guid: f3bbcc06d720d6941a8b9ee7c8b7aad0, type: 2}
-  - {fileID: 11400000, guid: d4c4e5ba19454334b928512081d5c510, type: 2}
-  - {fileID: 11400000, guid: 93463c37a4972ce4aa1104392aa3cc33, type: 2}
-  StartingMutations: []
-  ActiveMutationsSO: []
-  Stability: 0
-  SecondsForSpeciesMutation: 150
-  PlayerHealthData: {fileID: 0}
-  TOMutateBodyPart: {fileID: 0}
 --- !u!114 &6707030517574008012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -732,11 +683,6 @@ MonoBehaviour:
   optionalOrgans: []
   OptionalReplacementOrgan: []
   IsSurface: 1
-  TotalModified: 1
-  SurgeryProcedureBase:
-  - {fileID: 11400000, guid: 10171eea099bebb4c8fa8ec66c5ed051, type: 2}
-  - {fileID: 11400000, guid: 32f04f929f3a7134e8894559e262ec8a, type: 2}
-  - {fileID: 11400000, guid: 042d01452f7f9ec4aa0e9ca6ea309242, type: 2}
   CanNotBeHealedByExternalHealingPack: 0
   SelfArmor:
     Melee: 15
@@ -774,6 +720,11 @@ MonoBehaviour:
   DamageContributesToOverallHealth: 1
   maxHealth: 250
   Severity: 50
+  TotalModified: 1
+  SurgeryProcedureBase:
+  - {fileID: 11400000, guid: 10171eea099bebb4c8fa8ec66c5ed051, type: 2}
+  - {fileID: 11400000, guid: 32f04f929f3a7134e8894559e262ec8a, type: 2}
+  - {fileID: 11400000, guid: 042d01452f7f9ec4aa0e9ca6ea309242, type: 2}
 --- !u!114 &8024857237178113389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1116,10 +1067,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fed226d36f0fdcd40a51a7bfbf8fb6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   ReactionSounds: 1
   maxCapacity: 30
   DEBUGReagent: {fileID: 0}
   DEBUGAmount: 0
+  StopReactions: 0
   reactionSet: {fileID: 11400000, guid: 9635f48a9fe17f742aee13832a4ed6c2, type: 2}
   AdditionalReactions: []
   initialReagentMix:
@@ -1131,6 +1086,12 @@ MonoBehaviour:
   destroyOnEmpty: 0
   ContentsSet: 0
   menuOptions: -1
+  currentReagentMix:
+    temperature: 0
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []
   spriteHandler: {fileID: 0}
   UseStandardExamine: 1
   ExamineAmount: 0
@@ -1138,32 +1099,11 @@ MonoBehaviour:
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 0
+  onlyAllowSyringeFilling: 0
   SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 20
   transferSound: []
---- !u!114 &8487662831144965116
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3250516129481264533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a35915b45cb54b97bc3c38a21c1d3209, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  traumaTypesOnBodyPart:
-  - {fileID: 7858715660160071247}
-  - {fileID: 1702677847528059701}
-  - {fileID: 4605167161400643358}
-  - {fileID: 5487671123392512740}
-  - {fileID: 2941499536311191685}
 --- !u!114 &2859684190708692452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1253,7 +1193,7 @@ MonoBehaviour:
       CategoryID: 
       ConditionalParameter: 0
       XAmountConditional: 0
---- !u!114 &1134813588633635910
+--- !u!114 &3915255674842610329
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1262,69 +1202,119 @@ MonoBehaviour:
   m_GameObject: {fileID: 3250516129481264533}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 840609453e4bf334cbd14cd7999c6fb6, type: 3}
+  m_Script: {fileID: 11500000, guid: 72e9f842fdda4c2e99853e2e8d2b8066, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assets::US13.HealthV2.Living.BodyPartBehaviors
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  RelatedPart: {fileID: 6707030517574008012}
-  OnBodyID: 0
-  drunkReagent: {fileID: 0}
-  MaxDrunkAtPercentage: 0.06
-  hasInbuiltSight: 0
-  hasInbuiltHearing: 1
-  CannotSpeak: 0
-  hasInbuiltSpeech: 1
-  BodyChatModifier: 262144
-  ReagentCirculatedComponent: {fileID: 0}
-  OnDeath:
-    m_PersistentCalls:
-      m_Calls: []
-  OnRevival:
-    m_PersistentCalls:
-      m_Calls: []
-  hasSillyWalk: 0
---- !u!114 &2199780078771062037
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3250516129481264533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a9ebd1817f5f0547a70d4591eca98a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  RelatedPart: {fileID: 0}
-  Throughput: 0
-  bloodReagent: {fileID: 11400000, guid: c7943c0995bc04a49b55b22064796666, type: 2}
---- !u!114 &5763321432239831947
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3250516129481264533}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c78758cf40985e84692bbc8a9860e432, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  RelatedPart: {fileID: 0}
-  requiredReagent: {fileID: 11400000, guid: 23b1fd9d2d60ffd0a8879d7745f1a7fb, type: 2}
-  wasteReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
-  bloodReagentConsumedPercentageb: 0.7
-  reagentCirculatedComponent: {fileID: 0}
-  currentBloodSaturation: 0
-  isNotBloodReagentConsumed: 0
+  Behaviors:
+  - rid: 5041995600691986549
+  - rid: 5041995600691986550
+  - rid: 5041995600691986551
+  - rid: 5041995600691986552
+  - rid: 5041995600691986553
+  - rid: 5041995600691986554
+  SecondsUntilNextTick: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 5041995600691986549
+      type: {class: BodyPartAlerts, ns: US13.UI.Core.Alerts, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+    - rid: 5041995600691986550
+      type: {class: BodyPartMutations, ns: US13.HealthV2.Living,
+        asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        CapableMutations:
+        - {fileID: 11400000, guid: 11fc1b84d220b6742a4912446b0e7e2b, type: 2}
+        - {fileID: 11400000, guid: 85b46608a403da74892b9bb16d3b712c, type: 2}
+        - {fileID: 11400000, guid: ebd5df789d07f8141ab3534b7fa87618, type: 2}
+        - {fileID: 11400000, guid: 4ee12f11044a2b742867f1431ca8bf77, type: 2}
+        - {fileID: 11400000, guid: 23a909396b4f9fe4fa1dd3e968e6a3e6, type: 2}
+        - {fileID: 11400000, guid: f9bc26ea4ea4ef642b20cf5c52edf3e6, type: 2}
+        - {fileID: 11400000, guid: f3bbcc06d720d6941a8b9ee7c8b7aad0, type: 2}
+        - {fileID: 11400000, guid: 3450fe44b4c6d444a8418acb4cfcba1b, type: 2}
+        - {fileID: 11400000, guid: 13caac55b2f66da4682b57ec7fbff8d8, type: 2}
+        - {fileID: 11400000, guid: 699c1c5473f58314f960b5fbb60c0b82, type: 2}
+        - {fileID: 11400000, guid: 3bc94400b68e1544ea426b94b243b938, type: 2}
+        - {fileID: 11400000, guid: 88aebd769e120f8449c74effaca5c5a2, type: 2}
+        - {fileID: 11400000, guid: 3450fe44b4c6d444a8418acb4cfcba1b, type: 2}
+        - {fileID: 11400000, guid: f3bbcc06d720d6941a8b9ee7c8b7aad0, type: 2}
+        - {fileID: 11400000, guid: d4c4e5ba19454334b928512081d5c510, type: 2}
+        - {fileID: 11400000, guid: 93463c37a4972ce4aa1104392aa3cc33, type: 2}
+        StartingMutations: []
+        ActiveMutationsSO: []
+        Stability: 0
+        SecondsForSpeciesMutation: 150
+        MutationRestriction: 0
+        MutationRestrictionItemTrait: {fileID: 0}
+        PlayerHealthData: {fileID: 0}
+        TOMutateBodyPart: {fileID: 0}
+    - rid: 5041995600691986551
+      type: {class: BodyPartTrauma, ns: US13.HealthV2.Living.BodyParts.Damage.Trauma,
+        asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        traumaTypesOnBodyPart:
+        - {fileID: 7858715660160071247}
+        - {fileID: 1702677847528059701}
+        - {fileID: 4605167161400643358}
+        - {fileID: 5487671123392512740}
+        - {fileID: 2941499536311191685}
+    - rid: 5041995600691986552
+      type: {class: Brain, ns: US13.Items.Implants.Organs, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        _networkOnBodyID: 0
+        drunkReagent: {fileID: 0}
+        highReagent: {fileID: 0}
+        MaxDrunkAtPercentage: 0.06
+        MaxHighAtPercentage: 0.06
+        hasInbuiltSight: 0
+        hasInbuiltHearing: 1
+        CannotSpeak: 0
+        hasInbuiltSpeech: 1
+        BodyChatModifier: 262144
+        ReagentCirculatedComponent:
+          rid: -2
+        OnDeath:
+          m_PersistentCalls:
+            m_Calls: []
+        OnRevival:
+          m_PersistentCalls:
+            m_Calls: []
+        hasSillyWalk: 0
+    - rid: 5041995600691986553
+      type: {class: ReagentCirculatedComponent, ns: US13.HealthV2.Living.PolymorphicSystems.Bodypart,
+        asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        Throughput: 0
+        bloodReagent: {fileID: 11400000, guid: c7943c0995bc04a49b55b22064796666, type: 2}
+    - rid: 5041995600691986554
+      type: {class: SaturationComponent, ns: US13.HealthV2.Living.PolymorphicSystems.Bodypart,
+        asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        requiredReagent: {fileID: 11400000, guid: 23b1fd9d2d60ffd0a8879d7745f1a7fb,
+          type: 2}
+        wasteReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
+        bloodReagentConsumedPercentageb: 0.7
+        reagentCirculatedComponent:
+          rid: -2
+        currentBloodSaturation: 0
+        isNotBloodReagentConsumed: 0
 --- !u!1 &5368559236564554787
 GameObject:
   m_ObjectHideFlags: 0

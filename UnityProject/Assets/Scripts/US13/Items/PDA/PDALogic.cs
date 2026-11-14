@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using US13.Core.Input_System.InteractionV2;
 using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Core.Lifecycle;
+using US13.Core.Sprite_Handler;
 using US13.Items.Devices;
 using US13.Items.Traits;
 using US13.Managers;
@@ -25,7 +27,7 @@ using Random = UnityEngine.Random;
 namespace US13.Items.PDA
 {
 	[RequireComponent(typeof(ItemStorage))]
-	[RequireComponent(typeof(ItemLightControl))]
+	[RequireComponent(typeof(BodyPartBehaviors))]
 	[RequireComponent(typeof(ItemAttributesV2))]
 	[RequireComponent(typeof(PDANotesNetworkHandler))]
 	public class PDALogic : NetworkBehaviour,
@@ -60,6 +62,10 @@ namespace US13.Items.PDA
 		[Tooltip("Reset registered name on FactoryReset?")]
 		[SerializeField, BoxGroup("Settings")]
 		private bool willResetName = false;
+
+		[Tooltip("Overlay sprite shown on the PDA while its flashlight is on")]
+		[SerializeField, BoxGroup("Settings")]
+		private SpriteHandler flashlightOverlay;
 
 		[Tooltip("Tint of the main background in the GUI")]
 		[BoxGroup("GUI")]
@@ -142,7 +148,7 @@ namespace US13.Items.PDA
 		{
 			pickupable = GetComponent<Pickupable>();
 			storage = GetComponent<ItemStorage>();
-			flashlight = GetComponent<ItemLightControl>();
+			flashlight = gameObject.GetBodyPartBehavior<ItemLightControl>();
 			ItemUplink = GetComponent<Uplink>();
 		}
 
@@ -155,7 +161,11 @@ namespace US13.Items.PDA
 
 			IDSlot.OnSlotContentsChangeServer.AddListener(OnIDSlotChanged);
 
-			if (CustomNetworkManager.IsServer && cartridgePrefab != null)
+			if (CustomNetworkManager.IsServer == false) return;
+
+			flashlightOverlay.ToggleTexture(flashlight.IsOn);
+
+			if (cartridgePrefab != null)
 			{
 				var cartridge = Spawn.ServerPrefab(cartridgePrefab).GameObject;
 				Inventory.ServerAdd(cartridge, CartridgeSlot);
@@ -204,11 +214,12 @@ namespace US13.Items.PDA
 		public void ToggleFlashlight()
 		{
 			flashlight.Toggle(!flashlight.IsOn);
+			flashlightOverlay.ToggleTexture(flashlight.IsOn);
 		}
 
 		public void ToggleFlashlight(Vector2 mousePosition)
 		{
-			flashlight.Toggle(!flashlight.IsOn);
+			ToggleFlashlight();
 		}
 
 		/// <summary>

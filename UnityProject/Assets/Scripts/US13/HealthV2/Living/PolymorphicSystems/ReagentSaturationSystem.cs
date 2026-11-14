@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using System.Collections.Generic;
 using Chemistry;
 using Core.RootSillys;
@@ -49,11 +50,11 @@ namespace US13.HealthV2.Living.PolymorphicSystems
 
 		public override void BodyPartAdded(BodyPart bodyPart)
 		{
-			var newSaturation =  bodyPart.GetComponent<SaturationComponent>();
+			var newSaturation =  bodyPart.GetBodyPartBehavior<SaturationComponent>();
 
 			if (newSaturation != null)
 			{
-				if (newSaturation.enabled == false) return;
+				if (newSaturation.Enabled == false) return;
 				if (BodyParts.Contains(newSaturation) == false)
 				{
 					BodyParts.Add(newSaturation);
@@ -64,7 +65,7 @@ namespace US13.HealthV2.Living.PolymorphicSystems
 
 		public override void BodyPartRemoved(BodyPart bodyPart)
 		{
-			var newSaturation =  bodyPart.GetComponent<SaturationComponent>();
+			var newSaturation =  bodyPart.GetBodyPartBehavior<SaturationComponent>();
 			if (newSaturation != null)
 			{
 				if (BodyParts.Contains(newSaturation))

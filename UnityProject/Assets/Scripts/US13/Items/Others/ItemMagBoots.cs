@@ -1,4 +1,5 @@
-﻿using Mirror;
+using US13.HealthV2.Living;
+using Mirror;
 using UnityEngine;
 using US13.Actions;
 using US13.Core.Sprite_Handler;
@@ -45,7 +46,7 @@ namespace US13.Items.Others
 			pickupable = GetComponent<Pickupable>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			itemAttributesV2 = GetComponent<ItemAttributesV2>();
-			actionButton = GetComponent<ItemActionButton>();
+			actionButton = gameObject.GetBodyPartBehavior<ItemActionButton>();
 			pickupable.RefreshUISlotImage();
 		}
 

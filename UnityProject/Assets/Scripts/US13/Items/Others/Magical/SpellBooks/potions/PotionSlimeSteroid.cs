@@ -51,7 +51,7 @@ namespace US13.Items.Others.Magical.SpellBooks.potions
 		{
 			if (CheckTarget(Target))
 			{
-				var core = Target.GetComponent<LivingHealthMasterBase>().brain.GetComponent<SlimeCore>();
+				var core = Target.GetComponent<LivingHealthMasterBase>().brain.GetBodyPartBehavior<SlimeCore>();
 
 				//Might be worth making this into a function on Spawn.ServerPrefab  ForeverID
 
@@ -63,7 +63,7 @@ namespace US13.Items.Others.Magical.SpellBooks.potions
 
 				foreach (var BodyPart in core.RelatedPart.HealthMaster.BodyPartList)
 				{
-					var bCore = BodyPart.GetComponent<SlimeCore>();
+					var bCore = BodyPart.GetBodyPartBehavior<SlimeCore>();
 					if (bCore != null)
 					{
 						bCore.CurrentNumberOfCore = core.CurrentNumberOfCore;
@@ -78,7 +78,7 @@ namespace US13.Items.Others.Magical.SpellBooks.potions
 		{
 			if (Validations.HasComponent<LivingHealthMasterBase>(Target) ==false) return false;
 			if (Target.GetComponent<LivingHealthMasterBase>().IsDead) return false;
-			var core = Target.GetComponent<LivingHealthMasterBase>().brain.GetComponent<SlimeCore>();
+			var core = Target.GetComponent<LivingHealthMasterBase>().brain.GetBodyPartBehavior<SlimeCore>();
 			if (core == null) return false;
 			if (core.RelatedPart.ContainedIn == null) return false;
 

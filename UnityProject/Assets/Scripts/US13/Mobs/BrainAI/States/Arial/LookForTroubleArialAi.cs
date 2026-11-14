@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using US13.Core;
@@ -14,13 +14,14 @@ using Util;
 
 namespace US13.Mobs.BrainAI.States.Arial
 {
+	[System.Serializable]
 	public class LookForTroubleArialAi : BrainMobState
 	{
 		private GameObject target;
 		private MobTraversal pathfinder => master.Traversal;
-		[SerializeField] private BrainWanderState wanderState;
-		[SerializeField] private CauseTroubleArialAi troubelState;
-		[SerializeField] private GenericAiStateFollowMob stalkState;
+		[UnityEngine.SerializeReference] private BrainWanderState wanderState;
+		[UnityEngine.SerializeReference] private CauseTroubleArialAi troubelState;
+		[UnityEngine.SerializeReference] private GenericAiStateFollowMob stalkState;
 		[SerializeField] private List<AddressableAudioSource> stateEnterSounds = new List<AddressableAudioSource>();
 
 		[SerializeReference, SelectImplementation(typeof(ITraversalStrat))]

@@ -14,8 +14,9 @@ using Random = UnityEngine.Random;
 
 namespace US13.Items.Implants.Organs
 {
-	[RequireComponent( typeof(ReagentCirculatedComponent))]
-	public class SlimeCore : BodyPartFunctionality
+
+	[System.Serializable]
+	public class SlimeCore : BodyPartBehavior
 	{
 
 
@@ -39,7 +40,7 @@ namespace US13.Items.Implants.Organs
 		public SpriteDataSO AdultSprite;
 		public SpriteDataSO BabySprite;
 
-		private ReagentCirculatedComponent ReagentCirculatedComponent;
+		[UnityEngine.SerializeReference] private ReagentCirculatedComponent ReagentCirculatedComponent;
 
 
 		public List<ChanceAndPrefab> CanSplitInto = new List<ChanceAndPrefab>();
@@ -63,15 +64,15 @@ namespace US13.Items.Implants.Organs
 		public bool MakeIntoBabySlimeWhenAddedIfSlime = true;
 		private bool BabySlimeInit = false;
 
-		public override void Awake()
+		public override void OnInitialize()
 		{
-			base.Awake();
-			ReagentCirculatedComponent = this.GetCachedComponent<ReagentCirculatedComponent>();
+			base.OnInitialize();
+			ReagentCirculatedComponent = GetBodyPartBehavior<ReagentCirculatedComponent>();
 
 		}
 
 
-		public void Start()
+		public override void OnBehaviorStarted()
 		{
 			InitialiseBabySlime();
 		}
@@ -81,7 +82,7 @@ namespace US13.Items.Implants.Organs
 		public class ChanceAndPrefab
 		{
 			[Range(0, 100)] public int ChanceToMutateTo;
-			public SlimeCore CoreMutateTo;
+			public GameObject CoreMutateTo;
 		}
 
 		[NaughtyAttributes.Button()]
@@ -96,7 +97,7 @@ namespace US13.Items.Implants.Organs
 
 			foreach (var bodyPart in RelatedPart.HealthMaster.BodyPartList)
 			{
-				var Body =  bodyPart.GetComponent<SlimeBody>();
+				var Body =  bodyPart.GetBodyPartBehavior<SlimeBody>();
 
 				if (Body != null)
 				{
@@ -114,7 +115,7 @@ namespace US13.Items.Implants.Organs
 			foreach (var bodyPart in livingHealth.BodyPartList)
 			{
 
-				var Body =  bodyPart.GetComponent<SlimeBody>();
+				var Body =  bodyPart.GetBodyPartBehavior<SlimeBody>();
 
 				if (Body != null)
 				{
@@ -151,7 +152,7 @@ namespace US13.Items.Implants.Organs
 				// Find the index of the chosen prefab based on the percentage chances
 				int chosenIndex = GetChosenIndex(randomNumber);
 
-				SlimeCore NewCore = CanSplitInto[chosenIndex].CoreMutateTo;
+				SlimeCore NewCore = CanSplitInto[chosenIndex].CoreMutateTo.GetBodyPartBehavior<SlimeCore>();
 
 				if (CanSplitInto[chosenIndex].CoreMutateTo == null)
 				{
@@ -163,7 +164,7 @@ namespace US13.Items.Implants.Organs
 				var Mind = PlayerSpawn.NewSpawnCharacterV2(null, NewCore.ForCore, true);
 				Mind.Body.ObjectPhysics.AppearAtWorldPositionServer(SweetExtensions.AssumedWorldPosServer(RelatedPart.HealthMaster.gameObject));
 
-				var core = Mind.Body.GetComponent<LivingHealthMasterBase>().brain.GetComponent<SlimeCore>();
+				var core = Mind.Body.GetComponent<LivingHealthMasterBase>().brain.GetBodyPartBehavior<SlimeCore>();
 				if (core == null)
 				{
 					Loggy.Error("[SlimeCore/SlimeSplit()] - No core found!");
@@ -171,8 +172,8 @@ namespace US13.Items.Implants.Organs
 				}
 				core.InitialiseBabySlime();
 
-				var GoodPlayers = core.GetComponent<BrainSlime>();
-				GoodPlayers.GoodPlayers = GoodPlayers.GoodPlayers.Union(this.GetComponent<BrainSlime>().GoodPlayers).ToDictionary(s => s.Key, s => s.Value);
+				var GoodPlayers = core.GetBodyPartBehavior<BrainSlime>();
+				GoodPlayers.GoodPlayers = GoodPlayers.GoodPlayers.Union(GetBodyPartBehavior<BrainSlime>().GoodPlayers).ToDictionary(s => s.Key, s => s.Value);
 
 				core.Stabilised = this.Stabilised;
 			}

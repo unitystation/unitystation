@@ -66,7 +66,7 @@ namespace US13.Systems.Antagonists
 					float diseaseAmount = ReagentPool.BloodPool[CommonSicknesses.Instance.VampirismReagent];
 					foreach (var bpf in connectedPlayer.playerHealth.BodyOrganLookup[typeof(Liver)])
 					{
-						if (bpf.TryGetComponent<Liver>(out var liver) == false) continue;
+						if (bpf.TryGetBodyPartBehavior<Liver>(out var liver) == false) continue;
 						if (liver.processingContainer.CurrentReagentMix.reagentKeys.Contains(CommonSicknesses.Instance
 							    .VampirismReagent) == false) continue;
 						diseaseAmount += liver.processingContainer.CurrentReagentMix.reagents[CommonSicknesses.Instance
@@ -164,7 +164,7 @@ namespace US13.Systems.Antagonists
 
 		private void ApplyMutationsToBodyPart(BodyPart bodyPart, StageAbilities stage)
 		{
-			if (bodyPart.CommonComponents.TryGetComponent<BodyPartMutations>(out BodyPartMutations bodyPartMutations) == false) return;
+			if (bodyPart.CommonComponents.TryGetBodyPartBehavior<BodyPartMutations>(out BodyPartMutations bodyPartMutations) == false) return;
 			foreach (var mutation in stage.Mutations)
 			{
 				bodyPartMutations.AddMutation(mutation);
@@ -172,7 +172,7 @@ namespace US13.Systems.Antagonists
 		}
 		private void RemoveMutationsFromBodyPart(BodyPart bodyPart, StageAbilities stage)
 		{
-			if (bodyPart.CommonComponents.TryGetComponent<BodyPartMutations>(out BodyPartMutations bodyPartMutations) == false) return;
+			if (bodyPart.CommonComponents.TryGetBodyPartBehavior<BodyPartMutations>(out BodyPartMutations bodyPartMutations) == false) return;
 			foreach (var mutation in stage.Mutations)
 			{
 				bodyPartMutations.RemoveMutation(mutation);

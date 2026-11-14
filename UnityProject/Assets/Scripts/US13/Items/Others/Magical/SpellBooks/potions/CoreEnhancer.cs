@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using UnityEngine;
 using US13.Core.Input_System.InteractionV2;
 using US13.Core.Input_System.InteractionV2.Interactions;
@@ -17,7 +18,7 @@ namespace US13.Items.Others.Magical.SpellBooks.potions
 		public virtual bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (DefaultWillInteract.Default(interaction, side) == false) return false;
-			if (Validations.HasComponent<SlimeCore>(interaction.TargetObject) == false) return false;
+			if (interaction.TargetObject.GetBodyPartBehavior<SlimeCore>() == null) return false;
 			return interaction.Intent == Intent.Help;
 		}
 
@@ -43,7 +44,7 @@ namespace US13.Items.Others.Magical.SpellBooks.potions
 			if (CheckTarget(Target))
 			{
 
-				var SlimeCore = Target.GetComponent<SlimeCore>();
+				var SlimeCore = Target.GetBodyPartBehavior<SlimeCore>();
 				SlimeCore.Enhanced = true;
 				SlimeCore.EnhancedUsedUp = false;
 
@@ -55,7 +56,7 @@ namespace US13.Items.Others.Magical.SpellBooks.potions
 
 		public bool CheckTarget(GameObject Target)
 		{
-			var SlimeCore = Target.GetComponent<SlimeCore>();
+			var SlimeCore = Target.GetBodyPartBehavior<SlimeCore>();
 			if (SlimeCore == null) return false;
 			if (SlimeCore.Enhanced) return false;
 

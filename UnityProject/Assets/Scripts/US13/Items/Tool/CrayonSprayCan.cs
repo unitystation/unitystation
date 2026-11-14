@@ -1,4 +1,5 @@
-﻿using System;
+using US13.HealthV2.Living;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Mirror;
@@ -85,7 +86,7 @@ namespace US13.Items.Tool
 		private void Awake()
 		{
 			registerItem = GetComponent<RegisterItem>();
-			itemActionButton = GetComponent<ItemActionButton>();
+			itemActionButton = gameObject.GetBodyPartBehavior<ItemActionButton>();
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 		}
 

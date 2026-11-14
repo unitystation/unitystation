@@ -292,18 +292,13 @@ GameObject:
   - component: {fileID: 3689206736249463773}
   - component: {fileID: 4480152068862582276}
   - component: {fileID: 8850374906350711770}
-  - component: {fileID: 6769809313123712311}
-  - component: {fileID: 2713655665060294271}
   - component: {fileID: 7070648880371913664}
   - component: {fileID: 4459852525855413035}
   - component: {fileID: 3445837179117391425}
-  - component: {fileID: 2936295095757576085}
   - component: {fileID: 2946735601976128604}
   - component: {fileID: 681327123346764614}
-  - component: {fileID: 2685334813313405801}
   - component: {fileID: 3435071824480084783}
-  - component: {fileID: 8143330942247745594}
-  - component: {fileID: -838426294527116727}
+  - component: {fileID: 6528776311785220220}
   m_Layer: 10
   m_Name: GiantSpider-ArmLeft
   m_TagString: Abstract
@@ -406,6 +401,7 @@ MonoBehaviour:
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
+  CustomMeleeBehaviours: []
   CanBeUsedOnSelfOnHelpIntent: 0
   InitialitemSprites:
     SpriteInventoryIcon: {fileID: 0}
@@ -422,6 +418,9 @@ MonoBehaviour:
     - {r: 0, g: 0, b: 0, a: 0}
     IsPaletted: 0
   IsFakeItem: 0
+  references:
+    version: 2
+    RefIds: []
 --- !u!114 &1303534399759501466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -570,7 +569,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneId: 0
-  _assetId: 3379973207
+  _assetId: 0
   serverOnly: 0
   visibility: 0
   hasSpawned: 0
@@ -687,10 +686,10 @@ MonoBehaviour:
   Intangible: 0
   MappingIntangible: 0
   SnapToGridOnStart: 0
-  IsPlayer: 0
   ObjectBouncyness: 0.75
   tileMoveSpeed: 1
   HasOwnGravity: 0
+  isVisible: 1
   stickyMovement: 0
   OnThrowEndResetRotation: 0
   maximumStickSpeed: 1.5
@@ -700,6 +699,10 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   IsCurrentlyFloating: 0
+  OnHit:
+    target: {fileID: 0}
+    methodName: 
+    parameterType: 
   Hits: []
   isFlyingSliding: 0
   IsMoving: 0
@@ -789,68 +792,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   scaleTransform: {x: 1, y: 1, z: 1}
---- !u!114 &6769809313123712311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4194108783310398540}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea3b715ac32a0014787603458c14c14c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
---- !u!114 &2713655665060294271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4194108783310398540}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d72619b419eb784d89be0849c02177b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  CapableMutations:
-  - {fileID: 11400000, guid: 11fc1b84d220b6742a4912446b0e7e2b, type: 2}
-  - {fileID: 11400000, guid: 85b46608a403da74892b9bb16d3b712c, type: 2}
-  - {fileID: 11400000, guid: ebd5df789d07f8141ab3534b7fa87618, type: 2}
-  - {fileID: 11400000, guid: 4ee12f11044a2b742867f1431ca8bf77, type: 2}
-  - {fileID: 11400000, guid: 23a909396b4f9fe4fa1dd3e968e6a3e6, type: 2}
-  - {fileID: 11400000, guid: f9bc26ea4ea4ef642b20cf5c52edf3e6, type: 2}
-  - {fileID: 11400000, guid: f3bbcc06d720d6941a8b9ee7c8b7aad0, type: 2}
-  - {fileID: 11400000, guid: 3450fe44b4c6d444a8418acb4cfcba1b, type: 2}
-  - {fileID: 11400000, guid: 13caac55b2f66da4682b57ec7fbff8d8, type: 2}
-  - {fileID: 11400000, guid: 699c1c5473f58314f960b5fbb60c0b82, type: 2}
-  - {fileID: 11400000, guid: 3bc94400b68e1544ea426b94b243b938, type: 2}
-  - {fileID: 11400000, guid: 88aebd769e120f8449c74effaca5c5a2, type: 2}
-  - {fileID: 11400000, guid: 3450fe44b4c6d444a8418acb4cfcba1b, type: 2}
-  - {fileID: 11400000, guid: f3bbcc06d720d6941a8b9ee7c8b7aad0, type: 2}
-  - {fileID: 11400000, guid: d4c4e5ba19454334b928512081d5c510, type: 2}
-  - {fileID: 11400000, guid: 93463c37a4972ce4aa1104392aa3cc33, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 11400000, guid: 7d30a8633ee38fd49b6dd72e35a0dc0c, type: 2}
-  - {fileID: 11400000, guid: 690f18a2fa4bec141971d6f5c7753177, type: 2}
-  StartingMutations: []
-  ActiveMutationsSO: []
-  Stability: 0
-  SecondsForSpeciesMutation: 150
-  PlayerHealthData: {fileID: 0}
-  TOMutateBodyPart: {fileID: 0}
 --- !u!114 &7070648880371913664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -890,12 +831,6 @@ MonoBehaviour:
   optionalOrgans: []
   OptionalReplacementOrgan: []
   IsSurface: 1
-  TotalModified: 1
-  SurgeryProcedureBase:
-  - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}
-  - {fileID: 11400000, guid: 10171eea099bebb4c8fa8ec66c5ed051, type: 2}
-  - {fileID: 11400000, guid: b6fd9e69eadae4148bbd6a85d785f16a, type: 2}
-  - {fileID: 11400000, guid: 3a60d21cb4e18b14ba0387530f2dccd5, type: 2}
   CanNotBeHealedByExternalHealingPack: 0
   SelfArmor:
     Melee: 15
@@ -933,6 +868,12 @@ MonoBehaviour:
   DamageContributesToOverallHealth: 1
   maxHealth: 100
   Severity: 50
+  TotalModified: 1
+  SurgeryProcedureBase:
+  - {fileID: 11400000, guid: 3bd3c430ab0ee0647bdc059d2bc31329, type: 2}
+  - {fileID: 11400000, guid: 10171eea099bebb4c8fa8ec66c5ed051, type: 2}
+  - {fileID: 11400000, guid: b6fd9e69eadae4148bbd6a85d785f16a, type: 2}
+  - {fileID: 11400000, guid: 3a60d21cb4e18b14ba0387530f2dccd5, type: 2}
 --- !u!114 &4459852525855413035
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -973,10 +914,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fed226d36f0fdcd40a51a7bfbf8fb6d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   ReactionSounds: 1
   maxCapacity: 30
   DEBUGReagent: {fileID: 0}
   DEBUGAmount: 0
+  StopReactions: 0
   reactionSet: {fileID: 11400000, guid: 9635f48a9fe17f742aee13832a4ed6c2, type: 2}
   AdditionalReactions: []
   initialReagentMix:
@@ -988,6 +933,12 @@ MonoBehaviour:
   destroyOnEmpty: 0
   ContentsSet: 0
   menuOptions: -1
+  currentReagentMix:
+    temperature: 0
+    reagents:
+      m_keys: []
+      m_values: []
+    reagentKeys: []
   spriteHandler: {fileID: 0}
   UseStandardExamine: 1
   ExamineAmount: 0
@@ -995,32 +946,11 @@ MonoBehaviour:
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 0
+  onlyAllowSyringeFilling: 0
   SyringePulling: 0
   possibleTransferAmounts: []
   transferAmount: 20
   transferSound: []
---- !u!114 &2936295095757576085
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4194108783310398540}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a35915b45cb54b97bc3c38a21c1d3209, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  traumaTypesOnBodyPart:
-  - {fileID: 8878529265574776619}
-  - {fileID: 3330881567877162118}
-  - {fileID: 3402297808930121422}
-  - {fileID: 2476255721408872300}
-  - {fileID: 7180808772015352292}
 --- !u!114 &2946735601976128604
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1033,11 +963,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8688576ed720a4f40b3583f62adeeb23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseReagentContainer: 0
   groundReagents:
-    m_keys:
-    - {fileID: 11400000, guid: 82692ea8680693d459ad97993dbda0f3, type: 2}
-    - {fileID: 11400000, guid: 3afb1893f74fb775d806cbc4563ed1e7, type: 2}
-    m_values: 0a00000005000000
+    m_keys: []
+    m_values: []
 --- !u!114 &681327123346764614
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1088,61 +1017,6 @@ MonoBehaviour:
       CategoryID: Handcuffs1
       ConditionalParameter: 1
       XAmountConditional: 2
---- !u!114 &2685334813313405801
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4194108783310398540}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79a26cefea34ae3ad4615dab28acf61, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0.1
-  RelatedPart: {fileID: 0}
-  walkingSpeed: 0.024
-  runningSpeed: 0.024
-  crawlingSpeed: 0.3
-  initialLimbEfficiency: 1
-  ArmMeleeDamage: 5
-  ArmDamageType: 0
-  ArmHitSound:
-  - AssetAddress: Assets/Prefabs/Effects/Punch1.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  - AssetAddress: Assets/Prefabs/Effects/Punch2.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  - AssetAddress: Assets/Prefabs/Effects/Punch3.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  - AssetAddress: Assets/Prefabs/Effects/Punch4.prefab
-    AssetReference:
-      m_AssetGUID: 
-      m_SubObjectName: 
-      m_SubObjectGUID: 
-      m_SubObjectType: 
-      m_EditorAssetChanged: 0
-  ArmDamageVerbs:
-  - punched
-  ArmTraumaticDamage: 0
-  ArmTraumaticChance: 0
 --- !u!114 &3435071824480084783
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1170,7 +1044,7 @@ MonoBehaviour:
   SetSlotItemNotRemovableOnStartUp: 0
   initialignoreRoundstartGrabObjects: 0
   ashPrefab: {fileID: 0}
---- !u!114 &8143330942247745594
+--- !u!114 &6528776311785220220
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1179,37 +1053,147 @@ MonoBehaviour:
   m_GameObject: {fileID: 4194108783310398540}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a9ebd1817f5f0547a70d4591eca98a7, type: 3}
+  m_Script: {fileID: 11500000, guid: 72e9f842fdda4c2e99853e2e8d2b8066, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier: Assets::US13.HealthV2.Living.BodyPartBehaviors
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  RelatedPart: {fileID: 0}
-  Throughput: 0
-  bloodReagent: {fileID: 11400000, guid: c7943c0995bc04a49b55b22064796666, type: 2}
---- !u!114 &-838426294527116727
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4194108783310398540}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c78758cf40985e84692bbc8a9860e432, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncDirection: 0
-  syncMode: 0
-  syncInterval: 0
-  RelatedPart: {fileID: 0}
-  requiredReagent: {fileID: 11400000, guid: 23b1fd9d2d60ffd0a8879d7745f1a7fb, type: 2}
-  wasteReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
-  bloodReagentConsumedPercentageb: 0.7
-  reagentCirculatedComponent: {fileID: 0}
-  currentBloodSaturation: 0
-  isNotBloodReagentConsumed: 0
+  Behaviors:
+  - rid: 5041995600691986525
+  - rid: 5041995600691986526
+  - rid: 5041995600691986527
+  - rid: 5041995600691986528
+  - rid: 5041995600691986529
+  - rid: 5041995600691986530
+  SecondsUntilNextTick: 1
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 5041995600691986525
+      type: {class: BodyPartAlerts, ns: US13.UI.Core.Alerts, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+    - rid: 5041995600691986526
+      type: {class: BodyPartMutations, ns: US13.HealthV2.Living,
+        asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        CapableMutations:
+        - {fileID: 11400000, guid: 11fc1b84d220b6742a4912446b0e7e2b, type: 2}
+        - {fileID: 11400000, guid: 85b46608a403da74892b9bb16d3b712c, type: 2}
+        - {fileID: 11400000, guid: ebd5df789d07f8141ab3534b7fa87618, type: 2}
+        - {fileID: 11400000, guid: 4ee12f11044a2b742867f1431ca8bf77, type: 2}
+        - {fileID: 11400000, guid: 23a909396b4f9fe4fa1dd3e968e6a3e6, type: 2}
+        - {fileID: 11400000, guid: f9bc26ea4ea4ef642b20cf5c52edf3e6, type: 2}
+        - {fileID: 11400000, guid: f3bbcc06d720d6941a8b9ee7c8b7aad0, type: 2}
+        - {fileID: 11400000, guid: 3450fe44b4c6d444a8418acb4cfcba1b, type: 2}
+        - {fileID: 11400000, guid: 13caac55b2f66da4682b57ec7fbff8d8, type: 2}
+        - {fileID: 11400000, guid: 699c1c5473f58314f960b5fbb60c0b82, type: 2}
+        - {fileID: 11400000, guid: 3bc94400b68e1544ea426b94b243b938, type: 2}
+        - {fileID: 11400000, guid: 88aebd769e120f8449c74effaca5c5a2, type: 2}
+        - {fileID: 11400000, guid: 3450fe44b4c6d444a8418acb4cfcba1b, type: 2}
+        - {fileID: 11400000, guid: f3bbcc06d720d6941a8b9ee7c8b7aad0, type: 2}
+        - {fileID: 11400000, guid: d4c4e5ba19454334b928512081d5c510, type: 2}
+        - {fileID: 11400000, guid: 93463c37a4972ce4aa1104392aa3cc33, type: 2}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 0}
+        - {fileID: 11400000, guid: 7d30a8633ee38fd49b6dd72e35a0dc0c, type: 2}
+        - {fileID: 11400000, guid: 690f18a2fa4bec141971d6f5c7753177, type: 2}
+        StartingMutations: []
+        ActiveMutationsSO: []
+        Stability: 0
+        SecondsForSpeciesMutation: 150
+        MutationRestriction: 0
+        MutationRestrictionItemTrait: {fileID: 0}
+        PlayerHealthData: {fileID: 0}
+        TOMutateBodyPart: {fileID: 0}
+    - rid: 5041995600691986527
+      type: {class: BodyPartTrauma, ns: US13.HealthV2.Living.BodyParts.Damage.Trauma,
+        asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        traumaTypesOnBodyPart:
+        - {fileID: 8878529265574776619}
+        - {fileID: 3330881567877162118}
+        - {fileID: 3402297808930121422}
+        - {fileID: 2476255721408872300}
+        - {fileID: 7180808772015352292}
+    - rid: 5041995600691986528
+      type: {class: HumanoidArm, ns: US13.Items.Implants.Limbs,
+        asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        ArmMeleeDamage: 5
+        ArmDamageType: 0
+        ArmHitSound:
+        - AssetAddress: Assets/Prefabs/Effects/Punch1.prefab
+          AssetReference:
+            m_AssetGUID: 
+            m_SubObjectName: 
+            m_SubObjectGUID: 
+            m_SubObjectType: 
+            m_EditorAssetChanged: 0
+        - AssetAddress: Assets/Prefabs/Effects/Punch2.prefab
+          AssetReference:
+            m_AssetGUID: 
+            m_SubObjectName: 
+            m_SubObjectGUID: 
+            m_SubObjectType: 
+            m_EditorAssetChanged: 0
+        - AssetAddress: Assets/Prefabs/Effects/Punch3.prefab
+          AssetReference:
+            m_AssetGUID: 
+            m_SubObjectName: 
+            m_SubObjectGUID: 
+            m_SubObjectType: 
+            m_EditorAssetChanged: 0
+        - AssetAddress: Assets/Prefabs/Effects/Punch4.prefab
+          AssetReference:
+            m_AssetGUID: 
+            m_SubObjectName: 
+            m_SubObjectGUID: 
+            m_SubObjectType: 
+            m_EditorAssetChanged: 0
+        ArmDamageVerbs:
+        - punched
+        ArmTraumaticDamage: 0
+        ArmTraumaticChance: 0
+        walkingSpeed: 0.024
+        runningSpeed: 0.024
+        crawlingSpeed: 0.3
+        initialLimbEfficiency: 1
+    - rid: 5041995600691986529
+      type: {class: ReagentCirculatedComponent, ns: US13.HealthV2.Living.PolymorphicSystems.Bodypart,
+        asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        Throughput: 0
+        bloodReagent: {fileID: 11400000, guid: c7943c0995bc04a49b55b22064796666, type: 2}
+    - rid: 5041995600691986530
+      type: {class: SaturationComponent, ns: US13.HealthV2.Living.PolymorphicSystems.Bodypart,
+        asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        requiredReagent: {fileID: 11400000, guid: 23b1fd9d2d60ffd0a8879d7745f1a7fb,
+          type: 2}
+        wasteReagent: {fileID: 11400000, guid: 72991f100b5704f5fb63c9629fcdeb6c, type: 2}
+        bloodReagentConsumedPercentageb: 0.7
+        reagentCirculatedComponent:
+          rid: -2
+        currentBloodSaturation: 0
+        isNotBloodReagentConsumed: 0
 --- !u!1 &6924359284775977252
 GameObject:
   m_ObjectHideFlags: 0
@@ -1263,6 +1247,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -1284,6 +1270,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1463207863
   m_SortingLayer: 13
   m_SortingOrder: 40

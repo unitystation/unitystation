@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using System;
 using System.Collections.Generic;
 using Chemistry;
@@ -116,16 +117,16 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Hunger
 		/// </summary>
 		public override void BodyPartAdded(BodyPart bodyPart)
 		{
-			var component = bodyPart.GetComponent<HungerComponent>();
+			var component = bodyPart.GetBodyPartBehavior<HungerComponent>();
 			if (component != null)
 			{
-				if (component.enabled == false) return;
+				if (component.Enabled == false) return;
 				if (BodyParts.Contains(component) == false)
 				{
 					BodyParts.Add(component);
-					if (component.GetComponent<BodyFat>())
+					if (component.GetBodyPartBehavior<BodyFat>() != null)
 					{
-						BodyFats.Add(component.GetComponent<BodyFat>());
+						BodyFats.Add(component.GetBodyPartBehavior<BodyFat>());
 					}
 
 					BodyPartListChange(); // Rebuild the reagent consumption map.
@@ -174,7 +175,7 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Hunger
 		/// </summary>
 		public override void BodyPartRemoved(BodyPart bodyPart)
 		{
-			var component = bodyPart.GetComponent<HungerComponent>();
+			var component = bodyPart.GetBodyPartBehavior<HungerComponent>();
 			if (component != null)
 			{
 				if (BodyParts.Contains(component))
@@ -182,9 +183,9 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Hunger
 					BodyParts.Remove(component);
 				}
 
-				if (component.GetComponent<BodyFat>())
+				if (component.GetBodyPartBehavior<BodyFat>() != null)
 				{
-					BodyFats.Remove(component.GetComponent<BodyFat>());
+					BodyFats.Remove(component.GetBodyPartBehavior<BodyFat>());
 				}
 				BodyPartListChange();
 			}

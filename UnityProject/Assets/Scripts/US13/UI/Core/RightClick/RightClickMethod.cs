@@ -43,7 +43,7 @@ namespace US13.UI.Core.RightClick
 		/// </summary>
 		/// <param name="attributedMethod">method this was attributed to</param>
 		/// <param name="attributedMethod">component instance whose method should be invoked when this option is clicked.</param>
-		public RightClickMenuItem AsMenu(MethodInfo attributedMethod, Component forComponent)
+		public RightClickMenuItem AsMenu(MethodInfo attributedMethod, object forComponent)
 		{
 			var labelToUse = label ?? attributedMethod.Name;
 

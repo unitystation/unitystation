@@ -66,7 +66,7 @@ namespace US13.HealthV2.Living.BodyParts
 				RemoveSprite(RelatedPresentSprites[i], false);
 			}
 
-			HealthMaster.rootBodyPartController.UpdateClients();
+			HealthMaster.rootBodyPartController?.UpdateClients();
 		}
 
 		/// <summary>
@@ -85,10 +85,10 @@ namespace US13.HealthV2.Living.BodyParts
 				RegisterNewSprite(SpritePrefab.gameObject, sprites.Item1, Sprite, false);
 			}
 
-			HealthMaster.rootBodyPartController.UpdateClients();
+			HealthMaster.rootBodyPartController?.UpdateClients();
 
 
-			if (SetCustomisationData != "")
+			if (!string.IsNullOrEmpty(SetCustomisationData))
 			{
 				LobbyCustomisation.OnPlayerBodyDeserialise(this, SetCustomisationData, HealthMaster);
 			}

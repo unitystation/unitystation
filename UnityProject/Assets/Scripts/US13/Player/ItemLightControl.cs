@@ -1,8 +1,7 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Light2D;
 using Logs;
-using Mirror;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -19,8 +18,8 @@ namespace US13.Player
 		public LightSprite ObjectLightSprite { get; }
 	}
 
-	[RequireComponent(typeof(Pickupable))]
-	public class ItemLightControl : BodyPartFunctionality, IItemInOutMovedPlayer, ILightControl
+	[System.Serializable]
+	public class ItemLightControl : BodyPartBehavior, IItemInOutMovedPlayer, ILightControl
 	{
 		[Tooltip("Controls the light the player emits if they have this object equipped.")]
 		public LightsHolder LightEmission;
@@ -28,7 +27,18 @@ namespace US13.Player
 		[Tooltip("Controls the light the object emits while out of a player's or other object's inventory.")]
 		public GameObject objectLightEmission;
 
-		[SyncVar(hook = nameof(SyncState))] public bool IsOn = true;
+		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("IsOn")] private bool _networkIsOn = true;
+		public bool IsOn
+		{
+			get => _networkIsOn;
+			set
+			{
+				if (System.Collections.Generic.EqualityComparer<bool>.Default.Equals(_networkIsOn, value)) return;
+				var previous = _networkIsOn;
+				_networkIsOn = value;
+				if (isClient) SyncState(previous, value);
+			}
+		}
 
 		[FormerlySerializedAs("Colour")] [SerializeField] private Color colour = default;
 
@@ -63,7 +73,7 @@ namespace US13.Player
 		bool IItemInOutMovedPlayer.PreviousSetValid { get; set; }
 
 
-		private void Awake()
+		public override void OnInitialize()
 		{
 			if (objectLightEmission == null)
 			{
@@ -183,7 +193,7 @@ namespace US13.Player
 
 		private void SyncState(bool oldState, bool newState)
 		{
-			IsOn = newState;
+			_networkIsOn = newState;
 			// Only update object light if not held by a player
 			if (CurrentlyOn == null)
 			{
@@ -222,5 +232,22 @@ namespace US13.Player
 				objectLightEmission.SetActive(IsOn);
 			}
 		}
+		[System.Serializable]
+		private sealed class BehaviorNetworkState
+		{
+			public bool IsOn;
+		}
+
+		public override string CaptureNetworkState() => JsonUtility.ToJson(new BehaviorNetworkState
+		{
+			IsOn = this.IsOn,
+		});
+
+		public override void ApplyNetworkState(string json)
+		{
+			var state = JsonUtility.FromJson<BehaviorNetworkState>(json);
+			IsOn = state.IsOn;
+		}
+
 	}
 }

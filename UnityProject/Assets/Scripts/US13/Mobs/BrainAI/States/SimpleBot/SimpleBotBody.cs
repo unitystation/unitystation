@@ -6,9 +6,10 @@ using US13.Items.Implants.Organs;
 
 namespace US13.Mobs.BrainAI.States.SimpleBot
 {
-	public class SimpleBotBody : BodyPartFunctionality
+	[System.Serializable]
+	public class SimpleBotBody : BodyPartBehavior
 	{
-		private SimpleBotTaskAi _taskAi = null;
+		[UnityEngine.SerializeReference] private SimpleBotTaskAi _taskAi = null;
 		private int _currentSpriteIndex = 0;
 
 		[SerializeField, Tooltip("Sprites are: (0) Regular-Idle, (1) Regular-Performing,\n (2) Emagged-Idle, (3) Emagged-Performing")]
@@ -25,7 +26,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 		private void AttachToBrain(Brain brain)
 		{
 			if (_taskAi != null) _taskAi.OnSpriteChange -= UpdateBodySprites;
-			if (LivingHealthMaster.brain.TryGetComponent<SimpleBotTaskAi>(out _taskAi) == false)
+			if (LivingHealthMaster.brain.TryGetBodyPartBehavior<SimpleBotTaskAi>(out _taskAi) == false)
 			{
 				Loggy.Error($"SimpleBotBody/OnAddedToBody(): Could not find SimpleBotTaskAi script on LivingHealthMaster Brain");
 				return;
@@ -39,7 +40,7 @@ namespace US13.Mobs.BrainAI.States.SimpleBot
 			base.OnRemovedFromBody(addedToBody, source);
 
 			addedToBody.OnBrainAdded -= AttachToBrain;
-			if (_taskAi == false) return;
+			if (_taskAi == null) return;
 			_taskAi.OnSpriteChange -= UpdateBodySprites;
 		}
 

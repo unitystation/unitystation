@@ -520,15 +520,15 @@ namespace US13.Managers
 				return;
 			}
 
-			if (playerScript.playerHealth.BodyOrganLookup.TryGetValue(typeof(Heart), out List<BodyPartFunctionality> hearts) == false) return;
-			if (hearts[0].TryGetComponent<MetabolismComponent>(out var metabolismComponent) == false) return;
+			if (playerScript.playerHealth.BodyOrganLookup.TryGetValue(typeof(Heart), out List<IBodyPartBehavior> hearts) == false) return;
+			if (hearts[0].TryGetBodyPartBehavior<MetabolismComponent>(out var metabolismComponent) == false) return;
 
 			foreach (var sickness in CureManager.Instance.CureableSicknesses)
 			{
 				playerBlood.Remove(sickness.Sickness, 9999);
 				foreach (var effect in sickness.CureReaction.effectDict)
 				{
-					effect.Key.Apply(metabolismComponent, playerBlood, playerScript.AssumedWorldPos, 100.0f);
+					effect.Key.Apply(metabolismComponent.Owner, playerBlood, playerScript.AssumedWorldPos, 100.0f);
 				}
 			}
 			//Log what we did.

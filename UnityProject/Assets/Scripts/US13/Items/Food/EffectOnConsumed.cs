@@ -17,11 +17,11 @@ namespace US13.Items.Food
 	[RequireComponent(typeof(Consumable))]
 	public class EffectOnConsumed: MonoBehaviour, IServerLifecycle
 	{
-		[SerializeReference]
+		[UnityEngine.SerializeReference]
 		[SelectImplementation(typeof(IConsumptionEffect))]
 		private IConsumptionEffect consumptionEffect;
 
-		[SerializeReference]
+		[UnityEngine.SerializeReference]
 		[SelectImplementation(typeof(IConsumptionEffectCondition))]
 		private IConsumptionEffectCondition condition = new AlwaysTrue();
 

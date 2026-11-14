@@ -1,3 +1,4 @@
+using US13.HealthV2.Living;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,18 +20,15 @@ using US13.Systems.Lobby;
 using US13.UI.Core;
 using US13.UI.Objects.Medical.genetics.SudokuPuzzle.sudoku_generator;
 using Util;
-using BodyPart = US13.HealthV2.Living.CirculatorySystem;
 using Random = UnityEngine.Random;
 
 namespace US13.HealthV2.Living
 {
-	public class BodyPartMutations : BodyPartFunctionality
+	[System.Serializable]
+	public class BodyPartMutations : BodyPartBehavior
 	{
-		public static Dictionary<MutationSO, MutationRoundData> MutationVariants =
-			new Dictionary<MutationSO, MutationRoundData>();
-
-		public static Dictionary<PlayerHealthData, MutationRoundData> RaceDataVariants =
-			new Dictionary<PlayerHealthData, MutationRoundData>();
+		public static Dictionary<MutationSO, MutationRoundData> MutationVariants = new();
+		public static Dictionary<PlayerHealthData, MutationRoundData> RaceDataVariants = new();
 
 		public List<MutationSO> CapableMutations = new List<MutationSO>();
 		public List<Mutation> ActiveMutations = new List<Mutation>();
@@ -61,13 +59,7 @@ namespace US13.HealthV2.Living
 			return MutationVariants[Mutation];
 		}
 
-		public override void Awake()
-		{
-			base.Awake();
-			RelatedPart.OnDamageTaken += OnDMGMutationCheck;
-		}
-
-		private void Start()
+		public override void OnBehaviorStarted()
 		{
 			foreach (var mutationSo in StartingMutations)
 			{
@@ -76,7 +68,7 @@ namespace US13.HealthV2.Living
 		}
 
 
-		private void OnDMGMutationCheck(BodyPartDamageData data)
+		public override void OnTakeDamage(BodyPartDamageData data)
 		{
 			if (data.DamageAmount <= 0.50f) return;
 			if (data.DamageType != DamageType.Clone && data.DamageType != DamageType.Radiation) return;
@@ -89,8 +81,6 @@ namespace US13.HealthV2.Living
 			if ((data.DamageAmount >= RNG) == false) return;
 
 			AddRandomMutation();
-
-
 		}
 
 
@@ -217,7 +207,7 @@ namespace US13.HealthV2.Living
 		public struct MutationAndBodyPart
 		{
 			public MutationSO MutationSO;
-			public BodyPartMutations BodyPartMutations;
+			[UnityEngine.SerializeReference] public BodyPartMutations BodyPartMutations;
 		}
 
 
@@ -327,7 +317,7 @@ namespace US13.HealthV2.Living
 			}
 
 
-			var ONMutation = SpawnedBodypart.gameObject.GetComponent<BodyPartMutations>();
+			var ONMutation = SpawnedBodypart.gameObject.GetBodyPartBehavior<BodyPartMutations>();
 
 			if (ONMutation != null)
 			{
@@ -336,7 +326,7 @@ namespace US13.HealthV2.Living
 					ONMutation.AddMutation(Mutations.RelatedMutationSO);
 				}
 
-				ONMutation.MutateCustomisation(((BodyPartFunctionality) ONMutation).RelatedPart.SetCustomisationData,
+				ONMutation.MutateCustomisation(ONMutation.RelatedPart.SetCustomisationData,
 					RelatedPart.SetCustomisationData);
 			}
 		}
@@ -351,7 +341,7 @@ namespace US13.HealthV2.Living
 			ChangeToSpecies(TOMutateBodyPart);
 		}
 
-		public void OnDestroy()
+		public override void OnBehaviorDestroyed()
 		{
 			ActiveMutations.Clear();
 		}
@@ -359,7 +349,7 @@ namespace US13.HealthV2.Living
 
 		public void ChangeToSpecies(GameObject BodyPart, CharacterSheet characterSheet = null)
 		{
-			if (this.TryGetComponent<Brain>(out var brain)) return; //Make it a little bit harder to remove from a round
+			if (TryGetBodyPartBehavior<Brain>(out var brain)) return; //Make it a little bit harder to remove from a round
 			if (characterSheet != null)
 			{
 				PerfomChangeToSpecies(BodyPart, characterSheet);

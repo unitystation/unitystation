@@ -1,9 +1,11 @@
+using US13.HealthV2.Living;
 using UnityEngine;
 using UnityEngine.Serialization;
 using US13.HealthV2.Living.CirculatorySystem.BloodTypes;
 
 namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
 {
+	[System.Serializable]
 	public class SaturationComponent : BodyPartComponentBase<ReagentSaturationSystem>
 	{
 		public BloodType bloodType => reagentCirculatedComponent.bloodType;
@@ -28,7 +30,7 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
 		public float bloodReagentConsumedPercentageb = 0.5f;
 
 		[FormerlySerializedAs("ReagentCirculated")] [HideInInspector]
-		public ReagentCirculatedComponent reagentCirculatedComponent;
+		[UnityEngine.SerializeReference] public ReagentCirculatedComponent reagentCirculatedComponent;
 
 
 		public float currentBloodSaturation = 0;
@@ -37,10 +39,10 @@ namespace US13.HealthV2.Living.PolymorphicSystems.Bodypart
 
 		public bool isNotBloodReagentConsumed = false;
 
-		public override void Awake()
+		public override void OnInitialize()
 		{
-			base.Awake();
-			reagentCirculatedComponent = GetComponent<ReagentCirculatedComponent>();
+			base.OnInitialize();
+			reagentCirculatedComponent = GetBodyPartBehavior<ReagentCirculatedComponent>();
 		}
 
 		public void SetNotIsBloodReagentConsumed(bool State)
