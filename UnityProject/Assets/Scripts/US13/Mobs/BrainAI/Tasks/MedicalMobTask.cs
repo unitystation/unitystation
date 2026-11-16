@@ -66,7 +66,7 @@ namespace US13.Mobs.BrainAI.Tasks
 					if (context.AI.IsEmagged)
 						target.ApplyDamageToRandomBodyPart(context.AI.Body.gameObject, 5f, AttackType.Melee, DamageType.Brute);
 
-					float deadline = Time.time + Mathf.Max(0.02f, context.AI.Settings.Task.Duration);
+					float deadline = Time.time + Mathf.Max(0.02f, context.AI.GetSettings<BotTaskSettings>().Duration);
 					await UniTask.WaitUntil(() => !IsCurrentTreatment() || RecoveredOrMovedAway() || Time.time >= deadline,
 						cancellationToken: cancellationToken);
 					CheckCurrentTreatment();

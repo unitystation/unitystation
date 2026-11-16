@@ -251,13 +251,13 @@ namespace Tests
 			Assert.That(SerializationUtility.HasManagedReferencesWithMissingTypes(host), Is.False);
 			var ai = host.Behaviors.OfType<BrainMobAI>().Single();
 			Assert.That(ai.Graph, Is.Not.Null);
-			Assert.That(ai.Settings.Task.Kind, Is.EqualTo(MobTaskKind.Floor));
+			Assert.That(ai.GetSettings<BotTaskSettings>().Kind, Is.EqualTo(MobTaskKind.Floor));
 			Assert.That(ai.Settings.WanderInterval, Is.EqualTo(2));
 			Assert.That(ai.Settings.SearchInterval, Is.EqualTo(4));
-			Assert.That(ai.Settings.Task.Duration, Is.EqualTo(2));
-			Assert.That(ai.Settings.Task.TileToPlace, Is.Not.Null);
-			Assert.That(ai.Settings.Task.Language, Is.Not.Null);
-			Assert.That(ai.Settings.Task.IdleEmaggedDialogue.Count, Is.EqualTo(2));
+			Assert.That(ai.GetSettings<BotTaskSettings>().Duration, Is.EqualTo(2));
+			Assert.That(ai.GetSettings<BotTaskSettings>().TileToPlace, Is.Not.Null);
+			Assert.That(ai.GetSettings<BotTaskSettings>().Language, Is.Not.Null);
+			Assert.That(ai.GetSettings<BotTaskSettings>().IdleEmaggedDialogue.Count, Is.EqualTo(2));
 			Assert.That(host.Behaviors.Count(b => b != null && b.GetType().Namespace.StartsWith("US13.Mobs.BrainAI")), Is.EqualTo(1));
 			Assert.That(typeof(BodyPartBehavior).IsAssignableFrom(typeof(BrainMobState)), Is.False);
 		}

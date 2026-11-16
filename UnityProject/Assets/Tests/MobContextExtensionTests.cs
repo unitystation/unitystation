@@ -214,6 +214,7 @@ namespace Tests
 					foreach (var ai in host.Behaviors.OfType<BrainMobAI>())
 					{
 						MobBehaviorGraphTools.ValidateContextExtensions(ai, path);
+						MobBehaviorGraphTools.ValidateSettings(ai, path);
 						count++;
 					}
 			}

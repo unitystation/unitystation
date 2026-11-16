@@ -19,7 +19,7 @@ namespace US13.Mobs.BrainAI.Tasks
 		public abstract bool FindTarget(MobBehaviorContext context, int radius);
 		public virtual bool IsValid(MobBehaviorContext context) => context.TargetMatrix != null && (!context.TargetWasObject || context.Target != null) &&
 			Vector3.Distance(context.TargetCell.ToWorld(context.TargetMatrix), context.AI.Body.gameObject.AssumedWorldPosServer()) <= Range;
-		public virtual float Begin(MobBehaviorContext context) => context.AI.Settings.Task.Duration;
+		public virtual float Begin(MobBehaviorContext context) => context.AI.GetSettings<BotTaskSettings>().Duration;
 		public virtual void Tick(MobBehaviorContext context, float elapsed) { }
 		public abstract void Complete(MobBehaviorContext context);
 		public virtual void Cancel() { }
@@ -56,7 +56,7 @@ namespace US13.Mobs.BrainAI.Tasks
 
 		protected static bool IsAllowedLiving(MobBehaviorContext context, LivingHealthMasterBase living)
 		{
-			return living != null && living != context.Health && !context.AI.Settings.Task.BlacklistedSpecies.Contains(living.InitialSpecies);
+			return living != null && living != context.Health && context.AI.TryGetSettings<BotTaskSettings>(out var settings) && !settings.BlacklistedSpecies.Contains(living.InitialSpecies);
 		}
 
 		protected static Matrix MatrixOf(MobBehaviorContext context)

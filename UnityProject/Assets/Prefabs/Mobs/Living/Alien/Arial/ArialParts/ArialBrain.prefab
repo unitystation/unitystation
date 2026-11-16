@@ -196,16 +196,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowExitSound.AssetAddress
-      value: Assets/Prefabs/NPC/Arial/ArialPrankIOut.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowEnterSound.AssetAddress
-      value: Assets/Prefabs/NPC/Arial/ArialPrankIn.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
       propertyPath: managedReferences[5041995600707191383].ClimbSpeedInMilliseconds
       value: 3135
       objectReference: {fileID: 0}
@@ -223,11 +213,6 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[5041995600707191376].CapableMutations.Array.size
       value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.size
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
@@ -300,23 +285,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowExitSound.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowEnterSound.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
       propertyPath: managedReferences[5041995600707191378].Settings.SearchInterval
       value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowInterval
-      value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
@@ -330,36 +300,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowExitSound.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowExitSound.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowExitSound.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowEnterSound.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowEnterSound.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowEnterSound.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
       propertyPath: managedReferences[5041995600707191378].Settings.FollowExitSound.AssetReference.m_AssetGUID
       value: 
       objectReference: {fileID: 0}
@@ -370,22 +310,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[0].AssetAddress
-      value: Assets/Prefabs/NPC/Arial/ArialPurr.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[1].AssetAddress
-      value: Assets/Prefabs/NPC/Arial/ArialTalk.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
       propertyPath: managedReferences[5041995600707191377].OnDeath.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowExitSound.AssetReference.m_EditorAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
@@ -406,11 +331,6 @@ PrefabInstance:
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
       propertyPath: managedReferences[5041995600707191377].OnRevival.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowEnterSound.AssetReference.m_EditorAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
@@ -436,56 +356,6 @@ PrefabInstance:
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
       propertyPath: managedReferences[5041995600707191378].Settings.FollowEnterSound.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[0].AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[1].AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[0].AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[0].AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[0].AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[1].AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[1].AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[1].AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[0].AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[1].AssetReference.m_EditorAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3784158830486218459, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
@@ -580,11 +450,6 @@ PrefabInstance:
       objectReference: {fileID: -100, guid: ac9591785e691a4b62cfdf21231a60f3, type: 2}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191378].Settings.Task.Kind
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
       propertyPath: managedReferences[5041995600707191378].OwnerOnlyNetworkState
       value: 0
       objectReference: {fileID: 0}
@@ -602,6 +467,151 @@ PrefabInstance:
         type: 3}
       propertyPath: 'managedReferences[5041995600707191378].ContextExtensions.Array.data[0]'
       value: 5041995652254400514
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: 'managedReferences[5041995654726680578]'
+      value: Assets US13.Mobs.BrainAI.ArialBehaviorSettings
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].ThrowInterval
+      value: 0.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].EnterSounds.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].ThrowExitSound.AssetAddress
+      value: Assets/Prefabs/NPC/Arial/ArialPrankIOut.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].ThrowEnterSound.AssetAddress
+      value: Assets/Prefabs/NPC/Arial/ArialPrankIn.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191378].SettingsExtensions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191378].SettingsExtensions.Array.data[0]'
+      value: 5041995654726680578
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].EnterSounds.Array.data[0].AssetAddress
+      value: Assets/Prefabs/NPC/Arial/ArialPurr.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].EnterSounds.Array.data[1].AssetAddress
+      value: Assets/Prefabs/NPC/Arial/ArialTalk.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].ThrowExitSound.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].ThrowEnterSound.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].ThrowExitSound.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].ThrowExitSound.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].ThrowExitSound.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].ThrowEnterSound.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].ThrowEnterSound.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].ThrowEnterSound.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].ThrowExitSound.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].ThrowEnterSound.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].EnterSounds.Array.data[0].AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].EnterSounds.Array.data[1].AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].EnterSounds.Array.data[0].AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].EnterSounds.Array.data[0].AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].EnterSounds.Array.data[0].AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].EnterSounds.Array.data[1].AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].EnterSounds.Array.data[1].AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].EnterSounds.Array.data[1].AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].EnterSounds.Array.data[0].AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680578].EnterSounds.Array.data[1].AssetReference.m_EditorAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

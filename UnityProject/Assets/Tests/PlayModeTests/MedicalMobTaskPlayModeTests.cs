@@ -45,8 +45,8 @@ namespace Tests
 				NetworkServer.fullUpdateDuration = new TimeSample(NetworkServer.sendRate);
 				typeof(NetworkServer).GetProperty(nameof(NetworkServer.active)).SetValue(null, true);
 				var body = Child("medbot"); body.AddComponent<NetworkIdentity>(); body.AddComponent<UniversalObjectPhysics>();
-				AI = new BrainMobAI { Body = body.AddComponent<CommonComponents>(), ContextExtensions = new() { new TaskContextExtension() } };
-				AI.Settings.Task.Kind = MobTaskKind.Medical; AI.Settings.Task.Duration = duration;
+				AI = new BrainMobAI { Body = body.AddComponent<CommonComponents>(), ContextExtensions = new() { new TaskContextExtension() }, SettingsExtensions = new() { new BotTaskSettings() } };
+				AI.GetSettings<BotTaskSettings>().Kind = MobTaskKind.Medical; AI.GetSettings<BotTaskSettings>().Duration = duration;
 				Context = new MobBehaviorContext(AI);
 				// Keep world-dependent initialization disabled while exercising the real health and async APIs.
 				var patient = Child("patient"); patient.AddComponent<NetworkIdentity>(); patient.AddComponent<UniversalObjectPhysics>();

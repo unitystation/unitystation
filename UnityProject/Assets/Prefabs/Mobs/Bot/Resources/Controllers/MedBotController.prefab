@@ -279,12 +279,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.Language
-      value: 
-      objectReference: {fileID: 11400000, guid: 90699dd78f8cfad4e983185c4f67ae72,
-        type: 2}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
       propertyPath: managedReferences[5041995600707191363].drunkReagent
       value: 
       objectReference: {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31,
@@ -351,11 +345,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.Duration
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
       propertyPath: managedReferences[5041995600707191363].MaxDrunkAtPercentage
       value: 0.06
       objectReference: {fileID: 0}
@@ -378,16 +367,6 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[5041995600707191364].OwnerOnlyNetworkState
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.DialogueChancePercent
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.size
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
@@ -421,26 +400,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.BlacklistedSpecies.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.EnterDialogue.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.PerformSound.AssetAddress
-      value: Assets/Prefabs/Items/defib/DefibReady.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
       propertyPath: 'managedReferences[5041995600707191362].CapableMutations.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 11fc1b84d220b6742a4912446b0e7e2b,
@@ -470,45 +429,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.FoundDialogue.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.BlacklistedSpecies.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 878d88bc2a64d75429f00a1208902607,
-        type: 2}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.BlacklistedSpecies.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: e9ff315a55db70441bed9631f79432e4,
-        type: 2}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.BlacklistedSpecies.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: f0297cb2a01ba64408e02a2944608937,
-        type: 2}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.BlacklistedSpecies.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: 60f6168d2ada0a34ea579eb77f1fd6b0,
-        type: 2}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.EmaggedPerformSound.AssetAddress
-      value: Assets/Prefabs/Effects/Punch1.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
       propertyPath: managedReferences[5041995600707191364].Settings.WanderInterval
       value: 2
       objectReference: {fileID: 0}
@@ -519,447 +439,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[0].transcription
-      value: Look at me! I am a chicken.
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[1].transcription
-      value: I knew it! I should've been a plastic surgeon.
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[2].transcription
-      value: An apple a day keep me away!
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[3].transcription
-      value: You are a good person!
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.PerformSound.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
       propertyPath: managedReferences[5041995600707191363].OnDeath.m_PersistentCalls.m_Calls.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[0].transcription
-      value: An apple a day keeps me away!
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[1].transcription
-      value: Feel better soon!
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[2].transcription
-      value: You are a good person!
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[3].transcription
-      value: Thank you!
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
       propertyPath: managedReferences[5041995600707191363].OnRevival.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.EmaggedPerformSound.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.data[0].transcription
-      value: This hurts, my pain is real.
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.data[1].transcription
-      value: I require assistance.
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.data[2].transcription
-      value: There's always a catch. And then the best there is.
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.PerformSound.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.PerformSound.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.PerformSound.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.EmaggedPerformSound.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.EmaggedPerformSound.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.EmaggedPerformSound.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[0].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/medbot/i_am_chicken.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[1].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/medbot/surgeon.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[2].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/medbot/apple.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[3].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/medbot/youre_good.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.PerformSound.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.EmaggedPerformSound.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[0].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/medbot/apple.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[1].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/medbot/feelbetter.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[2].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/medbot/youre_good.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[3].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/medbot/thank_you.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.data[0].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/medbot/pain_is_real.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.data[1].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/medbot/i_require_asst.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.data[2].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/medbot/catch.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[0].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[1].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[2].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[3].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[0].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[1].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[2].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[3].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.data[0].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.data[1].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.data[2].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[0].audioSource.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[1].audioSource.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[2].audioSource.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleDialogue.Array.data[3].audioSource.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[0].audioSource.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[1].audioSource.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[2].audioSource.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.ExitDialogue.Array.data[3].audioSource.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.data[0].audioSource.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.data[1].audioSource.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.IdleEmaggedDialogue.Array.data[2].audioSource.AssetReference.m_EditorAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6109547793187147922, guid: b6b606388cb517144a21d93415c57401,
@@ -979,11 +464,6 @@ PrefabInstance:
       objectReference: {fileID: -100, guid: 0f333af99e717f34d5b1e904e27b32e4, type: 2}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: managedReferences[5041995600707191364].Settings.Task.Kind
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
       propertyPath: managedReferences[5041995600707191364].OwnerOnlyNetworkState
       value: 0
       objectReference: {fileID: 0}
@@ -1001,6 +481,606 @@ PrefabInstance:
         type: 3}
       propertyPath: 'managedReferences[5041995600707191364].ContextExtensions.Array.data[0]'
       value: 5041995652254400537
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: 'managedReferences[5041995654726680601]'
+      value: Assets US13.Mobs.BrainAI.BotTaskSettings
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].Kind
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].Duration
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].Language
+      value: 
+      objectReference: {fileID: 11400000, guid: 90699dd78f8cfad4e983185c4f67ae72,
+        type: 2}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].TileToPlace
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].HandcuffTrait
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].SprayDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ReagentToSpill
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].InternalStorage
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].DialogueChancePercent
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].EnterDialogue.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].FoundDialogue.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].PerformSound.AssetAddress
+      value: Assets/Prefabs/Items/defib/DefibReady.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].FireRetardantMix.temperature
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191364].SettingsExtensions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].BlacklistedSpecies.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].EmaggedChemicalMix.temperature
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191364].SettingsExtensions.Array.data[0]'
+      value: 5041995654726680601
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: 'managedReferences[5041995654726680601].BlacklistedSpecies.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 878d88bc2a64d75429f00a1208902607,
+        type: 2}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: 'managedReferences[5041995654726680601].BlacklistedSpecies.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: e9ff315a55db70441bed9631f79432e4,
+        type: 2}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: 'managedReferences[5041995654726680601].BlacklistedSpecies.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: f0297cb2a01ba64408e02a2944608937,
+        type: 2}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: 'managedReferences[5041995654726680601].BlacklistedSpecies.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 60f6168d2ada0a34ea579eb77f1fd6b0,
+        type: 2}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].EmaggedPerformSound.AssetAddress
+      value: Assets/Prefabs/Effects/Punch1.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].FireRetardantMix.reagentKeys.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].PerformSound.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[0].transcription
+      value: An apple a day keeps me away!
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[1].transcription
+      value: Feel better soon!
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[2].transcription
+      value: You are a good person!
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[3].transcription
+      value: Thank you!
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[0].transcription
+      value: Look at me! I am a chicken.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[1].transcription
+      value: I knew it! I should've been a plastic surgeon.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[2].transcription
+      value: An apple a day keep me away!
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[3].transcription
+      value: You are a good person!
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].EmaggedChemicalMix.reagentKeys.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].FireRetardantMix.reagents.m_keys.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].PerformSound.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].PerformSound.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].PerformSound.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].EmaggedChemicalMix.reagents.m_keys.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].FireRetardantMix.reagents.m_values.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].EmaggedPerformSound.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].EmaggedChemicalMix.reagents.m_values.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.data[0].transcription
+      value: This hurts, my pain is real.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.data[1].transcription
+      value: I require assistance.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.data[2].transcription
+      value: There's always a catch. And then the best there is.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].PerformSound.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].EmaggedPerformSound.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].EmaggedPerformSound.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].EmaggedPerformSound.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[0].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/apple.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[1].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/feelbetter.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[2].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/youre_good.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[3].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/thank_you.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[0].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/i_am_chicken.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[1].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/surgeon.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[2].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/apple.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[3].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/youre_good.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].EmaggedPerformSound.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.data[0].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/pain_is_real.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.data[1].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/i_require_asst.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.data[2].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/medbot/catch.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[0].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[1].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[2].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[3].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[0].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[1].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[2].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[3].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.data[0].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.data[1].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.data[2].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[0].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[1].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[2].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].ExitDialogue.Array.data[3].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[0].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[1].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[2].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleDialogue.Array.data[3].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.data[0].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.data[1].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680601].IdleEmaggedDialogue.Array.data[2].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1588973984930370205, guid: b6b606388cb517144a21d93415c57401, type: 3}

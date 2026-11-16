@@ -12,6 +12,7 @@ using US13.Managers.NetworkManagement;
 using US13.Managers.UpdateManager;
 using US13.Mobs.BrainAI.States.SimpleBot;
 using US13.Mobs.BrainAI.ContextExtensions;
+using US13.Mobs.BrainAI.SettingsExtensions;
 using US13.Mobs.Traversal;
 
 namespace US13.Mobs.BrainAI
@@ -21,6 +22,8 @@ namespace US13.Mobs.BrainAI
 	{
 		public BehaviorGraph Graph;
 		public MobBehaviorSettings Settings = new();
+		[SerializeReference, SelectImplementation(typeof(IMobBehaviorSettingsExtension))]
+		public List<IMobBehaviorSettingsExtension> SettingsExtensions = new();
 		[SerializeReference, SelectImplementation(typeof(IMobBehaviorContextExtension))]
 		public List<IMobBehaviorContextExtension> ContextExtensions = new();
 		public bool DEBUGoverride;
@@ -60,6 +63,44 @@ namespace US13.Mobs.BrainAI
 
 		public override void OnBehaviorStarted() => OnBehaviorEnabled();
 		public void SetPerformingTask(bool value) => isPerformingTask = value;
+
+		public bool TryGetSettings<T>(out T settings) where T : class, IMobBehaviorSettingsExtension
+		{
+			settings = null;
+			if (SettingsExtensions == null) throw new InvalidOperationException("The brain's settings extension list is missing.");
+			foreach (var candidate in SettingsExtensions)
+			{
+				if (candidate == null) throw new InvalidOperationException("The brain has a null settings extension selection.");
+				if (candidate is not T match) continue;
+				if (settings != null) throw new InvalidOperationException($"Ambiguous settings extension lookup for {typeof(T).FullName}");
+				settings = match;
+			}
+			return settings != null;
+		}
+
+		public T GetSettings<T>() where T : class, IMobBehaviorSettingsExtension =>
+			TryGetSettings<T>(out var settings) ? settings : throw new InvalidOperationException($"Missing settings extension {typeof(T).FullName}");
+
+		public bool TryGetInterval(int intervalId, out float seconds)
+		{
+			if (Settings == null || SettingsExtensions == null) throw new InvalidOperationException("The brain's behavior settings are missing.");
+			switch (intervalId)
+			{
+				case 0: seconds = Settings.WanderInterval; return true;
+				case 1: seconds = Settings.SearchInterval; return true;
+				case 2: seconds = Settings.FollowInterval; return true;
+			}
+			bool found = false;
+			seconds = 0;
+			foreach (var selection in SettingsExtensions)
+			{
+				if (selection is not IMobBehaviorIntervalSettings provider || provider.IntervalId != intervalId) continue;
+				if (found) throw new InvalidOperationException($"Multiple settings extensions provide graph interval {intervalId}");
+				seconds = provider.IntervalSeconds;
+				found = true;
+			}
+			return found;
+		}
 
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{

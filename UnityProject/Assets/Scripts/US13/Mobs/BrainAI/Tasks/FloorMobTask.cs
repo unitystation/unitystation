@@ -22,7 +22,7 @@ namespace US13.Mobs.BrainAI.Tasks
 		public override void Complete(MobBehaviorContext context)
 		{
 			if (context.AI.IsEmagged) context.TargetMatrix.MetaTileMap.RemoveTileWithlayer(context.TargetCell, LayerType.Floors);
-			else if (context.AI.Settings.Task.TileToPlace != null) context.TargetMatrix.MetaTileMap.SetTile(context.TargetCell, context.AI.Settings.Task.TileToPlace);
+			else if (context.AI.GetSettings<BotTaskSettings>().TileToPlace != null) context.TargetMatrix.MetaTileMap.SetTile(context.TargetCell, context.AI.GetSettings<BotTaskSettings>().TileToPlace);
 		}
 	}
 }

@@ -2,11 +2,13 @@ using System;
 using UnityEngine;
 using US13.HealthV2.Living;
 using US13.Mobs.BrainAI.Tasks;
+using US13.Mobs.BrainAI.SettingsExtensions;
 using Random = UnityEngine.Random;
 
 namespace US13.Mobs.BrainAI.ContextExtensions
 {
 	[Serializable]
+	[RequiresMobSettings(typeof(BotTaskSettings))]
 	public sealed class TaskContextExtension : MobBehaviorContextExtension, IMobMovementFailureHandler
 	{
 		[NonSerialized] public MobTask Task;
@@ -18,7 +20,7 @@ namespace US13.Mobs.BrainAI.ContextExtensions
 		public override void Bind(MobBehaviorContext context, LivingHealthMasterBase health)
 		{
 			base.Bind(context, health);
-			Task = MobTask.Create(context.AI.Settings.Task.Kind);
+			Task = context.AI.TryGetSettings<BotTaskSettings>(out var settings) ? MobTask.Create(settings.Kind) : null;
 		}
 		public override void BeginRun()
 		{

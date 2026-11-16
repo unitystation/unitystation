@@ -31,7 +31,7 @@ namespace US13.Mobs.BrainAI.Tasks
 		                                                            Vector3.Distance(context.Target.AssumedWorldPosServer(), context.AI.Body.gameObject.AssumedWorldPosServer()) <= Range;
 		public override float Begin(MobBehaviorContext context)
 		{
-			var settings = context.AI.Settings.Task;
+			var settings = context.AI.GetSettings<BotTaskSettings>();
 			var storage = settings.InternalStorage;
 			var baton = storage?.GetIndexedItemSlot(0)?.ItemAttributes;
 			if (baton == null) return base.Begin(context);

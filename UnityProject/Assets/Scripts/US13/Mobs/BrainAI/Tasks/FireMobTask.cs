@@ -65,7 +65,7 @@ namespace US13.Mobs.BrainAI.Tasks
 		public override float Begin(MobBehaviorContext context)
 		{
 			Cancel();
-			BotTaskSettings settings = context.AI.Settings.Task;
+			BotTaskSettings settings = context.AI.GetSettings<BotTaskSettings>();
 			mix = context.AI.IsEmagged ? settings.EmaggedChemicalMix : settings.FireRetardantMix;
 			Vector3Int start = context.AI.Body.gameObject.AssumedWorldPosServer().RoundToInt();
 			Vector3Int end = context.TargetCell.ToWorldInt(context.TargetMatrix);
@@ -90,7 +90,7 @@ namespace US13.Mobs.BrainAI.Tasks
 		public override void Tick(MobBehaviorContext context, float elapsed)
 		{
 			int due = Mathf.Min(sprayTiles.Count,
-				1 + Mathf.FloorToInt(elapsed * Mathf.Max(1, context.AI.Settings.Task.SprayDistance)));
+				1 + Mathf.FloorToInt(elapsed * Mathf.Max(1, context.AI.GetSettings<BotTaskSettings>().SprayDistance)));
 			while (sprayed < due)
 			{
 				if (mix != null && context.TargetMatrix != null)

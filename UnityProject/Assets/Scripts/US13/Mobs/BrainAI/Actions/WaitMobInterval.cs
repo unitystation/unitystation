@@ -15,9 +15,7 @@ namespace US13.Mobs.BrainAI.Actions
 		private float until;
 		protected override Status OnStart()
 		{
-			if (!CanAct) return Status.Failure;
-			var s = AI.Settings;
-			float seconds = Interval.Value switch { 1 => s.SearchInterval, 2 => s.FollowInterval, 3 => s.Slime.Interval, 4 => s.Arial.ThrowInterval, _ => s.WanderInterval };
+			if (!CanAct || !AI.TryGetInterval(Interval.Value, out float seconds)) return Status.Failure;
 			until = Time.time + Mathf.Max(0.02f, seconds);
 			return Status.Running;
 		}

@@ -46,7 +46,8 @@ namespace US13.Items.Others.Magical.SpellBooks.potions
 			if (CheckTarget(Target))
 			{
 				var core = Target.GetComponent<LivingHealthMasterBase>().brain.GetBodyPartBehavior<BrainMobAI>();
-				core.Settings.Slime.Friendly = true;
+				if (!core.TryGetSettings<SlimeBehaviorSettings>(out var settings)) return;
+				settings.Friendly = true;
 				_ = Despawn.ServerSingle(this.gameObject);
 			}
 		}
@@ -60,8 +61,7 @@ namespace US13.Items.Others.Magical.SpellBooks.potions
 			if (brain?.GetBodyPartBehavior<SlimeCore>() == null) return false;
 			var core = brain.GetBodyPartBehavior<BrainMobAI>();
 			if (core == null) return false;
-			if (core.Settings.Slime.Friendly) return false;
-			return true;
+			return core.TryGetSettings<SlimeBehaviorSettings>(out var settings) && !settings.Friendly;
 
 		}
 

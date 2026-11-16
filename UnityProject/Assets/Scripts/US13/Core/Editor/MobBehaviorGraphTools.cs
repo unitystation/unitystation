@@ -7,6 +7,8 @@ using UnityEngine;
 using US13.HealthV2.Living;
 using US13.Mobs.BrainAI;
 using US13.Mobs.BrainAI.ContextExtensions;
+using US13.Mobs.BrainAI.SettingsExtensions;
+using US13.Mobs.BrainAI.Actions;
 using US13.Player;
 using US13.Systems.Inventory;
 
@@ -52,6 +54,7 @@ namespace US13.Core.Editor
 					{
 						if (ai.Graph == null) throw new InvalidOperationException($"Missing brain graph in {path}");
 						ValidateContextExtensions(ai, path);
+						ValidateSettings(ai, path);
 						brains++;
 					}
 				}
@@ -128,20 +131,58 @@ namespace US13.Core.Editor
 
 		private static IEnumerable<Type> RequiredContextExtensions(BehaviorGraph graph)
 		{
+			return GraphActions(graph).SelectMany(action => action.GetType().GetCustomAttributes(typeof(RequiresMobContextExtensionAttribute), true)
+				.Cast<RequiresMobContextExtensionAttribute>()).Select(attribute => attribute.ExtensionType).Distinct().OrderBy(type => type.FullName).ToArray();
+		}
+
+		public static IEnumerable<Type> RequiredSettingsTypes(BrainMobAI ai)
+		{
+			var consumers = GraphActions(ai.Graph).Cast<object>().Concat(ai.ContextExtensions ?? new List<IMobBehaviorContextExtension>());
+			return consumers.Where(consumer => consumer != null).SelectMany(consumer => consumer.GetType().GetCustomAttributes(typeof(RequiresMobSettingsAttribute), true)
+				.Cast<RequiresMobSettingsAttribute>()).Select(attribute => attribute.SettingsType).Distinct().OrderBy(type => type.FullName).ToArray();
+		}
+
+		public static void ValidateSettings(BrainMobAI ai, string path)
+		{
+			try
+			{
+				if (ai.Settings == null) throw new InvalidOperationException("Shared behavior settings are missing.");
+				if (ai.SettingsExtensions == null) throw new InvalidOperationException("The settings extension list is missing.");
+				var types = new HashSet<Type>();
+				var intervals = new HashSet<int>();
+				foreach (var selection in ai.SettingsExtensions)
+				{
+					if (selection == null) throw new InvalidOperationException("Null settings extension selection.");
+					if (!types.Add(selection.GetType())) throw new InvalidOperationException($"Duplicate settings extension {selection.GetType().FullName}");
+					if (selection is IMobBehaviorIntervalSettings provider && (provider.IntervalId < 3 || !intervals.Add(provider.IntervalId)))
+						throw new InvalidOperationException($"Conflicting settings interval {provider.IntervalId}");
+				}
+				foreach (var required in RequiredSettingsTypes(ai))
+					if (!ai.SettingsExtensions.Any(required.IsInstanceOfType))
+						throw new InvalidOperationException($"Graph '{ai.Graph.name}' requires settings {required.FullName}");
+				foreach (var wait in GraphActions(ai.Graph).OfType<WaitMobInterval>())
+					if (!ai.TryGetInterval(wait.Interval.Value, out _))
+						throw new InvalidOperationException($"Missing settings provider for graph interval {wait.Interval.Value}");
+			}
+			catch (InvalidOperationException error)
+			{
+				throw new InvalidOperationException($"Invalid mob settings in {path}: {error.Message}", error);
+			}
+		}
+
+		private static IEnumerable<BrainMobState> GraphActions(BehaviorGraph graph)
+		{
 			if (graph == null) throw new InvalidOperationException("Missing brain graph.");
 			using var serialized = new SerializedObject(graph);
 			var property = serialized.GetIterator();
 			var visited = new HashSet<long>();
-			var required = new HashSet<Type>();
 			bool enterChildren = true;
 			while (property.Next(enterChildren))
 			{
 				enterChildren = property.propertyType != SerializedPropertyType.ManagedReference || visited.Add(property.managedReferenceId);
 				if (property.propertyType != SerializedPropertyType.ManagedReference || property.managedReferenceValue is not BrainMobState action) continue;
-				foreach (RequiresMobContextExtensionAttribute attribute in action.GetType().GetCustomAttributes(typeof(RequiresMobContextExtensionAttribute), true))
-					required.Add(attribute.ExtensionType);
+				yield return action;
 			}
-			return required.OrderBy(type => type.FullName).ToArray();
 		}
 
 		/// <summary>Check both Unity managed references and Behavior's assembly-qualified authoring strings.</summary>

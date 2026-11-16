@@ -8,11 +8,13 @@ using US13.Core.Physics;
 using US13.Items;
 using US13.Managers;
 using Util;
+using US13.Mobs.BrainAI.SettingsExtensions;
 
 namespace US13.Mobs.BrainAI.Actions
 {
 	[MovedFrom(true, sourceNamespace: "US13.Mobs.BrainAI", sourceAssembly: "Assets", sourceClassName: "ThrowNearbyObject")]
 	[Serializable, GeneratePropertyBag, NodeDescription(name: "Throw Nearby Object", story: "Hold and throw a nearby object at the target", category: "Mob/Tasks", id: "ad1dc1c1a2b34c5d8000000000000025")]
+	[RequiresMobSettings(typeof(ArialBehaviorSettings))]
 	public partial class ThrowNearbyObject : BrainMobState
 	{
 		private bool active;
@@ -22,7 +24,7 @@ namespace US13.Mobs.BrainAI.Actions
 		private int generation;
 		protected override Status OnStart()
 		{
-			if (!CanAct || Context.Target == null) return Status.Failure;
+			if (!CanAct || !AI.TryGetSettings<ArialBehaviorSettings>(out _) || Context.Target == null) return Status.Failure;
 			item = null;
 			if (DMMath.Prob(1.25f)) item = PlayerList.Instance.GetAlivePlayers().PickRandom()?.Script?.playerMove;
 			if (item == null)
@@ -35,14 +37,14 @@ namespace US13.Mobs.BrainAI.Actions
 			generation = Context.Generation;
 			until = Time.time + 5;
 			nextTick = 0;
-			MobDialogue.Sound(AI, AI.Settings.Arial.ThrowEnterSound);
+			MobDialogue.Sound(AI, AI.GetSettings<ArialBehaviorSettings>().ThrowEnterSound);
 			return Status.Running;
 		}
 		protected override Status OnUpdate()
 		{
 			if (!CanAct || Context.Generation != generation || Context.Target == null || item == null) return Status.Failure;
 			if (Time.time < nextTick) return Status.Running;
-			nextTick = Time.time + Mathf.Max(0.02f, AI.Settings.Arial.ThrowInterval);
+			nextTick = Time.time + Mathf.Max(0.02f, AI.GetSettings<ArialBehaviorSettings>().ThrowInterval);
 			item.SetTransform(AI.Body.gameObject.AssumedWorldPosServer(), true);
 			if (Time.time < until) return Status.Running;
 			item.NewtonianPush((Context.Target.AssumedWorldPosServer() - item.gameObject.AssumedWorldPosServer()).normalized, 35);
@@ -53,7 +55,7 @@ namespace US13.Mobs.BrainAI.Actions
 			item = null;
 			if (!active) return;
 			active = false;
-			if (CanAct) MobDialogue.Sound(AI, AI.Settings.Arial.ThrowExitSound);
+			if (CanAct) MobDialogue.Sound(AI, AI.GetSettings<ArialBehaviorSettings>().ThrowExitSound);
 		}
 	}
 }

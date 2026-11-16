@@ -67,6 +67,7 @@ namespace Tests
 						{
 							Assert.That(ai.Graph, Is.Not.Null, prefab.name);
 							MobBehaviorGraphTools.ValidateContextExtensions(ai, prefab.name);
+							MobBehaviorGraphTools.ValidateSettings(ai, prefab.name);
 							brains++;
 						}
 					foreach (var storage in instance.GetComponentsInChildren<ItemStorage>(true))

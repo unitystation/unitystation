@@ -29,8 +29,8 @@ namespace US13.Mobs.BrainAI.Tasks
 			var cell = context.TargetCell;
 			if (context.AI.IsEmagged)
 			{
-				if (context.AI.Settings.Task.ReagentToSpill == null) return;
-				matrix.MetaDataLayer.ReagentReact(new ReagentMix(context.AI.Settings.Task.ReagentToSpill, 5f, 273.15f), cell.ToWorldInt(matrix), cell);
+				if (context.AI.GetSettings<BotTaskSettings>().ReagentToSpill == null) return;
+				matrix.MetaDataLayer.ReagentReact(new ReagentMix(context.AI.GetSettings<BotTaskSettings>().ReagentToSpill, 5f, 273.15f), cell.ToWorldInt(matrix), cell);
 			}
 			else matrix.MetaDataLayer.Clean(cell.ToWorldInt(matrix), cell, false);
 		}
