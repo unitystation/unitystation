@@ -4,7 +4,8 @@ using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Core.Lifecycle;
 using US13.HealthV2.Living;
-using US13.Mobs.BrainAI.States;
+using US13.Mobs.BrainAI;
+using US13.Items.Implants.Organs;
 using US13.UI.Core.ProgressBar;
 using US13.UI.Systems.MainHUD.UI_Bottom;
 using Util;
@@ -44,8 +45,8 @@ namespace US13.Items.Others.Magical.SpellBooks.potions
 		{
 			if (CheckTarget(Target))
 			{
-				var core = Target.GetComponent<LivingHealthMasterBase>().brain.GetBodyPartBehavior<BrainSlime>();
-				core.FriendlySlime = true;
+				var core = Target.GetComponent<LivingHealthMasterBase>().brain.GetBodyPartBehavior<BrainMobAI>();
+				core.Settings.Slime.Friendly = true;
 				_ = Despawn.ServerSingle(this.gameObject);
 			}
 		}
@@ -55,9 +56,11 @@ namespace US13.Items.Others.Magical.SpellBooks.potions
 		{
 			if (Validations.HasComponent<LivingHealthMasterBase>(Target) ==false) return false;
 			if (Target.GetComponent<LivingHealthMasterBase>().IsDead) return false;
-			var core = Target.GetComponent<LivingHealthMasterBase>().brain.GetBodyPartBehavior<BrainSlime>();
+			var brain = Target.GetComponent<LivingHealthMasterBase>().brain;
+			if (brain?.GetBodyPartBehavior<SlimeCore>() == null) return false;
+			var core = brain.GetBodyPartBehavior<BrainMobAI>();
 			if (core == null) return false;
-			if (core.FriendlySlime) return false;
+			if (core.Settings.Slime.Friendly) return false;
 			return true;
 
 		}

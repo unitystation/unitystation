@@ -11,32 +11,27 @@ PrefabInstance:
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
       propertyPath: Behaviors.Array.size
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[0]'
+      propertyPath: Behaviors.Array.data[0]
       value: 5041995600691987312
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[1]'
+      propertyPath: Behaviors.Array.data[1]
       value: 5041995600691987313
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[2]'
+      propertyPath: Behaviors.Array.data[2]
       value: 5041995600691987314
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[3]'
+      propertyPath: Behaviors.Array.data[3]
       value: 5041995600691987315
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: 'Behaviors.Array.data[4]'
-      value: 5041995600691987316
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
@@ -60,21 +55,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: 'managedReferences[5041995600691987316]'
-      value: Assets US13.Mobs.BrainAI.States.BrainWanderState
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600691987315].Body
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600691987315].Brain
-      value: 5041995600691987314
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
       propertyPath: managedReferences[5041995600691987312].Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -91,11 +71,6 @@ PrefabInstance:
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
       propertyPath: managedReferences[5041995600691987315].Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600691987316].Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
@@ -202,16 +177,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600691987316].OwnerOnlyNetworkState
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600691987316].<master>k__BackingField
-      value: 5041995600691987315
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
       propertyPath: managedReferences[5041995600691987313].SecondsForSpeciesMutation
       value: 150
       objectReference: {fileID: 0}
@@ -224,11 +189,6 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[5041995600691987313].CapableMutations.Array.size
       value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600691987316].<UpdateType>k__BackingField
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
@@ -271,22 +231,7 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600691987315].<thinkingState>k__BackingField
-      value: 5041995600691987316
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600691987315].<MobStates>k__BackingField.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600691987316].<Blacklist>k__BackingField.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600691987316].<PeriodicUpdateInterval>k__BackingField
+      propertyPath: managedReferences[5041995600691987315].Settings.WanderInterval
       value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
@@ -297,11 +242,6 @@ PrefabInstance:
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
       propertyPath: managedReferences[5041995600691987314].OnRevival.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600691987315].<CurrentActiveStates>k__BackingField.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3784158830486218459, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
@@ -385,6 +325,21 @@ PrefabInstance:
         type: 3}
       propertyPath: _assetId
       value: 2793569819
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987315].Graph
+      value: 
+      objectReference: {fileID: -100, guid: 376959c7bbfb3019855cfa70acf35103, type: 2}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987315].Settings.Task.Kind
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987315].OwnerOnlyNetworkState
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

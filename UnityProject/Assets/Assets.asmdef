@@ -2,6 +2,9 @@
     "name": "Assets",
     "rootNamespace": "",
     "references": [
+        "Unity.Behavior",
+        "Unity.Behavior.GraphFramework",
+        "Unity.Behavior.SerializableGUID",
         "Mirror",
         "Mirror.Components",
         "Unity.TextMeshPro",

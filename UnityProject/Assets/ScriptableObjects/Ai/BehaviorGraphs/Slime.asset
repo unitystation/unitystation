@@ -1,0 +1,864 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b27bb6d9a2c8d540a10dff10acc543e, type: 3}
+  m_Name: Slime Debug Info
+  m_EditorClassIdentifier: 
+  m_CodeBreakPointsList: []
+--- !u!114 &-300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c02bb70996b49eba31d0c206e28da24, type: 3}
+  m_Name: Slime Blackboard
+  m_EditorClassIdentifier: 
+  VersionTimestamp: 639000000000000000
+  AssetID:
+    m_Value0: 9211926689205686240
+    m_Value1: 11291995694472815174
+  m_Blackboard:
+    m_Variables:
+    - rid: 4
+  m_SharedBlackboardVariableGuids: []
+  references:
+    version: 2
+    RefIds:
+    - rid: 4
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]',
+        ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 1
+          m_Value1: 0
+        Name: Self
+        m_Value: {fileID: 0}
+--- !u!114 &-200
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dd922ae02c94c87a66e46a10a7319b9, type: 3}
+  m_Name: Slime Blackboard
+  m_EditorClassIdentifier: 
+  AssetID:
+    m_Value0: 15934844466284268467
+    m_Value1: 2371638504523077710
+  m_Variables:
+  - rid: 4
+  m_VersionTimestamp: 639000000000000000
+  m_CommandBuffer:
+    m_Commands: []
+  m_RuntimeBlackboardAsset: {fileID: -300}
+  references:
+    version: 2
+    RefIds:
+    - rid: 4
+      type: {class: 'TypedVariableModel`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]',
+        ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        ID:
+          m_Value0: 1
+          m_Value1: 0
+        Name: Self
+        IsExposed: 1
+        m_IsShared: 0
+        m_Value: {fileID: 0}
+--- !u!114 &-100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db920e62f70f420bb33c771449926fa4, type: 3}
+  m_Name: Slime
+  m_EditorClassIdentifier: 
+  Graphs:
+  - rid: 1
+  m_DebugInfo: {fileID: -400}
+  m_WasCompileWithPlaceholderNode: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 1
+      type: {class: BehaviorGraphModule, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        AuthoringAssetID:
+          m_Value0: 15934844466284268467
+          m_Value1: 2371638504523077710
+        m_DebugInfo: {fileID: -400}
+        BlackboardReference:
+          rid: 2
+        BlackboardGroupReferences: []
+        Root:
+          rid: 5041995650992963865
+        m_VersionTimestamp: 639303968822358608
+    - rid: 2
+      type: {class: BlackboardReference, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        m_Blackboard:
+          rid: 3
+        m_Source: {fileID: -300}
+    - rid: 3
+      type: {class: Blackboard, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        m_Variables:
+        - rid: 5041995650992963867
+    - rid: 5041995650992963823
+      type: {class: 'BlackboardVariable`1[[System.Int32, mscorlib]]', ns: Unity.Behavior,
+        asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: 3
+    - rid: 5041995650992963865
+      type: {class: Start, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        ID:
+          m_Value0: 11054988805717302260
+          m_Value1: 4641001076690656705
+        Graph:
+          rid: 1
+        m_Parent:
+          rid: -2
+        m_Child:
+          rid: 5041995650992963866
+        Repeat: 1
+        AllowMultipleRepeatsPerTick: 0
+    - rid: 5041995650992963866
+      type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        ID:
+          m_Value0: 16869035050913847218
+          m_Value1: 12274292999812521482
+        Graph:
+          rid: 1
+        m_Parent:
+          rid: 5041995650992963865
+        m_Children:
+        - rid: 5041995650992963868
+        - rid: 5041995650992963869
+        m_RegisteredObservers: []
+    - rid: 5041995650992963867
+      type: {class: 'BlackboardVariable`1[[UnityEngine.GameObject, UnityEngine.CoreModule]]',
+        ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 1
+          m_Value1: 0
+        Name: Self
+        m_Value: {fileID: 0}
+    - rid: 5041995650992963868
+      type: {class: WaitMobInterval, ns: US13.Mobs.BrainAI.Actions, asm: Assets}
+      data:
+        ID:
+          m_Value0: 2219450427183513270
+          m_Value1: 893664326863146893
+        Graph:
+          rid: 1
+        m_Parent:
+          rid: 5041995650992963866
+        Interval:
+          rid: 5041995650992963823
+    - rid: 5041995650992963869
+      type: {class: SelectorComposite, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        ID:
+          m_Value0: 16985282680172729025
+          m_Value1: 13031080138661578319
+        Graph:
+          rid: 1
+        m_Parent:
+          rid: 5041995650992963866
+        m_Children:
+        - rid: 5041995650992963870
+        - rid: 5041995650992963871
+        - rid: 5041995650992963872
+        - rid: 5041995650992963873
+        - rid: 5041995650992963874
+        m_RegisteredObservers: []
+    - rid: 5041995650992963870
+      type: {class: SplitSlime, ns: US13.Mobs.BrainAI.Actions.Slimes, asm: Assets}
+      data:
+        ID:
+          m_Value0: 14253456478205936904
+          m_Value1: 17805407108150289967
+        Graph:
+          rid: 1
+        m_Parent:
+          rid: 5041995650992963869
+    - rid: 5041995650992963871
+      type: {class: ReactToSlimeDamage, ns: US13.Mobs.BrainAI, asm: Assets}
+      data:
+        ID:
+          m_Value0: 716592196957121757
+          m_Value1: 18318132499655430230
+        Graph:
+          rid: 1
+        m_Parent:
+          rid: 5041995650992963869
+    - rid: 5041995650992963872
+      type: {class: IsSlimeEating, ns: US13.Mobs.BrainAI.Actions.Slimes, asm: Assets}
+      data:
+        ID:
+          m_Value0: 12171333320432713616
+          m_Value1: 16982940372756580160
+        Graph:
+          rid: 1
+        m_Parent:
+          rid: 5041995650992963869
+    - rid: 5041995650992963873
+      type: {class: SequenceComposite, ns: Unity.Behavior, asm: Unity.Behavior}
+      data:
+        ID:
+          m_Value0: 15647877742213823057
+          m_Value1: 14375811677953479520
+        Graph:
+          rid: 1
+        m_Parent:
+          rid: 5041995650992963869
+        m_Children:
+        - rid: 5041995650992963875
+        - rid: 5041995650992963876
+        m_RegisteredObservers: []
+    - rid: 5041995650992963874
+      type: {class: RandomMobStep, ns: US13.Mobs.BrainAI.Actions.Slimes, asm: Assets}
+      data:
+        ID:
+          m_Value0: 16870684072998319983
+          m_Value1: 16375087996073870830
+        Graph:
+          rid: 1
+        m_Parent:
+          rid: 5041995650992963869
+    - rid: 5041995650992963875
+      type: {class: SelectSlimeFood, ns: US13.Mobs.BrainAI.Actions.Slimes, asm: Assets}
+      data:
+        ID:
+          m_Value0: 11447115389249133447
+          m_Value1: 16141044693304381641
+        Graph:
+          rid: 1
+        m_Parent:
+          rid: 5041995650992963873
+    - rid: 5041995650992963876
+      type: {class: EatSelectedFood, ns: US13.Mobs.BrainAI.Actions.Slimes, asm: Assets}
+      data:
+        ID:
+          m_Value0: 4314813906493722776
+          m_Value1: 1401714688589989320
+        Graph:
+          rid: 1
+        m_Parent:
+          rid: 5041995650992963873
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bad8f2220607dac4db5082ff333fafb8, type: 3}
+  m_Name: Slime
+  m_EditorClassIdentifier: 
+  Blackboard: {fileID: -200}
+  m_Description: Reusable mob behavior; per-brain settings and working data are supplied
+    by BrainMobAI.
+  m_Nodes:
+  - rid: 1000
+  - rid: 1003
+  - rid: 1006
+  - rid: 1009
+  - rid: 1012
+  - rid: 1015
+  - rid: 1018
+  - rid: 1021
+  - rid: 1024
+  - rid: 1027
+  - rid: 1030
+  m_VersionTimestamp: 639303968822358608
+  m_SerializedVersion: 3
+  m_DebugInfo: {fileID: -400}
+  m_RuntimeGraph: {fileID: -100}
+  AssetID:
+    m_Value0: 15934844466284268467
+    m_Value1: 2371638504523077710
+  Story:
+    Story: 
+    StoryVariableNames: []
+    Variables: []
+  m_NodeModelsInfo:
+  - Name: On Start
+    Story: 
+    RuntimeTypeString: Unity.Behavior.Start, Unity.Behavior, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    RuntimeTypeID:
+      m_Value0: 3335272451348827663
+      m_Value1: 11549843281177505721
+    Variables: []
+    NamedChildren: []
+    IsPlaceholder: 0
+  - Name: Sequence
+    Story: 
+    RuntimeTypeString: Unity.Behavior.SequenceComposite, Unity.Behavior, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    RuntimeTypeID:
+      m_Value0: 10181448252506100447
+      m_Value1: 8737116843063128493
+    Variables: []
+    NamedChildren: []
+    IsPlaceholder: 0
+  - Name: Wait For Mob Interval
+    Story: 'Wait for interval [Interval]'
+    RuntimeTypeString: US13.Mobs.BrainAI.Actions.WaitMobInterval, Assets, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    RuntimeTypeID:
+      m_Value0: 6722945855374040493
+      m_Value1: 72057594037928064
+    Variables:
+    - Name: Interval
+      Type:
+        m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+          PublicKeyToken=b77a5c561934e089
+      Tooltip: 
+    NamedChildren: []
+    IsPlaceholder: 0
+  - Name: Try In Order
+    Story: 
+    RuntimeTypeString: Unity.Behavior.SelectorComposite, Unity.Behavior, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    RuntimeTypeID:
+      m_Value0: 11477120919463386923
+      m_Value1: 7730102824742023565
+    Variables: []
+    NamedChildren: []
+    IsPlaceholder: 0
+  - Name: Split Slime
+    Story: Split if the slime is ready
+    RuntimeTypeString: US13.Mobs.BrainAI.Actions.Slimes.SplitSlime, Assets, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    RuntimeTypeID:
+      m_Value0: 6722945855374040493
+      m_Value1: 1224979098644775040
+    Variables: []
+    NamedChildren: []
+    IsPlaceholder: 0
+  - Name: React To Slime Damage
+    Story: React to recent damage
+    RuntimeTypeString: US13.Mobs.BrainAI.ReactToSlimeDamage, Assets, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    RuntimeTypeID:
+      m_Value0: 6722945855374040493
+      m_Value1: 1297036692682702976
+    Variables: []
+    NamedChildren: []
+    IsPlaceholder: 0
+  - Name: Is Slime Eating
+    Story: Check whether the slime is eating
+    RuntimeTypeString: US13.Mobs.BrainAI.Actions.Slimes.IsSlimeEating, Assets, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    RuntimeTypeID:
+      m_Value0: 6722945855374040493
+      m_Value1: 1369094286720630912
+    Variables: []
+    NamedChildren: []
+    IsPlaceholder: 0
+  - Name: Select Slime Food
+    Story: Select food or a nearby creature
+    RuntimeTypeString: US13.Mobs.BrainAI.Actions.Slimes.SelectSlimeFood, Assets,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    RuntimeTypeID:
+      m_Value0: 6722945855374040493
+      m_Value1: 1441151880758558848
+    Variables: []
+    NamedChildren: []
+    IsPlaceholder: 0
+  - Name: Eat Selected Food
+    Story: Climb onto and eat the target
+    RuntimeTypeString: US13.Mobs.BrainAI.Actions.Slimes.EatSelectedFood, Assets,
+      Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+    RuntimeTypeID:
+      m_Value0: 6722945855374040493
+      m_Value1: 1513209474796486784
+    Variables: []
+    NamedChildren: []
+    IsPlaceholder: 0
+  - Name: Push Mob One Random Tile
+    Story: Move one random tile
+    RuntimeTypeString: US13.Mobs.BrainAI.Actions.Slimes.RandomMobStep, Assets, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+    RuntimeTypeID:
+      m_Value0: 6722945855374040493
+      m_Value1: 1585267068834414720
+    Variables: []
+    NamedChildren: []
+    IsPlaceholder: 0
+  m_Blackboards: []
+  m_MainBlackboardAuthoringAsset: {fileID: -200}
+  m_CommandBuffer:
+    m_Commands: []
+  m_SubgraphsInfo: []
+  m_BlackboardMissingManagedRef: 0
+  m_GraphMissingManagedRef: 0
+  m_HasMissingTypeInManagedRef: 0
+  m_EnumDependencyCache:
+    Entries: []
+  references:
+    version: 2
+    RefIds:
+    - rid: -2
+      type: {class: , ns: , asm: }
+    - rid: 1000
+      type: {class: StartNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        Position: {x: 0, y: 0}
+        ID:
+          m_Value0: 11054988805717302260
+          m_Value1: 4641001076690656705
+        Parents: []
+        PortModels:
+        - rid: 1002
+        NodeType:
+          m_SerializableType: Unity.Behavior.Start, Unity.Behavior, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        NodeTypeID:
+          m_Value0: 3335272451348827663
+          m_Value1: 11549843281177505721
+        m_FieldValues: []
+        Repeat: 1
+        AllowMultipleRepeatsPerTick: 0
+    - rid: 1002
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: OutputPort
+        m_PortDataFlowType: 1
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 1000
+        m_Connections:
+        - rid: 1004
+    - rid: 1003
+      type: {class: CompositeNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        Position: {x: 220, y: 160}
+        ID:
+          m_Value0: 16869035050913847218
+          m_Value1: 12274292999812521482
+        Parents: []
+        PortModels:
+        - rid: 1004
+        - rid: 1005
+        NodeType:
+          m_SerializableType: Unity.Behavior.SequenceComposite, Unity.Behavior, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        NodeTypeID:
+          m_Value0: 10181448252506100447
+          m_Value1: 8737116843063128493
+        m_FieldValues: []
+    - rid: 1004
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: InputPort
+        m_PortDataFlowType: 0
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 1003
+        m_Connections:
+        - rid: 1002
+    - rid: 1005
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: OutputPort
+        m_PortDataFlowType: 1
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 1003
+        m_Connections:
+        - rid: 1007
+        - rid: 1010
+    - rid: 1006
+      type: {class: ActionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        Position: {x: 440, y: 320}
+        ID:
+          m_Value0: 2219450427183513270
+          m_Value1: 893664326863146893
+        Parents: []
+        PortModels:
+        - rid: 1007
+        - rid: 1008
+        NodeType:
+          m_SerializableType: US13.Mobs.BrainAI.Actions.WaitMobInterval, Assets,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        NodeTypeID:
+          m_Value0: 6722945855374040493
+          m_Value1: 72057594037928064
+        m_FieldValues:
+        - rid: 10003
+    - rid: 1007
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: InputPort
+        m_PortDataFlowType: 0
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 1006
+        m_Connections:
+        - rid: 1005
+    - rid: 1008
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: OutputPort
+        m_PortDataFlowType: 1
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 1006
+        m_Connections: []
+    - rid: 1009
+      type: {class: CompositeNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        Position: {x: 660, y: 320}
+        ID:
+          m_Value0: 16985282680172729025
+          m_Value1: 13031080138661578319
+        Parents: []
+        PortModels:
+        - rid: 1010
+        - rid: 1011
+        NodeType:
+          m_SerializableType: Unity.Behavior.SelectorComposite, Unity.Behavior, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        NodeTypeID:
+          m_Value0: 11477120919463386923
+          m_Value1: 7730102824742023565
+        m_FieldValues: []
+    - rid: 1010
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: InputPort
+        m_PortDataFlowType: 0
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 1009
+        m_Connections:
+        - rid: 1005
+    - rid: 1011
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: OutputPort
+        m_PortDataFlowType: 1
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 1009
+        m_Connections:
+        - rid: 1013
+        - rid: 1016
+        - rid: 1019
+        - rid: 1022
+        - rid: 1031
+    - rid: 1012
+      type: {class: ActionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        Position: {x: 880, y: 480}
+        ID:
+          m_Value0: 14253456478205936904
+          m_Value1: 17805407108150289967
+        Parents: []
+        PortModels:
+        - rid: 1013
+        - rid: 1014
+        NodeType:
+          m_SerializableType: US13.Mobs.BrainAI.Actions.Slimes.SplitSlime, Assets,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        NodeTypeID:
+          m_Value0: 6722945855374040493
+          m_Value1: 1224979098644775040
+        m_FieldValues: []
+    - rid: 1013
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: InputPort
+        m_PortDataFlowType: 0
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 1012
+        m_Connections:
+        - rid: 1011
+    - rid: 1014
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: OutputPort
+        m_PortDataFlowType: 1
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 1012
+        m_Connections: []
+    - rid: 1015
+      type: {class: ActionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        Position: {x: 1100, y: 480}
+        ID:
+          m_Value0: 716592196957121757
+          m_Value1: 18318132499655430230
+        Parents: []
+        PortModels:
+        - rid: 1016
+        - rid: 1017
+        NodeType:
+          m_SerializableType: US13.Mobs.BrainAI.ReactToSlimeDamage, Assets, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        NodeTypeID:
+          m_Value0: 6722945855374040493
+          m_Value1: 1297036692682702976
+        m_FieldValues: []
+    - rid: 1016
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: InputPort
+        m_PortDataFlowType: 0
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 1015
+        m_Connections:
+        - rid: 1011
+    - rid: 1017
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: OutputPort
+        m_PortDataFlowType: 1
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 1015
+        m_Connections: []
+    - rid: 1018
+      type: {class: ActionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        Position: {x: 1320, y: 480}
+        ID:
+          m_Value0: 12171333320432713616
+          m_Value1: 16982940372756580160
+        Parents: []
+        PortModels:
+        - rid: 1019
+        - rid: 1020
+        NodeType:
+          m_SerializableType: US13.Mobs.BrainAI.Actions.Slimes.IsSlimeEating, Assets,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        NodeTypeID:
+          m_Value0: 6722945855374040493
+          m_Value1: 1369094286720630912
+        m_FieldValues: []
+    - rid: 1019
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: InputPort
+        m_PortDataFlowType: 0
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 1018
+        m_Connections:
+        - rid: 1011
+    - rid: 1020
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: OutputPort
+        m_PortDataFlowType: 1
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 1018
+        m_Connections: []
+    - rid: 1021
+      type: {class: CompositeNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        Position: {x: 1540, y: 480}
+        ID:
+          m_Value0: 15647877742213823057
+          m_Value1: 14375811677953479520
+        Parents: []
+        PortModels:
+        - rid: 1022
+        - rid: 1023
+        NodeType:
+          m_SerializableType: Unity.Behavior.SequenceComposite, Unity.Behavior, Version=0.0.0.0,
+            Culture=neutral, PublicKeyToken=null
+        NodeTypeID:
+          m_Value0: 10181448252506100447
+          m_Value1: 8737116843063128493
+        m_FieldValues: []
+    - rid: 1022
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: InputPort
+        m_PortDataFlowType: 0
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 1021
+        m_Connections:
+        - rid: 1011
+    - rid: 1023
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: OutputPort
+        m_PortDataFlowType: 1
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 1021
+        m_Connections:
+        - rid: 1025
+        - rid: 1028
+    - rid: 1024
+      type: {class: ActionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        Position: {x: 1760, y: 640}
+        ID:
+          m_Value0: 11447115389249133447
+          m_Value1: 16141044693304381641
+        Parents: []
+        PortModels:
+        - rid: 1025
+        - rid: 1026
+        NodeType:
+          m_SerializableType: US13.Mobs.BrainAI.Actions.Slimes.SelectSlimeFood, Assets,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        NodeTypeID:
+          m_Value0: 6722945855374040493
+          m_Value1: 1441151880758558848
+        m_FieldValues: []
+    - rid: 1025
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: InputPort
+        m_PortDataFlowType: 0
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 1024
+        m_Connections:
+        - rid: 1023
+    - rid: 1026
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: OutputPort
+        m_PortDataFlowType: 1
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 1024
+        m_Connections: []
+    - rid: 1027
+      type: {class: ActionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        Position: {x: 1980, y: 640}
+        ID:
+          m_Value0: 4314813906493722776
+          m_Value1: 1401714688589989320
+        Parents: []
+        PortModels:
+        - rid: 1028
+        - rid: 1029
+        NodeType:
+          m_SerializableType: US13.Mobs.BrainAI.Actions.Slimes.EatSelectedFood, Assets,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        NodeTypeID:
+          m_Value0: 6722945855374040493
+          m_Value1: 1513209474796486784
+        m_FieldValues: []
+    - rid: 1028
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: InputPort
+        m_PortDataFlowType: 0
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 1027
+        m_Connections:
+        - rid: 1023
+    - rid: 1029
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: OutputPort
+        m_PortDataFlowType: 1
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 1027
+        m_Connections: []
+    - rid: 1030
+      type: {class: ActionNodeModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        Position: {x: 2200, y: 480}
+        ID:
+          m_Value0: 16870684072998319983
+          m_Value1: 16375087996073870830
+        Parents: []
+        PortModels:
+        - rid: 1031
+        - rid: 1032
+        NodeType:
+          m_SerializableType: US13.Mobs.BrainAI.Actions.Slimes.RandomMobStep, Assets,
+            Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+        NodeTypeID:
+          m_Value0: 6722945855374040493
+          m_Value1: 1585267068834414720
+        m_FieldValues: []
+    - rid: 1031
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: InputPort
+        m_PortDataFlowType: 0
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 1030
+        m_Connections:
+        - rid: 1011
+    - rid: 1032
+      type: {class: PortModel, ns: Unity.Behavior.GraphFramework, asm: Unity.Behavior.GraphFramework}
+      data:
+        m_Name: OutputPort
+        m_PortDataFlowType: 1
+        m_IsFloating: 0
+        m_NodeModel:
+          rid: 1030
+        m_Connections: []
+    - rid: 10002
+      type: {class: 'BlackboardVariable`1[[System.Int32, mscorlib]]', ns: Unity.Behavior,
+        asm: Unity.Behavior}
+      data:
+        GUID:
+          m_Value0: 0
+          m_Value1: 0
+        Name: 
+        m_Value: 3
+    - rid: 10003
+      type: {class: BehaviorGraphNodeModel/FieldModel, ns: Unity.Behavior, asm: Unity.Behavior.Authoring}
+      data:
+        FieldName: Interval
+        Type:
+          m_SerializableType: System.Int32, mscorlib, Version=4.0.0.0, Culture=neutral,
+            PublicKeyToken=b77a5c561934e089
+        LocalValue:
+          rid: 10002
+        LinkedVariable:
+          rid: -2

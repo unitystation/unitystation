@@ -200,6 +200,10 @@ namespace US13.Player
 
 		public PlayerInfo ControlledBy;
 
+		/// <summary>A player is supplying input to this body, rather than ghosting or controlling another body.</summary>
+		public bool IsActivelyControlling(GameObject body) => body != null && ControlledBy != null &&
+			!IsGhosting && CurrentlyControllingObject == body;
+
 
 		[SyncVar] public CharacterSheet CurrentCharacterSettings;
 

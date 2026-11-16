@@ -21,47 +21,27 @@ PrefabInstance:
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
       propertyPath: Behaviors.Array.size
-      value: 8
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[0]'
+      propertyPath: Behaviors.Array.data[0]
       value: 5041995600707191375
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[1]'
+      propertyPath: Behaviors.Array.data[1]
       value: 5041995600707191376
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[2]'
+      propertyPath: Behaviors.Array.data[2]
       value: 5041995600707191377
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[3]'
+      propertyPath: Behaviors.Array.data[3]
       value: 5041995600707191378
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: 'Behaviors.Array.data[4]'
-      value: 5041995600707191379
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: 'Behaviors.Array.data[5]'
-      value: 5041995600707191380
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: 'Behaviors.Array.data[6]'
-      value: 5041995600707191381
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: 'Behaviors.Array.data[7]'
-      value: 5041995600707191382
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
@@ -85,26 +65,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: 'managedReferences[5041995600707191379]'
-      value: Assets US13.Mobs.BrainAI.States.Arial.LookForTroubleArialAi
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: 'managedReferences[5041995600707191380]'
-      value: Assets US13.Mobs.BrainAI.States.Arial.CauseTroubleArialAi
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: 'managedReferences[5041995600707191381]'
-      value: Assets US13.Mobs.BrainAI.States.BrainWanderState
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: 'managedReferences[5041995600707191382]'
-      value: Assets US13.Mobs.BrainAI.States.GenericStates.GenericAiStateFollowMob
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
       propertyPath: 'managedReferences[5041995600707191383]'
       value: Assets US13.Mobs.Traversal.Strategies.ClimbTable
       objectReference: {fileID: 0}
@@ -112,21 +72,6 @@ PrefabInstance:
         type: 3}
       propertyPath: 'managedReferences[5041995600707191384]'
       value: Assets US13.Mobs.Traversal.Strategies.OpenDoor
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Body
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191378].Brain
-      value: 5041995600707191377
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191380].Target
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
@@ -150,26 +95,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191379].Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191380].Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191381].Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191382].Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
       propertyPath: managedReferences[5041995600707191377]._networkOnBodyID
       value: 0
       objectReference: {fileID: 0}
@@ -177,11 +102,6 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[5041995600707191376].Stability
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191379].stalkState
-      value: 5041995600707191382
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
@@ -195,16 +115,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191379].wanderState
-      value: 5041995600707191381
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191382].MobToFollow
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
       propertyPath: managedReferences[5041995600707191377].drunkReagent
       value: 
       objectReference: {fileID: 11400000, guid: 6d141e282b2a3ade0a523d28b721aa13,
@@ -213,16 +123,6 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[5041995600707191377].hasSillyWalk
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191379].troubelState
-      value: 5041995600707191380
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191380].troubleState
-      value: 5041995600707191379
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
@@ -296,53 +196,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191379].OwnerOnlyNetworkState
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191380].OwnerOnlyNetworkState
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191381].OwnerOnlyNetworkState
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191382].OwnerOnlyNetworkState
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191380].stateExit.AssetAddress
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowExitSound.AssetAddress
       value: Assets/Prefabs/NPC/Arial/ArialPrankIOut.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191379].<master>k__BackingField
-      value: 5041995600707191378
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191380].<master>k__BackingField
-      value: 5041995600707191378
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191380].stateEnter.AssetAddress
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowEnterSound.AssetAddress
       value: Assets/Prefabs/NPC/Arial/ArialPrankIn.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191381].<master>k__BackingField
-      value: 5041995600707191378
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191382].<master>k__BackingField
-      value: -2
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
@@ -366,32 +226,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191379].<UpdateType>k__BackingField
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191379].stateEnterSounds.Array.size
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.size
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191380].<UpdateType>k__BackingField
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191381].<UpdateType>k__BackingField
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191382].<UpdateType>k__BackingField
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191382].stateExitSound.AssetAddress
+      propertyPath: managedReferences[5041995600707191378].Settings.FollowExitSound.AssetAddress
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
@@ -411,7 +251,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191382].stateEnterSound.AssetAddress
+      propertyPath: managedReferences[5041995600707191378].Settings.FollowEnterSound.AssetAddress
       value: Assets/Prefabs/Voices/Feliend/Laughs/FelinindLaugh 1.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
@@ -440,137 +280,102 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191378].<thinkingState>k__BackingField
-      value: 5041995600707191379
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191379].TraversalStrategies.Array.size
+      propertyPath: managedReferences[5041995600707191378].Settings.TraversalStrategies.Array.size
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191382].minimumDistanceBeforePathfinding
+      propertyPath: managedReferences[5041995600707191378].Settings.FollowDistance
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: 'managedReferences[5041995600707191379].TraversalStrategies.Array.data[0]'
+      propertyPath: managedReferences[5041995600707191378].Settings.TraversalStrategies.Array.data[0]
       value: 5041995600707191383
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: 'managedReferences[5041995600707191379].TraversalStrategies.Array.data[1]'
+      propertyPath: managedReferences[5041995600707191378].Settings.TraversalStrategies.Array.data[1]
       value: 5041995600707191384
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191380].stateExit.AssetReference.m_AssetGUID
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowExitSound.AssetReference.m_AssetGUID
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191378].<MobStates>k__BackingField.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191379].<Blacklist>k__BackingField.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191380].<Blacklist>k__BackingField.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191380].stateEnter.AssetReference.m_AssetGUID
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowEnterSound.AssetReference.m_AssetGUID
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191381].<Blacklist>k__BackingField.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191382].<Blacklist>k__BackingField.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191379].<PeriodicUpdateInterval>k__BackingField
+      propertyPath: managedReferences[5041995600707191378].Settings.SearchInterval
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191380].<PeriodicUpdateInterval>k__BackingField
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowInterval
       value: 0.35
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191381].<PeriodicUpdateInterval>k__BackingField
+      propertyPath: managedReferences[5041995600707191378].Settings.WanderInterval
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191382].<PeriodicUpdateInterval>k__BackingField
+      propertyPath: managedReferences[5041995600707191378].Settings.FollowInterval
       value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191380].stateExit.AssetReference.m_SubObjectGUID
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowExitSound.AssetReference.m_SubObjectGUID
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191380].stateExit.AssetReference.m_SubObjectName
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowExitSound.AssetReference.m_SubObjectName
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191380].stateExit.AssetReference.m_SubObjectType
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowExitSound.AssetReference.m_SubObjectType
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: 'managedReferences[5041995600707191382].<Blacklist>k__BackingField.Array.data[0]'
-      value: 5041995600707191381
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191380].stateEnter.AssetReference.m_SubObjectGUID
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowEnterSound.AssetReference.m_SubObjectGUID
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191380].stateEnter.AssetReference.m_SubObjectName
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowEnterSound.AssetReference.m_SubObjectName
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191380].stateEnter.AssetReference.m_SubObjectType
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowEnterSound.AssetReference.m_SubObjectType
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191382].stateExitSound.AssetReference.m_AssetGUID
+      propertyPath: managedReferences[5041995600707191378].Settings.FollowExitSound.AssetReference.m_AssetGUID
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191382].stateEnterSound.AssetReference.m_AssetGUID
+      propertyPath: managedReferences[5041995600707191378].Settings.FollowEnterSound.AssetReference.m_AssetGUID
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191379].stateEnterSounds.Array.data[0].AssetAddress
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[0].AssetAddress
       value: Assets/Prefabs/NPC/Arial/ArialPurr.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191379].stateEnterSounds.Array.data[1].AssetAddress
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[1].AssetAddress
       value: Assets/Prefabs/NPC/Arial/ArialTalk.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
@@ -580,22 +385,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191380].stateExit.AssetReference.m_EditorAssetChanged
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowExitSound.AssetReference.m_EditorAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191382].stateExitSound.AssetReference.m_SubObjectGUID
+      propertyPath: managedReferences[5041995600707191378].Settings.FollowExitSound.AssetReference.m_SubObjectGUID
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191382].stateExitSound.AssetReference.m_SubObjectName
+      propertyPath: managedReferences[5041995600707191378].Settings.FollowExitSound.AssetReference.m_SubObjectName
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191382].stateExitSound.AssetReference.m_SubObjectType
+      propertyPath: managedReferences[5041995600707191378].Settings.FollowExitSound.AssetReference.m_SubObjectType
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
@@ -605,87 +410,82 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191380].stateEnter.AssetReference.m_EditorAssetChanged
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.ThrowEnterSound.AssetReference.m_EditorAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191382].stateEnterSound.AssetReference.m_SubObjectGUID
+      propertyPath: managedReferences[5041995600707191378].Settings.FollowEnterSound.AssetReference.m_SubObjectGUID
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191382].stateEnterSound.AssetReference.m_SubObjectName
+      propertyPath: managedReferences[5041995600707191378].Settings.FollowEnterSound.AssetReference.m_SubObjectName
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191382].stateEnterSound.AssetReference.m_SubObjectType
+      propertyPath: managedReferences[5041995600707191378].Settings.FollowEnterSound.AssetReference.m_SubObjectType
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191378].<CurrentActiveStates>k__BackingField.Array.size
+      propertyPath: managedReferences[5041995600707191378].Settings.FollowExitSound.AssetReference.m_EditorAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191382].stateExitSound.AssetReference.m_EditorAssetChanged
+      propertyPath: managedReferences[5041995600707191378].Settings.FollowEnterSound.AssetReference.m_EditorAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191382].stateEnterSound.AssetReference.m_EditorAssetChanged
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[0].AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[1].AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[0].AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[0].AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[0].AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[1].AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[1].AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[1].AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[0].AssetReference.m_EditorAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191379].stateEnterSounds.Array.data[0].AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191379].stateEnterSounds.Array.data[1].AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191379].stateEnterSounds.Array.data[0].AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191379].stateEnterSounds.Array.data[0].AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191379].stateEnterSounds.Array.data[0].AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191379].stateEnterSounds.Array.data[1].AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191379].stateEnterSounds.Array.data[1].AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191379].stateEnterSounds.Array.data[1].AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191379].stateEnterSounds.Array.data[0].AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191379].stateEnterSounds.Array.data[1].AssetReference.m_EditorAssetChanged
+      propertyPath: managedReferences[5041995600707191378].Settings.Arial.EnterSounds.Array.data[1].AssetReference.m_EditorAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3784158830486218459, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
@@ -772,6 +572,36 @@ PrefabInstance:
         type: 3}
       propertyPath: _assetId
       value: 544111361
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191378].Graph
+      value: 
+      objectReference: {fileID: -100, guid: ac9591785e691a4b62cfdf21231a60f3, type: 2}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191378].Settings.Task.Kind
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191378].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: 'managedReferences[5041995652254400514]'
+      value: Assets US13.Mobs.BrainAI.ContextExtensions.ArialContextExtension
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191378].ContextExtensions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191378].ContextExtensions.Array.data[0]'
+      value: 5041995652254400514
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -313,27 +313,22 @@ PrefabInstance:
     - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: Behaviors.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[0]'
+      propertyPath: Behaviors.Array.data[0]
       value: 5041995600707191328
       objectReference: {fileID: 0}
     - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[1]'
+      propertyPath: Behaviors.Array.data[1]
       value: 5041995600707191329
       objectReference: {fileID: 0}
     - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[2]'
+      propertyPath: Behaviors.Array.data[2]
       value: 5041995600707191330
-      objectReference: {fileID: 0}
-    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
-        type: 3}
-      propertyPath: 'Behaviors.Array.data[3]'
-      value: 5041995600707191331
       objectReference: {fileID: 0}
     - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -352,11 +347,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
-      propertyPath: 'managedReferences[5041995600707191331]'
-      value: Assets US13.Mobs.BrainAI.States.SimpleBot.SimpleBotBody
-      objectReference: {fileID: 0}
-    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
-        type: 3}
       propertyPath: managedReferences[5041995600707191328].Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -368,11 +358,6 @@ PrefabInstance:
     - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: managedReferences[5041995600707191330].Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191331].Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
@@ -432,18 +417,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
-      propertyPath: managedReferences[5041995600707191331].OwnerOnlyNetworkState
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
-        type: 3}
       propertyPath: managedReferences[5041995600707191329].SecondsForSpeciesMutation
       value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191331].possibleSprites.Array.size
-      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
@@ -465,30 +440,6 @@ PrefabInstance:
       propertyPath: managedReferences[5041995600707191329].StartingMutations.Array.size
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
-        type: 3}
-      propertyPath: 'managedReferences[5041995600707191331].possibleSprites.Array.data[0]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 95cda132c71d8bb4da9e4e74bbb47235,
-        type: 2}
-    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
-        type: 3}
-      propertyPath: 'managedReferences[5041995600707191331].possibleSprites.Array.data[1]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 35b68eae8e6abdc419f72b909487ba3e,
-        type: 2}
-    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
-        type: 3}
-      propertyPath: 'managedReferences[5041995600707191331].possibleSprites.Array.data[2]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 6b4253ff1fad164478f33ab69e3a8671,
-        type: 2}
-    - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
-        type: 3}
-      propertyPath: 'managedReferences[5041995600707191331].possibleSprites.Array.data[3]'
-      value: 
-      objectReference: {fileID: 11400000, guid: 6b4253ff1fad164478f33ab69e3a8671,
-        type: 2}
     - target: {fileID: 6196556278140927655, guid: 1162a9966a460f940a18b4d183b04c30,
         type: 3}
       propertyPath: 'managedReferences[5041995600707191329].CapableMutations.Array.data[0]'
@@ -516,7 +467,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6401966648937089307}
   m_SourcePrefab: {fileID: 100100000, guid: 1162a9966a460f940a18b4d183b04c30, type: 3}
 --- !u!212 &1127122551263343107 stripped
 SpriteRenderer:
@@ -536,3 +490,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+
+--- !u!1 &960852636360704351 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1163316686972202776, guid: 1162a9966a460f940a18b4d183b04c30, type: 3}
+  m_PrefabInstance: {fileID: 2121560723397291591}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &6401966648937089307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 960852636360704351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38b339eeb8ce94c40a18e403cf1afcc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  possibleSprites:
+  - {fileID: 11400000, guid: 95cda132c71d8bb4da9e4e74bbb47235, type: 2}
+  - {fileID: 11400000, guid: 35b68eae8e6abdc419f72b909487ba3e, type: 2}
+  - {fileID: 11400000, guid: 6b4253ff1fad164478f33ab69e3a8671, type: 2}
+  - {fileID: 11400000, guid: 6b4253ff1fad164478f33ab69e3a8671, type: 2}

@@ -26,9 +26,21 @@ namespace US13.UI.Systems.Character
 
 		public GameObject SpawnObject()
 		{
-			var Mind =  PlayerSpawn.NewSpawnCharacterV2(null, CharacterSheet, nonImportantMind);
-			Mind.Body.GetComponent<UniversalObjectPhysics>().AppearAtWorldPositionServer(this.transform.position);
-			return Mind.Body.gameObject;
+			var mind = PlayerSpawn.NewSpawnCharacterV2(null, CharacterSheet, nonImportantMind);
+			var body = mind?.Body;
+			if (body == null)
+			{
+				Logs.Loggy.Error($"Unable to spawn blueprint '{name}' for species '{CharacterSheet?.Species}': character setup did not produce a body. See the earlier spawn error.");
+				return null;
+			}
+			var physics = body.GetComponent<UniversalObjectPhysics>();
+			if (physics == null)
+			{
+				Logs.Loggy.Error($"Unable to place blueprint '{name}' for species '{CharacterSheet?.Species}': spawned body '{body.name}' has no object physics.");
+				return null;
+			}
+			physics.AppearAtWorldPositionServer(transform.position);
+			return body.gameObject;
 		}
 
 		public void OnSpawnServer(SpawnInfo info)

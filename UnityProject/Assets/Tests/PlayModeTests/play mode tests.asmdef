@@ -2,6 +2,8 @@
     "name": "playmodetests",
     "rootNamespace": "",
     "references": [
+        "Unity.Behavior",
+        "Unity.Behavior.SerializableGUID",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
         "Assets",

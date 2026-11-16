@@ -2438,20 +2438,29 @@ namespace US13.HealthV2.Living
 		//Recursively sets stuff yeah good
 
 
+		protected virtual SpawnResult SpawnBodyPartPrefab(GameObject prefab) => Spawn.ServerPrefab(prefab, spawnManualContents: true);
+
 		public void InstantiateAndSetUp(ObjectList ListToSpawn)
 		{
-			if (ListToSpawn != null && ListToSpawn.Elements.Count > 0)
+			if (ListToSpawn == null) return;
+			string species = InitialSpecies != null ? InitialSpecies.name : "(unknown)";
+			if (ListToSpawn.Elements == null)
+				throw new InvalidOperationException($"Species '{species}' has a missing body-part list.");
+			if (ListToSpawn.Elements.Count == 0) return;
+			// Validate the saved references before spawning any part of this list.
+			for (int i = 0; i < ListToSpawn.Elements.Count; i++)
+				if (ListToSpawn.Elements[i] == null)
+					throw new InvalidOperationException($"Species '{species}' has a missing body-part prefab at entry {i}. Check its saved prefab reference.");
+			if (BodyPartStorage == null)
+				throw new InvalidOperationException($"Cannot create body parts for species '{species}': body-part storage is missing.");
+			for (int i = 0; i < ListToSpawn.Elements.Count; i++)
 			{
-				foreach (var ToSpawn in ListToSpawn.Elements)
-				{
-					var bodyPartObject = Spawn.ServerPrefab(ToSpawn, spawnManualContents: true).GameObject;
-					var added  = BodyPartStorage.ServerTryAdd(bodyPartObject);
-					if (added == false)
-					{
-						Logs.Loggy.Error(
-							$"Unable to add body part {bodyPartObject.name} May have run out of slots or not have the right item attribute");
-					}
-				}
+				var prefab = ListToSpawn.Elements[i];
+				var result = SpawnBodyPartPrefab(prefab);
+				if (result == null || !result.Successful || result.GameObject == null)
+					throw new InvalidOperationException($"Unable to spawn body-part prefab '{prefab.name}' for species '{species}' at entry {i}.");
+				if (!BodyPartStorage.ServerTryAdd(result.GameObject))
+					throw new InvalidOperationException($"Unable to add body-part prefab '{prefab.name}' for species '{species}' at entry {i}. Check storage slots and item attributes.");
 			}
 		}
 

@@ -6,7 +6,8 @@ using UnityEngine;
 using US13.Core.Lifecycle;
 using US13.HealthV2.Living;
 using US13.HealthV2.Living.PolymorphicSystems.Bodypart;
-using US13.Mobs.BrainAI.States;
+using US13.Mobs.BrainAI;
+using US13.Mobs.BrainAI.ContextExtensions;
 using US13.Systems.Lobby;
 using US13.UI.Systems.Lobby;
 using Util;
@@ -172,8 +173,12 @@ namespace US13.Items.Implants.Organs
 				}
 				core.InitialiseBabySlime();
 
-				var GoodPlayers = core.GetBodyPartBehavior<BrainSlime>();
-				GoodPlayers.GoodPlayers = GoodPlayers.GoodPlayers.Union(GetBodyPartBehavior<BrainSlime>().GoodPlayers).ToDictionary(s => s.Key, s => s.Value);
+				var offspringAI = core.GetBodyPartBehavior<BrainMobAI>();
+				var parentAI = GetBodyPartBehavior<BrainMobAI>();
+				if (offspringAI?.Context != null && parentAI?.Context != null &&
+				    offspringAI.Context.TryGetExtension<SlimeContextExtension>(out var offspringContext) &&
+				    parentAI.Context.TryGetExtension<SlimeContextExtension>(out var parentContext))
+					offspringContext.CopyFamiliarityFrom(parentContext);
 
 				core.Stabilised = this.Stabilised;
 			}
