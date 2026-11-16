@@ -256,12 +256,15 @@ namespace US13.Systems.Antagonists
 			if (mouse.TryGetComponent<PlayerBlueprint>(out var playerBlueprint) == false) return;
 			var spawnedMouseObject = playerBlueprint.spawnedObject;
 			spawnedMouseObject.GetUniversalObjectPhysics().AppearAtWorldPositionServer(connectedPlayer.AssumedWorldPos);
+
 			if (spawnedMouseObject.TryGetComponent<PlayerScript>(out var mouseScript) == false) return;
 			if(mouseScript.playerHealth.BodyOrganLookup[typeof(PolymorphForm)]?[0] == null) return;
+
+			connectedPlayer.playerHealth.ShouldPerformHealthUpdates = false;
+			connectedPlayer.ObjectPhysics.DisappearFromWorld();
+
 			var polymorphForm = mouseScript.playerHealth.BodyOrganLookup[typeof(PolymorphForm)][0] as PolymorphForm;
 			polymorphForm?.EnterBody(connectedPlayer.Mind, true);
-
-			//Store current body for later somehow
 		}
 
 		public void HypnoticStare(Vector2 worldMousePosition)
@@ -362,11 +365,9 @@ namespace US13.Systems.Antagonists
 
 				victimReagentPool.BloodPool.Add(CommonSicknesses.Instance.VampirismReagent, corruptionAmount);
 				ReagentPool.BloodPool.Add(CommonSicknesses.Instance.VampirismReagent, selfCorruptionAmount);
-<<<<<<< HEAD
-=======
 				Chat.AddExamineMsgFromServer(connectedPlayer.gameObject, $"Gained {selfCorruptionAmount} corruption from converting target");
->>>>>>> 30cd133ec6 (beep[)
 			}).ServerStartProgress(firstPlayerOnTile.RegisterPlayer, corruptTime, connectedPlayer.gameObject);
+			if (bar != null) Chat.AddExamineMsg(connectedPlayer.gameObject, $"You begin to corrupt {firstPlayerOnTile.visibleName}'s blood.");
 
 			return true;
 		}

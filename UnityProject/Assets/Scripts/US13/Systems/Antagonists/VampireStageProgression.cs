@@ -74,7 +74,7 @@ namespace US13.Systems.Antagonists
 					}
 					vampireStage = vampirismReaction.GetStageIDFromReagentAmount(ReagentPool, diseaseAmount) - 1;
 
-					
+
 					VampireHudUpdateMessage.SendTo(connectedPlayer.connectionToClient, currentVampirismStage, diseaseAmount, vampirismReaction.GetNeededReagentsForStage(ReagentPool, vampireStage), vampirismReaction.GetNeededReagentsForStage(ReagentPool, vampireStage + 1));
 				}
 				if(vampireStage == currentVampirismStage) return;

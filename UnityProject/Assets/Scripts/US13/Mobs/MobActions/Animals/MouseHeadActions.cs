@@ -16,7 +16,7 @@ using US13.Tilemaps.Behaviours.Meta.Atmospherics.Data;
 using US13.UI.Core.ProgressBar;
 using Util;
 
-public class MouseHeadActions : BodyPartFunctionality
+public class MouseHeadActions : BodyPartBehavior
 {
 	[field:SerializeField]
 	public SerializableDictionary<ActionButtonData, SerializedAction> ActivatedAbilities { get; set; }

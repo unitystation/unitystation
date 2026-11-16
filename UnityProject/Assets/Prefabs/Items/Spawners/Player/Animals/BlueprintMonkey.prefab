@@ -33,6 +33,11 @@ PrefabInstance:
       propertyPath: CharacterSheet.Species
       value: Monkey
       objectReference: {fileID: 0}
+    - target: {fileID: 520298877121306373, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 5307718658608071815}
     - target: {fileID: 660552017190180179, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
       propertyPath: m_Sprite
@@ -53,7 +58,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300032, guid: aab59a0f07ede8043ad41c425cffe0d8,
+      objectReference: {fileID: 21300040, guid: aab59a0f07ede8043ad41c425cffe0d8,
         type: 3}
     - target: {fileID: 5939654197155682806, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
@@ -127,6 +132,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9166297599979345829, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1156755268849878538}
+    - target: {fileID: 9166297599979345829, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
       propertyPath: InitialPresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 9e8d6fd5732cfd740b2ec70cc84a60f7,
@@ -136,3 +146,15 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b, type: 3}
+--- !u!212 &1156755268849878538 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 660552017190180179, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1812521032457786201}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &5307718658608071815 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5805020867509229534, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1812521032457786201}
+  m_PrefabAsset: {fileID: 0}

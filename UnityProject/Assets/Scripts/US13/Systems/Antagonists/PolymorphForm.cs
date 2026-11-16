@@ -7,7 +7,11 @@ using US13.Player;
 
 namespace US13.Systems.Antagonists
 {
-	public class PolymorphForm : BodyPartFunctionality
+	/// <summary>
+	/// Add to the core body part for a creature that may be polymorphed into.
+	/// Handles possession and the returning to the original body once this form dies.
+	/// </summary>
+	public class PolymorphForm : BodyPartBehavior
 	{
 		private Mind parentMind;
 		private PlayerScript originalBody;
@@ -42,6 +46,7 @@ namespace US13.Systems.Antagonists
 			currentBody?.PlayerButtonedActions.RegisterNewAction(ReturnToBodyButton, ReturnToBody);
 		}
 
+		//On Death return to original body, but stunned
 		private void DeathReturn()
 		{
 			if (originalBody == false) return;
@@ -49,7 +54,6 @@ namespace US13.Systems.Antagonists
 			ReturnToBody(Vector2.zero);
 		}
 
-		//On Death return to original body, but stunned
 		private void ReturnToBody(Vector2 clickedPosition)
 		{
 			if (originalBody == false || currentBody == false) return;
@@ -62,6 +66,8 @@ namespace US13.Systems.Antagonists
 			originalBody.ObjectPhysics.AppearAtWorldPositionServer(currentBody.ObjectPhysics.OfficialPosition);
 			parentMind.SetPossessingObject(originalBody.gameObject);
 			parentMind = null;
+
+			originalBody.playerHealth.ShouldPerformHealthUpdates = true;
 
 			//Destroy this
 			if (destructiveExit == false) return;
