@@ -61,6 +61,7 @@ namespace US13.Mobs.BrainAI.Tasks
 			{
 				while (true)
 				{
+					var heals = context.AI.GetSettings<BotTaskSettings>().HealingAmount;
 					CheckCurrentTreatment();
 					if (RecoveredOrMovedAway()) return;
 					if (context.AI.IsEmagged)
@@ -73,10 +74,10 @@ namespace US13.Mobs.BrainAI.Tasks
 					if (RecoveredOrMovedAway()) return;
 					if (context.AI.IsEmagged == false)
 					{
-						target.HealDamageOnAll(context.AI.Body.gameObject, 2f, DamageType.Brute);
+						target.HealDamageOnAll(context.AI.Body.gameObject, heals, DamageType.Brute);
 						CheckCurrentTreatment();
 						if (RecoveredOrMovedAway()) return;
-						target.HealDamageOnAll(context.AI.Body.gameObject, 2f, DamageType.Burn);
+						target.HealDamageOnAll(context.AI.Body.gameObject, heals, DamageType.Burn);
 					}
 				}
 			}

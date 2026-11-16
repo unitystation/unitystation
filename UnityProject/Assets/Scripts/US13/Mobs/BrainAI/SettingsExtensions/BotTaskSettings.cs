@@ -36,5 +36,6 @@ namespace US13.Mobs.BrainAI
 		public ReagentMix EmaggedChemicalMix;
 		public ItemStorage InternalStorage;
 		public ItemTrait HandcuffTrait;
+		public float HealingAmount = 2f;
 	}
 }
