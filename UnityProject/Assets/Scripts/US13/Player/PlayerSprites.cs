@@ -371,7 +371,7 @@ namespace US13.Player
 
 				if (hasColour == false)
 				{
-					Loggy.Error($"None-matching skin tone colors found on {gameObject.name}. Using closest skin tone.\n " +
+					Loggy.Warning($"None-matching skin tone colors found on {gameObject.name}. Using closest skin tone.\n " +
 					            $"parsed SurfaceColor: {currentSurfaceColour}\n ThisCharacter skintone: {ThisCharacter.SkinTone}]");
 					currentSurfaceColour = currentSurfaceColour.ClosestColor(RaceBodyparts.Base.SkinColours.ToArray());
 				}

@@ -31,6 +31,7 @@ using US13.UI.Systems;
 using US13.UI.Systems.AdminTools;
 using US13.UI.Systems.Lobby;
 using Util;
+using Util.Independent.FluentRichText;
 
 namespace US13.Player
 {
@@ -198,6 +199,10 @@ namespace US13.Player
 		// Current way to check if it's not actually a ghost but a spectator, should set this not have it be the below.
 
 		public PlayerInfo ControlledBy;
+
+		/// <summary>A player is supplying input to this body, rather than ghosting or controlling another body.</summary>
+		public bool IsActivelyControlling(GameObject body) => body != null && ControlledBy != null &&
+			!IsGhosting && CurrentlyControllingObject == body;
 
 
 		[SyncVar] public CharacterSheet CurrentCharacterSettings;
@@ -607,6 +612,8 @@ namespace US13.Player
 			if (ghostLocked) return;
 
 			StopGhosting();
+
+			if (IsGhosting) Chat.AddExamineMsgFromServer(gameObject, "You have no body!".Color(Color.red));
 		}
 
 		public void StopGhosting()

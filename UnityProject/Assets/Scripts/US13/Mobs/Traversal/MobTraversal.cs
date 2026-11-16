@@ -33,6 +33,7 @@ namespace US13.Mobs.Traversal
 		public Action<Vector3Int> OnTraversalFailedAndRetrying;
 
 		public int QueuedTargets => _targetQueue.Count;
+		public bool IsTraversing => _isMoving || _targetQueue.Count > 0;
 
 		private LivingHealthMasterBase health => Mob.playerHealth;
 		private Matrix matrix => Mob.RegisterPlayer.Matrix;
@@ -164,7 +165,7 @@ namespace US13.Mobs.Traversal
 
 		public void CancelCurrentTraversalImmediately()
 		{
-			Loggy.Warning($"Canceling traversal on {gameObject.name} without awaiting MoveToTarget() to finish processing. This may cause some errors, but can be ignored if doing it OnDestroy().");
+			if (DebugGizmos) Loggy.Info($"Canceling traversal on {gameObject.name}.");
 			if (_isMoving)
 			{
 				cancellationToken.Cancel();
@@ -193,6 +194,9 @@ namespace US13.Mobs.Traversal
 
 		private async UniTask MoveToTarget(TraversalDetails details)
 		{
+			// Keep this run's token and path: immediate cancellation can start a new run before an await resumes.
+			var runCancellation = cancellationToken;
+			var runPath = path;
 			_isMoving = true;
 			var stoppedNearTargetObject = false;
 			DebugGizmos_HighlightTargetArea(details.TargetPosition);
@@ -207,10 +211,10 @@ namespace US13.Mobs.Traversal
 			DebugGizmos_DrawPath(path);
 			try
 			{
-				for (int i = 0; i < path.Count; i++)
+				for (int i = 0; i < runPath.Count; i++)
 				{
-					if (cancellationToken.IsCancellationRequested || path.Count == 0) break;
-					if (Movement.registerTile.LocalPosition == path[i]) continue;
+					if (runCancellation.IsCancellationRequested || runPath.Count == 0) break;
+					if (Movement.registerTile.LocalPosition == runPath[i]) continue;
 					if (health.IsDead || (registerPlayer.IsSlippingServer && details.CancelOnSlip)) break; // Incase we died or stunned while moving.
 					if (details.TargetObject != null)
 					{
@@ -220,15 +224,22 @@ namespace US13.Mobs.Traversal
 							break;
 						}
 					}
-					await ProcessMovement(details, path[i]);
+					await ProcessMovement(details, runPath[i], runCancellation.Token);
 				}
 			}
+			catch (OperationCanceledException) when (runCancellation.IsCancellationRequested) { }
 			catch (Exception e)
 			{
 				Loggy.Error($"Error happened while traversing: {e}");
 			}
 
-			if ((path is { Count: > 0 } && localPosition == path[^1]) || stoppedNearTargetObject)
+			if (runCancellation.IsCancellationRequested || !ReferenceEquals(runCancellation, cancellationToken))
+			{
+				if (ReferenceEquals(runCancellation, cancellationToken)) _isMoving = false;
+				details.OnTraversalCancelled?.Invoke();
+				return;
+			}
+			if ((runPath is { Count: > 0 } && localPosition == runPath[^1]) || stoppedNearTargetObject)
 			{
 				OnDoneTraversalToLocation?.Invoke(details.TargetPosition);
 			}
@@ -240,11 +251,11 @@ namespace US13.Mobs.Traversal
 			details.OnTraversalFinalStep?.Invoke();
 		}
 
-		private async UniTask ProcessMovement(TraversalDetails details, Vector3Int pos)
+		private async UniTask ProcessMovement(TraversalDetails details, Vector3Int pos, CancellationToken runToken)
 		{
 			for (int i = 0; i < MaxRetries; i++)
 			{
-				if (cancellationToken.IsCancellationRequested)
+				if (runToken.IsCancellationRequested)
 				{
 					details.OnTraversalCancelled?.Invoke();
 					return;
@@ -252,13 +263,13 @@ namespace US13.Mobs.Traversal
 				waitTicks = 0;
 				if (timeoutRequestTicks > 0)
 				{
-					await UniTask.Delay(timeoutRequestTicks, cancellationToken: cancellationToken.Token);
+					await UniTask.Delay(timeoutRequestTicks, cancellationToken: runToken);
 					timeoutRequestTicks = 0;
 				}
 				if (health.IsDead || (registerPlayer.IsSlippingServer && details.CancelOnSlip)) break; // Incase we died or stunned while moving.
 				if (Movement.IsMoving)
 				{
-					await UniTask.Delay(TENTH_OF_A_SECOND + (i * 10), cancellationToken: cancellationToken.Token); // If we're already moving, wait until the next retry.
+					await UniTask.Delay(TENTH_OF_A_SECOND + (i * 10), cancellationToken: runToken); // If we're already moving, wait until the next retry.
 					continue;
                 }
 				var attemptMovement = Move(pos);
@@ -268,9 +279,9 @@ namespace US13.Mobs.Traversal
 					if (i > 1 && details.Strats != null)
 					{
 						AttemptStrategies(details.Strats, pos);
-						await UniTask.Delay(TENTH_OF_A_SECOND + (i * 10), cancellationToken: cancellationToken.Token);
+						await UniTask.Delay(TENTH_OF_A_SECOND + (i * 10), cancellationToken: runToken);
 					}
-					if (cancellationToken.IsCancellationRequested)
+					if (runToken.IsCancellationRequested)
 					{
 						details.OnTraversalCancelled?.Invoke();
 						return;
@@ -284,8 +295,8 @@ namespace US13.Mobs.Traversal
 					waitTicks++;
 					// 135ms + 10ms per retry.
 					// We add 10ms to the delay for each retry incase there's something holding back a succesful tile move.
-					await UniTask.Delay(TENTH_OF_A_SECOND + (i * 10), cancellationToken: cancellationToken.Token); //TODO: Calculate movement speed as a delay factor.
-					if ((_movingFromFirstTilePosition == registerPlayer.LocalPositionServer && waitTicks > 10) || cancellationToken.IsCancellationRequested)
+					await UniTask.Delay(TENTH_OF_A_SECOND + (i * 10), cancellationToken: runToken); //TODO: Calculate movement speed as a delay factor.
+					if ((_movingFromFirstTilePosition == registerPlayer.LocalPositionServer && waitTicks > 10) || runToken.IsCancellationRequested)
 					{
 						// We're def stuck if 10 ticks passed and we're still standing in the same place.
 						break; // Maybe we hit a door?

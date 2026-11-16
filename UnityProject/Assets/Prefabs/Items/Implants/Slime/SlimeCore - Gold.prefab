@@ -169,52 +169,47 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[0]'
+      propertyPath: Behaviors.Array.data[0]
       value: 5041995600707190832
       objectReference: {fileID: 0}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[1]'
+      propertyPath: Behaviors.Array.data[1]
       value: 5041995600707190833
       objectReference: {fileID: 0}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[2]'
+      propertyPath: Behaviors.Array.data[2]
       value: 5041995600707190834
       objectReference: {fileID: 0}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[3]'
+      propertyPath: Behaviors.Array.data[3]
       value: 5041995600707190835
       objectReference: {fileID: 0}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[4]'
+      propertyPath: Behaviors.Array.data[4]
       value: 5041995600707190836
       objectReference: {fileID: 0}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[5]'
+      propertyPath: Behaviors.Array.data[5]
       value: 5041995600707190837
       objectReference: {fileID: 0}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[6]'
+      propertyPath: Behaviors.Array.data[6]
       value: 5041995600707190838
       objectReference: {fileID: 0}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[7]'
+      propertyPath: Behaviors.Array.data[7]
       value: 5041995600707190839
       objectReference: {fileID: 0}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[8]'
-      value: 5041995600707190840
-      objectReference: {fileID: 0}
-    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
-        type: 3}
-      propertyPath: 'Behaviors.Array.data[9]'
+      propertyPath: Behaviors.Array.data[8]
       value: 5041995600707190841
       objectReference: {fileID: 0}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
@@ -259,23 +254,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: 'managedReferences[5041995600707190840]'
-      value: Assets US13.Mobs.BrainAI.States.BrainSlime
-      objectReference: {fileID: 0}
-    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
-        type: 3}
       propertyPath: 'managedReferences[5041995600707190841]'
       value: Assets US13.Mobs.BrainAI.BrainMobAI
-      objectReference: {fileID: 0}
-    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
-        type: 3}
-      propertyPath: managedReferences[5041995600707190841].Body
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
-        type: 3}
-      propertyPath: managedReferences[5041995600707190841].Brain
-      value: 5041995600707190837
       objectReference: {fileID: 0}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
@@ -315,11 +295,6 @@ PrefabInstance:
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
       propertyPath: managedReferences[5041995600707190839].Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
-        type: 3}
-      propertyPath: managedReferences[5041995600707190840].Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
@@ -421,11 +396,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: managedReferences[5041995600707190840].FriendlySlime
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
-        type: 3}
       propertyPath: managedReferences[5041995600707190841].DEBUGoverride
       value: 0
       objectReference: {fileID: 0}
@@ -443,11 +413,6 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[5041995600707190839].StartingAmount
       value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
-        type: 3}
-      propertyPath: managedReferences[5041995600707190840].hitMask.m_Bits
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
@@ -571,11 +536,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: managedReferences[5041995600707190840].OwnerOnlyNetworkState
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
-        type: 3}
       propertyPath: managedReferences[5041995600707190841].OwnerOnlyNetworkState
       value: 0
       objectReference: {fileID: 0}
@@ -591,18 +551,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: managedReferences[5041995600707190840].<master>k__BackingField
-      value: -2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
-        type: 3}
       propertyPath: managedReferences[5041995600707190833].SecondsForSpeciesMutation
       value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
-        type: 3}
-      propertyPath: managedReferences[5041995600707190840].eatFoodSound.AssetAddress
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
@@ -628,11 +578,6 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[5041995600707190833].CapableMutations.Array.size
       value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
-        type: 3}
-      propertyPath: managedReferences[5041995600707190840].<UpdateType>k__BackingField
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
@@ -711,11 +656,6 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: managedReferences[5041995600707190841].<thinkingState>k__BackingField
-      value: 5041995600707190840
-      objectReference: {fileID: 0}
-    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
-        type: 3}
       propertyPath: 'managedReferences[5041995600707190833].CapableMutations.Array.data[10]'
       value: 
       objectReference: {fileID: 11400000, guid: 8c9c9234756a0ce49a8d569e94c89e02,
@@ -766,16 +706,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: managedReferences[5041995600707190840].<Blacklist>k__BackingField.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
-        type: 3}
-      propertyPath: managedReferences[5041995600707190841].<MobStates>k__BackingField.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
-        type: 3}
       propertyPath: managedReferences[5041995600707190839].CanSplitInto.Array.data[0].CoreMutateTo
       value: 
       objectReference: {fileID: 1355770910449557983}
@@ -787,16 +717,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
-      propertyPath: managedReferences[5041995600707190840].<PeriodicUpdateInterval>k__BackingField
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
-        type: 3}
-      propertyPath: managedReferences[5041995600707190840].eatFoodSound.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
-        type: 3}
       propertyPath: managedReferences[5041995600707190839].CanSplitInto.Array.data[0].ChanceToMutateTo
       value: 70
       objectReference: {fileID: 0}
@@ -804,21 +724,6 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[5041995600707190839].CanSplitInto.Array.data[1].ChanceToMutateTo
       value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
-        type: 3}
-      propertyPath: managedReferences[5041995600707190840].eatFoodSound.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
-        type: 3}
-      propertyPath: managedReferences[5041995600707190840].eatFoodSound.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
-        type: 3}
-      propertyPath: managedReferences[5041995600707190840].eatFoodSound.AssetReference.m_SubObjectType
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
@@ -833,16 +738,6 @@ PrefabInstance:
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
         type: 3}
       propertyPath: managedReferences[5041995600707190837].OnRevival.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
-        type: 3}
-      propertyPath: managedReferences[5041995600707190841].<CurrentActiveStates>k__BackingField.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
-        type: 3}
-      propertyPath: managedReferences[5041995600707190840].eatFoodSound.AssetReference.m_EditorAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
@@ -904,6 +799,91 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[5041995600707190838].InitialseverityAndSymptoms.Array.data[1].HealthPercentageAndBelow
       value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
+        type: 3}
+      propertyPath: managedReferences[5041995600707190841].Graph
+      value: 
+      objectReference: {fileID: -100, guid: b30bf99b9df023dd4e98bc85a7c0e920, type: 2}
+    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
+        type: 3}
+      propertyPath: managedReferences[5041995600707190841].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
+        type: 3}
+      propertyPath: 'managedReferences[5041995652254400522]'
+      value: Assets US13.Mobs.BrainAI.ContextExtensions.SlimeContextExtension
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
+        type: 3}
+      propertyPath: managedReferences[5041995600707190841].ContextExtensions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707190841].ContextExtensions.Array.data[0]'
+      value: 5041995652254400522
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
+        type: 3}
+      propertyPath: 'managedReferences[5041995654726680586]'
+      value: Assets US13.Mobs.BrainAI.SlimeBehaviorSettings
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680586].Friendly
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680586].Interval
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680586].HitMask.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680586].EatFoodSound.AssetAddress
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
+        type: 3}
+      propertyPath: managedReferences[5041995600707190841].SettingsExtensions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707190841].SettingsExtensions.Array.data[0]'
+      value: 5041995654726680586
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680586].EatFoodSound.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680586].EatFoodSound.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680586].EatFoodSound.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680586].EatFoodSound.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9108469845083728495, guid: 789d74731ecbf8e4a813fc024afaf831,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680586].EatFoodSound.AssetReference.m_EditorAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

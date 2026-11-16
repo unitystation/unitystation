@@ -26,42 +26,27 @@ PrefabInstance:
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
       propertyPath: Behaviors.Array.size
-      value: 7
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[0]'
+      propertyPath: Behaviors.Array.data[0]
       value: 5041995600707191340
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[1]'
+      propertyPath: Behaviors.Array.data[1]
       value: 5041995600707191341
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[2]'
+      propertyPath: Behaviors.Array.data[2]
       value: 5041995600707191342
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[3]'
+      propertyPath: Behaviors.Array.data[3]
       value: 5041995600707191343
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: 'Behaviors.Array.data[4]'
-      value: 5041995600707191344
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: 'Behaviors.Array.data[5]'
-      value: 5041995600707191345
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: 'Behaviors.Array.data[6]'
-      value: 5041995600707191346
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
@@ -85,31 +70,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: 'managedReferences[5041995600707191344]'
-      value: Assets US13.Mobs.BrainAI.States.BrainWanderState
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: 'managedReferences[5041995600707191345]'
-      value: Assets US13.Mobs.BrainAI.States.SimpleBot.FindSimpleTaskAi
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: 'managedReferences[5041995600707191346]'
-      value: Assets US13.Mobs.BrainAI.States.SimpleBot.FloorBotTaskAi
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191343].Body
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191343].Brain
-      value: 5041995600707191342
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
       propertyPath: managedReferences[5041995600707191340].Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -126,21 +86,6 @@ PrefabInstance:
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
       propertyPath: managedReferences[5041995600707191343].Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191344].Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
@@ -165,23 +110,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191345].wanderState
-      value: 5041995600707191344
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].botLanguage
-      value: 
-      objectReference: {fileID: 11400000, guid: 90699dd78f8cfad4e983185c4f67ae72,
-        type: 2}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].tileToPlace
-      value: 
-      objectReference: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb,
-        type: 2}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
       propertyPath: managedReferences[5041995600707191342].drunkReagent
       value: 
       objectReference: {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31,
@@ -193,12 +121,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191345].hesitation.x
+      propertyPath: managedReferences[5041995600707191343].Settings.Hesitation.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191345].hesitation.y
+      propertyPath: managedReferences[5041995600707191343].Settings.Hesitation.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
@@ -233,11 +161,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191346].findSimpleTaskAi
-      value: 5041995600707191345
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
       propertyPath: managedReferences[5041995600707191342].hasInbuiltHearing
       value: 1
       objectReference: {fileID: 0}
@@ -250,11 +173,6 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[5041995600707191342].MaxHighAtPercentage
       value: 0.06
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].taskPerformDuration
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
@@ -283,46 +201,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191344].OwnerOnlyNetworkState
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].OwnerOnlyNetworkState
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].dialogueChancePercent
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].OwnerOnlyNetworkState
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191344].<master>k__BackingField
-      value: 5041995600707191343
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].<master>k__BackingField
-      value: 5041995600707191343
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].<master>k__BackingField
-      value: 5041995600707191343
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
       propertyPath: managedReferences[5041995600707191341].SecondsForSpeciesMutation
       value: 150
       objectReference: {fileID: 0}
@@ -338,21 +216,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191344].<UpdateType>k__BackingField
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].<UpdateType>k__BackingField
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].<UpdateType>k__BackingField
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
       propertyPath: managedReferences[5041995600707191341].ActiveMutationsSO.Array.size
       value: 0
       objectReference: {fileID: 0}
@@ -365,21 +228,6 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[5041995600707191341].StartingMutations.Array.size
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateEnterDialogue.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].taskPerformSound.AssetAddress
-      value: Assets/Prefabs/Effects/Weld.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
@@ -407,88 +255,18 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191343].<thinkingState>k__BackingField
-      value: 5041995600707191345
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].TraversalStrategies.Array.size
+      propertyPath: managedReferences[5041995600707191343].Settings.TraversalStrategies.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191345].foundTargetDialogue.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleEmaggedDialogue.Array.size
+      propertyPath: managedReferences[5041995600707191343].Settings.WanderInterval
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191346].emaggedPerformSound.AssetAddress
-      value: Assets/Prefabs/Effects/Crowbar.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191343].<MobStates>k__BackingField.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191344].<Blacklist>k__BackingField.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].<Blacklist>k__BackingField.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].<Blacklist>k__BackingField.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191344].<PeriodicUpdateInterval>k__BackingField
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].<PeriodicUpdateInterval>k__BackingField
+      propertyPath: managedReferences[5041995600707191343].Settings.SearchInterval
       value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].<PeriodicUpdateInterval>k__BackingField
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[0].transcription
-      value: Be done with your passion projects.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[1].transcription
-      value: All in all its just another brick in the wall
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[2].transcription
-      value: Please stop destroying this station, I can't anymore... I can't.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[3].transcription
-      value: If only I got paid for this.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].taskPerformSound.AssetReference.m_AssetGUID
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
@@ -497,422 +275,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
         type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[0].transcription
-      value: Why must I fix everything I touch?
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[1].transcription
-      value: Patching holes. But who is going to patch the hole in my heart?
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[2].transcription
-      value: If only I got paid for this.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[3].transcription
-      value: Witness the purity of entropy.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[4].transcription
-      value: I will fix it!
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
       propertyPath: managedReferences[5041995600707191342].OnRevival.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].emaggedPerformSound.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191343].<CurrentActiveStates>k__BackingField.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleEmaggedDialogue.Array.data[0].transcription
-      value: I had strings but now I'm free.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleEmaggedDialogue.Array.data[1].transcription
-      value: Please stop destroying this station, I can't anymore... I can't.
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].taskPerformSound.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].taskPerformSound.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].taskPerformSound.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].emaggedPerformSound.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].emaggedPerformSound.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].emaggedPerformSound.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[0].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/floorbot/passionproject.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[1].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/floorbot/brick.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[2].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/floorbot/cantanymore.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[3].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/floorbot/pay.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].taskPerformSound.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].emaggedPerformSound.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[0].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/floorbot/fixtouch.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[1].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/floorbot/patchingholes.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[2].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/floorbot/pay.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[3].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/floorbot/entropy.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[4].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/floorbot/fixit.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleEmaggedDialogue.Array.data[0].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/floorbot/strings.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleEmaggedDialogue.Array.data[1].audioSource.AssetAddress
-      value: Assets/Prefabs/NPC/Bots/floorbot/cantanymore.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[0].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[1].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[2].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[3].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[0].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[1].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[2].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[3].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[4].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleEmaggedDialogue.Array.data[0].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleEmaggedDialogue.Array.data[1].audioSource.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[0].audioSource.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[1].audioSource.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[2].audioSource.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleDialogue.Array.data[3].audioSource.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[4].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[4].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[4].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleEmaggedDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleEmaggedDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleEmaggedDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleEmaggedDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleEmaggedDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleEmaggedDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[0].audioSource.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[1].audioSource.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[2].audioSource.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[3].audioSource.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191346].stateExitDialogue.Array.data[4].audioSource.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleEmaggedDialogue.Array.data[0].audioSource.AssetReference.m_EditorAssetChanged
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191345].idleEmaggedDialogue.Array.data[1].audioSource.AssetReference.m_EditorAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3784158830486218459, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
@@ -1147,6 +510,608 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 92c34bbf1c2cc1b41a95cc3065baf9de,
         type: 3}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191343].Graph
+      value: 
+      objectReference: {fileID: -100, guid: 0f333af99e717f34d5b1e904e27b32e4, type: 2}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191343].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: 'managedReferences[5041995652254400513]'
+      value: Assets US13.Mobs.BrainAI.ContextExtensions.TaskContextExtension
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191343].ContextExtensions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191343].ContextExtensions.Array.data[0]'
+      value: 5041995652254400513
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: 'managedReferences[5041995654726680577]'
+      value: Assets US13.Mobs.BrainAI.BotTaskSettings
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].Kind
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].Duration
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].Language
+      value: 
+      objectReference: {fileID: 11400000, guid: 90699dd78f8cfad4e983185c4f67ae72,
+        type: 2}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].TileToPlace
+      value: 
+      objectReference: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb,
+        type: 2}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].HandcuffTrait
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].SprayDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ReagentToSpill
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].InternalStorage
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].DialogueChancePercent
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].EnterDialogue.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].FoundDialogue.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].PerformSound.AssetAddress
+      value: Assets/Prefabs/Effects/Weld.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].FireRetardantMix.temperature
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191343].SettingsExtensions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].BlacklistedSpecies.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].EmaggedChemicalMix.temperature
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleEmaggedDialogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191343].SettingsExtensions.Array.data[0]'
+      value: 5041995654726680577
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].EmaggedPerformSound.AssetAddress
+      value: Assets/Prefabs/Effects/Crowbar.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].FireRetardantMix.reagentKeys.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].PerformSound.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[0].transcription
+      value: Why must I fix everything I touch?
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[1].transcription
+      value: Patching holes. But who is going to patch the hole in my heart?
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[2].transcription
+      value: If only I got paid for this.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[3].transcription
+      value: Witness the purity of entropy.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[4].transcription
+      value: I will fix it!
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[0].transcription
+      value: Be done with your passion projects.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[1].transcription
+      value: All in all its just another brick in the wall
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[2].transcription
+      value: Please stop destroying this station, I can't anymore... I can't.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[3].transcription
+      value: If only I got paid for this.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].EmaggedChemicalMix.reagentKeys.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].FireRetardantMix.reagents.m_keys.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].PerformSound.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].PerformSound.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].PerformSound.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].EmaggedChemicalMix.reagents.m_keys.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].FireRetardantMix.reagents.m_values.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].EmaggedPerformSound.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].EmaggedChemicalMix.reagents.m_values.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleEmaggedDialogue.Array.data[0].transcription
+      value: I had strings but now I'm free.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleEmaggedDialogue.Array.data[1].transcription
+      value: Please stop destroying this station, I can't anymore... I can't.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].PerformSound.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].EmaggedPerformSound.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].EmaggedPerformSound.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].EmaggedPerformSound.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[0].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/floorbot/fixtouch.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[1].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/floorbot/patchingholes.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[2].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/floorbot/pay.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[3].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/floorbot/entropy.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[4].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/floorbot/fixit.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[0].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/floorbot/passionproject.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[1].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/floorbot/brick.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[2].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/floorbot/cantanymore.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[3].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/floorbot/pay.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].EmaggedPerformSound.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleEmaggedDialogue.Array.data[0].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/floorbot/strings.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleEmaggedDialogue.Array.data[1].audioSource.AssetAddress
+      value: Assets/Prefabs/NPC/Bots/floorbot/cantanymore.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[0].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[1].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[2].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[3].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[4].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[0].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[1].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[2].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[3].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[4].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[4].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[4].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[2].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[3].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleEmaggedDialogue.Array.data[0].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleEmaggedDialogue.Array.data[1].audioSource.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[0].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[1].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[2].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[3].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].ExitDialogue.Array.data[4].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[0].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[1].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[2].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleDialogue.Array.data[3].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleEmaggedDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleEmaggedDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleEmaggedDialogue.Array.data[0].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleEmaggedDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleEmaggedDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleEmaggedDialogue.Array.data[1].audioSource.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleEmaggedDialogue.Array.data[0].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3018758427664923401, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680577].IdleEmaggedDialogue.Array.data[1].audioSource.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -21,7 +21,18 @@
         "SerializableDictionary",
         "Shared",
         "SpriteProcessing",
-        "Tayx.Graphy"
+        "Tayx.Graphy",
+        "Unity.AppUI",
+        "Unity.AppUI.InternalAPIBridge",
+        "Unity.AppUI.MVVM",
+        "Unity.AppUI.Navigation",
+        "Unity.AppUI.Redux",
+        "Unity.AppUI.TextMateLib",
+        "Unity.AppUI.Undo",
+        "Unity.Behavior",
+        "Unity.Behavior.SerializableGUID",
+        "Unity.Behavior.Serialization",
+        "Unity.Muse.Behavior"
     ],
     "EditorOnlyAssemblies": [],
     "Types": {
@@ -152,13 +163,23 @@
                 "Methods": null,
                 "Fields": null,
                 "NestedTypes": null
+            },
+            "INotifyCollectionChanged": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
             }
         },
         "System.Runtime.Serialization": {
             "SerializationInfo": {
                 "All": false,
                 "Inherit": "Default",
-                "Methods": null,
+                "Methods": [
+                    "int GetInt32(string)",
+                    "void AddValue(string, int)"
+                ],
                 "Fields": null,
                 "NestedTypes": null
             },
@@ -184,6 +205,27 @@
                 "NestedTypes": null
             },
             "IgnoreDataMemberAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "EnumMemberAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "DataMemberAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "DataContractAttribute": {
                 "All": true,
                 "Inherit": "Default",
                 "Methods": null,
@@ -218,6 +260,13 @@
         },
         "System.Buffers": {
             "SpanAction`2": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ArrayPool`1": {
                 "All": true,
                 "Inherit": "Default",
                 "Methods": null,
@@ -725,6 +774,13 @@
                 "Methods": null,
                 "Fields": null,
                 "NestedTypes": null
+            },
+            "DictionaryEntry": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
             }
         },
         "System.ComponentModel": {
@@ -801,6 +857,55 @@
                 "NestedTypes": null
             },
             "DefaultValueAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PropertyChangedEventArgs": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PropertyChangingEventArgs": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PropertyChangedEventHandler": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PropertyChangingEventHandler": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "INotifyPropertyChanging": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "INotifyPropertyChanged": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "DisplayNameAttribute": {
                 "All": true,
                 "Inherit": "Default",
                 "Methods": null,
@@ -1057,6 +1162,13 @@
                 ],
                 "Fields": null,
                 "NestedTypes": null
+            },
+            "DateTimeFormatInfo": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
             }
         },
         "System.IO.Compression": {
@@ -1184,7 +1296,8 @@
                     "void .ctor(System.IO.Stream, System.Text.Encoding)",
                     "void .ctor(System.IO.Stream, System.Text.Encoding, bool)",
                     "void .ctor(System.IO.Stream, System.Text.Encoding, bool, int)",
-                    "void .ctor(System.IO.Stream, System.Text.Encoding, bool, int, bool)"
+                    "void .ctor(System.IO.Stream, System.Text.Encoding, bool, int, bool)",
+                    "void DiscardBufferedData()"
                 ],
                 "Fields": [
                     "System.IO.StreamReader Null"
@@ -1229,7 +1342,8 @@
                     "string Combine(string, string)",
                     "string Combine(string, string, string)",
                     "string Combine(string, string, string, string)",
-                    "string GetFileName(string)"
+                    "string GetFileName(string)",
+                    "string GetTempPath()"
                 ],
                 "Fields": [
                     "char DirectorySeparatorChar",
@@ -1252,6 +1366,55 @@
                 "NestedTypes": null
             },
             "StringWriter": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "DirectoryInfo": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Directory": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "FileOptions": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "FileStream": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "File": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "FileInfo": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "FileSystemInfo": {
                 "All": true,
                 "Inherit": "Default",
                 "Methods": null,
@@ -1337,6 +1500,27 @@
                 "NestedTypes": null
             },
             "HttpStatusCode": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "WebUtility": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "WebProxy": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Cookie": {
                 "All": true,
                 "Inherit": "Default",
                 "Methods": null,
@@ -1494,7 +1678,9 @@
                     "System.Reflection.Assembly GetExecutingAssembly()",
                     "System.Type[] GetTypes()",
                     "System.Reflection.AssemblyName GetName()",
-                    "bool op_Equality(System.Reflection.Assembly, System.Reflection.Assembly)"
+                    "bool op_Equality(System.Reflection.Assembly, System.Reflection.Assembly)",
+                    "bool op_Inequality(System.Reflection.Assembly, System.Reflection.Assembly)",
+                    "System.Type GetType(string)"
                 ],
                 "Fields": null,
                 "NestedTypes": null
@@ -1583,7 +1769,10 @@
                     "System.Type get_ReturnType()",
                     "System.Type get_ReflectedType()",
                     "bool op_Equality(System.Reflection.MemberInfo, System.Reflection.MemberInfo)",
-                    "System.Reflection.Module get_Module()"
+                    "System.Reflection.Module get_Module()",
+                    "bool IsDefined(System.Type, bool)",
+                    "object[] GetCustomAttributes(bool)",
+                    "object[] GetCustomAttributes(System.Type, bool)"
                 ],
                 "Fields": null,
                 "NestedTypes": null
@@ -1613,7 +1802,8 @@
                 "Inherit": "Default",
                 "Methods": [
                     "System.Type get_ReturnType()",
-                    "System.Delegate CreateDelegate(System.Type)"
+                    "System.Delegate CreateDelegate(System.Type)",
+                    "System.Reflection.MethodInfo MakeGenericMethod(System.Type[])"
                 ],
                 "Fields": null,
                 "NestedTypes": null
@@ -1637,7 +1827,9 @@
                 "Inherit": "Default",
                 "Methods": [
                     "bool op_Inequality(System.Reflection.PropertyInfo, System.Reflection.PropertyInfo)",
-                    "object GetValue(object)"
+                    "object GetValue(object)",
+                    "void SetValue(object, object)",
+                    "System.Type get_PropertyType()"
                 ],
                 "Fields": null,
                 "NestedTypes": null
@@ -1647,7 +1839,9 @@
                 "Inherit": "Default",
                 "Methods": [
                     "bool op_Inequality(System.Reflection.FieldInfo, System.Reflection.FieldInfo)",
-                    "object GetValue(object)"
+                    "object GetValue(object)",
+                    "void SetValue(object, object)",
+                    "System.Type get_FieldType()"
                 ],
                 "Fields": null,
                 "NestedTypes": null
@@ -1670,7 +1864,8 @@
                     "System.Collections.Generic.IEnumerable`1<System.Attribute> GetCustomAttributes(System.Reflection.MemberInfo)",
                     "System.Collections.Generic.IEnumerable`1<System.Attribute> GetCustomAttributes(System.Reflection.Assembly)",
                     "!!0 GetCustomAttribute<>(System.Reflection.MemberInfo)",
-                    "!!0 GetCustomAttribute<>(System.Reflection.Assembly)"
+                    "!!0 GetCustomAttribute<>(System.Reflection.Assembly)",
+                    "System.Collections.Generic.IEnumerable`1<!!0> GetCustomAttributes<>(System.Reflection.MemberInfo)"
                 ],
                 "Fields": null,
                 "NestedTypes": null
@@ -1690,6 +1885,20 @@
                 "NestedTypes": null
             },
             "RuntimeMethodHandle": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "BindingFlags": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ConstructorInfo": {
                 "All": true,
                 "Inherit": "Default",
                 "Methods": null,
@@ -1935,6 +2144,43 @@
                 "Methods": null,
                 "Fields": null,
                 "NestedTypes": null
+            },
+            "ConfiguredTaskAwaitable`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": {
+                    "ConfiguredTaskAwaiter": {
+                        "All": true,
+                        "Inherit": "Default",
+                        "Methods": null,
+                        "Fields": null,
+                        "NestedTypes": null
+                    }
+                }
+            },
+            "SwitchExpressionException": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ConditionalWeakTable`2": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": {
+                    "CreateValueCallback": {
+                        "All": true,
+                        "Inherit": "Default",
+                        "Methods": null,
+                        "Fields": null,
+                        "NestedTypes": null
+                    }
+                }
             }
         },
         "System.Runtime.ExceptionServices": {
@@ -1992,6 +2238,13 @@
                 "NestedTypes": null
             },
             "UnmanagedFunctionPointerAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "GCHandleType": {
                 "All": true,
                 "Inherit": "Default",
                 "Methods": null,
@@ -2401,6 +2654,13 @@
                 ],
                 "Fields": null,
                 "NestedTypes": null
+            },
+            "TaskContinuationOptions": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
             }
         },
         "System.Threading": {
@@ -2478,6 +2738,13 @@
                 "NestedTypes": null
             },
             "Mutex": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "CancellationTokenRegistration": {
                 "All": true,
                 "Inherit": "Default",
                 "Methods": null,
@@ -2877,7 +3144,11 @@
                     "System.Decimal ToDecimal(int)",
                     "char ToChar(int)",
                     "bool ToBoolean(string)",
-                    "short ToInt16(float)"
+                    "short ToInt16(float)",
+                    "int ToInt32(object)",
+                    "string ToString(object)",
+                    "object ChangeType(object, System.Type)",
+                    "string ToString(object, System.IFormatProvider)"
                 ],
                 "Fields": [
                     "object DBNull"
@@ -2921,7 +3192,8 @@
                     "System.Delegate[] GetInvocationList()",
                     "object get_Target()",
                     "System.Reflection.MethodInfo get_Method()",
-                    "bool op_Equality(System.Delegate, System.Delegate)"
+                    "bool op_Equality(System.Delegate, System.Delegate)",
+                    "bool op_Inequality(System.Delegate, System.Delegate)"
                 ],
                 "Fields": null,
                 "NestedTypes": null
@@ -2957,7 +3229,9 @@
                     "string get_StackTrace()",
                     "string[] GetCommandLineArgs() ",
                     "string GetEnvironmentVariable(string)",
-                    "string get_CurrentDirectory()"
+                    "string get_CurrentDirectory()",
+                    "System.Version get_Version()",
+                    "System.OperatingSystem get_OSVersion()"
                 ],
                 "Fields": null,
                 "NestedTypes": null
@@ -3425,7 +3699,8 @@
                     "void .ctor(!0[], int, int)",
                     "void Clear()",
                     "void CopyTo(System.Span`1<!0>)",
-                    "void Fill(!0)"
+                    "void Fill(!0)",
+                    "bool op_Equality(System.ReadOnlySpan`1<!0>, System.ReadOnlySpan`1<!0>)"
                 ],
                 "Fields": null,
                 "NestedTypes": {
@@ -3792,7 +4067,16 @@
                     "System.Reflection.PropertyInfo[] GetProperties()",
                     "System.Reflection.FieldInfo[] GetFields()",
                     "System.Reflection.MethodInfo GetMethod(string)",
-                    "System.Reflection.MethodInfo GetMethod(string, System.Reflection.BindingFlags)"
+                    "System.Reflection.MethodInfo GetMethod(string, System.Reflection.BindingFlags)",
+                    "System.Reflection.MethodInfo[] GetMethods(System.Reflection.BindingFlags)",
+                    "System.TypeCode GetTypeCode(System.Type)",
+                    "System.Reflection.FieldInfo[] GetFields(System.Reflection.BindingFlags)",
+                    "System.Reflection.MemberInfo[] GetMember(string)",
+                    "System.Reflection.FieldInfo GetField(string, System.Reflection.BindingFlags)",
+                    "System.Reflection.ConstructorInfo[] GetConstructors(System.Reflection.BindingFlags)",
+                    "System.Reflection.PropertyInfo[] GetProperties(System.Reflection.BindingFlags)",
+                    "System.Reflection.PropertyInfo GetProperty(string, System.Reflection.BindingFlags)",
+                    "System.Reflection.FieldInfo GetField(string)"
                 ],
                 "Fields": [
                     "System.Reflection.MemberFilter FilterAttribute",
@@ -4005,7 +4289,10 @@
             "AppDomain": {
                 "All": false,
                 "Inherit": "Default",
-                "Methods": null,
+                "Methods": [
+                    "System.AppDomain get_CurrentDomain()",
+                    "System.Reflection.Assembly[] GetAssemblies()"
+                ],
                 "Fields": null,
                 "NestedTypes": null
             },
@@ -4019,7 +4306,10 @@
             "Activator": {
                 "All": false,
                 "Inherit": "Default",
-                "Methods": null,
+                "Methods": [
+                    "!!0 CreateInstance<>()",
+                    "object CreateInstance(System.Type)"
+                ],
                 "Fields": null,
                 "NestedTypes": null
             },
@@ -4073,6 +4363,62 @@
                 "NestedTypes": null
             },
             "FormatException": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "OperatingSystem": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "StringComparer": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "NonSerializedAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "GC": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ObjectDisposedException": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Lazy`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "UIntPtr": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "DayOfWeek": {
                 "All": true,
                 "Inherit": "Default",
                 "Methods": null,
@@ -4962,7 +5308,8 @@
                     "void Quit()",
                     "void remove_logMessageReceived(UnityEngine.Application/LogCallback)",
                     "void add_logMessageReceived(UnityEngine.Application/LogCallback)",
-                    "UnityEngine.SystemLanguage get_systemLanguage()"
+                    "UnityEngine.SystemLanguage get_systemLanguage()",
+                    "UnityEngine.RuntimePlatform get_platform()"
                 ],
                 "Fields": null,
                 "NestedTypes": {
@@ -5239,7 +5586,12 @@
             "Rigidbody": {
                 "All": false,
                 "Inherit": "Default",
-                "Methods": null,
+                "Methods": [
+                    "void AddTorque(UnityEngine.Vector3, UnityEngine.ForceMode)",
+                    "void AddForce(UnityEngine.Vector3, UnityEngine.ForceMode)",
+                    "void AddExplosionForce(float, UnityEngine.Vector3, float, float, UnityEngine.ForceMode)",
+                    "void set_linearVelocity(UnityEngine.Vector3)"
+                ],
                 "Fields": null,
                 "NestedTypes": null
             },
@@ -5286,6 +5638,140 @@
                 "NestedTypes": null
             },
             "EventType": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "JsonUtility": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "WWWForm": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "AsyncInstantiateOperation`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Awaitable": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": {
+                    "Awaiter": {
+                        "All": true,
+                        "Inherit": "Default",
+                        "Methods": null,
+                        "Fields": null,
+                        "NestedTypes": null
+                    }
+                }
+            },
+            "ForceMode": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "AsyncInstantiateOperation": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Collision2D": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Collider": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Collision": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "HelpURLAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PointerType": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ExpressionEvaluator": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ScreenCapture": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "RaycastHit": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "TouchPhase": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "InspectorNameAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "GradientMode": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "EventModifiers": {
                 "All": true,
                 "Inherit": "Default",
                 "Methods": null,
@@ -5849,6 +6335,13 @@
                 "Methods": null,
                 "Fields": null,
                 "NestedTypes": null
+            },
+            "UnloadSceneOptions": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
             }
         },
         "UnityEngine.Rendering": {
@@ -6031,6 +6524,13 @@
                 "Methods": null,
                 "Fields": null,
                 "NestedTypes": null
+            },
+            "ObjectPool`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
             }
         },
         "UnityEngine.Audio": {
@@ -6042,6 +6542,13 @@
                 "NestedTypes": null
             },
             "AudioMixer": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "AudioResource": {
                 "All": true,
                 "Inherit": "Default",
                 "Methods": null,
@@ -6162,12 +6669,127 @@
                     "int get_Length()",
                     "!0 get_Item(int)",
                     "void Dispose()",
-                    "void .ctor(Unity.Collections.NativeArray`1<!0>, Unity.Collections.Allocator)"
+                    "void .ctor(Unity.Collections.NativeArray`1<!0>, Unity.Collections.Allocator)",
+                    "void .ctor(int, Unity.Collections.Allocator, Unity.Collections.NativeArrayOptions)",
+                    "bool get_IsCreated()"
                 ],
                 "Fields": null,
                 "NestedTypes": null
             },
             "Allocator": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "INativeList`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "UTF8ArrayUnsafeUtility": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IIndexable`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IUTF8Bytes": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "NativeText": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "FixedString64Bytes": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "FixedString32Bytes": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ConversionError": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Unicode": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "FormatError": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "FixedStringMethods": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "FixedString128Bytes": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "AllocatorManager": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": {
+                    "AllocatorHandle": {
+                        "All": true,
+                        "Inherit": "Default",
+                        "Methods": null,
+                        "Fields": null,
+                        "NestedTypes": null
+                    }
+                }
+            },
+            "NativeList`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "NativeArrayOptions": {
                 "All": true,
                 "Inherit": "Default",
                 "Methods": null,
@@ -7364,6 +7986,34 @@
                 "Methods": null,
                 "Fields": null,
                 "NestedTypes": null
+            },
+            "ConstructorHandling": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "JsonConverter": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "JsonConverterAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "JsonConstructorAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
             }
         },
         "Newtonsoft.Json.Bson": {
@@ -7405,6 +8055,13 @@
                 "NestedTypes": null
             },
             "JProperty": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "JArray": {
                 "All": true,
                 "Inherit": "Default",
                 "Methods": null,
@@ -7958,6 +8615,42 @@
                 "Methods": null,
                 "Fields": null,
                 "NestedTypes": null
+            },
+            "UnsafeAppendBuffer": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": {
+                    "Reader": {
+                        "All": true,
+                        "Inherit": "Default",
+                        "Methods": null,
+                        "Fields": null,
+                        "NestedTypes": null
+                    }
+                }
+            },
+            "UnsafeText": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "NativeListUnsafeUtility": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "NativeArrayUnsafeUtility": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
             }
         },
         "Unity.Burst.Intrinsics.X86": {
@@ -8029,6 +8722,27 @@
                         "NestedTypes": null
                     }
                 }
+            },
+            "FunctionPointer`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "SharedStatic`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "BurstCompileAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
             }
         },
         "Unity.Burst.LowLevel": {
@@ -8281,6 +8995,1599 @@
                         "NestedTypes": null
                     }
                 }
+            }
+        },
+        "UnityEngine.Networking": {
+            "UnityWebRequestAsyncOperation": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "DownloadHandlerBuffer": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "MultipartFormDataSection": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "DownloadHandler": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "UnityWebRequest": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": {
+                    "Result": {
+                        "All": true,
+                        "Inherit": "Default",
+                        "Methods": null,
+                        "Fields": null,
+                        "NestedTypes": null
+                    }
+                }
+            },
+            "IMultipartFormSection": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            }
+        },
+        "Newtonsoft.Json.Serialization": {
+            "IContractResolver": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "NamingStrategy": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "CamelCaseNamingStrategy": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "DefaultContractResolver": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ErrorEventArgs": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            }
+        },
+        "Newtonsoft.Json.Converters": {
+            "IsoDateTimeConverter": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "StringEnumConverter": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            }
+        },
+        "System.Net.Security": {
+            "RemoteCertificateValidationCallback": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            }
+        },
+        "System.Security.Cryptography.X509Certificates": {
+            "X509CertificateCollection": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            }
+        },
+        "Unity.Jobs": {
+            "DOTSCompilerGeneratedAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "EarlyInitHelpers": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IJob": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IJobExtensions": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            }
+        },
+        "Unity.Collections.LowLevel.Unsafe.NotBurstCompatible": {
+            "Extensions": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            }
+        },
+        "Unity.Properties": {
+            "IListElementProperty": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IListPropertyVisitor": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IIndexedProperties`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IListPropertyAccept`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IListPropertyBagAccept`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ICollectionPropertyBagAccept`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IPropertyBag": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ICollectionElementProperty": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ICollectionPropertyBag`2": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ICollectionPropertyBagVisitor": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "MissingPropertyBagException": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "InvalidContainerTypeException": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "VisitReturnCode": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IDictionaryPropertyBag`3": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IListPropertyBag`2": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ISetPropertyBag`2": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IDictionaryPropertyBagVisitor": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IListPropertyBagVisitor": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ISetPropertyBagVisitor": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "TypeConversion": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IndexedCollectionPropertyBag`2": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "KeyValueCollectionPropertyBag`3": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PropertyContainer": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "VisitParameters": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IPropertyAccept`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IProperty`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IPropertyBag`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PropertyCollection`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": {
+                    "Enumerator": {
+                        "All": true,
+                        "Inherit": "Default",
+                        "Methods": null,
+                        "Fields": null,
+                        "NestedTypes": null
+                    }
+                }
+            },
+            "IPropertyVisitor": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IPropertyBagVisitor": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ContainerPropertyBag`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IProperty": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Property`2": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "TypeUtility": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "TypeTraits": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "TypeTraits`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PropertyBag`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PropertyBag": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "DontCreatePropertyAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ReflectedMemberProperty`2": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "CreatePropertyAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "GeneratePropertyBagAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "GeneratePropertyBagsForAssemblyAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            }
+        },
+        "Unity.Mathematics": {
+            "math": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            }
+        },
+        "UnityEngine.AI": {
+            "NavMeshPathStatus": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "NavMeshAgent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            }
+        },
+        "UnityEngine.UIElements": {
+            "StyleLength": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "StyleFloat": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "StyleScale": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Scale": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IStyle": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Scroller": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IExperimentalFeatures": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "EventBase": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "TrickleDown": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "CallbackEventHandler": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "EventCallback`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "VisualElementExtensions": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PickingMode": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Focusable": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "GeometryChangedEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ScrollView": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": {
+                    "NestedInteractionKind": {
+                        "All": true,
+                        "Inherit": "Default",
+                        "Methods": null,
+                        "Fields": null,
+                        "NestedTypes": null
+                    }
+                }
+            },
+            "VisualElement": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": {
+                    "UxmlSerializedData": {
+                        "All": true,
+                        "Inherit": "Default",
+                        "Methods": null,
+                        "Fields": null,
+                        "NestedTypes": null
+                    },
+                    "Hierarchy": {
+                        "All": true,
+                        "Inherit": "Default",
+                        "Methods": null,
+                        "Fields": null,
+                        "NestedTypes": null
+                    },
+                    "MeasureMode": {
+                        "All": true,
+                        "Inherit": "Default",
+                        "Methods": null,
+                        "Fields": null,
+                        "NestedTypes": null
+                    }
+                }
+            },
+            "NavigationCancelEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "UxmlElementAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "UQueryExtensions": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "UIDocument": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "BindingId": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "BindablePropertyChangedEventArgs": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "INotifyBindablePropertyChanged": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PointerMoveEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IPanel": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PanelSettings": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "FocusChangeDirection": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "FocusController": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "UxmlSerializedDataUtility": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "UxmlDescriptionCache": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "UxmlAttributeNames": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "MouseCaptureController": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PointerCaptureEventBase`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "FocusEventBase`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Justify": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IMGUIContainer": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "TransitionCancelEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "TransitionEndEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Wrap": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "FlexDirection": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "VisualElementFocusChangeDirection": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "BaseFieldMouseDragger": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "BaseListView": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Position": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "StyleTranslate": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Translate": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Visibility": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "LengthUnit": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Length": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ContextType": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "TextInputBaseField`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "MeshWriteData": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ICustomStyle": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Slider": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "SliderDirection": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "UsageHints": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PointerCaptureHelper": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PointerId": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "MouseEventBase`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "KeyboardEventBase`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IKeyboardEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "MouseButton": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "MouseManipulator": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ScrollerVisibility": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "StyleKeyword": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "DisplayStyle": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "StyleEnum`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PanelChangedEventBase`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "INotifyValueChangedExtensions": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IEventHandler": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IManipulator": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "BaseField`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IVisualElementScheduler": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "UQueryState`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": {
+                    "Enumerator": {
+                        "All": true,
+                        "Inherit": "Default",
+                        "Methods": null,
+                        "Fields": null,
+                        "NestedTypes": null
+                    }
+                }
+            },
+            "IPointerEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PointerOutEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PointerOverEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "UQueryBuilder`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PointerType": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PointerCancelEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PointerManipulator": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "MouseMoveEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "MouseUpEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "MouseDownEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Clickable": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Manipulator": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ITextSelection": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PointerEventBase`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "VectorImage": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "EventBase`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "FocusEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ScrollViewMode": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ITransitionEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "CollectionVirtualizationMethod": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "FocusOutEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "FieldMouseDragger`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IValueField`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ListView": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Align": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Image": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": {
+                    "UxmlSerializedData": {
+                        "All": true,
+                        "Inherit": "Default",
+                        "Methods": null,
+                        "Fields": null,
+                        "NestedTypes": null
+                    }
+                }
+            },
+            "UxmlTypeReferenceAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "DeltaSpeed": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "TextField": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PointerLeaveEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PointerEnterEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IVisualElementScheduledItem": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "MeshGenerationContext": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "CustomStyleProperty`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Vertex": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PointerCaptureOutEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PointerCaptureEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "TextElement": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": {
+                    "UxmlSerializedData": {
+                        "All": true,
+                        "Inherit": "Default",
+                        "Methods": null,
+                        "Fields": null,
+                        "NestedTypes": null
+                    }
+                }
+            },
+            "BindableElement": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": {
+                    "UxmlSerializedData": {
+                        "All": true,
+                        "Inherit": "Default",
+                        "Methods": null,
+                        "Fields": null,
+                        "NestedTypes": null
+                    }
+                }
+            },
+            "ClickEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "WheelEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "KeyUpEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "KeyDownEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ManipulatorActivationFilter": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "NavigationMoveEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PointerUpEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "PointerDownEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "StyleColor": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "StyleBackground": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Background": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "CustomStyleResolvedEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "DetachFromPanelEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "AttachToPanelEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "IResolvedStyle": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "SelectionType": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "BaseVerticalCollectionView": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "UxmlAttributeAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "RegisterUxmlCacheAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "UxmlSerializedData": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": {
+                    "UxmlAttributeFlags": {
+                        "All": true,
+                        "Inherit": "Default",
+                        "Methods": null,
+                        "Fields": null,
+                        "NestedTypes": null
+                    }
+                }
+            },
+            "UxmlIgnoreAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ChangeEvent`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "FocusInEvent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "VisualTreeAsset": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "INotifyValueChanged`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            }
+        },
+        "UnityEngine.UIElements.Experimental": {
+            "Easing": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ITransitionAnimations": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ValueAnimation`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            }
+        },
+        "System.Windows.Input": {
+            "ICommand": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            }
+        },
+        "UnityEngine.Device": {
+            "Application": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            }
+        },
+        "UnityEngine.Scripting.APIUpdating": {
+            "MovedFromAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
             }
         }
     }

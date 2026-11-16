@@ -30,7 +30,8 @@ namespace US13.HealthV2.Living.PolymorphicSystems
 		[Required("Must have a blood type in a circulatory system."), FormerlySerializedAs("bloodType")]
 		public Reagent bloodReagent = null;
 
-		[HideInInspector] public List<Heart> PumpingDevices = new List<Heart>();
+		// Runtime registry maintained as hearts are added to and removed from the body.
+		[NonSerialized] public List<Heart> PumpingDevices = new List<Heart>();
 
 		public ReagentMix TempBloodReservoir = new ReagentMix();
 		public float ReservoirReturnMultiplier = 0.15f;
