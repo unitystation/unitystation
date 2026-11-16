@@ -482,11 +482,17 @@ namespace US13.MapSaver
 				{
 					try
 					{
-						Component = Object.AddComponent(AllowedReflection.GetTypeByName(ClassComponents[0]));
+						Type newComponentToAdd = AllowedReflection.GetTypeByName(ClassComponents[0]);
+						if (newComponentToAdd == null)
+						{
+							Loggy.Error($"{Object.name}: {ClassComponents[0]} does not exist anymore, or has been renamed.");
+							continue;
+						}
+						Component = Object.AddComponent(newComponentToAdd);
 					}
 					catch (Exception e)
 					{
-						Loggy.Error(e.ToString());
+						Loggy.Error($"Could not add a component on a gameObject.\n {e}");
 						continue;
 					}
 				}
