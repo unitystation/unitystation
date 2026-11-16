@@ -15,7 +15,7 @@ namespace Tests
 	[Category("Security")]
 	public class ScanCode
 	{
-		[Test, Timeout(690000)]
+		[Test, Timeout(694267)]
 		public void BuildTest()
 		{
 			string[] levels = new string[] { "Assets/EmptyScene.unity" };

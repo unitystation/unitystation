@@ -1,57 +1,31 @@
-using Logs;
 using UnityEngine;
 using US13.Clothing;
-using US13.HealthV2.Living;
-using US13.Items.Implants.Organs;
+using US13.HealthV2.Living.BodyParts;
 
 namespace US13.Mobs.BrainAI.States.SimpleBot
 {
-	[System.Serializable]
-	public class SimpleBotBody : BodyPartBehavior
+	/// <summary>
+	/// Client presentation only. BrainMobAI supplies the replicated task status.
+	/// </summary>
+	public class SimpleBotBody : MonoBehaviour
 	{
-		[UnityEngine.SerializeReference] private SimpleBotTaskAi _taskAi = null;
-		private int _currentSpriteIndex = 0;
-
-		[SerializeField, Tooltip("Sprites are: (0) Regular-Idle, (1) Regular-Performing,\n (2) Emagged-Idle, (3) Emagged-Performing")]
+		[SerializeField, Tooltip("Regular idle, regular working, emagged idle, emagged working.")]
 		private SpriteDataSO[] possibleSprites = new SpriteDataSO[4];
-
-		public override void OnAddedToBody(LivingHealthMasterBase addedToBody)
+		private BodyPart part;
+		private BrainMobAI previousBrain;
+		private int previousIndex = -1;
+		private void Awake() => part = GetComponentInParent<BodyPart>(true);
+		private void OnEnable() { previousBrain = null; previousIndex = -1; }
+		private void LateUpdate()
 		{
-			base.OnAddedToBody(addedToBody);
-
-			if(LivingHealthMaster.brain != null) AttachToBrain(LivingHealthMaster.brain);
-			LivingHealthMaster.OnBrainAdded += AttachToBrain;
-		}
-
-		private void AttachToBrain(Brain brain)
-		{
-			if (_taskAi != null) _taskAi.OnSpriteChange -= UpdateBodySprites;
-			if (LivingHealthMaster.brain.TryGetBodyPartBehavior<SimpleBotTaskAi>(out _taskAi) == false)
-			{
-				Loggy.Error($"SimpleBotBody/OnAddedToBody(): Could not find SimpleBotTaskAi script on LivingHealthMaster Brain");
-				return;
-			}
-
-			_taskAi.OnSpriteChange += UpdateBodySprites;
-		}
-
-		public override void OnRemovedFromBody(LivingHealthMasterBase addedToBody, GameObject source = null)
-		{
-			base.OnRemovedFromBody(addedToBody, source);
-
-			addedToBody.OnBrainAdded -= AttachToBrain;
-			if (_taskAi == null) return;
-			_taskAi.OnSpriteChange -= UpdateBodySprites;
-		}
-
-		private void UpdateBodySprites(bool isEmagged, bool isPerformingTask)
-		{
-			if (RelatedPart.RelatedPresentSprites.Count == 0) return;
-
-			_currentSpriteIndex = isEmagged ? 2 : 0;
-			_currentSpriteIndex += isPerformingTask ? 1 : 0;
-
-			RelatedPart.RelatedPresentSprites[0].UpdateSpritesForImplant(RelatedPart, ClothingHideFlags.HIDE_NONE, possibleSprites[_currentSpriteIndex], RelatedPart.SpritePrefab.SpriteOrder);
+			var brain = part?.HealthMaster?.brain?.GetBodyPartBehavior<BrainMobAI>();
+			if (brain == null) { previousBrain = null; previousIndex = -1; return; }
+			int index = (brain.IsEmagged ? 2 : 0) + (brain.IsPerformingTask ? 1 : 0);
+			if (previousBrain == brain && previousIndex == index) return;
+			if (part.RelatedPresentSprites.Count == 0 || index >= possibleSprites.Length || possibleSprites[index] == null) return;
+			part.RelatedPresentSprites[0].UpdateSpritesForImplant(part, ClothingHideFlags.HIDE_NONE, possibleSprites[index], part.SpritePrefab.SpriteOrder);
+			previousBrain = brain;
+			previousIndex = index;
 		}
 	}
 }

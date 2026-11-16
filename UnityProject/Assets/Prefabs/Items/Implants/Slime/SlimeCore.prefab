@@ -272,56 +272,51 @@ PrefabInstance:
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
       propertyPath: Behaviors.Array.size
-      value: 10
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[0]'
+      propertyPath: Behaviors.Array.data[0]
       value: 5041995600691987424
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[1]'
+      propertyPath: Behaviors.Array.data[1]
       value: 5041995600691987425
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[2]'
+      propertyPath: Behaviors.Array.data[2]
       value: 5041995600691987426
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[3]'
+      propertyPath: Behaviors.Array.data[3]
       value: 5041995600691987427
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[4]'
+      propertyPath: Behaviors.Array.data[4]
       value: 5041995600691987428
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[5]'
+      propertyPath: Behaviors.Array.data[5]
       value: 5041995600691987429
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[6]'
+      propertyPath: Behaviors.Array.data[6]
       value: 5041995600691987430
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[7]'
+      propertyPath: Behaviors.Array.data[7]
       value: 5041995600691987431
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
-      propertyPath: 'Behaviors.Array.data[8]'
-      value: 5041995600691987432
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
-        type: 3}
-      propertyPath: 'Behaviors.Array.data[9]'
+      propertyPath: Behaviors.Array.data[8]
       value: 5041995600691987433
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
@@ -366,23 +361,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
-      propertyPath: 'managedReferences[5041995600691987432]'
-      value: Assets US13.Mobs.BrainAI.States.BrainSlime
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
-        type: 3}
       propertyPath: 'managedReferences[5041995600691987433]'
       value: Assets US13.Mobs.BrainAI.BrainMobAI
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
-        type: 3}
-      propertyPath: managedReferences[5041995600691987433].Body
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
-        type: 3}
-      propertyPath: managedReferences[5041995600691987433].Brain
-      value: 5041995600691987429
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
@@ -422,11 +402,6 @@ PrefabInstance:
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
       propertyPath: managedReferences[5041995600691987431].Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
-        type: 3}
-      propertyPath: managedReferences[5041995600691987432].Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
@@ -528,11 +503,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
-      propertyPath: managedReferences[5041995600691987432].FriendlySlime
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
-        type: 3}
       propertyPath: managedReferences[5041995600691987433].DEBUGoverride
       value: 0
       objectReference: {fileID: 0}
@@ -550,11 +520,6 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[5041995600691987431].StartingAmount
       value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
-        type: 3}
-      propertyPath: managedReferences[5041995600691987432].hitMask.m_Bits
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
@@ -678,11 +643,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
-      propertyPath: managedReferences[5041995600691987432].OwnerOnlyNetworkState
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
-        type: 3}
       propertyPath: managedReferences[5041995600691987433].OwnerOnlyNetworkState
       value: 0
       objectReference: {fileID: 0}
@@ -698,18 +658,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
-      propertyPath: managedReferences[5041995600691987432].<master>k__BackingField
-      value: -2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
-        type: 3}
       propertyPath: managedReferences[5041995600691987425].SecondsForSpeciesMutation
       value: 150
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
-        type: 3}
-      propertyPath: managedReferences[5041995600691987432].eatFoodSound.AssetAddress
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
@@ -735,11 +685,6 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[5041995600691987425].CapableMutations.Array.size
       value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
-        type: 3}
-      propertyPath: managedReferences[5041995600691987432].<UpdateType>k__BackingField
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
@@ -818,11 +763,6 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
-      propertyPath: managedReferences[5041995600691987433].<thinkingState>k__BackingField
-      value: 5041995600691987432
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
-        type: 3}
       propertyPath: 'managedReferences[5041995600691987425].CapableMutations.Array.data[10]'
       value: 
       objectReference: {fileID: 11400000, guid: 8c9c9234756a0ce49a8d569e94c89e02,
@@ -873,16 +813,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
-      propertyPath: managedReferences[5041995600691987432].<Blacklist>k__BackingField.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
-        type: 3}
-      propertyPath: managedReferences[5041995600691987433].<MobStates>k__BackingField.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
-        type: 3}
       propertyPath: managedReferences[5041995600691987431].CanSplitInto.Array.data[0].CoreMutateTo
       value: 
       objectReference: {fileID: 4304790706924288976}
@@ -912,16 +842,6 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
-      propertyPath: managedReferences[5041995600691987432].<PeriodicUpdateInterval>k__BackingField
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
-        type: 3}
-      propertyPath: managedReferences[5041995600691987432].eatFoodSound.AssetReference.m_AssetGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
-        type: 3}
       propertyPath: managedReferences[5041995600691987431].CanSplitInto.Array.data[0].ChanceToMutateTo
       value: 70
       objectReference: {fileID: 0}
@@ -947,21 +867,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
-      propertyPath: managedReferences[5041995600691987432].eatFoodSound.AssetReference.m_SubObjectGUID
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
-        type: 3}
-      propertyPath: managedReferences[5041995600691987432].eatFoodSound.AssetReference.m_SubObjectName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
-        type: 3}
-      propertyPath: managedReferences[5041995600691987432].eatFoodSound.AssetReference.m_SubObjectType
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
-        type: 3}
       propertyPath: managedReferences[5041995600691987429].OnDeath.m_PersistentCalls.m_Calls.Array.size
       value: 0
       objectReference: {fileID: 0}
@@ -973,16 +878,6 @@ PrefabInstance:
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
         type: 3}
       propertyPath: managedReferences[5041995600691987429].OnRevival.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
-        type: 3}
-      propertyPath: managedReferences[5041995600691987433].<CurrentActiveStates>k__BackingField.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
-        type: 3}
-      propertyPath: managedReferences[5041995600691987432].eatFoodSound.AssetReference.m_EditorAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
@@ -1067,6 +962,91 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8253ab1a6600a6e4d843aba148ce5601,
         type: 2}
+    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987433].Graph
+      value: 
+      objectReference: {fileID: -100, guid: b30bf99b9df023dd4e98bc85a7c0e920, type: 2}
+    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987433].OwnerOnlyNetworkState
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: 'managedReferences[5041995652254400512]'
+      value: Assets US13.Mobs.BrainAI.ContextExtensions.SlimeContextExtension
+      objectReference: {fileID: 0}
+    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987433].ContextExtensions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691987433].ContextExtensions.Array.data[0]'
+      value: 5041995652254400512
+      objectReference: {fileID: 0}
+    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: 'managedReferences[5041995654726680576]'
+      value: Assets US13.Mobs.BrainAI.SlimeBehaviorSettings
+      objectReference: {fileID: 0}
+    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680576].Friendly
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680576].Interval
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680576].HitMask.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680576].EatFoodSound.AssetAddress
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: managedReferences[5041995600691987433].SettingsExtensions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600691987433].SettingsExtensions.Array.data[0]'
+      value: 5041995654726680576
+      objectReference: {fileID: 0}
+    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680576].EatFoodSound.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680576].EatFoodSound.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680576].EatFoodSound.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680576].EatFoodSound.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7646374888090714694, guid: 1e19c4562afbbd2479d14830399db738,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680576].EatFoodSound.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1512013037722720825, guid: 1e19c4562afbbd2479d14830399db738, type: 3}
     - {fileID: 6883510592972252665, guid: 1e19c4562afbbd2479d14830399db738, type: 3}
