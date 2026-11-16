@@ -20,7 +20,12 @@ namespace US13.Mobs.BrainAI.Tasks
 			if (targets == null) return false;
 			var matrix = MatrixOf(context);
 			foreach (var living in targets)
-				if (Eligible(context, living) && Select(context, living.gameObject.AssumedWorldPosServer().ToLocalInt(matrix), matrix, living.gameObject)) return true;
+			{
+				if (Eligible(context, living) && Select(context, living.gameObject.AssumedWorldPosServer().ToLocalInt(matrix), matrix, living.gameObject))
+				{
+					return true;
+				}
+			}
 			return false;
 		}
 
@@ -46,7 +51,7 @@ namespace US13.Mobs.BrainAI.Tasks
 		public override void Complete(MobBehaviorContext context)
 		{
 			if (context.AI.IsEmagged) return;
-			var living = context.Target.GetComponent<LivingHealthMasterBase>();
+			var living = context.Target.GetCachedComponent<LivingHealthMasterBase>();
 			living.HealDamageOnAll(context.AI.Body.gameObject, 2f, DamageType.Brute);
 			living.HealDamageOnAll(context.AI.Body.gameObject, 2f, DamageType.Burn);
 		}
