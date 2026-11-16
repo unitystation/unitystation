@@ -1077,8 +1077,7 @@ MonoBehaviour:
         Enabled: 1
         OwnerOnlyNetworkState: 0
     - rid: 5041995600691986532
-      type: {class: BodyPartMutations, ns: US13.HealthV2.Living,
-        asm: Assets}
+      type: {class: BodyPartMutations, ns: US13.HealthV2.Living, asm: Assets}
       data:
         Enabled: 1
         OwnerOnlyNetworkState: 0
@@ -1127,11 +1126,14 @@ MonoBehaviour:
         - {fileID: 4085748645010499614}
         - {fileID: 8099618591707406089}
     - rid: 5041995600691986534
-      type: {class: HumanoidArm, ns: US13.Items.Implants.Limbs,
-        asm: Assets}
+      type: {class: HumanoidArm, ns: US13.Items.Implants.Limbs, asm: Assets}
       data:
         Enabled: 1
         OwnerOnlyNetworkState: 0
+        walkingSpeed: 0.1
+        runningSpeed: 0.1
+        crawlingSpeed: 0.3
+        initialLimbEfficiency: 1
         ArmMeleeDamage: 5
         ArmDamageType: 0
         ArmHitSound: []
@@ -1139,10 +1141,6 @@ MonoBehaviour:
         - punched
         ArmTraumaticDamage: 0
         ArmTraumaticChance: 0
-        walkingSpeed: 0.1
-        runningSpeed: 0.1
-        crawlingSpeed: 0.3
-        initialLimbEfficiency: 1
     - rid: 5041995600691986535
       type: {class: ReagentCirculatedComponent, ns: US13.HealthV2.Living.PolymorphicSystems.Bodypart,
         asm: Assets}
