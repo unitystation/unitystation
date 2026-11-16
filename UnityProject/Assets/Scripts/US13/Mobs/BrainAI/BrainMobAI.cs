@@ -1,108 +1,221 @@
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using Logs;
-using NaughtyAttributes;
+using Unity.Behavior;
 using UnityEngine;
+using US13.Core.Attributes;
 using US13.Core.Utils;
+using US13.HealthV2;
 using US13.HealthV2.Living;
 using US13.Items.Implants.Organs;
+using US13.Managers.NetworkManagement;
+using US13.Managers.UpdateManager;
+using US13.Mobs.BrainAI.States.SimpleBot;
+using US13.Mobs.BrainAI.ContextExtensions;
+using US13.Mobs.BrainAI.SettingsExtensions;
 using US13.Mobs.Traversal;
 
 namespace US13.Mobs.BrainAI
 {
-	[System.Serializable]
-	public class BrainMobAI : BodyPartBehavior
+	[Serializable]
+	public class BrainMobAI : BodyPartBehavior, ICanBeEmaggedMob
 	{
-		[field: ReadOnly, SerializeReference] public List<BrainMobState> CurrentActiveStates { get; private set; } = new List<BrainMobState>();
-		[field: SerializeReference] public List<BrainMobState> MobStates { get; private set; } = new List<BrainMobState>();
-		[field: SerializeReference] public BrainMobState thinkingState { get; private set; }
+		public BehaviorGraph Graph;
+		public MobBehaviorSettings Settings = new();
+		[SerializeReference, SelectImplementation(typeof(IMobBehaviorSettingsExtension))]
+		public List<IMobBehaviorSettingsExtension> SettingsExtensions = new();
+		[SerializeReference, SelectImplementation(typeof(IMobBehaviorContextExtension))]
+		public List<IMobBehaviorContextExtension> ContextExtensions = new();
+		public bool DEBUGoverride;
+		[SerializeField] private bool isEmagged;
+		[SerializeField] private bool isPerformingTask;
+		[NonSerialized] public Brain Brain;
+		[NonSerialized] public CommonComponents Body;
+		[NonSerialized] private BehaviorGraphAgent agent;
+		[NonSerialized] private bool running;
+		[NonSerialized] private bool registered;
+		[NonSerialized] private bool available;
+		[NonSerialized] private LivingHealthMasterBase attachedHealth;
+		public MobBehaviorContext Context { get; private set; }
+		public MobTraversal Traversal => Brain?.Traversal;
+		public bool IsEmagged => isEmagged;
+		public bool IsPerformingTask => isPerformingTask;
+		public bool IsControlledByPlayer => !DEBUGoverride && Brain?.PossessingMind != null &&
+			Brain.PossessingMind.IsActivelyControlling(Body != null ? Body.gameObject : null);
+		public bool CanRun => Context != null && Context.Health != null && Context.Health == attachedHealth && CustomNetworkManager.IsServer && available && Enabled &&
+			Owner != null && Owner.isActiveAndEnabled && attachedHealth != null && Body != null &&
+			!attachedHealth.IsDead && !IsControlledByPlayer && Body.UniversalObjectPhysics != null &&
+			Body.UniversalObjectPhysics.IsVisible && attachedHealth.RegisterTile?.Matrix?.PresentPlayers?.Count > 0;
 
-		[UnityEngine.SerializeReference] public Brain Brain;
-		public MobTraversal Traversal => Brain.Traversal;
-
-		public bool DEBUGoverride = false;
-
-
-		public bool IsControlledByPlayer
+		public override void OnInitialize()
 		{
-			get
-			{
-				if (DEBUGoverride)
-				{
-					return false;
-				}
-				if (Brain.PossessingMind == null) return false;
-				return Brain.PossessingMind.ControlledBy != null;
-			}
+			Brain = GetBodyPartBehavior<Brain>();
+			Context = new MobBehaviorContext(this);
 		}
 
-		public CommonComponents Body;
-
-		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
+		public override void OnBehaviorEnabled()
 		{
-			Body = null;
+			available = true;
+			if (registered) return;
+			UpdateManager.Add(CallbackType.UPDATE, Tick);
+			registered = true;
+		}
+
+		public override void OnBehaviorStarted() => OnBehaviorEnabled();
+		public void SetPerformingTask(bool value) => isPerformingTask = value;
+
+		public bool TryGetSettings<T>(out T settings) where T : class, IMobBehaviorSettingsExtension
+		{
+			settings = null;
+			if (SettingsExtensions == null) throw new InvalidOperationException("The brain's settings extension list is missing.");
+			foreach (var candidate in SettingsExtensions)
+			{
+				if (candidate == null) throw new InvalidOperationException("The brain has a null settings extension selection.");
+				if (candidate is not T match) continue;
+				if (settings != null) throw new InvalidOperationException($"Ambiguous settings extension lookup for {typeof(T).FullName}");
+				settings = match;
+			}
+			return settings != null;
+		}
+
+		public T GetSettings<T>() where T : class, IMobBehaviorSettingsExtension =>
+			TryGetSettings<T>(out var settings) ? settings : throw new InvalidOperationException($"Missing settings extension {typeof(T).FullName}");
+
+		public bool TryGetInterval(int intervalId, out float seconds)
+		{
+			if (Settings == null || SettingsExtensions == null) throw new InvalidOperationException("The brain's behavior settings are missing.");
+			switch (intervalId)
+			{
+				case 0: seconds = Settings.WanderInterval; return true;
+				case 1: seconds = Settings.SearchInterval; return true;
+				case 2: seconds = Settings.FollowInterval; return true;
+			}
+			bool found = false;
+			seconds = 0;
+			foreach (var selection in SettingsExtensions)
+			{
+				if (selection is not IMobBehaviorIntervalSettings provider || provider.IntervalId != intervalId) continue;
+				if (found) throw new InvalidOperationException($"Multiple settings extensions provide graph interval {intervalId}");
+				seconds = provider.IntervalSeconds;
+				found = true;
+			}
+			return found;
 		}
 
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
+			if (attachedHealth == livingHealth) return;
+			if (attachedHealth != null) OnRemovedFromBody(attachedHealth);
+			attachedHealth = livingHealth;
 			Body = livingHealth.GetComponent<CommonComponents>();
-		} //Warning only add body parts do not remove body parts in this
-
-
-		public override void OnBehaviorStarted()
-		{
-			Brain = GetBodyPartBehavior<Brain>();
-			GatherAllStates();
-			RemoveAddState(null, thinkingState);
+			Brain ??= GetBodyPartBehavior<Brain>();
+			Context ??= new MobBehaviorContext(this);
+			Context.Bind(livingHealth);
+			livingHealth.OnTakeDamageType += OnDamage;
+			livingHealth.OnDeath += Stop;
 		}
 
-		private void GatherAllStates()
+		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
-			var states = GetBodyPartBehaviorsInChildren<BrainMobState>();
-			foreach (var state in states)
+			if (attachedHealth != livingHealth) return;
+			Stop();
+			livingHealth.OnTakeDamageType -= OnDamage;
+			livingHealth.OnDeath -= Stop;
+			try { Context?.Unbind(); }
+			finally { attachedHealth = null; Body = null; }
+		}
+
+		private void OnDamage(DamageType type, GameObject source, float damage)
+		{
+			if (CustomNetworkManager.IsServer && Context != null) Context.RecentDamage += Mathf.Max(0, damage);
+		}
+
+		private void Tick()
+		{
+			if (!CanRun || Graph == null) { Stop(); return; }
+			if (agent == null)
 			{
-				if (MobStates.Contains(state)) continue;
-				MobStates.Add(state);
-				state.master = this;
+				// Init clones the asset. The organ owns ticking, so Unity's automatic Start/Update stay disabled.
+				agent = gameObject.AddComponent<BehaviorGraphAgent>();
+				agent.enabled = false;
+				agent.Graph = Graph;
+				agent.Init();
+				if (agent.Graph == null)
+				{
+					Loggy.Error($"Invalid mob behavior graph on {name}", Category.Mobs);
+					OnBehaviorDisabled();
+					return;
+				}
+			}
+			if (!running)
+			{
+				Context.BeginRun();
+				running = true;
+				agent.Graph.Start();
+			}
+			agent.Graph.Tick();
+		}
+
+		private void Stop()
+		{
+			if (!running) return;
+			running = false;
+			try { Context.EndRun(); }
+			finally
+			{
+				try { if (agent != null) agent.Graph?.End(); }
+				finally { SetPerformingTask(false); }
 			}
 		}
 
-		public void RemoveAddState(BrainMobState oldState, BrainMobState newState)
+		public override void OnBehaviorDisabled()
 		{
-			if (newState is null) return;
-			if (CurrentActiveStates.Any(x => x.Blacklist.Contains(newState))) return;
-
-			if (oldState != null && CurrentActiveStates.Contains(oldState))
-			{
-				RemoveState(oldState);
-			}
-			AddState(newState);
+			available = false;
+			Stop();
+			if (!registered) return;
+			UpdateManager.Remove(CallbackType.UPDATE, Tick);
+			registered = false;
 		}
-
-		private void RemoveState(BrainMobState oldState)
-		{
-			oldState.OnExitStateInternal();
-			CurrentActiveStates.Remove(oldState);
-		}
-
-		private void AddState(BrainMobState newState)
-		{
-			if (CurrentActiveStates.Contains(newState))
-			{
-				Loggy.Warning($"Can't add state {newState.GetType().Name} to {gameObject.name} because it's already in the list.");
-				return;
-			}
-			CurrentActiveStates.Add(newState);
-			newState.OnEnterStateInternal();
-		}
-
 
 		public override void OnBehaviorDestroyed()
 		{
-			foreach (var State in CurrentActiveStates.ToArray())
+			OnBehaviorDisabled();
+			if (attachedHealth != null) OnRemovedFromBody(attachedHealth);
+			if (agent != null)
 			{
-				RemoveState(State);
+				var instance = agent.Graph;
+				agent.Graph = null; // Release nodes and callbacks before destroying the runtime clone.
+				if (instance != null) UnityEngine.Object.Destroy(instance);
+				UnityEngine.Object.Destroy(agent);
 			}
+			agent = null;
+		}
+
+		public void EmagMob()
+		{
+			if (!CustomNetworkManager.IsServer) return;
+			Stop();
+			isEmagged = true;
+		}
+
+		[Serializable]
+		private sealed class NetworkState
+		{
+			public bool IsEmagged;
+			public bool IsPerformingTask;
+		}
+
+		public override string CaptureNetworkState() => JsonUtility.ToJson(new NetworkState
+		{
+			IsEmagged = isEmagged, IsPerformingTask = isPerformingTask
+		});
+
+		public override void ApplyNetworkState(string json)
+		{
+			var state = JsonUtility.FromJson<NetworkState>(json);
+			if (state == null) return;
+			isEmagged = state.IsEmagged;
+			isPerformingTask = state.IsPerformingTask;
 		}
 	}
 }

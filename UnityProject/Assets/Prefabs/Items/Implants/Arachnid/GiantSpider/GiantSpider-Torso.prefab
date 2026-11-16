@@ -1227,8 +1227,7 @@ MonoBehaviour:
         Enabled: 1
         OwnerOnlyNetworkState: 0
     - rid: 5041995600691986550
-      type: {class: BodyPartMutations, ns: US13.HealthV2.Living,
-        asm: Assets}
+      type: {class: BodyPartMutations, ns: US13.HealthV2.Living, asm: Assets}
       data:
         Enabled: 1
         OwnerOnlyNetworkState: 0
@@ -1275,6 +1274,7 @@ MonoBehaviour:
         Enabled: 1
         OwnerOnlyNetworkState: 0
         _networkOnBodyID: 0
+        _networkPossessingID: 0
         drunkReagent: {fileID: 0}
         highReagent: {fileID: 0}
         MaxDrunkAtPercentage: 0.06
@@ -1283,6 +1283,9 @@ MonoBehaviour:
         hasInbuiltHearing: 1
         CannotSpeak: 0
         hasInbuiltSpeech: 1
+        _networkHasTelekinesis: 0
+        _networkDrunkAmount: 0
+        _networkHighAmount: 0
         BodyChatModifier: 262144
         ReagentCirculatedComponent:
           rid: -2
