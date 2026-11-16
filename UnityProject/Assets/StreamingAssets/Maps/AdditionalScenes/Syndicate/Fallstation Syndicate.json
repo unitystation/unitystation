@@ -7880,7 +7880,20 @@
             "GitID": "dbe35ec7f5414c148b9bb5bfc6b5137e_6┼-30┼0┼",
             "PrefabID": "dbe35ec7f5414c148b9bb5bfc6b5137e",
             "Name": "BananaLamp (1)",
-            "LocalPRS": "6┼-30┼0┼"
+            "LocalPRS": "6┼-30┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ItemLightControl@0",
+                  "Data": [
+                    {
+                      "Name": "Size",
+                      "Data": "8"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "5a7af30c589b41a449d0ba74c9e1771c_6┼-28┼0┼",
@@ -7899,6 +7912,15 @@
                 {
                   "ClassID": "ClothingV2@0",
                   "Removed": true
+                },
+                {
+                  "ClassID": "ItemLightControl@0",
+                  "Data": [
+                    {
+                      "Name": "IsOn",
+                      "Data": "True"
+                    }
+                  ]
                 }
               ],
               "Children": [
@@ -8642,7 +8664,20 @@
             "GitID": "c141da4e786e96c40b854e3daf1737d0_10.99┼-26.06┼0┼",
             "PrefabID": "c141da4e786e96c40b854e3daf1737d0",
             "Name": "DeskLamp (1)",
-            "LocalPRS": "10.99┼-26.06┼0┼"
+            "LocalPRS": "10.99┼-26.06┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ItemLightControl@0",
+                  "Data": [
+                    {
+                      "Name": "Size",
+                      "Data": "8"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "faf5221e3b4b94a4f926ef17e295d14a_11┼-38┼0┼",
@@ -8707,7 +8742,20 @@
             "GitID": "5ec00bb76bef2cb4c82733598b9e3c47_11┼-30┼0┼",
             "PrefabID": "5ec00bb76bef2cb4c82733598b9e3c47",
             "Name": "GreenDeskLamp (2)",
-            "LocalPRS": "11┼-30┼0┼"
+            "LocalPRS": "11┼-30┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ItemLightControl@0",
+                  "Data": [
+                    {
+                      "Name": "Size",
+                      "Data": "8"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "5a7af30c589b41a449d0ba74c9e1771c_11┼-28┼0┼",
