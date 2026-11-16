@@ -12,6 +12,7 @@ namespace US13.Mobs.BrainAI.ContextExtensions
 		[NonSerialized] public MobTask Task;
 		[NonSerialized] public float NextSearchTime;
 		[NonSerialized] public bool NearbySearch;
+		[NonSerialized] public LivingHealthMasterBase TargetHealth;
 
 		public override IMobBehaviorContextExtension CreateRuntime() => new TaskContextExtension();
 		public override void Bind(MobBehaviorContext context, LivingHealthMasterBase health)
@@ -23,14 +24,18 @@ namespace US13.Mobs.BrainAI.ContextExtensions
 		{
 			NextSearchTime = 0;
 			NearbySearch = false;
+			TargetHealth = null;
 		}
+		public override void EndRun() => TargetHealth = null;
 		public override void Unbind()
 		{
+			TargetHealth = null;
 			Task = null;
 			base.Unbind();
 		}
 		public void OnMovementFailed(MobBehaviorContext context)
 		{
+			TargetHealth = null;
 			var bounds = context.AI.Settings.Hesitation;
 			NextSearchTime = Time.time + Random.Range(bounds.x, Mathf.Max(bounds.x, bounds.y) + 1) * context.AI.Settings.WanderInterval;
 		}

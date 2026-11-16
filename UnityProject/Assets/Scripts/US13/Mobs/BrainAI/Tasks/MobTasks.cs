@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using US13.HealthV2.Living;
 using US13.Mobs.Traversal;
+using US13.Mobs.BrainAI.ContextExtensions;
 using US13.Tilemaps.Behaviours.Layers;
 using Util;
 
@@ -37,6 +38,7 @@ namespace US13.Mobs.BrainAI.Tasks
 			bool inRange = Vector3.Distance(position, cell.ToWorld(matrix)) <= context.TargetRange;
 			var path = inRange ? new List<Vector3Int>() : MobTraversal.GeneratePath(position.ToLocalInt(matrix), cell, matrix, PathfinderType.AStar);
 			if (!inRange && (path == null || path.Count == 0)) return false;
+			if (context.TryGetExtension<TaskContextExtension>(out var tasks)) tasks.TargetHealth = null;
 			context.Target = target;
 			context.TargetWasObject = target != null;
 			context.TargetCell = cell;
