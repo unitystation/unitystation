@@ -6690,7 +6690,7 @@
         ]
       },
       "CompactObjectMapData": {
-        "Ver": "1.4.0",
+        "Ver": "1.5.0",
         "CommonPrefabs": [],
         "PrefabData": [
           {
@@ -6761,7 +6761,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -6864,7 +6864,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -6929,7 +6929,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -6956,20 +6956,7 @@
             "GitID": "8f1ce2b118c25334fa660be931e62dbf_-1.12┼1.16┼0┼",
             "PrefabID": "8f1ce2b118c25334fa660be931e62dbf",
             "Name": "EverburningCandle (2)",
-            "LocalPRS": "-1.12┼1.16┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemLightControl@0",
-                  "Data": [
-                    {
-                      "Name": "Size",
-                      "Data": "10"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "-1.12┼1.16┼0┼"
           },
           {
             "GitID": "6ecb8b1a0d8d9184fa74bdd3c7ded42d_-1┼12┼0┼",
@@ -7109,10 +7096,6 @@
                   "ClassID": "ObjectAttributes@0",
                   "Data": [
                     {
-                      "Name": "initialName",
-                      "Data": "magic mirror"
-                    },
-                    {
                       "Name": "initialDescription",
                       "Data": "Mirror mirror on the wall, who's the most robust of of them all?"
                     }
@@ -7244,20 +7227,7 @@
             "GitID": "8f1ce2b118c25334fa660be931e62dbf_1.35┼1.19┼0┼",
             "PrefabID": "8f1ce2b118c25334fa660be931e62dbf",
             "Name": "EverburningCandle (1)",
-            "LocalPRS": "1.35┼1.19┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "ItemLightControl@0",
-                  "Data": [
-                    {
-                      "Name": "Size",
-                      "Data": "10"
-                    }
-                  ]
-                }
-              ]
-            }
+            "LocalPRS": "1.35┼1.19┼0┼"
           },
           {
             "GitID": "dde361d656542f048bdeebf4e87dd7d3_2┼12┼0┼",
@@ -7313,7 +7283,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -7358,7 +7328,7 @@
               ],
               "Children": [
                 {
-                  "ID": "0,2",
+                  "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
                 }
@@ -7435,7 +7405,7 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "2300.5,-3796.5,0",
+          "Pos": "-0.5,2.5,0",
           "Size": "33,25,0"
         }
       ]
