@@ -444,11 +444,10 @@ namespace US13.MapSaver
 
 
 		//Bob game object ->  Jane ID
-		public static List<Tuple<Component, FieldData>> UnserialisedObjectReferences =
-			new List<Tuple<Component, FieldData>>();
+		public static List<Tuple<Component, FieldData>> UnserialisedObjectReferences = new();
 
 		//Bob game object ->  Bob ID
-		public static Dictionary<Component, string> ComponentToID = new Dictionary<Component, string>();
+		public static Dictionary<Component, string> ComponentToID = new();
 
 
 		public static HashSet<FieldData> FieldsToRefresh = new HashSet<FieldData>();
