@@ -40,7 +40,8 @@ namespace US13.Items.Implants.Organs
 
 		[UnityEngine.SerializeReference] public ReagentCirculatedComponent _ReagentCirculatedComponent;
 
-		public ReagentPoolSystem CashedReagentPoolSystem = null;
+		// Runtime association populated when this heart is added to a body.
+		[NonSerialized] public ReagentPoolSystem CashedReagentPoolSystem = null;
 
 		public int ForcedBeats = 0;
 
