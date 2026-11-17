@@ -3,6 +3,7 @@ using US13.Actions.V2;
 using US13.Core.Chat;
 using US13.Core.Lifecycle;
 using US13.HealthV2.Living;
+using US13.Mobs.BrainAI;
 using US13.Player;
 
 namespace US13.Systems.Antagonists
@@ -17,8 +18,10 @@ namespace US13.Systems.Antagonists
 		private PlayerScript originalBody;
 		private PlayerScript currentBody;
 
+
 		private bool destructiveExit = false; //Should this creature be deleted once a player leaves it? i.e is this a temporary construct?
 		[SerializeField] private ActionButtonData ReturnToBodyButton;
+		[SerializeField] private GameObject returnEffect = null;
 
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
@@ -43,7 +46,11 @@ namespace US13.Systems.Antagonists
 
 			mind.SetPossessingObject(currentBody.gameObject);
 			//Disable AI somehow
-			currentBody?.PlayerButtonedActions.RegisterNewAction(ReturnToBodyButton, ReturnToBody);
+			mind.CurrentPlayScript.PlayerButtonedActions.RegisterNewAction(ReturnToBodyButton, ReturnToBody);
+			var ais = mind.CurrentPlayScript.playerHealth.brain.RelatedPart.GetBodyPartBehaviors<BrainMobAI>();
+			foreach(var ai in ais)
+			{ai.OnBehaviorDisabled();}
+
 		}
 
 		//On Death return to original body, but stunned
@@ -58,9 +65,9 @@ namespace US13.Systems.Antagonists
 		{
 			if (originalBody == false || currentBody == false) return;
 
-			currentBody?.PlayerButtonedActions.ServerRemoveAction(ReturnToBodyButton.ID);
-			//Enable AI somehow
+			if(returnEffect) Spawn.ServerPrefab(returnEffect, currentBody.ObjectPhysics.OfficialPosition);
 
+			currentBody?.PlayerButtonedActions.ServerRemoveAction(ReturnToBodyButton.ID);
 
 			//Posses OG body
 			originalBody.ObjectPhysics.AppearAtWorldPositionServer(currentBody.ObjectPhysics.OfficialPosition);

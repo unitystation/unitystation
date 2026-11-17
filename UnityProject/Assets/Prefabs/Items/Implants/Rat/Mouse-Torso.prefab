@@ -200,6 +200,7 @@ MonoBehaviour:
   initialTraits:
   - {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c, type: 2}
   - {fileID: 11400000, guid: 57eb2d1faf36d2040ade08046da48bfa, type: 2}
+  - {fileID: 11400000, guid: 675cc29978132c749a2b3d7a71ffc49b, type: 2}
   IsMapped: 0
   initialSize: 2
   hitDamage: 0
@@ -670,6 +671,12 @@ MonoBehaviour:
       - {fileID: 11400000, guid: 20071a4e8da65ba4883ce265738929b2, type: 2}
     - Sprites:
       - {fileID: 11400000, guid: 9444d10a35377e84395777c3e96d303f, type: 2}
+    - Sprites:
+      - {fileID: 11400000, guid: e36e706c4f7427848844ab4279f0abac, type: 2}
+    - Sprites:
+      - {fileID: 11400000, guid: 20071a4e8da65ba4883ce265738929b2, type: 2}
+    - Sprites:
+      - {fileID: 11400000, guid: 9444d10a35377e84395777c3e96d303f, type: 2}
   RelatedPresentSprites: []
   DeathOnRemoval: 1
   ClothingHide: 0
@@ -1044,8 +1051,7 @@ MonoBehaviour:
       ReplacementStrategy: 0
       namedSlotPopulatorEntrys: []
     - DoNotGetFirstEmptySlot: 0
-      Prefab: {fileID: 7799866819818449590, guid: 221b6b5f05c64124cb6bab0dbfc5f103,
-        type: 3}
+      Prefab: {fileID: 0}
       StackableAmount: 0
       UseIndex: 0
       IndexSlot: 0
@@ -1172,6 +1178,11 @@ MonoBehaviour:
   - rid: 5041995600691986832
   - rid: 5041995600691986833
   - rid: 5041995600691986834
+  - rid: 6624306141908172880
+  - rid: 6624306141908172882
+  - rid: 6624306143801638994
+  - rid: 6624306143801638995
+  - rid: 6624306169593462858
   SecondsUntilNextTick: 1
   references:
     version: 2
@@ -1283,6 +1294,92 @@ MonoBehaviour:
         HungaryMultiplier: 1
         MalnourishedMultiplier: 0.9
         StarvingMultiplier: 0.9
+    - rid: 6624306141908172880
+      type: {class: Ears, ns: US13.Items.Implants.Organs, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        localChatRange: 14
+        DefaultHearing: 1
+        PressureMultiplier: 1
+        MutationMultiplier: 1
+        _networkTotalMultiplier: 1
+        Pickupable: {fileID: 3067713698455326771}
+        DeafenProtection: {fileID: 11400000, guid: 765fdfb07a63d1b4c809e37d6accbe3e,
+          type: 2}
+        _networkOnBodyID: 0
+    - rid: 6624306141908172882
+      type: {class: HumanoidLeg, ns: US13.Items.Implants.Limbs, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        walkingSpeed: 3
+        runningSpeed: 5
+        crawlingSpeed: 0.5
+        initialLimbEfficiency: 1
+    - rid: 6624306143801638994
+      type: {class: Eye, ns: US13.Items.Implants.Organs, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        Pickupable: {fileID: 3067713698455326771}
+        BaseBlurryVision: 0
+        DimLightColour: {r: 0.9927101, g: 1, b: 0.9098039, a: 0.09803922}
+        EyeIrritant: {fileID: 11400000, guid: b297c259c012907a19324e8aee4d063e, type: 2}
+        EyeIrritantAmount: 0.25
+        Blinks: 0
+        blinkDurationMin: 0.1
+        blinkDurationMax: 0.15
+        _networkOnBodyID: 0
+        _networkPreventsBlindness: 1
+        _networkBadEyesight: 0
+        _networkCurrentColourblindness: 0
+        _networkHasXray: 0
+    - rid: 6624306143801638995
+      type: {class: Tongue, ns: US13.Items.Implants.Organs, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        languages:
+        - {fileID: 11400000, guid: 4c50d8735f633d31f92ae1e2f3de6212, type: 2}
+        speechModifiers: 0
+        <CannotSpeak>k__BackingField: 0
+        maximumCharactersCanBeSpokenInOneMessage: 1600
+        VoicesName: 
+        Voice: 
+        MouthAnimation: {fileID: 0}
+        Blank: {fileID: 0}
+    - rid: 6624306169593462858
+      type: {class: HumanoidArm, ns: US13.Items.Implants.Limbs, asm: Assets}
+      data:
+        Enabled: 1
+        OwnerOnlyNetworkState: 0
+        walkingSpeed: 0.024
+        runningSpeed: 0.024
+        crawlingSpeed: 0.5
+        initialLimbEfficiency: 1
+        ArmMeleeDamage: 5
+        ArmDamageType: 0
+        ArmHitSound:
+        - AssetAddress: Assets/Prefabs/NPC/bite.prefab
+          AssetReference:
+            m_AssetGUID: 
+            m_SubObjectName: 
+            m_SubObjectGUID: 
+            m_SubObjectType: 
+            m_EditorAssetChanged: 0
+        - AssetAddress: Assets/Prefabs/Effects/mousesqueek.prefab
+          AssetReference:
+            m_AssetGUID: 
+            m_SubObjectName: 
+            m_SubObjectGUID: 
+            m_SubObjectType: 
+            m_EditorAssetChanged: 0
+        ArmDamageVerbs:
+        - bit
+        - scratched
+        ArmTraumaticDamage: 0
+        ArmTraumaticChance: 0
 --- !u!1 &5368559236564554787
 GameObject:
   m_ObjectHideFlags: 0

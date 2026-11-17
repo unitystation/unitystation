@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using US13.HealthV2.Living;
@@ -28,16 +29,29 @@ namespace US13.Mobs.BrainAI.Tasks
 		{
 			MobTaskKind.Clean => new CleanMobTask(), MobTaskKind.Floor => new FloorMobTask(),
 			MobTaskKind.Medical => new MedicalMobTask(), MobTaskKind.Fire => new FireMobTask(),
-			MobTaskKind.Security => new SecurityMobTask(), _ => null
+			MobTaskKind.Security => new SecurityMobTask(), MobTaskKind.Mice => new HarbourFoodTask(),
+			_ => null
 		};
 
+		/// <summary>
+		/// Set a target to navigate towards
+		/// </summary>
+		/// <param name="context">Current context for this behavior</param>
+		/// <param name="cell">The position of the target in local matrix coordinates</param>
+		/// <param name="matrix">The matrix on which the target lays</param>
+		/// <param name="target">The gameObject that corresponds to the target</param>
 		public static bool Select(MobBehaviorContext context, Vector3Int cell, Matrix matrix, GameObject target = null)
 		{
 			if (matrix == null) return false;
 			var position = context.AI.Body.gameObject.AssumedWorldPosServer();
 			bool inRange = Vector3.Distance(position, cell.ToWorld(matrix)) <= context.TargetRange;
 			var path = inRange ? new List<Vector3Int>() : MobTraversal.GeneratePath(position.ToLocalInt(matrix), cell, matrix, PathfinderType.AStar);
-			if (!inRange && (path == null || path.Count == 0)) return false;
+			if (inRange == false)
+			{
+				if(path == null || path.Count < (int)context.TargetRange) return false;
+				path.RemoveRange(path.Count - (int)context.TargetRange, (int)context.TargetRange);
+			}
+
 			if (context.TryGetExtension<TaskContextExtension>(out var tasks)) tasks.TargetHealth = null;
 			context.Target = target;
 			context.TargetWasObject = target != null;
@@ -47,13 +61,25 @@ namespace US13.Mobs.BrainAI.Tasks
 			return true;
 		}
 
-		protected static IEnumerable<Vector3Int> Cells(MobBehaviorContext context, int radius)
+		protected static IEnumerable<Vector3Int> GetCellsInRadius(MobBehaviorContext context, int radius)
 		{
 			var position = context.AI.Body.RegisterTile.LocalPositionServer;
 			for (int y = -radius; y <= radius; y++)
 			for (int x = -radius; x <= radius; x++) yield return position + new Vector3Int(x, y, 0);
 		}
-
+		protected static IEnumerable<Vector3Int> GetCellsInRadius(MobBehaviorContext context, int radius, Func<MobBehaviorContext, Vector3Int, bool> filter)
+		{
+			var position = context.AI.Body.RegisterTile.LocalPositionServer;
+			for (int y = -radius; y <= radius; y++)
+			for (int x = -radius; x <= radius; x++)
+			{
+				var newCell = position + new Vector3Int(x, y, 0);
+				if(filter.Invoke(context, newCell) == true) yield return newCell;
+			}
+		}
+		/// <summary>
+		/// Is the provided LivingHealthBehavior allowed as a target for this behavior?
+		/// </summary>
 		protected static bool IsAllowedLiving(MobBehaviorContext context, LivingHealthMasterBase living)
 		{
 			return living != null && living != context.Health && context.AI.TryGetSettings<BotTaskSettings>(out var settings) && !settings.BlacklistedSpecies.Contains(living.InitialSpecies);

@@ -33,7 +33,7 @@ namespace US13.Mobs.BrainAI
 		[NonSerialized] public CommonComponents Body;
 		[NonSerialized] private BehaviorGraphAgent agent;
 		[NonSerialized] private bool running;
-		[NonSerialized] private bool registered;
+		[NonSerialized] private bool registered = false;
 		[NonSerialized] private bool available;
 		[NonSerialized] private LivingHealthMasterBase attachedHealth;
 		public MobBehaviorContext Context { get; private set; }
@@ -46,6 +46,8 @@ namespace US13.Mobs.BrainAI
 			Owner != null && Owner.isActiveAndEnabled && attachedHealth != null && Body != null &&
 			!attachedHealth.IsDead && !IsControlledByPlayer && Body.UniversalObjectPhysics != null &&
 			Body.UniversalObjectPhysics.IsVisible && attachedHealth.RegisterTile?.Matrix?.PresentPlayers?.Count > 0;
+
+		private bool hasSetHome = false;
 
 		public override void OnInitialize()
 		{
@@ -133,6 +135,12 @@ namespace US13.Mobs.BrainAI
 		private void Tick()
 		{
 			if (!CanRun || Graph == null) { Stop(); return; }
+
+			if (hasSetHome == false)
+			{
+				Context.HomeCell = LivingHealthMaster.RegisterTile.LocalPosition;
+				hasSetHome = true;
+			}
 			if (agent == null)
 			{
 				// Init clones the asset. The organ owns ticking, so Unity's automatic Start/Update stay disabled.

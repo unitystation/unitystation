@@ -52,7 +52,7 @@ namespace US13.Mobs.BrainAI.Tasks
 					}
 				}
 			}
-			foreach (Vector3Int cell in Cells(context, radius))
+			foreach (Vector3Int cell in GetCellsInRadius(context, radius))
 			{
 				if (matrix.ReactionManager != null && matrix.ReactionManager.HasHotspot(cell) && Select(context, cell, matrix))
 				{

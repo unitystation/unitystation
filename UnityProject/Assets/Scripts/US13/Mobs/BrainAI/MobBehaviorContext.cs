@@ -5,6 +5,7 @@ using US13.HealthV2.Living;
 using US13.Mobs.BrainAI.ContextExtensions;
 using US13.Mobs.Traversal;
 using US13.Tilemaps.Behaviours.Layers;
+using Util;
 
 namespace US13.Mobs.BrainAI
 {
@@ -12,11 +13,16 @@ namespace US13.Mobs.BrainAI
 	public sealed class MobBehaviorContext
 	{
 		public readonly BrainMobAI AI;
+		public Vector3Int HomeCell;
+
 		public GameObject Target;
+
 		public bool TargetWasObject;
 		public GameObject DesiredTarget;
+
 		public Matrix TargetMatrix;
 		public Vector3Int TargetCell;
+
 		public List<Vector3Int> Path;
 		public float TargetRange = 1.5f;
 		public int Generation { get; private set; }

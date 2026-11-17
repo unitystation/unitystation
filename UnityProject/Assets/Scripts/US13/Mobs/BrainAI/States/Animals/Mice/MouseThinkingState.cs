@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Logs;
 using NaughtyAttributes;
+using Unity.Behavior;
+using Unity.Properties;
 using UnityEngine;
 using US13.Core;
 using US13.Core.Attributes;
@@ -16,12 +18,17 @@ using US13.Systems.Electricity.FunctionsAndClasses;
 using US13.Tilemaps.Behaviours.Layers;
 using US13.Tilemaps.Utils;
 using Util;
+using US13.Mobs.BrainAI.ContextExtensions;
+using US13.Mobs.BrainAI.SettingsExtensions;
 
 namespace US13.Mobs.BrainAI.States.Animals.Mice
 {
+	[Serializable, GeneratePropertyBag, NodeDescription(name: "Perform Mob Task", story: "Perform the selected task", category: "Mob/Tasks", id: "euydc1c1a2b34c5d8000000000000005")]
+	[RequiresMobContextExtension(typeof(TaskContextExtension))]
+	[RequiresMobSettings(typeof(BotTaskSettings))]
 	public class MiceThinkingState : BrainMobState
 	{
-		private MobTraversal pathfinder => master.Traversal;
+		/*private MobTraversal pathfinder => master.Traversal;
 		[SerializeField] private BrainWanderState wanderState;
 
 		[SerializeReference, SelectImplementation(typeof(ITraversalStrat))]
@@ -55,6 +62,7 @@ namespace US13.Mobs.BrainAI.States.Animals.Mice
 		 *
 		 * Mice should have 5% chance of recognising a nearby wire as food.
 		 */
+		/*
 		private void Start()
 		{
 			traversalDetails = new MobTraversal.TraversalDetails
@@ -307,6 +315,6 @@ namespace US13.Mobs.BrainAI.States.Animals.Mice
 		public override bool HasGoal()
 		{
 			return missionType != MissionType.None;
-		}
+		}*/
 	}
 }

@@ -75,6 +75,7 @@ namespace US13.Systems.Antagonists
 		[SerializeField,BoxGroup("Sanguine Dagger")] private int selfDamage = 20;
 		[SerializeField,BoxGroup("Sanguine Dagger")] private float bloodTaken = 5;
 
+		[SerializeField, BoxGroup("Polymorph")] private GameObject smokeEffect;
 		[SerializeField, BoxGroup("Polymorph")] private List<GameObject> mouseBlueprints;
 
 		private int _lightId;
@@ -255,9 +256,10 @@ namespace US13.Systems.Antagonists
 
 			if (mouse.TryGetComponent<PlayerBlueprint>(out var playerBlueprint) == false) return;
 			var spawnedMouseObject = playerBlueprint.spawnedObject;
-			spawnedMouseObject.GetUniversalObjectPhysics().AppearAtWorldPositionServer(connectedPlayer.AssumedWorldPos);
-
 			if (spawnedMouseObject.TryGetComponent<PlayerScript>(out var mouseScript) == false) return;
+
+			mouseScript.ObjectPhysics.AppearAtWorldPositionServer(connectedPlayer.AssumedWorldPos);
+
 			if(mouseScript.playerHealth.BodyOrganLookup[typeof(PolymorphForm)]?[0] == null) return;
 
 			connectedPlayer.playerHealth.ShouldPerformHealthUpdates = false;
@@ -265,6 +267,8 @@ namespace US13.Systems.Antagonists
 
 			var polymorphForm = mouseScript.playerHealth.BodyOrganLookup[typeof(PolymorphForm)][0] as PolymorphForm;
 			polymorphForm?.EnterBody(connectedPlayer.Mind, true);
+
+			GameObject smoke = Spawn.ServerPrefab(smokeEffect, mouseScript.ObjectPhysics.OfficialPosition).GameObject;
 		}
 
 		public void HypnoticStare(Vector2 worldMousePosition)

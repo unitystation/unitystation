@@ -38,6 +38,7 @@ namespace US13.UI.Core
 
 		public void UpdateHud(int currentStage, float currentCorruption, float minForStage, float desiredCorruption)
 		{
+			currentStage = Math.Clamp(currentStage, 0, (stageColors.Count - 1) - 1);
 			progressBar.SetGradient(FetchGradientForStage(currentStage));
 			progressBar.UpdateValue((currentCorruption - minForStage) / (desiredCorruption - minForStage), true);
 			currentStageImage.sprite = sprites[currentStage];
