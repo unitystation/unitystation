@@ -22,16 +22,6 @@
         "Shared",
         "SpriteProcessing",
         "Tayx.Graphy",
-        "Unity.AppUI",
-        "Unity.AppUI.InternalAPIBridge",
-        "Unity.AppUI.MVVM",
-        "Unity.AppUI.Navigation",
-        "Unity.AppUI.Redux",
-        "Unity.AppUI.TextMateLib",
-        "Unity.AppUI.Undo",
-        "Unity.Behavior",
-        "Unity.Behavior.SerializableGUID",
-        "Unity.Behavior.Serialization",
         "Unity.Muse.Behavior"
     ],
     "EditorOnlyAssemblies": [],
@@ -10588,6 +10578,58 @@
                 "Methods": null,
                 "Fields": null,
                 "NestedTypes": null
+            }
+        },
+        "Unity.Behavior": {
+            "BlackboardVariable`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Action": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "BehaviorGraphAgent": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "BehaviorGraph": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "NodeDescriptionAttribute": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "Node": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": {
+                    "Status": {
+                        "All": true,
+                        "Inherit": "Default",
+                        "Methods": null,
+                        "Fields": null,
+                        "NestedTypes": null
+                    }
+                }
             }
         }
     }

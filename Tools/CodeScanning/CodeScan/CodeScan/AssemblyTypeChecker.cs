@@ -6,6 +6,9 @@ using System.Reflection;
 using System.Reflection.Metadata;
 using System.Reflection.PortableExecutable;
 using System.Text;
+using CodeScan;
+using ILVerify;
+using Pidgin;
 
 // psst
 // You know ECMA-335 right? The specification for the CLI that .NET runs on?
