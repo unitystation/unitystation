@@ -5327,22 +5327,22 @@ PrefabInstance:
       objectReference: {fileID: 5234994846561429392}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: Behaviors.Array.data[0]
+      propertyPath: 'Behaviors.Array.data[0]'
       value: 5041995600707191354
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: Behaviors.Array.data[1]
+      propertyPath: 'Behaviors.Array.data[1]'
       value: 5041995600707191355
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: Behaviors.Array.data[2]
+      propertyPath: 'Behaviors.Array.data[2]'
       value: 5041995600707191356
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: Behaviors.Array.data[3]
+      propertyPath: 'Behaviors.Array.data[3]'
       value: 5041995600707191357
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
@@ -5367,6 +5367,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
+      propertyPath: 'managedReferences[5041995652254400536]'
+      value: Assets US13.Mobs.BrainAI.ContextExtensions.TaskContextExtension
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: 'managedReferences[5041995654726680600]'
+      value: Assets US13.Mobs.BrainAI.BotTaskSettings
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680600].Kind
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191357].Graph
+      value: 
+      objectReference: {fileID: -100, guid: 0f333af99e717f34d5b1e904e27b32e4, type: 2}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: managedReferences[5041995600707191354].Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -5387,12 +5407,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: managedReferences[5041995600707191356]._networkOnBodyID
+      propertyPath: managedReferences[5041995654726680600].Duration
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680600].Language
+      value: 
+      objectReference: {fileID: 11400000, guid: 90699dd78f8cfad4e983185c4f67ae72,
+        type: 2}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191355].Stability
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: managedReferences[5041995600707191355].Stability
+      propertyPath: managedReferences[5041995600707191357].isEmagged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
@@ -5403,6 +5434,11 @@ PrefabInstance:
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
       propertyPath: managedReferences[5041995600707191356].highReagent
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680600].TileToPlace
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
@@ -5418,23 +5454,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: managedReferences[5041995600707191357].Settings.Hesitation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191357].Settings.Hesitation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
       propertyPath: managedReferences[5041995600707191357].DEBUGoverride
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
+      propertyPath: managedReferences[5041995654726680600].HandcuffTrait
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680600].HealingAmount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680600].SprayDistance
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680600].ReagentToSpill
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: managedReferences[5041995600707191356].hasInbuiltSight
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680600].InternalStorage
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
@@ -5453,13 +5504,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
+      propertyPath: managedReferences[5041995600707191356]._networkOnBodyID
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: managedReferences[5041995600707191356].hasInbuiltSpeech
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191357].isPerformingTask
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
       propertyPath: managedReferences[5041995600707191356].hasInbuiltHearing
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191356]._networkHighAmount
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
@@ -5473,8 +5539,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
+      propertyPath: managedReferences[5041995600707191356]._networkDrunkAmount
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: managedReferences[5041995600707191356].MaxDrunkAtPercentage
       value: 0.06
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191356]._networkPossessingID
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
@@ -5498,8 +5574,73 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
+      propertyPath: managedReferences[5041995600707191357].Settings.Hesitation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191357].Settings.Hesitation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680600].DialogueChancePercent
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191356]._networkHasTelekinesis
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191357].Settings.FollowDistance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191357].Settings.FollowInterval
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191357].Settings.SearchInterval
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191357].Settings.WanderInterval
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680600].ExitDialogue.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680600].IdleDialogue.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680600].EnterDialogue.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680600].FoundDialogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: managedReferences[5041995600707191355].SecondsForSpeciesMutation
       value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680600].PerformSound.AssetAddress
+      value: Assets/Prefabs/Effects/Extinguish.prefab
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
@@ -5528,6 +5669,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
+      propertyPath: managedReferences[5041995600707191357].ContextExtensions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680600].FireRetardantMix.temperature
+      value: 253.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191357].SettingsExtensions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995654726680600].BlacklistedSpecies.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: 'managedReferences[5041995600707191355].CapableMutations.Array.data[0]'
       value: 
       objectReference: {fileID: 11400000, guid: 11fc1b84d220b6742a4912446b0e7e2b,
@@ -5552,152 +5713,6 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
-      propertyPath: managedReferences[5041995600707191357].Settings.TraversalStrategies.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191357].Settings.WanderInterval
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191357].Settings.SearchInterval
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191356].OnDeath.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191356].OnRevival.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6428289829602600824, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: foreverID
-      value: dae9b9b47c0d26f498ce05c0fe05eb46
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191357].Graph
-      value: 
-      objectReference: {fileID: -100, guid: 0f333af99e717f34d5b1e904e27b32e4, type: 2}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191357].OwnerOnlyNetworkState
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: 'managedReferences[5041995652254400536]'
-      value: Assets US13.Mobs.BrainAI.ContextExtensions.TaskContextExtension
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191357].ContextExtensions.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: 'managedReferences[5041995600707191357].ContextExtensions.Array.data[0]'
-      value: 5041995652254400536
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: 'managedReferences[5041995654726680600]'
-      value: Assets US13.Mobs.BrainAI.BotTaskSettings
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995654726680600].Kind
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995654726680600].Duration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995654726680600].Language
-      value: 
-      objectReference: {fileID: 11400000, guid: 90699dd78f8cfad4e983185c4f67ae72,
-        type: 2}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995654726680600].TileToPlace
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995654726680600].HandcuffTrait
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995654726680600].SprayDistance
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995654726680600].ReagentToSpill
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995654726680600].InternalStorage
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995654726680600].DialogueChancePercent
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995654726680600].ExitDialogue.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995654726680600].IdleDialogue.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995654726680600].EnterDialogue.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995654726680600].FoundDialogue.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995654726680600].PerformSound.AssetAddress
-      value: Assets/Prefabs/Effects/Extinguish.prefab
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995654726680600].FireRetardantMix.temperature
-      value: 253.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995600707191357].SettingsExtensions.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
-      propertyPath: managedReferences[5041995654726680600].BlacklistedSpecies.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
-        type: 3}
       propertyPath: managedReferences[5041995654726680600].EmaggedChemicalMix.temperature
       value: 373.15
       objectReference: {fileID: 0}
@@ -5705,6 +5720,11 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[5041995654726680600].IdleEmaggedDialogue.Array.size
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: 'managedReferences[5041995600707191357].ContextExtensions.Array.data[0]'
+      value: 5041995652254400536
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
@@ -5733,6 +5753,21 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[5041995654726680600].EmaggedPerformSound.AssetAddress
       value: Assets/Prefabs/Effects/Extinguish.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191357].Settings.FollowExitSound.AssetAddress
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191357].Settings.FollowEnterSound.AssetAddress
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191357].Settings.TraversalStrategies.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
@@ -5806,6 +5841,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
+      propertyPath: managedReferences[5041995600707191356].OnDeath.m_PersistentCalls.m_Calls.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: managedReferences[5041995654726680600].EmaggedChemicalMix.reagents.m_keys.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -5813,6 +5853,11 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[5041995654726680600].FireRetardantMix.reagents.m_values.Array.size
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191356].OnRevival.m_PersistentCalls.m_Calls.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
@@ -5850,7 +5895,7 @@ PrefabInstance:
         type: 3}
       propertyPath: 'managedReferences[5041995654726680600].EmaggedChemicalMix.reagents.m_keys.Array.data[0]'
       value: 
-      objectReference: {fileID: 11400000, guid: 43a6ef917538f898ca86fa22a81babd4,
+      objectReference: {fileID: 11400000, guid: 939b431f1d058e3eea81a66da8e14d80,
         type: 2}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
@@ -5884,6 +5929,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
+      propertyPath: managedReferences[5041995600707191357].Settings.FollowExitSound.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: managedReferences[5041995654726680600].IdleDialogue.Array.data[0].audioSource.AssetAddress
       value: Assets/Prefabs/NPC/Bots/firebot/keepitcool.prefab
       objectReference: {fileID: 0}
@@ -5904,6 +5954,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
+      propertyPath: managedReferences[5041995600707191357].Settings.FollowEnterSound.AssetReference.m_AssetGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: managedReferences[5041995654726680600].EnterDialogue.Array.data[0].audioSource.AssetAddress
       value: Assets/Prefabs/NPC/Bots/firebot/extinguishing.prefab
       objectReference: {fileID: 0}
@@ -5919,8 +5974,38 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
+      propertyPath: managedReferences[5041995600707191357].Settings.FollowExitSound.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191357].Settings.FollowExitSound.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191357].Settings.FollowExitSound.AssetReference.m_SubObjectType
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
       propertyPath: managedReferences[5041995654726680600].EmaggedPerformSound.AssetReference.m_EditorAssetChanged
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191357].Settings.FollowEnterSound.AssetReference.m_SubObjectGUID
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191357].Settings.FollowEnterSound.AssetReference.m_SubObjectName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191357].Settings.FollowEnterSound.AssetReference.m_SubObjectType
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
@@ -5936,6 +6021,16 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[5041995654726680600].IdleEmaggedDialogue.Array.data[2].audioSource.AssetAddress
       value: Assets/Prefabs/NPC/Bots/firebot/gasoline_tip.prefab
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191357].Settings.FollowExitSound.AssetReference.m_EditorAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: managedReferences[5041995600707191357].Settings.FollowEnterSound.AssetReference.m_EditorAssetChanged
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4923876028853451434, guid: b6b606388cb517144a21d93415c57401,
         type: 3}
@@ -6186,6 +6281,11 @@ PrefabInstance:
         type: 3}
       propertyPath: managedReferences[5041995654726680600].IdleEmaggedDialogue.Array.data[2].audioSource.AssetReference.m_EditorAssetChanged
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6428289829602600824, guid: b6b606388cb517144a21d93415c57401,
+        type: 3}
+      propertyPath: foreverID
+      value: dae9b9b47c0d26f498ce05c0fe05eb46
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 1588973984930370205, guid: b6b606388cb517144a21d93415c57401, type: 3}
