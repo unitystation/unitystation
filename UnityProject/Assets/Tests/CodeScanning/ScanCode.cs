@@ -2,12 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 
 namespace Tests
@@ -45,130 +43,82 @@ namespace Tests
 		[Test]
 		public void ScanCodeReport()
 		{
-			string BuildPath = Application.dataPath;
-			BuildPath = BuildPath.Replace("/Assets", "");
-
-			var ExecutablePath = BuildPath;
-
-			BuildPath = Path.Combine(BuildPath, "Build");
-
-			var report = new TestReport();
-
-
-			//only removes the /UnityProject part at the very end of the string without touching any other instance of "UnityProject"
-			ExecutablePath = ExecutablePath.Substring(0, ExecutablePath.Length - "UnityProject".Length);
-			ExecutablePath += @"Tools/CodeScanning/CodeScan/CodeScan/bin/Debug/net7.0";
-
-
-			var ExtractionPath = ExecutablePath;
-			var FolderZip = ExecutablePath;
-			var FolderError = "";
-			FolderError = ExecutablePath;
+			var projectPath = Directory.GetParent(Application.dataPath).FullName;
+			var BuildPath = Path.Combine(projectPath, "Build");
+			string runtimeIdentifier;
 			if (Application.platform == RuntimePlatform.WindowsEditor)
 			{
-				FolderZip = Path.Combine(FolderZip, @"win-x64.zip");
-				FolderError = Path.Combine(FolderError, @"win-x64");
-				ExecutablePath += @"/win-x64/CodeScan.exe";
-				BuildPath += @"/Windows";
+				runtimeIdentifier = "win-x64";
+				BuildPath = Path.Combine(BuildPath, "Windows");
 			}
 			else if (Application.platform == RuntimePlatform.LinuxEditor)
 			{
-				FolderZip = Path.Combine(FolderZip, @"linux-x64.zip");
-				FolderError = Path.Combine(FolderError, @"linux-x64");
-				ExecutablePath += @"/linux-x64/CodeScan";
-				BuildPath += @"/Linux";
+				runtimeIdentifier = "linux-x64";
+				BuildPath = Path.Combine(BuildPath, "Linux");
 			}
 			else if (Application.platform == RuntimePlatform.OSXEditor)
 			{
-				FolderZip = Path.Combine(FolderZip, @"osx-x64.zip");
-				FolderError = Path.Combine(FolderError, @"osx-x64");
-				ExecutablePath += @"/osx-x64/CodeScan";
-				BuildPath += @"/Mac";
+				runtimeIdentifier = "osx-x64";
+				BuildPath = Path.Combine(BuildPath, "Mac");
+			}
+			else
+			{
+				throw new PlatformNotSupportedException($"CodeScan does not support {Application.platform}.");
 			}
 
-			try
-			{
-				if (File.Exists(ExecutablePath) == false ||
-				    File.GetLastWriteTimeUtc(FolderZip) > File.GetLastWriteTimeUtc(ExecutablePath))
-				{
-					ZipFile.ExtractToDirectory(FolderZip, ExtractionPath, overwriteFiles: true);
-				}
-				Debug.Log($"CodeScanning finished in {FolderZip}.");
-			}
-			catch(Exception e)
-			{
-				Debug.Log(e);
-			}
+			var ExtractionPath = Path.Combine(projectPath, "Library", "CodeScan");
+			var ExecutablePath = CodeScanRelease.EnsureAvailable(ExtractionPath, runtimeIdentifier);
+			var FolderError = Path.GetDirectoryName(ExecutablePath);
+			var report = new TestReport();
+			var errorsPath = Path.Combine(FolderError, "errors.json");
+			var generatedWhitelistPath = Path.Combine(FolderError, "CodeScanList.corrected.json");
+			var extractedWhitelistPath = Path.Combine(ExtractionPath, "CodeScanList.corrected.json");
 
+			// A cached executable must produce a fresh report for every scan.
+			File.Delete(errorsPath);
+			File.Delete(generatedWhitelistPath);
+			File.Delete(extractedWhitelistPath);
 
 			if (Application.platform == RuntimePlatform.LinuxEditor || Application.platform == RuntimePlatform.OSXEditor)
 			{
-				string filePath = ExecutablePath; // Replace with the actual file path
-
-				// Use the Process class to run the chmod command
-				Process chmodProcess = new Process();
-				chmodProcess.StartInfo.FileName = "chmod";
-				chmodProcess.StartInfo.Arguments = "+x " + filePath;
-				chmodProcess.StartInfo.UseShellExecute = false;
-				chmodProcess.StartInfo.CreateNoWindow = true;
-				chmodProcess.StartInfo.RedirectStandardOutput = true;
-				chmodProcess.StartInfo.RedirectStandardError = true;
-
-				chmodProcess.Start();
-				chmodProcess.WaitForExit();
-				if (chmodProcess.ExitCode == 0)
+				using (var chmodProcess = new Process())
 				{
-					UnityEngine.Debug.Log("File marked as executable.");
+					chmodProcess.StartInfo.FileName = "chmod";
+					chmodProcess.StartInfo.Arguments = $"+x \"{ExecutablePath}\"";
+					chmodProcess.StartInfo.UseShellExecute = false;
+					chmodProcess.StartInfo.CreateNoWindow = true;
+					chmodProcess.Start();
+					chmodProcess.WaitForExit();
+					Assert.That(chmodProcess.ExitCode, Is.Zero, "Failed to mark CodeScan as executable.");
 				}
-				else
-				{
-					UnityEngine.Debug.Log("Failed to mark the file as executable. Exit code: " + chmodProcess.ExitCode);
-					UnityEngine.Debug.Log(chmodProcess.StandardError.ReadToEnd());
-				}
-
 			}
 
+			using (var process = new Process())
+			{
+				process.StartInfo.FileName = ExecutablePath;
+				process.StartInfo.WorkingDirectory = FolderError;
+				process.StartInfo.UseShellExecute = false;
+				process.StartInfo.RedirectStandardOutput = true;
+				process.StartInfo.RedirectStandardError = true;
+				process.StartInfo.Arguments = $">\"{BuildPath}\"";
+				process.Start();
+				process.BeginOutputReadLine();
+				process.BeginErrorReadLine();
+				process.WaitForExit();
+				Assert.That(process.ExitCode, Is.Zero, "CodeScan exited unexpectedly.");
+			}
 
-			// Create a new process
-			Process process = new Process();
-			process.StartInfo.FileName = ExecutablePath;
-
-			// Redirect standard output and error to Unity's console
-			process.StartInfo.UseShellExecute = false;
-			process.StartInfo.RedirectStandardOutput = true;
-			process.StartInfo.RedirectStandardError = true;
-			process.StartInfo.Arguments = $">\"{BuildPath}\"";
-
-			// Handle the OutputDataReceived event
-			//process.OutputDataReceived += (sender, e) => Debug.Log(e.Data);
-			//process.ErrorDataReceived += (sender, e) => Debug.LogError(e.Data);
-
-			// Start the process
-			process.Start();
-
-			// Begin asynchronous reading of the output stream
-			process.BeginOutputReadLine();
-			process.BeginErrorReadLine();
-
-			// Wait for the process to finish
-			process.WaitForExit();
-
-			// Cleanup resources
-			process.Close();
-			process.Dispose();
-
-			var generatedWhitelistPath = Path.Combine(FolderError, "CodeScanList.corrected.json");
 			if (File.Exists(generatedWhitelistPath))
 			{
-				var extractedWhitelistPath = Path.Combine(ExtractionPath, "CodeScanList.corrected.json");
 				File.Copy(generatedWhitelistPath, extractedWhitelistPath, overwrite: true);
 				report.Fail()
 					.AppendLine($"CodeScan whitelist suggestions were saved to: {extractedWhitelistPath}")
 					.Log();
 			}
 
-			var Errors = JsonConvert.DeserializeObject<List<string>>(File.ReadAllText(
-				FolderError + "/errors.json"));
+			Assert.That(File.Exists(errorsPath), Is.True, "CodeScan did not produce an errors.json report.");
+			var Errors = JsonConvert.DeserializeObject<List<string>>(File.ReadAllText(errorsPath));
+			Assert.That(Errors, Is.Not.Null, "CodeScan produced an invalid errors.json report.");
 
 			foreach (var Error in Errors)
 			{
@@ -181,26 +131,8 @@ namespace Tests
 				directory.Delete(true);
 			}
 
-			var extractionDirectory = new DirectoryInfo(ExtractionPath);
-			foreach (var directories in extractionDirectory.GetDirectories())
-			{
-				if (directories.Name == "MissingAssemblies")
-				{
-					directories.Delete(true);
-				}
-				if (directories.Name == "linux-x64")
-				{
-					directories.Delete(true);
-				}
-				if (directories.Name == "osx-x64")
-				{
-					directories.Delete(true);
-				}
-				if (directories.Name == "win-x64")
-				{
-					directories.Delete(true);
-				}
-			}
+			var missingAssemblies = Path.Combine(Path.GetDirectoryName(FolderError), "MissingAssemblies");
+			if (Directory.Exists(missingAssemblies)) Directory.Delete(missingAssemblies, true);
 
 			report.Log().AssertPassed();
 		}
