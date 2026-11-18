@@ -37,7 +37,7 @@ Any argument containing `@` sets `MemoryClearingMode`. Currently that mode has a
 3. It computes the player Managed directory and creates a sibling `MissingAssemblies/<OS>` directory next to the CodeScan executable.
 4. It copies each Managed-directory file whose name contains any configured `FilesToMoveToManaged` entry into that OS-specific directory, replacing an existing copy. These copied files are excluded from the ordinary scan.
 5. It creates the set of assembly names present in the Managed directory, excluding copied files and `.pdb` files. For each remaining file (again excluding `.pdb`), it calls `CheckAssembly`, passing the other assembly names for reference resolution/policy decisions.
-6. `CheckAssembly` reads the PE/CLI metadata. It rejects an assembly with a non-empty managed native header, gathers referenced types, member references, and external base/interface types, applies policy checks, and reports violations. IL verification code exists, but `VerifyIl` is set to `false` in the method immediately before its conditional check, so ILVerify is currently not run.
+6. `CheckAssembly` reads the PE/CLI metadata. It rejects an assembly with a non-empty managed native header, verifies IL with ILVerify, gathers referenced types, member references, and external base/interface types, applies policy checks, and reports violations. IL verification is enabled by default and respects the checker's `VerifyIl` property.
 7. At the end, `ThisMain` serializes `Errors` as indented JSON to `errors.json` next to the executable. `Infos` is accumulated but is not written to that file. A failed assembly adds a summary error in addition to any specific errors.
 
 Errors and progress are collected in static lists / callbacks. The scanner doesn't currently set an explicit process exit code based on findings; callers should inspect `errors.json` (and any console output) rather than assume the exit code indicates policy success.
@@ -60,7 +60,7 @@ The policy model contains:
 | `Types`                        | Nested namespace and type maps. A type can allow all access or list allowed methods and fields, configure inheritance, and describe nested types. |
 | `MultiAssemblyOtherReferences` | Populated at scan time from other assemblies in the Managed folder; types with these assembly scopes are treated as allowed.                      |
 | `EditorOnlyAssemblies`         | Assemblies whose scoped types are treated as allowed.                                                                                             |
-| `AllowedVerifierErrors`        | Data for ILVerify allowances; currently not exercised by the normal scan because IL verification is disabled there.                               |
+| `AllowedVerifierErrors`        | ILVerify diagnostic codes permitted by the policy; other verification findings reject the assembly.                                               |
 | `SystemAssemblyName`           | Present in the config model; the checker also has a hard-coded `mscorlib` constant. Inspect current call sites before relying on this value.      |
 
 Each `TypeConfig` has `All`, `Inherit`, `Methods`, `Fields`, and optional `NestedTypes`. `All: true` permits the type's members wholesale. Otherwise, the type may still be accessible while member use is restricted to the listed signatures. `InheritMode` has three values: `Default` allows inheritance only when `All` is true, `Allow` explicitly allows it, and `Block` denies it even when `All` is true. Nested type access is resolved through the enclosing type's configuration; an enclosing `All` also permits nested types wholesale.
@@ -183,14 +183,14 @@ The current driver passes all other assembly names to the checker, and the check
 
 ## Outputs and diagnostics
 
-`errors.json` is a JSON array of strings. Entries may describe a disallowed type, member, inheritance relationship, unmanaged method, unsupported metadata, missing resolution dependency, configuration failure, or a failed assembly summary. Progress messages are accumulated separately in `Infos`; some resolver and copy messages also go to standard output. Errors are not guaranteed to be unique because a violation can be reported at multiple stages.
+`errors.json` is a JSON array of strings. Entries may describe a disallowed type, member, inheritance relationship, unmanaged method, unsupported metadata, missing resolution dependency, configuration failure, or a failed assembly summary. Progress messages, including each assembly's IL verification, are accumulated separately in `Infos` and printed to standard output alongside resolver and copy messages. Errors are not guaranteed to be unique because a violation can be reported at multiple stages.
 
 ## Maintenance notes
 
 - Treat `CodeScanList.json` as security policy. Changes to namespace prefixes, `All`, or assembly allowances can substantially broaden access.
 - Verify which policy revision the remote `develop` URL serves when investigating a scan; the local checkout may not be the version used at runtime.
 - The driver has a hard-coded fallback player path, a hard-coded resolver backup path, and several path assumptions. Keep these in mind when running outside the original development setup.
-- `VerifyIl` is enabled in the checker constructor but explicitly disabled inside `CheckAssembly` before the `if (VerifyIl)` block. Re-enable it deliberately only after confirming resolver and verifier behavior and the intended allowed-error policy.
+- `VerifyIl` is enabled in the checker constructor. ILVerify uses the build's assemblies for resolution and honors the policy's `AllowedVerifierErrors`; files excluded by `FilesToMoveToManaged.json` are dependencies, not scan targets.
 - The project targets `net7.0`; build scripts in `HOWTO.txt` request runtime identifiers for three platforms. Keep the target framework, packaged runtime, input JSON location, and player directory layout consistent.
 - `ThisMain.Main` is declared `async` but does not await anything. Policy loading is asynchronous in the checker and is synchronously consumed through `_config.Result` during scanning.
 

@@ -53,7 +53,10 @@ public static class ThisMain
 			{
 				try
 				{
-					Action<string> info = new Action<string>((string log) => { Infos.Add(log); });
+					Action<string> info = new Action<string>((string log) =>
+					{
+						Infos.Add(log);
+					});
 					Action<string> error = new Action<string>((string log) => { Errors.Add(log); });
 
 					var goodPath =
