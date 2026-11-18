@@ -307,6 +307,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3950444169679250612}
   - component: {fileID: 6012879286272873821}
+  - component: {fileID: 6117381686428180945}
   m_Layer: 23
   m_Name: HUDDiagnosticsBar
   m_TagString: Untagged
@@ -322,10 +323,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3773905765040299103}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6096267435971001620}
   - {fileID: 7143236600055908701}
@@ -345,6 +346,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assets::US13.Player.HUDData.DiagnosticsHUDHandler
   stateIcon: {fileID: 4909360160866502902}
   progressBar: {fileID: 4489575840061185689}
+  rotationConstraint: {fileID: 6117381686428180945}
+--- !u!1818360609 &6117381686428180945
+RotationConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3773905765040299103}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Weight: 1
+  m_RotationAtRest: {x: 0, y: 0, z: 0}
+  m_RotationOffset: {x: 0, y: 0, z: 0}
+  m_AffectRotationX: 1
+  m_AffectRotationY: 1
+  m_AffectRotationZ: 1
+  m_Active: 1
+  m_IsLocked: 1
+  m_Sources: []
 --- !u!1 &4416052322682717818
 GameObject:
   m_ObjectHideFlags: 0
