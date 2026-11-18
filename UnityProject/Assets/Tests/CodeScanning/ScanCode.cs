@@ -2,9 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEditor.Build.Player;
+using UnityEditor.Compilation;
 using UnityEngine;
 
 
@@ -13,34 +16,94 @@ namespace Tests
 	[Category("Security")]
 	public class ScanCode
 	{
-		[Test, Timeout(694267)]
+		[Test, Order(0), Timeout(694267)]
 		public void BuildTest()
 		{
-			string[] levels = new string[] { "Assets/EmptyScene.unity" };
-
-			string pathBuilt = Application.dataPath;
-			pathBuilt = pathBuilt.Replace("/Assets", "");
-
-			pathBuilt = Path.Combine(pathBuilt, "Build");
-
-			if (Application.platform == RuntimePlatform.WindowsEditor)
+			BuildTarget target;
+			string platform;
+			switch (Application.platform)
 			{
-				BuildPipeline.BuildPlayer(levels, Path.Combine(pathBuilt, "Windows", "Unitystation.exe"),
-					BuildTarget.StandaloneWindows64, BuildOptions.None);
+				case RuntimePlatform.WindowsEditor:
+					target = BuildTarget.StandaloneWindows64;
+					platform = "Windows";
+					break;
+				case RuntimePlatform.LinuxEditor:
+					target = BuildTarget.StandaloneLinux64;
+					platform = "Linux";
+					break;
+				case RuntimePlatform.OSXEditor:
+					target = BuildTarget.StandaloneOSX;
+					platform = "Mac";
+					break;
+				default:
+					throw new PlatformNotSupportedException($"CodeScan does not support {Application.platform}.");
 			}
-			else if (Application.platform == RuntimePlatform.LinuxEditor)
+
+			var timer = Stopwatch.StartNew();
+			var projectPath = Directory.GetParent(Application.dataPath).FullName;
+			// Compile real player code (without UNITY_EDITOR), but skip asset processing,
+			// map compression, shaders, and player packaging: CodeScan only reads DLLs.
+			// Keep compiler output in Library so Unity can reuse its incremental cache.
+			var compilationPath = Path.Combine(projectPath, "Library", "CodeScan", "PlayerAssemblies", platform);
+			Directory.CreateDirectory(compilationPath);
+			var result = PlayerBuildInterface.CompilePlayerScripts(new ScriptCompilationSettings
 			{
-				BuildPipeline.BuildPlayer(levels, Path.Combine(pathBuilt, "Linux", "Unitystation.x86_64"),
-					BuildTarget.StandaloneLinux64, BuildOptions.None);
-			}
-			else if (Application.platform == RuntimePlatform.OSXEditor)
+				target = target,
+				group = BuildTargetGroup.Standalone,
+				subtarget = (int)StandaloneBuildSubtarget.Player,
+				options = ScriptCompilationOptions.None
+			}, compilationPath);
+			result.typeDB?.Dispose();
+			Assert.That(result.assemblies, Is.Not.Null.And.Not.Empty, "Player script compilation failed.");
+
+			var managedPath = Path.Combine(projectPath, "Build", platform, platform == "Mac" ? "Mac.app/Contents/Resources/Data/Managed" : "Unitystation_Data/Managed");
+			Directory.CreateDirectory(managedPath);
+
+			// Never scan stale assemblies removed or renamed since the previous run.
+			foreach (var file in Directory.GetFiles(managedPath, "*.dll"))
 			{
-				BuildPipeline.BuildPlayer(levels, Path.Combine(pathBuilt, "Mac", "Unitystation.x86_64"),
-					BuildTarget.StandaloneOSX, BuildOptions.None);
+				File.Delete(file);
 			}
+
+			// Compiler system references contain metadata-only DLLs, including facades
+			// such as Microsoft.Win32.Primitives. These are not player code. Use Mono's
+			// runtime implementations and omit reference-only facades from the scan input.
+			var systemDirectories = CompilationPipeline.GetSystemAssemblyDirectories(
+				PlayerSettings.GetApiCompatibilityLevel(UnityEditor.Build.NamedBuildTarget.Standalone))
+				.Select(Path.GetFullPath).ToArray();
+			var runtimePlatform = platform == "Windows" ? "win32" : platform == "Mac" ? "macos" : "linux";
+			var runtimePath = Path.Combine(EditorApplication.applicationContentsPath,
+				"MonoBleedingEdge", "lib", "mono", "unityjit-" + runtimePlatform);
+			Assert.That(File.Exists(Path.Combine(runtimePath, "mscorlib.dll")), Is.True,
+				$"Mono player runtime assemblies were not found at {runtimePath}.");
+
+			// Include precompiled dependencies as well as project assemblies.
+			var references = CompilationPipeline.GetAssemblies(AssembliesType.Player).SelectMany(assembly => assembly.compiledAssemblyReferences).Distinct();
+			foreach (var reference in references)
+			{
+				var referencePath = Path.GetFullPath(reference);
+				var fileName = Path.GetFileName(reference);
+				if (systemDirectories.Any(directory => string.Equals(directory,
+					Path.GetDirectoryName(referencePath), StringComparison.OrdinalIgnoreCase)))
+				{
+					referencePath = Path.Combine(runtimePath, fileName);
+					if (fileName == "netstandard.dll")
+					{
+						referencePath = Path.Combine(runtimePath, "Facades", fileName);
+					}
+					if (File.Exists(referencePath) == false) continue;
+				}
+				File.Copy(referencePath, Path.Combine(managedPath, fileName), overwrite: true);
+			}
+			foreach (var assembly in result.assemblies)
+			{
+				var assemblyPath = Path.Combine(compilationPath, assembly);
+				File.Copy(assemblyPath, Path.Combine(managedPath, Path.GetFileName(assembly)), overwrite: true);
+			}
+			UnityEngine.Debug.Log($"Prepared {result.assemblies.Count} player assemblies for CodeScan in {timer.Elapsed.TotalSeconds:F1}s.");
 		}
 
-		[Test]
+		[Test, Order(1)]
 		public void ScanCodeReport()
 		{
 			var projectPath = Directory.GetParent(Application.dataPath).FullName;

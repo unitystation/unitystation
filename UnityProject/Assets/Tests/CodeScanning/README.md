@@ -3,7 +3,15 @@
 The scanner is maintained in [unitystation/codescan](https://github.com/unitystation/codescan).
 This project keeps the Unity tests and the sandbox policy in the root `CodeScanList.json`.
 
-Run `Tests.ScanCode.BuildTest` to build the player, then `Tests.ScanCode.ScanCodeReport` to scan it.
+Run `Tests.ScanCode.BuildTest` to compile player assemblies, then `Tests.ScanCode.ScanCodeReport`
+to scan them. When running the fixture together, the tests run in that order.
+The security test compiles release player code without `UNITY_EDITOR` and stages the DLLs and
+their precompiled dependencies in the layout expected by CodeScan. It skips scenes, assets,
+shaders, build callbacks, and executable packaging; it does not validate a full playable build.
+System dependencies use the editor installation's platform-specific Mono runtime assemblies.
+Compiler-only framework facades are omitted, so reference metadata is not scanned as player code.
+Compiler output is retained in `Library/CodeScan/PlayerAssemblies/<platform>` for incremental
+compilation, while the staged scan input is refreshed each run.
 Before each scan, the runner checks the latest stable GitHub release and downloads the matching
 `win-x64.zip`, `linux-x64.zip`, or `osx-x64.zip` asset when it is missing or has changed.
 These releases include the .NET runtime; a separate .NET installation is not required.
