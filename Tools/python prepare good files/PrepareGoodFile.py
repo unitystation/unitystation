@@ -2,13 +2,11 @@ import os
 import shutil
 import json
 import argparse
+from urllib.request import urlopen
 
 def get_files_to_keep_in_managed():
-    path = os.path.abspath(os.path.join(
-        os.path.dirname(__file__),
-        "../CodeScanning/CodeScan/CodeScan/bin/Debug/net7.0/FilesToMoveToManaged.json"
-    ))
-    with open(path, 'r') as file:
+    url = "https://raw.githubusercontent.com/unitystation/codescan/main/FilesToMoveToManaged.json"
+    with urlopen(url, timeout=30) as file:
         return json.load(file)
 
 files_to_keep_in_managed = get_files_to_keep_in_managed()

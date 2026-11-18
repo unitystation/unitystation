@@ -600,8 +600,12 @@ UnityEngine";
 		{
 			get
 			{
-				var path = Application.dataPath.Replace("/UnityProject/Assets", "") + "/Tools/CodeScanning/CodeScan/CodeScan/bin/Debug/net7.0/FilesToMoveToManaged.json";
-				return JsonConvert.DeserializeObject<List<string>>(File.ReadAllText(path));
+				using (var client = new HttpClient { Timeout = TimeSpan.FromSeconds(30) })
+				{
+					var json = client.GetStringAsync("https://raw.githubusercontent.com/unitystation/codescan/main/FilesToMoveToManaged.json")
+						.GetAwaiter().GetResult();
+					return JsonConvert.DeserializeObject<List<string>>(json);
+				}
 			}
 		}
 
