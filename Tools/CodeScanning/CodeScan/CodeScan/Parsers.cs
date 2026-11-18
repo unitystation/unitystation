@@ -47,10 +47,10 @@ namespace UnitystationLauncher.ContentScanning
 			String("ulong").ThenReturn(PrimitiveTypeCode.UInt64);
 
 		private static readonly Parser<char, PrimitiveTypeCode> IntPtrTypeParser =
-			OneOf(String("nint"), String("native int")).ThenReturn(PrimitiveTypeCode.IntPtr);
+			OneOf(Try(String("nint")), String("native int")).ThenReturn(PrimitiveTypeCode.IntPtr);
 
 		private static readonly Parser<char, PrimitiveTypeCode> UIntPtrTypeParser =
-			OneOf(String("nuint"), String("unsigned native int")).ThenReturn(PrimitiveTypeCode.UIntPtr);
+			OneOf(Try(String("nuint")), String("unsigned native int")).ThenReturn(PrimitiveTypeCode.UIntPtr);
 
 		private static readonly Parser<char, PrimitiveTypeCode> SingleTypeParser =
 			String("float").ThenReturn(PrimitiveTypeCode.Single);

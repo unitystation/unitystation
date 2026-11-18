@@ -191,7 +191,7 @@ namespace UnitystationLauncher.ContentScanning
 		}
 
 
-		private sealed class Resolver : IResolver
+		private sealed class Resolver : IResolver, IDisposable
 		{
 			private readonly DirectoryInfo _managedPath;
 
@@ -286,7 +286,7 @@ namespace UnitystationLauncher.ContentScanning
 			using var assembly = diskPath.OpenRead();
 			var fullStopwatch = Stopwatch.StartNew();
 
-			var resolver = CreateResolver(managedPath);
+			using var resolver = CreateResolver(managedPath);
 			using var peReader = new PEReader(assembly, PEStreamOptions.LeaveOpen);
 			var reader = peReader.GetMetadataReader();
 
@@ -298,7 +298,6 @@ namespace UnitystationLauncher.ContentScanning
 				return false;
 			}
 
-			VerifyIl = false;
 			if (VerifyIl)
 			{
 				if (DoVerifyIL(asmName, resolver, peReader, reader, info, Errors) == false)
@@ -318,8 +317,6 @@ namespace UnitystationLauncher.ContentScanning
 
 			if (DisableTypeCheck)
 			{
-				resolver.Dispose();
-				peReader.Dispose();
 				return true;
 			}
 
@@ -364,8 +361,6 @@ namespace UnitystationLauncher.ContentScanning
 			}
 
 			info.Invoke($"Checked assembly in {fullStopwatch.ElapsedMilliseconds}ms");
-			resolver.Dispose();
-			peReader.Dispose();
 			return errors.IsEmpty;
 		}
 
