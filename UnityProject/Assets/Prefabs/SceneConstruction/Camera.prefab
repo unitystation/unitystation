@@ -389,9 +389,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddb3a4d2cf96f394bb69555821de19c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _order: 0
   shader: {fileID: 4800000, guid: 521fac50d43d6dc41bd4ce7d10d09317, type: 3}
   lensRadius: 0.5
-  screenTexture: {fileID: 2800000, guid: 9e3a266204395924d9cc89eb0ec2db71, type: 3}
+  screenTexture2D: {fileID: 2800000, guid: 9e3a266204395924d9cc89eb0ec2db71, type: 3}
 --- !u!114 &1578675351978633491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1531,9 +1532,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddb3a4d2cf96f394bb69555821de19c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _order: 0
   shader: {fileID: 4800000, guid: 521fac50d43d6dc41bd4ce7d10d09317, type: 3}
   lensRadius: 0.5
-  screenTexture: {fileID: 2800000, guid: 9e3a266204395924d9cc89eb0ec2db71, type: 3}
+  screenTexture2D: {fileID: 0}
 --- !u!1 &2340036554450610496
 GameObject:
   m_ObjectHideFlags: 0
@@ -1796,9 +1798,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddb3a4d2cf96f394bb69555821de19c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _order: 0
   shader: {fileID: 4800000, guid: 521fac50d43d6dc41bd4ce7d10d09317, type: 3}
   lensRadius: 0.5
-  screenTexture: {fileID: 2800000, guid: 9e3a266204395924d9cc89eb0ec2db71, type: 3}
+  screenTexture2D: {fileID: 0}
 --- !u!114 &6481882289579294143
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2305,9 +2308,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddb3a4d2cf96f394bb69555821de19c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _order: 0
   shader: {fileID: 4800000, guid: 521fac50d43d6dc41bd4ce7d10d09317, type: 3}
   lensRadius: 0.5
-  screenTexture: {fileID: 2800000, guid: 9e3a266204395924d9cc89eb0ec2db71, type: 3}
+  screenTexture2D: {fileID: 0}
 --- !u!1 &7586275918728352053
 GameObject:
   m_ObjectHideFlags: 0
