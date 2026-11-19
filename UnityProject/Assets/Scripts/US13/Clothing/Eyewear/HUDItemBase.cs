@@ -1,4 +1,11 @@
+using System;
+using Logs;
 using Mirror;
+using NaughtyAttributes;
+using UnityEngine;
+using US13.Actions;
+using US13.Actions.V2;
+using US13.Core.Sprite_Handler;
 using US13.Core.Utils;
 using US13.Systems.Inventory;
 using US13.Tilemaps.Behaviours.Objects;
@@ -22,14 +29,25 @@ namespace US13.Clothing.Eyewear
 
 		void IItemInOutMovedPlayer.ChangingPlayer(RegisterPlayer HideForPlayer, RegisterPlayer ShowForPlayer)
 		{
-			if (ShowForPlayer != null)
+			if (ShowForPlayer != null) OnBodyID = ShowForPlayer.netId;
+			else OnBodyID = NetId.Empty;
+
+			if (ShowForPlayer == null)
 			{
-				OnBodyID = ShowForPlayer.netId;
+				RemoveAction();
+				return;
 			}
-			else
+
+			if (pickupable?.ItemSlot?.NamedSlot != null)
 			{
-				OnBodyID = NetId.Empty;
+				RemoveAction();
+				targetManager =  ShowForPlayer.PlayerScript.PlayerButtonedActions;
+				AddAction();
+
+				return;
 			}
+
+			RemoveAction();
 		}
 
 		#endregion
@@ -40,7 +58,42 @@ namespace US13.Clothing.Eyewear
 
 		public uint OnPlayerID => OnBodyID;
 
+		private ActionButtonData toggleHudAction;
+		private ActionManager targetManager;
+		private bool currentState = false;
 
+
+		[SerializeField] private NamedSlot possibleSlots = NamedSlot.eyes;
+		[SerializeField] private string toggleButtonID = "HUDTYPE_toggle_hud";
+
+		private void OnEnable()
+		{
+			toggleHudAction = new ActionButtonData();
+			toggleHudAction.ID = toggleButtonID;
+			toggleHudAction.DisplayName = "Toggle HUD";
+			toggleHudAction.Description = "Toggle the active HUD";
+			toggleHudAction.CooldownTime = 1.0f;
+			toggleHudAction.TriggerType = ActionTriggerType.ServerOnly;
+
+			toggleHudAction.AnimatedIconCatalogue = new();
+			SpriteDataSO spriteData = GetComponentInChildren<SpriteHandler>()?.GetCurrentSpriteSO();
+			if(spriteData != null) toggleHudAction.AnimatedIconCatalogue.Add(spriteData);
+		}
+
+		public void AddAction()
+		{
+			if (targetManager == null) return;
+			if (pickupable.ItemSlot.NamedSlot == null || possibleSlots.HasFlag(pickupable.ItemSlot.NamedSlot) == false) return;
+
+			targetManager?.RegisterNewAction(toggleHudAction, ToggleEffects);
+		}
+
+		public void RemoveAction()
+		{
+			if (targetManager == null) return;
+			targetManager?.UnregisterAction(toggleHudAction);
+			targetManager = null;
+		}
 
 		public void SyncOnPlayer(uint PreviouslyOn, uint CurrentlyOn)
 		{
@@ -50,7 +103,8 @@ namespace US13.Clothing.Eyewear
 
 		public void ApplyDefaultOrCurrentValues(bool Default)
 		{
-			ApplyEffects(Default ? false : true);
+			currentState = Default ? false : true;
+			ApplyEffects(currentState);
 		}
 
 		public virtual bool IsValidSetup(RegisterPlayer player)
@@ -64,6 +118,10 @@ namespace US13.Clothing.Eyewear
 			return false;
 		}
 
+		public void ToggleEffects(Vector2 mousePosition)
+		{
+			ApplyDefaultOrCurrentValues(currentState);
+		}
 
 		public virtual void ApplyEffects(bool State)
 		{

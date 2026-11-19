@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using UnityEngine.Animations;
+using UnityEngine.Serialization;
 using US13.Core.Sprite_Handler;
 using US13.Objects.Engineering;
 using US13.Clothing.Eyewear;
@@ -14,6 +16,9 @@ namespace US13.Player.HUDData
 		private bool isVisible = false;
 		public bool IsVisible => isVisible;
 
+		[SerializeField] private RotationConstraint rotationConstraint = null;
+		private static GameObject anchor = null;
+
 		[Flags]
 		public enum HUDOptions
 		{
@@ -24,6 +29,13 @@ namespace US13.Player.HUDData
 		private void Awake()
 		{
 			SetVisible(false, HUDOptions.showPower | HUDOptions.showState);
+
+			if (anchor == null) anchor = new GameObject("DiagnosticsHUDRotationAnchor");
+
+			var source = new ConstraintSource();
+			source.sourceTransform = anchor.transform;
+			source.weight = 1.0f;
+			rotationConstraint?.AddSource(source);
 		}
 
 		public void SetVisible(bool visible, HUDOptions options)

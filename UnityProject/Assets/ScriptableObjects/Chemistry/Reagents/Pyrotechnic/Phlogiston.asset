@@ -15,7 +15,11 @@ MonoBehaviour:
   foreverID: Phlogiston
   displayName: Phlogiston
   description: Catches you on fire and makes you ignite.
-  color: {r: 0.98039216, g: 0, b: 0.6862745, a: 1}
+  color: {r: 0.38679248, g: 0.26840305, b: 0.22076362, a: 1}
   state: 1
   heatDensity: 5
   indexInSingleton: 485
+  OnSplatEffects: []
+  references:
+    version: 2
+    RefIds: []

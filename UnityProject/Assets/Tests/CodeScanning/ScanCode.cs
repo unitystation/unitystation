@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
+using System.Linq;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEditor.Build.Player;
+using UnityEditor.Compilation;
 using UnityEngine;
-using Debug = UnityEngine.Debug;
 
 
 namespace Tests
@@ -15,160 +16,172 @@ namespace Tests
 	[Category("Security")]
 	public class ScanCode
 	{
-		[Test, Timeout(694267)]
+		[Test, Order(0), Timeout(694267)]
 		public void BuildTest()
 		{
-			string[] levels = new string[] { "Assets/EmptyScene.unity" };
-
-			string pathBuilt = Application.dataPath;
-			pathBuilt = pathBuilt.Replace("/Assets", "");
-
-			pathBuilt = Path.Combine(pathBuilt, "Build");
-
-			if (Application.platform == RuntimePlatform.WindowsEditor)
+			BuildTarget target;
+			string platform;
+			switch (Application.platform)
 			{
-				BuildPipeline.BuildPlayer(levels, Path.Combine(pathBuilt, "Windows", "Unitystation.exe"),
-					BuildTarget.StandaloneWindows64, BuildOptions.None);
+				case RuntimePlatform.WindowsEditor:
+					target = BuildTarget.StandaloneWindows64;
+					platform = "Windows";
+					break;
+				case RuntimePlatform.LinuxEditor:
+					target = BuildTarget.StandaloneLinux64;
+					platform = "Linux";
+					break;
+				case RuntimePlatform.OSXEditor:
+					target = BuildTarget.StandaloneOSX;
+					platform = "Mac";
+					break;
+				default:
+					throw new PlatformNotSupportedException($"CodeScan does not support {Application.platform}.");
 			}
-			else if (Application.platform == RuntimePlatform.LinuxEditor)
+
+			var timer = Stopwatch.StartNew();
+			var projectPath = Directory.GetParent(Application.dataPath).FullName;
+			// Compile real player code (without UNITY_EDITOR), but skip asset processing,
+			// map compression, shaders, and player packaging: CodeScan only reads DLLs.
+			// Keep compiler output in Library so Unity can reuse its incremental cache.
+			var compilationPath = Path.Combine(projectPath, "Library", "CodeScan", "PlayerAssemblies", platform);
+			Directory.CreateDirectory(compilationPath);
+			var result = PlayerBuildInterface.CompilePlayerScripts(new ScriptCompilationSettings
 			{
-				BuildPipeline.BuildPlayer(levels, Path.Combine(pathBuilt, "Linux", "Unitystation.x86_64"),
-					BuildTarget.StandaloneLinux64, BuildOptions.None);
-			}
-			else if (Application.platform == RuntimePlatform.OSXEditor)
+				target = target,
+				group = BuildTargetGroup.Standalone,
+				subtarget = (int)StandaloneBuildSubtarget.Player,
+				options = ScriptCompilationOptions.None
+			}, compilationPath);
+			result.typeDB?.Dispose();
+			Assert.That(result.assemblies, Is.Not.Null.And.Not.Empty, "Player script compilation failed.");
+
+			var managedPath = Path.Combine(projectPath, "Build", platform, platform == "Mac" ? "Mac.app/Contents/Resources/Data/Managed" : "Unitystation_Data/Managed");
+			Directory.CreateDirectory(managedPath);
+
+			// Never scan stale assemblies removed or renamed since the previous run.
+			foreach (var file in Directory.GetFiles(managedPath, "*.dll"))
 			{
-				BuildPipeline.BuildPlayer(levels, Path.Combine(pathBuilt, "Mac", "Unitystation.x86_64"),
-					BuildTarget.StandaloneOSX, BuildOptions.None);
+				File.Delete(file);
 			}
+
+			// Compiler system references contain metadata-only DLLs, including facades
+			// such as Microsoft.Win32.Primitives. These are not player code. Use Mono's
+			// runtime implementations and omit reference-only facades from the scan input.
+			var systemDirectories = CompilationPipeline.GetSystemAssemblyDirectories(
+				PlayerSettings.GetApiCompatibilityLevel(UnityEditor.Build.NamedBuildTarget.Standalone))
+				.Select(Path.GetFullPath).ToArray();
+			var runtimePlatform = platform == "Windows" ? "win32" : platform == "Mac" ? "macos" : "linux";
+			var runtimePath = Path.Combine(EditorApplication.applicationContentsPath,
+				"MonoBleedingEdge", "lib", "mono", "unityjit-" + runtimePlatform);
+			Assert.That(File.Exists(Path.Combine(runtimePath, "mscorlib.dll")), Is.True,
+				$"Mono player runtime assemblies were not found at {runtimePath}.");
+
+			// Include precompiled dependencies as well as project assemblies.
+			var references = CompilationPipeline.GetAssemblies(AssembliesType.Player).SelectMany(assembly => assembly.compiledAssemblyReferences).Distinct();
+			foreach (var reference in references)
+			{
+				var referencePath = Path.GetFullPath(reference);
+				var fileName = Path.GetFileName(reference);
+				if (systemDirectories.Any(directory => string.Equals(directory,
+					Path.GetDirectoryName(referencePath), StringComparison.OrdinalIgnoreCase)))
+				{
+					referencePath = Path.Combine(runtimePath, fileName);
+					if (fileName == "netstandard.dll")
+					{
+						referencePath = Path.Combine(runtimePath, "Facades", fileName);
+					}
+					if (File.Exists(referencePath) == false) continue;
+				}
+				File.Copy(referencePath, Path.Combine(managedPath, fileName), overwrite: true);
+			}
+			foreach (var assembly in result.assemblies)
+			{
+				var assemblyPath = Path.Combine(compilationPath, assembly);
+				File.Copy(assemblyPath, Path.Combine(managedPath, Path.GetFileName(assembly)), overwrite: true);
+			}
+			UnityEngine.Debug.Log($"Prepared {result.assemblies.Count} player assemblies for CodeScan in {timer.Elapsed.TotalSeconds:F1}s.");
 		}
 
-		[Test]
+		[Test, Order(1)]
 		public void ScanCodeReport()
 		{
-			string BuildPath = Application.dataPath;
-			BuildPath = BuildPath.Replace("/Assets", "");
-
-			var ExecutablePath = BuildPath;
-
-			BuildPath = Path.Combine(BuildPath, "Build");
-
-			var report = new TestReport();
-
-
-			//only removes the /UnityProject part at the very end of the string without touching any other instance of "UnityProject"
-			ExecutablePath = ExecutablePath.Substring(0, ExecutablePath.Length - "UnityProject".Length);
-			ExecutablePath += @"Tools/CodeScanning/CodeScan/CodeScan/bin/Debug/net7.0";
-
-
-			var ExtractionPath = ExecutablePath;
-			var FolderZip = ExecutablePath;
-			var FolderError = "";
-			FolderError = ExecutablePath;
+			var projectPath = Directory.GetParent(Application.dataPath).FullName;
+			var BuildPath = Path.Combine(projectPath, "Build");
+			string runtimeIdentifier;
 			if (Application.platform == RuntimePlatform.WindowsEditor)
 			{
-				FolderZip = Path.Combine(FolderZip, @"win-x64.zip");
-				FolderError = Path.Combine(FolderError, @"win-x64");
-				ExecutablePath += @"/win-x64/CodeScan.exe";
-				BuildPath += @"/Windows";
+				runtimeIdentifier = "win-x64";
+				BuildPath = Path.Combine(BuildPath, "Windows");
 			}
 			else if (Application.platform == RuntimePlatform.LinuxEditor)
 			{
-				FolderZip = Path.Combine(FolderZip, @"linux-x64.zip");
-				FolderError = Path.Combine(FolderError, @"linux-x64");
-				ExecutablePath += @"/linux-x64/CodeScan";
-				BuildPath += @"/Linux";
+				runtimeIdentifier = "linux-x64";
+				BuildPath = Path.Combine(BuildPath, "Linux");
 			}
 			else if (Application.platform == RuntimePlatform.OSXEditor)
 			{
-				FolderZip = Path.Combine(FolderZip, @"osx-x64.zip");
-				FolderError = Path.Combine(FolderError, @"osx-x64");
-				ExecutablePath += @"/osx-x64/CodeScan";
-				BuildPath += @"/Mac";
+				runtimeIdentifier = "osx-x64";
+				BuildPath = Path.Combine(BuildPath, "Mac");
+			}
+			else
+			{
+				throw new PlatformNotSupportedException($"CodeScan does not support {Application.platform}.");
 			}
 
-			try
-			{
-				if (File.Exists(ExecutablePath) == false ||
-				    File.GetLastWriteTimeUtc(FolderZip) > File.GetLastWriteTimeUtc(ExecutablePath))
-				{
-					ZipFile.ExtractToDirectory(FolderZip, ExtractionPath, overwriteFiles: true);
-				}
-				Debug.Log($"CodeScanning finished in {FolderZip}.");
-			}
-			catch(Exception e)
-			{
-				Debug.Log(e);
-			}
+			var ExtractionPath = Path.Combine(projectPath, "Library", "CodeScan");
+			var ExecutablePath = CodeScanRelease.EnsureAvailable(ExtractionPath, runtimeIdentifier);
+			var FolderError = Path.GetDirectoryName(ExecutablePath);
+			var report = new TestReport();
+			var errorsPath = Path.Combine(FolderError, "errors.json");
+			var generatedWhitelistPath = Path.Combine(FolderError, "CodeScanList.corrected.json");
+			var extractedWhitelistPath = Path.Combine(ExtractionPath, "CodeScanList.corrected.json");
 
+			// A cached executable must produce a fresh report for every scan.
+			File.Delete(errorsPath);
+			File.Delete(generatedWhitelistPath);
+			File.Delete(extractedWhitelistPath);
 
 			if (Application.platform == RuntimePlatform.LinuxEditor || Application.platform == RuntimePlatform.OSXEditor)
 			{
-				string filePath = ExecutablePath; // Replace with the actual file path
-
-				// Use the Process class to run the chmod command
-				Process chmodProcess = new Process();
-				chmodProcess.StartInfo.FileName = "chmod";
-				chmodProcess.StartInfo.Arguments = "+x " + filePath;
-				chmodProcess.StartInfo.UseShellExecute = false;
-				chmodProcess.StartInfo.CreateNoWindow = true;
-				chmodProcess.StartInfo.RedirectStandardOutput = true;
-				chmodProcess.StartInfo.RedirectStandardError = true;
-
-				chmodProcess.Start();
-				chmodProcess.WaitForExit();
-				if (chmodProcess.ExitCode == 0)
+				using (var chmodProcess = new Process())
 				{
-					UnityEngine.Debug.Log("File marked as executable.");
+					chmodProcess.StartInfo.FileName = "chmod";
+					chmodProcess.StartInfo.Arguments = $"+x \"{ExecutablePath}\"";
+					chmodProcess.StartInfo.UseShellExecute = false;
+					chmodProcess.StartInfo.CreateNoWindow = true;
+					chmodProcess.Start();
+					chmodProcess.WaitForExit();
+					Assert.That(chmodProcess.ExitCode, Is.Zero, "Failed to mark CodeScan as executable.");
 				}
-				else
-				{
-					UnityEngine.Debug.Log("Failed to mark the file as executable. Exit code: " + chmodProcess.ExitCode);
-					UnityEngine.Debug.Log(chmodProcess.StandardError.ReadToEnd());
-				}
-
 			}
 
+			using (var process = new Process())
+			{
+				process.StartInfo.FileName = ExecutablePath;
+				process.StartInfo.WorkingDirectory = FolderError;
+				process.StartInfo.UseShellExecute = false;
+				process.StartInfo.RedirectStandardOutput = true;
+				process.StartInfo.RedirectStandardError = true;
+				process.StartInfo.Arguments = $">\"{BuildPath}\"";
+				process.Start();
+				process.BeginOutputReadLine();
+				process.BeginErrorReadLine();
+				process.WaitForExit();
+				Assert.That(process.ExitCode, Is.Zero, "CodeScan exited unexpectedly.");
+			}
 
-			// Create a new process
-			Process process = new Process();
-			process.StartInfo.FileName = ExecutablePath;
-
-			// Redirect standard output and error to Unity's console
-			process.StartInfo.UseShellExecute = false;
-			process.StartInfo.RedirectStandardOutput = true;
-			process.StartInfo.RedirectStandardError = true;
-			process.StartInfo.Arguments = $">\"{BuildPath}\"";
-
-			// Handle the OutputDataReceived event
-			//process.OutputDataReceived += (sender, e) => Debug.Log(e.Data);
-			//process.ErrorDataReceived += (sender, e) => Debug.LogError(e.Data);
-
-			// Start the process
-			process.Start();
-
-			// Begin asynchronous reading of the output stream
-			process.BeginOutputReadLine();
-			process.BeginErrorReadLine();
-
-			// Wait for the process to finish
-			process.WaitForExit();
-
-			// Cleanup resources
-			process.Close();
-			process.Dispose();
-
-			var generatedWhitelistPath = Path.Combine(FolderError, "CodeScanList.corrected.json");
 			if (File.Exists(generatedWhitelistPath))
 			{
-				var extractedWhitelistPath = Path.Combine(ExtractionPath, "CodeScanList.corrected.json");
 				File.Copy(generatedWhitelistPath, extractedWhitelistPath, overwrite: true);
 				report.Fail()
 					.AppendLine($"CodeScan whitelist suggestions were saved to: {extractedWhitelistPath}")
 					.Log();
 			}
 
-			var Errors = JsonConvert.DeserializeObject<List<string>>(File.ReadAllText(
-				FolderError + "/errors.json"));
+			Assert.That(File.Exists(errorsPath), Is.True, "CodeScan did not produce an errors.json report.");
+			var Errors = JsonConvert.DeserializeObject<List<string>>(File.ReadAllText(errorsPath));
+			Assert.That(Errors, Is.Not.Null, "CodeScan produced an invalid errors.json report.");
 
 			foreach (var Error in Errors)
 			{
@@ -181,26 +194,8 @@ namespace Tests
 				directory.Delete(true);
 			}
 
-			var extractionDirectory = new DirectoryInfo(ExtractionPath);
-			foreach (var directories in extractionDirectory.GetDirectories())
-			{
-				if (directories.Name == "MissingAssemblies")
-				{
-					directories.Delete(true);
-				}
-				if (directories.Name == "linux-x64")
-				{
-					directories.Delete(true);
-				}
-				if (directories.Name == "osx-x64")
-				{
-					directories.Delete(true);
-				}
-				if (directories.Name == "win-x64")
-				{
-					directories.Delete(true);
-				}
-			}
+			var missingAssemblies = Path.Combine(Path.GetDirectoryName(FolderError), "MissingAssemblies");
+			if (Directory.Exists(missingAssemblies)) Directory.Delete(missingAssemblies, true);
 
 			report.Log().AssertPassed();
 		}

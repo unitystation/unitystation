@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredients:
     m_keys:
-    - {fileID: 11400000, guid: 3a54c19300dc2022cb0d10a8e5883ea7, type: 2}
-    - {fileID: 11400000, guid: 1558e0575efacf2f982c377632b064f0, type: 2}
+    - {fileID: 11400000, guid: e491e0411dc22a5e28ef4d7a4685a3c1, type: 2}
+    - {fileID: 11400000, guid: b0d244ad6284333a1b4962f309f7f593, type: 2}
     - {fileID: 11400000, guid: eea29c4c2e4ea5e41b8ae15a911b5479, type: 2}
     m_values: 010000000100000005000000
   useExactAmounts: 0
@@ -25,8 +25,8 @@ MonoBehaviour:
     m_values: 
   inhibitors:
     m_keys:
-    - {fileID: 11400000, guid: b9bdb0acb54b8dc40837f92c2e7819a6, type: 2}
-    - {fileID: 11400000, guid: b0d244ad6284333a1b4962f309f7f593, type: 2}
+    - {fileID: 11400000, guid: 3a54c19300dc2022cb0d10a8e5883ea7, type: 2}
+    - {fileID: 11400000, guid: d9d775afecbd9828d9c018084c935522, type: 2}
     m_values: 0100000001000000
   hasMinTemp: 0
   serializableTempMin: 0
@@ -39,7 +39,7 @@ MonoBehaviour:
     m_keys: []
     m_values: 
   overrideDisplayName: 
-  indexInSingleton: 508
+  indexInSingleton: 510
   ReagentMetabolismMultiplier: 1
   InternalAllRequired: []
   InternalBlacklist: []
