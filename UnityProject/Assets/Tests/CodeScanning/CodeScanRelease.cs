@@ -138,7 +138,6 @@ namespace Tests
 		private static bool IsInstalled(string directory, string runtimeIdentifier, string executableName)
 		{
 			return File.Exists(Path.Combine(directory, runtimeIdentifier, executableName)) &&
-			       File.Exists(Path.Combine(directory, runtimeIdentifier, "CodeScan.dll")) &&
 			       File.Exists(Path.Combine(directory, "FilesToMoveToManaged.json"));
 		}
 
