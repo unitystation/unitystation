@@ -33,6 +33,9 @@
                 float _GrainSpeed;
             CBUFFER_END
 
+            static const float3 BT709 = float3(0.2126, 0.7152, 0.0722);
+            static const float VIGNETTE_CORRECTION = 1.1;
+
             half4 Frag(Varyings input) : SV_Target
             {
                 UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
@@ -44,11 +47,9 @@
                     sampler_LinearClamp,
                     uv
                 );
-                
-                col.rgb *= 1.1;
 
-                col.r = abs(col.r);
-                col.gb = col.r;
+                float luminosity = dot(col.rgb, BT709);
+                col.rgb = luminosity;
 
                 // Lens vignette.
                 float dist = distance(uv, float2(0.5, 0.5)) / 1.1;
@@ -59,7 +60,7 @@
                     dist
                 );
 
-                col.rgb *= vignette;
+                col.rgb *= vignette * VIGNETTE_CORRECTION;
 
                 // Animated grain.
                 float2 uvTime = uv + frac(_Time.y * _GrainSpeed);

@@ -110,11 +110,11 @@ namespace Tests
 			var server = new ReleaseServer();
 			using (var client = new HttpClient(server))
 			{
-				var executable = CodeScanRelease.EnsureAvailable(cacheDirectory, "win-x64", client);
-				var assemblyPath = Path.Combine(Path.GetDirectoryName(executable), "CodeScan.dll");
-				File.Delete(assemblyPath);
 				CodeScanRelease.EnsureAvailable(cacheDirectory, "win-x64", client);
-				Assert.That(File.Exists(assemblyPath), Is.True);
+				var filesToMovePath = Path.Combine(cacheDirectory, "win-x64", "FilesToMoveToManaged.json");
+				File.Delete(filesToMovePath);
+				CodeScanRelease.EnsureAvailable(cacheDirectory, "win-x64", client);
+				Assert.That(File.Exists(filesToMovePath), Is.True);
 				Assert.That(server.Downloads, Is.EqualTo(2));
 			}
 		}
@@ -135,7 +135,7 @@ namespace Tests
 				using (var archive = new ZipArchive(stream, ZipArchiveMode.Create, true))
 				{
 					var executableName = runtimeIdentifier == "win-x64" ? "CodeScan.exe" : "CodeScan";
-					foreach (var name in new[] { runtimeIdentifier + "/" + executableName, runtimeIdentifier + "/CodeScan.dll", "FilesToMoveToManaged.json" })
+					foreach (var name in new[] { runtimeIdentifier + "/" + executableName, "FilesToMoveToManaged.json" })
 					{
 						using (var writer = new StreamWriter(archive.CreateEntry(name).Open())) writer.Write(executableContent);
 					}

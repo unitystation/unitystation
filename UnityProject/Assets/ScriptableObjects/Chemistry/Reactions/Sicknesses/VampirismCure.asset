@@ -13,16 +13,21 @@ MonoBehaviour:
   m_Name: VampirismCure
   m_EditorClassIdentifier: 
   ingredients:
-    m_keys: []
-    m_values: 
+    m_keys:
+    - {fileID: 11400000, guid: 0196cc8cc2de8818b9d56bdb11582c6c, type: 2}
+    - {fileID: 11400000, guid: 6632b4728c32edfccbcb305c3958ae75, type: 2}
+    - {fileID: 11400000, guid: 59c2f3dc57c8a764ca6aa11e7b0caa4b, type: 2}
+    m_values: 010000000100000005000000
   useExactAmounts: 0
   MinimumReactionMultiple: 0
   catalysts:
     m_keys: []
     m_values: 
   inhibitors:
-    m_keys: []
-    m_values: 
+    m_keys:
+    - {fileID: 11400000, guid: 298598ece3960ca28a285610b3fd7239, type: 2}
+    - {fileID: 11400000, guid: c23fc4a36ab9c3790998749e1baee097, type: 2}
+    m_values: 0100000001000000
   hasMinTemp: 0
   serializableTempMin: 0
   hasMaxTemp: 0
@@ -35,7 +40,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 87420fe83c558c24485c87230185377b, type: 2}
     m_values: 01000000
   overrideDisplayName: 
-  indexInSingleton: 518
+  indexInSingleton: 520
   ReagentMetabolismMultiplier: 1
   InternalAllRequired: []
   InternalBlacklist: []
