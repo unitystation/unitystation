@@ -4,6 +4,7 @@ using System.Linq;
 using Cysharp.Threading.Tasks;
 using EditorButInAssetsAssembly;
 using Mirror;
+using SecureStuff;
 using UnityEngine;
 using UnityEngine.Events;
 using US13.Core.Chat;
@@ -12,6 +13,7 @@ using US13.Core.Input_System.InteractionV2.Interactions;
 using US13.Core.Input_System.InteractionV2.Interfaces;
 using US13.Core.Lighting;
 using US13.Core.ObjectConnection;
+using US13.Core.Sprite_Handler;
 using US13.Items.Traits;
 using US13.Managers.NetworkManagement;
 using US13.Objects.Engineering;
@@ -25,12 +27,13 @@ using Random = UnityEngine.Random;
 namespace US13.Objects.Wallmounts.Switches
 {
 	public class LightSwitchV2 : ImnterfaceMultitoolGUI, ISubscriptionController,
-		ICheckedInteractable<HandApply>, IAPCPowerable, IMultitoolMasterable, ICheckedInteractable<AiActivate>, IHoverTooltip
+		ICheckedInteractable<HandApply>, IAPCPowerable, IMultitoolMasterable, ICheckedInteractable<AiActivate>, IHoverTooltip,
+		INewMappedOnSpawn
 	{
 		public List<LightSource> listOfLights;
 		public UnityEvent OnButtonPressed = new UnityEvent();
 
-		[SyncVar(hook = nameof(SyncState))]
+		[SyncVar]
 		public bool isOn = true;
 
 		[SerializeField]
@@ -39,10 +42,13 @@ namespace US13.Objects.Wallmounts.Switches
 		private bool isInCoolDown;
 
 		[SerializeField]
-		private Sprite[] sprites = null;
+		private SpriteHandler spriteHandler = null;
 
 		[SerializeField]
-		private SpriteRenderer spriteRenderer = null;
+		private SpriteDataSO onSprite = null;
+
+		[SerializeField]
+		private SpriteDataSO offSprite = null;
 
 		private PowerState powerState = PowerState.On;
 		[field: SerializeField] public bool CanRelink { get; set; } = true;
@@ -61,24 +67,26 @@ namespace US13.Objects.Wallmounts.Switches
 			}
 		}
 
-		public override void OnStartClient()
+		public void OnNewMappedOnSpawn()
 		{
-			base.OnStartClient();
-			SyncState(isOn, isOn);
+			if (CustomNetworkManager.IsServer)
+			{
+				UpdateSwitchSprite();
+			}
 		}
 
 		#endregion
 
-		private void SyncState(bool oldState, bool newState)
+		private void UpdateSwitchSprite()
 		{
-			isOn = newState;
-			spriteRenderer.sprite = isOn ? sprites[0] : sprites[1];
+			spriteHandler.SetSpriteSO(isOn ? onSprite : offSprite);
 		}
 
 		[Server]
 		public void ServerChangeState(bool newState, bool invokeEvent = true)
 		{
 			isOn = newState;
+			UpdateSwitchSprite();
 			if (invokeEvent == false) return;
 			StartCoroutine(SlowInvoke());
 		}
@@ -169,19 +177,7 @@ namespace US13.Objects.Wallmounts.Switches
 		public void StateUpdate(PowerState state)
 		{
 			if (isServer == false) return;
-			switch (state)
-			{
-				case PowerState.OverVoltage:
-				case PowerState.On:
-					ServerChangeState(true, invokeEvent: false);
-					powerState = state;
-					break;
-				case PowerState.LowVoltage:
-				default:
-					ServerChangeState(false, invokeEvent: false);
-					powerState = state;
-					break;
-			}
+			powerState = state;
 		}
 
 		#endregion
