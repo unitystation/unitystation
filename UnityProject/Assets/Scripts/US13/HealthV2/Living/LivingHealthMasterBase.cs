@@ -331,6 +331,8 @@ namespace US13.HealthV2.Living
 		[field: SyncVar]
 		public bool CannotRecognizeNames { get; set; } = false;
 
+		private bool onPause = false;
+
 
 		public Dictionary<BodyPartType, ReagentMix> SurfaceReagents = new Dictionary<BodyPartType, ReagentMix>()
 		{
@@ -650,7 +652,7 @@ namespace US13.HealthV2.Living
 			}
 		}
 
-		private void ExternalMetaboliseReactionsSurfraceReagentHandle(KeyValuePair<BodyPartType, ReagentMix> storage)
+		private void ExternalMetaboliseReactionsSurfaceReagentHandle(KeyValuePair<BodyPartType, ReagentMix> storage)
 		{
 			foreach (var reaction in PrecalculatedMetabolismReactions)
 			{
@@ -738,7 +740,7 @@ namespace US13.HealthV2.Living
 			{
 				if (storage.Value.Total == 0) continue;
 				MetabolismReactions.Clear();
-				ExternalMetaboliseReactionsSurfraceReagentHandle(storage);
+				ExternalMetaboliseReactionsSurfaceReagentHandle(storage);
 				ExternalMetaboliseReactionsInternalMetabolismReactions(storage);
 				storage.Value.Take(0.2f); //Evaporation
 			}
@@ -746,16 +748,14 @@ namespace US13.HealthV2.Living
 
 		private void OnEnable()
 		{
-			if (CustomNetworkManager.IsServer == false) return;
-
-			UpdateManager.Add(PeriodicUpdate, updateTime);
+			ShouldPerformHealthUpdates = true;
 		}
 
 		private void OnDisable()
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
+			ShouldPerformHealthUpdates = false;
 			StopCoroutine(ScreamCooldown());
 		}
 
@@ -765,6 +765,19 @@ namespace US13.HealthV2.Living
 			healthStateController.SetMaxHealth(newMaxHealth);
 		}
 
+		private bool shouldPerformHealthUpdates = false;
+		public bool ShouldPerformHealthUpdates
+		{
+			get => shouldPerformHealthUpdates;
+			set
+			{
+				if (CustomNetworkManager.IsServer == false || ShouldPerformHealthUpdates == value) return;
+				if (value == false) UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
+				if (value == true) UpdateManager.Add(PeriodicUpdate, updateTime);
+
+				shouldPerformHealthUpdates = value;
+			}
+		}
 
 		[RightClickMethod]
 		public void DODMG()
@@ -1156,7 +1169,6 @@ namespace US13.HealthV2.Living
 					return null;
 			}
 		}
-
 
 		/// <summary>
 		/// Updates overall health based on damage sustained by body parts thus far.

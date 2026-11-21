@@ -167,7 +167,7 @@ namespace US13.Items.Food
 
 		private bool CanPlayerConsume(PlayerScript eater)
 		{
-			if (eater.Equipment.OrNull()?.CanConsume() == false)
+			if (eater.Equipment && eater.Equipment.CanConsume() == false)
 			{
 				Chat.AddExamineMsgFromServer(eater.gameObject, $"Remove items that cover your mouth first!");
 				return false;

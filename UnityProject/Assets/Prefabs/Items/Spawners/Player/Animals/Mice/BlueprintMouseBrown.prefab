@@ -21,23 +21,33 @@ PrefabInstance:
     - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
       propertyPath: CharacterSheet.Name
-      value: Monkey
+      value: Mouse
       objectReference: {fileID: 0}
     - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
       propertyPath: CharacterSheet.AiName
-      value: M.O.N.K.
+      value: SPL1NT3R
       objectReference: {fileID: 0}
     - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
       propertyPath: CharacterSheet.Species
-      value: Monkey
+      value: Rat
       objectReference: {fileID: 0}
+    - target: {fileID: -1729072835972511318, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: CharacterSheet.BodyType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 520298877121306373, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 5307718658608071815}
     - target: {fileID: 660552017190180179, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 93004394a102b7749bd696888eef0226,
+      objectReference: {fileID: 21300008, guid: 21c8b3c26cdc4e84fa7cd870fb242d55,
         type: 3}
     - target: {fileID: 775991059901622511, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
@@ -47,13 +57,13 @@ PrefabInstance:
     - target: {fileID: 775991059901622511, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
       propertyPath: foreverID
-      value: 1796036e10808334798ef3fb0f911623
+      value: onqTfhd!svO79jD$tWcc
       objectReference: {fileID: 0}
     - target: {fileID: 5805020867509229534, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300032, guid: aab59a0f07ede8043ad41c425cffe0d8,
+      objectReference: {fileID: 21300040, guid: aab59a0f07ede8043ad41c425cffe0d8,
         type: 3}
     - target: {fileID: 5939654197155682806, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
@@ -113,12 +123,12 @@ PrefabInstance:
     - target: {fileID: 5944300870768993410, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
       propertyPath: m_Name
-      value: BlueprintMonkey
+      value: BlueprintMouseBrown
       objectReference: {fileID: 0}
     - target: {fileID: 6046737524137990454, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
       propertyPath: _assetId
-      value: 1279724696
+      value: 3606398831
       objectReference: {fileID: 0}
     - target: {fileID: 6094492423968705504, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
@@ -127,12 +137,29 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9166297599979345829, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
         type: 3}
+      propertyPath: spriteRenderer
+      value: 
+      objectReference: {fileID: 1156755268849878538}
+    - target: {fileID: 9166297599979345829, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+        type: 3}
       propertyPath: InitialPresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 9e8d6fd5732cfd740b2ec70cc84a60f7,
+      objectReference: {fileID: 11400000, guid: e36e706c4f7427848844ab4279f0abac,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b, type: 3}
+--- !u!212 &1156755268849878538 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 660552017190180179, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1812521032457786201}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &5307718658608071815 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 5805020867509229534, guid: e4b3aaedc8dd9ee4092a8ca74ee86d7b,
+    type: 3}
+  m_PrefabInstance: {fileID: 1812521032457786201}
+  m_PrefabAsset: {fileID: 0}

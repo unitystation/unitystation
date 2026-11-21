@@ -50,14 +50,19 @@ namespace US13.Core.Input_System
 			{
 				var worldPos3D = CommonInput.CashedMouseWorldPosition;
 
-				worldPos3D = worldPos3D+ (UnityEngine.Camera.main.transform.forward  );
+				worldPos3D += (UnityEngine.Camera.main.transform.forward);
 				worldPos3D.z = 0;
 				return worldPos3D;
 			}
+			var worldPos = CommonInput.CashedMouseWorldPosition;
+			worldPos.z = 0;
+			return worldPos;
+		}
 
+		public static Vector3 WorldToMousePos(Vector3 worldPos)
+		{
+			if (Manager3D.Is3D) worldPos -= UnityEngine.Camera.main.transform.forward;
 
-
-			var worldPos = 	CommonInput.CashedMouseWorldPosition;
 			worldPos.z = 0;
 			return worldPos;
 		}

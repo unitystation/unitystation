@@ -12,7 +12,7 @@ using US13.Mobs.BrainAI.SettingsExtensions;
 
 namespace US13.Mobs.BrainAI
 {
-	public enum MobTaskKind { None, Clean, Floor, Medical, Fire, Security }
+	public enum MobTaskKind { None, Clean, Floor, Medical, Fire, Security, Mice }
 
 	[Serializable]
 	public sealed class BotTaskSettings : IMobBehaviorSettingsExtension

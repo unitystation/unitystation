@@ -72,7 +72,7 @@ namespace US13.Objects.Pipes.Devices
 		private MetaDataNode metaNode;
 		private MetaDataLayer metaDataLayer;
 
-		private GasMix pipeMix
+		public GasMix pipeMix
 		{
 			get
 			{

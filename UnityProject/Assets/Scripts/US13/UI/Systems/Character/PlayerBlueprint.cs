@@ -18,10 +18,12 @@ namespace US13.UI.Systems.Character
 		[FormerlySerializedAs("NonImportantMind")] [Tooltip("Should the mind be destroyed If the body is destroyed and a player is not possessing it")]
 		public bool nonImportantMind = false;
 
+		public GameObject spawnedObject { get; private set; } = null;
+
 		[NaughtyAttributes.Button()]
-		public void Spawn()
+		public GameObject Spawn()
 		{
-			SpawnObject();
+			return SpawnObject();
 		}
 
 		public GameObject SpawnObject()
@@ -45,7 +47,7 @@ namespace US13.UI.Systems.Character
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			Spawn();
+			spawnedObject = Spawn();
 		}
 	}
 

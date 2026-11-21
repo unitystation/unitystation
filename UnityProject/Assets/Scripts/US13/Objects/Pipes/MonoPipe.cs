@@ -14,6 +14,7 @@ using US13.Items.Traits;
 using US13.Managers.NetworkManagement;
 using US13.Objects.Directionals;
 using US13.Objects.Other;
+using US13.Player;
 using US13.Systems.Disposals;
 using US13.Systems.Fluids;
 using US13.Tilemaps.Behaviours.Layers;
@@ -283,7 +284,7 @@ namespace US13.Objects.Pipes
 			).ServerStartProgress(ActionTarget.Object(registerTile), 5, interaction.Performer);
 		}
 
-		private void FinishEnteringPipe(HandApply interaction, GasMix pipeMix)
+		public void FinishEnteringPipe(PlayerScript crawlingPlayer, GasMix pipeMix)
 		{
 			var container = Spawn.ServerPrefab(DisposalsManager.Instance.CrawlingVirtualContainerPrefab,
 				registerTile.ObjectPhysics.Component.OfficialPosition);
@@ -299,12 +300,12 @@ namespace US13.Objects.Pipes
 				return;
 			}
 
-			virtualContainer.Setup(pipeData, interaction.PerformerPlayerScript.RegisterPlayer);
+			virtualContainer.Setup(pipeData, crawlingPlayer.RegisterPlayer);
 
 			// Transfer contents
 			if (container.GameObject.TryGetComponent<ObjectContainer>(out var objectContainer))
 			{
-				objectContainer.StoreObject(interaction.Performer);
+				objectContainer.StoreObject(crawlingPlayer.gameObject);
 			}
 
 			if (container.GameObject.TryGetComponent<GasContainer>(out var gasContainer))
@@ -313,7 +314,12 @@ namespace US13.Objects.Pipes
 			}
 
 			Chat.AddActionMsgToChat(gameObject, $"You enter the {gameObject.ExpensiveName()}",
-				$"{interaction.Performer.ExpensiveName()} enters the {gameObject.ExpensiveName()}!");
+				$"{crawlingPlayer.visibleName} enters the {gameObject.ExpensiveName()}!");
+		}
+
+		private void FinishEnteringPipe(HandApply interaction, GasMix pipeMix)
+		{
+			FinishEnteringPipe(interaction.PerformerPlayerScript, pipeMix);
 		}
 
 		#endregion

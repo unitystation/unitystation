@@ -14,7 +14,7 @@ namespace US13.Mobs.BrainAI.Tasks
 		public override bool FindTarget(MobBehaviorContext context, int radius)
 		{
 			var matrix = MatrixOf(context);
-			foreach (var cell in Cells(context, radius))
+			foreach (var cell in GetCellsInRadius(context, radius))
 				if (Eligible(context, cell, matrix) && Select(context, cell, matrix)) return true;
 			return false;
 		}

@@ -1496,6 +1496,12 @@ MonoBehaviour:
   syncInterval: 0.1
   BuckledToObject: {fileID: 0}
   BuckleOffset: {x: 0, y: 0, z: 0}
+  DEBUG: 0
+  isNotPushable: 0
+  Pushing: []
+  CanBeWindPushed: 1
+  canResetRotationFromRightClick: 0
+  rotationTarget: {fileID: 4962232741225816}
   LocalDifferenceNeeded: {x: 0, y: 0}
   newtonianMovement: {x: 0, y: 0}
   LocalTargetPosition: {x: 0, y: 0, z: 0}
@@ -1541,12 +1547,6 @@ MonoBehaviour:
   OnEnteredNewMatrix:
     m_PersistentCalls:
       m_Calls: []
-  DEBUG: 0
-  isNotPushable: 0
-  Pushing: []
-  CanBeWindPushed: 1
-  canResetRotationFromRightClick: 0
-  rotationTarget: {fileID: 4962232741225816}
   IsPressedCashed: 0
   IsPressedServer: 0
   HardcodedSpeed: 0
@@ -2261,6 +2261,12 @@ MonoBehaviour:
     type: 3}
   selfDamage: 20
   bloodTaken: 30
+  smokeEffect: {fileID: 2178958902703507295, guid: 885ded2a2e2def6509a58d2edd8dbece,
+    type: 3}
+  mouseBlueprints:
+  - {fileID: 5429432824961251291, guid: 8bc12b42693f47dfc92953c8db2cb8d2, type: 3}
+  - {fileID: 8498144292090463575, guid: e53f266f8eed552bd8c01c5bb2de9ead, type: 3}
+  - {fileID: 1791670154934489076, guid: 4b34dbab974ea112c8279b567b5729e5, type: 3}
   vampirismReaction: {fileID: 11400000, guid: a0c0311475173e34b9dbd8aa16945e5f, type: 2}
   preventCuredVampires: {fileID: 11400000, guid: 3fd9965a8b428c546b4cf911b5730bd1,
     type: 2}
@@ -2388,12 +2394,33 @@ MonoBehaviour:
           type: 2}
         TrackingObject: {fileID: 0}
         ObjectRelatedToThisAction: {fileID: 0}
+      - ID: vampire_poly_mouse
+        DisplayName: Polymorph
+        Description: Disguise yourself amongst the station vermin.
+        TriggerType: 0
+        Type: 0
+        CooldownTime: 30
+        CanUseWhileGhosting: 0
+        AnimatedIconCatalogue:
+        - {fileID: 11400000, guid: e36e706c4f7427848844ab4279f0abac, type: 2}
+        TryToGrabSpritesFromRelatedObject: 0
+        HasCustomCursorOffset: 0
+        HasCustomCursor: 0
+        OffsetType: 1
+        CursorOffset: {x: 0, y: 0}
+        CursorTexture: {fileID: 11400000, guid: f3e23c8b0ccd0334ca8b9d4b92bdff65,
+          type: 2}
+        TrackingObject: {fileID: 0}
+        ObjectRelatedToThisAction: {fileID: 0}
       m_values:
       - target: {fileID: 7531832425166861119}
         methodName: HypnoticStare
         parameterType: 
       - target: {fileID: 7531832425166861119}
         methodName: Convert
+        parameterType: 
+      - target: {fileID: 7531832425166861119}
+        methodName: Polymorph
         parameterType: 
     Mutations: []
     onStageReachedText: The corruption surges through your veins, invigorating you
@@ -14395,7 +14422,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 22
   m_SortingOrder: 20
-  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: -4549444404219585148, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
