@@ -97,6 +97,7 @@ namespace US13.Managers.SubSceneManager
 		private void RoundEnded()
 		{
 			CancelLoading();
+			SubSceneManagerNetworked.FinishLoadingProgress();
 			ClientIsFullyDoneLoadingOnSubsceneManager = false;
 			clientIsLoadingSubscene = false;
 			ClientObserver.Clear();
@@ -295,12 +296,26 @@ namespace US13.Managers.SubSceneManager
 		public void IncrementLoadBar(string text = "") => Report("Preparing scenes", text);
 		public void Report(string stage, string context, int completed = 0, int total = 0)
 		{
+			SubSceneManagerNetworked networked = SubSceneManager.Instance?.SubSceneManagerNetworked;
+			if (CustomNetworkManager.IsServer)
+			{
+				networked?.ReportLoadingProgress(stage, context, completed, total);
+			}
+			else if (networked != null && networked.LoadingProgress.Active)
+			{
+				return;
+			}
+			Display(stage, context, completed, total);
+		}
+
+		public static void Display(string stage, string context, int completed, int total, bool serverProgress = false)
+		{
 			string detail = total > 0 ?
 				$"{stage}: {completed:N0} / {total:N0}"
 				: stage == "Tile changes remaining" ?
 					$"{stage}: {completed:N0}"
 					: stage;
-			GUI_PreRoundWindow.Instance?.LoadingArea?.UpdateLoadingBar("Loading Scenes", context,
+			GUI_PreRoundWindow.Instance?.LoadingArea?.UpdateLoadingBar(serverProgress ? "Loading Server" : "Loading Scenes", context,
 				total > 0 ? Mathf.Clamp01((float)completed / total) : 0f, detail);
 		}
 	}

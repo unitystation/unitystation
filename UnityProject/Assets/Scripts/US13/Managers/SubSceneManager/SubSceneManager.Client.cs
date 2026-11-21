@@ -106,7 +106,7 @@ namespace US13.Managers.SubSceneManager
 				ClientSideFinishAction = null;
 				onFinish?.Invoke();
 				cancellationToken.ThrowIfCancellationRequested();
-				GUI_PreRoundWindow.Instance?.HideLoadingArea();
+				if (SubSceneManagerNetworked.LoadingProgress.Active == false) GUI_PreRoundWindow.Instance?.HideLoadingArea();
 			}
 			finally
 			{

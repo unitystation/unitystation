@@ -123,7 +123,8 @@ namespace US13.UI.Systems.PreRound
 		{
 			if (CustomNetworkManager.IsServer == false)
 			{
-				return SubSceneManager.Instance.ClientIsFullyDoneLoadingOnSubsceneManager;
+				return SubSceneManager.Instance.ClientIsFullyDoneLoadingOnSubsceneManager &&
+					!SubSceneManager.Instance.SubSceneManagerNetworked.LoadingProgress.Active;
 			}
 			return SubSceneManager.Instance.clientIsLoadingSubscene == false;
 		}

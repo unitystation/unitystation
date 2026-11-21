@@ -66,13 +66,15 @@ namespace US13.Managers
 			var watch2 = new Stopwatch();
 			watch2.Start();
 			Chat.AddGameWideSystemMsgToChat($"<color=#008b8b>Initialising {Instance.Matrixs.Count} Matrices..</color>");
+			var progress = new SubSceneManager.SubsceneLoadTimer();
 			foreach (var behaviour in Instance.Matrixs)
 			{
 				cancellationToken.ThrowIfCancellationRequested();
-				US13.UI.Systems.PreRound.GUI_PreRoundWindow.Instance?.LoadingArea?.UpdateLoadingBar("Loading Scenes", behaviour.name, (float)Matrixint / Instance.Matrixs.Count, $"Matrices initialized: {Matrixint} / {Instance.Matrixs.Count}");
+				progress.Report("Matrices initialized", behaviour.name, Matrixint, Instance.Matrixs.Count);
 				await behaviour.MatrixInitialization(cancellationToken);
 				ElapseMilliseconds += watch2.Elapsed.Milliseconds;
 				Matrixint++;
+				progress.Report("Matrices initialized", behaviour.name, Matrixint, Instance.Matrixs.Count);
 				await UniTask.NextFrame(cancellationToken: cancellationToken);
 			}
 			watch2.Stop();

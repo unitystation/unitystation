@@ -100,6 +100,7 @@ namespace US13.Managers.SubSceneManager
 			EventManager.Broadcast(Event.ScenesLoadedServer, false);
 			Loggy.Info($"Server has loaded {serverChosenAwaySite} away site", Category.Round);
 			ServerInitialLoadingComplete = true;
+			SubSceneManagerNetworked.FinishLoadingProgress();
 			GUI_PreRoundWindow.Instance?.HideLoadingArea();
 		}
 
