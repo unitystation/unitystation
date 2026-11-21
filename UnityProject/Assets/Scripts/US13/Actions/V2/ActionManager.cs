@@ -125,7 +125,6 @@ namespace US13.Actions.V2
 			}
 		}
 
-
 		private void OnActionButtonsChanged(SyncList<ActionButtonData>.Operation op, int index, ActionButtonData oldItem, ActionButtonData newItem)
 		{
 			RefreshUI();
@@ -232,6 +231,36 @@ namespace US13.Actions.V2
 					ClientRemoveAction(data.ID);
 					break;
 			}
+		}
+
+		[Server]
+		public void TriggerAction(string actionId, Vector2 mouseLocation)
+		{
+			if (IsActionOnCooldown(actionId)) return;
+			if (ServerActionRegistry.TryGetValue(actionId, out (ActionButtonData Data, Action<Vector2> Action) foundServer))
+			{
+				if (foundServer.Data.TriggerType == ActionTriggerType.ClientOnly)
+				{
+					Loggy.Error($"Client only Action present in server action registry!\nAction ID: {actionId}");
+					return;
+				}
+				ServerTriggerAction(actionId, mouseLocation);
+			}
+			if (ClientActionRegistry.TryGetValue(actionId, out (ActionButtonData Data, Action<Vector2> Action) foundClient))
+			{
+				if (foundClient.Data.TriggerType == ActionTriggerType.ServerOnly)
+				{
+					Loggy.Error($"Server only Action present in client action registry!\nAction ID: {actionId}");
+					return;
+				}
+				TriggerClientActionFromServer(cachedNetIdentity.connectionToClient, actionId, mouseLocation);
+			}
+		}
+
+		[TargetRpc]
+		public void TriggerClientActionFromServer(NetworkConnectionToClient target, string actionId, Vector2 mouseLocation)
+		{
+			TriggerClientAction(actionId, mouseLocation);
 		}
 
 		[Command]

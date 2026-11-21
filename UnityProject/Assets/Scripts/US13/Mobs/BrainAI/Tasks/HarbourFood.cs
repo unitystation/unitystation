@@ -1,12 +1,14 @@
 using System;
 using UnityEngine;
 using US13.Core;
+using US13.Core.Input_System;
 using US13.Core.Lifecycle;
 using US13.Core.Physics;
 using US13.Health;
 using US13.HealthV2.Living.BodyParts;
 using US13.HealthV2.Living.Metabolism;
 using US13.Items.Food;
+using US13.Objects.Other;
 using US13.Systems.Electricity.FunctionsAndClasses;
 using US13.Tilemaps.Behaviours.Layers;
 using US13.Tilemaps.Utils;
@@ -33,6 +35,13 @@ namespace US13.Mobs.BrainAI.Tasks
 		}
 
 		private bool isMoving = false;
+
+		//TODO: These need to be customisable from inspector, to get this in for playtest, I have hardcoded it
+		//TODO: -> This will require a rework of some of the graph settings as they are hardcoded with BotTaskSettings and using that makes no sense
+		//TODO: -> Next week Ill decouple the core behaviour graph stuff from BotSettings and allow these to be access with different settings types.
+		private string eatFoodActionID = "mouse_chew";
+		private string eatWireActionID = "mouse_chew";
+		private string enterVentActionID = "vent_crawl";
 
 		public override bool FindTarget(MobBehaviorContext context, int radius)
 		{
@@ -112,7 +121,8 @@ namespace US13.Mobs.BrainAI.Tasks
 				var bodyPart = food.GetComponent<BodyPart>();
 				if (bodyPart != null && bodyPart.HealthMaster == context.Health) continue;
 
-				food.TryConsume(context.AI.Body.gameObject, context.AI.Body.gameObject);
+				var pseudoMousePos = MouseUtils.WorldToMousePos(food.gameObject.GetUniversalObjectPhysics().OfficialPosition);
+				context.AI.LivingHealthMaster.playerScript.PlayerButtonedActions.TriggerAction(eatFoodActionID, pseudoMousePos);
 			}
 		}
 
@@ -144,34 +154,9 @@ namespace US13.Mobs.BrainAI.Tasks
 
 			foreach (Vector3Int cell in GetCellsInRadius(context, (int)Range, isExposedWire))
 			{
-				var electricalMatrix = matrix.MetaTileMap.Layers[LayerType.Electrical].Matrix;
-
-				// Check if there's cables at this position
-				var cables = electricalMatrix.GetElectricalConnections(cell);
-				if (cables == null || cables.List.Count < 1) return;
-
-				var cable = cables.List.PickRandom();
-				WireChew(context, cable, matrix, cell);
-				return;
+				var pseudoMousePos = MouseUtils.WorldToMousePos(cell.ToWorldInt(matrix));
+				context.AI.LivingHealthMaster.playerScript.PlayerButtonedActions.TriggerAction(eatWireActionID, pseudoMousePos);
 			}
-		}
-
-		private void WireChew(MobBehaviorContext context, IntrinsicElectronicData cable, Matrix matrix, Vector3Int cell)
-		{
-			ElectricityFunctions.WorkOutActualNumbers(cable);
-			float voltage = cable.Data.ActualVoltage;
-			var worldPosition = cell.ToWorldInt(matrix);
-
-			// Remove the cable and spawn the item.
-			var electricalTile = matrix.MetaTileMap.GetTile(cell, LayerType.Electrical) as ElectricalCableTile;
-			if (electricalTile == true)
-				Spawn.ServerPrefab(electricalTile.SpawnOnDeconstruct, worldPosition,
-					count: electricalTile.SpawnAmountOnDeconstruct);
-
-			cable.DestroyThisPlease();
-
-			Electrocution electrocution = new Electrocution(voltage, worldPosition);
-			context.Health.Electrocute(electrocution);
 		}
 
 		public override float Begin(MobBehaviorContext context)

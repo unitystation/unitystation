@@ -83,7 +83,7 @@ namespace US13.Actions.V2.UI
 				return;
 			}
 
-			TriggerAction();
+			TriggerAction(ActionData, MouseUtils.MouseToWorldPos(), ControlledActionManagers);
 			UpdateCooldown();
 			UpdateCooldown();
 		}
@@ -108,35 +108,35 @@ namespace US13.Actions.V2.UI
 		private void HandleActivatedActionTrigger()
 		{
 			if (Input.GetMouseButtonDown(0) == false) return;
-			TriggerAction();
+			TriggerAction(ActionData, MouseUtils.MouseToWorldPos(), ControlledActionManagers);
 			HandleActivatedAction(); // Deactivate after use
 			UpdateCooldown();
 		}
 
-		private void TriggerAction()
+		public static void TriggerAction(ActionButtonData actionData, Vector2 usePosition, List<ActionManager> controlledManagers)
 		{
-			switch (ActionData.TriggerType)
+			switch (actionData.TriggerType)
 			{
 				case ActionTriggerType.ServerOnly:
-					foreach (var owned in ControlledActionManagers)
+					foreach (var owned in controlledManagers)
 					{
-						owned.CmdTriggerAction(ActionData.ID, MouseUtils.MouseToWorldPos());
+						owned.CmdTriggerAction(actionData.ID, usePosition);
 					}
 
 					break;
 				case ActionTriggerType.ClientOnly:
-					foreach (var owned in ControlledActionManagers)
+					foreach (var owned in controlledManagers)
 					{
-						owned.TriggerClientAction(ActionData.ID, MouseUtils.MouseToWorldPos());
+						owned.TriggerClientAction(actionData.ID, usePosition);
 					}
 
 					break;
 				case ActionTriggerType.Both:
 				default:
-					foreach (var owned in ControlledActionManagers)
+					foreach (var owned in controlledManagers)
 					{
-						owned.CmdTriggerAction(ActionData.ID, MouseUtils.MouseToWorldPos());
-						owned.TriggerClientAction(ActionData.ID, MouseUtils.MouseToWorldPos());
+						owned.CmdTriggerAction(actionData.ID, usePosition);
+						owned.TriggerClientAction(actionData.ID, usePosition);
 					}
 					break;
 			}

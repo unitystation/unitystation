@@ -65,7 +65,7 @@ namespace US13.Objects.Pipes.Devices
 
 		private List<MetaDataNode> MetaNodes = new List<MetaDataNode>();
 
-		public GasMix pipeMix
+		public GasMix PipeMix
 		{
 			get
 			{
@@ -149,7 +149,7 @@ namespace US13.Objects.Pipes.Devices
 
 			if (selfSufficient)
 			{
-				pipeMix.CopyFrom(GasMixes.BaseEmptyMix); // We don't need to do this, just void the gas
+				PipeMix.CopyFrom(GasMixes.BaseEmptyMix); // We don't need to do this, just void the gas
 			}
 		}
 
@@ -231,7 +231,7 @@ namespace US13.Objects.Pipes.Devices
 				metaNode.GasMixLocal.RemoveGas(gas, transferAmount);
 				if (selfSufficient == false)
 				{
-					pipeMix.AddGasWithTemperature(gas, transferAmount, StartingTemperature );
+					PipeMix.AddGasWithTemperature(gas, transferAmount, StartingTemperature );
 				}
 			}
 
@@ -260,7 +260,7 @@ namespace US13.Objects.Pipes.Devices
 
 			if (moles.Approx(0)) return;
 
-			GasMix.TransferGas(pipeMix, metaNode.GasMixLocal, moles);
+			GasMix.TransferGas(PipeMix, metaNode.GasMixLocal, moles);
 		}
 
 		private void ModeSiphon()
@@ -318,7 +318,7 @@ namespace US13.Objects.Pipes.Devices
 			if (isWelded == false)
 			{
 				//Do vent crawl
-				DoVentCrawl(interaction, pipeMix);
+				DoVentCrawl(interaction, PipeMix);
 			}
 		}
 
