@@ -530,14 +530,6 @@
             ]
           },
           {
-            "Key": "X30Y79",
-            "Value": [
-              {
-                "Tel": "CatWalk"
-              }
-            ]
-          },
-          {
             "Key": "X30Y80",
             "Value": [
               {
@@ -1449,39 +1441,6 @@
             ]
           },
           {
-            "Key": "X32Y77",
-            "Value": [
-              {
-                "Tel": "Wall"
-              },
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X32Y78",
-            "Value": [
-              {
-                "Tel": "Wall"
-              },
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X32Y79",
-            "Value": [
-              {
-                "Tel": "Wall"
-              },
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
             "Key": "X32Y80",
             "Value": [
               {
@@ -2217,32 +2176,11 @@
             ]
           },
           {
-            "Key": "X33Y77",
-            "Value": [
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X33Y78",
-            "Value": [
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
-            "Key": "X33Y79",
-            "Value": [
-              {
-                "Tel": "Plating"
-              }
-            ]
-          },
-          {
             "Key": "X33Y80",
             "Value": [
+              {
+                "Tel": "Wall"
+              },
               {
                 "Tel": "Plating"
               }
@@ -3028,9 +2966,6 @@
             "Key": "X34Y78",
             "Value": [
               {
-                "Tel": "Wall"
-              },
-              {
                 "Tel": "Plating"
               }
             ]
@@ -3039,10 +2974,10 @@
             "Key": "X34Y79",
             "Value": [
               {
-                "Tel": "Plating"
+                "Tel": "Wall"
               },
               {
-                "Tel": "Grille"
+                "Tel": "Plating"
               }
             ]
           },
@@ -14748,10 +14683,10 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "FluidBentPipe",
+                "Tel": "FluidStraightPipe",
                 "Z": 1,
                 "Col": "#0057FFFF",
-                "Tf": "-1,8.742278E-08,0,0,-8.742278E-08,-1,0,0,0,0,1,0,0,0,0,1"
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -14787,10 +14722,10 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "FluidBentPipe",
+                "Tel": "FluidStraightPipe",
                 "Z": 1,
                 "Col": "#FF0031FF",
-                "Tf": "5.96046448E-08,0.99999994,0,0,-0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -16002,6 +15937,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -16035,6 +15976,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -17203,6 +17150,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -17214,6 +17167,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidBentPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -17225,6 +17184,11 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF"
               }
             ]
           },
@@ -17236,6 +17200,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidBentPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,0.99999994,0,0,-0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -17638,6 +17608,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "EO-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -18344,6 +18318,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -18355,6 +18335,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -18794,6 +18780,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "WE-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -19489,6 +19479,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -19497,6 +19493,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -19749,6 +19751,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "WE-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -20566,6 +20572,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -20574,6 +20586,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -20970,6 +20988,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "WE-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -21747,6 +21769,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -21761,6 +21789,12 @@
               },
               {
                 "Tel": "Grille"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -22096,6 +22130,10 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "WE-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -22792,6 +22830,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -22803,6 +22847,12 @@
               },
               {
                 "Tel": "Grille"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -23217,6 +23267,10 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "WE-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -23941,6 +23995,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -23949,6 +24009,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidBentPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "-1,8.742278E-08,0,0,-8.742278E-08,-1,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -23957,6 +24023,11 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF"
               }
             ]
           },
@@ -23965,6 +24036,11 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF"
               }
             ]
           },
@@ -23973,6 +24049,11 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF"
               }
             ]
           },
@@ -23981,6 +24062,11 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF"
               }
             ]
           },
@@ -23989,6 +24075,11 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF"
               }
             ]
           },
@@ -23997,6 +24088,11 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF"
               }
             ]
           },
@@ -24005,6 +24101,11 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF"
               }
             ]
           },
@@ -24013,6 +24114,11 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidBentPipe",
+                "Z": 1,
+                "Col": "#FF0031FF"
               }
             ]
           },
@@ -24298,6 +24404,10 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "WE-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -25016,6 +25126,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -25097,6 +25213,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -25328,6 +25450,10 @@
               },
               {
                 "Tel": "Table"
+              },
+              {
+                "Tel": "WE-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -26067,6 +26193,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidBentPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "-1,8.742278E-08,0,0,-8.742278E-08,-1,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -26075,6 +26207,11 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF"
               }
             ]
           },
@@ -26083,6 +26220,11 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF"
               }
             ]
           },
@@ -26091,6 +26233,11 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF"
               }
             ]
           },
@@ -26099,6 +26246,11 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF"
               }
             ]
           },
@@ -26110,6 +26262,11 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF"
               }
             ]
           },
@@ -26118,6 +26275,11 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF"
               }
             ]
           },
@@ -26142,6 +26304,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidBentPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,0.99999994,0,0,-0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -26250,6 +26418,10 @@
               },
               {
                 "Tel": "Table"
+              },
+              {
+                "Tel": "WE-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -27245,22 +27417,6 @@
             ]
           },
           {
-            "Key": "X57Y15",
-            "Value": [
-              {
-                "Tel": "CatWalk"
-              }
-            ]
-          },
-          {
-            "Key": "X57Y16",
-            "Value": [
-              {
-                "Tel": "CatWalk"
-              }
-            ]
-          },
-          {
             "Key": "X57Y17",
             "Value": [
               {
@@ -27276,6 +27432,10 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "WE-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -28479,19 +28639,8 @@
             ]
           },
           {
-            "Key": "X58Y15",
-            "Value": [
-              {
-                "Tel": "CatWalk"
-              }
-            ]
-          },
-          {
             "Key": "X58Y17",
             "Value": [
-              {
-                "Tel": "ReinforcedWall"
-              },
               {
                 "Tel": "Plating"
               }
@@ -28502,6 +28651,10 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "WE-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -29800,22 +29953,6 @@
             ]
           },
           {
-            "Key": "X59Y15",
-            "Value": [
-              {
-                "Tel": "CatWalk"
-              }
-            ]
-          },
-          {
-            "Key": "X59Y16",
-            "Value": [
-              {
-                "Tel": "Lattice"
-              }
-            ]
-          },
-          {
             "Key": "X59Y17",
             "Value": [
               {
@@ -29837,6 +29974,10 @@
               },
               {
                 "Tel": "Grille"
+              },
+              {
+                "Tel": "WE-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -30798,6 +30939,11 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF"
               }
             ]
           },
@@ -30809,6 +30955,11 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidBentPipe",
+                "Z": 1,
+                "Col": "#FF0031FF"
               }
             ]
           },
@@ -31142,6 +31293,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "WE-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -32100,6 +32255,11 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidBentPipe",
+                "Z": 1,
+                "Col": "#0057FFFF"
               }
             ]
           },
@@ -32111,6 +32271,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -32454,6 +32620,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "WE-Low_Voltage_Cable",
+                "Z": 1
               }
             ]
           },
@@ -33471,6 +33641,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -33482,6 +33658,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -33972,6 +34154,9 @@
               {
                 "Tel": "EO-Low_Voltage_Cable",
                 "Z": 1
+              },
+              {
+                "Tel": "WE-Low_Voltage_Cable"
               }
             ]
           },
@@ -34998,6 +35183,12 @@
               },
               {
                 "Tel": "Grille"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -36190,6 +36381,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidBentPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -36202,6 +36399,11 @@
               {
                 "Tel": "NE-Low_Voltage_Cable",
                 "Z": 1
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF"
               }
             ]
           },
@@ -36218,11 +36420,19 @@
                 "Tel": "Plating"
               },
               {
+                "Tel": "NS-Low_Voltage_Cable",
+                "Z": 1
+              },
+              {
                 "Tel": "SO-Low_Voltage_Cable"
               },
               {
                 "Tel": "FluidStraightPipe",
                 "Z": 1,
+                "Col": "#FF0031FF"
+              },
+              {
+                "Tel": "FluidStraightPipe",
                 "Col": "#FF0031FF"
               }
             ]
@@ -36235,6 +36445,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "NS-Low_Voltage_Cable",
+                "Z": 1
               },
               {
                 "Tel": "FluidStraightPipe",
@@ -36251,6 +36465,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "NS-Low_Voltage_Cable",
+                "Z": 1
               },
               {
                 "Tel": "FluidStraightPipe",
@@ -36272,6 +36490,10 @@
                 "Tel": "Grille"
               },
               {
+                "Tel": "NS-Low_Voltage_Cable",
+                "Z": 1
+              },
+              {
                 "Tel": "FluidStraightPipe",
                 "Z": 1,
                 "Col": "#FF0031FF"
@@ -36288,6 +36510,10 @@
                 "Tel": "Plating"
               },
               {
+                "Tel": "NS-Low_Voltage_Cable",
+                "Z": 1
+              },
+              {
                 "Tel": "FluidStraightPipe",
                 "Z": 1,
                 "Col": "#FF0031FF"
@@ -36302,6 +36528,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "NS-Low_Voltage_Cable",
+                "Z": 1
               },
               {
                 "Tel": "FluidStraightPipe",
@@ -36325,6 +36555,10 @@
                 "Tel": "Plating"
               },
               {
+                "Tel": "NS-Low_Voltage_Cable",
+                "Z": 1
+              },
+              {
                 "Tel": "4WayManifold",
                 "Z": 1,
                 "Col": "#FF0031FF"
@@ -36344,6 +36578,10 @@
                 "Tel": "Grille"
               },
               {
+                "Tel": "NS-Low_Voltage_Cable",
+                "Z": 1
+              },
+              {
                 "Tel": "FluidBentPipe",
                 "Z": 1,
                 "Col": "#FF0031FF"
@@ -36358,6 +36596,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "NS-Low_Voltage_Cable",
+                "Z": 1
               },
               {
                 "Tel": "FluidBentPipe",
@@ -36375,6 +36617,15 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "SO-Low_Voltage_Cable",
+                "Z": 1
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF"
               }
             ]
           },
@@ -36386,6 +36637,11 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF"
               }
             ]
           },
@@ -36403,6 +36659,11 @@
               },
               {
                 "Tel": "Grille"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF"
               }
             ]
           },
@@ -36414,6 +36675,11 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF"
               }
             ]
           },
@@ -36425,6 +36691,11 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "4WayManifold",
+                "Z": 1,
+                "Col": "#0057FFFF"
               }
             ]
           },
@@ -36436,6 +36707,16 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Col": "#0057FFFF"
               }
             ]
           },
@@ -36450,6 +36731,11 @@
               },
               {
                 "Tel": "Grille"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF"
               }
             ]
           },
@@ -36461,6 +36747,11 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF"
               }
             ]
           },
@@ -37684,6 +37975,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -37911,6 +38208,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -37922,6 +38225,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -39311,6 +39620,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -39470,6 +39785,11 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF"
               }
             ]
           },
@@ -39481,6 +39801,11 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF"
               }
             ]
           },
@@ -39498,6 +39823,11 @@
               },
               {
                 "Tel": "Grille"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF"
               }
             ]
           },
@@ -39509,6 +39839,11 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF"
               }
             ]
           },
@@ -39520,6 +39855,16 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Col": "#FF0031FF"
               }
             ]
           },
@@ -39531,6 +39876,11 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "4WayManifold",
+                "Z": 1,
+                "Col": "#FF0031FF"
               }
             ]
           },
@@ -39545,6 +39895,11 @@
               },
               {
                 "Tel": "Grille"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF"
               }
             ]
           },
@@ -39556,6 +39911,11 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF"
               }
             ]
           },
@@ -40744,6 +41104,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -40959,6 +41325,12 @@
               },
               {
                 "Tel": "Grille"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -42230,6 +42602,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -42395,6 +42773,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -42406,6 +42790,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -44085,6 +44475,12 @@
               },
               {
                 "Tel": "Table"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -44253,6 +44649,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidBentPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "5.96046448E-08,0.99999994,0,0,-0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -44264,6 +44666,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -45768,6 +46176,12 @@
               },
               {
                 "Tel": "Table"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -45935,6 +46349,11 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF"
               }
             ]
           },
@@ -45946,6 +46365,12 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidBentPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,0.99999994,0,0,-0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -47359,6 +47784,12 @@
               },
               {
                 "Tel": "Table"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -48759,6 +49190,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -50080,6 +50517,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -51209,6 +51652,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -52235,6 +52684,12 @@
               },
               {
                 "Tel": "Grille"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -53344,6 +53799,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -54334,6 +54795,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -55431,6 +55898,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -56604,6 +57077,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -57675,6 +58154,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidBentPipe",
+                "Z": 1,
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,0.99999994,0,0,-0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -60104,6 +60589,16 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Z": 1,
+                "Col": "#0057FFFF"
+              },
+              {
+                "Tel": "FluidStraightPipe",
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -60112,6 +60607,12 @@
             "Value": [
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "FluidBentPipe",
+                "Z": 1,
+                "Col": "#0057FFFF",
+                "Tf": "5.96046448E-08,0.99999994,0,0,-0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -61287,9 +61788,10 @@
                 "Tel": "Plating"
               },
               {
-                "Tel": "FluidStraightPipe",
+                "Tel": "3WayManifold",
                 "Z": 1,
-                "Col": "#FF0031FF"
+                "Col": "#FF0031FF",
+                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -71828,7 +72330,7 @@
             "Key": "X92Y34",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -71844,7 +72346,7 @@
             "Key": "X92Y35",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -71860,7 +72362,7 @@
             "Key": "X92Y36",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -71875,7 +72377,7 @@
             "Key": "X92Y37",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -71891,7 +72393,7 @@
             "Key": "X92Y38",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -71907,7 +72409,7 @@
             "Key": "X92Y39",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -71923,7 +72425,7 @@
             "Key": "X92Y40",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -71939,7 +72441,7 @@
             "Key": "X92Y41",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -72015,7 +72517,7 @@
             "Key": "X92Y47",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "CatWalk"
@@ -72026,7 +72528,7 @@
             "Key": "X92Y48",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "CatWalk"
@@ -72037,7 +72539,7 @@
             "Key": "X92Y49",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "CatWalk"
@@ -72048,7 +72550,7 @@
             "Key": "X92Y50",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "CatWalk"
@@ -72059,7 +72561,7 @@
             "Key": "X92Y51",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "CatWalk"
@@ -72070,7 +72572,7 @@
             "Key": "X92Y52",
             "Value": [
               {
-                "Tel": "Wall"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
@@ -73977,10 +74479,10 @@
                 "Z": 1
               },
               {
-                "Tel": "FluidStraightPipe",
+                "Tel": "3WayManifold",
                 "Z": 1,
                 "Col": "#FF0031FF",
-                "Tf": "5.96046448E-08,-0.99999994,0,0,0.99999994,5.96046448E-08,0,0,0,0,1,0,0,0,0,1"
+                "Tf": "-1,8.742278E-08,0,0,-8.742278E-08,-1,0,0,0,0,1,0,0,0,0,1"
               }
             ]
           },
@@ -74062,10 +74564,7 @@
             "Key": "X94Y47",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "CatWalk"
               }
             ]
           },
@@ -74073,13 +74572,7 @@
             "Key": "X94Y48",
             "Value": [
               {
-                "Tel": "WindowReinforced"
-              },
-              {
-                "Tel": "Plating"
-              },
-              {
-                "Tel": "Grille"
+                "Tel": "CatWalk"
               }
             ]
           },
@@ -74087,13 +74580,7 @@
             "Key": "X94Y49",
             "Value": [
               {
-                "Tel": "WindowReinforced"
-              },
-              {
-                "Tel": "Plating"
-              },
-              {
-                "Tel": "Grille"
+                "Tel": "CatWalk"
               }
             ]
           },
@@ -74101,10 +74588,7 @@
             "Key": "X94Y50",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "CatWalk"
               }
             ]
           },
@@ -74112,10 +74596,7 @@
             "Key": "X94Y51",
             "Value": [
               {
-                "Tel": "rockvault"
-              },
-              {
-                "Tel": "Plating"
+                "Tel": "CatWalk"
               }
             ]
           },
@@ -75168,6 +75649,9 @@
             "Key": "X95Y46",
             "Value": [
               {
+                "Tel": "ReinforcedWall"
+              },
+              {
                 "Tel": "Plating"
               },
               {
@@ -75180,7 +75664,13 @@
             "Key": "X95Y47",
             "Value": [
               {
+                "Tel": "WindowReinforced"
+              },
+              {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               },
               {
                 "Tel": "DisposalPipeStraight-NS",
@@ -75192,7 +75682,13 @@
             "Key": "X95Y48",
             "Value": [
               {
+                "Tel": "WindowReinforced"
+              },
+              {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
               },
               {
                 "Tel": "DisposalPipeStraight-NS",
@@ -75204,13 +75700,16 @@
             "Key": "X95Y49",
             "Value": [
               {
-                "Tel": "caution_7"
+                "Tel": "WindowReinforced"
               },
               {
                 "Tel": "Plating"
               },
               {
-                "Tel": "DisposalPipeTerminal-S",
+                "Tel": "Grille"
+              },
+              {
+                "Tel": "DisposalPipeBent-SE",
                 "Z": 1
               }
             ]
@@ -75219,13 +75718,10 @@
             "Key": "X95Y50",
             "Value": [
               {
-                "Tel": "WindowReinforced"
+                "Tel": "ReinforcedWall"
               },
               {
                 "Tel": "Plating"
-              },
-              {
-                "Tel": "Grille"
               }
             ]
           },
@@ -76328,6 +76824,10 @@
               },
               {
                 "Tel": "Plating"
+              },
+              {
+                "Tel": "DisposalPipeTerminal-W",
+                "Z": 1
               }
             ]
           },
@@ -93546,9 +94046,6 @@
             "Key": "X113Y57",
             "Value": [
               {
-                "Tel": "ReinforcedWall"
-              },
-              {
                 "Tel": "Plating"
               }
             ]
@@ -97886,6 +98383,79 @@
         "CommonPrefabs": [],
         "PrefabData": [
           {
+            "GitID": "fde32c02abddc814f9366ff1fb21f234_-3┼0┼0┼",
+            "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
+            "Name": "LightTubeFixture",
+            "LocalPRS": "-3┼0┼0┼",
+            "SortPath": "LightTubeFixture",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_33┼102┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_36┼103┼0┼@0@LightSwitchV2@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,3",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "69ffc1053dc39a24fb870b2248780be4_-1┼78┼0┼",
+            "PrefabID": "69ffc1053dc39a24fb870b2248780be4",
+            "Name": "Buoy - Cargo Dock (2)",
+            "LocalPRS": "-1┼78┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "GuidanceBuoy@0",
+                  "Data": [
+                    {
+                      "Name": "Out@DesiredFaceDirection",
+                      "Data": "Left_By90"
+                    },
+                    {
+                      "Name": "In@DesiredFaceDirection",
+                      "Data": "Left_By90"
+                    },
+                    {
+                      "Name": "In@NextInLine",
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_31┼78┼0┼@0@GuidanceBuoy@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "CD2uUGXjPEuvXGheerXA_0┼0┼0┼",
             "PrefabID": "CD2uUGXjPEuvXGheerXA",
             "NameMatches": true,
@@ -98828,6 +99398,33 @@
             "LocalPRS": "31┼75┼0┼"
           },
           {
+            "GitID": "69ffc1053dc39a24fb870b2248780be4_31┼78┼0┼",
+            "PrefabID": "69ffc1053dc39a24fb870b2248780be4",
+            "Name": "Buoy - Cargo Dock (1)",
+            "LocalPRS": "31┼78┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "GuidanceBuoy@0",
+                  "Data": [
+                    {
+                      "Name": "Out@DesiredFaceDirection",
+                      "Data": "Left_By90"
+                    },
+                    {
+                      "Name": "Out@NextInLine",
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_-1┼78┼0┼@0@GuidanceBuoy@0"
+                    },
+                    {
+                      "Name": "In@DesiredFaceDirection",
+                      "Data": "Left_By90"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "c21551dd992a57349973e4b5af103ca6_31┼87┼0┼",
             "PrefabID": "c21551dd992a57349973e4b5af103ca6",
             "NameMatches": true,
@@ -99688,11 +100285,11 @@
             "LocalPRS": "33┼75┼0┼"
           },
           {
-            "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_33┼77┼0┼",
+            "GitID": "68a3eee06f0a8cf4da5d8ab811ce1c73_33┼81┼0┼",
             "PrefabID": "68a3eee06f0a8cf4da5d8ab811ce1c73",
             "NameMatches": true,
             "Name": "ClosetBase",
-            "LocalPRS": "33┼77┼0┼"
+            "LocalPRS": "33┼81┼0┼"
           },
           {
             "GitID": "86570587e3d5cba1e9ffdeead16603e4_33┼83┼0┼",
@@ -99915,7 +100512,7 @@
                     },
                     {
                       "Name": "connectedDevices#22",
-                      "Data": "fde32c02abddc814f9366ff1fb21f234_33┼108┼0┼@0@APCPoweredDevice@0"
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_-3┼0┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#21",
@@ -100051,51 +100648,1122 @@
                   "ID": "0,3",
                   "Active": false,
                   "ClassDatas": []
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "fde32c02abddc814f9366ff1fb21f234_33┼108┼0┼",
-            "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
-            "NameMatches": true,
-            "Name": "LightTubeFixture",
-            "LocalPRS": "33┼108┼0┼0ø0ø270ø",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_33┼102┼0┼@0@APC@0"
-                    }
-                  ]
                 },
                 {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
+                  "Name": "LightTubeFixture",
+                  "LocalPRS": "-3┼0┼0┼",
+                  "ObjectLayer": 19,
+                  "ID": "0,5",
+                  "ClassDatas": [
                     {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
+                      "ClassID": "Transform@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "BoxCollider2D@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "NetworkIdentity@0",
+                      "Data": [
+                        {
+                          "Name": "serverOnly",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "visibility",
+                          "Data": "Default"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "RegisterObject@0",
+                      "Data": [
+                        {
+                          "Name": "AtmosPassable",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "ReachableThrough",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "initialPassable",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "initialCrawlPassable",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "matrixDebugLogging",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "objectType",
+                          "Data": "Object"
+                        },
+                        {
+                          "Name": "LiesFlat3D",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "syncDirection",
+                          "Data": "ServerToClient"
+                        },
+                        {
+                          "Name": "syncMode",
+                          "Data": "Observers"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "Meleeable@0",
+                      "Data": [
+                        {
+                          "Name": "isMeleeable",
+                          "Data": "True"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "Integrity@0",
+                      "Data": [
+                        {
+                          "Name": "initialIntegrity",
+                          "Data": "100"
+                        },
+                        {
+                          "Name": "soundOnHit@AssetAddress",
+                          "Data": "null"
+                        },
+                        {
+                          "Name": "damageDeflection",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "Armor@Melee",
+                          "Data": "25"
+                        },
+                        {
+                          "Name": "Armor@Bullet",
+                          "Data": "10"
+                        },
+                        {
+                          "Name": "Armor@Laser",
+                          "Data": "10"
+                        },
+                        {
+                          "Name": "Armor@Energy",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "Armor@Bomb",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "Armor@Rad",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "Armor@Fire",
+                          "Data": "50"
+                        },
+                        {
+                          "Name": "Armor@Acid",
+                          "Data": "70"
+                        },
+                        {
+                          "Name": "Armor@Magic",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "Armor@Bio",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "Armor@Anomaly",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "Armor@DismembermentProtectionChance",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "Armor@StunImmunity",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "Armor@TemperatureProtectionInK",
+                          "Data": "268.15,313.15"
+                        },
+                        {
+                          "Name": "Armor@PressureProtectionInKpa",
+                          "Data": "30,300"
+                        },
+                        {
+                          "Name": "Resistances@LavaProof",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "Resistances@FireProof",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "Resistances@Flammable",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "Resistances@UnAcidable",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "Resistances@AcidProof",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "Resistances@Indestructable",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "Resistances@FreezeProof",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "Resistances@LightningDamageProof",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "HeatResistance",
+                          "Data": "100"
+                        },
+                        {
+                          "Name": "ExplosionsDamage",
+                          "Data": "100"
+                        },
+                        {
+                          "Name": "doDamageMessage",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "logDamage",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "syncDirection",
+                          "Data": "ServerToClient"
+                        },
+                        {
+                          "Name": "syncMode",
+                          "Data": "Observers"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "Flammable@0",
+                      "Data": [
+                        {
+                          "Name": "fireParticlePrefab",
+                          "Data": "4c645d10f4218304496bf570a143b753",
+                          "IsPrefabID": true
+                        },
+                        {
+                          "Name": "minimumFireDamageForStack",
+                          "Data": "12"
+                        },
+                        {
+                          "Name": "chanceToSpread",
+                          "Data": "20"
+                        },
+                        {
+                          "Name": "maxStacks",
+                          "Data": "20"
+                        },
+                        {
+                          "Name": "skipFlammableCheck",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "syncDirection",
+                          "Data": "ServerToClient"
+                        },
+                        {
+                          "Name": "syncMode",
+                          "Data": "Observers"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "ObjectAttributes@0",
+                      "Data": [
+                        {
+                          "Name": "initialName",
+                          "Data": "light tube fixture"
+                        },
+                        {
+                          "Name": "initialDescription",
+                          "Data": "A lighting fixture."
+                        },
+                        {
+                          "Name": "willHighlight",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "exportCost",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "CanBeSoldInCargo",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "exportName",
+                          "Data": ""
+                        },
+                        {
+                          "Name": "exportMessage",
+                          "Data": ""
+                        },
+                        {
+                          "Name": "noMouseHighlight",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "initialTraits#1",
+                          "Data": "cd98e1bc8bcab7e40a694886dbae5973"
+                        },
+                        {
+                          "Name": "initialTraits#0",
+                          "Data": "FilthBlocking"
+                        },
+                        {
+                          "Name": "initialSize",
+                          "Data": "Medium"
+                        },
+                        {
+                          "Name": "syncDirection",
+                          "Data": "ServerToClient"
+                        },
+                        {
+                          "Name": "syncMode",
+                          "Data": "Observers"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "CustomNetSceneChecker@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "SortingGroup@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "PrefabTracker@0",
+                      "Data": [
+                        {
+                          "Name": "parentID",
+                          "Data": "b69bfc56f39849d4ba9139d2d51bedb6"
+                        },
+                        {
+                          "Name": "foreverID",
+                          "Data": "fde32c02abddc814f9366ff1fb21f234"
+                        },
+                        {
+                          "Name": "<AlternativePrefabName>k__BackingField",
+                          "Data": ""
+                        },
+                        {
+                          "Name": "<CanBeSpawnedByAdmin>k__BackingField",
+                          "Data": "True"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "UniversalObjectPhysics@0",
+                      "Data": [
+                        {
+                          "Name": "BuckleOffset",
+                          "Data": "0,0,0"
+                        },
+                        {
+                          "Name": "ChangesDirectionPush",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "Intangible",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "MappingIntangible",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "SnapToGridOnStart",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "ObjectBouncyness",
+                          "Data": "0.75"
+                        },
+                        {
+                          "Name": "tileMoveSpeed",
+                          "Data": "1"
+                        },
+                        {
+                          "Name": "HasOwnGravity",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "stickyMovement",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "OnThrowEndResetRotation",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "maximumStickSpeed",
+                          "Data": "1.5"
+                        },
+                        {
+                          "Name": "onStationMovementsRound",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "LastHitContext",
+                          "Data": "US13.Core.Physics.UniversalObjectPhysics+HitContext"
+                        },
+                        {
+                          "Name": "DEBUG",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "isNotPushable",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "CanBeWindPushed",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "canResetRotationFromRightClick",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "rotationTarget",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "syncDirection",
+                          "Data": "ServerToClient"
+                        },
+                        {
+                          "Name": "syncMode",
+                          "Data": "Observers"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "CommonComponents@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "ConvertTo3D@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "APCPoweredDevice@0",
+                      "Data": [
+                        {
+                          "Name": "minimumWorkingVoltage",
+                          "Data": "190"
+                        },
+                        {
+                          "Name": "expectedRunningVoltage",
+                          "Data": "240"
+                        },
+                        {
+                          "Name": "maximumWorkingVoltage",
+                          "Data": "300"
+                        },
+                        {
+                          "Name": "deviceType",
+                          "Data": "Lights"
+                        },
+                        {
+                          "Name": "isSelfPowered",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "mappingNotNeedToLink",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "initialwattusage",
+                          "Data": "20"
+                        },
+                        {
+                          "Name": "InitialResistance",
+                          "Data": "1E+08"
+                        },
+                        {
+                          "Name": "RelatedAPC",
+                          "Data": "cd57203a8d3f54f478446e9b0ced6cf9_33┼102┼0┼@0@APC@0"
+                        },
+                        {
+                          "Name": "AdvancedControlToScript",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "StateUpdateOnClient",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "<CanRelink>k__BackingField",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "syncDirection",
+                          "Data": "ServerToClient"
+                        },
+                        {
+                          "Name": "syncMode",
+                          "Data": "Observers"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "ItemStorage@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "HUDHandler@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "DiagnosticsHUDPowerState@0",
+                      "Data": [
+                        {
+                          "Name": "<Prefab>k__BackingField",
+                          "Data": ""
+                        },
+                        {
+                          "Name": "powerSource",
+                          "Data": "apcPoweredDevice"
+                        },
+                        {
+                          "Name": "syncDirection",
+                          "Data": "ServerToClient"
+                        },
+                        {
+                          "Name": "syncMode",
+                          "Data": "Observers"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightFixtureConstruction@0",
+                      "Data": [
+                        {
+                          "Name": "initialStateSprites",
+                          "Data": "e0c5e92beb9d0e94d91dd3f8f85ce47d"
+                        },
+                        {
+                          "Name": "wiresAddedStateSprites",
+                          "Data": "95bad1e4fbcc9fa4489c0399fa3d14a7"
+                        },
+                        {
+                          "Name": "FixtureFrameItemPrefab",
+                          "Data": "a4f7e2bbe146f55448ded731a285c0b8",
+                          "IsPrefabID": true
+                        },
+                        {
+                          "Name": "syncDirection",
+                          "Data": "ServerToClient"
+                        },
+                        {
+                          "Name": "syncMode",
+                          "Data": "Observers"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "Rotatable@0",
+                      "Data": [
+                        {
+                          "Name": "MethodRotation",
+                          "Data": "Parent"
+                        },
+                        {
+                          "Name": "ChangeSprites",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "isChangingSO",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "CurrentDirection",
+                          "Data": "Right_By270"
+                        },
+                        {
+                          "Name": "IgnoreServerUpdatesIfLocalPlayer",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "MatrixRotateUpdate",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "SetOrder",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "Orders#3",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "Orders#2",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "Orders#1",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "Orders#0",
+                          "Data": "0"
+                        },
+                        {
+                          "Name": "SetLayer",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "Layers#3",
+                          "Data": "Rename me 4"
+                        },
+                        {
+                          "Name": "Layers#2",
+                          "Data": "Rename me 3"
+                        },
+                        {
+                          "Name": "Layers#1",
+                          "Data": "Rename me 2"
+                        },
+                        {
+                          "Name": "Layers#0",
+                          "Data": "Rename me 1"
+                        },
+                        {
+                          "Name": "IsAtmosphericDevice",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "doNotResetOtherSpriteOptions",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "syncDirection",
+                          "Data": "ServerToClient"
+                        },
+                        {
+                          "Name": "syncMode",
+                          "Data": "Observers"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "ItemStorage@1",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "WallProtrusion@0",
+                      "Data": []
+                    },
+                    {
+                      "ClassID": "LightSource@0",
+                      "Data": [
+                        {
+                          "Name": "CurrentOnColor",
+                          "Data": "ÿüÜª"
+                        },
+                        {
+                          "Name": "EmergencyColour",
+                          "Data": "ÿ\u0000\u0000w"
+                        },
+                        {
+                          "Name": "relatedLightSwitch",
+                          "Data": "f2432d244a6b7774ea00ff013beb7dcb_36┼103┼0┼@0@LightSwitchV2@0"
+                        },
+                        {
+                          "Name": "InitialState",
+                          "Data": "On"
+                        },
+                        {
+                          "Name": "mLightRendererObject",
+                          "Data": "NULL"
+                        },
+                        {
+                          "Name": "isWithoutSwitch",
+                          "Data": "False"
+                        },
+                        {
+                          "Name": "<CanRelink>k__BackingField",
+                          "Data": "True"
+                        },
+                        {
+                          "Name": "collDownSetting",
+                          "Data": "(0.00, 0.44, 0.81, 0.15)"
+                        },
+                        {
+                          "Name": "collRightSetting",
+                          "Data": "(-0.44, 0.00, 0.13, 0.75)"
+                        },
+                        {
+                          "Name": "collUpSetting",
+                          "Data": "(0.00, -0.44, 0.75, 0.12)"
+                        },
+                        {
+                          "Name": "collLeftSetting",
+                          "Data": "(0.43, 0.00, 0.14, 0.73)"
+                        }
+                      ]
+                    },
+                    {
+                      "ClassID": "LightAnimator@0",
+                      "Data": [
+                        {
+                          "Name": "activeAnimationID",
+                          "Data": "-1"
+                        },
+                        {
+                          "Name": "syncDirection",
+                          "Data": "ServerToClient"
+                        },
+                        {
+                          "Name": "syncMode",
+                          "Data": "Observers"
+                        }
+                      ]
+                    }
+                  ],
+                  "Children": [
+                    {
+                      "Name": "Sprite",
+                      "ObjectLayer": 19,
+                      "ID": "0,5,0",
+                      "ClassDatas": [
+                        {
+                          "ClassID": "Transform@0",
+                          "Data": []
+                        },
+                        {
+                          "ClassID": "SpriteRenderer@0",
+                          "Data": []
+                        },
+                        {
+                          "ClassID": "SpriteHandler@0",
+                          "Data": [
+                            {
+                              "Name": "NetworkThis",
+                              "Data": "True"
+                            },
+                            {
+                              "Name": "SubCatalogue#6",
+                              "Data": "e74ccf02262aec04aaeba917c8a8d4b5"
+                            },
+                            {
+                              "Name": "SubCatalogue#5",
+                              "Data": "b1c1d658207e1eb4db3b9b1045a3c6f5"
+                            },
+                            {
+                              "Name": "SubCatalogue#4",
+                              "Data": "95bad1e4fbcc9fa4489c0399fa3d14a7"
+                            },
+                            {
+                              "Name": "SubCatalogue#3",
+                              "Data": "e0c5e92beb9d0e94d91dd3f8f85ce47d"
+                            },
+                            {
+                              "Name": "SubCatalogue#2",
+                              "Data": "4ebb345e992c88e4aa8c222dffb34010"
+                            },
+                            {
+                              "Name": "SubCatalogue#1",
+                              "Data": "62c2265ee86cfaa4baf6c185b3b23781"
+                            },
+                            {
+                              "Name": "SubCatalogue#0",
+                              "Data": "73a7b7229a2aec743bcd0c36080795c0"
+                            },
+                            {
+                              "Name": "InitialPresentSpriteSet",
+                              "Data": "73a7b7229a2aec743bcd0c36080795c0"
+                            },
+                            {
+                              "Name": "randomInitialSprite",
+                              "Data": "False"
+                            },
+                            {
+                              "Name": "doReverseAnimation",
+                              "Data": "False"
+                            },
+                            {
+                              "Name": "pushTextureOnStartUp",
+                              "Data": "True"
+                            },
+                            {
+                              "Name": "initialVariantIndex",
+                              "Data": "0"
+                            },
+                            {
+                              "Name": "InitialColour",
+                              "Data": "ÿÿÿÿ"
+                            },
+                            {
+                              "Name": "initialSortingOrder",
+                              "Data": "-1"
+                            },
+                            {
+                              "Name": "initialSortingLayerName",
+                              "Data": ""
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "Name": "HudHolder",
+                      "ObjectLayer": 0,
+                      "ID": "0,5,1",
+                      "ClassDatas": [
+                        {
+                          "ClassID": "Transform@0",
+                          "Data": []
+                        }
+                      ]
+                    },
+                    {
+                      "Name": "LightOn",
+                      "ObjectLayer": 24,
+                      "ID": "0,5,2",
+                      "ClassDatas": [
+                        {
+                          "ClassID": "Transform@0",
+                          "Data": []
+                        },
+                        {
+                          "ClassID": "SpriteRenderer@0",
+                          "Data": []
+                        },
+                        {
+                          "ClassID": "SpriteHandler@0",
+                          "Data": [
+                            {
+                              "Name": "NetworkThis",
+                              "Data": "True"
+                            },
+                            {
+                              "Name": "SubCatalogue#5",
+                              "Data": "4ebb345e992c88e4aa8c222dffb34010"
+                            },
+                            {
+                              "Name": "SubCatalogue#4",
+                              "Data": "62c2265ee86cfaa4baf6c185b3b23781"
+                            },
+                            {
+                              "Name": "SubCatalogue#3",
+                              "Data": "b1c1d658207e1eb4db3b9b1045a3c6f5"
+                            },
+                            {
+                              "Name": "SubCatalogue#2",
+                              "Data": "73a7b7229a2aec743bcd0c36080795c0"
+                            },
+                            {
+                              "Name": "SubCatalogue#1",
+                              "Data": "07e249f505acb1244865f003c18ffc13"
+                            },
+                            {
+                              "Name": "SubCatalogue#0",
+                              "Data": "e4eb608982005d94e9d3ab683cd83d7f"
+                            },
+                            {
+                              "Name": "InitialPresentSpriteSet",
+                              "Data": "07e249f505acb1244865f003c18ffc13"
+                            },
+                            {
+                              "Name": "randomInitialSprite",
+                              "Data": "False"
+                            },
+                            {
+                              "Name": "doReverseAnimation",
+                              "Data": "False"
+                            },
+                            {
+                              "Name": "pushTextureOnStartUp",
+                              "Data": "True"
+                            },
+                            {
+                              "Name": "initialVariantIndex",
+                              "Data": "0"
+                            },
+                            {
+                              "Name": "InitialColour",
+                              "Data": "ÿÿÿÿ"
+                            },
+                            {
+                              "Name": "initialSortingOrder",
+                              "Data": "-1"
+                            },
+                            {
+                              "Name": "initialSortingLayerName",
+                              "Data": ""
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "Name": "ClientSideSparkEffect Variant",
+                      "ObjectLayer": 0,
+                      "ID": "0,5,3",
+                      "Active": false,
+                      "ClassDatas": [
+                        {
+                          "ClassID": "Transform@0",
+                          "Data": []
+                        },
+                        {
+                          "ClassID": "SparkEffect@0",
+                          "Data": [
+                            {
+                              "Name": "time",
+                              "Data": "0.7"
+                            },
+                            {
+                              "Name": "networkDestroy",
+                              "Data": "False"
+                            }
+                          ]
+                        }
+                      ],
+                      "Children": [
+                        {
+                          "Name": "SparkLight2D",
+                          "LocalPRS": "0┼0┼0┼0ø0ø270ø6↔6↔6↔",
+                          "ObjectLayer": 21,
+                          "ID": "0,5,3,0",
+                          "ClassDatas": [
+                            {
+                              "ClassID": "Transform@0",
+                              "Data": []
+                            },
+                            {
+                              "ClassID": "LightSprite@0",
+                              "Data": [
+                                {
+                                  "Name": "LightOrigin",
+                                  "Data": "0,0,1"
+                                },
+                                {
+                                  "Name": "Shape",
+                                  "Data": "Point"
+                                },
+                                {
+                                  "Name": "GivenID",
+                                  "Data": "0"
+                                },
+                                {
+                                  "Name": "InitialColour",
+                                  "Data": "¯¯4"
+                                },
+                                {
+                                  "Name": "SortingOrder",
+                                  "Data": "0"
+                                }
+                              ]
+                            },
+                            {
+                              "ClassID": "MeshRenderer@0",
+                              "Data": []
+                            },
+                            {
+                              "ClassID": "MeshFilter@0",
+                              "Data": []
+                            },
+                            {
+                              "ClassID": "LightSpriteHandler@0",
+                              "Data": [
+                                {
+                                  "Name": "NetworkThis",
+                                  "Data": "True"
+                                },
+                                {
+                                  "Name": "randomInitialSprite",
+                                  "Data": "False"
+                                },
+                                {
+                                  "Name": "spriteRenderer",
+                                  "Data": "NULL"
+                                },
+                                {
+                                  "Name": "doReverseAnimation",
+                                  "Data": "False"
+                                },
+                                {
+                                  "Name": "pushTextureOnStartUp",
+                                  "Data": "True"
+                                },
+                                {
+                                  "Name": "initialVariantIndex",
+                                  "Data": "0"
+                                },
+                                {
+                                  "Name": "InitialColour",
+                                  "Data": "ÿÿÿ"
+                                },
+                                {
+                                  "Name": "initialSortingOrder",
+                                  "Data": "-1"
+                                },
+                                {
+                                  "Name": "initialSortingLayerName",
+                                  "Data": ""
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "Name": "Sprite",
+                          "ObjectLayer": 0,
+                          "ID": "0,5,3,1",
+                          "ClassDatas": [
+                            {
+                              "ClassID": "Transform@0",
+                              "Data": []
+                            },
+                            {
+                              "ClassID": "SpriteRenderer@0",
+                              "Data": []
+                            },
+                            {
+                              "ClassID": "SpriteHandler@0",
+                              "Data": [
+                                {
+                                  "Name": "NetworkThis",
+                                  "Data": "False"
+                                },
+                                {
+                                  "Name": "InitialPresentSpriteSet",
+                                  "Data": "2b78d5b79d4074f41af327b71f3cf2b3"
+                                },
+                                {
+                                  "Name": "randomInitialSprite",
+                                  "Data": "False"
+                                },
+                                {
+                                  "Name": "spriteRenderer",
+                                  "Data": "NULL"
+                                },
+                                {
+                                  "Name": "doReverseAnimation",
+                                  "Data": "False"
+                                },
+                                {
+                                  "Name": "pushTextureOnStartUp",
+                                  "Data": "False"
+                                },
+                                {
+                                  "Name": "initialVariantIndex",
+                                  "Data": "0"
+                                },
+                                {
+                                  "Name": "InitialColour",
+                                  "Data": "ÿÿÿÿ"
+                                },
+                                {
+                                  "Name": "initialSortingOrder",
+                                  "Data": "-1"
+                                },
+                                {
+                                  "Name": "initialSortingLayerName",
+                                  "Data": ""
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "Name": "Anims",
+                      "ObjectLayer": 19,
+                      "ID": "0,5,4",
+                      "ClassDatas": [
+                        {
+                          "ClassID": "Transform@0",
+                          "Data": []
+                        },
+                        {
+                          "ClassID": "EmergencyLightAnimator@0",
+                          "Data": [
+                            {
+                              "Name": "rotateSpeed",
+                              "Data": "40"
+                            },
+                            {
+                              "Name": "speedVariation",
+                              "Data": "0.25"
+                            },
+                            {
+                              "Name": "<ID>k__BackingField",
+                              "Data": "0"
+                            }
+                          ]
+                        },
+                        {
+                          "ClassID": "GraphLightAnimator@0",
+                          "Data": [
+                            {
+                              "Name": "duration",
+                              "Data": "18"
+                            },
+                            {
+                              "Name": "defaultStateOnUpdateEnd",
+                              "Data": "ÿÿÿÿ"
+                            },
+                            {
+                              "Name": "colorToAnimateTowards",
+                              "Data": "ÿÍ\u0000\u001d"
+                            },
+                            {
+                              "Name": "<ID>k__BackingField",
+                              "Data": "1"
+                            }
+                          ]
+                        },
+                        {
+                          "ClassID": "MultiFrameSpriteAnimation@0",
+                          "Data": [
+                            {
+                              "Name": "resetToDefaultSpriteOnAnimStop",
+                              "Data": "False"
+                            },
+                            {
+                              "Name": "animSpeed",
+                              "Data": "0.2"
+                            },
+                            {
+                              "Name": "<ID>k__BackingField",
+                              "Data": "2"
+                            }
+                          ]
+                        }
+                      ]
                     }
                   ]
-                },
-                {
-                  "ClassID": "LightSource@0",
-                  "Data": [
-                    {
-                      "Name": "relatedLightSwitch",
-                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_36┼103┼0┼@0@LightSwitchV2@0"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,3",
-                  "Active": false,
-                  "ClassDatas": []
                 }
               ]
             }
@@ -100156,11 +101824,11 @@
             }
           },
           {
-            "GitID": "4e067333d18d9724690055be203850b5_33.01┼77.02┼0┼",
+            "GitID": "4e067333d18d9724690055be203850b5_33.01┼81.02┼0.1┼",
             "PrefabID": "4e067333d18d9724690055be203850b5",
             "NameMatches": true,
             "Name": "MaintLootx2",
-            "LocalPRS": "33.01┼77.02┼0┼"
+            "LocalPRS": "33.01┼81.02┼0.1┼"
           },
           {
             "GitID": "largebeaker_33.03┼111.83┼0┼",
@@ -100491,6 +102159,25 @@
                     {
                       "Name": "posterVariant",
                       "Data": "RandomOfficial"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "38246cd9491b4c248abb2e296cc6c76f_34┼78┼0┼",
+            "PrefabID": "38246cd9491b4c248abb2e296cc6c76f",
+            "Name": "AirlockMaintenanceOpaque (34)",
+            "LocalPRS": "34┼78┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_37┼80┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -101840,7 +103527,7 @@
                     },
                     {
                       "Name": "listOfLights#0",
-                      "Data": "fde32c02abddc814f9366ff1fb21f234_33┼108┼0┼@0@LightSource@0"
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_-3┼0┼0┼@0@LightSource@0"
                     }
                   ]
                 }
@@ -102586,11 +104273,11 @@
                   "Data": [
                     {
                       "Name": "connectedDevices#24",
-                      "Data": "38246cd9491b4c248abb2e296cc6c76f_42┼79┼0┼@0@APCPoweredDevice@0"
+                      "Data": "38246cd9491b4c248abb2e296cc6c76f_34┼78┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#23",
-                      "Data": "NULL"
+                      "Data": "38246cd9491b4c248abb2e296cc6c76f_42┼79┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#22",
@@ -105748,12 +107435,8 @@
                   "ClassID": "APC@0",
                   "Data": [
                     {
-                      "Name": "connectedDevices#19",
-                      "Data": "38246cd9491b4c248abb2e296cc6c76f_48┼79┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
                       "Name": "connectedDevices#18",
-                      "Data": "NULL"
+                      "Data": "38246cd9491b4c248abb2e296cc6c76f_48┼79┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#17",
@@ -109046,12 +110729,8 @@
                   "ClassID": "APC@0",
                   "Data": [
                     {
-                      "Name": "connectedDevices#24",
-                      "Data": "38246cd9491b4c248abb2e296cc6c76f_51┼102┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
                       "Name": "connectedDevices#23",
-                      "Data": "NULL"
+                      "Data": "38246cd9491b4c248abb2e296cc6c76f_51┼102┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#22",
@@ -110328,6 +112007,31 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "856296105f077014ca9e533266df237a_47┼34┼0┼",
+            "PrefabID": "856296105f077014ca9e533266df237a",
+            "Name": "New ConveyorBelt (2)",
+            "LocalPRS": "47┼34┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "ConveyorBelt@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "UpLeft"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "856296105f077014ca9e533266df237a_47┼35┼0┼",
+            "PrefabID": "856296105f077014ca9e533266df237a",
+            "Name": "New ConveyorBelt (1)",
+            "LocalPRS": "47┼35┼0┼"
           },
           {
             "GitID": "856296105f077014ca9e533266df237a_47┼36┼0┼",
@@ -111697,15 +113401,15 @@
                   "Data": [
                     {
                       "Name": "connectedDevices#18",
-                      "Data": "cd57a2813ebc4ff4caf28b5fb793b3eb_59┼19┼0┼@0@APCPoweredDevice@0"
+                      "Data": "cd57a2813ebc4ff4caf28b5fb793b3eb_58┼17┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#17",
-                      "Data": "cd57a2813ebc4ff4caf28b5fb793b3eb_51┼19┼0┼@0@APCPoweredDevice@0"
+                      "Data": "cd57a2813ebc4ff4caf28b5fb793b3eb_59┼19┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#16",
-                      "Data": "cd57a2813ebc4ff4caf28b5fb793b3eb_56┼21┼0┼@0@APCPoweredDevice@0"
+                      "Data": "cd57a2813ebc4ff4caf28b5fb793b3eb_51┼19┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#15",
@@ -111775,6 +113479,12 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_48┼18┼0┼",
+            "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "Name": "New Low Machine  Connector Variant",
+            "LocalPRS": "48┼18┼0┼"
           },
           {
             "GitID": "ce971a77eb7c2894e8583efec1c56965_48┼19┼0┼",
@@ -112784,6 +114494,14 @@
                 {
                   "ClassID": "ConveyorBeltSwitch@0",
                   "Data": [
+                    {
+                      "Name": "conveyorBelts#3",
+                      "Data": "856296105f077014ca9e533266df237a_47┼34┼0┼@0@ConveyorBelt@0"
+                    },
+                    {
+                      "Name": "conveyorBelts#2",
+                      "Data": "856296105f077014ca9e533266df237a_47┼35┼0┼@0@ConveyorBelt@0"
+                    },
                     {
                       "Name": "conveyorBelts#1",
                       "Data": "856296105f077014ca9e533266df237a_47┼36┼0┼@0@ConveyorBelt@0"
@@ -117085,6 +118803,41 @@
             "LocalPRS": "55┼78┼0┼"
           },
           {
+            "GitID": "fde32c02abddc814f9366ff1fb21f234_55┼84┼0┼",
+            "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "Name": "LightTubeFixture (7)",
+            "LocalPRS": "55┼84┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_59┼80┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_37┼76┼0┼@0@LightSwitchV2@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,3",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
             "GitID": "0d553281bdfc0fd438b3f6c7db58688c_55┼85┼0┼",
             "PrefabID": "0d553281bdfc0fd438b3f6c7db58688c",
             "NameMatches": true,
@@ -117359,7 +119112,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_48┼17┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_73┼21┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -118109,7 +119862,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -119134,6 +120887,79 @@
             }
           },
           {
+            "GitID": "69ffc1053dc39a24fb870b2248780be4_58┼-20┼0┼",
+            "PrefabID": "69ffc1053dc39a24fb870b2248780be4",
+            "Name": "Buoy - Cargo Dock (4)",
+            "LocalPRS": "58┼-20┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "GuidanceBuoy@0",
+                  "Data": [
+                    {
+                      "Name": "Out@DesiredFaceDirection",
+                      "Data": "Down_By180"
+                    },
+                    {
+                      "Name": "In@DesiredFaceDirection",
+                      "Data": "Down_By180"
+                    },
+                    {
+                      "Name": "In@NextInLine",
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_58┼14┼0┼@0@GuidanceBuoy@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "69ffc1053dc39a24fb870b2248780be4_58┼14┼0┼",
+            "PrefabID": "69ffc1053dc39a24fb870b2248780be4",
+            "Name": "Buoy - Cargo Dock (3)",
+            "LocalPRS": "58┼14┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "GuidanceBuoy@0",
+                  "Data": [
+                    {
+                      "Name": "Out@DesiredFaceDirection",
+                      "Data": "Down_By180"
+                    },
+                    {
+                      "Name": "Out@NextInLine",
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_58┼-20┼0┼@0@GuidanceBuoy@0"
+                    },
+                    {
+                      "Name": "In@DesiredFaceDirection",
+                      "Data": "Down_By180"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "cd57a2813ebc4ff4caf28b5fb793b3eb_58┼17┼0┼",
+            "PrefabID": "cd57a2813ebc4ff4caf28b5fb793b3eb",
+            "Name": "AirlockHatchMaintenance (14)",
+            "LocalPRS": "58┼17┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_48┼17┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "MaintLootObstacle_58┼22┼0┼",
             "PrefabID": "MaintLootObstacle",
             "Name": "MaintLootObstacle (3)",
@@ -119802,7 +121628,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -119849,7 +121675,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -119919,7 +121745,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -120815,24 +122641,20 @@
                   "ClassID": "APC@0",
                   "Data": [
                     {
-                      "Name": "connectedDevices#19",
-                      "Data": "cd57a2813ebc4ff4caf28b5fb793b3eb_53┼80┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
                       "Name": "connectedDevices#18",
-                      "Data": "38246cd9491b4c248abb2e296cc6c76f_55┼76┼0┼@0@APCPoweredDevice@0"
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_55┼84┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#17",
-                      "Data": "NULL"
+                      "Data": "38246cd9491b4c248abb2e296cc6c76f_61┼80┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#16",
-                      "Data": "NULL"
+                      "Data": "cd57a2813ebc4ff4caf28b5fb793b3eb_53┼80┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#15",
-                      "Data": "NULL"
+                      "Data": "38246cd9491b4c248abb2e296cc6c76f_55┼76┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#14",
@@ -120911,7 +122733,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -120940,7 +122762,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -121003,7 +122825,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_59┼35┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_67┼41┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -121382,7 +123204,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -121420,7 +123242,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -121456,7 +123278,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -121920,7 +123742,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_90┼85┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_59┼80┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -121955,7 +123777,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -122100,12 +123922,6 @@
             "PrefabID": "a7eeb10882fa2f042aa33b28946184a4",
             "Name": "Spade (1)",
             "LocalPRS": "61.46┼70.95┼0┼"
-          },
-          {
-            "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_62┼18┼0┼",
-            "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
-            "Name": "New Low Machine  Connector Variant",
-            "LocalPRS": "62┼18┼0┼"
           },
           {
             "GitID": "8fb9b82aab871a54fb9bdb7e4a985821_62┼22┼0┼",
@@ -122707,10 +124523,29 @@
             "LocalPRS": "62┼81┼0┼"
           },
           {
-            "GitID": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼",
+            "GitID": "38246cd9491b4c248abb2e296cc6c76f_62┼88┼0┼",
+            "PrefabID": "38246cd9491b4c248abb2e296cc6c76f",
+            "Name": "AirlockMaintenanceOpaque (8)",
+            "LocalPRS": "62┼88┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼",
             "PrefabID": "cd57203a8d3f54f478446e9b0ced6cf9",
             "Name": "APC - Permabrig",
-            "LocalPRS": "62┼83┼0┼",
+            "LocalPRS": "62┼92┼0┼",
             "Object": {
               "ClassDatas": [
                 {
@@ -122752,44 +124587,28 @@
                   "ClassID": "APC@0",
                   "Data": [
                     {
-                      "Name": "connectedDevices#61",
-                      "Data": "38246cd9491b4c248abb2e296cc6c76f_66┼88┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#60",
-                      "Data": "38246cd9491b4c248abb2e296cc6c76f_62┼88┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#59",
-                      "Data": "38246cd9491b4c248abb2e296cc6c76f_58┼86┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
-                      "Name": "connectedDevices#58",
-                      "Data": "38246cd9491b4c248abb2e296cc6c76f_61┼83┼0┼@0@APCPoweredDevice@0"
-                    },
-                    {
                       "Name": "connectedDevices#57",
-                      "Data": "38246cd9491b4c248abb2e296cc6c76f_64┼80┼0┼@0@APCPoweredDevice@0"
+                      "Data": "74c59d7cb720be945a7c5606d962c05a_64┼86┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#56",
-                      "Data": "NULL"
+                      "Data": "38246cd9491b4c248abb2e296cc6c76f_66┼88┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#55",
-                      "Data": "NULL"
+                      "Data": "38246cd9491b4c248abb2e296cc6c76f_62┼88┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#54",
-                      "Data": "NULL"
+                      "Data": "38246cd9491b4c248abb2e296cc6c76f_58┼86┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#53",
-                      "Data": "NULL"
+                      "Data": "38246cd9491b4c248abb2e296cc6c76f_61┼83┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#52",
-                      "Data": "NULL"
+                      "Data": "38246cd9491b4c248abb2e296cc6c76f_64┼80┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#51",
@@ -123005,25 +124824,6 @@
             }
           },
           {
-            "GitID": "38246cd9491b4c248abb2e296cc6c76f_62┼88┼0┼",
-            "PrefabID": "38246cd9491b4c248abb2e296cc6c76f",
-            "Name": "AirlockMaintenanceOpaque (8)",
-            "LocalPRS": "62┼88┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
             "GitID": "ea7280b49083dfa469fb176f6a7e4772_62┼95┼0┼",
             "PrefabID": "ea7280b49083dfa469fb176f6a7e4772",
             "NameMatches": true,
@@ -123057,7 +124857,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -123104,7 +124904,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -123139,7 +124939,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -123158,7 +124958,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -123187,7 +124987,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -123820,16 +125620,16 @@
             "LocalPRS": "63┼79┼0┼"
           },
           {
-            "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_63┼83┼0┼",
-            "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
-            "Name": "New Low Machine  Connector Variant",
-            "LocalPRS": "63┼83┼0┼"
-          },
-          {
             "GitID": "86570587e3d5cba1e9ffdeead16603e4_63┼84┼0┼",
             "PrefabID": "86570587e3d5cba1e9ffdeead16603e4",
             "Name": "PottedPlantRandom (1)",
             "LocalPRS": "63┼84┼0┼"
+          },
+          {
+            "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_63┼92┼0┼",
+            "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "Name": "New Low Machine  Connector Variant",
+            "LocalPRS": "63┼92┼0┼"
           },
           {
             "GitID": "f2432d244a6b7774ea00ff013beb7dcb_63┼98┼0┼",
@@ -123853,7 +125653,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -123905,7 +125705,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -123943,7 +125743,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -124969,7 +126769,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -124989,7 +126789,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -125024,7 +126824,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -125059,7 +126859,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -125095,7 +126895,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -125131,7 +126931,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -125166,7 +126966,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -125186,7 +126986,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -125909,7 +127709,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -125954,7 +127754,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -125994,7 +127794,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -126013,7 +127813,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -126051,7 +127851,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -126892,7 +128692,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -126957,7 +128757,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -127001,7 +128801,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -127042,7 +128842,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -127089,7 +128889,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -127124,7 +128924,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -127143,7 +128943,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -127163,7 +128963,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -127506,6 +129306,10 @@
                 {
                   "ClassID": "APC@0",
                   "Data": [
+                    {
+                      "Name": "connectedDevices#25",
+                      "Data": "cd57a2813ebc4ff4caf28b5fb793b3eb_60┼29┼0┼@0@APCPoweredDevice@0"
+                    },
                     {
                       "Name": "connectedDevices#24",
                       "Data": "a075086024d70074e8747c26b57dfa7f_68┼46┼0┼@0@APCPoweredDevice@0"
@@ -128785,6 +130589,41 @@
             "LocalPRS": "67┼81┼0┼"
           },
           {
+            "GitID": "e58e1fd483fe772468ad2aab4259397d_67┼91┼0┼",
+            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
+            "Name": "SpaceExterior at 74 87",
+            "LocalPRS": "67┼91┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "SpawnPoint@0",
+                  "Data": [
+                    {
+                      "Name": "category",
+                      "Data": "SpaceExterior"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,1",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "InitialPresentSpriteSet",
+                          "Data": "8672bf8dd479a434cbfe8daac215b223"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
             "GitID": "c0d35a75ba9aa4c4fab141f0fac245f6_67┼101┼0┼",
             "PrefabID": "c0d35a75ba9aa4c4fab141f0fac245f6",
             "Name": "HydroponicsTray (1)",
@@ -129520,7 +131359,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -129549,7 +131388,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -129978,7 +131817,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -130007,7 +131846,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -130625,7 +132464,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -130696,7 +132535,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -130766,7 +132605,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -132275,7 +134114,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -132325,7 +134164,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -132941,6 +134780,10 @@
                   "ClassID": "APC@0",
                   "Data": [
                     {
+                      "Name": "connectedDevices#9",
+                      "Data": "cd57a2813ebc4ff4caf28b5fb793b3eb_56┼21┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
                       "Name": "connectedDevices#8",
                       "Data": "c04905100b9b3d746ad50b5a62efe998_68┼30┼0┼@0@APCPoweredDevice@0"
                     },
@@ -133496,41 +135339,6 @@
                     {
                       "Name": "CurrentDirection",
                       "Data": "Up_By0"
-                    }
-                  ]
-                }
-              ]
-            }
-          },
-          {
-            "GitID": "e58e1fd483fe772468ad2aab4259397d_73┼90┼0┼",
-            "PrefabID": "e58e1fd483fe772468ad2aab4259397d",
-            "Name": "SpaceExterior at 74 87",
-            "LocalPRS": "73┼90┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "SpawnPoint@0",
-                  "Data": [
-                    {
-                      "Name": "category",
-                      "Data": "SpaceExterior"
-                    }
-                  ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,1",
-                  "ClassDatas": [
-                    {
-                      "ClassID": "SpriteHandler@0",
-                      "Data": [
-                        {
-                          "Name": "InitialPresentSpriteSet",
-                          "Data": "8672bf8dd479a434cbfe8daac215b223"
-                        }
-                      ]
                     }
                   ]
                 }
@@ -136247,7 +138055,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -136291,7 +138099,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -136335,7 +138143,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -139620,7 +141428,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -139657,7 +141465,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -140569,7 +142377,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -140614,7 +142422,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -140643,7 +142451,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 }
@@ -140688,7 +142496,7 @@
                   "Data": [
                     {
                       "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼83┼0┼@0@APC@0"
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_62┼92┼0┼@0@APC@0"
                     }
                   ]
                 },
@@ -151749,7 +153557,7 @@
                     },
                     {
                       "Name": "connectedDevices#74",
-                      "Data": "e6e7f915b6b6fc14c981a592369d47f8_94┼47┼0┼@0@APCPoweredDevice@0"
+                      "Data": "e6e7f915b6b6fc14c981a592369d47f8_95┼47┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#73",
@@ -151761,7 +153569,7 @@
                     },
                     {
                       "Name": "connectedDevices#71",
-                      "Data": "fde32c02abddc814f9366ff1fb21f234_95┼46┼0┼@0@APCPoweredDevice@0"
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_96┼46┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#70",
@@ -151805,7 +153613,7 @@
                     },
                     {
                       "Name": "connectedDevices#60",
-                      "Data": "7dea0790d26246447a9b881689c7dbdf_94┼51┼0┼@0@APCPoweredDevice@0"
+                      "Data": "7dea0790d26246447a9b881689c7dbdf_95┼51┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#59",
@@ -152209,36 +154017,6 @@
                 }
               ]
             }
-          },
-          {
-            "GitID": "dd86caf1f673b7642be83819773021d8_92┼47┼0┼",
-            "PrefabID": "dd86caf1f673b7642be83819773021d8",
-            "Name": "CanisterOxygen (3)",
-            "LocalPRS": "92┼47┼0┼"
-          },
-          {
-            "GitID": "9944313d68658b341966d43e2c218eaa_92┼48┼0┼",
-            "PrefabID": "9944313d68658b341966d43e2c218eaa",
-            "Name": "CanisterNitrogen (2)",
-            "LocalPRS": "92┼48┼0┼"
-          },
-          {
-            "GitID": "151d489becc4ca64f878f37a991c138e_92┼49┼0┼",
-            "PrefabID": "151d489becc4ca64f878f37a991c138e",
-            "Name": "CanisterAir (2)",
-            "LocalPRS": "92┼49┼0┼"
-          },
-          {
-            "GitID": "c0e96760c016b6140ba8c3979e9213f7_92┼50┼0┼",
-            "PrefabID": "c0e96760c016b6140ba8c3979e9213f7",
-            "Name": "CanisterBase (5)",
-            "LocalPRS": "92┼50┼0┼"
-          },
-          {
-            "GitID": "9759789a5180a46419c8a7e2e50748e2_92┼51┼0┼",
-            "PrefabID": "9759789a5180a46419c8a7e2e50748e2",
-            "Name": "CanisterCarbonDioxide (3)",
-            "LocalPRS": "92┼51┼0┼"
           },
           {
             "GitID": "0058e1fe0dba62b4db396c6a0bbfd99d_92┼57┼0┼",
@@ -153196,6 +154974,12 @@
             "LocalPRS": "93┼41┼0┼"
           },
           {
+            "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_93┼41┼0┼",
+            "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
+            "Name": "New Low Machine  Connector Variant",
+            "LocalPRS": "93┼41┼0┼"
+          },
+          {
             "GitID": "QbW3jmyv9HMTMrjUp!qB_93┼42┼0┼",
             "PrefabID": "QbW3jmyv9HMTMrjUp!qB",
             "Name": "FireAxeCabinet (1)",
@@ -153966,12 +155750,6 @@
             "LocalPRS": "94┼41┼0┼"
           },
           {
-            "GitID": "e8ac2c5a2a017e44b903b5359c43e2f5_94┼41┼0┼",
-            "PrefabID": "e8ac2c5a2a017e44b903b5359c43e2f5",
-            "Name": "New Low Machine  Connector Variant",
-            "LocalPRS": "94┼41┼0┼"
-          },
-          {
             "GitID": "f2432d244a6b7774ea00ff013beb7dcb_94┼42┼0┼",
             "PrefabID": "f2432d244a6b7774ea00ff013beb7dcb",
             "NameMatches": true,
@@ -154035,7 +155813,7 @@
                     },
                     {
                       "Name": "listOfLights#4",
-                      "Data": "fde32c02abddc814f9366ff1fb21f234_95┼46┼0┼@0@LightSource@0"
+                      "Data": "fde32c02abddc814f9366ff1fb21f234_96┼46┼0┼@0@LightSource@0"
                     },
                     {
                       "Name": "listOfLights#3",
@@ -154166,70 +155944,34 @@
             }
           },
           {
-            "GitID": "e6e7f915b6b6fc14c981a592369d47f8_94┼47┼0┼",
-            "PrefabID": "e6e7f915b6b6fc14c981a592369d47f8",
-            "NameMatches": true,
-            "Name": "FireAlarm",
-            "LocalPRS": "94┼47┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_92┼41┼0┼@0@APC@0"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
-                    {
-                      "Name": "CurrentDirection",
-                      "Data": "Right_By270"
-                    }
-                  ]
-                },
-                {
-                  "ClassID": "FireAlarm@0",
-                  "Data": [
-                    {
-                      "Name": "FireLockList#2",
-                      "Data": "a075086024d70074e8747c26b57dfa7f_92┼45┼0┼@0@FireLock@0"
-                    },
-                    {
-                      "Name": "FireLockList#1",
-                      "Data": "a075086024d70074e8747c26b57dfa7f_92┼44┼0┼@0@FireLock@0"
-                    },
-                    {
-                      "Name": "FireLockList#0",
-                      "Data": "a075086024d70074e8747c26b57dfa7f_92┼43┼0┼@0@FireLock@0"
-                    }
-                  ]
-                }
-              ]
-            }
+            "GitID": "dd86caf1f673b7642be83819773021d8_94┼47┼0┼",
+            "PrefabID": "dd86caf1f673b7642be83819773021d8",
+            "Name": "CanisterOxygen (3)",
+            "LocalPRS": "94┼47┼0┼"
           },
           {
-            "GitID": "7dea0790d26246447a9b881689c7dbdf_94┼51┼0┼",
-            "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
-            "NameMatches": true,
-            "Name": "AirlockExternalWindowed",
-            "LocalPRS": "94┼51┼0┼",
-            "Object": {
-              "ClassDatas": [
-                {
-                  "ClassID": "APCPoweredDevice@0",
-                  "Data": [
-                    {
-                      "Name": "RelatedAPC",
-                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_92┼41┼0┼@0@APC@0"
-                    }
-                  ]
-                }
-              ]
-            }
+            "GitID": "9944313d68658b341966d43e2c218eaa_94┼48┼0┼",
+            "PrefabID": "9944313d68658b341966d43e2c218eaa",
+            "Name": "CanisterNitrogen (2)",
+            "LocalPRS": "94┼48┼0┼"
+          },
+          {
+            "GitID": "151d489becc4ca64f878f37a991c138e_94┼49┼0┼",
+            "PrefabID": "151d489becc4ca64f878f37a991c138e",
+            "Name": "CanisterAir (2)",
+            "LocalPRS": "94┼49┼0┼"
+          },
+          {
+            "GitID": "c0e96760c016b6140ba8c3979e9213f7_94┼50┼0┼",
+            "PrefabID": "c0e96760c016b6140ba8c3979e9213f7",
+            "Name": "CanisterBase (5)",
+            "LocalPRS": "94┼50┼0┼"
+          },
+          {
+            "GitID": "9759789a5180a46419c8a7e2e50748e2_94┼51┼0┼",
+            "PrefabID": "9759789a5180a46419c8a7e2e50748e2",
+            "Name": "CanisterCarbonDioxide (3)",
+            "LocalPRS": "94┼51┼0┼"
           },
           {
             "GitID": "0058e1fe0dba62b4db396c6a0bbfd99d_94┼57┼0┼",
@@ -155449,22 +157191,13 @@
             }
           },
           {
-            "GitID": "fde32c02abddc814f9366ff1fb21f234_95┼46┼0┼",
-            "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "GitID": "e6e7f915b6b6fc14c981a592369d47f8_95┼47┼0┼",
+            "PrefabID": "e6e7f915b6b6fc14c981a592369d47f8",
             "NameMatches": true,
-            "Name": "LightTubeFixture",
-            "LocalPRS": "95┼46┼0┼0ø0ø270ø",
+            "Name": "FireAlarm",
+            "LocalPRS": "95┼47┼0┼",
             "Object": {
               "ClassDatas": [
-                {
-                  "ClassID": "Integrity@0",
-                  "Data": [
-                    {
-                      "Name": "Armor@Melee",
-                      "Data": "0"
-                    }
-                  ]
-                },
                 {
                   "ClassID": "APCPoweredDevice@0",
                   "Data": [
@@ -155484,29 +157217,44 @@
                   ]
                 },
                 {
-                  "ClassID": "LightSource@0",
+                  "ClassID": "FireAlarm@0",
                   "Data": [
                     {
-                      "Name": "relatedLightSwitch",
-                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_94┼42┼0┼@0@LightSwitchV2@0"
+                      "Name": "FireLockList#2",
+                      "Data": "a075086024d70074e8747c26b57dfa7f_92┼45┼0┼@0@FireLock@0"
+                    },
+                    {
+                      "Name": "FireLockList#1",
+                      "Data": "a075086024d70074e8747c26b57dfa7f_92┼44┼0┼@0@FireLock@0"
+                    },
+                    {
+                      "Name": "FireLockList#0",
+                      "Data": "a075086024d70074e8747c26b57dfa7f_92┼43┼0┼@0@FireLock@0"
                     }
                   ]
-                }
-              ],
-              "Children": [
-                {
-                  "ID": "0,3",
-                  "Active": false,
-                  "ClassDatas": []
                 }
               ]
             }
           },
           {
-            "GitID": "c73942e301ad48a4c87343bc6f8b20f7_95┼49┼0┼",
-            "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
-            "Name": "New Disposal Bin",
-            "LocalPRS": "95┼49┼0┼"
+            "GitID": "7dea0790d26246447a9b881689c7dbdf_95┼51┼0┼",
+            "PrefabID": "7dea0790d26246447a9b881689c7dbdf",
+            "NameMatches": true,
+            "Name": "AirlockExternalWindowed",
+            "LocalPRS": "95┼51┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_92┼41┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           {
             "GitID": "4e067333d18d9724690055be203850b5_95┼55┼0┼",
@@ -156261,6 +158009,60 @@
             }
           },
           {
+            "GitID": "fde32c02abddc814f9366ff1fb21f234_96┼46┼0┼",
+            "PrefabID": "fde32c02abddc814f9366ff1fb21f234",
+            "NameMatches": true,
+            "Name": "LightTubeFixture",
+            "LocalPRS": "96┼46┼0┼0ø0ø270ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Integrity@0",
+                  "Data": [
+                    {
+                      "Name": "Armor@Melee",
+                      "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_92┼41┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "LightSource@0",
+                  "Data": [
+                    {
+                      "Name": "relatedLightSwitch",
+                      "Data": "f2432d244a6b7774ea00ff013beb7dcb_94┼42┼0┼@0@LightSwitchV2@0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,3",
+                  "Active": false,
+                  "ClassDatas": []
+                }
+              ]
+            }
+          },
+          {
             "GitID": "a2807265d4ddfb346993a6e08f769100_96┼47┼0┼",
             "PrefabID": "a2807265d4ddfb346993a6e08f769100",
             "Name": "GasPumpOn - Air Distributon",
@@ -156298,6 +158100,12 @@
                 }
               ]
             }
+          },
+          {
+            "GitID": "c73942e301ad48a4c87343bc6f8b20f7_96┼49┼0┼",
+            "PrefabID": "c73942e301ad48a4c87343bc6f8b20f7",
+            "Name": "New Disposal Bin",
+            "LocalPRS": "96┼49┼0┼"
           },
           {
             "GitID": "c1aebfea91112ef4a83ba10f37d3f437_96┼53┼0┼",
@@ -167656,6 +169464,10 @@
                   "ClassID": "APC@0",
                   "Data": [
                     {
+                      "Name": "connectedDevices#16",
+                      "Data": "38246cd9491b4c248abb2e296cc6c76f_113┼57┼0┼@0@APCPoweredDevice@0"
+                    },
+                    {
                       "Name": "connectedDevices#15",
                       "Data": "38246cd9491b4c248abb2e296cc6c76f_109┼56┼0┼@0@APCPoweredDevice@0"
                     },
@@ -167701,7 +169513,7 @@
                     },
                     {
                       "Name": "connectedDevices#4",
-                      "Data": "9b59e4553ab9f7e4a8f46497d7cfd7bc_113┼57┼0┼@0@APCPoweredDevice@0"
+                      "Data": "9b59e4553ab9f7e4a8f46497d7cfd7bc_112┼57┼0┼@0@APCPoweredDevice@0"
                     },
                     {
                       "Name": "connectedDevices#3",
@@ -168285,6 +170097,34 @@
                     {
                       "Name": "RelatedAPC",
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_110┼57┼0┼@0@APC@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "9b59e4553ab9f7e4a8f46497d7cfd7bc_112┼57┼0┼",
+            "PrefabID": "9b59e4553ab9f7e4a8f46497d7cfd7bc",
+            "Name": "NanoMed (1)",
+            "LocalPRS": "112┼57┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "RelatedAPC",
+                      "Data": "cd57203a8d3f54f478446e9b0ced6cf9_110┼57┼0┼@0@APC@0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
                     }
                   ]
                 }
@@ -169283,9 +171123,9 @@
             }
           },
           {
-            "GitID": "9b59e4553ab9f7e4a8f46497d7cfd7bc_113┼57┼0┼",
-            "PrefabID": "9b59e4553ab9f7e4a8f46497d7cfd7bc",
-            "Name": "NanoMed (1)",
+            "GitID": "38246cd9491b4c248abb2e296cc6c76f_113┼57┼0┼",
+            "PrefabID": "38246cd9491b4c248abb2e296cc6c76f",
+            "Name": "AirlockMaintenanceOpaque (35)",
             "LocalPRS": "113┼57┼0┼",
             "Object": {
               "ClassDatas": [
@@ -169297,13 +171137,20 @@
                       "Data": "cd57203a8d3f54f478446e9b0ced6cf9_110┼57┼0┼@0@APC@0"
                     }
                   ]
-                },
+                }
+              ],
+              "Children": [
                 {
-                  "ClassID": "Rotatable@0",
-                  "Data": [
+                  "ID": "0,1",
+                  "ClassDatas": [
                     {
-                      "Name": "CurrentDirection",
-                      "Data": "Up_By0"
+                      "ClassID": "ClearanceRestricted@0",
+                      "Data": [
+                        {
+                          "Name": "requiredClearance#0",
+                          "Data": "Surgery"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -173108,8 +174955,8 @@
       "PreviewGizmos": [
         {
           "Ver": "1.0.0",
-          "Pos": "62.5,140.5,-14",
-          "Size": "125,281,30"
+          "Pos": "61,130.5,-14",
+          "Size": "128,301,30"
         }
       ]
     },
@@ -182943,6 +184790,852 @@
           "Ver": "1.0.0",
           "Pos": "0,7,0",
           "Size": "6,20,0"
+        }
+      ]
+    },
+    {
+      "Ver": "1.1.1",
+      "Location": "33┼78┼0┼0ø0ø90ø",
+      "MatrixName": "EscapePod",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X-1Y-2",
+            "Value": [
+              {
+                "Tel": "shuttle_wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X-1Y-1",
+            "Value": [
+              {
+                "Tel": "shuttle_wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X-1Y0",
+            "Value": [
+              {
+                "Tel": "shuttle_wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X-1Y1",
+            "Value": [
+              {
+                "Tel": "shuttle_corner_SE"
+              },
+              {
+                "Tel": "brokenplating1"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y-2",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorBlue"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y-1",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorBlue"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y0",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorBlue"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y1",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y-2",
+            "Value": [
+              {
+                "Tel": "shuttle_wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y-1",
+            "Value": [
+              {
+                "Tel": "shuttle_wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y0",
+            "Value": [
+              {
+                "Tel": "shuttle_wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y1",
+            "Value": [
+              {
+                "Tel": "shuttle_corner_SW"
+              },
+              {
+                "Tel": "brokenplating2"
+              }
+            ]
+          },
+          {
+            "Key": "X6Y-25",
+            "Value": [
+              {
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X6Y-24",
+            "Value": [
+              {
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X6Y-23",
+            "Value": [
+              {
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X6Y-22",
+            "Value": [
+              {
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X7Y-25",
+            "Value": [
+              {
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X7Y-24",
+            "Value": [
+              {
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X7Y-23",
+            "Value": [
+              {
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X7Y-22",
+            "Value": [
+              {
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X8Y-25",
+            "Value": [
+              {
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X8Y-24",
+            "Value": [
+              {
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X8Y-23",
+            "Value": [
+              {
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X8Y-22",
+            "Value": [
+              {
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X9Y-25",
+            "Value": [
+              {
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X9Y-24",
+            "Value": [
+              {
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X9Y-23",
+            "Value": [
+              {
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X9Y-22",
+            "Value": [
+              {
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X10Y-25",
+            "Value": [
+              {
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X10Y-24",
+            "Value": [
+              {
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X10Y-23",
+            "Value": [
+              {
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X10Y-22",
+            "Value": [
+              {
+                "Tel": "Floor"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.5.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "b7053ef275ce5b74e827e60b034d1647_-1┼0┼0┼",
+            "PrefabID": "b7053ef275ce5b74e827e60b034d1647",
+            "Name": "StatusDisplay (3)",
+            "LocalPRS": "-1┼0┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Integrity@0",
+                  "Data": [
+                    {
+                      "Name": "Armor@Melee",
+                      "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialDescription",
+                      "Data": "The captain can change what it says."
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "2a39aefa5aa903240b20a8b5a5185fbf_0┼-2┼0┼",
+            "PrefabID": "2a39aefa5aa903240b20a8b5a5185fbf",
+            "Name": "AirlockShuttleOpaque (1)",
+            "LocalPRS": "0┼-2┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1a00e842e154f7d43811c5d45328988c_0┼-1┼0┼",
+            "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "Name": "Chair (1)",
+            "LocalPRS": "0┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1a00e842e154f7d43811c5d45328988c_0┼0┼0┼",
+            "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "Name": "Chair (2)",
+            "LocalPRS": "0┼0┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "EscapePodGuidanceSystem_1┼0┼0┼",
+            "PrefabID": "EscapePodGuidanceSystem",
+            "Name": "EscapePodGuidanceSystem (1)",
+            "LocalPRS": "1┼0┼0┼0ø0ø270ø",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "EscapePodGuidanceSystem@0",
+                  "Data": [
+                    {
+                      "Name": "InItAsIfDockedToBuoy",
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_31┼78┼0┼@0@GuidanceBuoy@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "4.5,-12,0",
+          "Size": "11,26,0"
+        }
+      ]
+    },
+    {
+      "Ver": "1.1.1",
+      "Location": "60┼16┼0┼0ø0ø180ø",
+      "MatrixName": "EscapePod2",
+      "GitFriendlyTileMapData": {
+        "Ver": "1.0.0",
+        "XYs": [
+          {
+            "Key": "X-1Y-2",
+            "Value": [
+              {
+                "Tel": "shuttle_wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X-1Y-1",
+            "Value": [
+              {
+                "Tel": "shuttle_wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X-1Y0",
+            "Value": [
+              {
+                "Tel": "shuttle_wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X-1Y1",
+            "Value": [
+              {
+                "Tel": "shuttle_corner_SE"
+              },
+              {
+                "Tel": "brokenplating1"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y-2",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorBlue"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y-1",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorBlue"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y0",
+            "Value": [
+              {
+                "Tel": "TitaniumFloorBlue"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X0Y1",
+            "Value": [
+              {
+                "Tel": "WindowReinforced"
+              },
+              {
+                "Tel": "Plating"
+              },
+              {
+                "Tel": "Grille"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y-2",
+            "Value": [
+              {
+                "Tel": "shuttle_wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y-1",
+            "Value": [
+              {
+                "Tel": "shuttle_wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y0",
+            "Value": [
+              {
+                "Tel": "shuttle_wall"
+              },
+              {
+                "Tel": "Plating"
+              }
+            ]
+          },
+          {
+            "Key": "X1Y1",
+            "Value": [
+              {
+                "Tel": "shuttle_corner_SW"
+              },
+              {
+                "Tel": "brokenplating2"
+              }
+            ]
+          }
+        ]
+      },
+      "CompactObjectMapData": {
+        "Ver": "1.5.0",
+        "CommonPrefabs": [],
+        "PrefabData": [
+          {
+            "GitID": "b7053ef275ce5b74e827e60b034d1647_-0.999┼0┼0┼",
+            "PrefabID": "b7053ef275ce5b74e827e60b034d1647",
+            "Name": "StatusDisplay (3)",
+            "LocalPRS": "-0.999┼0┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Integrity@0",
+                  "Data": [
+                    {
+                      "Name": "Armor@Melee",
+                      "Data": "0"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "ObjectAttributes@0",
+                  "Data": [
+                    {
+                      "Name": "initialDescription",
+                      "Data": "The captain can change what it says."
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                },
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Right_By270"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "2a39aefa5aa903240b20a8b5a5185fbf_0.001┼-2┼0┼",
+            "PrefabID": "2a39aefa5aa903240b20a8b5a5185fbf",
+            "Name": "AirlockShuttleOpaque (1)",
+            "LocalPRS": "0.001┼-2┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "APCPoweredDevice@0",
+                  "Data": [
+                    {
+                      "Name": "isSelfPowered",
+                      "Data": "True"
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1a00e842e154f7d43811c5d45328988c_0.001┼-1┼0┼",
+            "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "Name": "Chair (1)",
+            "LocalPRS": "0.001┼-1┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "1a00e842e154f7d43811c5d45328988c_0.001┼0┼0┼",
+            "PrefabID": "1a00e842e154f7d43811c5d45328988c",
+            "Name": "Chair (2)",
+            "LocalPRS": "0.001┼0┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "Rotatable@0",
+                  "Data": [
+                    {
+                      "Name": "CurrentDirection",
+                      "Data": "Up_By0"
+                    }
+                  ]
+                }
+              ],
+              "Children": [
+                {
+                  "ID": "0,0",
+                  "ClassDatas": [
+                    {
+                      "ClassID": "SpriteHandler@0",
+                      "Data": [
+                        {
+                          "Name": "initialVariantIndex",
+                          "Data": "1"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "GitID": "EscapePodGuidanceSystem_1.001┼0┼0┼",
+            "PrefabID": "EscapePodGuidanceSystem",
+            "Name": "EscapePodGuidanceSystem (1)",
+            "LocalPRS": "1.001┼0┼0┼",
+            "Object": {
+              "ClassDatas": [
+                {
+                  "ClassID": "EscapePodGuidanceSystem@0",
+                  "Data": [
+                    {
+                      "Name": "InItAsIfDockedToBuoy",
+                      "Data": "69ffc1053dc39a24fb870b2248780be4_58┼14┼0┼@0@GuidanceBuoy@0"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ],
+        "IDToNetIDClient": {}
+      },
+      "PreviewGizmos": [
+        {
+          "Ver": "1.0.0",
+          "Pos": "0,-0.5,0",
+          "Size": "2,3,0"
         }
       ]
     }

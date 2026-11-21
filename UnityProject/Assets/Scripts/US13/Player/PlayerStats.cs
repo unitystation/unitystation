@@ -38,9 +38,17 @@ namespace US13.Player
 			stats[stat].Add(source, value);
 		}
 
+		public void UpdateModifier(Stat stat, string source, float value)
+		{
+			if (stats[stat].ContainsKey(source) == false) return;
+			stats[stat][source] = value;
+		}
+
 		public void RemoveModifier(Stat stat, string source)
 		{
 			stats[stat].Remove(source);
 		}
+
+
 	}
 }

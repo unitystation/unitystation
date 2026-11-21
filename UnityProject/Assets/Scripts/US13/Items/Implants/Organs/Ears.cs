@@ -31,7 +31,7 @@ namespace US13.Items.Implants.Organs
 
 
 		[SerializeField, UnityEngine.Serialization.FormerlySerializedAs("TotalMultiplier")] private float _networkTotalMultiplier = 1;
-		public float TotalMultiplier
+		public float TotalMultiplier //Total deafness Multiplier
 		{
 			get => _networkTotalMultiplier;
 			set
@@ -169,13 +169,16 @@ namespace US13.Items.Implants.Organs
 		public override void OnRemovedFromBody(LivingHealthMasterBase livingHealth, GameObject source = null)
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CheckPressure);
-			(livingHealth as PlayerHealthV2).OrNull()?.playerScript.PlayerStats.RemoveModifier(PlayerStats.Stat.LocalChatRange, gameObject.name);
+			(livingHealth as PlayerHealthV2).OrNull()?.playerScript.PlayerStats
+				.RemoveModifier(PlayerStats.Stat.LocalChatRange, gameObject.name);
+			livingHealth?.HearingAbility?.RemovePosition(this);
 		}
 
 		public override void OnAddedToBody(LivingHealthMasterBase livingHealth)
 		{
 			UpdateManager.Add(CheckPressure, 1);
 			(livingHealth as PlayerHealthV2).OrNull()?.playerScript.PlayerStats.AddModifier(PlayerStats.Stat.LocalChatRange, gameObject.name, localChatRange);
+			livingHealth?.HearingAbility?.RecordPosition(this, TotalMultiplier);
 		}
 
 		private void CheckPressure()
@@ -210,6 +213,9 @@ namespace US13.Items.Implants.Organs
 		public void ApplyChangesDeafness(float Oldv, float Newv)
 		{
 			_networkTotalMultiplier = Newv;
+			var Health = RelatedPart?.HealthMaster;
+			(RelatedPart?.HealthMaster as PlayerHealthV2).OrNull()?.playerScript?.PlayerStats?.UpdateModifier(PlayerStats.Stat.LocalChatRange, gameObject.name, localChatRange * Newv);
+			Health?.HearingAbility?.RecordPosition(this, Newv);
 			if (Preimplemented.IsOnLocalPlayer)
 			{
 				ApplyDeafness(false,TotalMultiplier);

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Logs;
+using SecureStuff;
 
 namespace US13.Tilemaps.Utils
 {
@@ -161,18 +162,6 @@ namespace US13.Tilemaps.Utils
 			}
 
 			return LayerTypeSelection.Base;
-		}
-	}
-
-
-
-	public class OrderAttribute : Attribute
-	{
-		public readonly int Order;
-
-		public OrderAttribute(int order)
-		{
-			Order = order;
 		}
 	}
 }
