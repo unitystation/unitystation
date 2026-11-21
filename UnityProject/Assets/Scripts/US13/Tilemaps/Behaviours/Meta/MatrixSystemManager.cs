@@ -1,5 +1,6 @@
-﻿using System;
-using System.Collections;
+using System.Threading;
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Logs;
@@ -13,17 +14,18 @@ namespace US13.Tilemaps.Behaviours.Meta
 	{
 		private List<MatrixSystemBehaviour> systems = new List<MatrixSystemBehaviour>();
 		private bool initialized;
+		public bool IsInitialized => initialized;
 
 		private List<IInitialiseSystem> InitSystems = new List<IInitialiseSystem>();
 
 		public void SelfInitialize()
 		{
-			StartCoroutine(Initialize());
+			Initialize(this.GetCancellationTokenOnDestroy()).Forget(e => Logs.Loggy.Error(e.ToString()));
 		}
 
 
 
-		public IEnumerator Initialize()
+		public async UniTask Initialize(CancellationToken cancellationToken = default)
 		{
 			systems = systems.OrderByDescending(s => s.Priority).ToList();
 			foreach (var system in systems)
@@ -38,7 +40,7 @@ namespace US13.Tilemaps.Behaviours.Meta
 					Loggy.Error(e.ToString());
 				}
 
-				yield return null;
+				await UniTask.NextFrame(cancellationToken: cancellationToken);
 			}
 
 			InitSystems = InitSystems.OrderByDescending(s => s.Priority).ToList();
@@ -54,7 +56,7 @@ namespace US13.Tilemaps.Behaviours.Meta
 					Loggy.Error(e.ToString());
 				}
 
-				yield return null;
+				await UniTask.NextFrame(cancellationToken: cancellationToken);
 			}
 			initialized = true;
 		}

@@ -123,7 +123,8 @@ namespace US13.UI.Systems.PreRound
 		{
 			if (CustomNetworkManager.IsServer == false)
 			{
-				return SubSceneManager.Instance.ClientIsFullyDoneLoadingOnSubsceneManager;
+				return SubSceneManager.Instance.ClientIsFullyDoneLoadingOnSubsceneManager &&
+					!SubSceneManager.Instance.SubSceneManagerNetworked.LoadingProgress.Active;
 			}
 			return SubSceneManager.Instance.clientIsLoadingSubscene == false;
 		}
@@ -138,16 +139,17 @@ namespace US13.UI.Systems.PreRound
 			return PlayerManager.LocalViewerScript?.ServerDoneLoading == true;
 		}
 
-		private IEnumerator WaitForInitialisation()
+		private async UniTask WaitForInitialisation()
 		{
+			var cancellationToken = this.GetCancellationTokenOnDestroy();
 			var maxWaitTime = 0;
-			yield return WaitFor.EndOfFrame;
+			await UniTask.NextFrame(cancellationToken: cancellationToken);
 
 			if (GameManager.Instance.QuickJoinLoad)
 			{
 				while (SubsystemMatrixQueueInit.InitializedAll == false || maxWaitTime < 150)
 				{
-					yield return WaitFor.Seconds(0.55f);
+					await UniTask.Delay(TimeSpan.FromSeconds(0.55f), cancellationToken: cancellationToken);
 					maxWaitTime++;
 				}
 				StartNowButton();
@@ -166,7 +168,7 @@ namespace US13.UI.Systems.PreRound
 			{
 				ButtonsArea.CreateInteractableButton(ba.Item1, ba.Item2);
 			}
-			StartCoroutine(WaitForInitialisation());
+			WaitForInitialisation().Forget(e => Loggy.Error(e.ToString()));
 		}
 
 		public void PopulateWithStandardGameModeButtons()

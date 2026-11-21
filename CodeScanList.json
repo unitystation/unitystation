@@ -21,8 +21,7 @@
         "SerializableDictionary",
         "Shared",
         "SpriteProcessing",
-        "Tayx.Graphy",
-        "Unity.Muse.Behavior"
+        "Tayx.Graphy"
     ],
     "EditorOnlyAssemblies": [],
     "Types": {
@@ -2735,6 +2734,13 @@
                 "NestedTypes": null
             },
             "CancellationTokenRegistration": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "SemaphoreSlim": {
                 "All": true,
                 "Inherit": "Default",
                 "Methods": null,
@@ -5767,6 +5773,13 @@
                 "Methods": null,
                 "Fields": null,
                 "NestedTypes": null
+            },
+            "AsyncOperationAwaitableExtensions": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
             }
         },
         "UnityEngine.Events": {
@@ -8490,6 +8503,13 @@
                 "NestedTypes": null
             },
             "ReturnToMainThread": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "UniTaskCancellationExtensions": {
                 "All": true,
                 "Inherit": "Default",
                 "Methods": null,

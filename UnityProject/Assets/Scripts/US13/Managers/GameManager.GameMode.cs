@@ -1,5 +1,5 @@
+using Cysharp.Threading.Tasks;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using Logs;
 using UnityEngine;
@@ -146,9 +146,9 @@ namespace US13.Managers
 		/// <summary>
 		/// Waits before starting the game mode (to stop players being spawned in before everything has initialised)
 		/// </summary>
-		private IEnumerator WaitToStartGameMode()
+		private async UniTask WaitToStartGameMode()
 		{
-			yield return WaitFor.EndOfFrame;
+			await UniTask.NextFrame();
 
 			foreach (var job in GameMode.PossibleAntags)
 			{
@@ -160,15 +160,15 @@ namespace US13.Managers
 
 				if (job.AntagOccupation.JobType == JobType.SYNDICATE)
 				{
-					yield return StartCoroutine(SubSceneManager.SubSceneManager.Instance.LoadSyndicate());
-					yield return WaitFor.EndOfFrame;
+					await SubSceneManager.SubSceneManager.Instance.LoadSyndicate();
+					await UniTask.NextFrame();
 					break;
 				}
 
 				if (job.AntagOccupation.JobType == JobType.WIZARD)
 				{
-					yield return StartCoroutine(SubSceneManager.SubSceneManager.Instance.LoadWizard());
-					yield return WaitFor.EndOfFrame;
+					await SubSceneManager.SubSceneManager.Instance.LoadWizard();
+					await UniTask.NextFrame();
 					break;
 				}
 			}

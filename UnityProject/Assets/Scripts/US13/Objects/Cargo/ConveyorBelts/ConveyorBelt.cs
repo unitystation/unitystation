@@ -12,6 +12,8 @@ using US13.Core.ObjectConnection;
 using US13.Core.Sprite_Handler;
 using US13.Items.Tool;
 using US13.Items.Traits;
+using US13.Managers.NetworkManagement;
+using US13.Managers.UpdateManager;
 using US13.ScriptableObjects;
 using US13.Tilemaps.Behaviours.Layers;
 using US13.Tilemaps.Behaviours.Objects;
@@ -22,7 +24,8 @@ namespace US13.Objects.Cargo.ConveyorBelts
 {
 	[SelectionBase]
 	[ExecuteInEditMode]
-	public class ConveyorBelt : MonoBehaviour, ICheckedInteractable<HandApply>, IMultitoolSlaveable
+	public class ConveyorBelt : MonoBehaviour, ICheckedInteractable<HandApply>, IMultitoolSlaveable,
+		INewMappedOnSpawn, IServerDespawn
 	{
 		private readonly Vector2Int[] searchDirs =
 		{
@@ -37,6 +40,10 @@ namespace US13.Objects.Cargo.ConveyorBelts
 		[Tooltip("Set this conveyor belt's initial status.")]
 		[SerializeField]
 		public ConveyorStatus CurrentStatus = default;
+
+		[Tooltip("Speed used when this belt runs on its own, without a switch.")]
+		[SerializeField]
+		private float conveyorBeltSpeed = 0.5f;
 
 		[SerializeField] private SpriteHandler spriteHandler = null;
 		private RegisterTile registerTile;
@@ -55,12 +62,27 @@ namespace US13.Objects.Cargo.ConveyorBelts
 		[field: SerializeField] public bool IgnoreMaxDistanceMapper { get; set; } = false;
 
 		private List<UniversalObjectPhysics> GCfreeList = new List<UniversalObjectPhysics>();
+		private bool isSelfRunning;
 
 		#region Lifecycle
 
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
+		}
+
+		public void OnNewMappedOnSpawn()
+		{
+			if (CustomNetworkManager.IsServer == false) return;
+			if (AssignedSwitch == null && CurrentStatus != ConveyorStatus.Off)
+			{
+				StartSelfUpdate();
+			}
+		}
+
+		public void OnDespawnServer(DespawnInfo info)
+		{
+			StopSelfUpdate();
 		}
 
 		private void OnValidate()
@@ -84,6 +106,25 @@ namespace US13.Objects.Cargo.ConveyorBelts
 		{
 			DetectItems();
 			MoveEntities(ConveyorBeltSpeed);
+		}
+
+		private void UpdateMe()
+		{
+			MoveBelt(conveyorBeltSpeed);
+		}
+
+		private void StartSelfUpdate()
+		{
+			if (isSelfRunning) return;
+			UpdateManager.Add(UpdateMe, 0.5f);
+			isSelfRunning = true;
+		}
+
+		private void StopSelfUpdate()
+		{
+			if (isSelfRunning == false) return;
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+			isSelfRunning = false;
 		}
 
 
@@ -148,6 +189,7 @@ namespace US13.Objects.Cargo.ConveyorBelts
 
 		public void SetSwitchRef(ConveyorBeltSwitch switchRef)
 		{
+			StopSelfUpdate();
 			AssignedSwitch = switchRef;
 			UpdateState();
 		}

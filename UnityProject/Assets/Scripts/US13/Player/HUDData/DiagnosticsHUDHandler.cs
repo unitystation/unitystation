@@ -13,8 +13,8 @@ namespace US13.Player.HUDData
 	{
 		[SerializeField] private SpriteHandler stateIcon = null;
 		[SerializeField] private ProgressBar progressBar = null;
-		private bool isVisible = false;
-		public bool IsVisible => isVisible;
+		private HUDOptions visibleOptions;
+		public bool IsVisible => visibleOptions != 0;
 
 		[SerializeField] private RotationConstraint rotationConstraint = null;
 		private static GameObject anchor = null;
@@ -40,12 +40,17 @@ namespace US13.Player.HUDData
 
 		public void SetVisible(bool visible, HUDOptions options)
 		{
-			isVisible = visible;
-			if((options & HUDOptions.showState) != 0) stateIcon?.SetActive(isVisible);
+			if (visible) visibleOptions |= options;
+			else visibleOptions &= ~options;
+
+			// Hidden machine HUDs must not participate in constraint evaluation and dependency sorting.
+			if (rotationConstraint != null) rotationConstraint.enabled = IsVisible;
+
+			if((options & HUDOptions.showState) != 0) stateIcon?.SetActive(visible);
 			if((options & HUDOptions.showPower) != 0)
 			{
-				progressBar?.SetActive(isVisible);
-				progressBar?.SetVisible(isVisible);
+				progressBar?.SetActive(visible);
+				progressBar?.SetVisible(visible);
 			}
 		}
 

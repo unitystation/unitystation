@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -39,11 +38,12 @@ namespace Tests.MapSerializer
 			return JsonConvert.DeserializeObject<MapSaverClass.MapData>(json);
 		}
 
-		public static List<MetaTileMap> LoadIntoFreshMatrix(MapSaverClass.MapData mapData)
+		public static List<MetaTileMap> LoadIntoFreshMatrix(MapSaverClass.MapData mapData,
+			System.Action<MapLoader.LoadingProgress> progress = null)
 		{
 			MapSaverClass.CodeClass.ThisCodeClass.Reset();
 			var before = new HashSet<MetaTileMap>(Object.FindObjectsByType<MetaTileMap>(FindObjectsSortMode.None));
-			RunCoroutineInEditor(MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData, TestLoad: true));
+			MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData, TestLoad: true, progress: progress).GetAwaiter().GetResult();
 			return Object.FindObjectsByType<MetaTileMap>(FindObjectsSortMode.None)
 				.Where(m => before.Contains(m) == false)
 				.ToList();
@@ -63,24 +63,6 @@ namespace Tests.MapSerializer
 			return (GameObject)PrefabUtility.InstantiatePrefab(prefab, parent);
 		}
 
-		public static void RunCoroutineInEditor(IEnumerator coroutine)
-		{
-			var stack = new Stack<IEnumerator>();
-			stack.Push(coroutine);
-			while (stack.Count > 0)
-			{
-				IEnumerator top = stack.Peek();
-				if (top.MoveNext() == false)
-				{
-					stack.Pop();
-					continue;
-				}
 
-				if (top.Current is IEnumerator nested)
-				{
-					stack.Push(nested);
-				}
-			}
-		}
 	}
 }

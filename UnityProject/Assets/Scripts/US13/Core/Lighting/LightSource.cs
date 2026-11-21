@@ -2,6 +2,7 @@ using System;
 using Light2D;
 using Logs;
 using Mirror;
+using SecureStuff;
 using UnityEngine;
 using UnityEngine.Serialization;
 using US13.Core.Addressables;
@@ -42,7 +43,7 @@ namespace US13.Core.Lighting
 	/// Component responsible for the behaviour of light tubes / bulbs in particular.
 	/// </summary>
 	public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowerable, IServerLifecycle,
-		IMultitoolSlaveable
+		IMultitoolSlaveable, INewMappedOnSpawn
 	{
 		[SyncVar(hook = nameof(SetColor)), SerializeField, FormerlySerializedAs("ONColour")]
 		public Color CurrentOnColor;
@@ -131,6 +132,24 @@ namespace US13.Core.Lighting
 			RefreshBoxCollider();
 			loopKey = Guid.NewGuid().ToString();
 			ComponentsTracker<LightSource>.RegisterInstance(this);
+		}
+
+		public void OnNewMappedOnSpawn()
+		{
+			if (isWithoutSwitch == false)
+			{
+				switchState = InitialState == LightMountState.On;
+			}
+
+			ChangeCurrentState(InitialState);
+
+			if (CustomNetworkManager.IsServer == false) return;
+			if (MountState != LightMountState.On && MountState != LightMountState.Off) return;
+
+			ServerChangeLightState(
+				(switchState && powerState == PowerState.On)
+					? LightMountState.On
+					: LightMountState.Off);
 		}
 
 		private void Start()
@@ -597,7 +616,7 @@ namespace US13.Core.Lighting
 							ServerChangeLightState(LightMountState.Off);
 							break;
 						case PowerState.On:
-							ServerChangeLightState(LightMountState.On);
+							ServerChangeLightState(switchState ? LightMountState.On : LightMountState.Off);
 							Animator.ServerStopAnim();
 							break;
 						case PowerState.OverVoltage:

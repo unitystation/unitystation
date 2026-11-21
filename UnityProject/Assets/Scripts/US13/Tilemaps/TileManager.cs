@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections;
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Logs;
@@ -73,7 +73,7 @@ namespace US13.Tilemaps
 #endif
 			if (GameData.IsInGame == false)
 			{
-				if (!Instance.initialized) StartCoroutine(LoadAllTiles(true));
+				if (!Instance.initialized) LoadAllTiles(true).Forget(e => Logs.Loggy.Error(e.ToString()));
 			}
 		}
 
@@ -89,7 +89,7 @@ namespace US13.Tilemaps
 #if UNITY_EDITOR
 			CacheAllAssets();
 #endif
-			if (!initialized) StartCoroutine(LoadAllTiles());
+			if (!initialized) LoadAllTiles().Forget(e => Logs.Loggy.Error(e.ToString()));
 		}
 
 		[ContextMenu("Cache All Assets")]
@@ -114,7 +114,7 @@ namespace US13.Tilemaps
 			return true;
 		}
 
-		public IEnumerator LoadAllTiles(bool staggeredload = false)
+		public async UniTask LoadAllTiles(bool staggeredload = false)
 		{
 			initialized = true;
 			tilesToLoad = 0;
@@ -149,24 +149,24 @@ namespace US13.Tilemaps
 						}
 					}
 
-					if (staggeredload)
+					if (staggeredload && Application.isPlaying)
 					{
 						objCounts++;
 						if (objCounts >= 10)
 						{
 							objCounts = 0;
-							yield return WaitFor.EndOfFrame;
+							await UniTask.NextFrame();
 						}
 					}
 				}
 
-				if (staggeredload)
+				if (staggeredload && Application.isPlaying)
 				{
 					objCounts++;
 					if (objCounts >= 10)
 					{
 						objCounts = 0;
-						yield return WaitFor.EndOfFrame;
+						await UniTask.NextFrame();
 					}
 				}
 			}
@@ -186,7 +186,7 @@ namespace US13.Tilemaps
 
 		public static LayerTile GetTile(TileType tileType, string key)
 		{
-			if (!Instance.initialized) Instance.StartCoroutine(Instance.LoadAllTiles());
+			if (!Instance.initialized) Instance.LoadAllTiles().Forget(e => Logs.Loggy.Error(e.ToString()));
 
 			if (Instance.tiles.TryGetValue(tileType, out var tiles) && tiles.TryGetValue(key, out var layerTile))
 			{

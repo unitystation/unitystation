@@ -39,21 +39,18 @@ namespace US13.UI.Systems.PreRound
 			}
 		}
 
-		public void UpdateLoadingBar(string title, string subject, float loadedAmt)
+		public void UpdateLoadingBar(string title, string subject, float loadedAmt, string detail = "")
 		{
 			if (title == "" && subject == "") return;
-			if (loadedAmt >= 1f)
-			{
-				loadingBar.size = 1f;
-				gameObject.SetActive(false);
-			}
 			if (gameObject.activeSelf == false)
 			{
 				gameObject.SetActive(true);
 			}
 			loadingTitle.text = title;
-			loadingSubject.text = subject;
-			loadingBar.size = loadedAmt;
+			loadingSubject.text = loadingTextDetailed == null && !string.IsNullOrEmpty(detail)
+				? $"{subject}\n{detail}" : subject;
+			loadingBar.size = Mathf.Clamp01(loadedAmt);
+			if (loadingTextDetailed != null) loadingTextDetailed.text = detail;
 		}
 	}
 }

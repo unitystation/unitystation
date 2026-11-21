@@ -1,5 +1,5 @@
+using Cysharp.Threading.Tasks;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.IMGUI.Controls;
@@ -196,7 +196,7 @@ public class FileSelectorWindow : EditorWindow
                 }
                 else
                 {
-                    LoadFromJson(pasteJson, null);
+                    LoadFromJson(pasteJson, null).Forget(e => Loggy.Error(e.ToString()));
                 }
             }
         }
@@ -272,10 +272,10 @@ public class FileSelectorWindow : EditorWindow
 
     private void LoadFile(string absPath)
     {
-        LoadFromJson(File.ReadAllText(absPath), absPath);
+        LoadFromJson(File.ReadAllText(absPath), absPath).Forget(e => Loggy.Error(e.ToString()));
     }
 
-    private void LoadFromJson(string json, string sourcePathOrNull)
+    private async UniTask LoadFromJson(string json, string sourcePathOrNull)
     {
         if (string.IsNullOrEmpty(json))
         {
@@ -288,7 +288,7 @@ public class FileSelectorWindow : EditorWindow
             MapSaver.CodeClass.ThisCodeClass.Reset();
             var matricesBeforeLoad = new HashSet<MetaTileMap>(Object.FindObjectsByType<MetaTileMap>(FindObjectsSortMode.None));
             var mapData = JsonConvert.DeserializeObject<MapSaver.MapData>(json);
-            RunCoroutineInEditor(MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData));
+            await MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData);
             activeFilePath = sourcePathOrNull ?? "";
         }
         catch (Exception e)
@@ -300,26 +300,8 @@ public class FileSelectorWindow : EditorWindow
         }
     }
 
-    // Play mode ticks coroutines for us; the editor doesn't, so we run this one to completion ourselves.
-    private static void RunCoroutineInEditor(IEnumerator coroutine)
-    {
-        var stack = new Stack<IEnumerator>();
-        stack.Push(coroutine);
-        while (stack.Count > 0)
-        {
-            IEnumerator top = stack.Peek();
-            if (top.MoveNext() == false)
-            {
-                stack.Pop();
-                continue;
-            }
-            if (top.Current is IEnumerator nested)
-            {
-                stack.Push(nested);
-            }
-        }
-    }
-	
+
+
 
     private string SerializeScene()
     {

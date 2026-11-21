@@ -4,6 +4,7 @@ using UnityEngine;
 using US13.Core.Transform;
 using US13.Managers.NetworkManagement;
 using US13.Managers.UpdateManager;
+using US13.MapSaver;
 using US13.Tilemaps.Behaviours.Meta;
 using Util;
 
@@ -20,7 +21,6 @@ namespace US13.Shuttles
 
 		[HideInInspector]
 		public MatrixMove mm;
-
 
 		public ShuttleConnector ShuttlesMainConnector;
 
@@ -41,25 +41,28 @@ namespace US13.Shuttles
 		[PlayModeOnly]
 		public Vector3 CurrentTargetPosition;
 
-
 		public GuidanceBuoy InItAsIfDockedToBuoy;
 
 		private MatrixSystemManager MatrixSystemManager;
+		private bool hasStarted;
+
+		protected bool CanUpdate => hasStarted && !MapLoader.IsLoadingMap &&
+			MatrixSystemManager != null && MatrixSystemManager.IsInitialized &&
+			mm != null && mm.NetworkedMatrixMove != null;
 
 		[PlayModeOnly] public OrientationEnum DirectionOverride = OrientationEnum.Default;
-		private void OnEnable()
+
+		protected virtual void OnEnable()
 		{
-			if (CustomNetworkManager.IsServer == false) return;
+			if (CustomNetworkManager.IsServer == false || hasStarted == false) return;
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		}
 
-		private void OnDisable()
+		protected virtual void OnDisable()
 		{
 			if (CustomNetworkManager.IsServer == false) return;
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
-
-
 
 		/// <summary>
 		/// Travel to a world position instead of a guidance buoy.
@@ -98,9 +101,11 @@ namespace US13.Shuttles
 			mm.NetworkedMatrixMove.SpinneyThreshold = 9999;
 			mm.NetworkedMatrixMove.rotationSpeed = 90;
 			mm.NetworkedMatrixMove.ShuttleNonSpinneyModeRounding = 90;
+			hasStarted = true;
+			if (isActiveAndEnabled) OnEnable();
 		}
 
-		public void Initialize()
+		public virtual void Initialize()
 		{
 			if (InItAsIfDockedToBuoy != null)
 			{
@@ -299,6 +304,7 @@ namespace US13.Shuttles
 		}
 		public virtual void UpdateMe()
 		{
+			if (!CanUpdate) return;
 			if (mm.NetworkedMatrixMove.IsMoving == false)
 			{
 				if (HasPositionTarget)

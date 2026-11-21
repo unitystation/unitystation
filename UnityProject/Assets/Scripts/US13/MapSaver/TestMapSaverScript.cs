@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using Newtonsoft.Json;
@@ -122,7 +123,7 @@ namespace US13.MapSaver
 			MapSaver.CodeClass.ThisCodeClass.Reset();
 			// Deserialize the JSON content to a MapData object
 			MapSaver.MapData mapData = JsonConvert.DeserializeObject<MapSaver.MapData>(json);
-			StartCoroutine(MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData));
+			MapLoader.ServerLoadMap(Vector3.zero, Vector3.zero, mapData).Forget(e => Logs.Loggy.Error(e.ToString()));
 		}
 	}
 }
