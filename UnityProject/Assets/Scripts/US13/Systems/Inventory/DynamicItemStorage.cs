@@ -804,9 +804,12 @@ namespace US13.Systems.Inventory
 		}
 
 		private readonly Dictionary<uint, IDynamicItemSlotS> ClientCash = new Dictionary<uint, IDynamicItemSlotS>();
+		private int clientSnapshotVersion;
 
 		public void ProcessChangeClient(string newSt, int tries = 0)
 		{
+			if (tries == 0) clientSnapshotVersion++;
+			var snapshotVersion = clientSnapshotVersion;
 			added.Clear();
 			removed.Clear();
 			var incomingList = JsonConvert.DeserializeObject<List<InternalData>>(newSt);
@@ -817,10 +820,16 @@ namespace US13.Systems.Inventory
 				{
 					if (spawnedList.TryGetValue(IntIn.ID, out var spawned) == false)
 					{
-						if (tries > 25)
+						// (Max): Some of these things can time out on poor internet connections.
+						// TODO: Find a more robust way to handle this
+						bool stillLoading = MapSaver.MapLoader.IsLoadingMap ||
+						                    (CustomNetworkManager.IsServer == false &&
+						                     Managers.SubSceneManager.SubSceneManager.Instance != null &&
+						                     Managers.SubSceneManager.SubSceneManager.Instance.clientIsLoadingSubscene);
+						if (tries > 25 && !stillLoading)
 						{
 							Loggy.Error(
-								$"Failed to find object in spawned objects, might have not spawned yet? netId: {IntIn}");
+								$"Failed to find object in spawned objects, might have not spawned yet? netId: {IntIn.ID}");
 							continue;
 						}
 
@@ -832,10 +841,12 @@ namespace US13.Systems.Inventory
 							{
 								DynamicItemStorage DIS;
 
-								int LocalTries = tries;
-								LocalTries++;
+								// Loading can take more than the normal retry budget. Keep at least
+								// one retry without treating it as a new storage snapshot.
+								int LocalTries = stillLoading ? Math.Max(1, tries) : tries + 1;
 
-								if (wptr.TryGetTarget(out DIS))
+								if (wptr.TryGetTarget(out DIS) && DIS != null &&
+								    DIS.clientSnapshotVersion == snapshotVersion)
 								{
 									DIS.ProcessChangeClient(newSt, LocalTries);
 								}

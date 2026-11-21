@@ -1,167 +1,127 @@
-﻿using System;
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Cysharp.Threading.Tasks;
 using Mirror;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using US13.Managers.AddressableManager;
 using US13.Managers.NetworkManagement;
 using US13.Messages.Client;
 using US13.UI.Systems.PreRound;
 
-// Client
 namespace US13.Managers.SubSceneManager
 {
 	public partial class SubSceneManager
 	{
-		private bool KillClientLoadingCoroutine = false;
-
-		public bool clientIsLoadingSubscene = false;
+		public bool clientIsLoadingSubscene;
 		public HashSet<SceneInfo> clientLoadedSubScenes = new HashSet<SceneInfo>();
-
-		private float waitTime = 0f;
+		private float waitTime;
 		private readonly float tickRate = 1f;
-
 		public Dictionary<string, bool> ClientObserver = new Dictionary<string, bool>();
+		public bool ClientIsFullyDoneLoadingOnSubsceneManager { get; private set; }
+		private Action ClientSideFinishAction;
 
-		public bool ClientIsFullyDoneLoadingOnSubsceneManager { get; private set; } = false;
-
-
-		void MonitorServerSceneListOnClient()
+		private void MonitorServerSceneListOnClient()
 		{
-			if (CustomNetworkManager.IsServer || clientIsLoadingSubscene || AddressableCatalogueManager.FinishLoaded == false) return;
-
+			if (CustomNetworkManager.IsServer || clientIsLoadingSubscene || !AddressableCatalogueManager.FinishLoaded) return;
 			waitTime += Time.deltaTime;
 			if (waitTime < tickRate) return;
-			waitTime = 0f;
-
-			for (int i = 0; i < loadedScenesList.Count; i++)
+			waitTime = 0;
+			foreach (var scene in loadedScenesList)
 			{
-				GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Loading Scenes", $"Loading Scene Number #{i}", i / loadedScenesList.Count);
-				var sceneToCheck = loadedScenesList[i];
-				if(clientLoadedSubScenes.Contains(sceneToCheck)) continue;
-				clientIsLoadingSubscene = true;
-				StartCoroutine(LoadClientSubScene(sceneToCheck));
+				if (clientLoadedSubScenes.Contains(scene)) continue;
+				LoadClientSubScene(scene).Forget(e => Logs.Loggy.Error(e.ToString()));
 				break;
 			}
 		}
 
-		IEnumerator LoadClientSubScene(SceneInfo sceneInfo, bool HandlSynchronising = true,
-			SubsceneLoadTimer SubsceneLoadTimer = null, bool OverrideclientIsLoadingSubscene = false)
+		private async UniTask LoadClientSubScene(SceneInfo sceneInfo, bool synchronize = true, bool ownsLoadingFlag = true)
 		{
-			if (sceneInfo.SceneType == SceneType.MainStation)
+			var cancellationToken = LoadingToken;
+			if (ownsLoadingFlag) clientIsLoadingSubscene = true;
+			try
 			{
-				if (SubsceneLoadTimer == null)
-				{
-					SubsceneLoadTimer = new SubsceneLoadTimer();
-					//calculate load time:
-					SubsceneLoadTimer.MaxLoadTime = 10f;
-				}
-
-				SubsceneLoadTimer.IncrementLoadBar($"Loading {sceneInfo.SceneName}");
-				yield return StartCoroutine(LoadSubScene(sceneInfo.SceneName, SubsceneLoadTimer, HandlSynchronising));
-				MainStationLoaded = true;
-
+				await LoadSubScene(sceneInfo.SceneName, new SubsceneLoadTimer(), synchronize, sceneInfo.SceneType);
+				cancellationToken.ThrowIfCancellationRequested();
+				if (sceneInfo.SceneType == SceneType.MainStation) MainStationLoaded = true;
+				clientLoadedSubScenes.Add(sceneInfo);
 			}
-			else
+			finally
 			{
-				if (SubsceneLoadTimer != null)
-				{
-					SubsceneLoadTimer.IncrementLoadBar(sceneInfo.SceneType != SceneType.HiddenScene ?
-						$"Loading {sceneInfo.SceneName}" : "");
-				}
-
-				yield return StartCoroutine(LoadSubScene(sceneInfo.SceneName, HandlSynchronising  :HandlSynchronising ));
+				if (ownsLoadingFlag && !cancellationToken.IsCancellationRequested) clientIsLoadingSubscene = false;
 			}
-
-			if (OverrideclientIsLoadingSubscene == false)
-			{
-				clientIsLoadingSubscene = false;
-			}
-			clientLoadedSubScenes.Add(sceneInfo);
 		}
 
-		public void LoadScenesFromServer(List<SceneInfo> Scenes, string OriginalScene, Action OnFinish)
+		public void LoadScenesFromServer(List<SceneInfo> scenes, string originalScene, Action onFinish)
 		{
-			KillClientLoadingCoroutine = false;
-			StartCoroutine(LoadClientScenesFromServer(Scenes,OriginalScene, OnFinish));
+			LoadClientScenesFromServer(scenes, originalScene, onFinish).Forget(e => Logs.Loggy.Error(e.ToString()));
 		}
 
-		private Action ClientSideFinishAction;
-
-		IEnumerator LoadClientScenesFromServer(List<SceneInfo> Scenes, string OriginalScene, Action OnFinish)
+		private async UniTask LoadClientScenesFromServer(List<SceneInfo> scenes, string originalScene, Action onFinish)
 		{
-			ClientSideFinishAction = OnFinish;
-			var SubsceneLoadTimer = new SubsceneLoadTimer();
-			//calculate load time:
-			SubsceneLoadTimer.MaxLoadTime = Scenes.Count;
-
-			var loadCount = 0;
+			var cancellationToken = LoadingToken;
+			ClientSideFinishAction = onFinish;
+			ClientIsFullyDoneLoadingOnSubsceneManager = false;
 			clientIsLoadingSubscene = true;
-			foreach (var Scene in Scenes)
+			var progress = new SubsceneLoadTimer();
+
+			try
 			{
-				loadCount++;
-				GUI_PreRoundWindow.Instance?.LoadingArea?.UpdateLoadingBar("Loading Scenes", $"Scenes Loaded.. ({loadCount}/{Scenes.Count})", loadCount / Scenes.Count);
-				yield return LoadClientSubScene(Scene, false, SubsceneLoadTimer, true );
-				if (KillClientLoadingCoroutine)
+				for (int i = 0; i < scenes.Count; i++)
 				{
-					yield return SceneManager.UnloadSceneAsync(Scene.SceneName);
-					KillClientLoadingCoroutine = false;
+					progress.Report("Scenes completed", scenes[i].SceneName, i, scenes.Count);
+					await LoadClientSubScene(scenes[i], false, false);
+					cancellationToken.ThrowIfCancellationRequested();
+					progress.Report("Scenes completed", scenes[i].SceneName, i + 1, scenes.Count);
+				}
+
+				progress.Report("Preparing scene objects", originalScene);
+				NetworkClient.PrepareToSpawnSceneObjects();
+				ClientObserver.Clear();
+
+				foreach (var scene in scenes)
+				{
+					ClientObserver[scene.SceneName] = false;
+				}
+				RequestObserverRefresh.Send(originalScene);
+
+				foreach (var scene in scenes)
+				{
+					await UniTask.Delay(TimeSpan.FromSeconds(0.1f), cancellationToken: cancellationToken);
+					RequestObserverRefresh.Send(scene.SceneName);
+				}
+				int attempts = 0;
+				while (!ObserverOfAll() && attempts++ < 600)
+				{
+					progress.Report("Scene acknowledgements received", "Synchronizing objects", ClientObserver.Count(x => x.Value), ClientObserver.Count);
+					await UniTask.Delay(TimeSpan.FromSeconds(0.1f), cancellationToken: cancellationToken);
+				}
+				if (ObserverOfAll() == false)
+				{
+					progress.Report("Synchronization timed out", "Some scenes have not acknowledged their objects");
+					Logs.Loggy.Error("Timed out waiting for scene observer acknowledgements.");
+					return;
+				}
+				ClientIsFullyDoneLoadingOnSubsceneManager = true;
+				ClientSideFinishAction = null;
+				onFinish?.Invoke();
+				cancellationToken.ThrowIfCancellationRequested();
+				GUI_PreRoundWindow.Instance?.HideLoadingArea();
+			}
+			finally
+			{
+				if (cancellationToken.IsCancellationRequested == false)
+				{
 					clientIsLoadingSubscene = false;
-					yield break;
+					ClientObserver.Clear();
+					ClientSideFinishAction = null;
 				}
 			}
-
-			loadCount = 0;
-
-			GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Loading Scenes", $"Preparing to spawn objects..", 0.4f);
-			NetworkClient.PrepareToSpawnSceneObjects();
-			RequestObserverRefresh.Send(OriginalScene);
-
-			GUI_PreRoundWindow.Instance?.OnClientLoadUpdateStatus?.Invoke("Loading Scenes", $"Requesting Object Observers.. ({loadCount}/{Scenes.Count})", 0.5f);
-			foreach (var scene in Scenes)
-			{
-				loadCount++;
-				yield return WaitFor.Seconds(0.1f); //For smooth FPS not necessary technically, but causes freeze For a little bit
-				if (KillClientLoadingCoroutine)
-				{
-					KillClientLoadingCoroutine = false;
-					clientIsLoadingSubscene = false;
-					yield break;
-				}
-				RequestObserverRefresh.Send(scene.SceneName);
-				ClientObserver[scene.SceneName] = false;
-			}
-
-			clientIsLoadingSubscene = false;
-			yield return WaitFor.Seconds(0.1f); //For smooth FPS not necessary technically, but causes freeze For a little bit
-			if (KillClientLoadingCoroutine)
-			{
-				KillClientLoadingCoroutine = false;
-				yield break;
-			}
-
-			int Count = 0;
-			while (ObserverOfAll() == false && Count < 600)
-			{
-				yield return WaitFor.Seconds(0.1f);
-				Count++;
-			}
-
-
-			ClientObserver.Clear();
-			ClientSideFinishAction = null;
-			OnFinish?.Invoke();
-			GUI_PreRoundWindow.Instance?.HideLoadingArea();
-			ClientIsFullyDoneLoadingOnSubsceneManager = true;
 		}
 
-
-		public bool ObserverOfAll()
+		private bool ObserverOfAll()
 		{
 			return ClientObserver.All(x => x.Value);
 		}
-
 	}
 }

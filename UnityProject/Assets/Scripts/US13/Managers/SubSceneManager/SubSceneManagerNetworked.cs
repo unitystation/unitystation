@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using Mirror;
 
 namespace US13.Managers.SubSceneManager
@@ -20,7 +21,7 @@ namespace US13.Managers.SubSceneManager
 			Destroy(GameManager.Instance.GameMode);
 			GameManager.Instance.GameMode = null;
 			GameManager.Instance.ChooseGameMode();
-			StartCoroutine(SubSceneManager.RoundStartServerLoadSequence());
+			SubSceneManager.RoundStartServerLoadSequence().Forget(e => Logs.Loggy.Error(e.ToString()));
 			base.OnStartServer();
 		}
 

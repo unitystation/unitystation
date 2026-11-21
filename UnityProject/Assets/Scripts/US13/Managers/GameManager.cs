@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -589,7 +590,7 @@ namespace US13.Managers
 			counting = true;
 			RespawnCurrentlyAllowed = GameMode.CanRespawn;
 			StartCoroutine(WaitToInitEscape());
-			StartCoroutine(WaitToStartGameMode());
+			WaitToStartGameMode().Forget(e => Logs.Loggy.Error(e.ToString()));
 
 			// Tell all clients that the countdown has finished
 			UpdateCountdownMessage.Send(true, 0, CurrentRoundState);
