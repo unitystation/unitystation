@@ -219,6 +219,7 @@ namespace US13.Core.Physics
 			public GameObject target;
 		}
 
+		[PlayModeOnly]
 		public HitContext LastHitContext = new HitContext();
 
 

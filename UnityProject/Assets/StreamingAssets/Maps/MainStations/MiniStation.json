@@ -110039,6 +110039,10 @@
                   "ClassID": "DoorSwitch@0",
                   "Data": [
                     {
+                      "Name": "NewdoorControllers#1",
+                      "Data": "38246cd9491b4c248abb2e296cc6c76f_38┼70┼0┼@0@DoorMasterController@0"
+                    },
+                    {
                       "Name": "NewdoorControllers#0",
                       "Data": "79cea07a5f8e66f49a554df1a003ecba_33┼77┼0┼@0@DoorMasterController@0"
                     }
@@ -117942,6 +117946,10 @@
                 {
                   "ClassID": "APC@0",
                   "Data": [
+                    {
+                      "Name": "connectedDevices#22",
+                      "Data": "38246cd9491b4c248abb2e296cc6c76f_38┼70┼0┼@0@APCPoweredDevice@0"
+                    },
                     {
                       "Name": "connectedDevices#21",
                       "Data": "38246cd9491b4c248abb2e296cc6c76f_44┼70┼0┼@0@APCPoweredDevice@0"
@@ -133086,10 +133094,6 @@
                     {
                       "Name": "InitialVendorContent#0@ItemName",
                       "Data": ""
-                    },
-                    {
-                      "Name": "InitialVendorContent#0@Item",
-                      "Data": "NULL"
                     },
                     {
                       "Name": "InitialVendorContent#0@Stock",
