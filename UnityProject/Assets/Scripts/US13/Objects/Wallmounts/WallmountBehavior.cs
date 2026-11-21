@@ -36,22 +36,22 @@ namespace US13.Objects.Wallmounts
 
 		private void Start()
 		{
-			foreach (SpriteRenderer renderer in spriteRenderers)
-			{
-				//don't add it if it already exists
-				var existingRenderer = renderer.GetComponent<WallmountSpriteBehavior>();
-				if (existingRenderer == null)
-				{
-					renderer.gameObject.AddComponent<WallmountSpriteBehavior>();
-				}
-			}
-
+			// Attach text behavior first: its required SpriteRenderer must not receive the base behavior.
 			var textRenderers = GetComponentsInChildren<Text>();
 			foreach (var text in textRenderers)
 			{
-				if (GetComponent<WallmountTextBehavior>() == null)
+				if (text.TryGetComponent<WallmountTextBehavior>(out _) == false)
 				{
 					text.gameObject.AddComponent<WallmountTextBehavior>();
+				}
+			}
+
+			foreach (SpriteRenderer renderer in spriteRenderers)
+			{
+				//don't add it if it already exists
+				if (renderer.TryGetComponent<WallmountSpriteBehavior>(out _) == false)
+				{
+					renderer.gameObject.AddComponent<WallmountSpriteBehavior>();
 				}
 			}
 		}

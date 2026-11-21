@@ -23,16 +23,19 @@ namespace US13.Objects.Wallmounts
 		//parent wallmount behavior
 		private WallmountBehavior wallmountBehavior;
 
-		private LightingSystem lightingSystem;
-		private LightingSystem LightingSystem {
-			get {
-				if (this.lightingSystem == null && Camera.main.TryGetComponent(out LightingSystem lightingSystem))
-				{
-					this.lightingSystem = lightingSystem;
-				}
+		// Every mask camera invokes OnWillRenderObject. Share the camera lookup across all wallmounts.
+		private static int lightingLookupFrame = -1;
+		private static LightingSystem lightingSystem;
+		private int lastVisibilityFrame = -1;
 
-				return this.lightingSystem;
-			}
+		private static LightingSystem GetLightingSystem()
+		{
+			if (lightingLookupFrame == Time.frameCount) return lightingSystem;
+			lightingLookupFrame = Time.frameCount;
+			lightingSystem = null;
+			var mainCamera = Camera.main;
+			if (mainCamera != null) mainCamera.TryGetComponent(out lightingSystem);
+			return lightingSystem;
 		}
 
 		protected virtual void Awake()
@@ -41,33 +44,50 @@ namespace US13.Objects.Wallmounts
 			wallmountBehavior = GetComponentInParent<WallmountBehavior>();
 		}
 
+		protected virtual void OnEnable()
+		{
+			lastVisibilityFrame = -1;
+		}
+
 		// Handles rendering logic, only runs when this sprite is on camera
 		public void OnWillRenderObject()
 		{
+			if (lastVisibilityFrame == Time.frameCount) return;
+			lastVisibilityFrame = Time.frameCount;
+
 			// don't run check until player is created
 			if (PlayerManager.LocalPlayerObject == null || wallmountBehavior == null)
 			{
 				return;
 			}
 
+			var currentLightingSystem = GetLightingSystem();
+			// Cameras can be absent or replaced while scenes and the local player are being initialized.
+			if (currentLightingSystem == null) return;
+
 			bool visible;
 			// If the lighting system is disabled, we're probably a ghost or have the dev spawner open.
-			if (!LightingSystem.enabled)
+			if (!currentLightingSystem.enabled)
 			{
 				visible = true;
 			}
 			else
 			{
 				// recalculate if it is facing the player
-				if (Camera2DFollow.followControl.target == null) return;
-				visible = wallmountBehavior.IsFacingPosition(Camera2DFollow.followControl.target.position);
+				var followControl = Camera2DFollow.followControl;
+				if (followControl == null || followControl.target == null) return;
+				visible = wallmountBehavior.IsFacingPosition(followControl.target.position);
 			}
 			SetAlpha(visible ?1 : 0f);
 		}
 
 		protected virtual void SetAlpha(float alpha)
 		{
-			spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, alpha);
+			if (spriteRenderer == null) return;
+			var color = spriteRenderer.color;
+			if (color.a == alpha) return;
+			color.a = alpha;
+			spriteRenderer.color = color;
 		}
 	}
 }
