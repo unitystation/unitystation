@@ -187,6 +187,12 @@ namespace US13.Shuttles
 			centComm = GameManager.Instance.GetComponent<CentComm>();
 			initialTimerSecondsCache = initialTimerSeconds;
 			loadedOnRoundID = GameManager.RoundID;
+		}
+
+		public override void Initialize()
+		{
+			base.Initialize();
+			// A mapped buoy may be in a later load batch or another matrix.
 			InItAsIfDockedTo(StationStartBuoy);
 		}
 
@@ -205,18 +211,16 @@ namespace US13.Shuttles
 		}
 
 
-		private void OnEnable()
+		protected override void OnEnable()
 		{
-			if(CustomNetworkManager.IsServer == false) return;
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			base.OnEnable();
 		}
 
-		private void OnDisable()
+		protected override void OnDisable()
 		{
 			StopAllCoroutines();
 
-			if(CustomNetworkManager.IsServer == false) return;
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			base.OnDisable();
 		}
 
 		//called when each thruster is destroyed
@@ -276,6 +280,7 @@ namespace US13.Shuttles
 
 		public override void UpdateMe()
 		{
+			if (!CanUpdate) return;
 			base.UpdateMe();
 			if (Status == EscapeShuttleStatus.OnRouteToCentCom)
 			{

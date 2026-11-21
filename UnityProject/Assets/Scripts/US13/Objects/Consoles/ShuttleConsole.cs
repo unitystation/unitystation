@@ -50,12 +50,12 @@ namespace US13.Objects.Consoles
 		private void Awake()
 		{
 			hasNetworkTab = GetComponent<HasNetworkTab>();
+			registerTile = GetComponent<RegisterTile>();
+			Rotatable = this.GetCachedComponent<Rotatable>();
 		}
 
 		private void Start()
 		{
-			registerTile = GetComponent<RegisterTile>();
-			Rotatable = this.GetCachedComponent<Rotatable>();
 			ShuttleMatrixMove = GetComponentInParent<MatrixMove>();
 
 			if (ShuttleMatrixMove.NetworkedMatrixMove.ShuttleConsuls.Contains(this) == false)
@@ -73,7 +73,10 @@ namespace US13.Objects.Consoles
 		{
 			ShuttleMatrixMove = GetComponentInParent<MatrixMove>();
 			if (ShuttleMatrixMove  == null) return;
-			ShuttleMatrixMove.NetworkedMatrixMove.ShuttleConsuls.Add(this);
+			if (ShuttleMatrixMove.NetworkedMatrixMove.ShuttleConsuls.Contains(this) == false)
+			{
+				ShuttleMatrixMove.NetworkedMatrixMove.ShuttleConsuls.Add(this);
+			}
 		}
 
 		public void OnSpawnServer(SpawnInfo info)

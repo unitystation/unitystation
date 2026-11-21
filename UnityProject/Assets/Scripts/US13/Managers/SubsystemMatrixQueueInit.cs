@@ -1,4 +1,5 @@
-﻿using System.Collections;
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Logs;
@@ -45,7 +46,7 @@ namespace US13.Managers
 				if (Matrix.NetworkedMatrix.IsJsonLoaded == false)
 				{
 					//mid-round scene only
-					Matrix.StartCoroutine(Matrix.MatrixInitialization());
+					Matrix.MatrixInitialization(Matrix.GetCancellationTokenOnDestroy()).Forget(e => Logs.Loggy.Error(e.ToString()));
 					return;
 				}
 				else
@@ -58,19 +59,23 @@ namespace US13.Managers
 
 		}
 
-		public static IEnumerator InitAllSystems()
+		public static async UniTask InitAllSystems(CancellationToken cancellationToken = default)
 		{
 			int ElapseMilliseconds = 0;
 			int Matrixint = 0;
 			var watch2 = new Stopwatch();
 			watch2.Start();
 			Chat.AddGameWideSystemMsgToChat($"<color=#008b8b>Initialising {Instance.Matrixs.Count} Matrices..</color>");
+			var progress = new SubSceneManager.SubsceneLoadTimer();
 			foreach (var behaviour in Instance.Matrixs)
 			{
-				yield return behaviour.MatrixInitialization();
+				cancellationToken.ThrowIfCancellationRequested();
+				progress.Report("Matrices initialized", behaviour.name, Matrixint, Instance.Matrixs.Count);
+				await behaviour.MatrixInitialization(cancellationToken);
 				ElapseMilliseconds += watch2.Elapsed.Milliseconds;
 				Matrixint++;
-				yield return null;
+				progress.Report("Matrices initialized", behaviour.name, Matrixint, Instance.Matrixs.Count);
+				await UniTask.NextFrame(cancellationToken: cancellationToken);
 			}
 			watch2.Stop();
 			Chat.AddGameWideSystemMsgToChat(

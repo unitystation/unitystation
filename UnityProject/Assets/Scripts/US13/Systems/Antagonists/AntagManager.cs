@@ -1,5 +1,5 @@
+using Cysharp.Threading.Tasks;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -117,18 +117,18 @@ namespace US13.Systems.Antagonists
 			ServerFinishAntag(chosenAntag, SpawnMind);
 		}
 
-		public IEnumerator ServerRespawnAsAntag(PlayerInfo connectedPlayer, Antagonist antagonist)
+		public async UniTask ServerRespawnAsAntag(PlayerInfo connectedPlayer, Antagonist antagonist)
 		{
 			if (antagonist.AntagJobType == JobType.SYNDICATE)
 			{
-				yield return StartCoroutine(SubSceneManager.Instance.LoadSyndicate());
-				yield return WaitFor.EndOfFrame;
+				await SubSceneManager.Instance.LoadSyndicate();
+				await UniTask.NextFrame();
 			}
 
 			if (antagonist.AntagJobType == JobType.WIZARD)
 			{
-				yield return StartCoroutine(SubSceneManager.Instance.LoadWizard());
-				yield return WaitFor.EndOfFrame;
+				await SubSceneManager.Instance.LoadWizard();
+				await UniTask.NextFrame();
 			}
 
 			Occupation Occupation = connectedPlayer.Mind.occupation;

@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using System.Collections;
 using UnityEngine;
 using US13.Managers;
@@ -27,7 +28,7 @@ namespace US13.Systems.InGameEvents.InGameEventScripts
 			StartCoroutine(StartRoundTimer());
 			foreach (var player in PlayerList.Instance.GetAlivePlayers())
 			{
-				StartCoroutine(AntagManager.Instance.ServerRespawnAsAntag(player, highlanderAntag));
+				AntagManager.Instance.ServerRespawnAsAntag(player, highlanderAntag).Forget(e => Logs.Loggy.Error(e.ToString()));
 				HighlanderTimerMessage.Send(player);
 			}
 		}

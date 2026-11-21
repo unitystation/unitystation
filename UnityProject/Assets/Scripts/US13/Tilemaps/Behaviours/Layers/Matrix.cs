@@ -1,3 +1,5 @@
+using System.Threading;
+using Cysharp.Threading.Tasks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -495,10 +497,10 @@ namespace US13.Tilemaps.Behaviours.Layers
 			return (list);
 		}
 
-		public IEnumerator MatrixInitialization()
+		public async UniTask MatrixInitialization(CancellationToken cancellationToken = default)
 		{
 			var subsystemManager = this.GetComponentInParent<MatrixSystemManager>();
-			yield return subsystemManager.Initialize();
+			await subsystemManager.Initialize(cancellationToken);
 
 			if (CustomNetworkManager.IsServer && NetworkedMatrix.IsJsonLoaded == false)
 			{

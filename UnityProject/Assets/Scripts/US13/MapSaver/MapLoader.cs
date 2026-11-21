@@ -1,5 +1,6 @@
+using Cysharp.Threading.Tasks;
 using System;
-using System.Collections;
+using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Globalization;
@@ -27,6 +28,49 @@ namespace US13.MapSaver
 {
 	public static class MapLoader
 	{
+		// Reference resolution uses shared state across all matrices in a map.
+		private static readonly SemaphoreSlim loadGate = new SemaphoreSlim(1, 1);
+		public static bool IsLoadingMap => loadGate.CurrentCount == 0;
+		public readonly struct LoadingProgress
+		{
+			public readonly string Stage;
+			public readonly string Context;
+			public readonly int Completed;
+			public readonly int Total;
+			public float Fraction => Total > 0 ? Mathf.Clamp01((float)Completed / Total) : 0f;
+			public LoadingProgress(string stage, string context, int completed, int total)
+			{
+				Stage = stage; Context = context; Completed = completed; Total = total;
+			}
+		}
+
+		private sealed class LoadBatch
+		{
+			private readonly System.Diagnostics.Stopwatch watch = System.Diagnostics.Stopwatch.StartNew();
+			private readonly Action<LoadingProgress> progress;
+			private readonly string stage, context;
+			private readonly int total;
+			private readonly CancellationToken token;
+			private int completed;
+			public LoadBatch(string stage, string context, int total, Action<LoadingProgress> progress, CancellationToken token)
+			{
+				this.stage = stage; this.context = context; this.total = total; this.progress = progress; this.token = token;
+				progress?.Invoke(new LoadingProgress(stage, context, 0, total));
+			}
+			public async UniTask Step()
+			{
+				token.ThrowIfCancellationRequested();
+				completed++;
+				if (watch.ElapsedMilliseconds < 5 && completed < total) return;
+				progress?.Invoke(new LoadingProgress(stage, context, completed, total));
+				// Spawn the next batch after gameplay updates. Objects created in an Update
+				// continuation otherwise reach UpdateManager before Unity has run Start.
+				if (Application.isPlaying)
+					await UniTask.NextFrame(PlayerLoopTiming.LastPostLateUpdate, cancellationToken: token);
+				watch.Restart();
+			}
+		}
+
 		//TODO Gameobject references?
 		//TODO is missing  Cross make such IDs when List!!
 
@@ -34,8 +78,8 @@ namespace US13.MapSaver
 		//TODO Multiple components?
 		//TODO ACU not set? Test
 
-		public static void ProcessorCompactTileMapData(Matrix Matrix, Vector3Int Offset00, Vector3Int Offset,
-			MapSaver.CompactTileMapData CompactTileMapData, HashSet<LayerType> LoadLayers = null)
+		public static async UniTask ProcessorCompactTileMapData(Matrix Matrix, Vector3Int Offset00, Vector3Int Offset,
+			MapSaver.CompactTileMapData CompactTileMapData, HashSet<LayerType> LoadLayers = null, Action<LoadingProgress> progress = null, CancellationToken cancellationToken = default)
 		{
 			var CommonMatrix4x4 = new List<Matrix4x4>();
 
@@ -59,86 +103,95 @@ namespace US13.MapSaver
 			}
 
 
-			var TileLocations = CompactTileMapData.Data.Split("@");
+			var TileLocations = CompactTileMapData.Data.Split("@", StringSplitOptions.RemoveEmptyEntries);
+			var batch = new LoadBatch("Tiles processed", Matrix.name, TileLocations.Length, progress, cancellationToken);
 
 			foreach (var TileData in TileLocations)
 			{
-				if (string.IsNullOrEmpty(TileData)) continue;
-				//74,91,0☰0§2 Example
-				var Positions = TileData.Split(",");
-				Vector3Int Position = Vector3Int.zero;
-
+				cancellationToken.ThrowIfCancellationRequested();
 				try
 				{
-					Position = new Vector3Int(int.Parse(Positions[0], CultureInfo.InvariantCulture), int.Parse(Positions[1], CultureInfo.InvariantCulture),
-						int.Parse(Positions[2], CultureInfo.InvariantCulture));
-				}
-				catch (Exception e)
-				{
-					Loggy.Error(e.ToString());
-					continue;
-				}
+					//74,91,0☰0§2 Example
+					var Positions = TileData.Split(",");
+					Vector3Int Position = Vector3Int.zero;
 
-
-				Position += Offset00;
-				Position += Offset;
-
-				var data = Positions[3];
-
-				var TileID = GetDataForTag(data, MapSaver.TileIDChar);
-				LayerTile Tel = null;
-				if (TileID != null)
-				{
-					Tel = CommonLayerTiles[TileID.Value];
-				}
-				else
-				{
-					Tel = CommonLayerTiles[0];
-				}
-
-				if (LoadLayers != null && LoadLayers.Contains(Tel.LayerType) == false)
-				{
-					continue;
-				}
-
-
-				Color? Colour = null;
-				var ColourID = GetDataForTag(data, MapSaver.ColourChar);
-				if (ColourID != null)
-				{
-					Colour = CommonColours[ColourID.Value];
-				}
-				else
-				{
-					Colour = CommonColours[0];
-				}
-
-				Matrix4x4? Matrix4x4 = null;
-				var MatrixID = GetDataForTag(data, MapSaver.Matrix4x4Char);
-				if (MatrixID != null)
-				{
-					Matrix4x4 = CommonMatrix4x4[MatrixID.Value];
-				}
-				else
-				{
-					Matrix4x4 = CommonMatrix4x4[0];
-				}
-
-				try
-				{
-					Matrix.MetaTileMap.SetTile(Position, Tel, Matrix4x4, Colour, Application.isPlaying, true);
-				}
-				catch (Exception e)
-				{
 					try
 					{
-						Matrix.MetaTileMap.SetTile(Position, TileManager.Instance.ErrorTile, Matrix4x4, Colour, Application.isPlaying, true);
+						Position = new Vector3Int(int.Parse(Positions[0], CultureInfo.InvariantCulture), int.Parse(Positions[1], CultureInfo.InvariantCulture),
+							int.Parse(Positions[2], CultureInfo.InvariantCulture));
 					}
-					catch (Exception exception)
+					catch (Exception e)
 					{
-						Loggy.Error(exception.ToString());
+						Loggy.Error(e.ToString());
+						continue;
 					}
-					Loggy.Error(e.ToString());
+
+
+					Position += Offset00;
+					Position += Offset;
+
+					var data = Positions[3];
+
+					var TileID = GetDataForTag(data, MapSaver.TileIDChar);
+					LayerTile Tel = null;
+					if (TileID != null)
+					{
+						Tel = CommonLayerTiles[TileID.Value];
+					}
+					else
+					{
+						Tel = CommonLayerTiles[0];
+					}
+
+					if (LoadLayers != null && LoadLayers.Contains(Tel.LayerType) == false)
+					{
+						continue;
+					}
+
+
+					Color? Colour = null;
+					var ColourID = GetDataForTag(data, MapSaver.ColourChar);
+					if (ColourID != null)
+					{
+						Colour = CommonColours[ColourID.Value];
+					}
+					else
+					{
+						Colour = CommonColours[0];
+					}
+
+					Matrix4x4? Matrix4x4 = null;
+					var MatrixID = GetDataForTag(data, MapSaver.Matrix4x4Char);
+					if (MatrixID != null)
+					{
+						Matrix4x4 = CommonMatrix4x4[MatrixID.Value];
+					}
+					else
+					{
+						Matrix4x4 = CommonMatrix4x4[0];
+					}
+
+					try
+					{
+						Matrix.MetaTileMap.SetTile(Position, Tel, Matrix4x4, Colour, Application.isPlaying, true);
+					}
+					catch (Exception e)
+					{
+						try
+						{
+							Matrix.MetaTileMap.SetTile(Position, TileManager.Instance.ErrorTile, Matrix4x4, Colour, Application.isPlaying, true);
+						}
+						catch (Exception exception)
+						{
+							Loggy.Error(exception.ToString());
+						}
+						Loggy.Error(e.ToString());
+					}
+
+				}
+				finally
+				{
+					await batch.Step();
 				}
 			}
 		}
@@ -179,91 +232,113 @@ namespace US13.MapSaver
 		}
 
 
-		public static void ProcessorGitFriendlyTiles(Matrix Matrix, Vector3Int Offset00, Vector3Int Offset,
-			MapSaver.GitFriendlyTileMapData GitFriendlyTileMapData, HashSet<LayerType> LoadLayers = null)
+		public static async UniTask ProcessorGitFriendlyTiles(Matrix Matrix, Vector3Int Offset00, Vector3Int Offset,
+			MapSaver.GitFriendlyTileMapData GitFriendlyTileMapData, HashSet<LayerType> LoadLayers = null, Action<LoadingProgress> progress = null, CancellationToken cancellationToken = default)
 		{
+			var batch = new LoadBatch("Tile positions processed", Matrix.name, GitFriendlyTileMapData.XYs.Count, progress, cancellationToken);
 			foreach (var XY in GitFriendlyTileMapData.XYs)
 			{
-				var Pos = MapSaver.GitFriendlyPositionToVectorInt(XY.Key);
-				Pos += Offset00;
-				Pos += Offset;
-				foreach (var Layer in Matrix.MetaTileMap.LayersKeys)
+				cancellationToken.ThrowIfCancellationRequested();
+				try
 				{
-					if (LoadLayers != null && LoadLayers.Contains(Layer) == false)
+					var Pos = MapSaver.GitFriendlyPositionToVectorInt(XY.Key);
+					Pos += Offset00;
+					Pos += Offset;
+					foreach (var Layer in Matrix.MetaTileMap.LayersKeys)
 					{
-						continue;
-					}
-
-					Matrix.MetaTileMap.RemoveTileWithlayer(Pos, Layer);
-				}
-
-				Matrix.MetaTileMap.RemoveAllOverlays(Pos, LayerType.Effects);
-
-				foreach (var Tile in XY.Value)
-				{
-					try
-					{
-						var Tel = TileManager.GetTile(Tile.Tel);
-
-						if (Tel == null)
-						{
-							Loggy.Error($"Unable to find tile with name > {Tile.Tel}");
-						}
-
-						if (LoadLayers != null && LoadLayers.Contains(Tel.LayerType) == false)
+						if (LoadLayers != null && LoadLayers.Contains(Layer) == false)
 						{
 							continue;
 						}
 
-						var NewPos = Pos;
-
-						if (Tile.Z != null)
-						{
-							NewPos.z = Tile.Z.Value;
-						}
-
-						Color? Colour = null;
-						if (string.IsNullOrEmpty(Tile.Col) == false)
-						{
-							ColorUtility.TryParseHtmlString(Tile.Col, out var NonNullbleColour);
-							Colour = NonNullbleColour;
-						}
-
-						Matrix4x4? Matrix4x4 = null;
-						if (string.IsNullOrEmpty(Tile.Tf) == false)
-						{
-							Matrix4x4 = MapSaver.StringToMatrix4X4(Tile.Tf);
-						}
-
-						Matrix.MetaTileMap.SetTile(NewPos, Tel, Matrix4x4, Colour, Application.isPlaying,
-							useExactForMultilayer: true);
+						Matrix.MetaTileMap.RemoveTileWithlayer(Pos, Layer);
 					}
-					catch (Exception e)
+
+					Matrix.MetaTileMap.RemoveAllOverlays(Pos, LayerType.Effects);
+
+					foreach (var Tile in XY.Value)
 					{
-						Loggy.Error(e.ToString());
+						try
+						{
+							var Tel = TileManager.GetTile(Tile.Tel);
+
+							if (Tel == null)
+							{
+								Loggy.Error($"Unable to find tile with name > {Tile.Tel}");
+							}
+
+							if (LoadLayers != null && LoadLayers.Contains(Tel.LayerType) == false)
+							{
+								continue;
+							}
+
+							var NewPos = Pos;
+
+							if (Tile.Z != null)
+							{
+								NewPos.z = Tile.Z.Value;
+							}
+
+							Color? Colour = null;
+							if (string.IsNullOrEmpty(Tile.Col) == false)
+							{
+								ColorUtility.TryParseHtmlString(Tile.Col, out var NonNullbleColour);
+								Colour = NonNullbleColour;
+							}
+
+							Matrix4x4? Matrix4x4 = null;
+							if (string.IsNullOrEmpty(Tile.Tf) == false)
+							{
+								Matrix4x4 = MapSaver.StringToMatrix4X4(Tile.Tf);
+							}
+
+							Matrix.MetaTileMap.SetTile(NewPos, Tel, Matrix4x4, Colour, Application.isPlaying,
+								useExactForMultilayer: true);
+						}
+						catch (Exception e)
+						{
+							Loggy.Error(e.ToString());
+						}
 					}
+
+				}
+				finally
+				{
+					await batch.Step();
 				}
 			}
 		}
 
-		public static void ProcessorCompactObjectMapData(Matrix Matrix, Vector3Int Offset00, Vector3Int Offset,
-			MapSaver.CompactObjectMapData CompactObjectMapData, bool LoadingMultiple = false)
+		public static async UniTask ProcessorCompactObjectMapData(Matrix Matrix, Vector3Int Offset00, Vector3Int Offset,
+			MapSaver.CompactObjectMapData CompactObjectMapData, bool LoadingMultiple = false, Action<LoadingProgress> progress = null, CancellationToken cancellationToken = default)
 		{
+			if (Application.isPlaying)
+				await UniTask.Yield(PlayerLoopTiming.LastPostLateUpdate, cancellationToken);
 			if (LoadingMultiple == false)
 			{
 				MapSaver.CodeClass.ThisCodeClass.Reset(); //TODO Some of the functionality could be handled here
 			}
 
 
+			var batch = new LoadBatch("Objects processed", Matrix.name, CompactObjectMapData.PrefabData.Count, progress, cancellationToken);
 			foreach (var prefabData in CompactObjectMapData.PrefabData)
 			{
+				cancellationToken.ThrowIfCancellationRequested();
 				try
 				{
-					ProcessIndividualObject(CompactObjectMapData, prefabData, Matrix, Offset00, Offset);
+					try
+					{
+						ProcessIndividualObject(CompactObjectMapData, prefabData, Matrix, Offset00, Offset);
+					}
+					catch (Exception e)
+					{
+						Loggy.Error(e.ToString());
+					}
+
 				}
-				catch (Exception e)
+				finally
 				{
-					Loggy.Error(e.ToString());
+					await batch.Step();
 				}
 			}
 
@@ -556,22 +631,32 @@ namespace US13.MapSaver
 			SceneType sceneType = SceneType.HiddenScene, HashSet<LayerType> LoadLayers = null,
 			bool LoadObjects = true)
 		{
-			GameManager.Instance.StartCoroutine(ServerLoadMap(Offset00, Offset, MapData, sceneType, LoadLayers, LoadObjects));
+			ServerLoadMap(Offset00, Offset, MapData, sceneType, LoadLayers, LoadObjects).Forget(e => Logs.Loggy.Error(e.ToString()));
 		}
 
 
-		public static IEnumerator ServerLoadMap(Vector3 Offset00, Vector3 Offset, MapSaver.MapData MapData,
+		public static async UniTask ServerLoadMap(Vector3 Offset00, Vector3 Offset, MapSaver.MapData MapData,
 			SceneType sceneType = SceneType.HiddenScene, HashSet<LayerType> LoadLayers = null,
-			bool LoadObjects = true, bool TestLoad = false)
+			bool LoadObjects = true, bool TestLoad = false, Action<LoadingProgress> progress = null, CancellationToken cancellationToken = default)
 		{
-			foreach (var ToMapMatrix in MapData.ContainedMatrices)
+			await loadGate.WaitAsync(cancellationToken);
+			try
 			{
-				yield return ServerLoadSection(null, Offset00, Offset, ToMapMatrix, null,
-					MatrixName: ToMapMatrix.MatrixName, LoadingMultiple: true, sceneType: sceneType, LoadLayers : LoadLayers,LoadObjects :LoadObjects, TestLoad : TestLoad );
+				cancellationToken.ThrowIfCancellationRequested();
+				foreach (var ToMapMatrix in MapData.ContainedMatrices)
+				{
+					await ServerLoadSectionCore(null, Offset00, Offset, ToMapMatrix, null,
+						MatrixName: ToMapMatrix.MatrixName, LoadingMultiple: true, sceneType: sceneType, LoadLayers : LoadLayers,LoadObjects :LoadObjects, TestLoad : TestLoad, progress: progress, cancellationToken: cancellationToken);
+				}
+
+				MapSaver.CodeClass.ThisCodeClass.ReportStatus();
+			}
+			finally
+			{
+				MapSaver.CodeClass.ThisCodeClass.Reset();
+				loadGate.Release();
 			}
 
-			MapSaver.CodeClass.ThisCodeClass.ReportStatus();
-			MapSaver.CodeClass.ThisCodeClass.Reset();
 #if UNITY_EDITOR
 			if (Application.isPlaying == false && CustomNetworkManager.Instance != null)
 			{
@@ -584,176 +669,211 @@ namespace US13.MapSaver
 			MapSaver.MatrixData MatrixData, Action completeAction, HashSet<LayerType> LoadLayers = null,
 			bool LoadObjects = true, string MatrixName = null)
 		{
-			GameManager.Instance.StartCoroutine(ServerLoadSection(Matrix, Offset00, Offset, MatrixData, completeAction,
-				LoadLayers, LoadObjects, MatrixName, false));
+			ServerLoadSection(Matrix, Offset00, Offset, MatrixData, completeAction,
+				LoadLayers, LoadObjects, MatrixName, false).Forget(e => Logs.Loggy.Error(e.ToString()));
 		}
 
 		//Offset00 the off set In the data so objects will appear at 0,0
 		//Offset to apply 0,0 to get the position you want
-		public static IEnumerator ServerLoadSection(MatrixInfo Matrix, Vector3 Offset00, Vector3 Offset,
+		public static async UniTask ServerLoadSection(MatrixInfo Matrix, Vector3 Offset00, Vector3 Offset,
 			MapSaver.MatrixData MatrixData, Action completeAction, HashSet<LayerType> LoadLayers = null,
 			bool LoadObjects = true, string MatrixName = null, bool LoadingMultiple = false,
-			SceneType sceneType = SceneType.HiddenScene, bool TestLoad = false)
+			SceneType sceneType = SceneType.HiddenScene, bool TestLoad = false, Action<LoadingProgress> progress = null, CancellationToken cancellationToken = default)
 		{
-			#if UNITY_EDITOR
-			if (Application.isPlaying == false)
-			{
-				if (TestLoad)
-				{
-					VariableViewerManager.TestLoad = TestLoad;
-				}
-
-				(CommonManagerEditorOnly.Instance.VariableViewerManager as IInitialise).Initialise();
-				TileManager.Instance = CommonManagerEditorOnly.Instance.TileManager;
-				if (CommonManagerEditorOnly.Instance.TileManager.AllTiles.Count == 0)
-				{
-					var Load = CommonManagerEditorOnly.Instance.TileManager.LoadAllTiles();
-					while (Load.MoveNext())
-					{
-					}
-				}
-			}
-			#endif
-
-			Matrix aaMatrix = null;
+			await loadGate.WaitAsync(cancellationToken);
 			try
 			{
-				if (Matrix == null)
+				await ServerLoadSectionCore(Matrix, Offset00, Offset, MatrixData, completeAction, LoadLayers,
+					LoadObjects, MatrixName, LoadingMultiple, sceneType, TestLoad, progress, cancellationToken);
+			}
+			finally
+			{
+				if (!LoadingMultiple) MapSaver.CodeClass.ThisCodeClass.Reset();
+				loadGate.Release();
+			}
+		}
+
+		private static async UniTask ServerLoadSectionCore(MatrixInfo Matrix, Vector3 Offset00, Vector3 Offset,
+			MapSaver.MatrixData MatrixData, Action completeAction, HashSet<LayerType> LoadLayers = null,
+			bool LoadObjects = true, string MatrixName = null, bool LoadingMultiple = false,
+			SceneType sceneType = SceneType.HiddenScene, bool TestLoad = false, Action<LoadingProgress> progress = null, CancellationToken cancellationToken = default)
+		{
+			try
+			{
+#if UNITY_EDITOR
+				if (Application.isPlaying == false)
 				{
-					aaMatrix = MatrixManager.MakeNewMatrix(MatrixName, sceneType);
-					#if UNITY_EDITOR
-					if (Application.isPlaying == false)
+					if (TestLoad)
 					{
-						aaMatrix.Awake();
+						VariableViewerManager.TestLoad = TestLoad;
 					}
+
+					(CommonManagerEditorOnly.Instance.VariableViewerManager as IInitialise).Initialise();
+					TileManager.Instance = CommonManagerEditorOnly.Instance.TileManager;
+					if (CommonManagerEditorOnly.Instance.TileManager.AllTiles.Count == 0)
+					{
+						await CommonManagerEditorOnly.Instance.TileManager.LoadAllTiles();
+					}
+				}
+			#endif
+
+				cancellationToken.ThrowIfCancellationRequested();
+				progress?.Invoke(new LoadingProgress("Creating matrix", MatrixName, 0, 0));
+				Matrix aaMatrix = null;
+				try
+				{
+					if (Matrix == null)
+					{
+						aaMatrix = MatrixManager.MakeNewMatrix(MatrixName, sceneType);
+					#if UNITY_EDITOR
+						if (Application.isPlaying == false)
+						{
+							aaMatrix.Awake();
+						}
 					#endif
 
+						if (Application.isPlaying == false)
+						{
+							MapSaver.StringToPRS(aaMatrix.MatrixMove.NetworkedMatrixMove.transform.parent.gameObject,
+								MatrixData.Location);
+
+							if (Offset.magnitude > 0)
+							{
+								aaMatrix.MatrixMove.NetworkedMatrixMove.transform.parent.gameObject.transform
+									.localPosition = Offset;
+								Offset = Vector3.zero;
+							}
+
+							aaMatrix.NetworkedMatrix.IsJsonLoaded = false;
+						}
+						else
+						{
+							MapSaver.StringToPRS(aaMatrix.MatrixMove.NetworkedMatrixMove.TargetTransform.gameObject,
+								MatrixData.Location);
+							aaMatrix.MatrixMove.NetworkedMatrixMove.SetTransformPosition(aaMatrix.MatrixMove
+								.NetworkedMatrixMove
+								.TargetTransform.position);
+
+							if (Offset.magnitude > 0)
+							{
+								aaMatrix.MatrixMove.NetworkedMatrixMove.transform.parent.gameObject.transform
+									.localPosition = Offset;
+								Offset = Vector3.zero;
+							}
+						}
+					}
+					else
+					{
+						aaMatrix = Matrix.Matrix;
+					}
+
+
+					//TODO MapSaver.CodeClass.ThisCodeClass?? Clearing?
+					if (MatrixData.CompactTileMapData != null)
+					{
+						await ProcessorCompactTileMapData(aaMatrix, Offset00.RoundToInt(), Offset.RoundToInt(),
+							MatrixData.CompactTileMapData, LoadLayers, progress, cancellationToken);
+					}
+
+					if (MatrixData.GitFriendlyTileMapData != null)
+					{
+						await ProcessorGitFriendlyTiles(aaMatrix, Offset00.RoundToInt(), Offset.RoundToInt(),
+							MatrixData.GitFriendlyTileMapData, LoadLayers, progress, cancellationToken);
+					}
+				}
+				catch (OperationCanceledException) { throw; }
+				catch (Exception e)
+				{
+					Loggy.Error(e.ToString());
+				}
+
+
+				if (aaMatrix == null) throw new InvalidOperationException("Unable to create map matrix.");
+				bool CheckState = true;
+				while (CheckState)
+				{
+					cancellationToken.ThrowIfCancellationRequested();
+					lock (aaMatrix.MetaTileMap.QueuedChanges)
+					{
+						progress?.Invoke(new LoadingProgress("Tile changes remaining", MatrixName, aaMatrix.MetaTileMap.QueuedChanges.Count, 0));
+						if (aaMatrix.MetaTileMap.QueuedChanges.Count > 0)
+						{
+							CheckState = true;
+						}
+						else
+						{
+							CheckState = false;
+						}
+					}
+
 					if (Application.isPlaying == false)
-					{
-						MapSaver.StringToPRS(aaMatrix.MatrixMove.NetworkedMatrixMove.transform.parent.gameObject,
-							MatrixData.Location);
-
-						if (Offset.magnitude > 0)
-						{
-							aaMatrix.MatrixMove.NetworkedMatrixMove.transform.parent.gameObject.transform
-								.localPosition = Offset;
-							Offset = Vector3.zero;
-						}
-
-						aaMatrix.NetworkedMatrix.IsJsonLoaded = false;
-					}
-					else
-					{
-						MapSaver.StringToPRS(aaMatrix.MatrixMove.NetworkedMatrixMove.TargetTransform.gameObject,
-							MatrixData.Location);
-						aaMatrix.MatrixMove.NetworkedMatrixMove.SetTransformPosition(aaMatrix.MatrixMove
-							.NetworkedMatrixMove
-							.TargetTransform.position);
-
-						if (Offset.magnitude > 0)
-						{
-							aaMatrix.MatrixMove.NetworkedMatrixMove.transform.parent.gameObject.transform
-								.localPosition = Offset;
-							Offset = Vector3.zero;
-						}
-					}
-				}
-				else
-				{
-					aaMatrix = Matrix.Matrix;
-				}
-
-
-				//TODO MapSaver.CodeClass.ThisCodeClass?? Clearing?
-				if (MatrixData.CompactTileMapData != null)
-				{
-					ProcessorCompactTileMapData(aaMatrix, Offset00.RoundToInt(), Offset.RoundToInt(),
-						MatrixData.CompactTileMapData, LoadLayers);
-				}
-
-				if (MatrixData.GitFriendlyTileMapData != null)
-				{
-					ProcessorGitFriendlyTiles(aaMatrix, Offset00.RoundToInt(), Offset.RoundToInt(),
-						MatrixData.GitFriendlyTileMapData, LoadLayers);
-				}
-			}
-			catch (Exception e)
-			{
-				Loggy.Error(e.ToString());
-			}
-
-
-			bool CheckState = true;
-			while (CheckState)
-			{
-				lock (aaMatrix.MetaTileMap.QueuedChanges)
-				{
-					if (aaMatrix.MetaTileMap.QueuedChanges.Count > 0)
-					{
-						CheckState = true;
-					}
-					else
 					{
 						CheckState = false;
 					}
+					else
+					{
+						await UniTask.NextFrame(cancellationToken: cancellationToken);
+					}
 				}
 
-				if (Application.isPlaying == false)
+
+				try
 				{
-					CheckState = false;
+					if (MatrixData.CompactObjectMapData != null && LoadObjects)
+					{
+						await ProcessorCompactObjectMapData(aaMatrix, Offset00.RoundToInt(), Offset.RoundToInt(),
+							MatrixData.CompactObjectMapData, LoadingMultiple: LoadingMultiple, progress: progress, cancellationToken: cancellationToken); //TODO Handle GitID better
+					}
+
+					if (LoadObjects)
+					{
+						if (Application.isPlaying == false) return;
+						progress?.Invoke(new LoadingProgress("Publishing object data", MatrixName, 0, 0));
+						var newdata = JsonConvert.SerializeObject(MatrixData.CompactObjectMapData);
+						CustomNetworkManager.Instance.LoadedMapDatas.Add(new Tuple<string, int>(newdata, aaMatrix.Id));
+						ServerReturnMapData.SendAll(newdata, ServerReturnMapData.MessageType.MapDataForClient, true,
+							aaMatrix.Id);
+					}
 				}
-				else
+				catch (OperationCanceledException) { throw; }
+				catch (Exception e)
 				{
-					yield return null;
+					Loggy.Error(e.ToString());
 				}
-			}
 
-
-			try
-			{
-				if (MatrixData.CompactObjectMapData != null && LoadObjects)
+				if (aaMatrix.NetworkedMatrix.RequestInitialiseMapLoader && Application.isPlaying)
 				{
-					ProcessorCompactObjectMapData(aaMatrix, Offset00.RoundToInt(), Offset.RoundToInt(),
-						MatrixData.CompactObjectMapData, LoadingMultiple: LoadingMultiple); //TODO Handle GitID better
+					progress?.Invoke(new LoadingProgress("Initializing matrix", MatrixName, 0, 0));
+					await aaMatrix.MatrixInitialization(cancellationToken);
 				}
 
-				if (LoadObjects)
+				try
 				{
-					if (Application.isPlaying == false) yield break;
-					var newdata = JsonConvert.SerializeObject(MatrixData.CompactObjectMapData);
-					CustomNetworkManager.Instance.LoadedMapDatas.Add(new Tuple<string, int>(newdata, aaMatrix.Id));
-					ServerReturnMapData.SendAll(newdata, ServerReturnMapData.MessageType.MapDataForClient, true,
-						aaMatrix.Id);
+					completeAction?.Invoke();
 				}
-			}
-			catch (Exception e)
-			{
-				Loggy.Error(e.ToString());
-			}
-
-			if (aaMatrix.NetworkedMatrix.RequestInitialiseMapLoader && Application.isPlaying)
-			{
-				yield return aaMatrix.MatrixInitialization();
-			}
-
-			try
-			{
-				completeAction?.Invoke();
-			}
-			catch (Exception e)
-			{
-				Loggy.Error(e.ToString());
-			}
+				catch (OperationCanceledException) { throw; }
+				catch (Exception e)
+				{
+					Loggy.Error(e.ToString());
+				}
 
 #if UNITY_EDITOR
-			if (Application.isPlaying == false)
-			{
-				if (TestLoad)
+				if (Application.isPlaying == false)
 				{
-					VariableViewerManager.TestLoad = false;
+					if (TestLoad)
+					{
+						VariableViewerManager.TestLoad = false;
+					}
 				}
-			}
 #endif
+			}
+			finally
+			{
+#if UNITY_EDITOR
+				if (!Application.isPlaying && TestLoad) VariableViewerManager.TestLoad = false;
+#endif
+			}
+
 		}
 	}
 }

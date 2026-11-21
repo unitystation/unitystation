@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections;
+using Cysharp.Threading.Tasks;
+using System;
 using Shared.Util;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -49,11 +49,11 @@ namespace US13.Managers
 			}
 			else
 			{
-				Instance.StartCoroutine(Instance.ShowTileManagerLoadingBar(endAction));
+				Instance.ShowTileManagerLoadingBar(endAction).Forget(e => Logs.Loggy.Error(e.ToString()));
 			}
 		}
 
-		IEnumerator ShowTileManagerLoadingBar(Action endAction)
+		async UniTask ShowTileManagerLoadingBar(Action endAction)
 		{
 			loadingScreen.SetLoadBar(0f);
 			loadingScreen.gameObject.SetActive(true);
@@ -61,7 +61,7 @@ namespace US13.Managers
 			while (TileManager.TilesLoaded < TileManager.TilesToLoad)
 			{
 				loadingScreen.SetLoadBar((float)TileManager.TilesLoaded / (float)TileManager.TilesToLoad);
-				yield return WaitFor.EndOfFrame;
+				await UniTask.NextFrame(cancellationToken: this.GetCancellationTokenOnDestroy());
 			}
 
 			endAction.Invoke();

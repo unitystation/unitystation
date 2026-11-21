@@ -1,4 +1,5 @@
-﻿using System;
+using Cysharp.Threading.Tasks;
+using System;
 using System.Collections;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -704,7 +705,7 @@ namespace US13.Player
 					continue;
 				}
 
-				StartCoroutine(AntagManager.Instance.ServerRespawnAsAntag(playerToRespawn, antag));
+				AntagManager.Instance.ServerRespawnAsAntag(playerToRespawn, antag).Forget(e => Logs.Loggy.Error(e.ToString()));
 				return;
 			}
 

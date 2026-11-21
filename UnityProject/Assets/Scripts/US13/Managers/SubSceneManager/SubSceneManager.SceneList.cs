@@ -1,4 +1,4 @@
-using System.Collections;
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.IO;
 using Logs;
@@ -29,8 +29,10 @@ namespace US13.Managers.SubSceneManager
 
 		private GameManager gameManager => GameManager.Instance;
 
-		public IEnumerator RoundStartServerLoadSequence()
+		public async UniTask RoundStartServerLoadSequence()
 		{
+			var cancellationToken = LoadingToken;
+			cancellationToken.ThrowIfCancellationRequested();
 			SubSceneManagerNetworked.ScenesInitialLoadingComplete = false;
 			ServerInitialLoadingComplete = false;
 			SubsystemMatrixQueueInit.InitializedAll = false;
@@ -44,34 +46,34 @@ namespace US13.Managers.SubSceneManager
 			Loggy.Info(" waiting for addressables To load ");
 			while (AddressableCatalogueManager.FinishLoaded == false)
 			{
-				yield return null;
+				await UniTask.NextFrame(cancellationToken: cancellationToken);
 			}
 
 			Loggy.Info(" Loading space ");
-			yield return StartCoroutine(ServerLoadSpaceScene(loadTimer));
+			await ServerLoadSpaceScene(loadTimer);
 
 			//Choose and load a mainstation
 			Loggy.Info(" Loading main station ");
-			yield return StartCoroutine(ServerLoadMainStation(loadTimer));
+			await ServerLoadMainStation(loadTimer);
 
 			Loggy.Info(" Loading CentCom ");
 			//Load CentCom Scene:
-			yield return StartCoroutine(ServerLoadCentCom(loadTimer));
+			await ServerLoadCentCom(loadTimer);
 
 			if (gameManager.QuickLoad == false)
 			{
 				Loggy.Info(" Loading Asteroids ");
 				//Load Asteroids:
-				yield return StartCoroutine(ServerLoadAsteroids(loadTimer));
+				await ServerLoadAsteroids(loadTimer);
 				Loggy.Info(" Loading AwaySite ");
 				//Load away site:
-				yield return StartCoroutine(ServerLoadAwaySite(loadTimer));
+				await ServerLoadAwaySite(loadTimer);
 
 
 				//Load Additional Scenes:
 
 				Loggy.Info(" Loading AdditionalScenes ");
-				yield return StartCoroutine(ServerLoadAdditionalScenes(loadTimer));
+				await ServerLoadAdditionalScenes(loadTimer);
 			}
 
 			SubSceneManagerNetworked.netIdentity.isDirty = true;
@@ -81,36 +83,41 @@ namespace US13.Managers.SubSceneManager
 			Loggy.Info(" waiting for MatrixManager.IsInitialized");
 			while (MatrixManager.MatrixManager.IsInitialized == false)
 			{
-				yield return null;
+				await UniTask.NextFrame(cancellationToken: cancellationToken);
 			}
 
 
 			Loggy.Info(" Triggering for SubsystemMatrixQueueInit.InitAllSystems");
 			loadTimer.IncrementLoadBar("Loading Subsystems..");
-			yield return SubsystemMatrixQueueInit.InitAllSystems();
+			await SubsystemMatrixQueueInit.InitAllSystems(cancellationToken);
 
 			Loggy.Info(" waiting for SubsystemMatrixQueueInit.InitializedAll");
 			while (SubsystemMatrixQueueInit.InitializedAll == false)
 			{
-				yield return WaitFor.Seconds(1f);
+				await UniTask.Delay(System.TimeSpan.FromSeconds(1f), cancellationToken: cancellationToken);
 			}
 
 			EventManager.Broadcast(Event.ScenesLoadedServer, false);
 			Loggy.Info($"Server has loaded {serverChosenAwaySite} away site", Category.Round);
 			ServerInitialLoadingComplete = true;
+			SubSceneManagerNetworked.FinishLoadingProgress();
 			GUI_PreRoundWindow.Instance?.HideLoadingArea();
 		}
 
 		//Load the space scene on the server
-		IEnumerator ServerLoadSpaceScene(SubsceneLoadTimer loadTimer)
+		async UniTask ServerLoadSpaceScene(SubsceneLoadTimer loadTimer)
 		{
+			var cancellationToken = LoadingToken;
+			cancellationToken.ThrowIfCancellationRequested();
 			loadTimer.IncrementLoadBar($"Loading the void of time and space");
-			yield return StartCoroutine(LoadSubScene("AdditionalScenes/EmptySpaceYesEmptySpace.json", loadTimer, default, SceneType.Space));
+			await LoadSubScene("AdditionalScenes/EmptySpaceYesEmptySpace.json", loadTimer, default, SceneType.Space);
 		}
 
 		//Choose and load a main station on the server
-		IEnumerator ServerLoadMainStation(SubsceneLoadTimer loadTimer)
+		async UniTask ServerLoadMainStation(SubsceneLoadTimer loadTimer)
 		{
+			var cancellationToken = LoadingToken;
+			cancellationToken.ThrowIfCancellationRequested();
 			var prevEditorScene = GetEditorPrevScene();
 
 			if (AdminForcedMainStation is not "Random")
@@ -135,45 +142,49 @@ namespace US13.Managers.SubSceneManager
 
 			loadTimer.IncrementLoadBar($"Loading {Path.GetFileName(serverChosenMainStation).Replace(".json", "")}");
 			//load main station
-			yield return StartCoroutine(LoadSubScene(serverChosenMainStation, loadTimer, default, SceneType.MainStation));
+			await LoadSubScene(serverChosenMainStation, loadTimer, default, SceneType.MainStation);
 			MainStationLoaded = true;
 		}
 
 		//Load all the asteroids on the server
-		IEnumerator ServerLoadAsteroids(SubsceneLoadTimer loadTimer)
+		async UniTask ServerLoadAsteroids(SubsceneLoadTimer loadTimer)
 		{
+			var cancellationToken = LoadingToken;
+			cancellationToken.ThrowIfCancellationRequested();
 			if (gameManager.GameMode.MainStations.AsteroidListOverride != null &&
 			    gameManager.GameMode.MainStations.AsteroidListOverride.Asteroids.Count > 0)
 			{
 				//Use the override asteroid list for this main station
 				loadTimer.IncrementLoadBar("Loading Asteroids");
-				yield return StartCoroutine(LoadAstroids(gameManager.GameMode.MainStations.AsteroidListOverride.Asteroids));
-				yield break;
+				await LoadAstroids(gameManager.GameMode.MainStations.AsteroidListOverride.Asteroids);
+				return;
 			}
 			if (gameManager.GameMode.AsteroidList == null || gameManager.GameMode.AsteroidList.Asteroids.Count <= 0)
 			{
-				yield break;
+				return;
 			}
 			loadTimer.IncrementLoadBar("Loading Asteroids");
-			yield return StartCoroutine(LoadAstroids(gameManager.GameMode.AsteroidList.Asteroids));
-			yield break;
+			await LoadAstroids(gameManager.GameMode.AsteroidList.Asteroids);
+			return;
 
-			IEnumerator LoadAstroids(List<string> asteroids)
+			async UniTask LoadAstroids(List<string> asteroids)
 			{
 				foreach (var asteroid in asteroids)
 				{
 					Loggy.Info($" Loading Asteroid {asteroid} ");
-					yield return StartCoroutine(LoadSubScene(asteroid, loadTimer, default, SceneType.Asteroid));
+					await LoadSubScene(asteroid, loadTimer, default, SceneType.Asteroid);
 				}
 			}
 		}
 
-		IEnumerator ServerLoadCentCom(SubsceneLoadTimer loadTimer)
+		async UniTask ServerLoadCentCom(SubsceneLoadTimer loadTimer)
 		{
+			var cancellationToken = LoadingToken;
+			cancellationToken.ThrowIfCancellationRequested();
 			if (gameManager.GameMode.AdditionalSceneList == null)
 			{
 				Loggy.Warning("This game mode has no additional scene list assigned! This may be intentional for non-standard SS13 game modes.", Category.Round);
-				yield break;
+				return;
 			}
 			loadTimer.IncrementLoadBar("Loading CentCom");
 
@@ -184,29 +195,31 @@ namespace US13.Managers.SubSceneManager
 
 				if (centComData.DependentScene != serverChosenMainStation) continue;
 
-				yield return StartCoroutine(LoadSubScene(centComData.CentComSceneName, loadTimer, default,
-					SceneType.AdditionalScenes));
-				yield break;
+				await LoadSubScene(centComData.CentComSceneName, loadTimer, default,
+					SceneType.AdditionalScenes);
+				return;
 			}
 
 			var pickedMap = gameManager.GameMode.AdditionalSceneList.defaultCentComScenes.PickRandom();
-			if (string.IsNullOrEmpty(pickedMap)) yield break;
+			if (string.IsNullOrEmpty(pickedMap)) return;
 			//If no special CentCom load default.
-			yield return StartCoroutine(LoadSubScene(pickedMap, loadTimer, default, SceneType.AdditionalScenes));
+			await LoadSubScene(pickedMap, loadTimer, default, SceneType.AdditionalScenes);
 		}
 
 		//Load all the asteroids on the server
-		IEnumerator ServerLoadAdditionalScenes(SubsceneLoadTimer loadTimer)
+		async UniTask ServerLoadAdditionalScenes(SubsceneLoadTimer loadTimer)
 		{
+			var cancellationToken = LoadingToken;
+			cancellationToken.ThrowIfCancellationRequested();
 			if (gameManager.GameMode.AdditionalSceneList == null)
 			{
 				Loggy.Warning("This game mode has no additional scene list assigned! This may be intentional for non-standard SS13 game modes.", Category.Round);
-				yield break;
+				return;
 			}
 			if (gameManager.QuickLoad)
 			{
 				Loggy.Info("Quickload detected. Skipping additional scenes..", Category.Round);
-				yield break;
+				return;
 			}
 
 			loadTimer.IncrementLoadBar("Loading Additional Scenes");
@@ -230,22 +243,24 @@ namespace US13.Managers.SubSceneManager
 					AdminAllowLavaland = true;
 				}
 
-				yield return StartCoroutine(LoadSubScene(additionalScene, loadTimer, default, SceneType.AdditionalScenes));
+				await LoadSubScene(additionalScene, loadTimer, default, SceneType.AdditionalScenes);
 			}
 		}
 
 		//Load the away site on the server
-		IEnumerator ServerLoadAwaySite(SubsceneLoadTimer loadTimer)
+		async UniTask ServerLoadAwaySite(SubsceneLoadTimer loadTimer)
 		{
+			var cancellationToken = LoadingToken;
+			cancellationToken.ThrowIfCancellationRequested();
 			if (gameManager.GameMode.AwayWorldList == null)
 			{
 				Loggy.Warning("This game mode has no away world list assigned! This may be intentional for non-standard SS13 game modes.", Category.Round);
-				yield break;
+				return;
 			}
 			if (gameManager.QuickLoad)
 			{
 				Loggy.Info("Quickload detected. Skipping away sites scenes..", Category.Round);
-				yield break;
+				return;
 			}
 
 			serverChosenAwaySite = AdminForcedAwaySite == "Random" ? gameManager.GameMode.AwayWorldList.GetRandomAwaySite() : AdminForcedAwaySite;
@@ -254,16 +269,18 @@ namespace US13.Managers.SubSceneManager
 			loadTimer.IncrementLoadBar("Loading Away Site");
 			if (serverChosenAwaySite.IsNullOrEmpty() == false)
 			{
-				yield return StartCoroutine(LoadSubScene(serverChosenAwaySite, loadTimer));
+				await LoadSubScene(serverChosenAwaySite, loadTimer);
 				AwaySiteLoaded = true;
 			}
 		}
 
 		#region GameMode Unique Scenes
 
-		public IEnumerator LoadSyndicate()
+		public async UniTask LoadSyndicate()
 		{
-			if (SyndicateLoaded) yield break;
+			var cancellationToken = LoadingToken;
+			cancellationToken.ThrowIfCancellationRequested();
+			if (SyndicateLoaded) return;
 			var pickedMap = gameManager.GameMode.AdditionalSceneList.defaultSyndicateScenes.PickRandom();
 
 			foreach (var syndicateData in gameManager.GameMode.AdditionalSceneList.SyndicateScenes)
@@ -278,27 +295,31 @@ namespace US13.Managers.SubSceneManager
 			}
 
 
-			yield return StartCoroutine(LoadSubScene(pickedMap));
+			await LoadSubScene(pickedMap);
 			SyndicateScene = SceneManager.GetSceneByName(pickedMap);
 			SyndicateLoaded = true;
 
-			yield return TryWaitClients(pickedMap);
+			await TryWaitClients(pickedMap);
 		}
 
-		public IEnumerator LoadWizard()
+		public async UniTask LoadWizard()
 		{
-			if (WizardLoaded) yield break;
+			var cancellationToken = LoadingToken;
+			cancellationToken.ThrowIfCancellationRequested();
+			if (WizardLoaded) return;
 
 			string pickedScene = gameManager.GameMode.AdditionalSceneList.WizardScenes.PickRandom();
 
-			yield return StartCoroutine(LoadSubScene(pickedScene));
+			await LoadSubScene(pickedScene);
 
 			WizardLoaded = true;
-			yield return TryWaitClients(pickedScene);
+			await TryWaitClients(pickedScene);
 		}
 
-		public IEnumerator TryWaitClients(string SceneName)
+		public async UniTask TryWaitClients(string SceneName)
 		{
+			var cancellationToken = LoadingToken;
+			cancellationToken.ThrowIfCancellationRequested();
 			float Seconds = 0;
 			bool OneClearFrame = false;
 			while (Seconds < 10) //So hacked clients can't Mess up the round
@@ -323,11 +344,11 @@ namespace US13.Managers.SubSceneManager
 					}
 					else
 					{
-						yield break;
+						return;
 					}
 				}
 
-				yield return WaitFor.Seconds(0.25f);
+				await UniTask.Delay(System.TimeSpan.FromSeconds(0.25f), cancellationToken: cancellationToken);
 				Seconds += 0.25f;
 			}
 		}

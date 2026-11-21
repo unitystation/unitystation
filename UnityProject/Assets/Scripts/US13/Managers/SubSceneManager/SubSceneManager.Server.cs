@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -37,14 +37,16 @@ namespace US13.Managers.SubSceneManager
 		/// <param name="connToAdd"></param>
 		void AddObserverToAllObjects(NetworkConnectionToClient connToAdd, Scene sceneContext)
 		{
-			StartCoroutine(SyncPlayerData(connToAdd, sceneContext));
+			SyncPlayerData(connToAdd, sceneContext).Forget(e => Logs.Loggy.Error(e.ToString()));
 			AddObservableSceneToConnection(connToAdd, sceneContext);
 		}
 
 		/// Sync init data with specific scenes
 		/// staggered over multiple frames
-		public IEnumerator SyncPlayerData(NetworkConnectionToClient connToAdd, Scene sceneContext)
+		public async UniTask SyncPlayerData(NetworkConnectionToClient connToAdd, Scene sceneContext)
 		{
+			var cancellationToken = LoadingToken;
+			cancellationToken.ThrowIfCancellationRequested();
 
 			var client = connToAdd.owned.Count == 0 ? null : connToAdd.owned.ElementAt(0).gameObject;
 
@@ -52,14 +54,16 @@ namespace US13.Managers.SubSceneManager
 			                    "client {0} for scene {1}", Category.Connections, client, sceneContext.name);
 
 			//Add connection as observer to the scene objects:
-			yield return StartCoroutine(AddObserversForClient(connToAdd, sceneContext));
+			await AddObserversForClient(connToAdd, sceneContext);
 		}
 
 		/// <summary>
 		/// Add a connection as an observer to everything in a scene
 		/// </summary>
-		IEnumerator AddObserversForClient(NetworkConnectionToClient connToAdd, Scene sceneContext)
+		async UniTask AddObserversForClient(NetworkConnectionToClient connToAdd, Scene sceneContext)
 		{
+			var cancellationToken = LoadingToken;
+			cancellationToken.ThrowIfCancellationRequested();
 			//Activate the matrices on the client first
 			foreach (var matrixInfo in MatrixManager.MatrixManager.Instance.ActiveMatrices.Values)
 			{
@@ -69,7 +73,7 @@ namespace US13.Managers.SubSceneManager
 				}
 			}
 
-			yield return WaitFor.EndOfFrame;
+			await UniTask.NextFrame(cancellationToken: cancellationToken);
 
 			var Stopwatch = new Stopwatch();
 
@@ -84,19 +88,19 @@ namespace US13.Managers.SubSceneManager
 					continue;
 
 				if (connToAdd.identity == null) //connection dc midway, we're out
-					yield break;
+					return;
 
 				n.AddPlayerObserver(connToAdd);
 
 				if (Stopwatch.ElapsedMilliseconds >= 10)
 				{
 					Stopwatch.Reset();
-					yield return WaitFor.EndOfFrame;
+					await UniTask.NextFrame(cancellationToken: cancellationToken);
 					Stopwatch.Start();
 				}
 			}
 
-			yield return null;
+			await UniTask.NextFrame(cancellationToken: cancellationToken);
 			FinishedAddedObserverMessage.Send(connToAdd , sceneContext.name);
 		}
 	}

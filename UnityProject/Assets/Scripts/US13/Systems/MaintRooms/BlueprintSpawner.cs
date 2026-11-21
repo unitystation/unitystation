@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Logs;
@@ -216,26 +215,7 @@ namespace US13.Systems.MaintRooms
 
 		private static void SpawnBlueprintEditor(MapSaver.MapSaver.MatrixData dataToSpawn, Vector3Int positionToSpawn)
 		{
-			//Begin loading the map async
-			var mapLoaderRoutine = MapLoader.ServerLoadSection(null, Vector3.zero, positionToSpawn, dataToSpawn, null, MatrixName: "Test Blueprint Matrix");
-			List<IEnumerator> mapQueue = new List<IEnumerator>();
-			bool isRoutineFinished = false;
-			while (isRoutineFinished == false)
-			{
-				if (mapLoaderRoutine.Current is IEnumerator)
-				{
-					mapQueue.Add(mapLoaderRoutine);
-					mapLoaderRoutine = (IEnumerator)mapLoaderRoutine.Current;
-				}
-				isRoutineFinished = mapLoaderRoutine.MoveNext() == false;
-
-				if (isRoutineFinished && mapQueue.Count > 0)
-				{
-					mapLoaderRoutine = mapQueue[^1];
-					mapQueue.RemoveAt(mapQueue.Count - 1);
-					isRoutineFinished = mapLoaderRoutine.MoveNext() == false;
-				}
-			}
+			MapLoader.ServerLoadSection(null, Vector3.zero, positionToSpawn, dataToSpawn, null, MatrixName: "Test Blueprint Matrix").GetAwaiter().GetResult();
 		}
 	}
 }
