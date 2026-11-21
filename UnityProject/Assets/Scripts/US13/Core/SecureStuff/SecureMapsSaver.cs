@@ -10,7 +10,6 @@ using System.Linq;
 using System.Runtime.Serialization;
 using Mirror;
 using Newtonsoft.Json;
-using NUnit.Compatibility;
 using UnityEngine.Events;
 
 namespace SecureStuff

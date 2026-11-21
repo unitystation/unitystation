@@ -291,13 +291,33 @@ namespace US13.Core.Chat
 			PlayerScript playerScript = null;
 			ushort languageId = 0;
 
-			//Check to see if the target player can understand the language!
-			if (chatEvent.modifiers.HasFlag(ChatModifier.Emote) == false &&
-			    chatEvent.language != null && playerToSend.TryGetComponent(out playerScript))
-			{
-				languageId = chatEvent.language.LanguageUniqueId;
 
-				copiedString = LanguageManager.Scramble(chatEvent.language, playerScript, string.Copy(chatEvent.message));
+
+			//Check to see if the target player can understand the language!
+			// Check the player can hear, as in they don't have hearing damage
+			if (chatEvent.modifiers.HasFlag(ChatModifier.Emote) == false &&
+			    playerToSend.TryGetComponent(out playerScript))
+			{
+				if (chatEvent.language != null)
+				{
+					languageId = chatEvent.language.LanguageUniqueId;
+
+					copiedString = LanguageManager.Scramble(chatEvent.language, playerScript, string.Copy(chatEvent.message));
+				}
+
+				var Hearing = playerScript.playerHealth.HearingAbility;
+
+				if (Hearing < 0.50f)
+				{
+					if (Hearing < 0.15f) //To deaf to hear
+					{
+						return;
+					}
+					else
+					{
+						chatEvent.IsWhispering = true; //To deaf to hear the radio/people talking Normally
+					}
+				}
 			}
 
 			if (chatEvent.IsWhispering)

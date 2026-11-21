@@ -360,6 +360,8 @@ namespace US13.HealthV2.Living
 		public GameObject MeatProduce => meatProduce;
 		public GameObject SkinProduce => skinProduce;
 
+		[NonSerialized] public MultiInterestFloat HearingAbility = new MultiInterestFloat();
+
 		[NonSerialized] public MultiInterestBool IsMute = new MultiInterestBool(true,
 			MultiInterestBool.RegisterBehaviour.RegisterFalse,
 			MultiInterestBool.BoolBehaviour.ReturnOnTrue);

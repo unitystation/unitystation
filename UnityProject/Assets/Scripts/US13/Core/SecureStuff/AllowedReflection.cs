@@ -4,14 +4,22 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using Logs;
-using Mirror.BouncyCastle.Asn1.X509.Qualified;
-using NUnit.Framework;
 using SecureStuff.Util;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace SecureStuff
 {
+	public class OrderAttribute : BaseAttribute
+	{
+		public readonly int Order;
+
+		public OrderAttribute(int order)
+		{
+			Order = order;
+		}
+	}
+
 	public class BaseAttribute : Attribute
 	{
 	}

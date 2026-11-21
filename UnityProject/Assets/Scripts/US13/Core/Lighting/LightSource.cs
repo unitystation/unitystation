@@ -75,10 +75,10 @@ namespace US13.Core.Lighting
 		public Integrity Integrity => integrity;
 		[SerializeField] private Rotatable directional;
 		[SerializeField] private BoxCollider2D boxColl = null;
-		[SerializeField] private Vector4 collDownSetting = Vector4.zero;
-		[SerializeField] private Vector4 collRightSetting = Vector4.zero;
-		[SerializeField] private Vector4 collUpSetting = Vector4.zero;
-		[SerializeField] private Vector4 collLeftSetting = Vector4.zero;
+		[PlayModeOnly] private Vector4 collDownSetting = Vector4.zero;
+		[PlayModeOnly] private Vector4 collRightSetting = Vector4.zero;
+		[PlayModeOnly] private Vector4 collUpSetting = Vector4.zero;
+		[PlayModeOnly] private Vector4 collLeftSetting = Vector4.zero;
 		[SerializeField] private SpritesDirectional spritesStateOnEffect = null;
 		[SerializeField] private SOLightMountStatesMachine mountStatesMachine = null;
 		[SerializeField, Range(0, 100f)] private float maximumDamageOnTouch = 3f;
@@ -320,7 +320,7 @@ namespace US13.Core.Lighting
 
 		private void ChangeCurrentState(LightMountState newState)
 		{
-			if (mountStatesMachine.LightMountStates.Contains(newState))
+			if (mountStatesMachine?.LightMountStates?.Contains(newState) == true)
 			{
 				currentState = mountStatesMachine.LightMountStates[newState];
 			}

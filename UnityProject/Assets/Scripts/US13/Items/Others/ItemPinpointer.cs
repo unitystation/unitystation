@@ -78,7 +78,7 @@ namespace US13.Items.Others
 			arrowSpriteHandler = arrowGameObject.GetComponent<SpriteHandler>();
 		}
 
-		public override void OnStartServer()
+		public GameObject FindDisc()
 		{
 			var NukeDisks = FindObjectsOfType<NukeDiskScript>();
 
@@ -88,11 +88,13 @@ namespace US13.Items.Others
 
 				if (!nukeDisk.secondaryNukeDisk)
 				{
-					objectToTrack = nukeDisk.gameObject;
-					break;
+					return nukeDisk.gameObject;
 				}
 			}
+
+			return null;
 		}
+
 
 		private void OnDestroy()
 		{
@@ -202,7 +204,7 @@ namespace US13.Items.Others
 
 			if (objectToTrack == null)
 			{
-				objectToTrack = FindObjectOfType<NukeDiskScript>().gameObject;
+				objectToTrack = FindDisc();
 			}
 
 			UpdateManager.Add(UpdateMe, scanTime);

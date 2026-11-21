@@ -40,17 +40,17 @@ MonoBehaviour:
     type: 2}
   AwayWorldList: {fileID: 11400000, guid: 9336c6ca9dac2d94eb90f703a23a7484, type: 2}
   AntagonistDatas:
-  - ratio: 0.75
+  - ratio: 1
     Antagonist: {fileID: 11400000, guid: c060c33698c0f81449f0735a800740ca, type: 2}
     UniqueOne: 0
     OneTimechance: 0
     MinPop: 1
-  - ratio: 1
+  - ratio: 0.2
     Antagonist: {fileID: 11400000, guid: 613f4c1efe110a34e858e8ccbdea6b04, type: 2}
     UniqueOne: 1
     OneTimechance: 0.1
     MinPop: 3
-  - ratio: 1
+  - ratio: 0.5
     Antagonist: {fileID: 11400000, guid: 4f52429999025fe4f948ae027370d6ec, type: 2}
     UniqueOne: 1
     OneTimechance: 0.1
