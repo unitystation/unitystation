@@ -17,7 +17,11 @@ namespace US13.Objects.Wallmounts
 
 		protected override void SetAlpha(float alpha)
 		{
-			text.color = new Color(text.color.r, text.color.g, text.color.b, alpha);
+			if (text == null) return;
+			var color = text.color;
+			if (color.a == alpha) return;
+			color.a = alpha;
+			text.color = color;
 		}
 	}
 }
