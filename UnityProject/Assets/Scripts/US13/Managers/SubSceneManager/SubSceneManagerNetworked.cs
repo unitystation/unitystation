@@ -48,7 +48,15 @@ namespace US13.Managers.SubSceneManager
 		{
 			if (!isServer) return;
 			hasPendingProgress = false;
-			LoadingProgress = default;
+			// A direct default assignment so that Mirror doesn't bitch about InitLocals.
+			LoadingProgress = new LoadingProgressState
+			{
+				Active = false,
+				Stage = string.Empty,
+				Context = string.Empty,
+				Completed = 0,
+				Total = 0
+			};
 		}
 
 		private void PublishPendingProgress()
