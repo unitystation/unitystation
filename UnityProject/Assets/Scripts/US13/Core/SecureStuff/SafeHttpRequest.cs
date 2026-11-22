@@ -75,6 +75,8 @@ namespace SecureStuff
 			return await Client.GetStringAsync(url);
 		}
 
+		public static Task<bool> ValidateUrlAsync(Uri uri, string reason) => IsValid(uri, true, reason);
+
 		private static async Task<bool> IsValid(Uri requestUri, bool addAsTrusted = true,
 			string justificationReason = "")
 		{

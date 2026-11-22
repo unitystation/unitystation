@@ -490,9 +490,8 @@ namespace US13.Managers.NetworkManagement
 
 		public override void OnStartClient()
 		{
-			if (AddressableCatalogueManager.Instance == null) return;
-
-			AddressableCatalogueManager.Instance.LoadClientCatalogues();
+			var catalogueManager = AddressableCatalogueManager.FindInstance();
+			if (catalogueManager != null) catalogueManager.LoadClientCatalogues();
 		}
 
 		//called on server side when player is being added, this is the main entry point for a client connecting to this server
@@ -500,6 +499,7 @@ namespace US13.Managers.NetworkManagement
 		{
 			Loggy.Trace($"Spawning a GameObject for the client {conn}.", Category.Connections);
 			base.OnServerAddPlayer(conn);
+			AddressableCatalogueManager.ClientRequestCatalogue(conn.identity.gameObject);
 			SubSceneManager.SubSceneManager.Instance.AddNewObserverScenePermissions(conn);
 			UpdateRoundTimeMessage.Send(GameManager.Instance.RoundTime.ToString("O"),
 				GameManager.Instance.RoundTimeInMinutes);
@@ -517,6 +517,7 @@ namespace US13.Managers.NetworkManagement
 		public override void OnClientDisconnect()
 		{
 			Loggy.Info("Client disconnected from the server.");
+			AddressableCatalogueManager.Instance?.EndServerSession();
 			base.OnClientDisconnect();
 			OnClientDisconnected.Invoke();
 		}
@@ -535,6 +536,7 @@ namespace US13.Managers.NetworkManagement
 			Loggy.Error($"Disconnecting {conn.address}");
 			//register them as removed from our own player list
 
+			if (conn.identity != null) US13.Messages.Client.Addressable.ClientRequestCatalogues.Forget(conn.identity.netId);
 			PlayerList.Instance.RemoveByConnection(conn);
 
 			foreach (var ownedObject in conn.owned.ToArray())

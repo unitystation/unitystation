@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
 using Logs;
@@ -54,6 +54,20 @@ namespace US13.Managers
 		private void Init()
 		{
 			layerMask = LayerMask.GetMask("Walls", "Door Closed");
+		}
+
+		public void ResetAudioContent()
+		{
+			// Pooled sources retain clips and source parameters from their original pack.
+			foreach (var spawn in GetComponentsInChildren<SoundSpawn>(true))
+			{
+				spawn.gameObject.SetActive(false);
+				spawn.AudioSource.Stop();
+				spawn.AudioSource.clip = null;
+				Destroy(spawn.gameObject);
+			}
+			SoundSpawns.Clear();
+			NonplayingSounds.Clear();
 		}
 
 		public void Clear()

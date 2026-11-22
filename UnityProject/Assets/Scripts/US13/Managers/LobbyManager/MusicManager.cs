@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Logs;
@@ -29,6 +29,10 @@ namespace US13.Managers.LobbyManager
 		private const int MAX_HISTORY = 20;
 
 		private bool playingRandomPlayList;
+		private readonly List<AddressableAudioSource> serverTracks = new List<AddressableAudioSource>();
+		private bool replaceLobbyPlaylist;
+		private int playbackGeneration;
+		private bool loadingTrack;
 		private float currentWaitTime;
 		private const float TIME_BETWEEN_SONGS = 2f;
 
@@ -49,10 +53,12 @@ namespace US13.Managers.LobbyManager
 				{
 					return PlaybackState.Paused;
 				}
+
 				if (isMusicPlaying())
 				{
 					return PlaybackState.Playing;
 				}
+
 				return PlaybackState.Stopped;
 			}
 		}
@@ -113,7 +119,7 @@ namespace US13.Managers.LobbyManager
 		private void UpdateMe()
 		{
 			if (playingRandomPlayList == false || CustomNetworkManager.IsHeadless) return;
-			if (State != PlaybackState.Stopped) return;
+			if (State != PlaybackState.Stopped || loadingTrack) return;
 
 			currentWaitTime += Time.deltaTime;
 			if (currentWaitTime < TIME_BETWEEN_SONGS) return;
@@ -137,6 +143,7 @@ namespace US13.Managers.LobbyManager
 
 		public static void StopMusic()
 		{
+			Instance.playbackGeneration++;
 			Instance.musicAudioSource.Stop();
 			Synth.Instance.StopMusic();
 		}
@@ -145,18 +152,39 @@ namespace US13.Managers.LobbyManager
 		/// Plays a random music track.
 		/// <returns>String[] that represents the picked song's name.</returns>
 		/// </summary>
+		public void SetServerPlaylist(List<string> tracks, bool replace)
+		{
+			playbackGeneration++;
+			loadingTrack = false;
+			serverTracks.Clear();
+			if (tracks != null)
+				foreach (string track in tracks)
+					serverTracks.Add(new AddressableAudioSource(track));
+			replaceLobbyPlaylist = replace;
+			trackHistory.Clear();
+			historyIndex = -1;
+			isPaused = false;
+			musicAudioSource.Stop();
+			musicAudioSource.clip = null;
+		}
+
 		public async Task<String[]> PlayRandomTrack()
 		{
-			var clip = audioClips.GetRandomClip();
+			var candidates = new List<AddressableAudioSource>(serverTracks);
+			if (!replaceLobbyPlaylist && audioClips != null) candidates.AddRange(audioClips.AddressableAudioSource);
+			if (candidates.Count == 0) return null;
+			var clip = candidates[UnityEngine.Random.Range(0, candidates.Count)];
 			if (historyIndex < trackHistory.Count - 1)
 			{
 				trackHistory.RemoveRange(historyIndex + 1, trackHistory.Count - historyIndex - 1);
 			}
+
 			trackHistory.Add(clip);
 			if (trackHistory.Count > MAX_HISTORY)
 			{
 				trackHistory.RemoveAt(0);
 			}
+
 			historyIndex = trackHistory.Count - 1;
 			return await PlayClip(clip);
 		}
@@ -171,6 +199,7 @@ namespace US13.Managers.LobbyManager
 				musicAudioSource.Play();
 				return musicAudioSource.clip.name.Split('_');
 			}
+
 			historyIndex--;
 			return await PlayClip(trackHistory[historyIndex]);
 		}
@@ -192,18 +221,32 @@ namespace US13.Managers.LobbyManager
 			StopMusic();
 			if (musicAudioSource == null) Init();
 			isPaused = false;
-			var audioSource = await AudioManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource>{clip});
-			if(audioSource == null)
+			int generation = playbackGeneration;
+			loadingTrack = true;
+			AddressableAudioSource audioSource;
+			try
+			{
+				audioSource = await AudioManager.GetAddressableAudioSourceFromCache(clip);
+			}
+			finally
+			{
+				if (generation == playbackGeneration) loadingTrack = false;
+			}
+
+			if (generation != playbackGeneration) return null;
+			if (audioSource == null)
 			{
 				Loggy.Error("MusicManager failed to load a song, is Addressables loaded?", Category.Audio);
 				return null;
 			}
+
 			musicAudioSource.clip = audioSource.AudioSource.clip;
 			musicAudioSource.mute = isMusicMute;
 			musicAudioSource.volume = Instance.MusicVolume;
 			AudioManager.MusicVolume(Instance.MusicVolume, false);
 			musicAudioSource.Play();
-			if (musicAudioSource.clip == null) return new string[]{ "ERROR",  "ERROR" , "ERROR",  "ERROR"};;
+			if (musicAudioSource.clip == null) return new string[] { "ERROR", "ERROR", "ERROR", "ERROR" };
+			;
 			return musicAudioSource.clip.name.Split('_');
 		}
 
@@ -213,22 +256,26 @@ namespace US13.Managers.LobbyManager
 		/// </summary>
 		public async Task<string[]> PlayTrack(AddressableAudioSource addressableAudioSource)
 		{
-			if(addressableAudioSource == null)
+			if (addressableAudioSource == null)
 			{
 				Loggy.Error("MusicManager failed to load a song, is Addressables loaded?", Category.Audio);
 				return null;
 			}
 
-			if(GameData.IsHeadlessServer)
+			if (GameData.IsHeadlessServer)
 				return null;
 
+			int generation = ++playbackGeneration;
 			addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
+			if (generation != playbackGeneration || addressableAudioSource == null) return null;
 
 			if (isMusicPlaying())
 			{
 				await AudioManager.Instance.FadeMixerGroup("Music_Volume", 1000f, 0f);
-				StopMusic();
+				if (generation != playbackGeneration) return null;
+				musicAudioSource.Stop();
 			}
+
 			AudioManager.MusicVolume(0f, false);
 			musicAudioSource.clip = addressableAudioSource.AudioSource.clip;
 			musicAudioSource.mute = isMusicMute;
@@ -236,9 +283,9 @@ namespace US13.Managers.LobbyManager
 			musicAudioSource.Play();
 
 			float targetVolume = UnityEngine.PlayerPrefs.HasKey(PlayerPrefKeys.MusicVolumeKey)
-				? UnityEngine.PlayerPrefs.GetFloat(PlayerPrefKeys.MusicVolumeKey)
-				: 0.8f
-			;
+					? UnityEngine.PlayerPrefs.GetFloat(PlayerPrefKeys.MusicVolumeKey)
+					: 0.8f
+				;
 			await AudioManager.Instance.FadeMixerGroup("Music_Volume", 1000f, targetVolume);
 
 			return musicAudioSource.clip.name.Split('_');
@@ -255,7 +302,7 @@ namespace US13.Managers.LobbyManager
 			else
 			{
 				var vol = 255 * Instance.MusicVolume;
-				Synth.Instance.SetMusicVolume((byte) (int) vol);
+				Synth.Instance.SetMusicVolume((byte)(int)vol);
 			}
 		}
 
@@ -267,7 +314,7 @@ namespace US13.Managers.LobbyManager
 		{
 			if (Instance.musicAudioSource != null
 			    && Instance.musicAudioSource.isPlaying
-			    || (SunVox.SunVox.sv_end_of_song((int) Slot.Music) != 0))
+			    || (SunVox.SunVox.sv_end_of_song((int)Slot.Music) != 0))
 			{
 				return true;
 			}
@@ -284,6 +331,7 @@ namespace US13.Managers.LobbyManager
 			{
 				musicAudioSource.volume = newVolume;
 			}
+
 			AudioManager.MusicVolume(newVolume);
 
 			SaveNewVolume(newVolume);

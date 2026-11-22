@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
@@ -299,6 +299,8 @@ namespace US13.Core.Database
 		//Built in catalogue content
 		//Such as Lobby music
 		public List<string> LobbyAddressableCatalogues;
+		public US13.Managers.AddressableManager.ServerAudioManifest AudioManifest;
+		public bool EnableLocalAudioTest;
 
 		//The password to join the server if set
 		public string ConnectionPassword;
@@ -314,8 +316,10 @@ namespace US13.Core.Database
 			OSXDownload = constants.OSXDownload;
 			LinuxDownload = constants.LinuxDownload;
 			DiscordLinkID = constants.DiscordLinkID;
-			AddressableCatalogues =  constants.AddressableCatalogues;
-			LobbyAddressableCatalogues =  constants.LobbyAddressableCatalogues;
+			AddressableCatalogues = constants.AddressableCatalogues ?? new List<string>();
+			LobbyAddressableCatalogues = constants.LobbyAddressableCatalogues ?? new List<string>();
+			AudioManifest = constants.AudioManifest;
+			EnableLocalAudioTest = constants.EnableLocalAudioTest;
 			ConnectionPassword = constants.ConnectionPassword;
 
 			return this;
@@ -398,6 +402,8 @@ namespace US13.Core.Database
 		//Built in catalogue content
 		//Such as Lobby music
 		public List<string> LobbyAddressableCatalogues;
+		public Managers.AddressableManager.ServerAudioManifest AudioManifest;
+		public bool EnableLocalAudioTest;
 
 		//The password to join the server if set
 		public string ConnectionPassword;

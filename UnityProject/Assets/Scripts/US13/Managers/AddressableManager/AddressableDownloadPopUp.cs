@@ -1,24 +1,16 @@
-﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using UnityEngine.ResourceManagement.ResourceLocations;
-
+using UnityEngine.ResourceManagement.AsyncOperations;
 namespace US13.Managers.AddressableManager
 {
 	public class AddressableDownloadPopUp : MonoBehaviour
 	{
 		public AddressableBar DownloadBar;
-
-		public void DownloadDependencies(List<IResourceLocation> Content, AddressableCatalogueManager.LoadCounter loadCounter = null)
+		public AddressableBar Track(AsyncOperationHandle handle, string name)
 		{
-			foreach (var Assets in Content)
-			{
-				var newbar = Instantiate(DownloadBar, gameObject.transform);
-				var Handle = Addressables.DownloadDependenciesAsync(Assets.InternalId);
-				newbar.Setup(Handle, Assets.InternalId,loadCounter);
-			}
-
+			if (DownloadBar == null) return null;
+			var bar = Instantiate(DownloadBar, transform);
+			bar.Setup(handle, name);
+			return bar;
 		}
-
 	}
 }

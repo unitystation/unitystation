@@ -219,7 +219,15 @@ namespace US13.Managers
         /// </summary>
         /// <param name="addressableAudioSources">The audio to be played.</param>
         /// <returns>A fully loaded and ready to use AddressableAudioSource</returns>
-        public static async Task<AddressableAudioSource> GetAddressableAudioSourceFromCache(AddressableAudioSource addressableAudioSource)
+        public static void ClearAudioCache()
+		{
+			if (Instance == null) return;
+			SoundManager.Instance?.ResetAudioContent();
+            foreach (var audio in Instance.AudioLibrary) audio.Unload();
+			Instance.AudioLibrary.Clear();
+		}
+
+		public static async Task<AddressableAudioSource> GetAddressableAudioSourceFromCache(AddressableAudioSource addressableAudioSource)
         {
         //Make sure it is a valid Addressable AudioSource
         if (addressableAudioSource == null || addressableAudioSource == default(AddressableAudioSource))
@@ -238,6 +246,11 @@ namespace US13.Managers
                 return null;
             }
 
+            // Startup catalogues are staged outside the global locator list until ready.
+            // Never cache an unresolved key while that operation is still in flight.
+            var catalogueManager = US13.Managers.AddressableManager.AddressableCatalogueManager.Instance;
+            if (catalogueManager != null) await catalogueManager.WaitForInitialLoadAsync();
+
             //Try to get the Audio Source from cache, if its not there load it into cache
             AddressableAudioSource addressableAudioSourceFromCache = null;
             lock (Instance.AudioLibrary)
@@ -249,7 +262,22 @@ namespace US13.Managers
             {
                 lock (Instance.AudioLibrary)
                 {
-                    Instance.AudioLibrary.Add(addressableAudioSource);
+                    // Always resolve audio by its string address, so a serialized GUID cannot bypass an override.
+					UnityEngine.ResourceManagement.ResourceLocations.IResourceLocation location;
+					try
+					{
+						location = US13.Managers.AddressableManager.AddressableCatalogueManager.Instance?.ResolveAudio(
+							addressableAudioSource.AssetAddress);
+					}
+					catch (Exception exception)
+					{
+						Loggy.Error($"Unable to resolve audio: {exception.Message}", Category.Audio);
+						return null;
+					}
+
+					addressableAudioSource = new AddressableAudioSource(addressableAudioSource.AssetAddress)
+						{ ResolvedLocation = location };
+					Instance.AudioLibrary.Add(addressableAudioSource);
                 }
                 addressableAudioSourceFromCache = addressableAudioSource;
             }

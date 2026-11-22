@@ -1,8 +1,11 @@
-﻿using System.Collections.Generic;
+using System;
+using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
 using US13.Managers.AddressableManager;
+using US13.Messages.Client.Addressable;
 
 namespace US13.Messages.Server.Addressable
 {
@@ -11,23 +14,84 @@ namespace US13.Messages.Server.Addressable
 		public struct NetMessage : NetworkMessage
 		{
 			public string serialiseCatalogues;
+			public string audioManifest;
 		}
 
-		public override void Process(NetMessage msg)
+		public static ServerAudioManifest ReadManifest(NetMessage message)
 		{
-			AddressableCatalogueManager.LoadCataloguesFromServer(JsonConvert.DeserializeObject<List<string>>(msg.serialiseCatalogues));
+			ServerAudioManifest manifest;
+			if (!string.IsNullOrWhiteSpace(message.audioManifest))
+				manifest = JsonConvert.DeserializeObject<ServerAudioManifest>(message.audioManifest);
+			else if (!string.IsNullOrWhiteSpace(message.serialiseCatalogues))
+				manifest = new ServerAudioManifest { Catalogues = JsonConvert.DeserializeObject<List<string>>(message.serialiseCatalogues) };
+			else throw new JsonSerializationException("Server audio message contains no manifest or catalogue list.");
+			AddressableCatalogueManager.ValidateManifest(manifest);
+			return manifest;
 		}
 
-		public static NetMessage Send(List<string> Catalogues, GameObject ToWho)
+		public override async void Process(NetMessage message)
 		{
-			NetMessage msg = new NetMessage
+			var connection = NetworkClient.connection;
+			AddressableCatalogueManager manager = null;
+			ServerAudioManifest manifest = null;
+			try
 			{
-				serialiseCatalogues = JsonConvert.SerializeObject(Catalogues)
-			};
-
-			SendTo(ToWho, msg);
-			return msg;
+				manifest = ReadManifest(message);
+				float deadline = Time.realtimeSinceStartup + 10f;
+				while ((manager = AddressableCatalogueManager.FindInstance()) == null)
+				{
+					if (!NetworkClient.isConnected || !ReferenceEquals(connection, NetworkClient.connection)) return;
+					if (Time.realtimeSinceStartup >= deadline)
+						throw new InvalidOperationException("No AddressableCatalogueManager exists in the client scene. Check the Managers prefab.");
+					await UniTask.NextFrame();
+				}
+				if (!NetworkClient.isConnected || !ReferenceEquals(connection, NetworkClient.connection)) return;
+				bool succeeded = await manager.ApplyServerManifestAsync(manifest);
+				if (NetworkClient.isConnected && ReferenceEquals(connection, NetworkClient.connection))
+					ClientAudioContentStatus.Send(new ClientAudioContentStatus.NetMessage { Revision = manifest.Revision, Succeeded = succeeded });
+			}
+			catch (Exception exception)
+			{
+				// Preserve the stack: an initialization/lifetime failure is not malformed JSON.
+				Logs.Loggy.Error($"Failed to apply server audio manifest: {exception}");
+				if (!NetworkClient.isConnected || !ReferenceEquals(connection, NetworkClient.connection)) return;
+				if (manager == null) manager = AddressableCatalogueManager.FindInstance();
+				if (manager != null) manager.ReportServerManifestError(exception.Message);
+				else AddressableCatalogueManager.FinishLoaded = true;
+				ClientAudioContentStatus.Send(new ClientAudioContentStatus.NetMessage { Revision = manifest?.Revision ?? 0, Succeeded = false });
+			}
 		}
 
+		public static void BroadcastManifest(ServerAudioManifest manifest)
+		{
+			AddressableCatalogueManager.ValidateManifest(manifest);
+			SendToAll(new NetMessage
+			{
+				audioManifest = JsonConvert.SerializeObject(manifest),
+				serialiseCatalogues = JsonConvert.SerializeObject(manifest.Catalogues)
+			});
+		}
+
+		public static void SendManifest(ServerAudioManifest manifest, GameObject recipient)
+		{
+			AddressableCatalogueManager.ValidateManifest(manifest);
+			if (recipient == null || !recipient.TryGetComponent<NetworkIdentity>(out var identity) || identity.connectionToClient == null)
+			{
+				Logs.Loggy.Error("Cannot send server audio manifest: recipient has no client connection.");
+				return;
+			}
+			SendTo(identity.connectionToClient, new NetMessage
+			{
+				audioManifest = JsonConvert.SerializeObject(manifest),
+				serialiseCatalogues = JsonConvert.SerializeObject(manifest.Catalogues)
+			});
+		}
+
+		public static NetMessage Send(List<string> catalogues, GameObject recipient)
+		{
+			var message = new NetMessage { serialiseCatalogues = JsonConvert.SerializeObject(catalogues) };
+			SendTo(recipient, message);
+			return message;
+		}
 	}
 }

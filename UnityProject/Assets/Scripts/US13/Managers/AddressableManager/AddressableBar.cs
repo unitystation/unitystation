@@ -1,9 +1,7 @@
-﻿using TMPro;
+using TMPro;
 using UnityEngine;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.UI;
-using US13.Managers.UpdateManager;
-
 namespace US13.Managers.AddressableManager
 {
 	public class AddressableBar : MonoBehaviour
@@ -11,36 +9,16 @@ namespace US13.Managers.AddressableManager
 		public Slider slider;
 		public AsyncOperationHandle SetHandle;
 		public TMP_Text Text;
-		private AddressableCatalogueManager.LoadCounter loadCounter;
-		public void Setup(AsyncOperationHandle Handle,  string Name, AddressableCatalogueManager.LoadCounter _loadCounter = null)
+		public void Setup(AsyncOperationHandle handle, string name)
 		{
-			Text.text ="Downloading dependencies for " + Name;
-			loadCounter = _loadCounter;
-			SetHandle = Handle;
+			SetHandle = handle;
+			Text.text = "Downloading " + name;
 		}
-
-		private void OnEnable()
+		private void Update()
 		{
-			UpdateManager.UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-		}
-
-		private void OnDisable()
-		{
-			UpdateManager.UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-		}
-
-		private void UpdateMe()
-		{
-			slider.value = SetHandle.PercentComplete;
-			if (SetHandle.PercentComplete == 1)
-			{
-				if (loadCounter != null)
-				{
-					loadCounter.IncrementAndCheckLoad();
-				}
-				SetHandle.Release();
-				Destroy(this.gameObject);
-			}
+			if (!SetHandle.IsValid()) return;
+			var status = SetHandle.GetDownloadStatus();
+			slider.value = status.TotalBytes > 0 ? (float)status.DownloadedBytes / status.TotalBytes : SetHandle.PercentComplete;
 		}
 	}
 }

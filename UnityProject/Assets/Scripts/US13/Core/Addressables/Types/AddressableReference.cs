@@ -23,6 +23,10 @@ namespace US13.Core.Addressables.Types
 		public bool IsReadyLoaded => ReadyLoaded();
 
 		private T StoredLoadedReference = null;
+		[NonSerialized] public UnityEngine.ResourceManagement.ResourceLocations.IResourceLocation ResolvedLocation;
+		private AsyncOperationHandle<T> ownedHandle;
+		private Task<T> pendingLoad;
+		private int loadGeneration;
 
 
 		#region InternalStuff
@@ -42,50 +46,39 @@ namespace US13.Core.Addressables.Types
 
 		private async Task<T> LoadAsset()
 		{
-			//Just comment the try out if you want to just load by AssetAddress
+			int generation = loadGeneration;
 			try
 			{
-				if (AssetReference.OperationHandle.Status == AsyncOperationStatus.None)
+				if (this is AddressableAudioSource)
 				{
-					await AssetReference.LoadAssetAsync<T>().Task;
-					StoredLoadedReference = AssetReference.Asset as T;
-					return StoredLoadedReference;
+					var manager = US13.Managers.AddressableManager.AddressableCatalogueManager.Instance;
+					if (manager == null) throw new InvalidOperationException("Audio catalogue manager is missing from the scene.");
+					await manager.WaitForInitialLoadAsync();
+					if (generation != loadGeneration) return null;
+					// Direct Preload/Load calls must use the same catalogue and override resolution
+					// as AudioManager, rather than racing startup or loading a serialized GUID first.
+					if (!string.IsNullOrEmpty(AssetAddress)) ResolvedLocation = manager.ResolveAudio(AssetAddress);
 				}
-				else
-				{
-					await AssetReference.LoadAssetAsync<T>().Task;
-					StoredLoadedReference = AssetReference.Asset as T;
-					return StoredLoadedReference;
-				}
-
+				// Keep IResourceLocation typed: casting it to object selects the key overload,
+				// which searches the catalogues for the location object itself and fails.
+				var handle = ResolvedLocation != null
+					? UnityEngine.AddressableAssets.Addressables.LoadAssetAsync<T>(ResolvedLocation)
+					: UnityEngine.AddressableAssets.Addressables.LoadAssetAsync<T>(
+						AssetReference != null && AssetReference.RuntimeKeyIsValid() ? AssetReference.RuntimeKey : AssetAddress);
+				ownedHandle = handle;
+				var result = await handle.Task;
+				if (generation != loadGeneration) return null;
+				if (handle.Status != AsyncOperationStatus.Succeeded) throw handle.OperationException;
+				StoredLoadedReference = result;
+				return result;
 			}
-			catch
+			catch (OperationCanceledException) { return null; }
+			catch (Exception exception)
 			{
-				if (string.IsNullOrEmpty(AssetAddress))
-				{
-					//Loggy.LogError("Address is null for " + AssetReference.SubObjectName);
-					return null;
-				}
-
-				var validateAddress = UnityEngine.AddressableAssets.Addressables.LoadResourceLocationsAsync(AssetAddress);
-
-				await validateAddress.Task;
-
-				if (validateAddress.Status == UnityEngine.ResourceManagement.AsyncOperations.AsyncOperationStatus.Succeeded) {
-					if (validateAddress.Result.Count > 0) {
-						// asset exists go ahead and load
-						var AsynchronousHandle = UnityEngine.AddressableAssets.Addressables.LoadAssetAsync<T>(AssetAddress);
-						await AsynchronousHandle.Task;
-						StoredLoadedReference = AsynchronousHandle.Result;
-						return StoredLoadedReference;
-					}
-					else
-					{
-						Loggy.Error("Address is invalid for " + AssetReference, Category.Addressables, LogOption.NoStacktrace);
-					}
-				}
+				if (generation == loadGeneration && ownedHandle.IsValid()) UnityEngine.AddressableAssets.Addressables.Release(ownedHandle);
+				Loggy.Error($"Unable to load addressable {AssetAddress}: {exception.Message}", Category.Addressables);
+				return null;
 			}
-			return null;
 		}
 
 		#endregion
@@ -98,7 +91,7 @@ namespace US13.Core.Addressables.Types
 		{
 			if (IsNotValidKey) return;
 			if (IsReadyLoaded) return;
-			_ = LoadAsset();
+			_ = Load();
 		}
 
 
@@ -131,7 +124,8 @@ namespace US13.Core.Addressables.Types
 			}
 
 			//Add to manager tracker
-			await LoadAsset();
+			if (pendingLoad == null || pendingLoad.IsCompleted) pendingLoad = LoadAsset();
+			await pendingLoad;
 			return (StoredLoadedReference);
 		}
 
@@ -156,12 +150,11 @@ namespace US13.Core.Addressables.Types
 
 		public void Unload()
 		{
-			if (IsNotValidKey) return;
-			if (IsReadyLoaded)
-			{
-				//Check manager To see if it's implemented
-				Loggy.Info($"Addressable Manager not implemented yet, can't unload {AssetAddress}", Category.Addressables);
-			}
+			loadGeneration++;
+			StoredLoadedReference = null;
+			pendingLoad = null;
+			if (ownedHandle.IsValid()) UnityEngine.AddressableAssets.Addressables.Release(ownedHandle);
+			ownedHandle = default;
 		}
 
 		/// <summary>
