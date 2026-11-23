@@ -55,9 +55,25 @@ namespace US13.Core.SecureStuff.CustomAudio
 		private static Receiving receiving;
 		private static int epoch;
 		private static string sourceStamp;
+		private static bool missingRootReported;
 		private static List<CustomAudioOffer> serverOffers = new();
 		public static string CacheRoot => AccessFile.AudioCacheRoot;
-		public static bool IsDedicatedServer => NetworkServer.active && !NetworkClient.active;
+
+
+		public static bool IsDedicatedServer => NetworkServer.active && NetworkClient.active == false;
+
+		/// <summary>
+		/// Register the server's own trusted pack metadata without initializing Addressables or loading bundles.
+		/// </summary>
+		public static Dictionary<string, IResourceLocator> DiscoverServerLocators()
+		{
+			var locators = new Dictionary<string, IResourceLocator>();
+			foreach (var offer in DiscoverServerPacks())
+			{
+				locators["mirror-audio://" + offer.Id] = CustomAudioPack.CreateLocator(offer, Sources[offer.Id].Path);
+			}
+			return locators;
+		}
 
 		/// <summary>Only the server reads its own catalogue; clients never deserialize its provider/type metadata.</summary>
 		public static List<CustomAudioOffer> DiscoverServerPacks()
@@ -65,17 +81,21 @@ namespace US13.Core.SecureStuff.CustomAudio
 			string root = AccessFile.AudioServerRoot;
 			if (!AudioDirectory.Exists(root))
 			{
+				if (!missingRootReported) Loggy.Info($"Custom audio folder not found: {root}. No custom packs will be offered.", Category.Addressables);
+				missingRootReported = true;
 				Sources.Clear();
 				serverOffers.Clear();
 				sourceStamp = null;
 				return new List<CustomAudioOffer>();
 			}
+			missingRootReported = false;
 
 			List<string> files = SafeFiles(root).ToList();
 			string stamp = string.Join("|",
 				files.OrderBy(path => path, StringComparer.Ordinal).Select(path =>
 					path + ":" + AudioFile.GetInfo(path).Length + ":" + AudioFile.GetLastWriteTimeUtc(path).Ticks));
 			if (stamp == sourceStamp) return serverOffers.ToList();
+			Loggy.Info($"Scanning custom audio packs in {root}.", Category.Addressables);
 			var sources = new Dictionary<string, Source>();
 			foreach (string catalogPath in files.Where(path =>
 				         AudioFile.GetInfo(path).Name.StartsWith("catalog", StringComparison.OrdinalIgnoreCase) &&
@@ -132,6 +152,10 @@ namespace US13.Core.SecureStuff.CustomAudio
 			foreach (KeyValuePair<string, Source> pair in sources) Sources.Add(pair.Key, pair.Value);
 			serverOffers = offers;
 			sourceStamp = stamp;
+			if (offers.Count == 0 && files.Any(path => path.EndsWith(".bundle", StringComparison.OrdinalIgnoreCase)))
+				Loggy.Warning($"No custom audio addresses found in {root}. Copy each pack's catalog*.json alongside its .bundle files.", Category.Addressables);
+			else
+				Loggy.Info($"Custom audio discovered in {root}: {offers.Count} bundles, {offers.Sum(offer => offer.Entries.Count)} addresses, {offers.Sum(offer => offer.Size)} bytes.", Category.Addressables);
 			return offers.ToList();
 		}
 

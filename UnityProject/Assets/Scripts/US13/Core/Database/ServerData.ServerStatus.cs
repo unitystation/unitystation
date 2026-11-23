@@ -91,6 +91,17 @@ namespace US13.Core.Database
 					$"[ServerData.ServerStatus/AttemptConfigLoad()] - Something went wrong while trying to load secrets.json. \n {e}", Category.DatabaseAPI);
 			}
 
+			try
+			{
+				var audio = SecureStuff.CustomAudio.ServerAudioConfiguration.Load();
+				finalConfig.AudioManifest = audio.AudioManifest;
+				finalConfig.EnableLocalAudio = audio.EnableLocalAudio;
+			}
+			catch (Exception e)
+			{
+				Loggy.Error($"Unable to load Config/audio-manifest.json: {e}", Category.DatabaseAPI);
+			}
+
 			ignoranceTransport = FindFirstObjectByType<Ignorance>();
 			config = finalConfig;
 		}
@@ -299,10 +310,9 @@ namespace US13.Core.Database
 		//Built in catalogue content
 		//Such as Lobby music
 		public List<string> LobbyAddressableCatalogues;
-		public SecureStuff.CustomAudio.ServerAudioManifest AudioManifest;
-		public bool EnableLocalAudio;
-		[JsonProperty(global::US13.Core.SecureStuff.CustomAudio.CustomAudioPack.LegacyLocalAudioEnabledKey)]
-		private bool LegacyLocalAudio { set { EnableLocalAudio |= value; } }
+		// Runtime audio settings are loaded separately from Config/audio-manifest.json.
+		[JsonIgnore] public SecureStuff.CustomAudio.ServerAudioManifest AudioManifest;
+		[JsonIgnore] public bool EnableLocalAudio;
 
 		//The password to join the server if set
 		public string ConnectionPassword;
@@ -320,8 +330,6 @@ namespace US13.Core.Database
 			DiscordLinkID = constants.DiscordLinkID;
 			AddressableCatalogues = constants.AddressableCatalogues ?? new List<string>();
 			LobbyAddressableCatalogues = constants.LobbyAddressableCatalogues ?? new List<string>();
-			AudioManifest = constants.AudioManifest;
-			EnableLocalAudio = constants.EnableLocalAudio;
 			ConnectionPassword = constants.ConnectionPassword;
 
 			return this;
@@ -404,10 +412,6 @@ namespace US13.Core.Database
 		//Built in catalogue content
 		//Such as Lobby music
 		public List<string> LobbyAddressableCatalogues;
-		public SecureStuff.CustomAudio.ServerAudioManifest AudioManifest;
-		public bool EnableLocalAudio;
-		[JsonProperty(global::US13.Core.SecureStuff.CustomAudio.CustomAudioPack.LegacyLocalAudioEnabledKey)]
-		private bool LegacyLocalAudio { set { EnableLocalAudio |= value; } }
 
 		//The password to join the server if set
 		public string ConnectionPassword;

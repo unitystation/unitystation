@@ -207,7 +207,7 @@ namespace US13.Managers
 				audioSourceParameters.SpatialBlend = 2; //Set to 3D so you don't get global sales accidentally
 			}
 
-			if (CustomAudioTransfer.IsDedicatedServer == false)
+			if (GameData.IsHeadlessServer == false && CustomAudioTransfer.IsDedicatedServer == false)
 			{
 				addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
 			}
@@ -356,7 +356,7 @@ namespace US13.Managers
 					Category.Audio);
 				return;
 			}
-			if (CustomAudioTransfer.IsDedicatedServer == false)
+			if (GameData.IsHeadlessServer == false && CustomAudioTransfer.IsDedicatedServer == false)
 			{
 				addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
 			}

@@ -43,6 +43,7 @@ namespace US13.Managers.AddressableManager
 		private IResourceLocator builtInLocator;
 		private Action<UnityEngine.Networking.UnityWebRequest> previousRequestOverride;
 		private Action<UnityEngine.Networking.UnityWebRequest> requestOverride;
+		private bool UsesServerAudioRegistry => GameData.IsHeadlessServer || CustomAudioTransfer.IsDedicatedServer;
 
 		private void Awake()
 		{
@@ -68,6 +69,12 @@ namespace US13.Managers.AddressableManager
 			if (initialisationStarted) return;
 			initialisationStarted = true;
 			Instance = this;
+			FinishLoaded = false;
+			if (UsesServerAudioRegistry)
+			{
+				initialLoad = LoadInitialAsync();
+				return;
+			}
 			previousRequestOverride = Addressables.WebRequestOverride;
 			requestOverride = request =>
 			{
@@ -92,6 +99,12 @@ namespace US13.Managers.AddressableManager
 		{
 			try
 			{
+				if (UsesServerAudioRegistry)
+				{
+					var custom = CustomAudioTransfer.DiscoverServerLocators();
+					CommitServerAudioRegistry(custom, ServerData.ServerConfig.AudioManifest);
+					return;
+				}
 				var initialization = Addressables.InitializeAsync(false);
 				try
 				{
@@ -151,6 +164,17 @@ namespace US13.Managers.AddressableManager
 		public static ServerAudioManifest GetServerManifest()
 		{
 			var configured = ServerData.ServerConfig.AudioManifest;
+			try
+			{
+				var audio = ServerAudioConfiguration.Load();
+				configured = audio.AudioManifest;
+				ServerData.ServerConfig.AudioManifest = configured;
+				ServerData.ServerConfig.EnableLocalAudio = audio.EnableLocalAudio;
+			}
+			catch (Exception exception)
+			{
+				Loggy.Error($"Unable to reload Config/{ServerAudioConfiguration.FileName}; retaining the previous audio settings: {exception}", Category.Addressables);
+			}
 			var custom = new List<CustomAudioOffer>();
 			try { custom = CustomAudioTransfer.DiscoverServerPacks(); }
 			catch (Exception exception)
@@ -211,8 +235,21 @@ namespace US13.Managers.AddressableManager
 			try
 			{
 				ValidateManifest(manifest);
-				var custom = await CustomAudioTransfer.PrepareAsync(manifest.CustomAudio);
+				var custom = UsesServerAudioRegistry
+					? CustomAudioTransfer.DiscoverServerLocators()
+					: await CustomAudioTransfer.PrepareAsync(manifest.CustomAudio);
 				if (requestGeneration != generation) return false;
+				if (UsesServerAudioRegistry)
+				{
+					await loadLock.WaitAsync();
+					try
+					{
+						if (requestGeneration != generation) return false;
+						CommitServerAudioRegistry(custom, manifest);
+						return true;
+					}
+					finally { loadLock.Release(); }
+				}
 				return await LoadAsyncCore(manifest, true, requestGeneration, custom);
 			}
 			catch (OperationCanceledException) { return false; }
@@ -229,6 +266,28 @@ namespace US13.Managers.AddressableManager
 			LastLoadError = error;
 			awaitingServerManifest = false;
 			FinishLoaded = true;
+		}
+
+		private void CommitServerAudioRegistry(Dictionary<string, IResourceLocator> custom, ServerAudioManifest manifest)
+		{
+			if (manifest != null) ValidateManifest(manifest);
+
+			// Dedicated servers advertise addresses and distribute files; clients load their own base content.
+			// Do not activate Unity locators, download catalogues, deserialize audio, or start lobby playback here.
+			session.Clear();
+			foreach (var pair in custom)
+			{
+				session.Add(pair.Key, pair.Value);
+			}
+
+			overrides = manifest == null ? new Dictionary<string, string>() : new Dictionary<string, string>(manifest.Overrides);
+			LastLoadError = null;
+			awaitingServerManifest = false;
+			FinishLoaded = true;
+			ToloadeCount = CompletedLoad = custom.Count;
+
+			Loggy.Info($"Server audio registry ready: {custom.Count} bundles, {AudioAddresses.Count()} addresses. Client Addressables initialization is skipped.", Category.Addressables);
+			NotifyAudioRegistryChanged();
 		}
 
 		private Task<bool> LoadAsync(ServerAudioManifest manifest, bool serverSession, int requestGeneration) =>

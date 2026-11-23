@@ -30,7 +30,7 @@ namespace US13.Core.SecureStuff.CustomAudio.Editor
 
 		private void OnGUI()
 		{
-			EditorGUILayout.HelpBox("Choose MP3 files or drag them here. Mirror mode builds into CustomAudio and configures the server playlist; host a game to transfer it to clients. Local mode loads the pack in the editor lobby. Restore Config restores your previous audio configuration.", MessageType.Info);
+			EditorGUILayout.HelpBox("Choose MP3 files or drag them here. Mirror mode builds into CustomAudio and configures the server playlist in Config/audio-manifest.json; host a game to transfer it to clients. Local mode loads the pack in the editor lobby. Restore Config restores your previous audio configuration.", MessageType.Info);
 			if (Event.current.type == EventType.DragUpdated || Event.current.type == EventType.DragPerform)
 			{
 				DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
@@ -112,8 +112,7 @@ namespace US13.Core.SecureStuff.CustomAudio.Editor
 			if (mp3Files == null || mp3Files.Count == 0) throw new ArgumentException("Choose at least one MP3 file.");
 			foreach (string path in mp3Files)
 				if (!File.Exists(path) || !IsMp3(path)) throw new ArgumentException("Missing or invalid MP3: " + path);
-			string configPath = Path.Combine(Application.streamingAssetsPath, "Config/config.json");
-			var config = JObject.Parse(File.ReadAllText(configPath));
+			var config = ServerAudioConfiguration.LoadDocument();
 			string packName = NormaliseBundleName(name);
 			string outputFolder = transferThroughMirror ? "CustomAudio" : CustomAudioPack.LocalAudioFolder;
 			string baseId = packName + "-" + DateTime.UtcNow.ToString("yyyyMMdd-HHmmss");
@@ -205,7 +204,7 @@ namespace US13.Core.SecureStuff.CustomAudio.Editor
 					Revision = 1, Catalogues = transferThroughMirror ? new List<string>() : new List<string> { CustomAudioPack.LocalCataloguePrefix + id + "/catalog.json" },
 					LobbyTracks = addresses, ReplaceLobbyPlaylist = replace
 				};
-				config = JObject.Parse(File.ReadAllText(configPath));
+				config = ServerAudioConfiguration.LoadDocument();
 				string previousBackupPath = ExistingBackupPath;
 				var previousBackup = File.Exists(previousBackupPath) ? JObject.Parse(File.ReadAllText(previousBackupPath)) : null;
 				bool newRestorePoint = previousBackup != null && !MatchesInstalledConfiguration(config, previousBackup);
@@ -218,7 +217,7 @@ namespace US13.Core.SecureStuff.CustomAudio.Editor
 				Directory.CreateDirectory(Path.GetDirectoryName(BackupPath));
 				if (newRestorePoint) File.WriteAllText(Path.Combine(Path.GetDirectoryName(BackupPath), "config-backup-" + Guid.NewGuid().ToString("N") + ".json"), previousBackup.ToString());
 				File.WriteAllText(BackupPath, backup.ToString());
-				File.WriteAllText(configPath, config.ToString());
+				ServerAudioConfiguration.SaveDocument(config);
 				if (previousBackupPath != BackupPath && File.Exists(previousBackupPath)) File.Delete(previousBackupPath);
 				AssetDatabase.Refresh();
 				return $"Built {addresses.Count} lobby tracks for {EditorUserBuildSettings.activeBuildTarget}. " +
@@ -253,8 +252,7 @@ namespace US13.Core.SecureStuff.CustomAudio.Editor
 		public static void RestoreConfiguration()
 		{
 			if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play Mode before restoring configuration.");
-			string configPath = Path.Combine(Application.streamingAssetsPath, "Config/config.json");
-			var config = JObject.Parse(File.ReadAllText(configPath));
+			var config = ServerAudioConfiguration.LoadDocument();
 			string backupPath = ExistingBackupPath;
 			var backup = JObject.Parse(File.ReadAllText(backupPath));
 			VerifyInstalledConfiguration(config, backup);
@@ -262,7 +260,7 @@ namespace US13.Core.SecureStuff.CustomAudio.Editor
 			config.Remove(CustomAudioPack.LocalAudioEnabledKey);
 			config.Remove(CustomAudioPack.LegacyLocalAudioEnabledKey);
 			if (backup["HadEnabled"].Value<bool>()) config[backup["EnabledKey"]?.Value<string>() ?? CustomAudioPack.LegacyLocalAudioEnabledKey] = backup["PreviousEnabled"].DeepClone();
-			File.WriteAllText(configPath, config.ToString());
+			ServerAudioConfiguration.SaveDocument(config);
 			File.Delete(backupPath);
 			AssetDatabase.Refresh();
 		}

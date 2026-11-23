@@ -51,6 +51,7 @@ namespace US13.Core.Addressables.Types
 			{
 				if (this is AddressableAudioSource)
 				{
+					if (GameData.IsHeadlessServer || US13.Core.SecureStuff.CustomAudio.CustomAudioTransfer.IsDedicatedServer) return null;
 					var manager = US13.Managers.AddressableManager.AddressableCatalogueManager.Instance;
 					if (manager == null) throw new InvalidOperationException("Audio catalogue manager is missing from the scene.");
 					await manager.WaitForInitialLoadAsync();

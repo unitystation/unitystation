@@ -3,7 +3,21 @@
 Put each pack's `catalog*.json` and its `.bundle` files together under the server's `StreamingAssets/CustomAudio` folder, optionally in separate pack subfolders.
 
 The server discovers these files when preparing the audio manifest for a joining player. No separate HTTP server is required. 
-Discovery exposes the sounds; use `AudioManifest.LobbyTracks` and `AudioManifest.Overrides` in the server config to choose the playlist and replacements.
+Discovery exposes the sounds; use `AudioManifest.LobbyTracks` and `AudioManifest.Overrides` in `StreamingAssets/Config/audio-manifest.json` to choose the playlist and replacements.
+
+The dedicated audio configuration contains:
+
+```json
+{
+  "EnableLocalAudio": false,
+  "AudioManifest": {
+    "Revision": 1,
+    "LobbyTracks": [],
+    "Overrides": {},
+    "ReplaceLobbyPlaylist": false
+  }
+}
+```
 
 Clients request missing bundles in bounded Mirror messages, verify their SHA-256, and cache them in `Application.persistentDataPath/CustomAudioCache`. 
 Joining again reuses matching files. Hashes identify content and detect corruption; they do not authenticate a publisher.
@@ -13,6 +27,32 @@ For live changes, the server can call `SendCataloguesToClient.BroadcastManifest(
 Adding files alone does not broadcast a change to already connected players.
 
 Clients stage the new content before updating the audio registry and playlist.
+
+## Headless server deployment
+
+Dedicated servers register pack metadata and send bundle bytes without initializing client Addressables, downloading client base catalogues, or loading AudioClips.
+
+Clients still initialize their own Addressables and validate every received pack.
+
+Build the audio bundle for the client platform, even when the server runs Linux.
+
+Headless servers started through Mirror's `StartHost()` use this same metadata-only path despite having an active local network client.
+
+The pack files must exist in the **running server build**, not only in the Unity project or on a player's computer. For the Docker layout in this repository:
+
+```text
+/server/Unitystation_Data/StreamingAssets/
+  CustomAudio/
+    my-server-music-<version>/
+      catalog.json
+      my-server-music.bundle
+  Config/
+    config.json
+    audio-manifest.json
+```
+
+Deploy `Config/audio-manifest.json` together with the generated pack folders to
+select the server's playlist and overrides.
 
 ## Accepted content
 
