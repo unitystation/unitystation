@@ -1332,7 +1332,8 @@
                     "string Combine(string, string, string)",
                     "string Combine(string, string, string, string)",
                     "string GetFileName(string)",
-                    "string GetTempPath()"
+                    "string GetTempPath()",
+                    "string GetFullPath(string)"
                 ],
                 "Fields": [
                     "char DirectorySeparatorChar",
@@ -4420,6 +4421,13 @@
                 "Methods": null,
                 "Fields": null,
                 "NestedTypes": null
+            },
+            "UriKind": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
             }
         },
         "UnityEngine": {
@@ -5780,6 +5788,13 @@
                 "Methods": null,
                 "Fields": null,
                 "NestedTypes": null
+            },
+            "FindObjectsInactive": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
             }
         },
         "UnityEngine.Events": {
@@ -6616,6 +6631,13 @@
                 "NestedTypes": null
             },
             "AsyncOperationHandle`1": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "DownloadStatus": {
                 "All": true,
                 "Inherit": "Default",
                 "Methods": null,
@@ -7871,7 +7893,7 @@
                 "Fields": null,
                 "NestedTypes": null
             },
-			"OrderAttribute": {
+            "OrderAttribute": {
                 "All": true,
                 "Inherit": "Default",
                 "Methods": null,
@@ -10664,6 +10686,91 @@
                         "NestedTypes": null
                     }
                 }
+            }
+        },
+        "US13.Core.SecureStuff.CustomAudio": {
+            "CustomAudioRequestMessage": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": {
+                    "NetMessage": {
+                        "All": true,
+                        "Inherit": "Default",
+                        "Methods": null,
+                        "Fields": null,
+                        "NestedTypes": null
+                    }
+                }
+            },
+            "CustomAudioChunkMessage": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": {
+                    "NetMessage": {
+                        "All": true,
+                        "Inherit": "Default",
+                        "Methods": null,
+                        "Fields": null,
+                        "NestedTypes": null
+                    }
+                }
+            },
+            "CustomAudioPack": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "CustomAudioOffer": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "CustomAudioTransfer": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "ServerAudioManifest": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            }
+        },
+        "UnityEngine.ResourceManagement": {
+            "ResourceManager": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            }
+        },
+        "UnityEngine.ResourceManagement.ResourceProviders": {
+            "IAssetBundleResource": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
+            },
+            "AssetBundleRequestOptions": {
+                "All": true,
+                "Inherit": "Default",
+                "Methods": null,
+                "Fields": null,
+                "NestedTypes": null
             }
         }
     }
