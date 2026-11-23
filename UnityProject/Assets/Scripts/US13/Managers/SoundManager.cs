@@ -7,6 +7,7 @@ using Shared.Util;
 using UnityEngine;
 using UnityEngine.Audio;
 using US13.Core.Addressables.Types;
+using US13.Core.SecureStuff.CustomAudio;
 using US13.Core.Sound;
 using US13.Core.Transform;
 using US13.Managers.NetworkManagement;
@@ -206,7 +207,10 @@ namespace US13.Managers
 				audioSourceParameters.SpatialBlend = 2; //Set to 3D so you don't get global sales accidentally
 			}
 
-			addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
+			if (CustomAudioTransfer.IsDedicatedServer == false)
+			{
+				addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
+			}
 
 			if (global || audioSourceParameters.Loops)
 			{
@@ -352,7 +356,10 @@ namespace US13.Managers
 					Category.Audio);
 				return;
 			}
-			addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
+			if (CustomAudioTransfer.IsDedicatedServer == false)
+			{
+				addressableAudioSource = await AudioManager.GetAddressableAudioSourceFromCache(addressableAudioSource);
+			}
 			PlaySoundMessage.Send(recipient, addressableAudioSource, worldPos, polyphonic, sourceObj, shakeParameters,
 				audioSourceParameters);
 		}

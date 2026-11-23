@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
+using US13.Core.SecureStuff.CustomAudio;
 using US13.Managers.AddressableManager;
 using US13.Messages.Client.Addressable;
 
@@ -17,17 +18,8 @@ namespace US13.Messages.Server.Addressable
 			public string audioManifest;
 		}
 
-		public static ServerAudioManifest ReadManifest(NetMessage message)
-		{
-			ServerAudioManifest manifest;
-			if (!string.IsNullOrWhiteSpace(message.audioManifest))
-				manifest = JsonConvert.DeserializeObject<ServerAudioManifest>(message.audioManifest);
-			else if (!string.IsNullOrWhiteSpace(message.serialiseCatalogues))
-				manifest = new ServerAudioManifest { Catalogues = JsonConvert.DeserializeObject<List<string>>(message.serialiseCatalogues) };
-			else throw new JsonSerializationException("Server audio message contains no manifest or catalogue list.");
-			AddressableCatalogueManager.ValidateManifest(manifest);
-			return manifest;
-		}
+		public static ServerAudioManifest ReadManifest(NetMessage message) =>
+			ServerAudioManifest.ReadMessage(message.audioManifest, message.serialiseCatalogues);
 
 		public override async void Process(NetMessage message)
 		{

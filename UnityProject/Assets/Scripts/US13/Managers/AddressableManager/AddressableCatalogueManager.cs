@@ -14,28 +14,15 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using US13.Core.Database;
 using US13.Core.Initialisation;
-using US13.Messages.Client.Addressable;
 using US13.Messages.Server.Addressable;
 using US13.UI.Systems.AdminTools;
+using US13.Core.SecureStuff.CustomAudio;
 
 namespace US13.Managers.AddressableManager
 {
-	/// <summary>Data-only server audio configuration. Addresses must be unique across packs.</summary>
-	[Serializable]
-	public class ServerAudioManifest
-	{
-		public int Revision;
-		public string Platform;
-		public List<string> Catalogues = new List<string>();
-		public Dictionary<string, List<string>> PlatformCatalogues = new Dictionary<string, List<string>>();
-		public Dictionary<string, string> Overrides = new Dictionary<string, string>();
-		public List<string> LobbyTracks = new List<string>();
-		public bool ReplaceLobbyPlaylist;
-	}
-
 	public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 	{
-		public const string LocalTestCataloguePrefix = "streaming-assets://AudioModdingTest/";
+		public const string LocalTestCataloguePrefix = CustomAudioPack.LocalTestCataloguePrefix;
 		public AddressableDownloadPopUp AddressableDownloadPopUp;
 		public static AddressableCatalogueManager Instance;
 		public InitialisationSystems Subsystem => InitialisationSystems.Addressables;
@@ -164,16 +151,25 @@ namespace US13.Managers.AddressableManager
 		public static ServerAudioManifest GetServerManifest()
 		{
 			var configured = ServerData.ServerConfig.AudioManifest;
+			var custom = new List<CustomAudioOffer>();
+			try { custom = CustomAudioTransfer.DiscoverServerPacks(); }
+			catch (Exception exception)
+			{
+				CustomAudioTransfer.ResetServer();
+				Loggy.Error($"CustomAudio discovery failed: {exception}", Category.Addressables);
+			}
 			return new ServerAudioManifest
 			{
 				Revision = configured?.Revision ?? 0,
 				Platform = configured?.Platform,
 				PlatformCatalogues = configured?.PlatformCatalogues ?? new Dictionary<string, List<string>>(),
 				Catalogues = (ServerData.ServerConfig.AddressableCatalogues ?? new List<string>())
-					.Concat(configured?.Catalogues ?? new List<string>()).Distinct().ToList(),
+					.Concat(configured?.Catalogues ?? new List<string>())
+					.Where(path => !path.StartsWith(LocalTestCataloguePrefix, StringComparison.Ordinal)).Distinct().ToList(),
 				Overrides = configured?.Overrides ?? new Dictionary<string, string>(),
 				LobbyTracks = configured?.LobbyTracks ?? new List<string>(),
-				ReplaceLobbyPlaylist = configured?.ReplaceLobbyPlaylist ?? false
+				ReplaceLobbyPlaylist = configured?.ReplaceLobbyPlaylist ?? false,
+				CustomAudio = custom
 			};
 		}
 
@@ -212,7 +208,20 @@ namespace US13.Managers.AddressableManager
 			int requestGeneration = generation;
 			try { await WaitForInitialLoadAsync(); }
 			catch (OperationCanceledException) { return false; }
-			return await LoadAsync(manifest, true, requestGeneration);
+			try
+			{
+				ValidateManifest(manifest);
+				var custom = await CustomAudioTransfer.PrepareAsync(manifest.CustomAudio);
+				if (requestGeneration != generation) return false;
+				return await LoadAsyncCore(manifest, true, requestGeneration, custom);
+			}
+			catch (OperationCanceledException) { return false; }
+			catch (Exception exception)
+			{
+				if (requestGeneration == generation) ReportServerManifestError(exception.Message);
+				Loggy.Error($"Custom audio rejected: {exception}", Category.Addressables);
+				return false;
+			}
 		}
 
 		public void ReportServerManifestError(string error)
@@ -222,10 +231,13 @@ namespace US13.Managers.AddressableManager
 			FinishLoaded = true;
 		}
 
-		private async Task<bool> LoadAsync(ServerAudioManifest manifest, bool serverSession, int requestGeneration)
+		private Task<bool> LoadAsync(ServerAudioManifest manifest, bool serverSession, int requestGeneration) =>
+			LoadAsyncCore(manifest, serverSession, requestGeneration, null);
+
+		private async Task<bool> LoadAsyncCore(ServerAudioManifest manifest, bool serverSession, int requestGeneration, Dictionary<string, IResourceLocator> custom)
 		{
 			await loadLock.WaitAsync();
-			var staged = new Dictionary<string, IResourceLocator>();
+			var staged = custom == null ? new Dictionary<string, IResourceLocator>() : new Dictionary<string, IResourceLocator>(custom);
 			try
 			{
 				if (serverSession && requestGeneration != generation) return false;
@@ -302,6 +314,8 @@ namespace US13.Managers.AddressableManager
 				foreach (string address in manifest.Overrides.Values.Concat(manifest.LobbyTracks))
 				{
 					var location = ResolveLocation(address, available);
+					if (CustomAudioTransfer.IsDedicatedServer && custom != null &&
+					    custom.Values.Any(locator => GetLocations(locator).Contains(location))) continue;
 					var validation = Addressables.LoadAssetAsync<GameObject>(location);
 					try
 					{
@@ -363,24 +377,7 @@ namespace US13.Managers.AddressableManager
 			}
 		}
 
-		public static void ValidateManifest(ServerAudioManifest manifest)
-		{
-			if (manifest == null) throw new ArgumentNullException(nameof(manifest));
-			if (manifest.PlatformCatalogues == null || manifest.PlatformCatalogues.Count > 16 ||
-			    manifest.PlatformCatalogues.Values.Any(value => value == null || value.Count > 32))
-				throw new ArgumentException("Invalid platform audio catalogues.");
-			if (manifest.Catalogues == null || manifest.Overrides == null || manifest.LobbyTracks == null)
-				throw new ArgumentException("Audio manifest collections cannot be null.");
-			if (manifest.Catalogues.Count > 32 || manifest.Overrides.Count > 4096 || manifest.LobbyTracks.Count > 512)
-				throw new ArgumentException("Audio manifest exceeds content limits.");
-			if (manifest.Catalogues.Concat(manifest.PlatformCatalogues.Values.SelectMany(value => value))
-			    .Concat(manifest.Overrides.Keys).Concat(manifest.Overrides.Values)
-			    .Concat(manifest.LobbyTracks)
-			    .Any(value => string.IsNullOrWhiteSpace(value) || value.Length > 2048))
-				throw new ArgumentException("Audio manifest contains an invalid address.");
-			if (manifest.Overrides.Values.Any(manifest.Overrides.ContainsKey))
-				throw new ArgumentException("Audio overrides must target physical addresses, not other overrides.");
-		}
+		public static void ValidateManifest(ServerAudioManifest manifest) => ServerAudioManifest.Validate(manifest);
 
 		private static async Task<string> ResolveCatalogueAsync(string path, bool remoteOnly)
 		{
@@ -393,6 +390,11 @@ namespace US13.Managers.AddressableManager
 				if (!System.IO.File.Exists(resolved)) throw new System.IO.FileNotFoundException("Local audio test catalogue is missing. Rebuild it with Tools/Audio/Lobby Music Test Pack.", resolved);
 				return resolved;
 			}
+			// Untrusted custom content must use the validated Mirror channel, not provider
+			// declarations from a server-supplied catalogue. Startup base URLs are local policy.
+			if (remoteOnly && ServerData.ServerConfig.AddressableCatalogues?.Contains(path) != true &&
+			    ServerData.ServerConfig.LobbyAddressableCatalogues?.Contains(path) != true)
+				throw new ArgumentException("Custom server catalogues must be supplied through StreamingAssets/CustomAudio.");
 			if (Uri.TryCreate(path, UriKind.Absolute, out var uri) && (uri.Scheme == "https" || uri.Scheme == "http"))
 			{
 				await ValidateUrlAsync(uri.AbsoluteUri);
@@ -504,9 +506,7 @@ namespace US13.Managers.AddressableManager
 			// Only enumerate materialized catalogue maps. Editor settings locators resolve entries
 			// through AssetDatabase and are unsafe to scan (including missing/deleted assets).
 			// Labels and GUID aliases are not sound addresses. Custom addresses need not contain '/'.
-			return locators.OfType<ResourceLocationMap>().Distinct().SelectMany(locator => locator.Keys.OfType<string>().Where(key =>
-				!Guid.TryParse(key, out _) && locator.Locate(key, typeof(GameObject), out var locations) &&
-				locations.Any(location => location.PrimaryKey == key))).Distinct();
+			return CustomAudioPack.EnumerateAudioAddresses(locators);
 		}
 
 		private void NotifyAudioRegistryChanged()
@@ -525,6 +525,7 @@ namespace US13.Managers.AddressableManager
 
 		public void EndServerSession()
 		{
+			CustomAudioTransfer.CancelClient();
 			generation++;
 			awaitingServerManifest = false;
 			LobbyManager.MusicManager.Instance?.SetServerPlaylist(null, false);

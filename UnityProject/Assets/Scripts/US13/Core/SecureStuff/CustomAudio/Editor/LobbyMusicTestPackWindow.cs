@@ -9,9 +9,8 @@ using UnityEngine;
 using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.ResourceManagement.Util;
-using US13.Managers.AddressableManager;
 
-namespace US13.EditorTools
+namespace US13.Core.SecureStuff.CustomAudio.Editor
 {
 	public class LobbyMusicTestPackWindow : EditorWindow
 	{
@@ -19,6 +18,7 @@ namespace US13.EditorTools
 		private const string BackupPath = "Library/LobbyAudioTest/config-backup.json";
 		[SerializeField] private List<string> files = new List<string>();
 		[SerializeField] private bool replacePlaylist = true;
+		[SerializeField] private bool mirrorPack = true;
 		private Vector2 scroll;
 		private string status;
 
@@ -27,7 +27,7 @@ namespace US13.EditorTools
 
 		private void OnGUI()
 		{
-			EditorGUILayout.HelpBox("Choose MP3 files or drag them here. Build enables a local test playlist on the next Play Mode run. Restore Config restores your previous audio configuration. Remote clients still need hosted packs.", MessageType.Info);
+			EditorGUILayout.HelpBox("Choose MP3 files or drag them here. Mirror mode builds into CustomAudio and configures the server playlist; host a game to transfer it to clients. Local mode tests in the editor lobby. Restore Config restores your previous audio configuration.", MessageType.Info);
 			if (Event.current.type == EventType.DragUpdated || Event.current.type == EventType.DragPerform)
 			{
 				DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
@@ -57,17 +57,18 @@ namespace US13.EditorTools
 			}
 			EditorGUILayout.EndScrollView();
 			replacePlaylist = EditorGUILayout.Toggle("Replace lobby playlist", replacePlaylist);
+			mirrorPack = EditorGUILayout.Toggle("Transfer through Mirror", mirrorPack);
 			EditorGUILayout.LabelField("Build target", EditorUserBuildSettings.activeBuildTarget.ToString());
 			using (new EditorGUI.DisabledScope(EditorApplication.isPlayingOrWillChangePlaymode || BuildPipeline.isBuildingPlayer))
 			{
 				using (new EditorGUI.DisabledScope(files.Count == 0))
-					if (GUILayout.Button("Build Pack and Configure Test")) Run(() => BuildPack(files, replacePlaylist));
+					if (GUILayout.Button("Build Pack and Configure Test")) Run(() => BuildPack(files, replacePlaylist, mirrorPack));
 				using (new EditorGUI.DisabledScope(!File.Exists(BackupPath)))
 					if (GUILayout.Button("Restore Previous Config")) Run(() => { RestoreConfiguration(); return "Previous audio configuration restored. Built packs are retained for inspection."; });
 			}
 			if (GUILayout.Button("Show Generated Packs"))
 			{
-				string output = Path.Combine(Application.streamingAssetsPath, "AudioModdingTest");
+				string output = Path.Combine(Application.streamingAssetsPath, mirrorPack ? "CustomAudio" : "AudioModdingTest");
 				if (Directory.Exists(output)) EditorUtility.RevealInFinder(output);
 			}
 			if (!string.IsNullOrEmpty(status)) EditorGUILayout.HelpBox(status, MessageType.Info);
@@ -88,10 +89,10 @@ namespace US13.EditorTools
 			if (!files.Contains(path)) files.Add(path);
 		}
 
-		public static string BuildPack(IReadOnlyList<string> mp3Files, bool replace)
+		public static string BuildPack(IReadOnlyList<string> mp3Files, bool replace, bool transferThroughMirror = false)
 		{
 			if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play Mode before building a test pack.");
-			if (mp3Files == null || mp3Files.Count == 0 || mp3Files.Count > 512) throw new ArgumentException("Choose between 1 and 512 MP3 files.");
+			if (mp3Files == null || mp3Files.Count == 0) throw new ArgumentException("Choose at least one MP3 file.");
 			foreach (string path in mp3Files)
 				if (!File.Exists(path) || !IsMp3(path)) throw new ArgumentException("Missing or invalid MP3: " + path);
 			string configPath = Path.Combine(Application.streamingAssetsPath, "Config/config.json");
@@ -100,7 +101,8 @@ namespace US13.EditorTools
 			if (File.Exists(BackupPath)) VerifyInstalledConfiguration(config, backup);
 			string id = Guid.NewGuid().ToString("N");
 			string sourceRoot = GeneratedRoot + "/" + id;
-			string output = Path.Combine(Application.streamingAssetsPath, "AudioModdingTest", id);
+			string outputFolder = transferThroughMirror ? "CustomAudio" : "AudioModdingTest";
+			string output = Path.Combine(Application.streamingAssetsPath, outputFolder, id);
 			Directory.CreateDirectory(sourceRoot);
 			Directory.CreateDirectory(output);
 			var assetPaths = new List<string>();
@@ -156,7 +158,7 @@ namespace US13.EditorTools
 				var entries = new List<ContentCatalogDataEntry>
 				{
 					new ContentCatalogDataEntry(typeof(IAssetBundleResource),
-						"{UnityEngine.Application.streamingAssetsPath}/AudioModdingTest/" + id + "/" + bundleName,
+						"{UnityEngine.Application.streamingAssetsPath}/" + outputFolder + "/" + id + "/" + bundleName,
 						typeof(AssetBundleProvider).FullName, new object[] { bundleKey }, extraData: options)
 				};
 				for (int i = 0; i < addresses.Count; i++)
@@ -177,17 +179,19 @@ namespace US13.EditorTools
 				File.WriteAllText(Path.Combine(output, "catalog.hash"), Hash128.Compute(json).ToString());
 				var manifest = new ServerAudioManifest
 				{
-					Revision = 1, Catalogues = new List<string> { AddressableCatalogueManager.LocalTestCataloguePrefix + id + "/catalog.json" },
+					Revision = 1, Catalogues = transferThroughMirror ? new List<string>() : new List<string> { CustomAudioPack.LocalTestCataloguePrefix + id + "/catalog.json" },
 					LobbyTracks = addresses, ReplaceLobbyPlaylist = replace
 				};
 				config["AudioManifest"] = JObject.FromObject(manifest);
-				config["EnableLocalAudioTest"] = true;
+				config["EnableLocalAudioTest"] = !transferThroughMirror;
 				backup["InstalledManifest"] = config["AudioManifest"].DeepClone();
+				backup["InstalledEnabled"] = !transferThroughMirror;
 				Directory.CreateDirectory(Path.GetDirectoryName(BackupPath));
 				File.WriteAllText(BackupPath, backup.ToString());
 				File.WriteAllText(configPath, config.ToString());
 				AssetDatabase.Refresh();
-				return $"Built {addresses.Count} lobby tracks for {EditorUserBuildSettings.activeBuildTarget}. Start Play Mode to hear the test playlist. Pack: {output}";
+				return $"Built {addresses.Count} lobby tracks for {EditorUserBuildSettings.activeBuildTarget}. " +
+					(transferThroughMirror ? "Start a host/server to test Mirror transfer. " : "Start Play Mode to hear the test playlist. ") + $"Pack: {output}";
 			}
 			finally
 			{
@@ -206,7 +210,8 @@ namespace US13.EditorTools
 
 		private static void VerifyInstalledConfiguration(JObject config, JObject backup)
 		{
-			if (!JToken.DeepEquals(config["AudioManifest"], backup["InstalledManifest"]) || config["EnableLocalAudioTest"]?.Value<bool>() != true)
+			if (!JToken.DeepEquals(config["AudioManifest"], backup["InstalledManifest"]) ||
+			    config["EnableLocalAudioTest"]?.Value<bool>() != (backup["InstalledEnabled"]?.Value<bool>() ?? true))
 				throw new InvalidOperationException("Audio test config was edited after the last build. Preserve those edits before restoring or rebuilding; the original field backup is in " + BackupPath);
 		}
 

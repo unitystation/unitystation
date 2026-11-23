@@ -10,6 +10,7 @@ using JetBrains.Annotations;
 using Logs;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SecureStuff;
 using US13.Core.Initialisation;
 
 [assembly: InternalsVisibleTo("Tests")]
@@ -86,7 +87,7 @@ namespace US13.Core.Database
 		private static async Task<ApiResult<T>> Send<T>(HttpRequestMessage request) where T : JsonObject
 		{
 			request.Headers.Add("Accept", "application/json");
-			HttpResponseMessage response = await SecureStuff.SafeHttpRequest.SendAsync(request);
+			HttpResponseMessage response = await SafeHttpRequest.SendAsync(request);
 			string responseBody = await response.Content.ReadAsStringAsync();
 			LoadManager.DoInMainThread(() => Loggy.Trace($"{request}", Category.DatabaseAPI));
 			LoadManager.DoInMainThread(() => Loggy.Trace($"{response}", Category.DatabaseAPI));

@@ -22,7 +22,7 @@ namespace SecureStuff
 
 
 	
-	public static class AccessFile
+	public static partial class AccessFile
 	{
 		private static string cashedForkName;
 

@@ -299,7 +299,7 @@ namespace US13.Core.Database
 		//Built in catalogue content
 		//Such as Lobby music
 		public List<string> LobbyAddressableCatalogues;
-		public US13.Managers.AddressableManager.ServerAudioManifest AudioManifest;
+		public SecureStuff.CustomAudio.ServerAudioManifest AudioManifest;
 		public bool EnableLocalAudioTest;
 
 		//The password to join the server if set
@@ -402,7 +402,7 @@ namespace US13.Core.Database
 		//Built in catalogue content
 		//Such as Lobby music
 		public List<string> LobbyAddressableCatalogues;
-		public Managers.AddressableManager.ServerAudioManifest AudioManifest;
+		public SecureStuff.CustomAudio.ServerAudioManifest AudioManifest;
 		public bool EnableLocalAudioTest;
 
 		//The password to join the server if set

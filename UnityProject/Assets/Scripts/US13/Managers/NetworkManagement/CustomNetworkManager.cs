@@ -15,6 +15,7 @@ using US13.Core.Database;
 using US13.Core.Initialisation;
 using US13.Core.Lifecycle;
 using US13.Core.Networking;
+using US13.Core.SecureStuff.CustomAudio;
 using US13.Managers.AddressableManager;
 using US13.Managers.UpdateManager;
 using US13.MapSaver;
@@ -471,13 +472,21 @@ namespace US13.Managers.NetworkManagement
 			IsServer = true;
 			base.OnStartServer();
 			NetworkManagerExtensions.RegisterServerHandlers();
+			CustomAudioRequestMessage.RegisterHandler();
+			StartCoroutine(WaitForInitialisation());
 			// Fixes loading directly into the station scene
 			GameManager.Instance.PreRoundStart();
 		}
 
 		public override void OnStartHost()
 		{
-			StartCoroutine(WaitForInitialisation());
+			base.OnStartHost();
+		}
+
+		public override void OnStopServer()
+		{
+			CustomAudioTransfer.ResetServer();
+			base.OnStopServer();
 		}
 
 		public IEnumerator WaitForInitialisation()
@@ -510,6 +519,7 @@ namespace US13.Managers.NetworkManagement
 		{
 			//Does this need to happen all the time? OnClientConnect can be called multiple times
 			NetworkManagerExtensions.RegisterClientHandlers();
+			CustomAudioChunkMessage.RegisterHandler();
 
 			base.OnClientConnect();
 		}
@@ -517,7 +527,9 @@ namespace US13.Managers.NetworkManagement
 		public override void OnClientDisconnect()
 		{
 			Loggy.Info("Client disconnected from the server.");
-			AddressableCatalogueManager.Instance?.EndServerSession();
+			var catalogueManager = AddressableCatalogueManager.FindInstance();
+			if (catalogueManager != null) catalogueManager.EndServerSession();
+			else CustomAudioTransfer.CancelClient();
 			base.OnClientDisconnect();
 			OnClientDisconnected.Invoke();
 		}
@@ -534,6 +546,7 @@ namespace US13.Managers.NetworkManagement
 		public override void OnServerDisconnect(NetworkConnectionToClient conn)
 		{
 			Loggy.Error($"Disconnecting {conn.address}");
+			CustomAudioTransfer.ForgetServerClient(conn);
 			//register them as removed from our own player list
 
 			if (conn.identity != null) US13.Messages.Client.Addressable.ClientRequestCatalogues.Forget(conn.identity.netId);

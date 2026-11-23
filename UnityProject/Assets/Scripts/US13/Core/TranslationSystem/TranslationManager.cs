@@ -29,7 +29,7 @@ namespace US13.Core.TranslationSystem
 				}
 			}
 
-			TranslationSystem.AvailableLanguages = SecureStuff.AccessFile.DirectoriesOrFilesIn("", FolderType.Translation).Select(x => x.Replace(".json", "")).ToList();
+			TranslationSystem.AvailableLanguages = AccessFile.DirectoriesOrFilesIn("", FolderType.Translation).Select(x => x.Replace(".json", "")).ToList();
 			TranslationSystem.AvailableLanguages.Add("English");
 			TranslationSystem.AvailableLanguages.Add("System");
 			//CurrentLanguage = "Welsh";
@@ -45,7 +45,7 @@ namespace US13.Core.TranslationSystem
 				TranslationSystem.English = false;
 			}
 
-			var LanguageData = SecureStuff.AccessFile.Load($"{CurrentLanguage}.json", FolderType.Translation);
+			var LanguageData = AccessFile.Load($"{CurrentLanguage}.json", FolderType.Translation);
 
 			if (string.IsNullOrEmpty(LanguageData))
 			{
