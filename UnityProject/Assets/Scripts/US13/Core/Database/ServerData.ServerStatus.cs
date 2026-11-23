@@ -300,7 +300,9 @@ namespace US13.Core.Database
 		//Such as Lobby music
 		public List<string> LobbyAddressableCatalogues;
 		public SecureStuff.CustomAudio.ServerAudioManifest AudioManifest;
-		public bool EnableLocalAudioTest;
+		public bool EnableLocalAudio;
+		[JsonProperty(global::US13.Core.SecureStuff.CustomAudio.CustomAudioPack.LegacyLocalAudioEnabledKey)]
+		private bool LegacyLocalAudio { set { EnableLocalAudio |= value; } }
 
 		//The password to join the server if set
 		public string ConnectionPassword;
@@ -319,7 +321,7 @@ namespace US13.Core.Database
 			AddressableCatalogues = constants.AddressableCatalogues ?? new List<string>();
 			LobbyAddressableCatalogues = constants.LobbyAddressableCatalogues ?? new List<string>();
 			AudioManifest = constants.AudioManifest;
-			EnableLocalAudioTest = constants.EnableLocalAudioTest;
+			EnableLocalAudio = constants.EnableLocalAudio;
 			ConnectionPassword = constants.ConnectionPassword;
 
 			return this;
@@ -403,7 +405,9 @@ namespace US13.Core.Database
 		//Such as Lobby music
 		public List<string> LobbyAddressableCatalogues;
 		public SecureStuff.CustomAudio.ServerAudioManifest AudioManifest;
-		public bool EnableLocalAudioTest;
+		public bool EnableLocalAudio;
+		[JsonProperty(global::US13.Core.SecureStuff.CustomAudio.CustomAudioPack.LegacyLocalAudioEnabledKey)]
+		private bool LegacyLocalAudio { set { EnableLocalAudio |= value; } }
 
 		//The password to join the server if set
 		public string ConnectionPassword;

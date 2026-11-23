@@ -12,22 +12,25 @@ using UnityEngine.ResourceManagement.Util;
 
 namespace US13.Core.SecureStuff.CustomAudio.Editor
 {
-	public class LobbyMusicTestPackWindow : EditorWindow
+	public class LobbyMusicPackWindow : EditorWindow
 	{
-		private const string GeneratedRoot = "Assets/EditorGenerated/LobbyAudioTest";
-		private const string BackupPath = "Library/LobbyAudioTest/config-backup.json";
+		private const string GeneratedRoot = "Assets/EditorGenerated/LobbyAudio";
+		private const string BackupPath = "Library/LobbyAudio/config-backup.json";
+		private const string LegacyBackupPath = "Library/LobbyAudioTest/config-backup.json";
+		private static string ExistingBackupPath => File.Exists(BackupPath) ? BackupPath : LegacyBackupPath;
 		[SerializeField] private List<string> files = new List<string>();
+		[SerializeField] private string bundleName = "lobby-music";
 		[SerializeField] private bool replacePlaylist = true;
 		[SerializeField] private bool mirrorPack = true;
 		private Vector2 scroll;
 		private string status;
 
-		[MenuItem("Tools/Audio/Lobby Music Test Pack")]
-		public static void Open() => GetWindow<LobbyMusicTestPackWindow>("Lobby Music Test Pack");
+		[MenuItem("Tools/Audio/Lobby Music Pack")]
+		public static void Open() => GetWindow<LobbyMusicPackWindow>("Lobby Music Pack");
 
 		private void OnGUI()
 		{
-			EditorGUILayout.HelpBox("Choose MP3 files or drag them here. Mirror mode builds into CustomAudio and configures the server playlist; host a game to transfer it to clients. Local mode tests in the editor lobby. Restore Config restores your previous audio configuration.", MessageType.Info);
+			EditorGUILayout.HelpBox("Choose MP3 files or drag them here. Mirror mode builds into CustomAudio and configures the server playlist; host a game to transfer it to clients. Local mode loads the pack in the editor lobby. Restore Config restores your previous audio configuration.", MessageType.Info);
 			if (Event.current.type == EventType.DragUpdated || Event.current.type == EventType.DragPerform)
 			{
 				DragAndDrop.visualMode = DragAndDropVisualMode.Copy;
@@ -56,19 +59,20 @@ namespace US13.Core.SecureStuff.CustomAudio.Editor
 				EditorGUILayout.EndHorizontal();
 			}
 			EditorGUILayout.EndScrollView();
+			bundleName = EditorGUILayout.TextField(new GUIContent("Bundle name", "Used for the .bundle filename. Supports letters, numbers, spaces, hyphens and underscores."), bundleName);
 			replacePlaylist = EditorGUILayout.Toggle("Replace lobby playlist", replacePlaylist);
 			mirrorPack = EditorGUILayout.Toggle("Transfer through Mirror", mirrorPack);
 			EditorGUILayout.LabelField("Build target", EditorUserBuildSettings.activeBuildTarget.ToString());
 			using (new EditorGUI.DisabledScope(EditorApplication.isPlayingOrWillChangePlaymode || BuildPipeline.isBuildingPlayer))
 			{
 				using (new EditorGUI.DisabledScope(files.Count == 0))
-					if (GUILayout.Button("Build Pack and Configure Test")) Run(() => BuildPack(files, replacePlaylist, mirrorPack));
-				using (new EditorGUI.DisabledScope(!File.Exists(BackupPath)))
+					if (GUILayout.Button("Build Pack and Configure")) Run(() => BuildPack(files, replacePlaylist, mirrorPack, bundleName));
+				using (new EditorGUI.DisabledScope(!File.Exists(ExistingBackupPath)))
 					if (GUILayout.Button("Restore Previous Config")) Run(() => { RestoreConfiguration(); return "Previous audio configuration restored. Built packs are retained for inspection."; });
 			}
 			if (GUILayout.Button("Show Generated Packs"))
 			{
-				string output = Path.Combine(Application.streamingAssetsPath, mirrorPack ? "CustomAudio" : "AudioModdingTest");
+				string output = Path.Combine(Application.streamingAssetsPath, mirrorPack ? "CustomAudio" : CustomAudioPack.LocalAudioFolder);
 				if (Directory.Exists(output)) EditorUtility.RevealInFinder(output);
 			}
 			if (!string.IsNullOrEmpty(status)) EditorGUILayout.HelpBox(status, MessageType.Info);
@@ -89,19 +93,33 @@ namespace US13.Core.SecureStuff.CustomAudio.Editor
 			if (!files.Contains(path)) files.Add(path);
 		}
 
-		public static string BuildPack(IReadOnlyList<string> mp3Files, bool replace, bool transferThroughMirror = false)
+		public static string NormaliseBundleName(string name)
 		{
-			if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play Mode before building a test pack.");
+			if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Enter a bundle name.", nameof(name));
+			name = name.Trim().ToLowerInvariant();
+			if (name.EndsWith(".bundle", StringComparison.Ordinal)) name = name.Substring(0, name.Length - 7);
+			name = string.Join("-", name.Split(new[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries));
+			if (name.Length == 0 || name.Length > 64 || name.Any(c => !(c >= 'a' && c <= 'z' || c >= '0' && c <= '9' || c == '-' || c == '_')))
+				throw new ArgumentException("Use 1–64 letters, numbers, hyphens or underscores for the bundle name.", nameof(name));
+			var reserved = new[] { "con", "prn", "aux", "nul", "com1", "com2", "com3", "com4", "com5", "com6", "com7", "com8", "com9", "lpt1", "lpt2", "lpt3", "lpt4", "lpt5", "lpt6", "lpt7", "lpt8", "lpt9" };
+			if (reserved.Contains(name)) throw new ArgumentException("This bundle name is reserved by the filesystem.", nameof(name));
+			return name;
+		}
+
+		public static string BuildPack(IReadOnlyList<string> mp3Files, bool replace, bool transferThroughMirror = false, string name = "lobby-music")
+		{
+			if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play Mode before building an audio pack.");
 			if (mp3Files == null || mp3Files.Count == 0) throw new ArgumentException("Choose at least one MP3 file.");
 			foreach (string path in mp3Files)
 				if (!File.Exists(path) || !IsMp3(path)) throw new ArgumentException("Missing or invalid MP3: " + path);
 			string configPath = Path.Combine(Application.streamingAssetsPath, "Config/config.json");
 			var config = JObject.Parse(File.ReadAllText(configPath));
-			var backup = File.Exists(BackupPath) ? JObject.Parse(File.ReadAllText(BackupPath)) : CaptureConfiguration(config);
-			if (File.Exists(BackupPath)) VerifyInstalledConfiguration(config, backup);
-			string id = Guid.NewGuid().ToString("N");
+			string packName = NormaliseBundleName(name);
+			string outputFolder = transferThroughMirror ? "CustomAudio" : CustomAudioPack.LocalAudioFolder;
+			string baseId = packName + "-" + DateTime.UtcNow.ToString("yyyyMMdd-HHmmss");
+			string id = baseId;
+			for (int suffix = 2; Directory.Exists(Path.Combine(Application.streamingAssetsPath, outputFolder, id)) || Directory.Exists(GeneratedRoot + "/" + id); suffix++) id = baseId + "-" + suffix;
 			string sourceRoot = GeneratedRoot + "/" + id;
-			string outputFolder = transferThroughMirror ? "CustomAudio" : "AudioModdingTest";
 			string output = Path.Combine(Application.streamingAssetsPath, outputFolder, id);
 			Directory.CreateDirectory(sourceRoot);
 			Directory.CreateDirectory(output);
@@ -112,7 +130,7 @@ namespace US13.Core.SecureStuff.CustomAudio.Editor
 				AssetDatabase.Refresh();
 				for (int i = 0; i < mp3Files.Count; i++)
 				{
-					EditorUtility.DisplayProgressBar("Lobby audio test pack", "Importing " + Path.GetFileName(mp3Files[i]), (float)i / mp3Files.Count);
+					EditorUtility.DisplayProgressBar("Lobby music pack", "Importing " + Path.GetFileName(mp3Files[i]), (float)i / mp3Files.Count);
 					string clipPath = sourceRoot + "/" + i + "_" + Path.GetFileName(mp3Files[i]);
 					File.Copy(mp3Files[i], clipPath);
 					AssetDatabase.ImportAsset(clipPath, ImportAssetOptions.ForceSynchronousImport);
@@ -136,25 +154,30 @@ namespace US13.Core.SecureStuff.CustomAudio.Editor
 						string prefabPath = sourceRoot + "/track_" + i + ".prefab";
 						if (PrefabUtility.SaveAsPrefabAsset(obj, prefabPath) == null) throw new InvalidOperationException("Could not create audio prefab.");
 						assetPaths.Add(prefabPath);
-						addresses.Add("local-lobby-test/" + id + "/track_" + i);
+						addresses.Add("lobby-music/" + id + "/track_" + i);
 					}
 					finally { DestroyImmediate(obj); }
 				}
 				AssetDatabase.SaveAssets();
-				EditorUtility.DisplayProgressBar("Lobby audio test pack", "Building audio bundle", 0.8f);
-				string bundleName = "lobby_music_" + id + ".bundle";
+				EditorUtility.DisplayProgressBar("Lobby music pack", "Building audio bundle", 0.8f);
+				string bundleName = packName + ".bundle";
+				// Unity identifies loaded bundles by their internal name, independently of the filename.
+				string internalBundleName = id + ".bundle";
 				var built = BuildPipeline.BuildAssetBundles(output,
-					new[] { new AssetBundleBuild { assetBundleName = bundleName, assetNames = assetPaths.ToArray() } },
+					new[] { new AssetBundleBuild { assetBundleName = internalBundleName, assetNames = assetPaths.ToArray() } },
 					BuildAssetBundleOptions.ChunkBasedCompression, EditorUserBuildSettings.activeBuildTarget);
 				if (built == null) throw new InvalidOperationException("Audio bundle build failed. See the Console.");
 				string bundlePath = Path.Combine(output, bundleName);
+				File.Move(Path.Combine(output, internalBundleName), bundlePath);
+				string bundleManifest = Path.Combine(output, internalBundleName + ".manifest");
+				if (File.Exists(bundleManifest)) File.Move(bundleManifest, bundlePath + ".manifest");
 				if (!BuildPipeline.GetCRCForAssetBundle(bundlePath, out uint crc)) throw new InvalidOperationException("Could not read bundle CRC.");
 				var options = new AssetBundleRequestOptions
 				{
-					BundleName = bundleName, Hash = built.GetAssetBundleHash(bundleName).ToString(), Crc = crc,
+					BundleName = internalBundleName, Hash = built.GetAssetBundleHash(internalBundleName).ToString(), Crc = crc,
 					BundleSize = new FileInfo(bundlePath).Length, Timeout = 30, RetryCount = 1
 				};
-				string bundleKey = "local-lobby-test-bundle/" + id;
+				string bundleKey = "lobby-music-bundle/" + id;
 				var entries = new List<ContentCatalogDataEntry>
 				{
 					new ContentCatalogDataEntry(typeof(IAssetBundleResource),
@@ -164,7 +187,7 @@ namespace US13.Core.SecureStuff.CustomAudio.Editor
 				for (int i = 0; i < addresses.Count; i++)
 					entries.Add(new ContentCatalogDataEntry(typeof(GameObject), assetPaths[i], typeof(BundledAssetProvider).FullName,
 						new object[] { addresses[i] }, new object[] { bundleKey }));
-				var catalog = new ContentCatalogData(entries, "LobbyMusicTest_" + id)
+				var catalog = new ContentCatalogData(entries, "LobbyMusic_" + id)
 				{
 					InstanceProviderData = ObjectInitializationData.CreateSerializedInitializationData<InstanceProvider>(),
 					SceneProviderData = ObjectInitializationData.CreateSerializedInitializationData<SceneProvider>(),
@@ -179,19 +202,27 @@ namespace US13.Core.SecureStuff.CustomAudio.Editor
 				File.WriteAllText(Path.Combine(output, "catalog.hash"), Hash128.Compute(json).ToString());
 				var manifest = new ServerAudioManifest
 				{
-					Revision = 1, Catalogues = transferThroughMirror ? new List<string>() : new List<string> { CustomAudioPack.LocalTestCataloguePrefix + id + "/catalog.json" },
+					Revision = 1, Catalogues = transferThroughMirror ? new List<string>() : new List<string> { CustomAudioPack.LocalCataloguePrefix + id + "/catalog.json" },
 					LobbyTracks = addresses, ReplaceLobbyPlaylist = replace
 				};
+				config = JObject.Parse(File.ReadAllText(configPath));
+				string previousBackupPath = ExistingBackupPath;
+				var previousBackup = File.Exists(previousBackupPath) ? JObject.Parse(File.ReadAllText(previousBackupPath)) : null;
+				bool newRestorePoint = previousBackup != null && !MatchesInstalledConfiguration(config, previousBackup);
+				var backup = previousBackup != null && !newRestorePoint ? previousBackup : CaptureConfiguration(config);
 				config["AudioManifest"] = JObject.FromObject(manifest);
-				config["EnableLocalAudioTest"] = !transferThroughMirror;
+				config[CustomAudioPack.LocalAudioEnabledKey] = !transferThroughMirror;
+				config.Remove(CustomAudioPack.LegacyLocalAudioEnabledKey);
 				backup["InstalledManifest"] = config["AudioManifest"].DeepClone();
 				backup["InstalledEnabled"] = !transferThroughMirror;
 				Directory.CreateDirectory(Path.GetDirectoryName(BackupPath));
+				if (newRestorePoint) File.WriteAllText(Path.Combine(Path.GetDirectoryName(BackupPath), "config-backup-" + Guid.NewGuid().ToString("N") + ".json"), previousBackup.ToString());
 				File.WriteAllText(BackupPath, backup.ToString());
 				File.WriteAllText(configPath, config.ToString());
+				if (previousBackupPath != BackupPath && File.Exists(previousBackupPath)) File.Delete(previousBackupPath);
 				AssetDatabase.Refresh();
 				return $"Built {addresses.Count} lobby tracks for {EditorUserBuildSettings.activeBuildTarget}. " +
-					(transferThroughMirror ? "Start a host/server to test Mirror transfer. " : "Start Play Mode to hear the test playlist. ") + $"Pack: {output}";
+					(transferThroughMirror ? "Start a host/server to distribute the pack through Mirror. " : "Start Play Mode to hear the playlist. ") + $"Pack: {output}";
 			}
 			finally
 			{
@@ -204,15 +235,19 @@ namespace US13.Core.SecureStuff.CustomAudio.Editor
 		{
 			["HadManifest"] = config.Property("AudioManifest") != null,
 			["PreviousManifest"] = config["AudioManifest"]?.DeepClone(),
-			["HadEnabled"] = config.Property("EnableLocalAudioTest") != null,
-			["PreviousEnabled"] = config["EnableLocalAudioTest"]?.DeepClone()
+			["EnabledKey"] = config.Property(CustomAudioPack.LocalAudioEnabledKey) != null ? CustomAudioPack.LocalAudioEnabledKey : CustomAudioPack.LegacyLocalAudioEnabledKey,
+			["HadEnabled"] = config.Property(CustomAudioPack.LocalAudioEnabledKey) != null || config.Property(CustomAudioPack.LegacyLocalAudioEnabledKey) != null,
+			["PreviousEnabled"] = (config[CustomAudioPack.LocalAudioEnabledKey] ?? config[CustomAudioPack.LegacyLocalAudioEnabledKey])?.DeepClone()
 		};
+
+		private static bool MatchesInstalledConfiguration(JObject config, JObject backup) =>
+			JToken.DeepEquals(config["AudioManifest"], backup["InstalledManifest"]) &&
+			(config[CustomAudioPack.LocalAudioEnabledKey] ?? config[CustomAudioPack.LegacyLocalAudioEnabledKey])?.Value<bool>() == (backup["InstalledEnabled"]?.Value<bool>() ?? true);
 
 		private static void VerifyInstalledConfiguration(JObject config, JObject backup)
 		{
-			if (!JToken.DeepEquals(config["AudioManifest"], backup["InstalledManifest"]) ||
-			    config["EnableLocalAudioTest"]?.Value<bool>() != (backup["InstalledEnabled"]?.Value<bool>() ?? true))
-				throw new InvalidOperationException("Audio test config was edited after the last build. Preserve those edits before restoring or rebuilding; the original field backup is in " + BackupPath);
+			if (!MatchesInstalledConfiguration(config, backup))
+				throw new InvalidOperationException("Audio settings changed after the last pack build. Rebuild to use the current settings as a new restore point. Earlier backups are retained in " + Path.GetDirectoryName(BackupPath) + ".");
 		}
 
 		public static void RestoreConfiguration()
@@ -220,12 +255,15 @@ namespace US13.Core.SecureStuff.CustomAudio.Editor
 			if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play Mode before restoring configuration.");
 			string configPath = Path.Combine(Application.streamingAssetsPath, "Config/config.json");
 			var config = JObject.Parse(File.ReadAllText(configPath));
-			var backup = JObject.Parse(File.ReadAllText(BackupPath));
+			string backupPath = ExistingBackupPath;
+			var backup = JObject.Parse(File.ReadAllText(backupPath));
 			VerifyInstalledConfiguration(config, backup);
 			if (backup["HadManifest"].Value<bool>()) config["AudioManifest"] = backup["PreviousManifest"].DeepClone(); else config.Remove("AudioManifest");
-			if (backup["HadEnabled"].Value<bool>()) config["EnableLocalAudioTest"] = backup["PreviousEnabled"].DeepClone(); else config.Remove("EnableLocalAudioTest");
+			config.Remove(CustomAudioPack.LocalAudioEnabledKey);
+			config.Remove(CustomAudioPack.LegacyLocalAudioEnabledKey);
+			if (backup["HadEnabled"].Value<bool>()) config[backup["EnabledKey"]?.Value<string>() ?? CustomAudioPack.LegacyLocalAudioEnabledKey] = backup["PreviousEnabled"].DeepClone();
 			File.WriteAllText(configPath, config.ToString());
-			File.Delete(BackupPath);
+			File.Delete(backupPath);
 			AssetDatabase.Refresh();
 		}
 	}

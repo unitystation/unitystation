@@ -22,7 +22,7 @@ namespace US13.Managers.AddressableManager
 {
 	public class AddressableCatalogueManager : MonoBehaviour, IInitialise
 	{
-		public const string LocalTestCataloguePrefix = CustomAudioPack.LocalTestCataloguePrefix;
+		public const string LocalCataloguePrefix = CustomAudioPack.LocalCataloguePrefix;
 		public AddressableDownloadPopUp AddressableDownloadPopUp;
 		public static AddressableCatalogueManager Instance;
 		public InitialisationSystems Subsystem => InitialisationSystems.Addressables;
@@ -123,7 +123,7 @@ namespace US13.Managers.AddressableManager
 					paths = GetStartupCatalogues(ServerData.ServerConfig);
 					await LoadAsync(new ServerAudioManifest { Catalogues = paths }, false, generation);
 				}
-				if (Application.isEditor && ServerData.ServerConfig.EnableLocalAudioTest && ServerData.ServerConfig.AudioManifest != null)
+				if (Application.isEditor && ServerData.ServerConfig.EnableLocalAudio && ServerData.ServerConfig.AudioManifest != null)
 					await LoadAsync(ServerData.ServerConfig.AudioManifest, true, generation);
 			}
 			catch (Exception exception)
@@ -165,7 +165,7 @@ namespace US13.Managers.AddressableManager
 				PlatformCatalogues = configured?.PlatformCatalogues ?? new Dictionary<string, List<string>>(),
 				Catalogues = (ServerData.ServerConfig.AddressableCatalogues ?? new List<string>())
 					.Concat(configured?.Catalogues ?? new List<string>())
-					.Where(path => !path.StartsWith(LocalTestCataloguePrefix, StringComparison.Ordinal)).Distinct().ToList(),
+					.Where(path => !CustomAudioPack.IsLocalCatalogue(path)).Distinct().ToList(),
 				Overrides = configured?.Overrides ?? new Dictionary<string, string>(),
 				LobbyTracks = configured?.LobbyTracks ?? new List<string>(),
 				ReplaceLobbyPlaylist = configured?.ReplaceLobbyPlaylist ?? false,
@@ -285,7 +285,7 @@ namespace US13.Managers.AddressableManager
 					var locations = GetLocations(staged[url]);
 					if (locations.Count == 0)
 						throw new InvalidOperationException($"Audio catalogue contains no GameObject locations: {url}.");
-					await ValidateRemoteLocationsAsync(locations, serverSession && !path.StartsWith(LocalTestCataloguePrefix, StringComparison.Ordinal));
+					await ValidateRemoteLocationsAsync(locations, serverSession && !CustomAudioPack.IsLocalCatalogue(path));
 					if (serverSession && requestGeneration != generation) return false;
 					if (locations.Count > 0)
 					{
@@ -381,13 +381,13 @@ namespace US13.Managers.AddressableManager
 
 		private static async Task<string> ResolveCatalogueAsync(string path, bool remoteOnly)
 		{
-			if (path.StartsWith(LocalTestCataloguePrefix, StringComparison.Ordinal))
+			if (CustomAudioPack.IsLocalCatalogue(path))
 			{
 				var config = ServerData.ServerConfig;
-				if (!Application.isEditor || !config.EnableLocalAudioTest || config.AudioManifest?.Catalogues?.Contains(path) != true)
-					throw new ArgumentException("Local audio test content must be enabled in this editor's configuration.");
-				string resolved = ResolveLocalTestPath(Application.streamingAssetsPath, path);
-				if (!System.IO.File.Exists(resolved)) throw new System.IO.FileNotFoundException("Local audio test catalogue is missing. Rebuild it with Tools/Audio/Lobby Music Test Pack.", resolved);
+				if (!Application.isEditor || !config.EnableLocalAudio || config.AudioManifest?.Catalogues?.Contains(path) != true)
+					throw new ArgumentException("Local audio content must be enabled in this editor's configuration.");
+				string resolved = ResolveLocalAudioPath(Application.streamingAssetsPath, path);
+				if (!System.IO.File.Exists(resolved)) throw new System.IO.FileNotFoundException("Local audio catalogue is missing. Rebuild it with Tools/Audio/Lobby Music Pack.", resolved);
 				return resolved;
 			}
 			// Untrusted custom content must use the validated Mirror channel, not provider
@@ -412,15 +412,17 @@ namespace US13.Managers.AddressableManager
 			return path;
 		}
 
-		public static string ResolveLocalTestPath(string streamingAssetsPath, string catalogue)
+		public static string ResolveLocalAudioPath(string streamingAssetsPath, string catalogue)
 		{
-			if (!catalogue.StartsWith(LocalTestCataloguePrefix, StringComparison.Ordinal)) throw new ArgumentException("Invalid local audio test catalogue.");
-			string relative = Uri.UnescapeDataString(catalogue.Substring(LocalTestCataloguePrefix.Length));
+			if (!CustomAudioPack.IsLocalCatalogue(catalogue)) throw new ArgumentException("Invalid local audio catalogue.");
+			bool legacy = catalogue.StartsWith(CustomAudioPack.LegacyCataloguePrefix, StringComparison.Ordinal);
+			string prefix = legacy ? CustomAudioPack.LegacyCataloguePrefix : LocalCataloguePrefix;
+			string relative = Uri.UnescapeDataString(catalogue.Substring(prefix.Length));
 			if (relative.Contains(":") || relative.Contains("\\") || relative.Split('/').Any(part => part == ".." || part == "." || part.Length == 0))
-				throw new ArgumentException("Invalid local audio test path.");
-			string root = System.IO.Path.GetFullPath(System.IO.Path.Combine(streamingAssetsPath, "AudioModdingTest"));
+				throw new ArgumentException("Invalid local audio path.");
+			string root = System.IO.Path.GetFullPath(System.IO.Path.Combine(streamingAssetsPath, legacy ? CustomAudioPack.LegacyLocalAudioFolder : CustomAudioPack.LocalAudioFolder));
 			string resolved = System.IO.Path.GetFullPath(System.IO.Path.Combine(root, relative));
-			if (!resolved.StartsWith(root + System.IO.Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)) throw new ArgumentException("Local audio test path escapes its directory.");
+			if (!resolved.StartsWith(root + System.IO.Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)) throw new ArgumentException("Local audio path escapes its directory.");
 			return resolved;
 		}
 
