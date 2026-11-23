@@ -29,6 +29,7 @@ namespace US13.Messages.Server.Addressable
 			try
 			{
 				manifest = ReadManifest(message);
+				Logs.Loggy.Info($"Received server audio manifest {manifest.Revision}: {manifest.CustomAudio.Count} bundles, {manifest.LobbyTracks.Count} lobby tracks.", Logs.Category.Addressables);
 				float deadline = Time.realtimeSinceStartup + 10f;
 				while ((manager = AddressableCatalogueManager.FindInstance()) == null)
 				{
@@ -72,6 +73,7 @@ namespace US13.Messages.Server.Addressable
 				Logs.Loggy.Error("Cannot send server audio manifest: recipient has no client connection.");
 				return;
 			}
+			Logs.Loggy.Info($"Sending server audio manifest {manifest.Revision} to connection {identity.connectionToClient.connectionId}: {manifest.CustomAudio.Count} bundles, {manifest.LobbyTracks.Count} lobby tracks.", Logs.Category.Addressables);
 			SendTo(identity.connectionToClient, new NetMessage
 			{
 				audioManifest = JsonConvert.SerializeObject(manifest),

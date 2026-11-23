@@ -46,6 +46,30 @@ namespace Tests
 		}
 
 		[Test]
+		public void PortablePackageIndexDoesNotRequireUnityCatalogueTypes()
+		{
+			var package = CustomAudioPackage.Parse("{\"Bundles\":[{\"FileName\":\"lobby.bundle\",\"Entries\":[{\"Address\":\"music/lobby\",\"AssetName\":\"Assets/Music.prefab\"}]}]}");
+			Assert.AreEqual("lobby.bundle", package.Bundles[0].FileName);
+			Assert.AreEqual("music/lobby", package.Bundles[0].Entries[0].Address);
+		}
+
+		[TestCase("../lobby.bundle")]
+		[TestCase("C:/lobby.bundle")]
+		[TestCase("folder/lobby.bundle")]
+		[TestCase("code.dll")]
+		public void PortablePackageIndexRejectsInvalidFilenames(string filename)
+		{
+			string json = Newtonsoft.Json.JsonConvert.SerializeObject(new CustomAudioPackage
+			{
+				Bundles = new List<CustomAudioPackageBundle>
+				{
+					new CustomAudioPackageBundle { FileName = filename, Entries = new List<CustomAudioEntry> { new CustomAudioEntry { Address = "music/lobby", AssetName = "Assets/Music.prefab" } } }
+				}
+			});
+			Assert.Throws<FormatException>(() => CustomAudioPackage.Parse(json));
+		}
+
+		[Test]
 		public void OfferIdentityDetectsMetadataTampering()
 		{
 			var offer = Offer();

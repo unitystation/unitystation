@@ -108,6 +108,9 @@ namespace US13.Core.SecureStuff.CustomAudio.Editor
 
 		public static string BuildPack(IReadOnlyList<string> mp3Files, bool replace, bool transferThroughMirror = false, string name = "lobby-music")
 		{
+#if !ENABLE_JSON_CATALOG
+			if (!transferThroughMirror) throw new InvalidOperationException("Local audio catalogues require ENABLE_JSON_CATALOG. Use Mirror transfer for this build.");
+#endif
 			if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play Mode before building an audio pack.");
 			if (mp3Files == null || mp3Files.Count == 0) throw new ArgumentException("Choose at least one MP3 file.");
 			foreach (string path in mp3Files)
@@ -199,6 +202,18 @@ namespace US13.Core.SecureStuff.CustomAudio.Editor
 				string json = JsonUtility.ToJson(catalog);
 				File.WriteAllText(Path.Combine(output, "catalog.json"), json);
 				File.WriteAllText(Path.Combine(output, "catalog.hash"), Hash128.Compute(json).ToString());
+				var package = new CustomAudioPackage
+				{
+					Bundles = new List<CustomAudioPackageBundle>
+					{
+						new CustomAudioPackageBundle
+						{
+							FileName = bundleName,
+							Entries = addresses.Select((address, i) => new CustomAudioEntry { Address = address, AssetName = assetPaths[i] }).ToList()
+						}
+					}
+				};
+				File.WriteAllText(Path.Combine(output, CustomAudioPackage.FileName), Newtonsoft.Json.JsonConvert.SerializeObject(package, Newtonsoft.Json.Formatting.Indented));
 				var manifest = new ServerAudioManifest
 				{
 					Revision = 1, Catalogues = transferThroughMirror ? new List<string>() : new List<string> { CustomAudioPack.LocalCataloguePrefix + id + "/catalog.json" },
@@ -221,7 +236,8 @@ namespace US13.Core.SecureStuff.CustomAudio.Editor
 				if (previousBackupPath != BackupPath && File.Exists(previousBackupPath)) File.Delete(previousBackupPath);
 				AssetDatabase.Refresh();
 				return $"Built {addresses.Count} lobby tracks for {EditorUserBuildSettings.activeBuildTarget}. " +
-					(transferThroughMirror ? "Start a host/server to distribute the pack through Mirror. " : "Start Play Mode to hear the playlist. ") + $"Pack: {output}";
+					(transferThroughMirror ? "Start a host/server to distribute the pack through Mirror. " : "Start Play Mode to hear the playlist. ") +
+					$"Pack: {output}. Playlist configuration: {Path.Combine(Application.streamingAssetsPath, "Config", ServerAudioConfiguration.FileName)}";
 			}
 			finally
 			{

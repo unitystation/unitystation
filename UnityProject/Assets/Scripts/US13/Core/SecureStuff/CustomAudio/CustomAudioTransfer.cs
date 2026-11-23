@@ -59,8 +59,8 @@ namespace US13.Core.SecureStuff.CustomAudio
 		private static List<CustomAudioOffer> serverOffers = new();
 		public static string CacheRoot => AccessFile.AudioCacheRoot;
 
-
-		public static bool IsDedicatedServer => NetworkServer.active && NetworkClient.active == false;
+		// A headless Mirror host has a local client, but still must not deserialize client-platform bundles.
+		public static bool IsDedicatedServer => Application.isBatchMode;
 
 		/// <summary>
 		/// Register the server's own trusted pack metadata without initializing Addressables or loading bundles.
@@ -97,10 +97,22 @@ namespace US13.Core.SecureStuff.CustomAudio
 			if (stamp == sourceStamp) return serverOffers.ToList();
 			Loggy.Info($"Scanning custom audio packs in {root}.", Category.Addressables);
 			var sources = new Dictionary<string, Source>();
+			foreach (string indexPath in files.Where(path => AudioFile.GetInfo(path).Name.Equals(CustomAudioPackage.FileName, StringComparison.OrdinalIgnoreCase)))
+			{
+				var package = CustomAudioPackage.Parse(AudioFile.ReadAllText(indexPath, 4 * 1024 * 1024));
+				foreach (var bundle in package.Bundles)
+				{
+					string file = FindBundleFile(indexPath, bundle.FileName, files);
+					var source = CreateSource(file, bundle.Entries);
+					sources[source.Offer.Id] = source;
+				}
+			}
 			foreach (string catalogPath in files.Where(path =>
 				         AudioFile.GetInfo(path).Name.StartsWith("catalog", StringComparison.OrdinalIgnoreCase) &&
-				         path.EndsWith(".json", StringComparison.Ordinal)))
+				         path.EndsWith(".json", StringComparison.OrdinalIgnoreCase)))
 			{
+				if (files.Contains(AudioFile.SiblingPath(catalogPath, CustomAudioPackage.FileName), StringComparer.OrdinalIgnoreCase)) continue;
+#if ENABLE_JSON_CATALOG
 				if (AudioFile.GetInfo(catalogPath).Length > 4 * 1024 * 1024)
 					throw new FormatException("Custom audio catalogue is too large.");
 				var data = JsonUtility.FromJson<ContentCatalogData>(AudioFile.ReadAllText(catalogPath, 4 * 1024 * 1024));
@@ -121,9 +133,7 @@ namespace US13.Core.SecureStuff.CustomAudio
 					string filename = internalId.Substring(internalId.LastIndexOf('/') + 1);
 					if (!filename.EndsWith(".bundle", StringComparison.OrdinalIgnoreCase))
 						throw new FormatException("Invalid custom audio bundle filename.");
-					string bundle = AudioFile.SiblingPath(catalogPath, filename);
-					if (!files.Contains(bundle, StringComparer.OrdinalIgnoreCase))
-						throw new FormatException("Custom audio bundle is missing from its package folder.");
+					string bundle = FindBundleFile(catalogPath, filename, files);
 					if (!grouped.TryGetValue(bundle, out List<CustomAudioEntry> entries))
 						grouped[bundle] = entries = new List<CustomAudioEntry>();
 					entries.Add(new CustomAudioEntry { Address = address, AssetName = location.InternalId });
@@ -131,15 +141,12 @@ namespace US13.Core.SecureStuff.CustomAudio
 
 				foreach (KeyValuePair<string, List<CustomAudioEntry>> group in grouped)
 				{
-					var info = AudioFile.GetInfo(group.Key);
-					if (info.Length > AudioBundlePreflight.MaxBundleBytes)
-						throw new FormatException("Custom audio bundle is too large.");
-					var offer = new CustomAudioOffer
-						{ Sha256 = CustomAudioPack.HashFile(group.Key), Size = info.Length, Entries = group.Value };
-					offer.Id = CustomAudioPack.Identity(offer);
-					CustomAudioPack.ValidateOffer(offer);
-					sources[offer.Id] = new Source { Offer = offer, Path = group.Key };
+					var source = CreateSource(group.Key, group.Value);
+					sources[source.Offer.Id] = source;
 				}
+#else
+				throw new FormatException($"Pack at {catalogPath} has no {CustomAudioPackage.FileName}. Rebuild it with the Lobby Music Pack tool so this server can read its metadata independently of Unity's catalogue format.");
+#endif
 			}
 
 			List<CustomAudioOffer> offers = sources.Values.Select(source => source.Offer)
@@ -153,10 +160,29 @@ namespace US13.Core.SecureStuff.CustomAudio
 			serverOffers = offers;
 			sourceStamp = stamp;
 			if (offers.Count == 0 && files.Any(path => path.EndsWith(".bundle", StringComparison.OrdinalIgnoreCase)))
-				Loggy.Warning($"No custom audio addresses found in {root}. Copy each pack's catalog*.json alongside its .bundle files.", Category.Addressables);
+				Loggy.Warning($"No custom audio addresses found in {root}. Copy each pack's {CustomAudioPackage.FileName} (or compatible catalog*.json) alongside its .bundle files.", Category.Addressables);
 			else
 				Loggy.Info($"Custom audio discovered in {root}: {offers.Count} bundles, {offers.Sum(offer => offer.Entries.Count)} addresses, {offers.Sum(offer => offer.Size)} bytes.", Category.Addressables);
 			return offers.ToList();
+		}
+
+		private static string FindBundleFile(string metadata, string filename, List<string> files)
+		{
+			string candidate = AudioFile.SiblingPath(metadata, filename);
+			if (files.Contains(candidate, StringComparer.Ordinal)) return candidate;
+			var matches = files.Where(path => string.Equals(path, candidate, StringComparison.OrdinalIgnoreCase)).ToList();
+			if (matches.Count != 1) throw new FormatException($"Custom audio bundle '{filename}' is missing or ambiguous beside {metadata}.");
+			return matches[0];
+		}
+
+		private static Source CreateSource(string file, List<CustomAudioEntry> entries)
+		{
+			var info = AudioFile.GetInfo(file);
+			if (info.Length > AudioBundlePreflight.MaxBundleBytes) throw new FormatException("Custom audio bundle is too large.");
+			var offer = new CustomAudioOffer { Sha256 = CustomAudioPack.HashFile(file), Size = info.Length, Entries = entries };
+			offer.Id = CustomAudioPack.Identity(offer);
+			CustomAudioPack.ValidateOffer(offer);
+			return new Source { Offer = offer, Path = file };
 		}
 
 		private static IEnumerable<string> SafeFiles(string root)
@@ -190,7 +216,7 @@ namespace US13.Core.SecureStuff.CustomAudio
 					CollectBundles(dependency, bundles, visited);
 		}
 
-		public static void Serve(NetworkConnection connection, string id, string token, long offset)
+		public static void Serve(NetworkConnection connection, string id, string token, long offset, int windowBytes = ChunkBytes * WindowChunks)
 		{
 			if (connection == null || !connection.isAuthenticated || !CustomAudioPack.IsHash(id) || token == null ||
 			    token.Length != 32 ||
@@ -208,7 +234,13 @@ namespace US13.Core.SecureStuff.CustomAudio
 				return;
 			}
 
-			if (!Sources.TryGetValue(id, out Source source)) return;
+			if (!Sources.TryGetValue(id, out Source source))
+			{
+				CustomAudioChunkMessage.SendTo(connection, new CustomAudioChunkMessage.NetMessage { Id = id, Token = token, Error = true });
+				return;
+			}
+			if (windowBytes <= 0 || windowBytes > ChunkBytes * WindowChunks) return;
+			if (offset >= 0 && offset < source.Offer.Size && windowBytes < Math.Min(1024L, source.Offer.Size - offset)) return;
 			if (!Senders.TryGetValue(connection, out Sending state))
 				Senders[connection] = state = new Sending { Budget = CustomAudioPack.MaxTotalBytes };
 			bool previousComplete = state.Id == null || !Sources.TryGetValue(state.Id, out Source previous) ||
@@ -224,14 +256,17 @@ namespace US13.Core.SecureStuff.CustomAudio
 			    offset >= source.Offer.Size || state.Budget <= 0) return;
 			try
 			{
+				int chunkSize = GetTransportChunkSize();
+				if (offset == 0) Loggy.Info($"Serving custom audio {id}: {source.Offer.Size} bytes, chunks up to {chunkSize} bytes.", Category.Addressables);
 				using (AccessFile.AudioStream file = AudioFile.OpenRead(source.Path))
 				{
 					if (file.Length != source.Offer.Size)
 						throw new SafeFilesystemException("Custom audio changed during transfer.");
 					file.Position = offset;
-					for (var i = 0; i < WindowChunks && state.Offset < file.Length; i++)
+					long end = Math.Min(file.Length, offset + windowBytes);
+					while (state.Offset < end)
 					{
-						var size = (int)Math.Min(ChunkBytes, file.Length - state.Offset);
+						var size = (int)Math.Min(chunkSize, end - state.Offset);
 						if (size > state.Budget)
 							throw new SafeFilesystemException("Custom audio connection transfer budget exceeded.");
 						var bytes = new byte[size];
@@ -249,6 +284,7 @@ namespace US13.Core.SecureStuff.CustomAudio
 						state.Offset += size;
 						state.Budget -= size;
 					}
+					if (state.Offset == file.Length) Loggy.Info($"Custom audio {id} transfer sent completely.", Category.Addressables);
 				}
 			}
 			catch (SafeFilesystemException exception)
@@ -320,7 +356,8 @@ namespace US13.Core.SecureStuff.CustomAudio
 			    message.Id != state.Offer.Id || message.Token != state.Token) return;
 			try
 			{
-				if (message.Error || message.Data == null || message.Data.Length == 0 ||
+				if (message.Error) throw new InvalidOperationException($"Server could not provide custom audio {message.Id}. Check the server's pack discovery and transfer logs.");
+				if (message.Data == null || message.Data.Length == 0 ||
 				    message.Data.Length > ChunkBytes ||
 				    message.Offset != state.Offset || message.Data.Length > state.RequestedEnd - state.Offset)
 					throw new FormatException("Invalid custom audio transfer chunk.");
@@ -346,9 +383,17 @@ namespace US13.Core.SecureStuff.CustomAudio
 
 		private static void RequestWindow(Receiving state)
 		{
-			state.RequestedEnd = Math.Min(state.Offer.Size, state.Offset + (long)ChunkBytes * WindowChunks);
+			state.RequestedEnd = Math.Min(state.Offer.Size, state.Offset + (long)GetTransportChunkSize() * WindowChunks);
 			CustomAudioRequestMessage.Send(new CustomAudioRequestMessage.NetMessage
-				{ Id = state.Offer.Id, Token = state.Token, Offset = state.Offset });
+				{ Id = state.Offer.Id, Token = state.Token, Offset = state.Offset, WindowBytes = (int)(state.RequestedEnd - state.Offset) });
+		}
+
+		private static int GetTransportChunkSize()
+		{
+			// Reserve room for the strings, offset, byte-array length and error flag in the Mirror message.
+			int available = NetworkMessages.MaxContentSize(0) - 256;
+			if (available < 256) throw new SafeFilesystemException("Transport cannot fit a custom audio message.");
+			return Math.Min(ChunkBytes, available);
 		}
 
 		public static async Task<Dictionary<string, IResourceLocator>> PrepareAsync(List<CustomAudioOffer> offers)
@@ -405,6 +450,7 @@ namespace US13.Core.SecureStuff.CustomAudio
 					string file = AudioFile.CachePath(offer.Sha256 + ".bundle");
 					bool cached = AudioFile.Exists(file) && await Task.Run(() =>
 						AudioFile.GetInfo(file).Length == offer.Size && CustomAudioPack.HashFile(file) == offer.Sha256);
+					Loggy.Info($"Custom audio {offer.Id}: {(cached ? "using cached bundle" : "requesting bundle")} ({offer.Size} bytes).", Category.Addressables);
 					if (!cached)
 					{
 						if (AudioFile.Exists(file)) AudioFile.Delete(file);
@@ -481,6 +527,7 @@ namespace US13.Core.SecureStuff.CustomAudio
 					}
 
 					ProtectedHashes.Add(offer.Sha256);
+					Loggy.Info($"Custom audio {offer.Id} validated: {offer.Entries.Count} addresses ready.", Category.Addressables);
 				}
 
 				IList<IResourceProvider> providers =

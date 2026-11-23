@@ -9,12 +9,13 @@ namespace US13.Core.SecureStuff.CustomAudio
 			public string Id;
 			public string Token;
 			public long Offset;
+			public int WindowBytes;
 		}
 
 		public static void RegisterHandler()
 		{
 			NetworkServer.RegisterHandler<NetMessage>((connection, message) =>
-					CustomAudioTransfer.Serve(connection, message.Id, message.Token, message.Offset), requireAuthentication: true
+					CustomAudioTransfer.Serve(connection, message.Id, message.Token, message.Offset, message.WindowBytes), requireAuthentication: true
 				);
 		}
 
