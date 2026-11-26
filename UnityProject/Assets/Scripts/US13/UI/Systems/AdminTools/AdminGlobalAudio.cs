@@ -12,6 +12,7 @@ using UnityEngine.UI;
 using US13.Core.Addressables.Types;
 using US13.Core.Database;
 using US13.Managers;
+using US13.UI.Core;
 
 namespace US13.UI.Systems.AdminTools
 {
@@ -21,17 +22,38 @@ namespace US13.UI.Systems.AdminTools
 	public class AdminGlobalAudio : MonoBehaviour
 	{
 		[SerializeField] private GameObject buttonTemplate = null;
+		[SerializeField] private PathTreeView audioTree = null;
 		[SerializeField] private Scrollbar loadingBar = null;
 		[SerializeField] private GameObject loadingView = null;
 		private AdminGlobalAudioSearchBar SearchBar;
 		public List<GameObject> audioButtons = new List<GameObject>();
 
 		public static HashSet<string> audioList = new HashSet<string>();
+		private static event System.Action AudioCatalogueLoaded;
+		private int loadVersion;
 
 		private void Awake()
 		{
 			SearchBar = GetComponentInChildren<AdminGlobalAudioSearchBar>();
+			if (audioTree != null) audioTree.OnLeafSelected.AddListener(PlayAudio);
+		}
+
+		private void OnEnable()
+		{
+			AudioCatalogueLoaded += LoadButtons;
 			LoadButtons();
+		}
+
+		private void OnDisable()
+		{
+			AudioCatalogueLoaded -= LoadButtons;
+		}
+
+		public bool FilterTree(string filter)
+		{
+			if (audioTree == null) return false;
+			audioTree.SetFilter(filter);
+			return true;
 		}
 
 
@@ -81,6 +103,7 @@ namespace US13.UI.Systems.AdminTools
 				}
 			}
 			//loadingView.SetActive(false);
+			AudioCatalogueLoaded?.Invoke();
 
 		}
 
@@ -89,6 +112,7 @@ namespace US13.UI.Systems.AdminTools
 		/// </summary>
 		private async void LoadButtons()
 		{
+			var version = ++loadVersion;
 			loadingView.SetActive(true);
 
 			if (SearchBar != null)
@@ -106,22 +130,42 @@ namespace US13.UI.Systems.AdminTools
 				audioSources.Add(AudioManager.GetAddressableAudioSourceFromCache(audioSource));
 			}
 
-			var results = await Task.WhenAll(audioSources);
+			AddressableAudioSource[] results;
+			try
+			{
+				results = await Task.WhenAll(audioSources);
+			}
+			catch (System.Exception exception)
+			{
+				Loggy.Error($"Unable to load the admin audio list: {exception}");
+				if (this != null && version == loadVersion) loadingView.SetActive(false);
+				return;
+			}
 			await UniTask.SwitchToMainThread();
+			if (this == null || version != loadVersion) return;
+			foreach (var button in audioButtons) Destroy(button);
+			audioButtons.Clear();
+			var treeLabels = new Dictionary<string, string>();
 			foreach (var audio in results)
 			{
 				if (audio == null) continue;
-				loadingBar.size = (index - 0.1f) / (audioList.Count() - 0.1f);
+				loadingBar.size = (float)++index / results.Length;
 				AudioSource source = audio.AudioSource;
-				if (source.loop) continue;
-				GameObject button = Instantiate(buttonTemplate); //creates new button
+				if (source == null || source.clip == null || source.loop) continue;
+				if (audioTree != null)
+				{
+					var name = audio.AssetAddress.Replace('\\', '/').Split('/').Last();
+					treeLabels[audio.AssetAddress] = $"{name} ({(int)source.clip.length} seconds)";
+					continue;
+				}
+				GameObject button = Instantiate(buttonTemplate, buttonTemplate.transform.parent, false); //creates new button
 				button.SetActive(true);
 				AdminGlobalAudioButton buttonScript = button.GetComponent<AdminGlobalAudioButton>();
 				buttonScript.SetText($"{source.clip.name}\n {(int)source.clip.length} seconds");
 				buttonScript.SoundAddress = audio.AssetAddress;
 				audioButtons.Add(button);
-				button.transform.SetParent(buttonTemplate.transform.parent, false);
 			}
+			if (audioTree != null) audioTree.SetPaths(treeLabels.Keys, path => treeLabels[path]);
 
 			loadingView.SetActive(false);
 		}
