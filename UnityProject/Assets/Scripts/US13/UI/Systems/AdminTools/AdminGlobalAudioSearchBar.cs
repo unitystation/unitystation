@@ -10,12 +10,14 @@ namespace US13.UI.Systems.AdminTools
 	public class AdminGlobalAudioSearchBar : MonoBehaviour
 	{
 		private InputField Searchtext;
-
 		private List<GameObject> HiddenButtons = new List<GameObject>();
+
+		[SerializeField] private AdminGlobalAudio globalAudio;
 
 		private void Start()
 		{
 			Searchtext = GetComponent<InputField>();
+			globalAudio ??= GetComponentInParent<AdminGlobalAudio>();
 		}
 
 		private void OnDisable()
@@ -39,6 +41,8 @@ namespace US13.UI.Systems.AdminTools
 
 		public void Search()
 		{
+			if (Searchtext == null) Searchtext = GetComponent<InputField>();
+			if (globalAudio.FilterTree(Searchtext.text)) return;
 			foreach (GameObject x in HiddenButtons
 			) //Hidden Buttons stores list of the hidden items which dont contain the search phrase
 			{

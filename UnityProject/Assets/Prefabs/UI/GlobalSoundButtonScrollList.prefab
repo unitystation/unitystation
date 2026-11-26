@@ -2870,7 +2870,7 @@ GameObject:
   - component: {fileID: 670276556970825308}
   - component: {fileID: -4076765337661028790}
   m_Layer: 5
-  m_Name: Button
+  m_Name: PathTreeRowTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2977,19 +2977,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2844168172205480086}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 670276556970825308}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: Onclick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 1
+      m_Calls: []
 --- !u!114 &670276556970825308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2999,11 +2987,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 3254914711446580854}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65b65562b8d2744728af9e0ae84c251a, type: 3}
+  m_Script: {fileID: 11500000, guid: a18b1bc3b6b94c9fbef800a83a6d0d12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myText: {fileID: 7624337724344772678}
-  SoundAddress: 
+  button: {fileID: 206174495283854296}
+  label: {fileID: 7624337724344772678}
+  folderColor: {r: 0.8, g: 0.88, b: 1, a: 1}
+  leafColor: {r: 1, g: 1, b: 1, a: 1}
+  collapsedPrefix: '+ '
+  expandedPrefix: '- '
+  leafPrefix: '  '
 --- !u!114 &-4076765337661028790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4745,10 +4738,9 @@ GameObject:
   - component: {fileID: 3150321220758447720}
   - component: {fileID: 6028685682603305564}
   - component: {fileID: 3401940685506642270}
-  - component: {fileID: 9209298188068776207}
-  - component: {fileID: 6266111072008805981}
+  - component: {fileID: 9190000000000000001}
   m_Layer: 5
-  m_Name: ButtonListContent
+  m_Name: AudioPathTree
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4769,11 +4761,11 @@ RectTransform:
   - {fileID: 5098048287631587984}
   m_Father: {fileID: 2042224419903418535}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 267.75}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0.5, y: 0.95}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &6028685682603305564
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4812,7 +4804,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &9209298188068776207
+--- !u!114 &9190000000000000001
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4821,35 +4813,21 @@ MonoBehaviour:
   m_GameObject: {fileID: 3953806859449284480}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
+  m_Script: {fileID: 11500000, guid: a18b1bc3b6b94c9fbef800a83a6d0d13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_HorizontalFit: 1
-  m_VerticalFit: 1
---- !u!114 &6266111072008805981
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3953806859449284480}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 0
-  m_StartCorner: 0
-  m_StartAxis: 0
-  m_CellSize: {x: 175, y: 100}
-  m_Spacing: {x: 0, y: 0}
-  m_Constraint: 1
-  m_ConstraintCount: 4
+  rowTemplate: {fileID: 670276556970825308}
+  rowHeight: 30
+  indentation: 18
+  spacing: 2
+  padding:
+    m_Left: 6
+    m_Right: 6
+    m_Top: 6
+    m_Bottom: 6
+  onLeafSelected:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4141785171099237424
 GameObject:
   m_ObjectHideFlags: 0
@@ -6682,7 +6660,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -12, y: -4}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4354688361234320565
 CanvasRenderer:
@@ -6719,9 +6697,9 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 1
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
-    m_RichText: 1
+    m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
@@ -8834,6 +8812,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonTemplate: {fileID: 3254914711446580854}
+  audioTree: {fileID: 9190000000000000001}
   loadingBar: {fileID: 7041619227308653059}
   loadingView: {fileID: 4208651922929405110}
   audioButtons: []
@@ -9052,6 +9031,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e2a358022e7854f768c548ccaaa07529, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  globalAudio: {fileID: 7049759431864172623}
 --- !u!114 &3307432490791196472
 MonoBehaviour:
   m_ObjectHideFlags: 0
