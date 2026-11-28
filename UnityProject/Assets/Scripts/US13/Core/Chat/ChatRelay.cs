@@ -305,17 +305,20 @@ namespace US13.Core.Chat
 					copiedString = LanguageManager.Scramble(chatEvent.language, playerScript, string.Copy(chatEvent.message));
 				}
 
-				var Hearing = playerScript.playerHealth.HearingAbility;
-
-				if (Hearing < 0.50f)
+				if (playerScript.playerHealth != null)
 				{
-					if (Hearing < 0.15f) //To deaf to hear
+					var Hearing = playerScript.playerHealth.HearingAbility;
+
+					if (Hearing < 0.50f)
 					{
-						return;
-					}
-					else
-					{
-						chatEvent.IsWhispering = true; //To deaf to hear the radio/people talking Normally
+						if (Hearing < 0.15f) //To deaf to hear
+						{
+							return;
+						}
+						else
+						{
+							chatEvent.IsWhispering = true; //To deaf to hear the radio/people talking Normally
+						}
 					}
 				}
 			}
