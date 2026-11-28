@@ -19,8 +19,12 @@ namespace US13.Systems.Antagonists.Objectives
 				Loggy.Error("[Objective/NotCuffed] - No owner found! Giving free objective.");
 				return true;
 			}
+
+			if (Owner.Body == null) return false;
+			if (Owner.Body.IsDeadOrGhost) return false;
+
 			//for whatever reason this is null, give the guy the greentext
-			if (Owner.Body == null || Owner.Body.TryGetComponent<DynamicItemStorage>(out var dynamicItemStorage) == false) return true;
+			if (Owner.Body.TryGetComponent<DynamicItemStorage>(out var dynamicItemStorage) == false) return true;
 
 			foreach (var handCuffs in dynamicItemStorage.GetNamedItemSlots(NamedSlot.handcuffs))
 			{
