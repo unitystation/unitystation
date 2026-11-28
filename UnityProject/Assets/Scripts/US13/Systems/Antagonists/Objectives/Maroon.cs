@@ -115,13 +115,19 @@ namespace US13.Systems.Antagonists.Objectives
 				return true;
 			}
 
-			// If target is on a functional escape shuttle or in an escape pod, objective failed
-			if (ValidShuttles.Any(
-				shuttle => shuttle.MatrixInfo != null && CheckOnShip(Target.Body.RegisterPlayer, shuttle.MatrixInfo.Matrix)
-				) || EscapePodGuidanceSystem.EscapePods.Any(
-				pod => pod.GetComponent<RegisterTile>().Matrix != null && CheckOnShip(Target.Body.RegisterPlayer, pod.GetComponent<RegisterTile>().Matrix)))
+			// If target is on a functional escape shuttle, objective failed
+			foreach (var shuttle in ValidShuttles)
 			{
-				return false;
+				if (shuttle.MatrixInfo == null) continue;
+				if (CheckOnShip(Target.Body.RegisterPlayer, shuttle.MatrixInfo.Matrix)) return false;
+			}
+
+			// If target is in an escape pod, objective failed
+			foreach (var pod in EscapePodGuidanceSystem.EscapePods)
+			{
+				var podMatrix = pod.GetComponent<RegisterTile>().Matrix;
+				if (podMatrix == null) continue;
+				if (CheckOnShip(Target.Body.RegisterPlayer, podMatrix)) return false;
 			}
 
 			// If target stayed on the station, objective complete
