@@ -5,6 +5,8 @@ using UnityEngine;
 using US13.Managers;
 using US13.Player;
 using US13.Shuttles;
+using US13.Tilemaps.Behaviours.Layers;
+using US13.Tilemaps.Behaviours.Objects;
 using Util;
 
 namespace US13.Systems.Antagonists.Objectives
@@ -97,20 +99,33 @@ namespace US13.Systems.Antagonists.Objectives
 			Complete = true;
 		}
 
+		private bool CheckOnShip(RegisterPlayer antagTile, Matrix shuttleMatrix)
+		{
+			return shuttleMatrix.PresentPlayers.Contains(antagTile);
+		}
+
 		/// <summary>
-		/// Complete if the Target is dead or not on a functional emergency shuttle
+		/// Complete if the Target is dead or not on a functional emergency shuttle or in an escape pod
 		/// </summary>
 		protected override bool CheckCompletion()
 		{
-			//If dead then objective complete
-			//TODO, maybe change in future to make sure dead body isnt on shuttle either
-			if (Target.IsGhosting)
+			// If target is dead, a ghost, or has no body, objective complete
+			if (Target.Body == null || Target.Body.IsDeadOrGhost)
 			{
 				return true;
 			}
 
-			//If target is on functional escape shuttle, we failed
-			return ValidShuttles.Any( shuttle => shuttle.MatrixInfo != null && shuttle.MatrixInfo.Matrix.PresentPlayers.Contains(Target.Body.RegisterPlayer) == false);
+			// If target is on a functional escape shuttle or in an escape pod, objective failed
+			if (ValidShuttles.Any(
+				shuttle => shuttle.MatrixInfo != null && CheckOnShip(Target.Body.RegisterPlayer, shuttle.MatrixInfo.Matrix)
+				) || EscapePodGuidanceSystem.EscapePods.Any(
+				pod => pod.GetComponent<RegisterTile>().Matrix != null && CheckOnShip(Target.Body.RegisterPlayer, pod.GetComponent<RegisterTile>().Matrix)))
+			{
+				return false;
+			}
+
+			// If target stayed on the station, objective complete
+			return true;
 		}
 	}
 }
